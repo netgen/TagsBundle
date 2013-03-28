@@ -7,7 +7,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 /**
  * Class representing a tag
  *
- * @property-read mixed $tagId Tag ID
+ * @property-read mixed $id Tag ID
  * @property-read mixed $parentTagId Parent tag ID
  * @property-read mixed $mainTagId Main tag ID
  * @property-read string $keyword Tag keyword
@@ -23,7 +23,7 @@ class Tag extends ValueObject
      *
      * @var mixed
      */
-    protected $tagId;
+    protected $id;
 
     /**
      * Parent tag ID
