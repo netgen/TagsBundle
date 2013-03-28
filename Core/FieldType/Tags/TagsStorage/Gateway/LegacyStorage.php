@@ -52,6 +52,7 @@ class LegacyStorage extends Gateway
         {
             throw new RuntimeException( "Missing database connection." );
         }
+
         return $this->connection;
     }
 
@@ -74,7 +75,7 @@ class LegacyStorage extends Gateway
      */
     public function getFieldData( VersionInfo $versionInfo, Field $field )
     {
-        // TODO: Implement getFieldData() method.
+        $field->value->externalData = $this->loadFieldData( $field->id, $versionInfo->versionNo );
     }
 
     /**
@@ -86,6 +87,68 @@ class LegacyStorage extends Gateway
      */
     public function deleteFieldData( VersionInfo $versionInfo, array $fieldIds )
     {
-        // TODO: Implement deleteFieldData() method.
+        $connection = $this->getConnection();
+
+        $query = $connection->createDeleteQuery();
+        $query->deleteFrom(
+            $connection->quoteTable( "eztags_attribute_link" )
+        )->where(
+            $query->expr->lAnd(
+                $query->expr->in(
+                    $connection->quoteColumn( "objectattribute_id" ),
+                    $fieldIds
+                ),
+                $query->expr->eq(
+                    $connection->quoteColumn( "objectattribute_version" ),
+                    $query->bindValue( $versionInfo->versionNo, null, \PDO::PARAM_INT )
+                )
+            )
+        );
+
+        $query->prepare()->execute();
+    }
+
+    /**
+     * Returns the data for the given $fieldId and $versionNo
+     *
+     * @param integer $fieldId
+     * @param integer $versionNo
+     *
+     * @return array
+     */
+    protected function loadFieldData( $fieldId, $versionNo )
+    {
+        $connection = $this->getConnection();
+
+        $query = $connection->createSelectQuery();
+        $query->selectDistinct(
+            $connection->aliasedColumn( $query, "id", "eztags" ),
+            $connection->aliasedColumn( $query, "keyword", "eztags" ),
+            $connection->aliasedColumn( $query, "parent_id", "eztags" )
+        )->from(
+            $connection->quoteTable( "eztags" )
+        )->innerJoin(
+            $connection->quoteTable( "eztags_attribute_link" ),
+            $query->expr->eq(
+                $connection->quoteColumn( "id", "eztags" ),
+                $connection->quoteColumn( "keyword_id", "eztags_attribute_link" )
+            )
+        )->where(
+            $query->expr->lAnd(
+                $query->expr->eq(
+                    $connection->quoteColumn( "objectattribute_id", "eztags_attribute_link" ),
+                    $query->bindValue( $fieldId, null, \PDO::PARAM_INT )
+                ),
+                $query->expr->eq(
+                    $connection->quoteColumn( "objectattribute_version", "eztags_attribute_link" ),
+                    $query->bindValue( $versionNo, null, \PDO::PARAM_INT )
+                )
+            )
+        );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        return $statement->fetchAll( \PDO::FETCH_ASSOC );
     }
 }
