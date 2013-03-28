@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\Persistence\Legacy\Content\FieldValue\Converter;
+namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
@@ -18,7 +18,7 @@ class Tags implements Converter
      *
      * @note Class should instead be configured as service if it gains dependencies.
      *
-     * @return \EzSystems\TagsBundle\Persistence\Legacy\Content\FieldValue\Converter\Tags
+     * @return \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
      */
     public static function create()
     {

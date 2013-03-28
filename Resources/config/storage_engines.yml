@@ -1,5 +1,5 @@
 parameters:
-    ezpublish.fieldType.eztags.converter.class: EzSystems\TagsBundle\Persistence\Legacy\Content\FieldValue\Converter\Tags
+    ezpublish.fieldType.eztags.converter.class: EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
     ezpublish.fieldType.eztags.storage_gateway.class: EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
 
 services:
