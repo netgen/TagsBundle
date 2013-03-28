@@ -3,7 +3,7 @@
 namespace EzSystems\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\Value as BaseValue;
-use EzSystems\TagsBundle\Core\FieldType\Tags\Value\Tag;
+use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
 
 /**
  * Value for Tags field type
@@ -11,14 +11,14 @@ use EzSystems\TagsBundle\Core\FieldType\Tags\Value\Tag;
 class Value extends BaseValue
 {
     /**
-     * @var \EzSystems\TagsBundle\Core\FieldType\Tags\Value\Tag[]
+     * @var \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
     public $tags = array();
 
     /**
      * Constructor
      *
-     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value\Tag[] $tags
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
     public function __construct( array $tags = array() )
     {
@@ -38,7 +38,7 @@ class Value extends BaseValue
             array_map(
                 function ( Tag $tag )
                 {
-                    return $tag->getKeyword();
+                    return $tag->keyword;
                 },
                 $this->tags
             )
