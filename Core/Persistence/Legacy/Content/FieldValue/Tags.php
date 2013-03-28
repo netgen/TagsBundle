@@ -33,7 +33,6 @@ class Tags implements Converter
      */
     public function toStorageValue( FieldValue $value, StorageFieldValue $storageFieldValue )
     {
-        // TODO: Implement toStorageValue() method.
     }
 
     /**
@@ -44,7 +43,7 @@ class Tags implements Converter
      */
     public function toFieldValue( StorageFieldValue $value, FieldValue $fieldValue )
     {
-        // TODO: Implement toFieldValue() method.
+        $fieldValue->data = array();
     }
 
     /**
@@ -55,7 +54,6 @@ class Tags implements Converter
      */
     public function toStorageFieldDefinition( FieldDefinition $fieldDef, StorageFieldDefinition $storageDef )
     {
-        // TODO: Implement toStorageFieldDefinition() method.
     }
 
     /**
@@ -66,7 +64,6 @@ class Tags implements Converter
      */
     public function toFieldDefinition( StorageFieldDefinition $storageDef, FieldDefinition $fieldDef )
     {
-        // TODO: Implement toFieldDefinition() method.
     }
 
     /**
@@ -76,6 +73,6 @@ class Tags implements Converter
      */
     public function getIndexColumn()
     {
-        // TODO: Implement getIndexColumn() method.
+        return false;
     }
 }
