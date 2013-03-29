@@ -9,6 +9,8 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagList;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
+
 class TagsService implements TagsServiceInterface
 {
     /**
@@ -45,6 +47,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTag( $tagId )
     {
+        return $this->service->loadTag( $tagId );
     }
 
     /**
@@ -59,6 +62,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByRemoteId( $remoteId )
     {
+        return $this->service->loadTagByRemoteId( $remoteId );
     }
 
     /**
@@ -72,6 +76,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 )
     {
+        return $this->service->loadTagChildren( $tag, $offset, $limit );
     }
 
     /**
@@ -83,6 +88,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagChildCount( Tag $tag )
     {
+        return $this->service->getTagChildCount( $tag );
     }
 
     /**
@@ -97,6 +103,18 @@ class TagsService implements TagsServiceInterface
      */
     public function createTag( TagCreateStruct $tagCreateStruct )
     {
+        $returnValue = $this->service->createTag( $tagCreateStruct );
+        $this->signalDispatcher->emit(
+            new CreateTagSignal(
+                array(
+                    "tagId" => $returnValue->id,
+                    "parentTagId" => $returnValue->parentTagId,
+                    "keyword" => $returnValue->keyword
+                )
+            )
+        );
+
+        return $returnValue;
     }
 
     /**
@@ -112,6 +130,7 @@ class TagsService implements TagsServiceInterface
      */
     public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct )
     {
+        return $this->service->updateTag( $tag, $tagUpdateStruct );
     }
 
     /**
@@ -126,6 +145,7 @@ class TagsService implements TagsServiceInterface
      */
     public function addSynonym( Tag $tag, $keyword )
     {
+        return $this->service->addSynonym( $tag, $keyword );
     }
 
     /**
@@ -141,6 +161,7 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym( Tag $tag, Tag $mainTag )
     {
+        return $this->service->convertToSynonym( $tag, $mainTag );
     }
 
     /**
@@ -154,6 +175,7 @@ class TagsService implements TagsServiceInterface
      */
     public function mergeTags( Tag $tag, Tag $targetTag )
     {
+        $this->service->mergeTags( $tag, $targetTag );
     }
 
     /**
@@ -167,6 +189,7 @@ class TagsService implements TagsServiceInterface
      */
     public function swapTag( Tag $tag1, Tag $tag2 )
     {
+        $this->service->swapTag( $tag1, $tag2 );
     }
 
     /**
@@ -186,6 +209,7 @@ class TagsService implements TagsServiceInterface
      */
     public function copySubtree( Tag $subtree, Tag $targetParentTag )
     {
+        return $this->service->copySubtree( $subtree, $targetParentTag );
     }
 
     /**
@@ -203,6 +227,7 @@ class TagsService implements TagsServiceInterface
      */
     public function moveSubtree( Tag $tag, Tag $newParentTag )
     {
+        $this->service->moveSubtree( $tag, $newParentTag );
     }
 
     /**
@@ -216,6 +241,7 @@ class TagsService implements TagsServiceInterface
      */
     public function deleteTag( Tag $tag )
     {
+        $this->service->deleteTag( $tag );
     }
 
     /**
@@ -228,6 +254,7 @@ class TagsService implements TagsServiceInterface
      */
     public function newTagCreateStruct( $parentTagId, $keyword )
     {
+        return $this->service->newTagCreateStruct( $parentTagId, $keyword );
     }
 
     /**
@@ -237,5 +264,6 @@ class TagsService implements TagsServiceInterface
      */
     public function newTagUpdateStruct()
     {
+        return $this->service->newTagUpdateStruct();
     }
 }
