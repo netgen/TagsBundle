@@ -86,7 +86,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Creates the new $tag
+     * Creates the new tag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
@@ -206,7 +206,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Deletes $tag and all its descendants
+     * Deletes $tag and all its descendants and synonyms
      *
      * If $tag is a synonym, only the synonym is deleted
      *
