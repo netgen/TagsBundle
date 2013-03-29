@@ -191,7 +191,7 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Deletes a tag identified by $tagId and all its descendants and synonyms
+     * Removes all tags under and including $tagId and its synonyms
      *
      * If $tagId is a synonym, only the synonym is deleted
      *
@@ -199,7 +199,7 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      */
-    public function delete( $tagId )
+    public function removeSubtree( $tagId )
     {
     }
 }
