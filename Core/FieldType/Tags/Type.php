@@ -3,6 +3,7 @@
 namespace EzSystems\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\FieldType;
+use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use EzSystems\TagsBundle\Core\FieldType\Tags\Value;
 
 /**
@@ -78,5 +79,35 @@ class Type extends FieldType
     protected function internalAcceptValue( $inputValue )
     {
         // TODO: Implement internalAcceptValue() method.
+    }
+
+    /**
+     * Converts a $value to a persistence value
+     *
+     * @param mixed $value
+     *
+     * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
+     */
+    public function toPersistenceValue( $value )
+    {
+        return new FieldValue(
+            array(
+                "data" => null,
+                "externalData" => $this->toHash( $value ),
+                "sortKey" => $this->getSortInfo( $value ),
+            )
+        );
+    }
+
+    /**
+     * Converts a persistence $fieldValue to a Value
+     *
+     * @param \eZ\Publish\SPI\Persistence\Content\FieldValue $fieldValue
+     *
+     * @return mixed
+     */
+    public function fromPersistenceValue( FieldValue $fieldValue )
+    {
+        return $this->fromHash( $fieldValue->externalData );
     }
 }
