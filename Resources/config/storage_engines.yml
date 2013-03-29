@@ -3,6 +3,7 @@ parameters:
     ezpublish.fieldType.eztags.storage_gateway.class: EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
 
     ezpublish.api.persistence_handler.tags.factory.class: EzSystems\TagsBundle\ApiLoader\TagsHandlerFactory
+    ezpublish.api.persistence_handler.tags.class: EzSystems\TagsBundle\SPI\Persistence\Tags\Handler
 
     ezpublish.api.storage_engine.legacy.handler.tags.factory.class: EzSystems\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
     ezpublish.api.storage_engine.legacy.handler.tags.class: EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler
@@ -28,6 +29,7 @@ services:
             - @service_container
 
     ezpublish.api.persistence_handler.tags:
+        class: %ezpublish.api.persistence_handler.tags.class%
         factory_service: ezpublish.api.persistence_handler.tags.factory
         factory_method: buildTagsHandler
         arguments:
