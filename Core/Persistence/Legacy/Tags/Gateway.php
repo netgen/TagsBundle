@@ -23,6 +23,16 @@ abstract class Gateway
     abstract public function getBasicTagDataByRemoteId( $remoteId );
 
     /**
+     * Updated subtree modification time for all tags in path
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $pathString
+     * @param int $timestamp
+     */
+    abstract function updateSubtreeModificationTime( $pathString, $timestamp = null );
+
+    /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
      *
      * If $tagId is a synonym, only the synonym is deleted

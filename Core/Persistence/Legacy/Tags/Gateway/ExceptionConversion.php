@@ -77,6 +77,30 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Updated subtree modification time for all tags in path
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $pathString
+     * @param int $timestamp
+     */
+    public function updateSubtreeModificationTime( $pathString, $timestamp = null )
+    {
+        try
+        {
+            $this->innerGateway->updateModified( $tagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+    }
+
+    /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
      *
      * @throws \RuntimeException

@@ -205,6 +205,14 @@ class Handler implements BaseTagsHandler
      */
     public function deleteTag( $tagId )
     {
-        $this->gateway->deleteTag( $tagId );
+        $tag = $this->load( $tagId );
+
+        $this->gateway->deleteTag( $tag->id );
+        $this->gateway->updateSubtreeModificationTime( $tag->pathString );
+
+        if ( $tag->mainTagId > 0 )
+        {
+            $this->gateway->updateSubtreeModificationTime( (string) $tag->mainTagId );
+        }
     }
 }

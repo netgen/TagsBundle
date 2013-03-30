@@ -95,6 +95,39 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Updated subtree modification time for all tags in path
+     *
+     * @param string $pathString
+     * @param int $timestamp
+     */
+    public function updateSubtreeModificationTime( $pathString, $timestamp = null )
+    {
+        $tagIds = array_filter( explode( "/", $pathString ) );
+
+        if ( empty( $tagIds ) )
+        {
+            return;
+        }
+
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "modified" ),
+                $query->bindValue( $timestamp ?: time(), null, PDO::PARAM_INT )
+            )
+            ->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( "id" ),
+                    $tagIds
+                )
+            )
+        ;
+
+        $query->prepare()->execute();
+    }
+
+    /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
      *
      * If $tagId is a synonym, only the synonym is deleted
