@@ -3,6 +3,7 @@
 namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use ezcDbException;
 use PDOException;
 use RuntimeException;
@@ -77,6 +78,32 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Creates a new tag using the given $createStruct below $parentTag
+     *
+     * @throws \RuntimeException
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param array $parentTag
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function create( CreateStruct $createStruct, array $parentTag )
+    {
+        try
+        {
+            return $this->innerGateway->create( $createStruct, $parentTag );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+    }
+
+    /**
      * Updated subtree modification time for all tags in path
      *
      * @throws \RuntimeException
@@ -88,7 +115,7 @@ class ExceptionConversion extends Gateway
     {
         try
         {
-            $this->innerGateway->updateModified( $tagId );
+            $this->innerGateway->updateSubtreeModificationTime( $pathString, $timestamp );
         }
         catch ( ezcDbException $e )
         {

@@ -2,6 +2,8 @@
 
 namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags;
 
+use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+
 abstract class Gateway
 {
     /**
@@ -21,6 +23,16 @@ abstract class Gateway
      * @return array
      */
     abstract public function getBasicTagDataByRemoteId( $remoteId );
+
+    /**
+     * Creates a new tag using the given $createStruct below $parentTag
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param array $parentTag
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    abstract public function create( CreateStruct $createStruct, array $parentTag );
 
     /**
      * Updated subtree modification time for all tags in path

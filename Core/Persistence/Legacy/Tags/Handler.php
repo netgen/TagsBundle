@@ -99,6 +99,8 @@ class Handler implements BaseTagsHandler
      */
     public function create( CreateStruct $createStruct )
     {
+        $parentTagData = $this->gateway->getBasicTagData( $createStruct->parentTagId );
+        return $this->gateway->create( $createStruct, $parentTagData );
     }
 
     /**
@@ -221,11 +223,12 @@ class Handler implements BaseTagsHandler
      */
     protected function updateSubtreeModificationTime( Tag $tag )
     {
-        $this->gateway->updateSubtreeModificationTime( $tag->pathString );
+        $timestamp = time();
+        $this->gateway->updateSubtreeModificationTime( $tag->pathString, $timestamp );
 
         if ( $tag->mainTagId > 0 )
         {
-            $this->gateway->updateSubtreeModificationTime( (string) $tag->mainTagId );
+            $this->gateway->updateSubtreeModificationTime( (string) $tag->mainTagId, $timestamp );
         }
     }
 }

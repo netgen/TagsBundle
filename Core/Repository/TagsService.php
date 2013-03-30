@@ -10,7 +10,12 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagList;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use DateTime;
+use Exception;
 
 class TagsService implements TagsServiceInterface
 {
@@ -97,6 +102,7 @@ class TagsService implements TagsServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
+     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue If the create struct has invalid data
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct
      *
@@ -104,6 +110,57 @@ class TagsService implements TagsServiceInterface
      */
     public function createTag( TagCreateStruct $tagCreateStruct )
     {
+        if ( !is_numeric( $tagCreateStruct->parentTagId ) )
+        {
+            throw new InvalidArgumentValue( "parentTagId", $tagCreateStruct->parentTagId, "TagCreateStruct" );
+        }
+
+        if ( empty( $tagCreateStruct->keyword ) || !is_string( $tagCreateStruct->keyword ) )
+        {
+            throw new InvalidArgumentValue( "keyword", $tagCreateStruct->keyword, "TagCreateStruct" );
+        }
+
+        if ( $tagCreateStruct->remoteId !== null && ( empty( $tagCreateStruct->remoteId ) || !is_string( $tagCreateStruct->remoteId ) ) )
+        {
+            throw new InvalidArgumentValue( "remoteId", $tagCreateStruct->remoteId, "TagCreateStruct" );
+        }
+
+        // check for existence of tag with provided remote ID
+        if ( $tagCreateStruct->remoteId !== null )
+        {
+            try
+            {
+                $this->tagsHandler->loadByRemoteId( $tagCreateStruct->remoteId );
+                throw new InvalidArgumentException( "tagCreateStruct", "Tag with provided remote ID already exists" );
+            }
+            catch ( NotFoundException $e )
+            {
+                // Do nothing
+            }
+        }
+        else
+        {
+            $tagCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+        }
+
+        $createStruct = new CreateStruct();
+        $createStruct->parentTagId = $tagCreateStruct->parentTagId;
+        $createStruct->keyword = $tagCreateStruct->keyword;
+        $createStruct->remoteId = $tagCreateStruct->remoteId;
+
+        $this->repository->beginTransaction();
+        try
+        {
+            $newTag = $this->tagsHandler->create( $createStruct );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
+
+        return $this->buildTagDomainObject( $newTag );
     }
 
     /**
@@ -224,7 +281,17 @@ class TagsService implements TagsServiceInterface
      */
     public function deleteTag( Tag $tag )
     {
-        $this->tagsHandler->deleteTag( $tag->id );
+        $this->repository->beginTransaction();
+        try
+        {
+            $this->tagsHandler->deleteTag( $tag->id );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
     }
 
     /**

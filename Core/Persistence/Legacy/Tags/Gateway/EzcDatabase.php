@@ -2,6 +2,8 @@
 
 namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
+use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
@@ -92,6 +94,72 @@ class EzcDatabase extends Gateway
         }
 
         throw new NotFoundException( "tag", $remoteId );
+    }
+
+    /**
+     * Creates a new tag using the given $createStruct below $parentTag
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param array $parentTag
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function create( CreateStruct $createStruct, array $parentTag )
+    {
+        $tag = new Tag();
+
+        $query = $this->handler->createInsertQuery();
+        $query
+            ->insertInto( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "id" ),
+                $this->handler->getAutoIncrementValue( "eztags", "id" )
+            )->set(
+                $this->handler->quoteColumn( "parent_id" ),
+                $query->bindValue( $tag->parentTagId = $parentTag["id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "main_tag_id" ),
+                $query->bindValue( $tag->mainTagId = 0, null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "keyword" ),
+                $query->bindValue( $tag->keyword = $createStruct->keyword, null, PDO::PARAM_STR )
+            )->set(
+                $this->handler->quoteColumn( "depth" ),
+                $query->bindValue( $tag->depth = $parentTag["depth"] + 1, null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "path_string" ),
+                $query->bindValue( "dummy" ) // Set later
+            )->set(
+                $this->handler->quoteColumn( "modified" ),
+                $query->bindValue( $tag->modificationDate = time(), null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "remote_id" ),
+                $query->bindValue( $tag->remoteId = $createStruct->remoteId, null, PDO::PARAM_STR )
+            )
+        ;
+
+        $query->prepare()->execute();
+
+        $tag->id = $this->handler->lastInsertId( $this->handler->getSequenceName( "eztags", "id" ) );
+        $tag->pathString = $parentTag["path_string"] . $tag->id . "/";
+
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "path_string" ),
+                $query->bindValue( $tag->pathString, null, PDO::PARAM_STR )
+            )->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "id" ),
+                    $query->bindValue( $tag->id, null, PDO::PARAM_INT )
+                )
+            )
+        ;
+
+        $query->prepare()->execute();
+
+        return $tag;
     }
 
     /**
