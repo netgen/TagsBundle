@@ -223,6 +223,7 @@ class TagsService implements TagsServiceInterface
      */
     public function deleteTag( Tag $tag )
     {
+        $this->tagsHandler->deleteTag( $tag->id );
     }
 
     /**

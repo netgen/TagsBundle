@@ -75,4 +75,29 @@ class ExceptionConversion extends Gateway
             throw new RuntimeException( 'Database error', 0, $e );
         }
     }
+
+    /**
+     * Deletes tag identified by $tagId, including its synonyms and all tags under it
+     *
+     * @throws \RuntimeException
+     *
+     * If $tagId is a synonym, only the synonym is deleted
+     *
+     * @param mixed $tagId
+     */
+    public function deleteTag( $tagId )
+    {
+        try
+        {
+            $this->innerGateway->deleteTag( $tagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+    }
 }

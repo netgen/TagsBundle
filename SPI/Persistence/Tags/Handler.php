@@ -143,13 +143,11 @@ interface Handler
     public function moveSubtree( $sourceId, $destinationParentId );
 
     /**
-     * Removes all tags under and including $tagId and its synonyms
+     * Deletes tag identified by $tagId, including its synonyms and all tags under it
      *
      * If $tagId is a synonym, only the synonym is deleted
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
-     *
      * @param mixed $tagId
      */
-    public function removeSubtree( $tagId );
+    public function deleteTag( $tagId );
 }

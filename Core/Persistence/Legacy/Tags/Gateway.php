@@ -21,4 +21,13 @@ abstract class Gateway
      * @return array
      */
     abstract public function getBasicTagDataByRemoteId( $remoteId );
+
+    /**
+     * Deletes tag identified by $tagId, including its synonyms and all tags under it
+     *
+     * If $tagId is a synonym, only the synonym is deleted
+     *
+     * @param mixed $tagId
+     */
+    abstract public function deleteTag( $tagId );
 }
