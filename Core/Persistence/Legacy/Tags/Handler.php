@@ -100,7 +100,10 @@ class Handler implements BaseTagsHandler
     public function create( CreateStruct $createStruct )
     {
         $parentTagData = $this->gateway->getBasicTagData( $createStruct->parentTagId );
-        return $this->gateway->create( $createStruct, $parentTagData );
+        $newTag = $this->gateway->create( $createStruct, $parentTagData );
+        $this->updateSubtreeModificationTime( $newTag, $newTag->modificationDate );
+
+        return $newTag;
     }
 
     /**
@@ -220,10 +223,11 @@ class Handler implements BaseTagsHandler
      * If tag is a synonym, subtree modification time of its main tag is updated
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag $tag
+     * @param int $timestamp
      */
-    protected function updateSubtreeModificationTime( Tag $tag )
+    protected function updateSubtreeModificationTime( Tag $tag, $timestamp = null )
     {
-        $timestamp = time();
+        $timestamp = $timestamp ?: time();
         $this->gateway->updateSubtreeModificationTime( $tag->pathString, $timestamp );
 
         if ( $tag->mainTagId > 0 )
