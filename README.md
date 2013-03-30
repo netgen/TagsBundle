@@ -19,4 +19,4 @@ License and installation instructions
 
 [License](LICENSE)
 
-[Installation instructions](doc/INSTALL.md)
+[Installation instructions](Resources/doc/INSTALL.md)
