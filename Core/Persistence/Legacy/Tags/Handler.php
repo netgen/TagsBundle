@@ -118,6 +118,10 @@ class Handler implements BaseTagsHandler
      */
     public function update( UpdateStruct $updateStruct, $tagId )
     {
+        $this->gateway->update( $updateStruct, $tagId );
+
+        $this->updateSubtreeModificationTime( $this->load( $tagId ) );
+        return $this->load( $tagId );
     }
 
     /**

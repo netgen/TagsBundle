@@ -4,6 +4,7 @@ namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
 use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
@@ -160,6 +161,34 @@ class EzcDatabase extends Gateway
         $query->prepare()->execute();
 
         return $tag;
+    }
+
+    /**
+     * Updates an existing tag
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param mixed $tagId
+     */
+    public function update( UpdateStruct $updateStruct, $tagId )
+    {
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "keyword" ),
+                $query->bindValue( $updateStruct->keyword, null, PDO::PARAM_STR )
+            )->set(
+                $this->handler->quoteColumn( "remote_id" ),
+                $query->bindValue( $updateStruct->remoteId, null, PDO::PARAM_STR )
+            )->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "id" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )
+            )
+        ;
+
+        $query->prepare()->execute();
     }
 
     /**

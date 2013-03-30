@@ -4,6 +4,7 @@ namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use ezcDbException;
 use PDOException;
 use RuntimeException;
@@ -92,6 +93,30 @@ class ExceptionConversion extends Gateway
         try
         {
             return $this->innerGateway->create( $createStruct, $parentTag );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+    }
+
+    /**
+     * Updates an existing tag
+     *
+     * @throws \RuntimeException
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param mixed $tagId
+     */
+    public function update( UpdateStruct $updateStruct, $tagId )
+    {
+        try
+        {
+            $this->innerGateway->update( $updateStruct, $tagId );
         }
         catch ( ezcDbException $e )
         {

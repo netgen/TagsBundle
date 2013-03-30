@@ -3,6 +3,7 @@
 namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 abstract class Gateway
 {
@@ -33,6 +34,14 @@ abstract class Gateway
      * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
      */
     abstract public function create( CreateStruct $createStruct, array $parentTag );
+
+    /**
+     * Updates an existing tag
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param mixed $tagId
+     */
+    abstract public function update( UpdateStruct $updateStruct, $tagId );
 
     /**
      * Updated subtree modification time for all tags in path

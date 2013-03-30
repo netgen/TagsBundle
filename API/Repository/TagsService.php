@@ -68,6 +68,7 @@ interface TagsService
     /**
      * Updates $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
      *

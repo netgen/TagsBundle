@@ -11,6 +11,7 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
@@ -102,7 +103,6 @@ class TagsService implements TagsServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue If the create struct has invalid data
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct
      *
@@ -166,6 +166,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Updates $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
      *
@@ -176,6 +177,56 @@ class TagsService implements TagsServiceInterface
      */
     public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct )
     {
+        if ( !is_numeric( $tag->id ) )
+        {
+            throw new InvalidArgumentValue( "id", $tag->id, "Tag" );
+        }
+
+        if ( $tagUpdateStruct->keyword !== null && ( !is_string( $tagUpdateStruct->keyword ) || empty( $tagUpdateStruct->keyword ) ) )
+        {
+            throw new InvalidArgumentValue( "keyword", $tagUpdateStruct->keyword, "TagUpdateStruct" );
+        }
+
+        if ( $tagUpdateStruct->remoteId !== null && ( !is_string( $tagUpdateStruct->remoteId ) || empty( $tagUpdateStruct->remoteId ) ) )
+        {
+            throw new InvalidArgumentValue( "remoteId", $tagUpdateStruct->remoteId, "TagUpdateStruct" );
+        }
+
+        $spiTag = $this->tagsHandler->load( $tag->id );
+
+        if ( $tagUpdateStruct->remoteId !== null )
+        {
+            try
+            {
+                $existingTag = $this->tagsHandler->loadByRemoteId( $tagUpdateStruct->remoteId );
+                if ( $existingTag->remoteId !== $spiTag->remoteId )
+                {
+                    throw new InvalidArgumentException( "tagUpdateStruct", "Tag with provided remote ID already exists" );
+                }
+            }
+            catch ( NotFoundException $e )
+            {
+                // Do nothing
+            }
+        }
+
+        $updateStruct = new UpdateStruct();
+        $updateStruct->keyword = $tagUpdateStruct->keyword !== null ? trim( $tagUpdateStruct->keyword ) : $spiTag->keyword;
+        $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim( $tagUpdateStruct->remoteId ) : $spiTag->remoteId;
+
+        $this->repository->beginTransaction();
+        try
+        {
+            $updatedTag = $this->tagsHandler->update( $updateStruct, $spiTag->id );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
+
+        return $this->buildTagDomainObject( $updatedTag );
     }
 
     /**
