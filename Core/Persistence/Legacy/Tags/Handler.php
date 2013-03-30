@@ -86,7 +86,7 @@ class Handler implements BaseTagsHandler
      *
      * @return int
      */
-    public function getChildCount( $tagId )
+    public function getChildrenCount( $tagId )
     {
     }
 

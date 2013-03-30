@@ -51,7 +51,7 @@ interface Handler
      *
      * @return int
      */
-    public function getChildCount( $tagId );
+    public function getChildrenCount( $tagId );
 
     /**
      * Creates the new tag
