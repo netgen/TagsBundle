@@ -9,6 +9,8 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagList;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
+use DateTime;
 
 class TagsService implements TagsServiceInterface
 {
@@ -46,6 +48,8 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTag( $tagId )
     {
+        $spiTag = $this->tagsHandler->load( $tagId );
+        return $this->buildTagDomainObject( $spiTag );
     }
 
     /**
@@ -229,6 +233,11 @@ class TagsService implements TagsServiceInterface
      */
     public function newTagCreateStruct( $parentTagId, $keyword )
     {
+        $tagCreateStruct = new TagCreateStruct();
+        $tagCreateStruct->parentTagId = $parentTagId;
+        $tagCreateStruct->keyword = $keyword;
+
+        return $tagCreateStruct;
     }
 
     /**
@@ -238,5 +247,25 @@ class TagsService implements TagsServiceInterface
      */
     public function newTagUpdateStruct()
     {
+        return new TagUpdateStruct();
+    }
+
+    protected function buildTagDomainObject( SPITag $spiTag )
+    {
+        $modificationDate = new DateTime();
+        $modificationDate->setTimestamp( $spiTag->modificationDate );
+
+        return new Tag(
+            array(
+                 "id" => $spiTag->id,
+                 "parentTagId" => $spiTag->parentTagId,
+                 "mainTagId" => $spiTag->mainTagId,
+                 "keyword" => $spiTag->keyword,
+                 "depth" => $spiTag->depth,
+                 "pathString" => $spiTag->pathString,
+                 "modificationDate" => $modificationDate,
+                 "remoteId" => $spiTag->remoteId
+            )
+        );
     }
 }

@@ -42,6 +42,8 @@ class Handler implements BaseTagsHandler
      */
     public function load( $tagId )
     {
+        $data = $this->gateway->getBasicTagData( $tagId );
+        return $this->mapper->createTagFromRow( $data );
     }
 
     /**

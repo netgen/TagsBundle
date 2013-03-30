@@ -3,6 +3,9 @@
 namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use ezcDbException;
+use PDOException;
+use RuntimeException;
 
 class ExceptionConversion extends Gateway
 {
@@ -21,5 +24,30 @@ class ExceptionConversion extends Gateway
     public function __construct( Gateway $innerGateway )
     {
         $this->innerGateway = $innerGateway;
+    }
+
+    /**
+     * Returns an array with basic tag data
+     *
+     * @throws \RuntimeException
+     *
+     * @param mixed $tagId
+     *
+     * @return array
+     */
+    public function getBasicTagData( $tagId )
+    {
+        try
+        {
+            return $this->innerGateway->getBasicTagData( $tagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
     }
 }
