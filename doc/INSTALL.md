@@ -43,3 +43,9 @@ Installation steps
            - {template: EzPublishCoreBundle::content_fields.html.twig, priority: 0}
            - {template: eZTagsBundle::eztags_content_field.html.twig, priority: 0}
    ```
+
+4. Clear eZ Publish 5 caches
+
+   ```bash
+   php ezpublish/console cache:clear
+   ```
