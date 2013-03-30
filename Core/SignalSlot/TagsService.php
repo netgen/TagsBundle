@@ -10,6 +10,8 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
 
 class TagsService implements TagsServiceInterface
 {
@@ -131,7 +133,18 @@ class TagsService implements TagsServiceInterface
      */
     public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct )
     {
-        return $this->service->updateTag( $tag, $tagUpdateStruct );
+        $returnValue = $this->service->updateTag( $tag, $tagUpdateStruct );
+        $this->signalDispatcher->emit(
+            new UpdateTagSignal(
+                array(
+                    "tagId" => $returnValue->id,
+                    "keyword" => $returnValue->keyword,
+                    "remoteId" => $returnValue->remoteId
+                )
+            )
+        );
+
+        return $returnValue;
     }
 
     /**
@@ -244,6 +257,13 @@ class TagsService implements TagsServiceInterface
     public function deleteTag( Tag $tag )
     {
         $this->service->deleteTag( $tag );
+        $this->signalDispatcher->emit(
+            new DeleteTagSignal(
+                array(
+                    "tagId" => $tag->id
+                )
+            )
+        );
     }
 
     /**
