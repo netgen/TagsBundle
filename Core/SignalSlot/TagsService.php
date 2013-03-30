@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\SignalSlot\Repository;
+namespace EzSystems\TagsBundle\Core\SignalSlot;
 
 use eZ\Publish\Core\SignalSlot\SignalDispatcher;
 use EzSystems\TagsBundle\API\Repository\TagsService as TagsServiceInterface;

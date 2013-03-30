@@ -1,5 +1,5 @@
 parameters:
-    ezpublish.signalslot.service.tags.class: EzSystems\TagsBundle\SignalSlot\Repository\TagsService
+    ezpublish.signalslot.service.tags.class: EzSystems\TagsBundle\Core\SignalSlot\TagsService
     ezpublish.api.service.tags.inner.class: EzSystems\TagsBundle\Core\Repository\TagsService
 
 services:
