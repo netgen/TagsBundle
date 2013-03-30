@@ -64,6 +64,8 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByRemoteId( $remoteId )
     {
+        $spiTag = $this->tagsHandler->loadByRemoteId( $remoteId );
+        return $this->buildTagDomainObject( $spiTag );
     }
 
     /**

@@ -50,4 +50,29 @@ class ExceptionConversion extends Gateway
             throw new RuntimeException( 'Database error', 0, $e );
         }
     }
+
+    /**
+     * Returns an array with basic tag data for the tag with $remoteId
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $remoteId
+     *
+     * @return array
+     */
+    public function getBasicTagDataByRemoteId( $remoteId )
+    {
+        try
+        {
+            return $this->innerGateway->getBasicTagDataByRemoteId( $remoteId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( 'Database error', 0, $e );
+        }
+    }
 }

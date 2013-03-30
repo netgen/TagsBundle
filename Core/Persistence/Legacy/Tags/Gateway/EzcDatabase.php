@@ -58,4 +58,37 @@ class EzcDatabase extends Gateway
 
         throw new NotFoundException( "tag", $tagId );
     }
+
+    /**
+     * Returns an array with basic tag data for the tag with $remoteId
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     *
+     * @param string $remoteId
+     *
+     * @return array
+     */
+    public function getBasicTagDataByRemoteId( $remoteId )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "remote_id" ),
+                    $query->bindValue( $remoteId, null, PDO::PARAM_STR )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        if ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
+        {
+            return $row;
+        }
+
+        throw new NotFoundException( "tag", $remoteId );
+    }
 }

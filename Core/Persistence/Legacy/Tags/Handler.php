@@ -57,6 +57,8 @@ class Handler implements BaseTagsHandler
      */
     public function loadByRemoteId( $remoteId )
     {
+        $data = $this->gateway->getBasicTagDataByRemoteId( $remoteId );
+        return $this->mapper->createTagFromRow( $data );
     }
 
     /**
