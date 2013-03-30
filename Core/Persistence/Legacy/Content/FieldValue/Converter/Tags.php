@@ -20,7 +20,7 @@ class Tags implements Converter
      *
      * @return \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
      */
-    public static function create()
+    static public function create()
     {
         return new self;
     }

@@ -11,7 +11,7 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract function getBasicTagData( $tagId );
+    abstract public function getBasicTagData( $tagId );
 
     /**
      * Returns an array with basic tag data for the tag with $remoteId
@@ -30,7 +30,7 @@ abstract class Gateway
      * @param string $pathString
      * @param int $timestamp
      */
-    abstract function updateSubtreeModificationTime( $pathString, $timestamp = null );
+    abstract public function updateSubtreeModificationTime( $pathString, $timestamp = null );
 
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
