@@ -7,6 +7,7 @@ use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use RuntimeException;
+use PDO;
 
 class LegacyStorage extends Gateway
 {
@@ -100,7 +101,7 @@ class LegacyStorage extends Gateway
                 ),
                 $query->expr->eq(
                     $connection->quoteColumn( "objectattribute_version" ),
-                    $query->bindValue( $versionInfo->versionNo, null, \PDO::PARAM_INT )
+                    $query->bindValue( $versionInfo->versionNo, null, PDO::PARAM_INT )
                 )
             )
         );
@@ -123,8 +124,13 @@ class LegacyStorage extends Gateway
         $query = $connection->createSelectQuery();
         $query->selectDistinct(
             $connection->aliasedColumn( $query, "id", "eztags" ),
+            $connection->aliasedColumn( $query, "parent_id", "eztags" ),
+            $connection->aliasedColumn( $query, "main_tag_id", "eztags" ),
             $connection->aliasedColumn( $query, "keyword", "eztags" ),
-            $connection->aliasedColumn( $query, "parent_id", "eztags" )
+            $connection->aliasedColumn( $query, "depth", "eztags" ),
+            $connection->aliasedColumn( $query, "path_string", "eztags" ),
+            $connection->aliasedColumn( $query, "modified", "eztags" ),
+            $connection->aliasedColumn( $query, "remote_id", "eztags" )
         )->from(
             $connection->quoteTable( "eztags" )
         )->innerJoin(

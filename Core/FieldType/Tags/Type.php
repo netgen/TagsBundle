@@ -2,9 +2,11 @@
 
 namespace EzSystems\TagsBundle\Core\FieldType\Tags;
 
+use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use EzSystems\TagsBundle\Core\FieldType\Tags\Value;
+use DateTime;
 
 /**
  * Tags field type
@@ -54,7 +56,38 @@ class Type extends FieldType
      */
     public function fromHash( $hash )
     {
-        // TODO: Implement fromHash() method.
+        if ( !is_array( $hash ) )
+        {
+            return new Value();
+        }
+
+        $tags = array();
+
+        foreach ( $hash as $hashItem )
+        {
+            if ( !is_array( $hashItem ) )
+            {
+                continue;
+            }
+
+            $modificationDate = new DateTime();
+            $modificationDate->setTimestamp( $hashItem["eztags_modified"] );
+
+            $tags[] = new Tag(
+                array(
+                     "id" => $hashItem["eztags_id"],
+                     "parentTagId" => $hashItem["eztags_parent_id"],
+                     "mainTagId" => $hashItem["eztags_main_tag_id"],
+                     "keyword" => $hashItem["eztags_keyword"],
+                     "depth" => $hashItem["eztags_depth"],
+                     "pathString" => $hashItem["eztags_path_string"],
+                     "modificationDate" => $modificationDate,
+                     "remoteId" => $hashItem["eztags_remote_id"]
+                )
+            );
+        }
+
+        return new Value( $tags );
     }
 
     /**
