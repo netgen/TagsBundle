@@ -7,6 +7,7 @@ use EzSystems\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 class Handler implements BaseTagsHandler
@@ -208,6 +209,18 @@ class Handler implements BaseTagsHandler
         $tag = $this->load( $tagId );
 
         $this->gateway->deleteTag( $tag->id );
+        $this->updateSubtreeModificationTime( $tag );
+    }
+
+    /**
+     * Updated subtree modification time for tag and all its parents
+     *
+     * If tag is a synonym, subtree modification time of its main tag is updated
+     *
+     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag $tag
+     */
+    protected function updateSubtreeModificationTime( Tag $tag )
+    {
         $this->gateway->updateSubtreeModificationTime( $tag->pathString );
 
         if ( $tag->mainTagId > 0 )
