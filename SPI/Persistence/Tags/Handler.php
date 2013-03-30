@@ -145,6 +145,8 @@ interface Handler
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
      * If $tagId is a synonym, only the synonym is deleted
      *
      * @param mixed $tagId

@@ -218,6 +218,7 @@ class TagsService implements TagsServiceInterface
      * If $tag is a synonym, only the synonym is deleted
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag or a descendant
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
