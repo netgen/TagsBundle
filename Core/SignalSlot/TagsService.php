@@ -88,9 +88,9 @@ class TagsService implements TagsServiceInterface
      *
      * @return int
      */
-    public function getTagChildCount( Tag $tag )
+    public function getTagChildrenCount( Tag $tag )
     {
-        return $this->service->getTagChildCount( $tag );
+        return $this->service->getTagChildrenCount( $tag );
     }
 
     /**

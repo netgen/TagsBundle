@@ -51,7 +51,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagChildCount( Tag $tag );
+    public function getTagChildrenCount( Tag $tag );
 
     /**
      * Creates the new tag
