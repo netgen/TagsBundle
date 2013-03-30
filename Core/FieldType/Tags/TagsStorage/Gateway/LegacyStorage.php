@@ -143,11 +143,11 @@ class LegacyStorage extends Gateway
             $query->expr->lAnd(
                 $query->expr->eq(
                     $connection->quoteColumn( "objectattribute_id", "eztags_attribute_link" ),
-                    $query->bindValue( $fieldId, null, \PDO::PARAM_INT )
+                    $query->bindValue( $fieldId, null, PDO::PARAM_INT )
                 ),
                 $query->expr->eq(
                     $connection->quoteColumn( "objectattribute_version", "eztags_attribute_link" ),
-                    $query->bindValue( $versionNo, null, \PDO::PARAM_INT )
+                    $query->bindValue( $versionNo, null, PDO::PARAM_INT )
                 )
             )
         );
@@ -155,6 +155,6 @@ class LegacyStorage extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        return $statement->fetchAll( \PDO::FETCH_ASSOC );
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
     }
 }
