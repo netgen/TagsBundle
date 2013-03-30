@@ -71,18 +71,18 @@ class Type extends FieldType
             }
 
             $modificationDate = new DateTime();
-            $modificationDate->setTimestamp( $hashItem["eztags_modified"] );
+            $modificationDate->setTimestamp( $hashItem["modified"] );
 
             $tags[] = new Tag(
                 array(
-                     "id" => $hashItem["eztags_id"],
-                     "parentTagId" => $hashItem["eztags_parent_id"],
-                     "mainTagId" => $hashItem["eztags_main_tag_id"],
-                     "keyword" => $hashItem["eztags_keyword"],
-                     "depth" => $hashItem["eztags_depth"],
-                     "pathString" => $hashItem["eztags_path_string"],
+                     "id" => $hashItem["id"],
+                     "parentTagId" => $hashItem["parent_id"],
+                     "mainTagId" => $hashItem["main_tag_id"],
+                     "keyword" => $hashItem["keyword"],
+                     "depth" => $hashItem["depth"],
+                     "pathString" => $hashItem["path_string"],
                      "modificationDate" => $modificationDate,
-                     "remoteId" => $hashItem["eztags_remote_id"]
+                     "remoteId" => $hashItem["remote_id"]
                 )
             );
         }

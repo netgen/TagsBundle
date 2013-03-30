@@ -91,20 +91,21 @@ class LegacyStorage extends Gateway
         $connection = $this->getConnection();
 
         $query = $connection->createDeleteQuery();
-        $query->deleteFrom(
-            $connection->quoteTable( "eztags_attribute_link" )
-        )->where(
-            $query->expr->lAnd(
-                $query->expr->in(
-                    $connection->quoteColumn( "objectattribute_id" ),
-                    $fieldIds
-                ),
-                $query->expr->eq(
-                    $connection->quoteColumn( "objectattribute_version" ),
-                    $query->bindValue( $versionInfo->versionNo, null, PDO::PARAM_INT )
+        $query
+            ->deleteFrom( $connection->quoteTable( "eztags_attribute_link" ) )
+            ->where(
+                $query->expr->lAnd(
+                    $query->expr->in(
+                        $connection->quoteColumn( "objectattribute_id" ),
+                        $fieldIds
+                    ),
+                    $query->expr->eq(
+                        $connection->quoteColumn( "objectattribute_version" ),
+                        $query->bindValue( $versionInfo->versionNo, null, PDO::PARAM_INT )
+                    )
                 )
             )
-        );
+        ;
 
         $query->prepare()->execute();
     }
@@ -122,35 +123,28 @@ class LegacyStorage extends Gateway
         $connection = $this->getConnection();
 
         $query = $connection->createSelectQuery();
-        $query->selectDistinct(
-            $connection->aliasedColumn( $query, "id", "eztags" ),
-            $connection->aliasedColumn( $query, "parent_id", "eztags" ),
-            $connection->aliasedColumn( $query, "main_tag_id", "eztags" ),
-            $connection->aliasedColumn( $query, "keyword", "eztags" ),
-            $connection->aliasedColumn( $query, "depth", "eztags" ),
-            $connection->aliasedColumn( $query, "path_string", "eztags" ),
-            $connection->aliasedColumn( $query, "modified", "eztags" ),
-            $connection->aliasedColumn( $query, "remote_id", "eztags" )
-        )->from(
-            $connection->quoteTable( "eztags" )
-        )->innerJoin(
-            $connection->quoteTable( "eztags_attribute_link" ),
-            $query->expr->eq(
-                $connection->quoteColumn( "id", "eztags" ),
-                $connection->quoteColumn( "keyword_id", "eztags_attribute_link" )
-            )
-        )->where(
-            $query->expr->lAnd(
+        $query
+            ->selectDistinct( "*" )
+            ->from( $connection->quoteTable( "eztags" ) )
+            ->innerJoin(
+                $connection->quoteTable( "eztags_attribute_link" ),
                 $query->expr->eq(
-                    $connection->quoteColumn( "objectattribute_id", "eztags_attribute_link" ),
-                    $query->bindValue( $fieldId, null, PDO::PARAM_INT )
-                ),
-                $query->expr->eq(
-                    $connection->quoteColumn( "objectattribute_version", "eztags_attribute_link" ),
-                    $query->bindValue( $versionNo, null, PDO::PARAM_INT )
+                    $connection->quoteColumn( "id", "eztags" ),
+                    $connection->quoteColumn( "keyword_id", "eztags_attribute_link" )
+                )
+            )->where(
+                $query->expr->lAnd(
+                    $query->expr->eq(
+                        $connection->quoteColumn( "objectattribute_id", "eztags_attribute_link" ),
+                        $query->bindValue( $fieldId, null, PDO::PARAM_INT )
+                    ),
+                    $query->expr->eq(
+                        $connection->quoteColumn( "objectattribute_version", "eztags_attribute_link" ),
+                        $query->bindValue( $versionNo, null, PDO::PARAM_INT )
+                    )
                 )
             )
-        );
+        ;
 
         $statement = $query->prepare();
         $statement->execute();
