@@ -10,7 +10,10 @@ Requirements
 Installation steps
 ------------------
 
+### Clone the repo
+
 This bundle is not yet available through Composer/Packagist, so you will have to install it manually for now.
+
 Checkout the repo into `src/EzSystems/TagsBundle` folder of your eZ Publish 5 installation.
 
 ```bash
@@ -19,8 +22,9 @@ cd src/EzSystems
 git clone http://path.to.repo/... TagsBundle
 ```
 
-Activate the bundle in `ezpublish\EzPublishKernel.php` file, by appending `new EzSystems\TagsBundle\EzSystemsTagsBundle()`
-to `$bundles` array in `registerBundles()` method.
+### Activate the bundle
+
+Activate the bundle in `ezpublish\EzPublishKernel.php` file.
 
 ```php
 public function registerBundles()
@@ -35,8 +39,9 @@ public function registerBundles()
 }
 ```
 
-Put the following in your `ezpublish/config.yml` file to be able to load `eztags` content field template. Be sure to
-replace `YOUR_SITEACCESS_NAME` text with the name of your frontend siteaccess.
+### Edit configuration
+
+Put the following in your `ezpublish/config.yml` file to be able to load `eztags` content field template.
 
 ```yml
 parameters:
@@ -45,7 +50,11 @@ parameters:
        - {template: eZTagsBundle::eztags_content_field.html.twig, priority: 0}
 ```
 
-Clear eZ Publish 5 caches
+Be sure to replace `YOUR_SITEACCESS_NAME` text with the name of your frontend siteaccess.
+
+### Clear the caches
+
+Clear eZ Publish 5 caches.
 
 ```bash
 php ezpublish/console cache:clear
