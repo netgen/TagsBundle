@@ -2,10 +2,11 @@
 
 namespace EzSystems\TagsBundle\Core\FieldType\Tags;
 
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use EzSystems\TagsBundle\Core\FieldType\Tags\Value;
+use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use DateTime;
 
 /**
@@ -28,13 +29,24 @@ class Type extends FieldType
     /**
      * Returns a human readable string representation from the given $value
      *
-     * @param mixed $value
+     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return string
      */
     public function getName( $value )
     {
-        // TODO: Implement getName() method.
+        $value = $this->acceptValue( $value );
+
+        return implode(
+            ", ",
+            array_map(
+                function ( Tag $tag )
+                {
+                    return $tag->keyword;
+                },
+                $value->tags
+            )
+        );
     }
 
     /**
@@ -52,7 +64,7 @@ class Type extends FieldType
      *
      * @param mixed $hash
      *
-     * @return mixed
+     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
      */
     public function fromHash( $hash )
     {
@@ -93,13 +105,29 @@ class Type extends FieldType
     /**
      * Converts the given $value into a plain hash format
      *
-     * @param mixed $value
+     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
      *
-     * @return mixed
+     * @return array
      */
     public function toHash( $value )
     {
-        // TODO: Implement toHash() method.
+        $hash = array();
+
+        foreach ( $value->tags as $tag )
+        {
+            $hash[] = array(
+                "id" => $tag->id,
+                "parent_id" => $tag->parentTagId,
+                "main_tag_id" => $tag->mainTagId,
+                "keyword" => $tag->keyword,
+                "depth" => $tag->depth,
+                "path_string" => $tag->pathString,
+                "modified" => $tag->modificationDate->getTimestamp(),
+                "remote_id" => $tag->remoteId
+            );
+        }
+
+        return $hash;
     }
 
     /**
@@ -111,13 +139,54 @@ class Type extends FieldType
      */
     protected function internalAcceptValue( $inputValue )
     {
-        // TODO: Implement internalAcceptValue() method.
+        if ( is_array( $inputValue ) )
+        {
+            foreach ( $inputValue as $inputValueItem )
+            {
+                if ( !$inputValueItem instanceof Tag )
+                {
+                    throw new InvalidArgumentType(
+                        "inputValue",
+                        "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+                        $inputValue
+                    );
+                }
+            }
+
+            $inputValue = new Value( $inputValue );
+        }
+        else if ( $inputValue === null )
+        {
+            $inputValue = new Value();
+        }
+        else if ( !$inputValue instanceof Value )
+        {
+            throw new InvalidArgumentType(
+                "inputValue",
+                "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+                $inputValue
+            );
+        }
+
+        return $inputValue;
+    }
+
+    /**
+     * Returns information for FieldValue->$sortKey relevant to the field type.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    protected function getSortInfo( $value )
+    {
+        return false;
     }
 
     /**
      * Converts a $value to a persistence value
      *
-     * @param mixed $value
+     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
      */
@@ -137,7 +206,7 @@ class Type extends FieldType
      *
      * @param \eZ\Publish\SPI\Persistence\Content\FieldValue $fieldValue
      *
-     * @return mixed
+     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
      */
     public function fromPersistenceValue( FieldValue $fieldValue )
     {

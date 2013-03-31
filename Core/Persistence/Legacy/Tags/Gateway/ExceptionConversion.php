@@ -45,11 +45,11 @@ class ExceptionConversion extends Gateway
         }
         catch ( ezcDbException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
         catch ( PDOException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
     }
 
@@ -70,11 +70,11 @@ class ExceptionConversion extends Gateway
         }
         catch ( ezcDbException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
         catch ( PDOException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
     }
 
@@ -96,11 +96,11 @@ class ExceptionConversion extends Gateway
         }
         catch ( ezcDbException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
         catch ( PDOException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
     }
 
@@ -120,11 +120,11 @@ class ExceptionConversion extends Gateway
         }
         catch ( ezcDbException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
         catch ( PDOException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
     }
 
@@ -144,11 +144,11 @@ class ExceptionConversion extends Gateway
         }
         catch ( ezcDbException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
         catch ( PDOException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
     }
 
@@ -169,11 +169,11 @@ class ExceptionConversion extends Gateway
         }
         catch ( ezcDbException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
         catch ( PDOException $e )
         {
-            throw new RuntimeException( 'Database error', 0, $e );
+            throw new RuntimeException( "Database error", 0, $e );
         }
     }
 }

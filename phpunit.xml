@@ -1,0 +1,24 @@
+<phpunit
+  backupGlobals="false"
+  backupStaticAttributes="false"
+  bootstrap="../../../vendor/ezsystems/ezpublish-kernel/bootstrap.php"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  colors="false"
+  >
+  <testsuites>
+    <testsuite name="EzSystems\TagsBundle\Tests">
+      <directory>Tests</directory>
+    </testsuite>
+  </testsuites>
+  <filter>
+    <whitelist>
+      <directory>.</directory>
+      <exclude>
+          <directory>Resources</directory>
+          <directory>Tests</directory>
+      </exclude>
+    </whitelist>
+  </filter>
+</phpunit>
