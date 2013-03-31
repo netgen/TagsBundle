@@ -22,6 +22,24 @@ class Legacy extends BaseLegacy
     protected static $tagsInitialData;
 
     /**
+     * Returns statements to be executed after data insert
+     *
+     * @return string[]
+     */
+    protected function getPostInsertStatements()
+    {
+        $statements = parent::getPostInsertStatements();
+
+        if ( self::$db === "pgsql" )
+        {
+            $setvalPath = __DIR__ . "/../../../Core/Persistence/Legacy/_fixtures/setval.pgsql.sql";
+            return array_merge( $statements, array_filter( preg_split( "(;\\s*$)m", file_get_contents( $setvalPath ) ) ) );
+        }
+
+        return $statements;
+    }
+
+    /**
      * Returns the initial database data
      *
      * @return array

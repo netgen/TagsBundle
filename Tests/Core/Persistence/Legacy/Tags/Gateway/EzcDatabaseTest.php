@@ -12,6 +12,9 @@ use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
  */
 class EzcDatabaseTest extends TestCase
 {
+    /**
+     * Sets up the test suite
+     */
     public function setUp()
     {
         parent::setUp();
@@ -24,6 +27,29 @@ class EzcDatabaseTest extends TestCase
         foreach ( $queries as $query )
         {
             $handler->exec( $query );
+        }
+    }
+
+    /**
+     * Reset DB sequences
+     */
+    public function resetSequences()
+    {
+        parent::resetSequences();
+
+        switch ( $this->db )
+        {
+            case "pgsql":
+            {
+                // Update PostgreSQL sequences
+                $handler = $this->getDatabaseHandler();
+
+                $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( __DIR__ . "/../../../Legacy/_fixtures/setval.pgsql.sql" ) ) );
+                foreach ( $queries as $query )
+                {
+                    $handler->exec( $query );
+                }
+            }
         }
     }
 
@@ -153,6 +179,9 @@ class EzcDatabaseTest extends TestCase
         ;
     }
 
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::update
+     */
     public function testUpdate()
     {
         $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
@@ -180,6 +209,9 @@ class EzcDatabaseTest extends TestCase
         ;
     }
 
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
+     */
     public function testUpdateSubtreeModificationTime()
     {
         $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
@@ -201,6 +233,9 @@ class EzcDatabaseTest extends TestCase
         ;
     }
 
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::deleteTag
+     */
     public function testDeleteTag()
     {
         $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );

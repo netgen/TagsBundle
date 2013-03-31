@@ -39,8 +39,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
      * Skipping the reset-up, since setting up for these tests takes quite some
      * time, which is not required to spent, since we are only reading from the
      * database anyways.
-     *
-     * @return void
      */
     public function setUp()
     {
@@ -59,6 +57,29 @@ class TagsIntegrationTest extends BaseIntegrationTest
             }
 
             $this->insertDatabaseFixture( __DIR__ . "/../../Core/Repository/Service/Integration/Legacy/_fixtures/clean_eztags_tables.php" );
+        }
+    }
+
+    /**
+     * Reset DB sequences
+     */
+    public function resetSequences()
+    {
+        parent::resetSequences();
+
+        switch ( $this->db )
+        {
+            case "pgsql":
+            {
+                // Update PostgreSQL sequences
+                $handler = $this->getDatabaseHandler();
+
+                $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( __DIR__ . "/../../Core/Persistence/Legacy/_fixtures/setval.pgsql.sql" ) ) );
+                foreach ( $queries as $query )
+                {
+                    $handler->exec( $query );
+                }
+            }
         }
     }
 
