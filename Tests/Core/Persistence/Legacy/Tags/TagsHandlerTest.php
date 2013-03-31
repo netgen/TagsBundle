@@ -60,7 +60,12 @@ class TagsHandlerTest extends TestCase
             ->will( $this->returnValue( new Tag( array( "id" => 42 ) ) ) )
         ;
 
-        $handler->load( 42 );
+        $tag = $handler->load( 42 );
+
+        $this->assertInstanceOf(
+            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $tag
+        );
     }
 
     /**
@@ -90,6 +95,11 @@ class TagsHandlerTest extends TestCase
             ->will( $this->returnValue( new Tag( array( "remoteId" => "abcdef" ) ) ) )
         ;
 
-        $handler->loadByRemoteId( "abcdef" );
+        $tag = $handler->loadByRemoteId( "abcdef" );
+
+        $this->assertInstanceOf(
+            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $tag
+        );
     }
 }
