@@ -52,7 +52,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
             $schema = __DIR__ . "/../../Core/Persistence/Legacy/_fixtures/schema." . $this->db . ".sql";
 
-            $queries = array_filter( preg_split( '(;\\s*$)m', file_get_contents( $schema ) ) );
+            $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( $schema ) ) );
             foreach ( $queries as $query )
             {
                 $handler->exec( $query );
