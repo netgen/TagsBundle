@@ -104,11 +104,11 @@ class Legacy extends BaseLegacy
 
             /** END: eztags field type settings */
 
-            /** START: Look for storage dir in eZ Publish 5 web root */
+            /** START: Look for storage dir in eZ Publish 5 root */
 
-            $serviceSettings["parameters"]["storage_dir"] = "web/var/storage";
+            $serviceSettings["parameters"]["storage_dir"] = "var";
 
-            /** END: Look for storage dir in eZ Publish 5 web root */
+            /** END: Look for storage dir in eZ Publish 5 root */
 
             $serviceSettings["persistence_handler_legacy"]["arguments"]["config"]["dsn"] = self::$dsn;
             $serviceSettings["legacy_db_handler"]["arguments"]["dsn"] = self::$dsn;
