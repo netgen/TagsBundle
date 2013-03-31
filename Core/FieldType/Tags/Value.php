@@ -20,10 +20,13 @@ class Value extends BaseValue
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
-    public function __construct( array $tags = array() )
+    public function __construct( $tags = null )
     {
-        // @TODO: Use TagCollection instead of plain array
-        $this->tags = $tags;
+        if ( is_array( $tags ) )
+        {
+            // @TODO: Use TagCollection instead of plain array
+            $this->tags = $tags;
+        }
     }
 
     /**
