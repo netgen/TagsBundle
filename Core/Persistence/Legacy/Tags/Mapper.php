@@ -35,4 +35,29 @@ class Mapper
 
         return $tag;
     }
+
+    /**
+     * Creates Tag objects from the given $rows, optionally with key
+     * $prefix
+     *
+     * @param array $rows
+     * @param string $prefix
+     *
+     * @return \eZ\Publish\SPI\Persistence\Content\Location[]
+     */
+    public function createTagsFromRows( array $rows, $prefix = "" )
+    {
+        $tags = array();
+
+        foreach ( $rows as $row )
+        {
+            $id = $row[$prefix . "id"];
+            if ( !isset( $tags[$id] ) )
+            {
+                $tags[$id] = $this->createTagFromRow( $row, $prefix );
+            }
+        }
+
+        return array_values( $tags );
+    }
 }
