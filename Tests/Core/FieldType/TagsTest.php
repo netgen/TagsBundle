@@ -107,6 +107,18 @@ class TagsTest extends FieldTypeTest
                 new TagsValue( array( new Tag() ) )
             ),
             array(
+                new TagsValue(),
+                new TagsValue()
+            ),
+            array(
+                new TagsValue( null ),
+                new TagsValue()
+            ),
+            array(
+                new TagsValue( array() ),
+                new TagsValue()
+            ),
+            array(
                 new TagsValue( array( new Tag() ) ),
                 new TagsValue( array( new Tag() ) )
             )
@@ -126,6 +138,14 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 new TagsValue(),
+                array()
+            ),
+            array(
+                new TagsValue( null ),
+                array()
+            ),
+            array(
+                new TagsValue( array() ),
                 array()
             ),
             array(
@@ -172,6 +192,10 @@ class TagsTest extends FieldTypeTest
         $modificationDate->setTimestamp( 1234567 );
 
         return array(
+            array(
+                null,
+                new TagsValue()
+            ),
             array(
                 array(),
                 new TagsValue()
