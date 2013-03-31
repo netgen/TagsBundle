@@ -70,7 +70,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
         switch ( $this->db )
         {
             case "pgsql":
-            {
                 // Update PostgreSQL sequences
                 $handler = $this->getDatabaseHandler();
 
@@ -79,7 +78,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 {
                     $handler->exec( $query );
                 }
-            }
+
+                break;
         }
     }
 

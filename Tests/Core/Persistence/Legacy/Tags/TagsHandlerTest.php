@@ -50,15 +50,13 @@ class TagsHandlerTest extends TestCase
                         "id" => 42,
                     )
                 )
-            )
-        ;
+            );
 
         $this->mapper
             ->expects( $this->once() )
             ->method( "createTagFromRow" )
             ->with( array( "id" => 42 ) )
-            ->will( $this->returnValue( new Tag( array( "id" => 42 ) ) ) )
-        ;
+            ->will( $this->returnValue( new Tag( array( "id" => 42 ) ) ) );
 
         $tag = $handler->load( 42 );
 
@@ -85,15 +83,13 @@ class TagsHandlerTest extends TestCase
                         "remote_id" => "abcdef",
                     )
                 )
-            )
-        ;
+            );
 
         $this->mapper
             ->expects( $this->once() )
             ->method( "createTagFromRow" )
             ->with( array( "remote_id" => "abcdef" ) )
-            ->will( $this->returnValue( new Tag( array( "remoteId" => "abcdef" ) ) ) )
-        ;
+            ->will( $this->returnValue( new Tag( array( "remoteId" => "abcdef" ) ) ) );
 
         $tag = $handler->loadByRemoteId( "abcdef" );
 

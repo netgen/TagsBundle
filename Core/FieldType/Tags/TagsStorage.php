@@ -79,6 +79,6 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function getIndexData( VersionInfo $versionInfo, Field $field, array $context )
     {
-        // TODO: Implement getIndexData() method.
+        return false;
     }
 }

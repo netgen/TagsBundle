@@ -40,7 +40,6 @@ class EzcDatabaseTest extends TestCase
         switch ( $this->db )
         {
             case "pgsql":
-            {
                 // Update PostgreSQL sequences
                 $handler = $this->getDatabaseHandler();
 
@@ -49,7 +48,8 @@ class EzcDatabaseTest extends TestCase
                 {
                     $handler->exec( $query );
                 }
-            }
+
+                break;
         }
     }
 
@@ -170,13 +170,12 @@ class EzcDatabaseTest extends TestCase
             array(
                 array( 95, 40, 0, "New tag", 4, "/8/7/40/95/", "newRemoteId" )
             ),
+            // 95 is the next inserted ID
             $query
                 ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id" )
                 ->from( "eztags" )
-                // 95 is the next inserted ID
                 ->where( $query->expr->eq( "id", 95 ) )
-            )
-        ;
+        );
     }
 
     /**
@@ -205,8 +204,7 @@ class EzcDatabaseTest extends TestCase
                 ->select( "*" )
                 ->from( "eztags" )
                 ->where( $query->expr->eq( "id", 40 ) )
-            )
-        ;
+        );
     }
 
     /**
@@ -229,8 +227,7 @@ class EzcDatabaseTest extends TestCase
                 ->select( "modified" )
                 ->from( "eztags" )
                 ->where( $query->expr->in( "id", array( 8, 7, 40 ) ) )
-            )
-        ;
+        );
     }
 
     /**
@@ -251,8 +248,7 @@ class EzcDatabaseTest extends TestCase
                 ->select( "id" )
                 ->from( "eztags" )
                 ->where( $query->expr->in( "id", array( 7, 13, 14, 27, 40, 53, 54, 55 ) ) )
-            )
-        ;
+        );
 
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
@@ -263,7 +259,6 @@ class EzcDatabaseTest extends TestCase
                 ->select( "keyword_id" )
                 ->from( "eztags_attribute_link" )
                 ->where( $query->expr->in( "keyword_id", array( 7, 13, 14, 27, 40, 53, 54, 55 ) ) )
-            )
-        ;
+        );
     }
 }

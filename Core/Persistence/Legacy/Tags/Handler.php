@@ -236,7 +236,7 @@ class Handler implements BaseTagsHandler
 
         if ( $tag->mainTagId > 0 )
         {
-            $this->gateway->updateSubtreeModificationTime( (string) $tag->mainTagId, $timestamp );
+            $this->gateway->updateSubtreeModificationTime( (string)$tag->mainTagId, $timestamp );
         }
     }
 }

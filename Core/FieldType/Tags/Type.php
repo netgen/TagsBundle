@@ -87,14 +87,14 @@ class Type extends FieldType
 
             $tags[] = new Tag(
                 array(
-                     "id" => $hashItem["id"],
-                     "parentTagId" => $hashItem["parent_id"],
-                     "mainTagId" => $hashItem["main_tag_id"],
-                     "keyword" => $hashItem["keyword"],
-                     "depth" => $hashItem["depth"],
-                     "pathString" => $hashItem["path_string"],
-                     "modificationDate" => $modificationDate,
-                     "remoteId" => $hashItem["remote_id"]
+                    "id" => $hashItem["id"],
+                    "parentTagId" => $hashItem["parent_id"],
+                    "mainTagId" => $hashItem["main_tag_id"],
+                    "keyword" => $hashItem["keyword"],
+                    "depth" => $hashItem["depth"],
+                    "pathString" => $hashItem["path_string"],
+                    "modificationDate" => $modificationDate,
+                    "remoteId" => $hashItem["remote_id"]
                 )
             );
         }

@@ -65,7 +65,6 @@ class LegacyStorage extends Gateway
      */
     public function storeFieldData( VersionInfo $versionInfo, Field $field )
     {
-        // TODO: Implement storeFieldData() method.
     }
 
     /**
@@ -104,8 +103,7 @@ class LegacyStorage extends Gateway
                         $query->bindValue( $versionInfo->versionNo, null, PDO::PARAM_INT )
                     )
                 )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
     }
@@ -143,8 +141,7 @@ class LegacyStorage extends Gateway
                         $query->bindValue( $versionNo, null, PDO::PARAM_INT )
                     )
                 )
-            )
-        ;
+            );
 
         $statement = $query->prepare();
         $statement->execute();

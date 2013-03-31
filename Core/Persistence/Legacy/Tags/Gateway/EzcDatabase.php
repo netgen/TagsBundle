@@ -49,8 +49,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "id" ),
                     $query->bindValue( $tagId, null, PDO::PARAM_INT )
                 )
-            )
-        ;
+            );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -83,8 +82,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "remote_id" ),
                     $query->bindValue( $remoteId, null, PDO::PARAM_STR )
                 )
-            )
-        ;
+            );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -136,8 +134,7 @@ class EzcDatabase extends Gateway
             )->set(
                 $this->handler->quoteColumn( "remote_id" ),
                 $query->bindValue( $tag->remoteId = $createStruct->remoteId, null, PDO::PARAM_STR )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
 
@@ -155,8 +152,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "id" ),
                     $query->bindValue( $tag->id, null, PDO::PARAM_INT )
                 )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
 
@@ -185,8 +181,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "id" ),
                     $query->bindValue( $tagId, null, PDO::PARAM_INT )
                 )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
     }
@@ -218,8 +213,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "id" ),
                     $tagIds
                 )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
     }
@@ -241,15 +235,14 @@ class EzcDatabase extends Gateway
                 $query->expr->lOr(
                     $query->expr->like(
                         $this->handler->quoteColumn( "path_string" ),
-                        $query->bindValue( "%/" . (int) $tagId . "/%", null, PDO::PARAM_STR )
+                        $query->bindValue( "%/" . (int)$tagId . "/%", null, PDO::PARAM_STR )
                     ),
                     $query->expr->eq(
                         $this->handler->quoteColumn( "main_tag_id" ),
                         $query->bindValue( $tagId, null, PDO::PARAM_INT )
                     )
                 )
-            )
-        ;
+            );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -257,7 +250,7 @@ class EzcDatabase extends Gateway
         $tagIds = array();
         while ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
         {
-            $tagIds[] = (int) $row["id"];
+            $tagIds[] = (int)$row["id"];
         }
 
         if ( empty( $tagIds ) )
@@ -273,8 +266,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "keyword_id" ),
                     $tagIds
                 )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
 
@@ -286,8 +278,7 @@ class EzcDatabase extends Gateway
                     $this->handler->quoteColumn( "id" ),
                     $tagIds
                 )
-            )
-        ;
+            );
 
         $query->prepare()->execute();
     }

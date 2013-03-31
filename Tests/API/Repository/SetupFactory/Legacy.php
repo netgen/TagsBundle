@@ -111,7 +111,7 @@ class Legacy extends BaseLegacy
 
             /** START: eztags field type settings */
 
-            $serviceSettings["legacy_converter_registry"]["arguments"]["map"]["eztags"]= "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\Tags::create";
+            $serviceSettings["legacy_converter_registry"]["arguments"]["map"]["eztags"] = "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\Tags::create";
 
             $serviceSettings["eztags:field_storage_legacy_gateway"]["class"] = "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage\\Gateway\\LegacyStorage";
 
