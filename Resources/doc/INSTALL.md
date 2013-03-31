@@ -12,9 +12,9 @@ Installation steps
 
 ### Clone the repo
 
-This bundle is not yet available through Composer/Packagist, so you will have to install it manually for now.
+This bundle is not yet available through Composer/Packagist, so you will have to clone it manually for now.
 
-Checkout the repo into `src/EzSystems/TagsBundle` folder of your eZ Publish 5 installation.
+Clone the repo into `src/EzSystems/TagsBundle` folder of your eZ Publish 5 installation.
 
 ```bash
 mkdir src/EzSystems
@@ -27,12 +27,16 @@ git clone http://path.to.repo/... TagsBundle
 Activate the bundle in `ezpublish\EzPublishKernel.php` file.
 
 ```php
+use EzSystems\TagsBundle\EzSystemsTagsBundle;
+
+...
+
 public function registerBundles()
 {
    $bundles = array(
        new FrameworkBundle(),
        ...
-       new EzSystems\TagsBundle\EzSystemsTagsBundle()
+       new EzSystemsTagsBundle()
    );
 
    ...
@@ -41,7 +45,7 @@ public function registerBundles()
 
 ### Edit configuration
 
-Put the following in your `ezpublish/config.yml` file to be able to load `eztags` content field template.
+Put the following config in your `ezpublish/config.yml` file to be able to load `eztags` content field template.
 
 ```yml
 parameters:
