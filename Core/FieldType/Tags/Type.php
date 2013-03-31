@@ -212,4 +212,16 @@ class Type extends FieldType
     {
         return $this->fromHash( $fieldValue->externalData );
     }
+
+    /**
+     * Returns if the given $value is considered empty by the field type
+     *
+     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
+     *
+     * @return boolean
+     */
+    public function isEmptyValue( $value )
+    {
+        return $value === null || $value->tags == $this->getEmptyValue()->tags;
+    }
 }
