@@ -24,7 +24,6 @@ class Value extends BaseValue
     {
         if ( is_array( $tags ) )
         {
-            // @TODO: Use TagCollection instead of plain array
             $this->tags = $tags;
         }
     }
