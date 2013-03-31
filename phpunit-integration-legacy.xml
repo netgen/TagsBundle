@@ -1,24 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
          bootstrap="../../../vendor/ezsystems/ezpublish-kernel/bootstrap.php"
+         processIsolation="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          colors="false"
          >
+    <php>
+        <env name="setupFactory" value="eZ\Publish\API\Repository\Tests\SetupFactory\Legacy" />
+        <env name="backendVersion" value="5" />
+        <env name="fixtureDir" value="Legacy" />
+    </php>
     <testsuites>
-        <testsuite name="EzSystems\TagsBundle\Tests\Core">
-            <directory>Tests/Core</directory>
-        </testsuite>
-        <testsuite name="EzSystems\TagsBundle\Tests\SPI">
-            <directory>Tests/SPI</directory>
+        <testsuite name="EzSystems\TagsBundle\Tests\API">
+            <directory>Tests/API</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
             <directory>.</directory>
             <exclude>
-                <directory>API</directory>
+                <directory>Core</directory>
+                <directory>SPI</directory>
                 <directory>ApiLoader</directory>
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
