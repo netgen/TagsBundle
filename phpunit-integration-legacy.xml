@@ -9,7 +9,7 @@
          colors="false"
          >
     <php>
-        <env name="setupFactory" value="eZ\Publish\API\Repository\Tests\SetupFactory\Legacy" />
+        <env name="setupFactory" value="EzSystems\TagsBundle\Tests\API\Repository\SetupFactory\Legacy" />
         <env name="backendVersion" value="5" />
         <env name="fixtureDir" value="Legacy" />
     </php>
