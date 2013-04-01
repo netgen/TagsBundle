@@ -71,11 +71,11 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 )
+    public function loadTagChildren( Tag $tag, $offset = 0, $limit = 0 )
     {
         return $this->service->loadTagChildren( $tag, $offset, $limit );
     }

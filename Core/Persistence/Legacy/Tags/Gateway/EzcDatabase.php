@@ -96,6 +96,38 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Returns data for the first level children of the tag identified by given $tagId
+     *
+     * @param mixed $tagId
+     * @param integer $offset The start offset for paging
+     * @param integer $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getChildren( $tagId, $offset = 0, $limit = 0 )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+        ->where(
+            $query->expr->lAnd(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "parent_id", "eztags" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                ),
+                $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+            )
+        )
+        ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
+    }
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct

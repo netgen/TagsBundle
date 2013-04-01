@@ -102,6 +102,66 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadChildren
+     */
+    public function testLoadChildren()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getChildren" )
+            ->with( 42 )
+            ->will(
+                $this->returnValue(
+                    array(
+                        array(
+                            "id" => 43,
+                        ),
+                        array(
+                            "id" => 44,
+                        ),
+                        array(
+                            "id" => 45,
+                        )
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "createTagsFromRows" )
+            ->with(
+                array(
+                    array( "id" => 43 ),
+                    array( "id" => 44 ),
+                    array( "id" => 45 )
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    array(
+                        new Tag( array( "id" => 43 ) ),
+                        new Tag( array( "id" => 44 ) ),
+                        new Tag( array( "id" => 45 ) )
+                    )
+                )
+            );
+
+        $tags = $handler->loadChildren( 42 );
+
+        $this->assertCount( 3, $tags );
+
+        foreach ( $tags as $tag )
+        {
+            $this->assertInstanceOf(
+                "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                $tag
+            );
+        }
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
      */
     public function testCreate()

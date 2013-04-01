@@ -79,6 +79,33 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns data for the first level children of the tag identified by given $tagId
+     *
+     * @throws \RuntimeException
+     *
+     * @param mixed $tagId
+     * @param integer $offset The start offset for paging
+     * @param integer $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getChildren( $tagId, $offset = 0, $limit = 0 )
+    {
+        try
+        {
+            return $this->innerGateway->getChildren( $tagId, $offset, $limit );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @throws \RuntimeException

@@ -78,12 +78,21 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 )
+    public function loadTagChildren( Tag $tag, $offset = 0, $limit = 0 )
     {
+        $spiTags = $this->tagsHandler->loadChildren( $tag->id, $offset, $limit );
+
+        $tags = array();
+        foreach ( $spiTags as $spiTag )
+        {
+            $tags[] = $this->buildTagDomainObject( $spiTag );
+        }
+
+        return $tags;
     }
 
     /**
@@ -378,11 +387,11 @@ class TagsService implements TagsServiceInterface
 
         return new Tag(
             array(
-                "id" => $spiTag->id,
-                "parentTagId" => $spiTag->parentTagId,
-                "mainTagId" => $spiTag->mainTagId,
+                "id" => (int)$spiTag->id,
+                "parentTagId" => (int)$spiTag->parentTagId,
+                "mainTagId" => (int)$spiTag->mainTagId,
                 "keyword" => $spiTag->keyword,
-                "depth" => $spiTag->depth,
+                "depth" => (int)$spiTag->depth,
                 "pathString" => $spiTag->pathString,
                 "modificationDate" => $modificationDate,
                 "remoteId" => $spiTag->remoteId

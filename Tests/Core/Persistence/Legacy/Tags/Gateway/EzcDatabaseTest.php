@@ -144,6 +144,24 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildren
+     */
+    public function testGetChildren()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getChildren( 16 );
+
+        $this->assertCount( 6, $data );
+        $this->assertEquals( 15, $data[0]["id"] );
+        $this->assertEquals( 18, $data[1]["id"] );
+        $this->assertEquals( 19, $data[2]["id"] );
+        $this->assertEquals( 20, $data[3]["id"] );
+        $this->assertEquals( 71, $data[4]["id"] );
+        $this->assertEquals( 72, $data[5]["id"] );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
      */
     public function testCreate()

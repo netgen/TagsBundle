@@ -26,6 +26,17 @@ abstract class Gateway
     abstract public function getBasicTagDataByRemoteId( $remoteId );
 
     /**
+     * Returns data for the first level children of the tag identified by given $tagId
+     *
+     * @param mixed $tagId
+     * @param integer $offset The start offset for paging
+     * @param integer $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     *
+     * @return array
+     */
+    abstract public function getChildren( $tagId, $offset = 0, $limit = 0 );
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct

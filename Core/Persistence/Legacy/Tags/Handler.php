@@ -69,12 +69,14 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadChildren( $tagId, $offset = 0, $limit = -1 )
+    public function loadChildren( $tagId, $offset = 0, $limit = 0 )
     {
+        $tags = $this->gateway->getChildren( $tagId, $offset, $limit );
+        return $this->mapper->createTagsFromRows( $tags );
     }
 
     /**
