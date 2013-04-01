@@ -11,6 +11,7 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
@@ -126,6 +127,36 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
+     * Loads content related to $tag
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of content objects returned. If $limit = 0 all content objects starting at $offset are returned
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
+     */
+    public function getRelatedContent( Tag $tag, $offset = 0, $limit = 0 )
+    {
+        return $this->service->getRelatedContent( $tag, $offset, $limit );
+    }
+
+    /**
+     * Returns the number of content objects related to $tag
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return int
+     */
+    public function getRelatedContentCount( Tag $tag )
+    {
+        return $this->service->getRelatedContentCount( $tag );
+    }
+
+    /**
      * Creates the new tag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
@@ -222,7 +253,17 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym( Tag $tag, Tag $mainTag )
     {
-        return $this->service->convertToSynonym( $tag, $mainTag );
+        $returnValue = $this->service->convertToSynonym( $tag, $mainTag );
+        $this->signalDispatcher->emit(
+            new ConvertToSynonymSignal(
+                array(
+                    "tagId" => $returnValue->id,
+                    "mainTagId" => $returnValue->mainTagId
+                )
+            )
+        );
+
+        return $returnValue;
     }
 
     /**
