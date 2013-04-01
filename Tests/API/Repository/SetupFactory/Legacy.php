@@ -32,7 +32,7 @@ class Legacy extends BaseLegacy
 
         if ( self::$db === "pgsql" )
         {
-            $setvalPath = __DIR__ . "/../../../Core/Persistence/Legacy/_fixtures/setval.pgsql.sql";
+            $setvalPath = __DIR__ . "/../../../_fixtures/schema/setval.pgsql.sql";
             return array_merge( $statements, array_filter( preg_split( "(;\\s*$)m", file_get_contents( $setvalPath ) ) ) );
         }
 
@@ -50,7 +50,7 @@ class Legacy extends BaseLegacy
 
         if ( !isset( self::$tagsInitialData ) )
         {
-            self::$tagsInitialData = include __DIR__ . "/../../../Core/Repository/Service/Integration/Legacy/_fixtures/clean_eztags_tables.php";
+            self::$tagsInitialData = include __DIR__ . "/../../../_fixtures/tags_tree.php";
             self::$initialData = array_merge( self::$initialData, self::$tagsInitialData );
         }
 
@@ -66,7 +66,7 @@ class Legacy extends BaseLegacy
     {
         $originalSchemaStatements = parent::getSchemaStatements();
 
-        $tagsSchemaPath = __DIR__ . "/../../../Core/Persistence/Legacy/_fixtures/schema." . self::$db . ".sql";
+        $tagsSchemaPath = __DIR__ . "/../../../_fixtures/schema/schema." . self::$db . ".sql";
 
         return array_merge( $originalSchemaStatements, array_filter( preg_split( "(;\\s*$)m", file_get_contents( $tagsSchemaPath ) ) ) );
     }

@@ -21,7 +21,7 @@ class EzcDatabaseTest extends TestCase
 
         $handler = $this->getDatabaseHandler();
 
-        $schema = __DIR__ . "/../../../Legacy/_fixtures/schema." . $this->db . ".sql";
+        $schema = __DIR__ . "/../../../../../_fixtures/schema/schema." . $this->db . ".sql";
 
         $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( $schema ) ) );
         foreach ( $queries as $query )
@@ -43,7 +43,7 @@ class EzcDatabaseTest extends TestCase
                 // Update PostgreSQL sequences
                 $handler = $this->getDatabaseHandler();
 
-                $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( __DIR__ . "/../../../Legacy/_fixtures/setval.pgsql.sql" ) ) );
+                $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( __DIR__ . "/../../../../../schema/_fixtures/setval.pgsql.sql" ) ) );
                 foreach ( $queries as $query )
                 {
                     $handler->exec( $query );
@@ -90,7 +90,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testGetBasicTagData( $field, $value )
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $data = $handler->getBasicTagData( 40 );
 
@@ -107,7 +107,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testGetBasicTagDataThrowsNotFoundException()
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->getBasicTagData( 999 );
     }
@@ -121,7 +121,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testGetBasicTagDataByRemoteId( $field, $value )
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $data = $handler->getBasicTagDataByRemoteId( "182be0c5cdcd5072bb1864cdee4d3d6e" );
 
@@ -138,7 +138,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testGetBasicTagDataByRemoteIdThrowsNotFoundException()
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->getBasicTagDataByRemoteId( "unknown" );
     }
@@ -148,7 +148,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testCreate()
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->create(
             new CreateStruct(
@@ -183,7 +183,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testUpdate()
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->update(
             new UpdateStruct(
@@ -212,7 +212,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testUpdateSubtreeModificationTime()
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->updateSubtreeModificationTime( "/8/7/40/", 123 );
 
@@ -235,7 +235,7 @@ class EzcDatabaseTest extends TestCase
      */
     public function testDeleteTag()
     {
-        $this->insertDatabaseFixture( __DIR__ . "/_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->deleteTag( 7 );
 

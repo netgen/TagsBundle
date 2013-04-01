@@ -48,7 +48,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
             $handler = $this->getDatabaseHandler();
 
-            $schema = __DIR__ . "/../../Core/Persistence/Legacy/_fixtures/schema." . $this->db . ".sql";
+            $schema = __DIR__ . "/../../_fixtures/schema/schema." . $this->db . ".sql";
 
             $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( $schema ) ) );
             foreach ( $queries as $query )
@@ -56,7 +56,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 $handler->exec( $query );
             }
 
-            $this->insertDatabaseFixture( __DIR__ . "/../../Core/Repository/Service/Integration/Legacy/_fixtures/clean_eztags_tables.php" );
+            $this->insertDatabaseFixture( __DIR__ . "/../../_fixtures/tags_tree.php" );
         }
     }
 
@@ -73,7 +73,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 // Update PostgreSQL sequences
                 $handler = $this->getDatabaseHandler();
 
-                $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( __DIR__ . "/../../Core/Persistence/Legacy/_fixtures/setval.pgsql.sql" ) ) );
+                $queries = array_filter( preg_split( "(;\\s*$)m", file_get_contents( __DIR__ . "/../../_fixtures/schema/setval.pgsql.sql" ) ) );
                 foreach ( $queries as $query )
                 {
                     $handler->exec( $query );
