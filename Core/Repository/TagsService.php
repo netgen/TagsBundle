@@ -298,7 +298,6 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym( Tag $tag, Tag $mainTag )
     {
-
     }
 
     /**
@@ -344,7 +343,7 @@ class TagsService implements TagsServiceInterface
 
         if ( $spiParentTag->mainTagId > 0 )
         {
-            throw new InvalidArgumentException( "newParentTag", "Destination tag is a synonym" );
+            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a synonym" );
         }
 
         if ( $tag->parentTagId == $targetParentTag->id )
@@ -400,7 +399,7 @@ class TagsService implements TagsServiceInterface
 
         if ( $spiParentTag->mainTagId > 0 )
         {
-            throw new InvalidArgumentException( "newParentTag", "Destination tag is a synonym" );
+            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a synonym" );
         }
 
         if ( $tag->parentTagId == $targetParentTag->id )
