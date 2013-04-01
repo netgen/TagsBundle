@@ -132,9 +132,6 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInputForToHash()
     {
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         return array(
             array(
                 new TagsValue(),
@@ -168,9 +165,6 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInputForFromHash()
     {
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         return array(
             array(
                 null,
