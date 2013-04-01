@@ -177,6 +177,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Converts $tag to a synonym of $mainTag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException Tf the tag is already a synonym
      *
@@ -193,6 +194,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Merges the $tag into the $targetTag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to merge tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *
@@ -207,6 +209,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Swaps the locations of $tag1 and $tag2
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to swap tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *
@@ -223,6 +226,7 @@ class TagsService implements TagsServiceInterface
      *
      * Only the items on which the user has read access are copied
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed copy the subtree to the given parent tag
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
@@ -244,6 +248,7 @@ class TagsService implements TagsServiceInterface
      * If a user has the permission to move the tag to a target tag
      * he can do it regardless of an existing descendant on which the user has no permission
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag to the target
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
