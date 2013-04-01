@@ -10,6 +10,7 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
 
 class TagsService implements TagsServiceInterface
@@ -158,7 +159,18 @@ class TagsService implements TagsServiceInterface
      */
     public function addSynonym( Tag $tag, $keyword )
     {
-        return $this->service->addSynonym( $tag, $keyword );
+        $returnValue = $this->service->addSynonym( $tag, $keyword );
+        $this->signalDispatcher->emit(
+            new AddSynonymSignal(
+                array(
+                    "tagId" => $returnValue->id,
+                    "mainTagId" => $returnValue->mainTagId,
+                    "keyword" => $returnValue->keyword
+                )
+            )
+        );
+
+        return $returnValue;
     }
 
     /**
