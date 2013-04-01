@@ -193,6 +193,11 @@ class Handler implements BaseTagsHandler
         $tagData = $this->gateway->getBasicTagData( $tagId );
         $mainTagData = $this->gateway->getBasicTagData( $mainTagId );
 
+        foreach ( $this->gateway->getSynonyms( $tagId ) as $synonym )
+        {
+            $this->gateway->moveSynonym( $synonym["id"], $mainTagData );
+        }
+
         $this->gateway->convertToSynonym( $tagData["id"], $mainTagData );
 
         $convertedTag = $this->load( $tagId );

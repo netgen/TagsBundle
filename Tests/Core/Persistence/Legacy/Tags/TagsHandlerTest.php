@@ -545,12 +545,18 @@ class TagsHandlerTest extends TestCase
             ->will( $this->returnValue( $mainTagData ) );
 
         $this->gateway
+            ->expects( $this->at( 2 ) )
+            ->method( "getSynonyms" )
+            ->with( 42 )
+            ->will( $this->returnValue( array() ) );
+
+        $this->gateway
             ->expects( $this->once() )
             ->method( "convertToSynonym" )
             ->with( 42, $mainTagData );
 
         $this->gateway
-            ->expects( $this->at( 3 ) )
+            ->expects( $this->at( 4 ) )
             ->method( "getBasicTagData" )
             ->with( 42 )
             ->will( $this->returnValue( $tagData ) );

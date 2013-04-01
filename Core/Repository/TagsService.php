@@ -373,8 +373,6 @@ class TagsService implements TagsServiceInterface
                 $this->tagsHandler->moveSubtree( $child->id, $spiMainTag->id );
             }
 
-            // TODO: Relocate synonyms
-
             $convertedTag = $this->tagsHandler->convertToSynonym( $spiTag->id, $spiMainTag->id );
             $this->repository->commit();
         }

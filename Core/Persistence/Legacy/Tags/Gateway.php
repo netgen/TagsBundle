@@ -66,6 +66,14 @@ abstract class Gateway
     abstract public function getSynonymCount( $tagId );
 
     /**
+     * Moves the synonym identified by $synonymId to tag identified by $mainTagData
+     *
+     * @param mixed $synonymId
+     * @param array $mainTagData
+     */
+    abstract public function moveSynonym( $synonymId, $mainTagData );
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct

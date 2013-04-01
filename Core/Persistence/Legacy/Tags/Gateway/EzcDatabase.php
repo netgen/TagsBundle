@@ -220,6 +220,39 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Moves the synonym identified by $synonymId to tag identified by $mainTagData
+     *
+     * @param mixed $synonymId
+     * @param array $mainTagData
+     */
+    public function moveSynonym( $synonymId, $mainTagData )
+    {
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "parent_id" ),
+                $query->bindValue( $mainTagData["parent_id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "main_tag_id" ),
+                $query->bindValue( $mainTagData["id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "depth" ),
+                $query->bindValue( $mainTagData["depth"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "path_string" ),
+                $query->bindValue( $this->getSynonymPathString( $synonymId, $mainTagData["path_string"] ), null, PDO::PARAM_STR )
+            )->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "id" ),
+                    $query->bindValue( $synonymId, null, PDO::PARAM_INT )
+                )
+            );
+
+        $query->prepare()->execute();
+    }
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
@@ -354,11 +387,7 @@ class EzcDatabase extends Gateway
         $query->prepare()->execute();
 
         $synonym->id = $this->handler->lastInsertId( $this->handler->getSequenceName( "eztags", "id" ) );
-
-        $pathStringElements = explode( "/", trim( $tag["path_string"], "/" ) );
-        array_pop( $pathStringElements );
-
-        $synonym->pathString = ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . (int)$synonym->id . "/";
+        $synonym->pathString = $this->getSynonymPathString( $synonym->id, $tag["path_string"] );
 
         $query = $this->handler->createUpdateQuery();
         $query
@@ -386,9 +415,6 @@ class EzcDatabase extends Gateway
      */
     public function convertToSynonym( $tagId, $mainTagData )
     {
-        $mainTagPathString = explode( "/", trim( $mainTagData["path_string"], "/" ) );
-        array_pop( $mainTagPathString );
-
         $query = $this->handler->createUpdateQuery();
         $query
             ->update( $this->handler->quoteTable( "eztags" ) )
@@ -403,7 +429,7 @@ class EzcDatabase extends Gateway
                 $query->bindValue( $mainTagData["depth"], null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "path_string" ),
-                $query->bindValue( "/" . implode( "/", $mainTagPathString ) . "/" . (int)$tagId . "/", null, PDO::PARAM_STR )
+                $query->bindValue( $this->getSynonymPathString( $tagId, $mainTagData["path_string"] ), null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "modified" ),
                 $query->bindValue( time(), null, PDO::PARAM_INT )
@@ -588,5 +614,21 @@ class EzcDatabase extends Gateway
             );
 
         $query->prepare()->execute();
+    }
+
+    /**
+     * Returns the path string of a synonym for main tag path string
+     *
+     * @param mixed $synonymId
+     * @param string $mainTagPathString
+     *
+     * @return string
+     */
+    protected function getSynonymPathString( $synonymId, $mainTagPathString )
+    {
+        $pathStringElements = explode( "/", trim( $mainTagPathString, "/" ) );
+        array_pop( $pathStringElements );
+
+        return ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . (int)$synonymId . "/";
     }
 }
