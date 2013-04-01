@@ -238,6 +238,36 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::createSynonym
+     */
+    public function testCreateSynonym()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $handler->createSynonym(
+            "New synonym",
+            array(
+                "id" => 40,
+                "parent_id" => 7,
+                "depth" => 3,
+                "path_string" => "/8/7/40/"
+            )
+        );
+
+        $query = $this->handler->createSelectQuery();
+        $this->assertQueryResult(
+            array(
+                array( 95, 7, 40, "New synonym", 3, "/8/7/95/" )
+            ),
+            // 95 is the next inserted ID
+            $query
+                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string" )
+                ->from( "eztags" )
+                ->where( $query->expr->eq( "id", 95 ) )
+        );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
      */
     public function testUpdateSubtreeModificationTime()

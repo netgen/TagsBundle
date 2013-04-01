@@ -252,6 +252,74 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Creates a new synonym using the given $keyword for tag $tag
+     *
+     * @param string $keyword
+     * @param array $tag
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function createSynonym( $keyword, array $tag )
+    {
+        $synonym = new Tag();
+
+        $query = $this->handler->createInsertQuery();
+        $query
+            ->insertInto( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "id" ),
+                $this->handler->getAutoIncrementValue( "eztags", "id" )
+            )->set(
+                $this->handler->quoteColumn( "parent_id" ),
+                $query->bindValue( $synonym->parentTagId = $tag["parent_id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "main_tag_id" ),
+                $query->bindValue( $synonym->mainTagId = $tag["id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "keyword" ),
+                $query->bindValue( $synonym->keyword = $keyword, null, PDO::PARAM_STR )
+            )->set(
+                $this->handler->quoteColumn( "depth" ),
+                $query->bindValue( $synonym->depth = $tag["depth"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "path_string" ),
+                $query->bindValue( "dummy" ) // Set later
+            )->set(
+                $this->handler->quoteColumn( "modified" ),
+                $query->bindValue( $synonym->modificationDate = time(), null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "remote_id" ),
+                $query->bindValue( $synonym->remoteId = md5( uniqid( get_class( $this ), true ) ), null, PDO::PARAM_STR )
+            );
+
+        $query->prepare()->execute();
+
+        $synonym->id = $this->handler->lastInsertId( $this->handler->getSequenceName( "eztags", "id" ) );
+
+        $pathStringElements = explode( "/", trim( $tag["path_string"], "/" ) );
+        array_pop( $pathStringElements );
+
+        $synonym->pathString = ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . $synonym->id . "/";
+
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "path_string" ),
+                $query->bindValue( $synonym->pathString, null, PDO::PARAM_STR )
+            )->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "id" ),
+                    $query->bindValue( $synonym->id, null, PDO::PARAM_INT )
+                )
+            );
+
+        $query->prepare()->execute();
+
+        return $synonym;
+    }
+
+    /**
      * Updated subtree modification time for all tags in path
      *
      * @param string $pathString

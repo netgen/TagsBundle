@@ -250,6 +250,31 @@ class TagsService implements TagsServiceInterface
      */
     public function addSynonym( Tag $tag, $keyword )
     {
+        if ( !is_numeric( $tag->id ) )
+        {
+            throw new InvalidArgumentValue( "id", $tag->id, "Tag" );
+        }
+
+        if ( empty( $keyword ) || !is_string( $keyword ) )
+        {
+            throw new InvalidArgumentValue( "keyword", $keyword );
+        }
+
+        $spiTag = $this->tagsHandler->load( $tag->id );
+
+        $this->repository->beginTransaction();
+        try
+        {
+            $createdSynonym = $this->tagsHandler->addSynonym( $spiTag->id, $keyword );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
+
+        return $this->buildTagDomainObject( $createdSynonym );
     }
 
     /**

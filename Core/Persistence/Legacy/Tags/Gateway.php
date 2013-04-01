@@ -64,6 +64,16 @@ abstract class Gateway
     abstract public function update( UpdateStruct $updateStruct, $tagId );
 
     /**
+     * Creates a new synonym using the given $keyword for tag $tag
+     *
+     * @param string $keyword
+     * @param array $tag
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    abstract public function createSynonym( $keyword, array $tag );
+
+    /**
      * Updated subtree modification time for all tags in path
      *
      * @throws \RuntimeException

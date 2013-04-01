@@ -340,6 +340,99 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::addSynonym
+     */
+    public function testAddSynonym()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getBasicTagData" )
+            ->with( 21 )
+            ->will(
+                $this->returnValue(
+                    array(
+                        "id" => 21,
+                        "parent_id" => 1,
+                        "depth" => 2,
+                        "path_string" => "/1/21/",
+                    )
+                )
+            );
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "createSynonym" )
+            ->with(
+                "New synonym",
+                array(
+                    "id" => 21,
+                    "parent_id" => 1,
+                    "depth" => 2,
+                    "path_string" => "/1/21/",
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    new Tag(
+                        array(
+                            "id" => 95,
+                            "parentTagId" => 1,
+                            "mainTagId" => 21,
+                            "keyword" => "New synonym",
+                            "depth" => 2,
+                            "pathString" => "/1/95/"
+                        )
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->any() )
+            ->method( "createTagFromRow" )
+            ->with(
+                array(
+                    "id" => 21,
+                    "parent_id" => 1,
+                    "depth" => 2,
+                    "path_string" => "/1/21/",
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    new Tag(
+                        array(
+                            "id" => 21,
+                            "parentTagId" => 1,
+                            "depth" => 2,
+                            "pathString" => "/1/21/"
+                        )
+                    )
+                )
+            );
+
+        $tag = $handler->addSynonym( 21, "New synonym" );
+
+        $this->assertInstanceOf(
+            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $tag
+        );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 95,
+                "parentTagId" => 1,
+                "mainTagId" => 21,
+                "keyword" => "New synonym",
+                "depth" => 2,
+                "pathString" => "/1/95/"
+            ),
+            $tag
+        );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::deleteTag
      */
     public function testDeleteTag()

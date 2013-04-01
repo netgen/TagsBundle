@@ -181,6 +181,32 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Creates a new synonym using the given $keyword for tag $tag
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $keyword
+     * @param array $tag
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function createSynonym( $keyword, array $tag )
+    {
+        try
+        {
+            return $this->innerGateway->createSynonym( $keyword, $tag );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Updated subtree modification time for all tags in path
      *
      * @throws \RuntimeException

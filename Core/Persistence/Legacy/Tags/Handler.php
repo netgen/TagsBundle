@@ -139,6 +139,13 @@ class Handler implements BaseTagsHandler
      */
     public function addSynonym( $tagId, $keyword )
     {
+        $tagData = $this->gateway->getBasicTagData( $tagId );
+        $newSynonym = $this->gateway->createSynonym( $keyword, $tagData );
+
+        $tag = $this->mapper->createTagFromRow( $tagData );
+        $this->updateSubtreeModificationTime( $tag, $newSynonym->modificationDate );
+
+        return $newSynonym;
     }
 
     /**
