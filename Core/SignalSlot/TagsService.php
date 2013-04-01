@@ -150,6 +150,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Creates a synonym for $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
