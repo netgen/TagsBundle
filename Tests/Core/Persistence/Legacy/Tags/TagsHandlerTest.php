@@ -169,6 +169,16 @@ class TagsHandlerTest extends TestCase
             "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 95,
+                "parentTagId" => 21,
+                "keyword" => "New tag",
+                "remoteId" => "123456abcdef"
+            ),
+            $tag
+        );
     }
 
     /**
