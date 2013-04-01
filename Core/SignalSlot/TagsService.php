@@ -223,7 +223,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Copies the subtree starting from $subtree as a new subtree of $targetParentTag
+     * Copies the subtree starting from $tag as a new subtree of $targetParentTag
      *
      * Only the items on which the user has read access are copied
      *
@@ -233,14 +233,14 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If either one of the tags is a synonym
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $subtree The subtree denoted by the tag to copy
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag The target parent tag for the copy operation
      *
      * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree( Tag $subtree, Tag $targetParentTag )
+    public function copySubtree( Tag $tag, Tag $targetParentTag )
     {
-        return $this->service->copySubtree( $subtree, $targetParentTag );
+        return $this->service->copySubtree( $tag, $targetParentTag );
     }
 
     /**
