@@ -268,6 +268,35 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::convertToSynonym
+     */
+    public function testConvertToSynonym()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $handler->convertToSynonym(
+            80,
+            array(
+                "id" => 40,
+                "parent_id" => 7,
+                "depth" => 3,
+                "path_string" => "/8/7/40/"
+            )
+        );
+
+        $query = $this->handler->createSelectQuery();
+        $this->assertQueryResult(
+            array(
+                array( 80, 7, 40, "fetch", 3, "/8/7/80/" )
+            ),
+            $query
+                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string" )
+                ->from( "eztags" )
+                ->where( $query->expr->eq( "id", 80 ) )
+        );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSubtree
      */
     public function testMoveSubtree()

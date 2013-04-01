@@ -299,7 +299,7 @@ class EzcDatabase extends Gateway
         $pathStringElements = explode( "/", trim( $tag["path_string"], "/" ) );
         array_pop( $pathStringElements );
 
-        $synonym->pathString = ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . $synonym->id . "/";
+        $synonym->pathString = ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . (int)$synonym->id . "/";
 
         $query = $this->handler->createUpdateQuery();
         $query
@@ -320,31 +320,38 @@ class EzcDatabase extends Gateway
     }
 
     /**
-     * Updated subtree modification time for all tags in path
+     * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData
      *
-     * @param string $pathString
-     * @param int $timestamp
+     * @param int $tagId
+     * @param array $mainTagData
      */
-    public function updateSubtreeModificationTime( $pathString, $timestamp = null )
+    public function convertToSynonym( $tagId, $mainTagData )
     {
-        $tagIds = array_filter( explode( "/", $pathString ) );
-
-        if ( empty( $tagIds ) )
-        {
-            return;
-        }
+        $mainTagPathString = explode( "/", trim( $mainTagData["path_string"], "/" ) );
+        array_pop( $mainTagPathString );
 
         $query = $this->handler->createUpdateQuery();
         $query
             ->update( $this->handler->quoteTable( "eztags" ) )
             ->set(
+                $this->handler->quoteColumn( "parent_id" ),
+                $query->bindValue( $mainTagData["parent_id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "main_tag_id" ),
+                $query->bindValue( $mainTagData["id"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "depth" ),
+                $query->bindValue( $mainTagData["depth"], null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "path_string" ),
+                $query->bindValue( "/" . implode( "/", $mainTagPathString ) . "/" . (int)$tagId . "/", null, PDO::PARAM_STR )
+            )->set(
                 $this->handler->quoteColumn( "modified" ),
-                $query->bindValue( $timestamp ?: time(), null, PDO::PARAM_INT )
-            )
-            ->where(
-                $query->expr->in(
+                $query->bindValue( time(), null, PDO::PARAM_INT )
+            )->where(
+                $query->expr->eq(
                     $this->handler->quoteColumn( "id" ),
-                    $tagIds
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
                 )
             );
 
@@ -482,6 +489,38 @@ class EzcDatabase extends Gateway
         $query = $this->handler->createDeleteQuery();
         $query
             ->deleteFrom( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( "id" ),
+                    $tagIds
+                )
+            );
+
+        $query->prepare()->execute();
+    }
+
+    /**
+     * Updated subtree modification time for all tags in path
+     *
+     * @param string $pathString
+     * @param int $timestamp
+     */
+    public function updateSubtreeModificationTime( $pathString, $timestamp = null )
+    {
+        $tagIds = array_filter( explode( "/", $pathString ) );
+
+        if ( empty( $tagIds ) )
+        {
+            return;
+        }
+
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags" ) )
+            ->set(
+                $this->handler->quoteColumn( "modified" ),
+                $query->bindValue( $timestamp ?: time(), null, PDO::PARAM_INT )
+            )
             ->where(
                 $query->expr->in(
                     $this->handler->quoteColumn( "id" ),

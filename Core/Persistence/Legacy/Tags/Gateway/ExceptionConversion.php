@@ -207,6 +207,30 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData
+     *
+     * @throws \RuntimeException
+     *
+     * @param int $tagId
+     * @param array $mainTagData
+     */
+    public function convertToSynonym( $tagId, $mainTagData )
+    {
+        try
+        {
+            return $this->innerGateway->convertToSynonym( $tagId, $mainTagData );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
      * @throws \RuntimeException

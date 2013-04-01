@@ -74,6 +74,14 @@ abstract class Gateway
     abstract public function createSynonym( $keyword, array $tag );
 
     /**
+     * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData
+     *
+     * @param int $tagId
+     * @param array $mainTagData
+     */
+    abstract public function convertToSynonym( $tagId, $mainTagData );
+
+    /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
      * @param array $sourceTagData

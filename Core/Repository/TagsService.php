@@ -299,6 +299,44 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym( Tag $tag, Tag $mainTag )
     {
+        $spiTag = $this->tagsHandler->load( $tag->id );
+        $spiMainTag = $this->tagsHandler->load( $mainTag->id );
+
+        if ( $spiTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        }
+
+        if ( $spiMainTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "mainTag", "Destination tag is a synonym" );
+        }
+
+        if ( strpos( $spiMainTag->pathString, $spiTag->pathString ) === 0 )
+        {
+            throw new InvalidArgumentException( "mainTag", "Destination tag is a sub tag of the given tag" );
+        }
+
+        $this->repository->beginTransaction();
+        try
+        {
+            foreach ( $this->tagsHandler->loadChildren( $spiTag->id ) as $child )
+            {
+                $this->tagsHandler->moveSubtree( $child->id, $spiMainTag->id );
+            }
+
+            // TODO: Relocate synonyms
+
+            $convertedTag = $this->tagsHandler->convertToSynonym( $spiTag->id, $spiMainTag->id );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
+
+        return $this->buildTagDomainObject( $convertedTag );
     }
 
     /**

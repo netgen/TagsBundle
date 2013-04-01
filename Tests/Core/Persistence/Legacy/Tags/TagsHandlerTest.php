@@ -433,6 +433,14 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::convertToSynonym
+     */
+    public function testConvertToSynonym()
+    {
+        $this->markTestIncomplete( "@TODO: Test convertToSynonym method" );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::copySubtree
      */
     public function testCopySubtree()

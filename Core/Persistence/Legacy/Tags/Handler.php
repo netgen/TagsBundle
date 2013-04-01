@@ -160,6 +160,22 @@ class Handler implements BaseTagsHandler
      */
     public function convertToSynonym( $tagId, $mainTagId )
     {
+        $tagData = $this->gateway->getBasicTagData( $tagId );
+        $mainTagData = $this->gateway->getBasicTagData( $mainTagId );
+
+        $this->gateway->convertToSynonym( $tagData["id"], $mainTagData );
+        $convertedTag = $this->load( $tagId );
+
+        if ( $tagData["parent_id"] > 0 )
+        {
+            $originalParent = $this->load( $tagData["parent_id"] );
+            $this->updateSubtreeModificationTime( $originalParent, $convertedTag->modificationDate );
+        }
+
+        $mainTag = $this->load( $mainTagData["id"] );
+        $this->updateSubtreeModificationTime( $mainTag, $convertedTag->modificationDate );
+
+        return $this->load( $tagId );
     }
 
     /**
@@ -191,7 +207,15 @@ class Handler implements BaseTagsHandler
         $sourceData = $this->gateway->getBasicTagData( $sourceId );
         $destinationParentData = $this->gateway->getBasicTagData( $destinationParentId );
 
-        return $this->recursiveCopySubtree( $sourceData, $destinationParentData );
+        $copiedTag = $this->recursiveCopySubtree( $sourceData, $destinationParentData );
+
+        if ( $sourceData["parent_id"] > 0 )
+        {
+            $originalParent = $this->load( $sourceData["parent_id"] );
+            $this->updateSubtreeModificationTime( $originalParent, $copiedTag->modificationDate );
+        }
+
+        $this->updateSubtreeModificationTime( $copiedTag, $copiedTag->modificationDate );
     }
 
     /**
