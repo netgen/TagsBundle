@@ -65,6 +65,29 @@ class LegacyStorage extends Gateway
      */
     public function storeFieldData( VersionInfo $versionInfo, Field $field )
     {
+        $connection = $this->getConnection();
+
+        foreach ( $field->value->externalData as $tag )
+        {
+            $insertQuery = $connection->createInsertQuery();
+            $insertQuery
+                ->insertInto( $connection->quoteTable( "eztags_attribute_link" ) )
+                ->set(
+                    $connection->quoteColumn( "keyword_id" ),
+                    $insertQuery->bindValue( $tag["id"], null, PDO::PARAM_INT )
+                )->set(
+                    $connection->quoteColumn( "objectattribute_id" ),
+                    $insertQuery->bindValue( $field->id, null, PDO::PARAM_INT )
+                )->set(
+                    $connection->quoteColumn( "objectattribute_version" ),
+                    $insertQuery->bindValue( $versionInfo->versionNo, null, PDO::PARAM_INT )
+                )->set(
+                    $connection->quoteColumn( "object_id" ),
+                    $insertQuery->bindValue( $versionInfo->contentInfo->id, null, PDO::PARAM_INT )
+                );
+
+            $insertQuery->prepare()->execute();
+        }
     }
 
     /**
@@ -122,7 +145,7 @@ class LegacyStorage extends Gateway
 
         $query = $connection->createSelectQuery();
         $query
-            ->selectDistinct( "*" )
+            ->selectDistinct( "eztags.*" )
             ->from( $connection->quoteTable( "eztags" ) )
             ->innerJoin(
                 $connection->quoteTable( "eztags_attribute_link" ),

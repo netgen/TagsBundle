@@ -22,6 +22,11 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function storeFieldData( VersionInfo $versionInfo, Field $field, array $context )
     {
+        if ( empty( $field->value->externalData ) )
+        {
+            return;
+        }
+
         /** @var \EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
         $gateway = $this->getGateway( $context );
         $gateway->storeFieldData( $versionInfo, $field );
