@@ -175,18 +175,6 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Swaps the locations of tags identified by $tagId1 and $tagId2
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId1 or $tagId2 are invalid
-     *
-     * @param mixed $tagId1
-     * @param mixed $tagId2
-     */
-    public function swap( $tagId1, $tagId2 )
-    {
-    }
-
-    /**
      * Copies tag object identified by $sourceId into destination identified by $destinationParentId
      *
      * Also performs a copy of all child locations of $sourceId tag

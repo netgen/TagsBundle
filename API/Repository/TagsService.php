@@ -118,18 +118,6 @@ interface TagsService
     public function mergeTags( Tag $tag, Tag $targetTag );
 
     /**
-     * Swaps the locations of $tag1 and $tag2
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to swap tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
-     *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag1
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag2
-     */
-    public function swapTag( Tag $tag1, Tag $tag2 );
-
-    /**
      * Copies the subtree starting from $tag as a new subtree of $targetParentTag
      *
      * Only the items on which the user has read access are copied
