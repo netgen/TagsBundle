@@ -24,13 +24,13 @@ class Mapper
     {
         $tag = $tag ?: new Tag();
 
-        $tag->id = $data[$prefix . "id"];
-        $tag->parentTagId = $data[$prefix . "parent_id"];
-        $tag->mainTagId = $data[$prefix . "main_tag_id"];
+        $tag->id = (int)$data[$prefix . "id"];
+        $tag->parentTagId = (int)$data[$prefix . "parent_id"];
+        $tag->mainTagId = (int)$data[$prefix . "main_tag_id"];
         $tag->keyword = $data[$prefix . "keyword"];
-        $tag->depth = $data[$prefix . "depth"];
+        $tag->depth = (int)$data[$prefix . "depth"];
         $tag->pathString = $data[$prefix . "path_string"];
-        $tag->modificationDate = $data[$prefix . "modified"];
+        $tag->modificationDate = (int)$data[$prefix . "modified"];
         $tag->remoteId = $data[$prefix . "remote_id"];
 
         return $tag;
