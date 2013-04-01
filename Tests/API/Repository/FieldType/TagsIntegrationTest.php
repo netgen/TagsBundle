@@ -98,23 +98,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getValidCreationFieldData()
     {
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         return new TagsValue(
             array(
-                new Tag(
-                    array(
-                        "id" => 42,
-                        "parentTagId" => 21,
-                        "mainTagId" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "pathString" => "/1/21/42/",
-                        "modificationDate" => $modificationDate,
-                        "remoteId" => "123456abcdef"
-                    )
-                )
+                $this->getTag1()
             )
         );
     }
@@ -134,23 +120,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
             $field->value
         );
 
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         $this->assertEquals(
             array(
-                new Tag(
-                    array(
-                        "id" => 42,
-                        "parentTagId" => 21,
-                        "mainTagId" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "pathString" => "/1/21/42/",
-                        "modificationDate" => $modificationDate,
-                        "remoteId" => "123456abcdef"
-                    )
-                )
+                $this->getTag1()
             ),
             $field->value->tags
         );
@@ -208,23 +180,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getValidUpdateFieldData()
     {
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 7654321 );
-
         return new TagsValue(
             array(
-                new Tag(
-                    array(
-                        "id" => 24,
-                        "parentTagId" => 12,
-                        "mainTagId" => 42,
-                        "keyword" => "Hrvatska",
-                        "depth" => 3,
-                        "pathString" => "/1/12/24/",
-                        "modificationDate" => $modificationDate,
-                        "remoteId" => "abcdef123456"
-                    )
-                )
+                $this->getTag1(),
+                $this->getTag2()
             )
         );
     }
@@ -244,23 +203,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
             $field->value
         );
 
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 7654321 );
-
         $this->assertEquals(
             array(
-                new Tag(
-                    array(
-                        "id" => 24,
-                        "parentTagId" => 12,
-                        "mainTagId" => 42,
-                        "keyword" => "Hrvatska",
-                        "depth" => 3,
-                        "pathString" => "/1/12/24/",
-                        "modificationDate" => $modificationDate,
-                        "remoteId" => "abcdef123456"
-                    )
-                )
+                $this->getTag1(),
+                $this->getTag2()
             ),
             $field->value->tags
         );
@@ -307,23 +253,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
             $field->value
         );
 
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         $this->assertEquals(
             array(
-                new Tag(
-                    array(
-                        "id" => 42,
-                        "parentTagId" => 21,
-                        "mainTagId" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "pathString" => "/1/21/42/",
-                        "modificationDate" => $modificationDate,
-                        "remoteId" => "123456abcdef"
-                    )
-                )
+                $this->getTag1()
             ),
             $field->value->tags
         );
@@ -351,9 +283,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function provideToHashData()
     {
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         return array(
             array(
                 new TagsValue(),
@@ -370,31 +299,11 @@ class TagsIntegrationTest extends BaseIntegrationTest
             array(
                 new TagsValue(
                     array(
-                        new Tag(
-                            array(
-                                "id" => 42,
-                                "parentTagId" => 21,
-                                "mainTagId" => 0,
-                                "keyword" => "Croatia",
-                                "depth" => 3,
-                                "pathString" => "/1/21/42/",
-                                "modificationDate" => $modificationDate,
-                                "remoteId" => "123456abcdef"
-                            )
-                        )
+                        $this->getTag1()
                     )
                 ),
                 array(
-                    array(
-                        "id" => 42,
-                        "parent_id" => 21,
-                        "main_tag_id" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "path_string" => "/1/21/42/",
-                        "modified" => 1234567,
-                        "remote_id" => "123456abcdef"
-                    )
+                    $this->getTagHash1()
                 )
             )
         );
@@ -422,9 +331,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function provideFromHashData()
     {
-        $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1234567 );
-
         return array(
             array(
                 null,
@@ -436,31 +342,11 @@ class TagsIntegrationTest extends BaseIntegrationTest
             ),
             array(
                 array(
-                    array(
-                        "id" => 42,
-                        "parent_id" => 21,
-                        "main_tag_id" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "path_string" => "/1/21/42/",
-                        "modified" => 1234567,
-                        "remote_id" => "123456abcdef"
-                    )
+                    $this->getTagHash1()
                 ),
                 new TagsValue(
                     array(
-                        new Tag(
-                            array(
-                                "id" => 42,
-                                "parentTagId" => 21,
-                                "mainTagId" => 0,
-                                "keyword" => "Croatia",
-                                "depth" => 3,
-                                "pathString" => "/1/21/42/",
-                                "modificationDate" => $modificationDate,
-                                "remoteId" => "123456abcdef"
-                            )
-                        )
+                        $this->getTag1()
                     )
                 )
             )
@@ -492,6 +378,73 @@ class TagsIntegrationTest extends BaseIntegrationTest
             array(
                 $this->getValidCreationFieldData()
             )
+        );
+    }
+
+    /**
+     * Returns a tag for tests
+     *
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    protected function getTag1()
+    {
+        $modificationDate = new Datetime();
+        $modificationDate->setTimestamp( 1308153110 );
+
+        return new Tag(
+            array(
+                "id" => "40",
+                "parentTagId" => "7",
+                "mainTagId" => "0",
+                "keyword" => "eztags",
+                "depth" => "3",
+                "pathString" => "/8/7/40/",
+                "modificationDate" => $modificationDate,
+                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+            )
+        );
+    }
+
+    /**
+     * Returns a tag for tests
+     *
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    protected function getTag2()
+    {
+        $modificationDate = new Datetime();
+        $modificationDate->setTimestamp( 1343169159 );
+
+        return new Tag(
+            array(
+                "id" => "8",
+                "parentTagId" => "0",
+                "mainTagId" => "0",
+                "keyword" => "ezpublish",
+                "depth" => "1",
+                "pathString" => "/8/",
+                "modificationDate" => $modificationDate,
+                "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
+            )
+        );
+    }
+
+    /**
+     * Returns a hash version of tag for tests
+     *
+     * @return array
+     */
+    protected function getTagHash1()
+    {
+        return array(
+            "id" => "40",
+            "parent_id" => "7",
+            "main_tag_id" => "0",
+            "keyword" => "eztags",
+            "depth" => "3",
+            "path_string" => "/8/7/40/",
+            "modified" => "1308153110",
+            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e"
         );
     }
 }

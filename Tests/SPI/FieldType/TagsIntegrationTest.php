@@ -164,16 +164,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
             array(
                 "data" => null,
                 "externalData" => array(
-                    array(
-                        "id" => 42,
-                        "parent_id" => 21,
-                        "main_tag_id" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "path_string" => "/1/21/42/",
-                        "modified" => 1234567,
-                        "remote_id" => "123456abcdef"
-                    )
+                    $this->getTagHash1()
                 ),
                 "sortKey" => null,
             )
@@ -213,16 +204,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
             array(
                 "data" => null,
                 "externalData" => array(
-                    array(
-                        "id" => 24,
-                        "parent_id" => 12,
-                        "main_tag_id" => 42,
-                        "keyword" => "Hrvatska",
-                        "depth" => 3,
-                        "path_string" => "/1/12/24/",
-                        "modified" => 7654321,
-                        "remote_id" => "abcdef123456"
-                    )
+                    $this->getTagHash1(),
+                    $this->getTagHash2()
                 ),
                 "sortKey" => null,
             )
@@ -248,5 +231,43 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
         $this->assertNull( $field->value->data );
         $this->assertNull( $field->value->sortKey );
+    }
+
+    /**
+     * Returns a hash version of tag for tests
+     *
+     * @return array
+     */
+    protected function getTagHash1()
+    {
+        return array(
+            "id" => 40,
+            "parent_id" => 7,
+            "main_tag_id" => 0,
+            "keyword" => "eztags",
+            "depth" => 3,
+            "path_string" => "/8/7/40/",
+            "modified" => 1308153110,
+            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+        );
+    }
+
+    /**
+     * Returns a hash version of tag for tests
+     *
+     * @return array
+     */
+    protected function getTagHash2()
+    {
+        return array(
+            "id" => 8,
+            "parent_id" => 0,
+            "main_tag_id" => 0,
+            "keyword" => "ezpublish",
+            "depth" => 1,
+            "path_string" => "/8/",
+            "modified" => 1343169159,
+            "remote_id" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
+        );
     }
 }

@@ -151,31 +151,11 @@ class TagsTest extends FieldTypeTest
             array(
                 new TagsValue(
                     array(
-                        new Tag(
-                            array(
-                                "id" => 42,
-                                "parentTagId" => 21,
-                                "mainTagId" => 0,
-                                "keyword" => "Croatia",
-                                "depth" => 3,
-                                "pathString" => "/1/21/42/",
-                                "modificationDate" => $modificationDate,
-                                "remoteId" => "123456abcdef"
-                            )
-                        )
+                        $this->getTag()
                     )
                 ),
                 array(
-                    array(
-                        "id" => 42,
-                        "parent_id" => 21,
-                        "main_tag_id" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "path_string" => "/1/21/42/",
-                        "modified" => 1234567,
-                        "remote_id" => "123456abcdef"
-                    )
+                    $this->getTagHash()
                 )
             )
         );
@@ -202,34 +182,57 @@ class TagsTest extends FieldTypeTest
             ),
             array(
                 array(
-                    array(
-                        "id" => 42,
-                        "parent_id" => 21,
-                        "main_tag_id" => 0,
-                        "keyword" => "Croatia",
-                        "depth" => 3,
-                        "path_string" => "/1/21/42/",
-                        "modified" => 1234567,
-                        "remote_id" => "123456abcdef"
-                    )
+                    $this->getTagHash()
                 ),
                 new TagsValue(
                     array(
-                        new Tag(
-                            array(
-                                "id" => 42,
-                                "parentTagId" => 21,
-                                "mainTagId" => 0,
-                                "keyword" => "Croatia",
-                                "depth" => 3,
-                                "pathString" => "/1/21/42/",
-                                "modificationDate" => $modificationDate,
-                                "remoteId" => "123456abcdef"
-                            )
-                        )
+                        $this->getTag()
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * Returns a tag for tests
+     *
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    protected function getTag()
+    {
+        $modificationDate = new Datetime();
+        $modificationDate->setTimestamp( 1308153110 );
+
+        return new Tag(
+            array(
+                "id" => 40,
+                "parentTagId" => 7,
+                "mainTagId" => 0,
+                "keyword" => "eztags",
+                "depth" => 3,
+                "pathString" => "/8/7/40/",
+                "modificationDate" => $modificationDate,
+                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+            )
+        );
+    }
+
+    /**
+     * Returns a hash version of tag for tests
+     *
+     * @return array
+     */
+    protected function getTagHash()
+    {
+        return array(
+            "id" => 40,
+            "parent_id" => 7,
+            "main_tag_id" => 0,
+            "keyword" => "eztags",
+            "depth" => 3,
+            "path_string" => "/8/7/40/",
+            "modified" => 1308153110,
+            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e"
         );
     }
 }
