@@ -162,6 +162,24 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getChildrenCount
+     */
+    public function testGetChildrenCount()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getChildrenCount" )
+            ->with( 42 )
+            ->will( $this->returnValue( 3 ) );
+
+        $tagsCount = $handler->getChildrenCount( 42 );
+
+        $this->assertEquals( 3, $tagsCount );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
      */
     public function testCreate()

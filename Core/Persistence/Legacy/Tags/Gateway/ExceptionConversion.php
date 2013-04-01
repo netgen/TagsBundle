@@ -106,6 +106,31 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns how many tags exist below tag identified by $tagId
+     *
+     * @throws \RuntimeException
+     *
+     * @param int $tagId
+     *
+     * @return int
+     */
+    public function getChildrenCount( $tagId )
+    {
+        try
+        {
+            return $this->innerGateway->getChildrenCount( $tagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @throws \RuntimeException

@@ -90,6 +90,7 @@ class Handler implements BaseTagsHandler
      */
     public function getChildrenCount( $tagId )
     {
+        return $this->gateway->getChildrenCount( $tagId );
     }
 
     /**

@@ -37,6 +37,15 @@ abstract class Gateway
     abstract public function getChildren( $tagId, $offset = 0, $limit = 0 );
 
     /**
+     * Returns how many tags exist below tag identified by $tagId
+     *
+     * @param int $tagId
+     *
+     * @return int
+     */
+    abstract public function getChildrenCount( $tagId );
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct

@@ -128,6 +128,39 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Returns how many tags exist below tag identified by $tagId
+     *
+     * @param int $tagId
+     *
+     * @return int
+     */
+    public function getChildrenCount( $tagId )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select(
+                $query->alias( $query->expr->count( "*" ), "count" )
+            )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+        ->where(
+            $query->expr->lAnd(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "parent_id", "eztags" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                ),
+                $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+            )
+        );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        return (int)$rows[0]["count"];
+    }
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct

@@ -162,6 +162,18 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildrenCount
+     */
+    public function testGetChildrenCount()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getChildrenCount( 16 );
+
+        $this->assertEquals( 6, $tagsCount );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
      */
     public function testCreate()

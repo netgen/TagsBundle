@@ -104,6 +104,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagChildrenCount( Tag $tag )
     {
+        return $this->tagsHandler->getChildrenCount( $tag->id );
     }
 
     /**
