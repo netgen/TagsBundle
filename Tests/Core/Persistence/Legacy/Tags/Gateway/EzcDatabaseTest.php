@@ -200,6 +200,33 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentIds
+     */
+    public function testGetRelatedContentIds()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/content_objects.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getRelatedContentIds( 40 );
+
+        $this->assertCount( 3, $data );
+        $this->assertEquals( array( 57, 58, 59 ), $data );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
+     */
+    public function testGetRelatedContentCount()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/content_objects.php" );
+        $handler = $this->getTagsGateway();
+        $contentCount = $handler->getRelatedContentCount( 40 );
+
+        $this->assertEquals( 3, $contentCount );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
      */
     public function testCreate()

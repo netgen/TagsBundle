@@ -11,6 +11,8 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
@@ -168,6 +170,29 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContent( Tag $tag, $offset = 0, $limit = 0 )
     {
+        $spiTag = $this->tagsHandler->load( $tag->id );
+
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id, $offset, $limit );
+        if ( empty( $relatedContentIds ) )
+        {
+            return array();
+        }
+
+        $searchResult = $this->repository->getSearchService()->findContent(
+            new Query(
+                array(
+                    "criterion" => new ContentId( $relatedContentIds )
+                )
+            )
+        );
+
+        $content = array();
+        foreach ( $searchResult->searchHits as $searchHit )
+        {
+            $content[] = $searchHit->valueObject;
+        }
+
+        return $content;
     }
 
     /**
@@ -181,6 +206,9 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContentCount( Tag $tag )
     {
+        $spiTag = $this->tagsHandler->load( $tag->id );
+
+        return $this->tagsHandler->getRelatedContentCount( $spiTag->id );
     }
 
     /**

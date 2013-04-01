@@ -220,6 +220,111 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Loads content IDs related to tag identified by $tagId
+     *
+     * @param mixed $tagId
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of content IDs returned. If $limit = 0 all content IDs starting at $offset are returned
+     *
+     * @return int[]
+     */
+    function getRelatedContentIds( $tagId, $offset = 0, $limit = 0 )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->selectDistinct(
+                $this->handler->quoteColumn( "object_id", "eztags_attribute_link" )
+            )
+            ->from( $this->handler->quoteTable( "eztags_attribute_link" ) )
+            ->innerJoin(
+                $this->handler->quoteTable( "ezcontentobject" ),
+                $query->expr->lAnd(
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "object_id", "eztags_attribute_link" ),
+                        $this->handler->quoteColumn( "id", "ezcontentobject" )
+                    ),
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "objectattribute_version", "eztags_attribute_link" ),
+                        $this->handler->quoteColumn( "current_version", "ezcontentobject" )
+                    ),
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "status", "ezcontentobject" ),
+                        1
+                    )
+                )
+            )->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "keyword_id", "eztags_attribute_link" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )
+            )->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        $contentIds = array();
+        foreach ( $rows as $row )
+        {
+            $contentIds[] = (int)$row["object_id"];
+        }
+
+        return $contentIds;
+    }
+
+    /**
+     * Returns the number of content objects related to tag identified by $tagId
+     *
+     * @param mixed $tagId
+     *
+     * @return int
+     */
+    function getRelatedContentCount( $tagId )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->selectDistinct(
+                $query->alias(
+                    $query->expr->count(
+                        $this->handler->quoteColumn( "object_id", "eztags_attribute_link" )
+                    ),
+                    "count"
+                )
+            )
+            ->from( $this->handler->quoteTable( "eztags_attribute_link" ) )
+            ->innerJoin(
+                $this->handler->quoteTable( "ezcontentobject" ),
+                $query->expr->lAnd(
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "object_id", "eztags_attribute_link" ),
+                        $this->handler->quoteColumn( "id", "ezcontentobject" )
+                    ),
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "objectattribute_version", "eztags_attribute_link" ),
+                        $this->handler->quoteColumn( "current_version", "ezcontentobject" )
+                    ),
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "status", "ezcontentobject" ),
+                        1
+                    )
+                )
+            )->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "keyword_id", "eztags_attribute_link" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        return (int)$rows[0]["count"];
+    }
+
+    /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData
      *
      * @param mixed $synonymId

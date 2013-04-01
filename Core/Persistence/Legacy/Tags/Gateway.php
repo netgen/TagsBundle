@@ -66,6 +66,26 @@ abstract class Gateway
     abstract public function getSynonymCount( $tagId );
 
     /**
+     * Loads content IDs related to tag identified by $tagId
+     *
+     * @param mixed $tagId
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of content IDs returned. If $limit = 0 all content IDs starting at $offset are returned
+     *
+     * @return int[]
+     */
+    abstract function getRelatedContentIds( $tagId, $offset = 0, $limit = 0 );
+
+    /**
+     * Returns the number of content objects related to tag identified by $tagId
+     *
+     * @param mixed $tagId
+     *
+     * @return int
+     */
+    abstract function getRelatedContentCount( $tagId );
+
+    /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData
      *
      * @param mixed $synonymId
