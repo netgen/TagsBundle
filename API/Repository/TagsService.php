@@ -3,7 +3,6 @@
 namespace EzSystems\TagsBundle\API\Repository;
 
 use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\TagList;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
@@ -40,7 +39,7 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\TagList
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
     public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 );
 
