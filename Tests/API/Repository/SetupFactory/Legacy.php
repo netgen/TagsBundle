@@ -3,9 +3,6 @@
 namespace EzSystems\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
-use eZ\Publish\API\Repository\Tests\SetupFactory;
-use eZ\Publish\API\Repository\Tests\IdManager;
-
 use eZ\Publish\Core\Base\ServiceContainer;
 
 /**
