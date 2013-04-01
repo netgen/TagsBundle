@@ -11,6 +11,7 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
 
 class TagsService implements TagsServiceInterface
@@ -259,6 +260,14 @@ class TagsService implements TagsServiceInterface
     public function moveSubtree( Tag $tag, Tag $newParentTag )
     {
         $this->service->moveSubtree( $tag, $newParentTag );
+        $this->signalDispatcher->emit(
+            new MoveSubtreeSignal(
+                array(
+                    "sourceTagId" => $tag->id,
+                    "newParentTagId" => $newParentTag->id
+                )
+            )
+        );
     }
 
     /**

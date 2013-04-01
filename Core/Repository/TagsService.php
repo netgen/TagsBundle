@@ -358,6 +358,30 @@ class TagsService implements TagsServiceInterface
      */
     public function moveSubtree( Tag $tag, Tag $newParentTag )
     {
+        $spiTag = $this->tagsHandler->load( $tag->id );
+        $spiParentTag = $this->tagsHandler->load( $newParentTag->id );
+
+        if ( $spiTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        }
+
+        if ( $spiParentTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "newParentTag", "Destination tag is a synonym" );
+        }
+
+        $this->repository->beginTransaction();
+        try
+        {
+            $this->tagsHandler->moveSubtree( $spiTag->id, $spiParentTag->id );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
     }
 
     /**

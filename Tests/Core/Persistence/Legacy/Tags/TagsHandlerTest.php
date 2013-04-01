@@ -433,6 +433,69 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::moveSubtree
+     */
+    public function testMoveSubtree()
+    {
+        $handler = $this->getTagsHandler();
+
+        $sourceData = array(
+            "id" => 42,
+            "parent_id" => 21,
+            "path_string" => "/1/21/42/"
+        );
+
+        $destinationData = array(
+            "id" => 66,
+            "parent_id" => 21,
+            "path_string" => "/1/21/66/",
+        );
+
+        $this->gateway
+            ->expects( $this->at( 0 ) )
+            ->method( "getBasicTagData" )
+            ->with( 42 )
+            ->will( $this->returnValue( $sourceData ) );
+
+        $this->gateway
+            ->expects( $this->at( 1 ) )
+            ->method( "getBasicTagData" )
+            ->with( 66 )
+            ->will( $this->returnValue( $destinationData ) );
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "moveSubtree" )
+            ->with( $sourceData, $destinationData );
+
+        $this->gateway
+            ->expects( $this->at( 3 ) )
+            ->method( "getBasicTagData" )
+            ->with( 21 )
+            ->will( $this->returnValue( array( "id" => 21 ) ) );
+
+        $this->mapper
+            ->expects( $this->at( 0 ) )
+            ->method( "createTagFromRow" )
+            ->with( array( "id" => 21 ) )
+            ->will( $this->returnValue( new Tag( array( "id" => 21 ) ) ) );
+
+        $this->gateway
+            ->expects( $this->at( 5 ) )
+            ->method( "getBasicTagData" )
+            ->with( 66 )
+            ->will( $this->returnValue( array( "id" => 66 ) ) );
+
+        $this->mapper
+            ->expects( $this->at( 1 ) )
+            ->method( "createTagFromRow" )
+            ->with( array( "id" => 66 ) )
+            ->will( $this->returnValue( new Tag( array( "id" => 66 ) ) ) );
+
+        $handler->moveSubtree( 42, 66 );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::deleteTag
      */
     public function testDeleteTag()

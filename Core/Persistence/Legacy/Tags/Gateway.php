@@ -74,14 +74,12 @@ abstract class Gateway
     abstract public function createSynonym( $keyword, array $tag );
 
     /**
-     * Updated subtree modification time for all tags in path
+     * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
-     * @throws \RuntimeException
-     *
-     * @param string $pathString
-     * @param int $timestamp
+     * @param array $sourceTagData
+     * @param array $destinationParentTagData
      */
-    abstract public function updateSubtreeModificationTime( $pathString, $timestamp = null );
+    abstract public function moveSubtree( array $sourceTagData, array $destinationParentTagData );
 
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
@@ -91,4 +89,12 @@ abstract class Gateway
      * @param mixed $tagId
      */
     abstract public function deleteTag( $tagId );
+
+    /**
+     * Updated subtree modification time for all tags in path
+     *
+     * @param string $pathString
+     * @param int $timestamp
+     */
+    abstract public function updateSubtreeModificationTime( $pathString, $timestamp = null );
 }

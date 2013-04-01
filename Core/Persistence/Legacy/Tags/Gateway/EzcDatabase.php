@@ -352,6 +352,82 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
+     *
+     * @param array $sourceTagData
+     * @param array $destinationParentTagData
+     */
+    public function moveSubtree( array $sourceTagData, array $destinationParentTagData )
+    {
+        $fromPathString = $sourceTagData["path_string"];
+
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select(
+                $this->handler->quoteColumn( "id" ),
+                $this->handler->quoteColumn( "parent_id" ),
+                $this->handler->quoteColumn( "main_tag_id" ),
+                $this->handler->quoteColumn( "path_string" )
+            )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->lOr(
+                    $query->expr->like(
+                        $this->handler->quoteColumn( "path_string" ),
+                        $query->bindValue( $fromPathString . "%", null, PDO::PARAM_STR )
+                    ),
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "main_tag_id" ),
+                        $query->bindValue( $sourceTagData["id"], null, PDO::PARAM_INT )
+                    )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        $oldParentPathString = implode( "/", array_slice( explode( "/", $fromPathString ), 0, -2 ) ) . "/";
+        foreach ( $rows as $row )
+        {
+            // Prefixing ensures correct replacement when there is no parent
+            $newPathString = str_replace(
+                "prefix" . $oldParentPathString,
+                $destinationParentTagData["path_string"],
+                "prefix" . $row["path_string"]
+            );
+
+            $newParentId = $row["parent_id"];
+            if ( $row["path_string"] === $fromPathString || $row["main_tag_id"] == $sourceTagData["id"] )
+            {
+                $newParentId = (int)implode( "", array_slice( explode( "/", $newPathString ), -3, 1 ) );
+            }
+
+            $query = $this->handler->createUpdateQuery();
+            $query
+                ->update( $this->handler->quoteTable( "eztags" ) )
+                ->set(
+                    $this->handler->quoteColumn( "path_string" ),
+                    $query->bindValue( $newPathString )
+                )->set(
+                    $this->handler->quoteColumn( "depth" ),
+                    $query->bindValue( substr_count( $newPathString, "/" ) - 1 )
+                )->set(
+                    $this->handler->quoteColumn( "parent_id" ),
+                    $query->bindValue( $newParentId )
+                )->where(
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "id" ),
+                        $query->bindValue( $row["id"], null, PDO::PARAM_INT )
+                    )
+                );
+
+            $query->prepare()->execute();
+        }
+    }
+
+    /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it
      *
      * If $tagId is a synonym, only the synonym is deleted

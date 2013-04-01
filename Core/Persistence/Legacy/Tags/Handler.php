@@ -212,6 +212,18 @@ class Handler implements BaseTagsHandler
      */
     public function moveSubtree( $sourceId, $destinationParentId )
     {
+        $sourceTagData = $this->gateway->getBasicTagData( $sourceId );
+        $destinationParentTagData = $this->gateway->getBasicTagData( $destinationParentId );
+
+        $this->gateway->moveSubtree( $sourceTagData, $destinationParentTagData );
+
+        $timestamp = time();
+        if ( $sourceTagData["parent_id"] > 0 )
+        {
+            $this->updateSubtreeModificationTime( $this->load( $sourceTagData["parent_id"] ), $timestamp );
+        }
+
+        $this->updateSubtreeModificationTime( $this->load( $destinationParentTagData["id"] ), $timestamp );
     }
 
     /**

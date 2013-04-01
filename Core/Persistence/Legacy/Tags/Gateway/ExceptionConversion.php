@@ -207,18 +207,18 @@ class ExceptionConversion extends Gateway
     }
 
     /**
-     * Updated subtree modification time for all tags in path
+     * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
      * @throws \RuntimeException
      *
-     * @param string $pathString
-     * @param int $timestamp
+     * @param array $sourceTagData
+     * @param array $destinationParentTagData
      */
-    public function updateSubtreeModificationTime( $pathString, $timestamp = null )
+    public function moveSubtree( array $sourceTagData, array $destinationParentTagData )
     {
         try
         {
-            $this->innerGateway->updateSubtreeModificationTime( $pathString, $timestamp );
+            $this->innerGateway->moveSubtree( $sourceTagData, $destinationParentTagData );
         }
         catch ( ezcDbException $e )
         {
@@ -244,6 +244,30 @@ class ExceptionConversion extends Gateway
         try
         {
             $this->innerGateway->deleteTag( $tagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
+     * Updated subtree modification time for all tags in path
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $pathString
+     * @param int $timestamp
+     */
+    public function updateSubtreeModificationTime( $pathString, $timestamp = null )
+    {
+        try
+        {
+            $this->innerGateway->updateSubtreeModificationTime( $pathString, $timestamp );
         }
         catch ( ezcDbException $e )
         {

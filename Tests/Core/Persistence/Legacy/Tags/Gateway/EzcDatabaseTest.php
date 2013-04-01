@@ -268,25 +268,39 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSubtree
      */
-    public function testUpdateSubtreeModificationTime()
+    public function testMoveSubtree()
     {
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
-        $handler->updateSubtreeModificationTime( "/8/7/40/", 123 );
+        $handler->moveSubtree(
+            array(
+                "id" => 7,
+                "path_string" => "/8/7/"
+            ),
+            array(
+                "id" => 78,
+                "path_string" => "/8/78/"
+            )
+        );
 
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 123 ),
-                array( 123 ),
-                array( 123 )
+                array( 7, 78, 3, "/8/78/7/" ),
+                array( 13, 7, 4, "/8/78/7/13/" ),
+                array( 14, 7, 4, "/8/78/7/14/" ),
+                array( 27, 7, 4, "/8/78/7/27/" ),
+                array( 40, 7, 4, "/8/78/7/40/" ),
+                array( 53, 7, 4, "/8/78/7/53/" ),
+                array( 54, 7, 4, "/8/78/7/54/" ),
+                array( 55, 7, 4, "/8/78/7/55/" )
             ),
             $query
-                ->select( "modified" )
+                ->select( "id", "parent_id", "depth", "path_string" )
                 ->from( "eztags" )
-                ->where( $query->expr->in( "id", array( 8, 7, 40 ) ) )
+                ->where( $query->expr->in( "id", array( 7, 13, 14, 27, 40, 53, 54, 55 ) ) )
         );
     }
 
@@ -319,6 +333,29 @@ class EzcDatabaseTest extends TestCase
                 ->select( "keyword_id" )
                 ->from( "eztags_attribute_link" )
                 ->where( $query->expr->in( "keyword_id", array( 7, 13, 14, 27, 40, 53, 54, 55 ) ) )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
+     */
+    public function testUpdateSubtreeModificationTime()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $handler->updateSubtreeModificationTime( "/8/7/40/", 123 );
+
+        $query = $this->handler->createSelectQuery();
+        $this->assertQueryResult(
+            array(
+                array( 123 ),
+                array( 123 ),
+                array( 123 )
+            ),
+            $query
+                ->select( "modified" )
+                ->from( "eztags" )
+                ->where( $query->expr->in( "id", array( 8, 7, 40 ) ) )
         );
     }
 }
