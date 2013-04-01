@@ -43,7 +43,6 @@ class Tags implements Converter
      */
     public function toFieldValue( StorageFieldValue $value, FieldValue $fieldValue )
     {
-        $fieldValue->data = array();
     }
 
     /**
