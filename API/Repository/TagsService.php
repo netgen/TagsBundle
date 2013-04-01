@@ -83,6 +83,7 @@ interface TagsService
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param string $keyword
@@ -96,7 +97,7 @@ interface TagsService
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $mainTag
