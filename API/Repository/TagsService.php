@@ -159,9 +159,9 @@ interface TagsService
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $newParentTag
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
      */
-    public function moveSubtree( Tag $tag, Tag $newParentTag );
+    public function moveSubtree( Tag $tag, Tag $targetParentTag );
 
     /**
      * Deletes $tag and all its descendants and synonyms

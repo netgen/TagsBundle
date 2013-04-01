@@ -255,16 +255,16 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $newParentTag
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
      */
-    public function moveSubtree( Tag $tag, Tag $newParentTag )
+    public function moveSubtree( Tag $tag, Tag $targetParentTag )
     {
-        $this->service->moveSubtree( $tag, $newParentTag );
+        $this->service->moveSubtree( $tag, $targetParentTag );
         $this->signalDispatcher->emit(
             new MoveSubtreeSignal(
                 array(
                     "sourceTagId" => $tag->id,
-                    "newParentTagId" => $newParentTag->id
+                    "targetParentTagId" => $targetParentTag->id
                 )
             )
         );
