@@ -200,6 +200,42 @@ class Handler implements BaseTagsHandler
      */
     public function copySubtree( $sourceId, $destinationParentId )
     {
+        $sourceData = $this->gateway->getBasicTagData( $sourceId );
+        $destinationParentData = $this->gateway->getBasicTagData( $destinationParentId );
+
+        return $this->recursiveCopySubtree( $sourceData, $destinationParentData );
+    }
+
+    /**
+     * Copies tag object identified by $sourceData into destination identified by $destinationParentData
+     *
+     * Also performs a copy of all child locations of $sourceData tag
+
+     * @param mixed $sourceData The subtree denoted by the tag to copy
+     * @param mixed $destinationParentData The target parent tag for the copy operation
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
+     */
+    protected function recursiveCopySubtree( array $sourceData, array $destinationParentData )
+    {
+        // First copy the root node
+        $createStruct = $this->mapper->getTagCreateStruct( $sourceData );
+        $createStruct->parentTagId = $destinationParentData["id"];
+        $createdTag = $this->gateway->create( $createStruct, $destinationParentData );
+
+        // TODO: Copy root node synonyms
+
+        // Then copy the children
+        $children = $this->gateway->getChildren( $sourceData["id"] );
+        foreach ( $children as $child )
+        {
+            $this->recursiveCopySubtree(
+                $child,
+                $this->gateway->getBasicTagData( $createdTag->id )
+            );
+        }
+
+        return $createdTag;
     }
 
     /**

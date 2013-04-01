@@ -43,6 +43,16 @@ class MapperTest extends TestCase
     );
 
     /**
+     * Expected Tag CreateStruct object properties values
+     *
+     * @var array
+     */
+    protected $tagCreateStructValues = array(
+        "parentTagId" => 21,
+        "keyword" => "Croatia"
+    );
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
      */
     public function testCreateTagFromRow()
@@ -170,5 +180,23 @@ class MapperTest extends TestCase
 
             $i++;
         }
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::getTagCreateStruct
+     */
+    public function testGetTagCreateStruct()
+    {
+        $mapper = new Mapper();
+
+        $createStruct = $mapper->getTagCreateStruct(
+            $this->tagRow
+        );
+
+        $this->assertNotEquals( $this->tagRow["remote_id"], $createStruct->remoteId );
+        $this->assertPropertiesCorrect(
+            $this->tagCreateStructValues,
+            $createStruct
+        );
     }
 }

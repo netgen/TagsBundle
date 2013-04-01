@@ -37,13 +37,12 @@ class Mapper
     }
 
     /**
-     * Creates Tag objects from the given $rows, optionally with key
-     * $prefix
+     * Creates Tag objects from the given $rows, optionally with key $prefix
      *
      * @param array $rows
      * @param string $prefix
      *
-     * @return \eZ\Publish\SPI\Persistence\Content\Location[]
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
     public function createTagsFromRows( array $rows, $prefix = "" )
     {
@@ -59,5 +58,23 @@ class Mapper
         }
 
         return array_values( $tags );
+    }
+
+    /**
+     * Creates a Tag CreateStruct from a $data row
+     *
+     * @param array $data
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct
+     */
+    public function getTagCreateStruct( array $data )
+    {
+        $struct = new CreateStruct();
+
+        $struct->parentTagId = $data["parent_id"];
+        $struct->keyword = $data["keyword"];
+        $struct->remoteId = md5( uniqid( get_class( $this ), true ) );
+
+        return $struct;
     }
 }

@@ -331,6 +331,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed copy the subtree to the given parent tag
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
+     *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
@@ -340,10 +341,46 @@ class TagsService implements TagsServiceInterface
      */
     public function copySubtree( Tag $tag, Tag $targetParentTag )
     {
+        $spiTag = $this->tagsHandler->load( $tag->id );
+        $spiParentTag = $this->tagsHandler->load( $targetParentTag->id );
+
+        if ( $spiTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        }
+
+        if ( $spiParentTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "newParentTag", "Destination tag is a synonym" );
+        }
+
+        if ( $tag->parentTagId == $targetParentTag->id )
+        {
+            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is already the parent of the given tag" );
+        }
+
+        if ( strpos( $spiParentTag->pathString, $spiTag->pathString ) === 0 )
+        {
+            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a sub tag of the given tag" );
+        }
+
+        $this->repository->beginTransaction();
+        try
+        {
+            $copiedTag = $this->tagsHandler->copySubtree( $spiTag->id, $spiParentTag->id );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
+
+        return $this->buildTagDomainObject( $copiedTag );
     }
 
     /**
-     * Moves the subtree to $newParentTag
+     * Moves the subtree to $targetParentTag
      *
      * If a user has the permission to move the tag to a target tag
      * he can do it regardless of an existing descendant on which the user has no permission
@@ -351,7 +388,9 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag to the target
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
+     *                                                                        If the target tag is already a parent of the given tag
+     *                                                                        If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
@@ -369,6 +408,16 @@ class TagsService implements TagsServiceInterface
         if ( $spiParentTag->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "newParentTag", "Destination tag is a synonym" );
+        }
+
+        if ( $tag->parentTagId == $targetParentTag->id )
+        {
+            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is already the parent of the given tag" );
+        }
+
+        if ( strpos( $spiParentTag->pathString, $spiTag->pathString ) === 0 )
+        {
+            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a sub tag of the given tag" );
         }
 
         $this->repository->beginTransaction();

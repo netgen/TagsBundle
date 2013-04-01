@@ -433,6 +433,14 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::copySubtree
+     */
+    public function testCopySubtree()
+    {
+        $this->markTestIncomplete( "@TODO: Implement test for copySubtree" );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::moveSubtree
      */
     public function testMoveSubtree()

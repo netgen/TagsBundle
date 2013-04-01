@@ -11,6 +11,7 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
 
@@ -231,6 +232,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed copy the subtree to the given parent tag
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
+     *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
@@ -240,11 +242,22 @@ class TagsService implements TagsServiceInterface
      */
     public function copySubtree( Tag $tag, Tag $targetParentTag )
     {
-        return $this->service->copySubtree( $tag, $targetParentTag );
+        $returnValue = $this->service->copySubtree( $tag, $targetParentTag );
+        $this->signalDispatcher->emit(
+            new CopySubtreeSignal(
+                array(
+                    "sourceTagId" => $tag->id,
+                    "targetParentTagId" => $targetParentTag->id,
+                    "newTagId" => $returnValue->id
+                )
+            )
+        );
+
+        return $returnValue;
     }
 
     /**
-     * Moves the subtree to $newParentTag
+     * Moves the subtree to $targetParentTag
      *
      * If a user has the permission to move the tag to a target tag
      * he can do it regardless of an existing descendant on which the user has no permission
@@ -252,7 +265,9 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag to the target
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
+     *                                                                        If the target tag is already a parent of the given tag
+     *                                                                        If either one of the tags is a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
