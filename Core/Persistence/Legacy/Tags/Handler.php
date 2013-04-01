@@ -263,8 +263,12 @@ class Handler implements BaseTagsHandler
         $createStruct = $this->mapper->getTagCreateStruct( $sourceData );
         $createStruct->parentTagId = $destinationParentData["id"];
         $createdTag = $this->gateway->create( $createStruct, $destinationParentData );
+        $createdTagData = $this->gateway->getBasicTagData( $createdTag->id );
 
-        // TODO: Copy root node synonyms
+        foreach ( $this->loadSynonyms( $sourceData["id"] ) as $synonym )
+        {
+            $this->gateway->createSynonym( $synonym->keyword, $createdTagData );
+        }
 
         // Then copy the children
         $children = $this->gateway->getChildren( $sourceData["id"] );
