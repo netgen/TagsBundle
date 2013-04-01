@@ -14,6 +14,7 @@ use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use DateTime;
@@ -46,7 +47,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its $tagId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read this tag
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
@@ -55,6 +56,11 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTag( $tagId )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         $spiTag = $this->tagsHandler->load( $tagId );
         return $this->buildTagDomainObject( $spiTag );
     }
@@ -62,7 +68,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its $remoteId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read this tag
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
@@ -71,12 +77,19 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByRemoteId( $remoteId )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         $spiTag = $this->tagsHandler->loadByRemoteId( $remoteId );
         return $this->buildTagDomainObject( $spiTag );
     }
 
     /**
      * Loads children of a tag object
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
@@ -86,6 +99,11 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagChildren( Tag $tag, $offset = 0, $limit = 0 )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         $spiTags = $this->tagsHandler->loadChildren( $tag->id, $offset, $limit );
 
         $tags = array();
@@ -100,18 +118,26 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of children of a tag object
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return int
      */
     public function getTagChildrenCount( Tag $tag )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         return $this->tagsHandler->getChildrenCount( $tag->id );
     }
 
     /**
      * Loads synonyms of a tag object
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -122,6 +148,11 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = 0 )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         if ( $tag->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "tag", "Tag is a synonym" );
@@ -141,6 +172,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of synonyms of a tag object
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -149,6 +181,11 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagSynonymCount( Tag $tag )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         if ( $tag->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "tag", "Tag is a synonym" );
@@ -160,6 +197,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads content related to $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -170,6 +208,11 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContent( Tag $tag, $offset = 0, $limit = 0 )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         $spiTag = $this->tagsHandler->load( $tag->id );
 
         $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id, $offset, $limit );
@@ -198,6 +241,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of content objects related to $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -206,6 +250,11 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContentCount( Tag $tag )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         $spiTag = $this->tagsHandler->load( $tag->id );
 
         return $this->tagsHandler->getRelatedContentCount( $spiTag->id );
@@ -223,6 +272,11 @@ class TagsService implements TagsServiceInterface
      */
     public function createTag( TagCreateStruct $tagCreateStruct )
     {
+        if ( $this->repository->hasAccess( "tags", "add" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "add" );
+        }
+
         if ( !is_numeric( $tagCreateStruct->parentTagId ) )
         {
             throw new InvalidArgumentValue( "parentTagId", $tagCreateStruct->parentTagId, "TagCreateStruct" );
@@ -290,6 +344,21 @@ class TagsService implements TagsServiceInterface
      */
     public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct )
     {
+        if ( $tag->mainTagId > 0 )
+        {
+            if ( $this->repository->hasAccess( "tags", "edit" ) !== true )
+            {
+                throw new UnauthorizedException( "tags", "edit" );
+            }
+        }
+        else
+        {
+            if ( $this->repository->hasAccess( "tags", "editsynonym" ) !== true )
+            {
+                throw new UnauthorizedException( "tags", "editsynonym" );
+            }
+        }
+
         if ( !is_numeric( $tag->id ) )
         {
             throw new InvalidArgumentValue( "id", $tag->id, "Tag" );
@@ -356,6 +425,11 @@ class TagsService implements TagsServiceInterface
      */
     public function addSynonym( Tag $tag, $keyword )
     {
+        if ( $this->repository->hasAccess( "tags", "addsynonym" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "addsynonym" );
+        }
+
         if ( !is_numeric( $tag->id ) )
         {
             throw new InvalidArgumentValue( "id", $tag->id, "Tag" );
@@ -403,6 +477,11 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym( Tag $tag, Tag $mainTag )
     {
+        if ( $this->repository->hasAccess( "tags", "makesynonym" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "makesynonym" );
+        }
+
         $spiTag = $this->tagsHandler->load( $tag->id );
         $spiMainTag = $this->tagsHandler->load( $mainTag->id );
 
@@ -453,6 +532,10 @@ class TagsService implements TagsServiceInterface
      */
     public function mergeTags( Tag $tag, Tag $targetTag )
     {
+        if ( $this->repository->hasAccess( "tags", "merge" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "merge" );
+        }
     }
 
     /**
@@ -461,8 +544,7 @@ class TagsService implements TagsServiceInterface
      * Only the items on which the user has read access are copied
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed copy the subtree to the given parent tag
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
@@ -474,6 +556,11 @@ class TagsService implements TagsServiceInterface
      */
     public function copySubtree( Tag $tag, Tag $targetParentTag )
     {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
         $spiTag = $this->tagsHandler->load( $tag->id );
         $spiParentTag = $this->tagsHandler->load( $targetParentTag->id );
 
@@ -530,6 +617,11 @@ class TagsService implements TagsServiceInterface
      */
     public function moveSubtree( Tag $tag, Tag $targetParentTag )
     {
+        if ( $this->repository->hasAccess( "tags", "edit" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "edit" );
+        }
+
         $spiTag = $this->tagsHandler->load( $tag->id );
         $spiParentTag = $this->tagsHandler->load( $targetParentTag->id );
 
@@ -578,6 +670,21 @@ class TagsService implements TagsServiceInterface
      */
     public function deleteTag( Tag $tag )
     {
+        if ( $tag->mainTagId > 0 )
+        {
+            if ( $this->repository->hasAccess( "tags", "deletesynonym" ) !== true )
+            {
+                throw new UnauthorizedException( "tags", "deletesynonym" );
+            }
+        }
+        else
+        {
+            if ( $this->repository->hasAccess( "tags", "delete" ) !== true )
+            {
+                throw new UnauthorizedException( "tags", "delete" );
+            }
+        }
+
         $this->repository->beginTransaction();
         try
         {

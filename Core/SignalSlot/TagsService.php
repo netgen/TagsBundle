@@ -44,7 +44,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its $tagId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read this tag
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
@@ -59,7 +59,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its $remoteId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read this tag
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
@@ -73,6 +73,8 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Loads children of a tag object
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
@@ -88,6 +90,8 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of children of a tag object
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return int
@@ -100,6 +104,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads synonyms of a tag object
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -116,6 +121,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of synonyms of a tag object
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -130,6 +136,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads content related to $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -146,6 +153,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of content objects related to $tag
      *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
@@ -296,8 +304,7 @@ class TagsService implements TagsServiceInterface
      * Only the items on which the user has read access are copied
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed copy the subtree to the given parent tag
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
