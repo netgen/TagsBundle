@@ -12,6 +12,7 @@ use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
+use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
@@ -279,6 +280,14 @@ class TagsService implements TagsServiceInterface
     public function mergeTags( Tag $tag, Tag $targetTag )
     {
         $this->service->mergeTags( $tag, $targetTag );
+        $this->signalDispatcher->emit(
+            new MergeTagsSignal(
+                array(
+                    "tagId" => $tag->id,
+                    "targetTagId" => $targetTag->id
+                )
+            )
+        );
     }
 
     /**
