@@ -110,16 +110,16 @@ class EzcDatabase extends Gateway
         $query
             ->select( "*" )
             ->from( $this->handler->quoteTable( "eztags" ) )
-        ->where(
-            $query->expr->lAnd(
-                $query->expr->eq(
-                    $this->handler->quoteColumn( "parent_id", "eztags" ),
-                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                ),
-                $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+            ->where(
+                $query->expr->lAnd(
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "parent_id", "eztags" ),
+                        $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                    ),
+                    $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+                )
             )
-        )
-        ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -142,15 +142,74 @@ class EzcDatabase extends Gateway
                 $query->alias( $query->expr->count( "*" ), "count" )
             )
             ->from( $this->handler->quoteTable( "eztags" ) )
-        ->where(
-            $query->expr->lAnd(
+            ->where(
+                $query->expr->lAnd(
+                    $query->expr->eq(
+                        $this->handler->quoteColumn( "parent_id", "eztags" ),
+                        $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                    ),
+                    $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        return (int)$rows[0]["count"];
+    }
+
+    /**
+     * Returns data for synonyms of the tag identified by given $tagId
+     *
+     * @param mixed $tagId
+     * @param integer $offset The start offset for paging
+     * @param integer $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getSynonyms( $tagId, $offset = 0, $limit = 0 )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
                 $query->expr->eq(
-                    $this->handler->quoteColumn( "parent_id", "eztags" ),
+                    $this->handler->quoteColumn( "main_tag_id", "eztags" ),
                     $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                ),
-                $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+                )
             )
-        );
+            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
+    }
+
+    /**
+     * Returns how many synonyms exist for a tag identified by $tagId
+     *
+     * @param int $tagId
+     *
+     * @return int
+     */
+    public function getSynonymCount( $tagId )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select(
+                $query->alias( $query->expr->count( "*" ), "count" )
+            )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "main_tag_id", "eztags" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )
+            );
 
         $statement = $query->prepare();
         $statement->execute();

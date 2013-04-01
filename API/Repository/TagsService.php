@@ -53,6 +53,30 @@ interface TagsService
     public function getTagChildrenCount( Tag $tag );
 
     /**
+     * Loads synonyms of a tag object
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
+     *
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of synonyms returned. If $limit = 0 all synonyms starting at $offset are returned
+     *
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
+     */
+    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = 0 );
+
+    /**
+     * Returns the number of synonyms of a tag object
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
+     *
+     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return int
+     */
+    public function getTagSynonymCount( Tag $tag );
+
+    /**
      * Creates the new tag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag

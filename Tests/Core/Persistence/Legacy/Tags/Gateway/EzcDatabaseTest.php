@@ -174,6 +174,32 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonyms
+     */
+    public function testGetSynonyms()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getSynonyms( 94 );
+
+        $this->assertCount( 2, $data );
+        $this->assertEquals( 95, $data[0]["id"] );
+        $this->assertEquals( 96, $data[1]["id"] );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonymCount
+     */
+    public function testGetSynonymCount()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getSynonymCount( 94 );
+
+        $this->assertEquals( 2, $tagsCount );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
      */
     public function testCreate()
@@ -198,13 +224,13 @@ class EzcDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 95, 40, 0, "New tag", 4, "/8/7/40/95/", "newRemoteId" )
+                array( 97, 40, 0, "New tag", 4, "/8/7/40/97/", "newRemoteId" )
             ),
-            // 95 is the next inserted ID
+            // 97 is the next inserted ID
             $query
                 ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id" )
                 ->from( "eztags" )
-                ->where( $query->expr->eq( "id", 95 ) )
+                ->where( $query->expr->eq( "id", 97 ) )
         );
     }
 
@@ -257,13 +283,13 @@ class EzcDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 95, 7, 40, "New synonym", 3, "/8/7/95/" )
+                array( 97, 7, 40, "New synonym", 3, "/8/7/97/" )
             ),
-            // 95 is the next inserted ID
+            // 97 is the next inserted ID
             $query
                 ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string" )
                 ->from( "eztags" )
-                ->where( $query->expr->eq( "id", 95 ) )
+                ->where( $query->expr->eq( "id", 97 ) )
         );
     }
 

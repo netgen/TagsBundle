@@ -131,6 +131,58 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns data for synonyms of the tag identified by given $tagId
+     *
+     * @throws \RuntimeException
+     *
+     * @param mixed $tagId
+     * @param integer $offset The start offset for paging
+     * @param integer $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getSynonyms( $tagId, $offset = 0, $limit = 0 )
+    {
+        try
+        {
+            return $this->innerGateway->getSynonyms( $tagId, $offset, $limit );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
+     * Returns how many synonyms exist for a tag identified by $tagId
+     *
+     * @throws \RuntimeException
+     *
+     * @param int $tagId
+     *
+     * @return int
+     */
+    public function getSynonymCount( $tagId )
+    {
+        try
+        {
+            return $this->innerGateway->getSynonymCount( $tagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @throws \RuntimeException

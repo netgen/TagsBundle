@@ -46,6 +46,26 @@ abstract class Gateway
     abstract public function getChildrenCount( $tagId );
 
     /**
+     * Returns data for synonyms of the tag identified by given $tagId
+     *
+     * @param mixed $tagId
+     * @param integer $offset The start offset for paging
+     * @param integer $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     *
+     * @return array
+     */
+    abstract public function getSynonyms( $tagId, $offset = 0, $limit = 0 );
+
+    /**
+     * Returns how many synonyms exist for a tag identified by $tagId
+     *
+     * @param int $tagId
+     *
+     * @return int
+     */
+    abstract public function getSynonymCount( $tagId );
+
+    /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct

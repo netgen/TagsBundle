@@ -54,6 +54,30 @@ interface Handler
     public function getChildrenCount( $tagId );
 
     /**
+     * Loads the synonyms of a tag identified by $tagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param mixed $tagId
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
+     */
+    public function loadSynonyms( $tagId, $offset = 0, $limit = 0 );
+
+    /**
+     * Returns the number of synonyms of a tag identified by $tagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param mixed $tagId
+     *
+     * @return int
+     */
+    public function getSynonymCount( $tagId );
+
+    /**
      * Creates the new tag
      *
      * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
