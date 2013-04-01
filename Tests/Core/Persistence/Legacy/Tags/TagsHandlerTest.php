@@ -29,9 +29,15 @@ class TagsHandlerTest extends TestCase
 
     protected function getTagsHandler()
     {
-        return new Handler(
-            $this->gateway = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway" ),
-            $this->mapper = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper" )
+        return $this->getMock(
+            "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Handler",
+            array(
+                "updateSubtreeModificationTime"
+            ),
+            array(
+                $this->gateway = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway" ),
+                $this->mapper = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper" )
+            )
         );
     }
 
@@ -437,7 +443,59 @@ class TagsHandlerTest extends TestCase
      */
     public function testConvertToSynonym()
     {
-        $this->markTestIncomplete( "@TODO: Test convertToSynonym method" );
+        $handler = $this->getTagsHandler();
+
+        $tagData = array(
+            "id" => 42,
+            "parent_id" => 21
+        );
+
+        $mainTagData = array(
+            "id" => 66
+        );
+
+        $this->gateway
+            ->expects( $this->at( 0 ) )
+            ->method( "getBasicTagData" )
+            ->with( 42 )
+            ->will( $this->returnValue( $tagData ) );
+
+        $this->gateway
+            ->expects( $this->at( 1 ) )
+            ->method( "getBasicTagData" )
+            ->with( 66 )
+            ->will( $this->returnValue( $mainTagData ) );
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "convertToSynonym" )
+            ->with( 42, $mainTagData );
+
+        $this->gateway
+            ->expects( $this->at( 3 ) )
+            ->method( "getBasicTagData" )
+            ->with( 42 )
+            ->will( $this->returnValue( $tagData ) );
+
+        $this->mapper
+            ->expects( $this->at( 0 ) )
+            ->method( "createTagFromRow" )
+            ->with( $tagData )
+            ->will( $this->returnValue( new Tag( array( "id" => 42 ) ) ) );
+
+        $synonym = $handler->convertToSynonym( 42, 66 );
+
+        $this->assertInstanceOf(
+            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $synonym
+        );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 42
+            ),
+            $synonym
+        );
     }
 
     /**
@@ -483,30 +541,6 @@ class TagsHandlerTest extends TestCase
             ->expects( $this->once() )
             ->method( "moveSubtree" )
             ->with( $sourceData, $destinationData );
-
-        $this->gateway
-            ->expects( $this->at( 3 ) )
-            ->method( "getBasicTagData" )
-            ->with( 21 )
-            ->will( $this->returnValue( array( "id" => 21 ) ) );
-
-        $this->mapper
-            ->expects( $this->at( 0 ) )
-            ->method( "createTagFromRow" )
-            ->with( array( "id" => 21 ) )
-            ->will( $this->returnValue( new Tag( array( "id" => 21 ) ) ) );
-
-        $this->gateway
-            ->expects( $this->at( 5 ) )
-            ->method( "getBasicTagData" )
-            ->with( 66 )
-            ->will( $this->returnValue( array( "id" => 66 ) ) );
-
-        $this->mapper
-            ->expects( $this->at( 1 ) )
-            ->method( "createTagFromRow" )
-            ->with( array( "id" => 66 ) )
-            ->will( $this->returnValue( new Tag( array( "id" => 66 ) ) ) );
 
         $handler->moveSubtree( 42, 66 );
     }
