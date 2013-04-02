@@ -69,11 +69,11 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadChildren( $tagId, $offset = 0, $limit = 0 )
+    public function loadChildren( $tagId, $offset = 0, $limit = -1 )
     {
         $tags = $this->gateway->getChildren( $tagId, $offset, $limit );
         return $this->mapper->createTagsFromRows( $tags );
@@ -100,11 +100,11 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadSynonyms( $tagId, $offset = 0, $limit = 0 )
+    public function loadSynonyms( $tagId, $offset = 0, $limit = -1 )
     {
         $tags = $this->gateway->getSynonyms( $tagId, $offset, $limit );
         return $this->mapper->createTagsFromRows( $tags );
@@ -131,11 +131,11 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of content IDs returned. If $limit = 0 all content IDs starting at $offset are returned
+     * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
      * @return int[]
      */
-    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = 0 )
+    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
     {
         return $this->gateway->getRelatedContentIds( $tagId, $offset, $limit );
     }

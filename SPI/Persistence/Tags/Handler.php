@@ -36,11 +36,11 @@ interface Handler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadChildren( $tagId, $offset = 0, $limit = 0 );
+    public function loadChildren( $tagId, $offset = 0, $limit = -1 );
 
     /**
      * Returns the number of children of a tag identified by $tagId
@@ -60,11 +60,11 @@ interface Handler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadSynonyms( $tagId, $offset = 0, $limit = 0 );
+    public function loadSynonyms( $tagId, $offset = 0, $limit = -1 );
 
     /**
      * Returns the number of synonyms of a tag identified by $tagId
@@ -84,11 +84,11 @@ interface Handler
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of content IDs returned. If $limit = 0 all content IDs starting at $offset are returned
+     * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
      * @return int[]
      */
-    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = 0 );
+    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1 );
 
     /**
      * Returns the number of content objects related to tag identified by $tagId

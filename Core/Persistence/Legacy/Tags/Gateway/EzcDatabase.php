@@ -100,11 +100,11 @@ class EzcDatabase extends Gateway
      *
      * @param mixed $tagId
      * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     * @param integer $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return array
      */
-    public function getChildren( $tagId, $offset = 0, $limit = 0 )
+    public function getChildren( $tagId, $offset = 0, $limit = -1 )
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -165,11 +165,11 @@ class EzcDatabase extends Gateway
      *
      * @param mixed $tagId
      * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = 0 all synonyms starting at $offset are returned
+     * @param integer $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return array
      */
-    public function getSynonyms( $tagId, $offset = 0, $limit = 0 )
+    public function getSynonyms( $tagId, $offset = 0, $limit = -1 )
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -224,11 +224,11 @@ class EzcDatabase extends Gateway
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
-     * @param int $limit The number of content IDs returned. If $limit = 0 all content IDs starting at $offset are returned
+     * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
      * @return int[]
      */
-    function getRelatedContentIds( $tagId, $offset = 0, $limit = 0 )
+    function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
     {
         $query = $this->handler->createSelectQuery();
         $query

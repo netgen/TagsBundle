@@ -93,11 +93,11 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = 0 all children starting at $offset are returned
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag, $offset = 0, $limit = 0 )
+    public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -142,11 +142,11 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
-     * @param int $limit The number of synonyms returned. If $limit = 0 all synonyms starting at $offset are returned
+     * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = 0 )
+    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1 )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -202,11 +202,11 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
-     * @param int $limit The number of content objects returned. If $limit = 0 all content objects starting at $offset are returned
+     * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function getRelatedContent( Tag $tag, $offset = 0, $limit = 0 )
+    public function getRelatedContent( Tag $tag, $offset = 0, $limit = -1 )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
