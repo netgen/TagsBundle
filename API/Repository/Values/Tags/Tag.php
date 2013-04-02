@@ -11,7 +11,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  * @property-read mixed $parentTagId Parent tag ID
  * @property-read mixed $mainTagId Main tag ID
  * @property-read string $keyword Tag keyword
- * @property-read integer $depth The depth tag has in tag tree
+ * @property-read int $depth The depth tag has in tag tree
  * @property-read string $pathString The path to this tag e.g. /1/6/21/42 where 42 is the current ID
  * @property-read \DateTime $modificationDate Tag modification date
  * @property-read string $remoteId A global unique ID of the tag
@@ -51,7 +51,7 @@ class Tag extends ValueObject
     /**
      * The depth tag has in tag tree
      *
-     * @var integer
+     * @var int
      */
     protected $depth;
 

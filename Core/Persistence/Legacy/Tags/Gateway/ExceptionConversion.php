@@ -84,8 +84,8 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param mixed $tagId
-     * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return array
      */
@@ -110,7 +110,7 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      *
-     * @param int $tagId
+     * @param mixed $tagId
      *
      * @return int
      */
@@ -136,8 +136,8 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param mixed $tagId
-     * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return array
      */
@@ -162,7 +162,7 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      *
-     * @param int $tagId
+     * @param mixed $tagId
      *
      * @return int
      */
@@ -191,7 +191,7 @@ class ExceptionConversion extends Gateway
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
-     * @return int[]
+     * @return array
      */
     function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
     {
@@ -339,7 +339,7 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      *
-     * @param int $tagId
+     * @param mixed $tagId
      * @param array $mainTagData
      */
     public function convertToSynonym( $tagId, $mainTagData )

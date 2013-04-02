@@ -133,7 +133,7 @@ class Handler implements BaseTagsHandler
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
-     * @return int[]
+     * @return array
      */
     public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
     {
@@ -286,7 +286,7 @@ class Handler implements BaseTagsHandler
      * Copies tag object identified by $sourceData into destination identified by $destinationParentData
      *
      * Also performs a copy of all child locations of $sourceData tag
-
+     *
      * @param mixed $sourceData The subtree denoted by the tag to copy
      * @param mixed $destinationParentData The target parent tag for the copy operation
      *
@@ -368,7 +368,7 @@ class Handler implements BaseTagsHandler
      *
      * If tag is a synonym, subtree modification time of its main tag is updated
      *
-     * @param int $tagId
+     * @param mixed $tagId
      * @param int $timestamp
      */
     protected function updateSubtreeModificationTime( $tagId, $timestamp = null )

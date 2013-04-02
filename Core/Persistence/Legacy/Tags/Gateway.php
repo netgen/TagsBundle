@@ -29,8 +29,8 @@ abstract class Gateway
      * Returns data for the first level children of the tag identified by given $tagId
      *
      * @param mixed $tagId
-     * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return array
      */
@@ -39,7 +39,7 @@ abstract class Gateway
     /**
      * Returns how many tags exist below tag identified by $tagId
      *
-     * @param int $tagId
+     * @param mixed $tagId
      *
      * @return int
      */
@@ -49,8 +49,8 @@ abstract class Gateway
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @param mixed $tagId
-     * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return array
      */
@@ -59,7 +59,7 @@ abstract class Gateway
     /**
      * Returns how many synonyms exist for a tag identified by $tagId
      *
-     * @param int $tagId
+     * @param mixed $tagId
      *
      * @return int
      */
@@ -72,7 +72,7 @@ abstract class Gateway
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
-     * @return int[]
+     * @return array
      */
     abstract function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 );
 
@@ -124,7 +124,7 @@ abstract class Gateway
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData
      *
-     * @param int $tagId
+     * @param mixed $tagId
      * @param array $mainTagData
      */
     abstract public function convertToSynonym( $tagId, $mainTagData );

@@ -99,8 +99,8 @@ class EzcDatabase extends Gateway
      * Returns data for the first level children of the tag identified by given $tagId
      *
      * @param mixed $tagId
-     * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return array
      */
@@ -130,7 +130,7 @@ class EzcDatabase extends Gateway
     /**
      * Returns how many tags exist below tag identified by $tagId
      *
-     * @param int $tagId
+     * @param mixed $tagId
      *
      * @return int
      */
@@ -164,8 +164,8 @@ class EzcDatabase extends Gateway
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @param mixed $tagId
-     * @param integer $offset The start offset for paging
-     * @param integer $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
      * @return array
      */
@@ -192,7 +192,7 @@ class EzcDatabase extends Gateway
     /**
      * Returns how many synonyms exist for a tag identified by $tagId
      *
-     * @param int $tagId
+     * @param mixed $tagId
      *
      * @return int
      */
@@ -226,7 +226,7 @@ class EzcDatabase extends Gateway
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
-     * @return int[]
+     * @return array
      */
     function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
     {
@@ -377,7 +377,7 @@ class EzcDatabase extends Gateway
                 $this->handler->getAutoIncrementValue( "eztags", "id" )
             )->set(
                 $this->handler->quoteColumn( "parent_id" ),
-                $query->bindValue( $tag->parentTagId = $parentTag["id"], null, PDO::PARAM_INT )
+                $query->bindValue( $tag->parentTagId = (int)$parentTag["id"], null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "main_tag_id" ),
                 $query->bindValue( $tag->mainTagId = 0, null, PDO::PARAM_INT )
@@ -386,7 +386,7 @@ class EzcDatabase extends Gateway
                 $query->bindValue( $tag->keyword = $createStruct->keyword, null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "depth" ),
-                $query->bindValue( $tag->depth = $parentTag["depth"] + 1, null, PDO::PARAM_INT )
+                $query->bindValue( $tag->depth = (int)$parentTag["depth"] + 1, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "path_string" ),
                 $query->bindValue( "dummy" ) // Set later
@@ -515,7 +515,7 @@ class EzcDatabase extends Gateway
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData
      *
-     * @param int $tagId
+     * @param mixed $tagId
      * @param array $mainTagData
      */
     public function convertToSynonym( $tagId, $mainTagData )

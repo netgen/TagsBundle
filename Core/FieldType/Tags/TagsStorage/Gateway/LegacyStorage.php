@@ -134,8 +134,8 @@ class LegacyStorage extends Gateway
     /**
      * Returns the data for the given $fieldId and $versionNo
      *
-     * @param integer $fieldId
-     * @param integer $versionNo
+     * @param mixed $fieldId
+     * @param mixed $versionNo
      *
      * @return array
      */

@@ -733,11 +733,11 @@ class TagsService implements TagsServiceInterface
 
         return new Tag(
             array(
-                "id" => (int)$spiTag->id,
-                "parentTagId" => (int)$spiTag->parentTagId,
-                "mainTagId" => (int)$spiTag->mainTagId,
+                "id" => $spiTag->id,
+                "parentTagId" => $spiTag->parentTagId,
+                "mainTagId" => $spiTag->mainTagId,
                 "keyword" => $spiTag->keyword,
-                "depth" => (int)$spiTag->depth,
+                "depth" => $spiTag->depth,
                 "pathString" => $spiTag->pathString,
                 "modificationDate" => $modificationDate,
                 "remoteId" => $spiTag->remoteId

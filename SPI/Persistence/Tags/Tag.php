@@ -42,7 +42,7 @@ class Tag extends ValueObject
     /**
      * The depth tag has in tag tree
      *
-     * @var integer
+     * @var int
      */
     public $depth;
 
@@ -56,7 +56,7 @@ class Tag extends ValueObject
     /**
      * Tag modification date as a UNIX timestamp
      *
-     * @var integer
+     * @var int
      */
     public $modificationDate;
 

@@ -83,15 +83,15 @@ class Type extends FieldType
             }
 
             $modificationDate = new DateTime();
-            $modificationDate->setTimestamp( (int)$hashItem["modified"] );
+            $modificationDate->setTimestamp( $hashItem["modified"] );
 
             $tags[] = new Tag(
                 array(
-                    "id" => (int)$hashItem["id"],
-                    "parentTagId" => (int)$hashItem["parent_id"],
-                    "mainTagId" => (int)$hashItem["main_tag_id"],
+                    "id" => $hashItem["id"],
+                    "parentTagId" => $hashItem["parent_id"],
+                    "mainTagId" => $hashItem["main_tag_id"],
                     "keyword" => $hashItem["keyword"],
-                    "depth" => (int)$hashItem["depth"],
+                    "depth" => $hashItem["depth"],
                     "pathString" => $hashItem["path_string"],
                     "modificationDate" => $modificationDate,
                     "remoteId" => $hashItem["remote_id"]
@@ -116,13 +116,13 @@ class Type extends FieldType
         foreach ( $value->tags as $tag )
         {
             $hash[] = array(
-                "id" => (int)$tag->id,
-                "parent_id" => (int)$tag->parentTagId,
-                "main_tag_id" => (int)$tag->mainTagId,
+                "id" => $tag->id,
+                "parent_id" => $tag->parentTagId,
+                "main_tag_id" => $tag->mainTagId,
                 "keyword" => $tag->keyword,
-                "depth" => (int)$tag->depth,
+                "depth" => $tag->depth,
                 "path_string" => $tag->pathString,
-                "modified" => (int)$tag->modificationDate->getTimestamp(),
+                "modified" => $tag->modificationDate->getTimestamp(),
                 "remote_id" => $tag->remoteId
             );
         }

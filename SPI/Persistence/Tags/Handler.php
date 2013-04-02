@@ -86,7 +86,7 @@ interface Handler
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
      *
-     * @return int[]
+     * @return array
      */
     public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1 );
 
