@@ -32,8 +32,8 @@ Before running the tests, copy (or symlink) `config.php-DEVELOPMENT` file to `co
 
 ### Running unit tests
 
-    $ phpunit -c src/EzSystems/TagsBundle/phpunit.xml
+    $ phpunit -c vendor/ezsystems/tagsbundle/EzSystems/TagsBundle/phpunit.xml
 
 ### Running legacy integration tests
 
-    $ phpunit -c src/EzSystems/TagsBundle/phpunit-integration-legacy.xml
+    $ phpunit -c vendor/ezsystems/tagsbundle/EzSystems/TagsBundle/phpunit-integration-legacy.xml

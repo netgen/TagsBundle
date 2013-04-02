@@ -10,16 +10,20 @@ Requirements
 Installation steps
 ------------------
 
-### Clone the repo
+### Use Composer
 
-This bundle is not yet available through Composer/Packagist, so you will have to clone it manually for now.
+Add the following to your composer.json and run `php composer.phar update` to refresh dependencies:
 
-Clone the repo into `src/EzSystems/TagsBundle` folder of your eZ Publish 5 installation.
-
-```bash
-mkdir src/EzSystems
-cd src/EzSystems
-git clone http://path.to.repo/... TagsBundle
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/netgen/EzSystemsTagsBundle.git"
+    }
+],
+"require": {
+    "ezsystems/tagsbundle": "dev-master"
+}
 ```
 
 ### Activate the bundle
