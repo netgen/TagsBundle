@@ -199,6 +199,150 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     */
+    public function testLoadTagChildren()
+    {
+        $tag = $this->tagsService->loadTag( 16 );
+        $children = $this->tagsService->loadTagChildren( $tag );
+
+        $this->assertInternalType( "array", $children );
+        $this->assertCount( 6, $children );
+
+        foreach ( $children as $child )
+        {
+            $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $child );
+            $this->assertEquals( $tag->id, $child->parentTagId );
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     */
+    public function testLoadTagChildrenThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->loadTagChildren(
+            new Tag(
+                array( "id" => 16 )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     */
+    public function testGetTagChildrenCount()
+    {
+        $childrenCount = $this->tagsService->getTagChildrenCount(
+            $tag = $this->tagsService->loadTag( 16 )
+        );
+
+        $this->assertEquals( 6, $childrenCount );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     */
+    public function testGetTagChildrenCountThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->getTagChildrenCount(
+            new Tag(
+                array( "id" => 16 )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     */
+    public function testLoadTagSynonyms()
+    {
+        $tag = $this->tagsService->loadTag( 94 );
+        $synonyms = $this->tagsService->loadTagSynonyms( $tag );
+
+        $this->assertInternalType( "array", $synonyms );
+        $this->assertCount( 2, $synonyms );
+
+        foreach ( $synonyms as $synonym )
+        {
+            $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $synonym );
+            $this->assertEquals( $tag->id, $synonym->mainTagId );
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     */
+    public function testLoadTagSynonymsThrowsInvalidArgumentException()
+    {
+        $this->tagsService->loadTagSynonyms(
+            $this->tagsService->loadTag( 95 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     */
+    public function testLoadTagSynonymsThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->loadTagSynonyms(
+            new Tag(
+                array( "id" => 94 )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     */
+    public function testGetTagSynonymCount()
+    {
+        $synonymsCount = $this->tagsService->getTagSynonymCount(
+            $this->tagsService->loadTag( 94 )
+        );
+
+        $this->assertEquals( 2, $synonymsCount );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     */
+    public function testGetTagSynonymCountThrowsInvalidArgumentException()
+    {
+        $this->tagsService->getTagSynonymCount(
+            $this->tagsService->loadTag( 95 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     */
+    public function testGetTagSynonymCountThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->getTagSynonymCount(
+            new Tag(
+                array( "id" => 94 )
+            )
+        );
+    }
+
+    /**
      * Creates and returns a \DateTime object with received timestamp
      *
      * @param int $timestamp
