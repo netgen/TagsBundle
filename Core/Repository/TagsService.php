@@ -277,11 +277,6 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "add" );
         }
 
-        if ( !is_numeric( $tagCreateStruct->parentTagId ) )
-        {
-            throw new InvalidArgumentValue( "parentTagId", $tagCreateStruct->parentTagId, "TagCreateStruct" );
-        }
-
         if ( empty( $tagCreateStruct->keyword ) || !is_string( $tagCreateStruct->keyword ) )
         {
             throw new InvalidArgumentValue( "keyword", $tagCreateStruct->keyword, "TagCreateStruct" );
@@ -359,11 +354,6 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ( !is_numeric( $tag->id ) )
-        {
-            throw new InvalidArgumentValue( "id", $tag->id, "Tag" );
-        }
-
         if ( $tagUpdateStruct->keyword !== null && ( !is_string( $tagUpdateStruct->keyword ) || empty( $tagUpdateStruct->keyword ) ) )
         {
             throw new InvalidArgumentValue( "keyword", $tagUpdateStruct->keyword, "TagUpdateStruct" );
@@ -428,11 +418,6 @@ class TagsService implements TagsServiceInterface
         if ( $this->repository->hasAccess( "tags", "addsynonym" ) !== true )
         {
             throw new UnauthorizedException( "tags", "addsynonym" );
-        }
-
-        if ( !is_numeric( $tag->id ) )
-        {
-            throw new InvalidArgumentValue( "id", $tag->id, "Tag" );
         }
 
         if ( empty( $keyword ) || !is_string( $keyword ) )
