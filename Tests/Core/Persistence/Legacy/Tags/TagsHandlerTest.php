@@ -23,17 +23,17 @@ class TagsHandlerTest extends TestCase
     /**
      * Mocked tags mapper instance
      *
+     * @param array $mockedMethods
+     *
      * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
     protected $mapper;
 
-    protected function getTagsHandler()
+    protected function getTagsHandler( array $mockedMethods = array( "updateSubtreeModificationTime" ) )
     {
         return $this->getMock(
             "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Handler",
-            array(
-                "updateSubtreeModificationTime"
-            ),
+            $mockedMethods,
             array(
                 $this->gateway = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway" ),
                 $this->mapper = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper" )
@@ -616,6 +616,69 @@ class TagsHandlerTest extends TestCase
             ),
             $synonym
         );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::merge
+     */
+    public function testMerge()
+    {
+        $handler = $this->getTagsHandler( array( "loadSynonyms", "updateSubtreeModificationTime" ) );
+
+        $this->gateway
+            ->expects( $this->at( 0 ) )
+            ->method( "getBasicTagData" )
+            ->with( 40 )
+            ->will(
+                $this->returnValue(
+                    array(
+                        "id" => 40,
+                        "parent_id" => 7
+                    )
+                )
+            );
+
+        $this->gateway
+            ->expects( $this->at( 1 ) )
+            ->method( "getBasicTagData" )
+            ->with( 42 )
+            ->will(
+                $this->returnValue(
+                    array(
+                        "id" => 42,
+                    )
+                )
+            );
+
+        $tags = array(
+            new Tag( array( "id" => 50 ) ),
+            new Tag( array( "id" => 51 ) )
+        );
+
+        $handler
+            ->expects( $this->once() )
+            ->method( "loadSynonyms" )
+            ->with( 40 )
+            ->will(
+                $this->returnValue( $tags )
+            );
+
+        array_push( $tags, new Tag( array( "id" => 40 ) ) );
+
+        foreach ( $tags as $index => $tag )
+        {
+            $this->gateway
+                ->expects( $this->at( ( $index + 1 ) * 2 ) )
+                ->method( "transferTagAttributeLinks" )
+                ->with( $tag->id, 42 );
+
+            $this->gateway
+                ->expects( $this->at( ( $index + 1 ) * 2 + 1 ) )
+                ->method( "deleteTag" )
+                ->with( $tag->id );
+        }
+
+        $handler->merge( 40, 42 );
     }
 
     /**

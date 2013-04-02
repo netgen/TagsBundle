@@ -242,7 +242,7 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Merges the tag identified by $tagId into the tag identified $targetTagId
+     * Merges the tag identified by $tagId into the tag identified by $targetTagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      *
@@ -251,6 +251,25 @@ class Handler implements BaseTagsHandler
      */
     public function merge( $tagId, $targetTagId )
     {
+        $tagData = $this->gateway->getBasicTagData( $tagId );
+        $targetTagData = $this->gateway->getBasicTagData( $targetTagId );
+
+        foreach ( $this->loadSynonyms( $tagId ) as $synonym )
+        {
+            $this->gateway->transferTagAttributeLinks( $synonym->id, $targetTagId );
+            $this->gateway->deleteTag( $synonym->id );
+        }
+
+        $this->gateway->transferTagAttributeLinks( $tagId, $targetTagId );
+        $this->gateway->deleteTag( $tagId );
+
+        $timestamp = time();
+        if ( $tagData["parent_id"] > 0 )
+        {
+            $this->updateSubtreeModificationTime( $tagData["parent_id"], $timestamp );
+        }
+
+        $this->updateSubtreeModificationTime( $targetTagData["id"], $timestamp );
     }
 
     /**

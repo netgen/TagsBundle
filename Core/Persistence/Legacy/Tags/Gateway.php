@@ -130,6 +130,14 @@ abstract class Gateway
     abstract public function convertToSynonym( $tagId, $mainTagData );
 
     /**
+     * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId
+     *
+     * @param mixed $tagId
+     * @param mixed $targetTagId
+     */
+    abstract public function transferTagAttributeLinks( $tagId, $targetTagId );
+
+    /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
      * @param array $sourceTagData

@@ -350,6 +350,30 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::transferTagAttributeLinks
+     */
+    public function testTransferTagAttributeLinks()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+
+        $handler->transferTagAttributeLinks( 40, 42 );
+
+        $query = $this->handler->createSelectQuery();
+        $this->assertQueryResult(
+            array(
+                array( 1285, 42, 242, 1, 58 ),
+                array( 1286, 42, 342, 1, 59 ),
+                array( 1287, 42, 142, 1, 57 )
+            ),
+            $query
+                ->select( "id", "keyword_id", "objectattribute_id", "objectattribute_version", "object_id" )
+                ->from( "eztags_attribute_link" )
+                ->where( $query->expr->in( "id", array( 1284, 1285, 1286, 1287 ) ) )
+        );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSubtree
      */
     public function testMoveSubtree()

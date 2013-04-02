@@ -537,6 +537,41 @@ class TagsService implements TagsServiceInterface
         {
             throw new UnauthorizedException( "tags", "merge" );
         }
+
+        $spiTag = $this->tagsHandler->load( $tag->id );
+        $spiTargetTag = $this->tagsHandler->load( $targetTag->id );
+
+        if ( $spiTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        }
+
+        if ( $spiTargetTag->mainTagId > 0 )
+        {
+            throw new InvalidArgumentException( "targetTag", "Target tag is a synonym" );
+        }
+
+        if ( strpos( $spiTargetTag->pathString, $spiTag->pathString ) === 0 )
+        {
+            throw new InvalidArgumentException( "targetParentTag", "Target tag is a sub tag of the given tag" );
+        }
+
+        $this->repository->beginTransaction();
+        try
+        {
+            foreach ( $this->tagsHandler->loadChildren( $spiTag->id ) as $child )
+            {
+                $this->tagsHandler->moveSubtree( $child->id, $spiTargetTag->id );
+            }
+
+            $this->tagsHandler->merge( $spiTag->id, $spiTargetTag->id );
+            $this->repository->commit();
+        }
+        catch ( Exception $e )
+        {
+            $this->repository->rollback();
+            throw $e;
+        }
     }
 
     /**

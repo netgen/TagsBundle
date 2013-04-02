@@ -549,6 +549,101 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId
+     *
+     * @param mixed $tagId
+     * @param mixed $targetTagId
+     */
+    public function transferTagAttributeLinks( $tagId, $targetTagId )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags_attribute_link" ) )
+            ->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        $updateLinkIds = array();
+        $deleteLinkIds = array();
+
+        foreach ( $rows as $row )
+        {
+            $query = $this->handler->createSelectQuery();
+            $query
+                ->select(
+                    $this->handler->quoteColumn( "id" )
+                )
+                ->from( $this->handler->quoteTable( "eztags_attribute_link" ) )
+                ->where(
+                    $query->expr->lAnd(
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( "objectattribute_id" ),
+                            $query->bindValue( $row["objectattribute_id"], null, PDO::PARAM_INT )
+                        ),
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( "objectattribute_version" ),
+                            $query->bindValue( $row["objectattribute_version"], null, PDO::PARAM_INT )
+                        ),
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( "keyword_id" ),
+                            $query->bindValue( $targetTagId, null, PDO::PARAM_INT )
+                        )
+                    )
+                );
+
+            $statement = $query->prepare();
+            $statement->execute();
+
+            $targetRows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+            if ( empty( $targetRows ) )
+            {
+                $updateLinkIds[] = $row["id"];
+            }
+            else
+            {
+                $deleteLinkIds[] = $row["id"];
+            }
+        }
+
+        $query = $this->handler->createDeleteQuery();
+        $query
+            ->deleteFrom( $this->handler->quoteTable( "eztags_attribute_link" ) )
+            ->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( "id" ),
+                    $deleteLinkIds
+                )
+            );
+
+        $query->prepare()->execute();
+
+        $query = $this->handler->createUpdateQuery();
+        $query
+            ->update( $this->handler->quoteTable( "eztags_attribute_link" ) )
+            ->set(
+                $this->handler->quoteColumn( "keyword_id" ),
+                $query->bindValue( $targetTagId )
+            )->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( "id" ),
+                    $updateLinkIds
+                )
+            );
+
+        $query->prepare()->execute();
+    }
+
+    /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
      * @param array $sourceTagData

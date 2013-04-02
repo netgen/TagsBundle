@@ -359,6 +359,30 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId
+     *
+     * @throws \RuntimeException
+     *
+     * @param mixed $tagId
+     * @param mixed $targetTagId
+     */
+    public function transferTagAttributeLinks( $tagId, $targetTagId )
+    {
+        try
+        {
+            $this->innerGateway->transferTagAttributeLinks( $tagId, $targetTagId );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData
      *
      * @throws \RuntimeException

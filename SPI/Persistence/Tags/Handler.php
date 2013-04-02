@@ -147,7 +147,7 @@ interface Handler
     public function convertToSynonym( $tagId, $mainTagId );
 
     /**
-     * Merges the tag identified by $tagId into the tag identified $targetTagId
+     * Merges the tag identified by $tagId into the tag identified by $targetTagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      *
