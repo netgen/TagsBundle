@@ -4,7 +4,7 @@
     "license": "GPL-2.0",
     "authors": [
         {
-            "name": "Netgen d.o.o.",
+            "name": "Netgen",
             "homepage": "http://www.netgenlabs.com"
         },
         {
@@ -12,11 +12,6 @@
             "homepage": "http://ez.no"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.3.3",
-        "ezsystems/ezpublish-kernel": "dev-master"
-    },
     "autoload": {
         "psr-0": {"EzSystems\\TagsBundle": ""}
     },
