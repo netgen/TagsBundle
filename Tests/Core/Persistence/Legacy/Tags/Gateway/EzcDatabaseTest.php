@@ -180,7 +180,7 @@ class EzcDatabaseTest extends TestCase
     {
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
-        $data = $handler->getSynonyms( 94 );
+        $data = $handler->getSynonyms( 16 );
 
         $this->assertCount( 2, $data );
         $this->assertEquals( 95, $data[0]["id"] );
@@ -194,7 +194,7 @@ class EzcDatabaseTest extends TestCase
     {
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getSynonymCount( 94 );
+        $tagsCount = $handler->getSynonymCount( 16 );
 
         $this->assertEquals( 2, $tagsCount );
     }

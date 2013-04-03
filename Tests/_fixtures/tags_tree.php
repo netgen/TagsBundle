@@ -86,8 +86,8 @@ return array(
         array( "id" => 92, "parent_id" => 50, "main_tag_id" => 0, "keyword" => "design", "depth" => 2, "path_string" => "/50/92/", "modified" => 1363263046, "remote_id" => "43ec517d68b6edd3015b3edc9a11367b" ),
         array( "id" => 93, "parent_id" => 50, "main_tag_id" => 0, "keyword" => "frontend", "depth" => 2, "path_string" => "/50/93/", "modified" => 1363263046, "remote_id" => "9778d5d219c5080b9a6a17bef029331c" ),
         array( "id" => 94, "parent_id" => 50, "main_tag_id" => 0, "keyword" => "project", "depth" => 2, "path_string" => "/50/94/", "modified" => 1363263046, "remote_id" => "fe9fc289c3ff0af142b6d3bead98a923" ),
-        array( "id" => 95, "parent_id" => 50, "main_tag_id" => 94, "keyword" => "project 2", "depth" => 2, "path_string" => "/50/95/", "modified" => 1363263046, "remote_id" => "fe9fc289c3ff0af142b6d3bead98a924" ),
-        array( "id" => 96, "parent_id" => 50, "main_tag_id" => 94, "keyword" => "project 3", "depth" => 2, "path_string" => "/50/96/", "modified" => 1363263046, "remote_id" => "fe9fc289c3ff0af142b6d3bead98a925" )
+        array( "id" => 95, "parent_id" => 50, "main_tag_id" => 16, "keyword" => "project 2", "depth" => 1, "path_string" => "/95/", "modified" => 1363263046, "remote_id" => "fe9fc289c3ff0af142b6d3bead98a924" ),
+        array( "id" => 96, "parent_id" => 50, "main_tag_id" => 16, "keyword" => "project 3", "depth" => 1, "path_string" => "/96/", "modified" => 1363263046, "remote_id" => "fe9fc289c3ff0af142b6d3bead98a925" )
     ),
     "eztags_attribute_link" => array(
         array( "id" => 1, "keyword_id" => 5, "objectattribute_id" => 5404, "objectattribute_version" => 10, "object_id" => 1),

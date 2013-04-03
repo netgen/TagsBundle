@@ -5,8 +5,10 @@ namespace EzSystems\TagsBundle\Tests\Core\Repository\Service\Integration;
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
 use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 
 use DateTime;
 
@@ -263,7 +265,7 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagSynonyms()
     {
-        $tag = $this->tagsService->loadTag( 94 );
+        $tag = $this->tagsService->loadTag( 16 );
         $synonyms = $this->tagsService->loadTagSynonyms( $tag );
 
         $this->assertInternalType( "array", $synonyms );
@@ -309,7 +311,7 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetTagSynonymCount()
     {
         $synonymsCount = $this->tagsService->getTagSynonymCount(
-            $this->tagsService->loadTag( 94 )
+            $this->tagsService->loadTag( 16 )
         );
 
         $this->assertEquals( 2, $synonymsCount );
@@ -356,7 +358,6 @@ abstract class TagsBase extends BaseServiceTest
         foreach ( $content as $contentItem )
         {
             $this->assertInstanceOf( "\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content", $contentItem );
-            // $this->assertEquals( $tag->id, $contentItem->mainTagId );
         }
     }
 
@@ -582,6 +583,230 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     */
+    public function testAddSynonym()
+    {
+        $tag = $this->tagsService->loadTag( 40 );
+        $createdSynonym = $this->tagsService->addSynonym( $tag, "New synonym" );
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdSynonym );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 97,
+                "parentTagId" => 7,
+                "mainTagId" => 40,
+                "keyword" => "New synonym",
+                "depth" => 3,
+                "pathString" => "/8/7/97/"
+            ),
+            $createdSynonym
+        );
+
+        $this->assertInstanceOf( "\\DateTime", $createdSynonym->modificationDate );
+        $this->assertGreaterThan( 0, $createdSynonym->modificationDate->getTimestamp() );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     */
+    public function testAddSynonymThrowsNotFoundException()
+    {
+        $this->tagsService->addSynonym(
+            new Tag(
+                array(
+                    "id" => PHP_INT_MAX
+                )
+            ),
+            "New synonym"
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     */
+    public function testAddSynonymThrowsInvalidArgumentException()
+    {
+        $this->tagsService->addSynonym(
+            $this->tagsService->loadTag( 95 ),
+            "New synonym"
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     */
+    public function testAddSynonymThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->addSynonym(
+            new Tag(
+                array(
+                    "id" => 40
+                )
+            ),
+            "New synonym"
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     */
+    public function testConvertToSynonym()
+    {
+        $tag = $this->tagsService->loadTag( 16 );
+        $mainTag = $this->tagsService->loadTag( 40 );
+
+        $convertedSynonym = $this->tagsService->convertToSynonym( $tag, $mainTag );
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $convertedSynonym );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => $tag->id,
+                "parentTagId" => $mainTag->parentTagId,
+                "mainTagId" => $mainTag->id,
+                "keyword" => $tag->keyword,
+                "depth" => $mainTag->depth,
+                "pathString" => $this->getSynonymPathString( $convertedSynonym->id, $mainTag->pathString ),
+                "remoteId" => $tag->remoteId
+            ),
+            $convertedSynonym
+        );
+
+        $this->assertInstanceOf( "\\DateTime", $convertedSynonym->modificationDate );
+        $this->assertGreaterThan( $tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp() );
+
+        $synonymsCount = $this->tagsService->getTagSynonymCount( $mainTag );
+        $this->assertEquals( 3, $synonymsCount );
+
+        $childrenCount = $this->tagsService->getTagChildrenCount( $mainTag );
+        $this->assertEquals( 6, $childrenCount );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     */
+    public function testConvertToSynonymThrowsNotFoundException()
+    {
+        try
+        {
+            $this->tagsService->convertToSynonym(
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => 42
+                    )
+                )
+            );
+            $this->fail( "First tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->convertToSynonym(
+                new Tag(
+                    array(
+                        "id" => 40
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                )
+            );
+            $this->fail( "Second tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     */
+    public function testConvertToSynonymThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    {
+        try
+        {
+            $this->tagsService->convertToSynonym(
+                $this->tagsService->loadTag( 95 ),
+                $this->tagsService->loadTag( 40 )
+            );
+            $this->fail( "First tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->convertToSynonym(
+                $this->tagsService->loadTag( 40 ),
+                $this->tagsService->loadTag( 95 )
+            );
+            $this->fail( "Second tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     */
+    public function testConvertToSynonymThrowsInvalidArgumentExceptionMainTagBelowTag()
+    {
+        $this->tagsService->convertToSynonym(
+            $this->tagsService->loadTag( 7 ),
+            $this->tagsService->loadTag( 40 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     */
+    public function testConvertToSynonymThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->convertToSynonym(
+            new Tag(
+                array(
+                    "id" => 40
+                )
+            ),
+            new Tag(
+                array(
+                    "id" => 42
+                )
+            )
+        );
+    }
+
+    /**
      * Creates and returns a \DateTime object with received timestamp
      *
      * @param int $timestamp
@@ -596,5 +821,21 @@ abstract class TagsBase extends BaseServiceTest
         $dateTime->setTimestamp( $timestamp );
 
         return $dateTime;
+    }
+
+    /**
+     * Returns the path string of a synonym for main tag path string
+     *
+     * @param mixed $synonymId
+     * @param string $mainTagPathString
+     *
+     * @return string
+     */
+    protected function getSynonymPathString( $synonymId, $mainTagPathString )
+    {
+        $pathStringElements = explode( "/", trim( $mainTagPathString, "/" ) );
+        array_pop( $pathStringElements );
+
+        return ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . (int)$synonymId . "/";
     }
 }
