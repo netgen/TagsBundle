@@ -1,4 +1,4 @@
-eZ Tags Bundle installation instructions
+Netgen Tags Bundle installation instructions
 ========================================
 
 Requirements

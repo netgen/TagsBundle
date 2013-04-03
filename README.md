@@ -1,7 +1,7 @@
-eZ Tags Bundle
+Netgen Tags Bundle
 ==============
 
-eZ Tags is an eZ Publish extension for taxonomy management and easier classification of content objects, providing more functionality for tagging content objects than ezkeyword datatype included in eZ Publish kernel.
+Netgen Tags Bundle is an eZ Publish 5 bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than ezkeyword field type included in eZ Publish kernel.
 
 This repository represents eZ Publish 5 rewrite of the original eZ Publish 4 extension located at [http://github.com/ezsystems/eztags](/ezsystems/eztags).
 
