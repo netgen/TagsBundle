@@ -67,3 +67,9 @@ Clear eZ Publish 5 caches.
 ```bash
 php ezpublish/console cache:clear
 ```
+
+### Use the bundle
+
+1) You can now load and create content with `eztags` field type
+
+2) Use `TagsService` in your controllers to work with tags. The service is accessible through Symfony2 DIC, with ID `ezpublish.api.service.tags`
