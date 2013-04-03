@@ -6,10 +6,6 @@
         {
             "name": "Netgen",
             "homepage": "http://www.netgenlabs.com"
-        },
-        {
-            "name": "eZ Systems",
-            "homepage": "http://ez.no"
         }
     ],
     "autoload": {
