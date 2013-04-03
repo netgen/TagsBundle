@@ -18,7 +18,7 @@ Add the following to your composer.json and run `php composer.phar update` to re
 "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/netgen/NetgenTagsBundle.git"
+        "url": "https://github.com/netgen/TagsBundle.git"
     }
 ],
 "require": {
