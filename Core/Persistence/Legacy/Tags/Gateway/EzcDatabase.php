@@ -615,32 +615,38 @@ class EzcDatabase extends Gateway
             }
         }
 
-        $query = $this->handler->createDeleteQuery();
-        $query
-            ->deleteFrom( $this->handler->quoteTable( "eztags_attribute_link" ) )
-            ->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn( "id" ),
-                    $deleteLinkIds
-                )
-            );
+        if ( !empty( $deleteLinkIds ) )
+        {
+            $query = $this->handler->createDeleteQuery();
+            $query
+                ->deleteFrom( $this->handler->quoteTable( "eztags_attribute_link" ) )
+                ->where(
+                    $query->expr->in(
+                        $this->handler->quoteColumn( "id" ),
+                        $deleteLinkIds
+                    )
+                );
 
-        $query->prepare()->execute();
+            $query->prepare()->execute();
+        }
 
-        $query = $this->handler->createUpdateQuery();
-        $query
-            ->update( $this->handler->quoteTable( "eztags_attribute_link" ) )
-            ->set(
-                $this->handler->quoteColumn( "keyword_id" ),
-                $query->bindValue( $targetTagId )
-            )->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn( "id" ),
-                    $updateLinkIds
-                )
-            );
+        if ( !empty( $updateLinkIds ) )
+        {
+            $query = $this->handler->createUpdateQuery();
+            $query
+                ->update( $this->handler->quoteTable( "eztags_attribute_link" ) )
+                ->set(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $query->bindValue( $targetTagId )
+                )->where(
+                    $query->expr->in(
+                        $this->handler->quoteColumn( "id" ),
+                        $updateLinkIds
+                    )
+                );
 
-        $query->prepare()->execute();
+            $query->prepare()->execute();
+        }
     }
 
     /**
