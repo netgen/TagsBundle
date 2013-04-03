@@ -344,21 +344,24 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $sourceId
      * @param mixed $destinationParentId
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The updated root tag of the moved subtree
      */
     public function moveSubtree( $sourceId, $destinationParentId )
     {
         $sourceTagData = $this->gateway->getBasicTagData( $sourceId );
         $destinationParentTagData = $this->gateway->getBasicTagData( $destinationParentId );
 
-        $this->gateway->moveSubtree( $sourceTagData, $destinationParentTagData );
+        $movedTagData = $this->gateway->moveSubtree( $sourceTagData, $destinationParentTagData );
 
-        $timestamp = time();
         if ( $sourceTagData["parent_id"] > 0 )
         {
-            $this->updateSubtreeModificationTime( $sourceTagData["parent_id"], $timestamp );
+            $this->updateSubtreeModificationTime( $sourceTagData["parent_id"], $movedTagData["modified"] );
         }
 
-        $this->updateSubtreeModificationTime( $sourceTagData["id"], $timestamp );
+        $this->updateSubtreeModificationTime( $movedTagData["id"], $movedTagData["modified"] );
+
+        return $this->mapper->createTagFromRow( $movedTagData );
     }
 
     /**

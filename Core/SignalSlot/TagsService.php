@@ -346,10 +346,12 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
+     *
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
     public function moveSubtree( Tag $tag, Tag $targetParentTag )
     {
-        $this->service->moveSubtree( $tag, $targetParentTag );
+        $returnValue = $this->service->moveSubtree( $tag, $targetParentTag );
         $this->signalDispatcher->emit(
             new MoveSubtreeSignal(
                 array(
@@ -358,6 +360,8 @@ class TagsService implements TagsServiceInterface
                 )
             )
         );
+
+        return $returnValue;
     }
 
     /**

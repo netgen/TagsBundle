@@ -699,6 +699,7 @@ class TagsHandlerTest extends TestCase
         $sourceData = array(
             "id" => 42,
             "parent_id" => 21,
+            "depth" => 3,
             "path_string" => "/1/21/42/"
         );
 
@@ -706,6 +707,14 @@ class TagsHandlerTest extends TestCase
             "id" => 66,
             "parent_id" => 21,
             "path_string" => "/1/21/66/",
+        );
+
+        $movedData = array(
+            "id" => 42,
+            "parent_id" => 66,
+            "depth" => 4,
+            "path_string" => "/1/21/66/42/",
+            "modified" => 12345
         );
 
         $this->gateway
@@ -723,9 +732,44 @@ class TagsHandlerTest extends TestCase
         $this->gateway
             ->expects( $this->once() )
             ->method( "moveSubtree" )
-            ->with( $sourceData, $destinationData );
+            ->with( $sourceData, $destinationData )
+            ->will( $this->returnValue( $movedData ) );
 
-        $handler->moveSubtree( 42, 66 );
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "createTagFromRow" )
+            ->with( $movedData )
+            ->will(
+                $this->returnValue(
+                    new Tag(
+                        array(
+                            "id" => $movedData["id"],
+                            "parentTagId" => $movedData["parent_id"],
+                            "depth" => $movedData["depth"],
+                            "pathString" => $movedData["path_string"],
+                            "modificationDate" => $movedData["modified"]
+                        )
+                    )
+                )
+            );
+
+        $movedTag = $handler->moveSubtree( 42, 66 );
+
+        $this->assertInstanceOf(
+            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $movedTag
+        );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => $movedData["id"],
+                "parentTagId" => $movedData["parent_id"],
+                "depth" => $movedData["depth"],
+                "pathString" => $movedData["path_string"],
+                "modificationDate" => $movedData["modified"]
+            ),
+            $movedTag
+        );
     }
 
     /**

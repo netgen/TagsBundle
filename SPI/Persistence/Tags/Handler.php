@@ -177,6 +177,8 @@ interface Handler
      *
      * @param mixed $sourceId
      * @param mixed $destinationParentId
+     *
+     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The updated root tag of the moved subtree
      */
     public function moveSubtree( $sourceId, $destinationParentId );
 

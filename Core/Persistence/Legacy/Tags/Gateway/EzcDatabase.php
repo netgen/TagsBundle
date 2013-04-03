@@ -654,6 +654,8 @@ class EzcDatabase extends Gateway
      *
      * @param array $sourceTagData
      * @param array $destinationParentTagData
+     *
+     * @return array Tag data of the updated root tag
      */
     public function moveSubtree( array $sourceTagData, array $destinationParentTagData )
     {
@@ -687,6 +689,7 @@ class EzcDatabase extends Gateway
         $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
 
         $oldParentPathString = implode( "/", array_slice( explode( "/", $fromPathString ), 0, -2 ) ) . "/";
+        $timestamp = time();
         foreach ( $rows as $row )
         {
             // Prefixing ensures correct replacement when there is no parent
@@ -702,18 +705,31 @@ class EzcDatabase extends Gateway
                 $newParentId = (int)implode( "", array_slice( explode( "/", $newPathString ), -3, 1 ) );
             }
 
+            $newDepth = substr_count( $newPathString, "/" ) - 1;
+
+            if ( $row["id"] == $sourceTagData["id"] )
+            {
+                $sourceTagData["parent_id"] = $newParentId;
+                $sourceTagData["depth"] = $newDepth;
+                $sourceTagData["path_string"] = $newPathString;
+                $sourceTagData["modified"] = $timestamp;
+            }
+
             $query = $this->handler->createUpdateQuery();
             $query
                 ->update( $this->handler->quoteTable( "eztags" ) )
                 ->set(
                     $this->handler->quoteColumn( "path_string" ),
-                    $query->bindValue( $newPathString )
+                    $query->bindValue( $newPathString, null, PDO::PARAM_STR )
                 )->set(
                     $this->handler->quoteColumn( "depth" ),
-                    $query->bindValue( substr_count( $newPathString, "/" ) - 1 )
+                    $query->bindValue( $newDepth, null, PDO::PARAM_INT )
                 )->set(
                     $this->handler->quoteColumn( "parent_id" ),
-                    $query->bindValue( $newParentId )
+                    $query->bindValue( $newParentId, null, PDO::PARAM_INT )
+                )->set(
+                    $this->handler->quoteColumn( "modified" ),
+                    $query->bindValue( $timestamp, null, PDO::PARAM_INT )
                 )->where(
                     $query->expr->eq(
                         $this->handler->quoteColumn( "id" ),
@@ -723,6 +739,8 @@ class EzcDatabase extends Gateway
 
             $query->prepare()->execute();
         }
+
+        return $sourceTagData;
     }
 
     /**

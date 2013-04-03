@@ -635,6 +635,8 @@ class TagsService implements TagsServiceInterface
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
+     *
+     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
     public function moveSubtree( Tag $tag, Tag $targetParentTag )
     {
@@ -669,7 +671,7 @@ class TagsService implements TagsServiceInterface
         $this->repository->beginTransaction();
         try
         {
-            $this->tagsHandler->moveSubtree( $spiTag->id, $spiParentTag->id );
+            $movedTag = $this->tagsHandler->moveSubtree( $spiTag->id, $spiParentTag->id );
             $this->repository->commit();
         }
         catch ( Exception $e )
@@ -677,6 +679,8 @@ class TagsService implements TagsServiceInterface
             $this->repository->rollback();
             throw $e;
         }
+
+        return $this->buildTagDomainObject( $movedTag );
     }
 
     /**
