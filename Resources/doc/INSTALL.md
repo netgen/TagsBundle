@@ -15,12 +15,6 @@ Installation steps
 Add the following to your composer.json and run `php composer.phar update` to refresh dependencies:
 
 ```json
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/netgen/TagsBundle.git"
-    }
-],
 "require": {
     "netgen/tagsbundle": "dev-master"
 }
