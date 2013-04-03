@@ -949,6 +949,142 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     */
+    public function testCopySubtree()
+    {
+        $this->markTestIncomplete( "@TODO: Implement test for copySubtree" );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     */
+    public function testCopySubtreeThrowsNotFoundException()
+    {
+        try
+        {
+            $this->tagsService->copySubtree(
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => 40
+                    )
+                )
+            );
+            $this->fail( "First tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->copySubtree(
+                new Tag(
+                    array(
+                        "id" => 16
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                )
+            );
+            $this->fail( "Second tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     */
+    public function testCopySubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    {
+        try
+        {
+            $this->tagsService->copySubtree(
+                $this->tagsService->loadTag( 95 ),
+                $this->tagsService->loadTag( 40 )
+            );
+            $this->fail( "First tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->copySubtree(
+                $this->tagsService->loadTag( 16 ),
+                $this->tagsService->loadTag( 95 )
+            );
+            $this->fail( "Second tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     */
+    public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
+    {
+        $this->tagsService->copySubtree(
+            $this->tagsService->loadTag( 7 ),
+            $this->tagsService->loadTag( 40 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     */
+    public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
+    {
+        $this->tagsService->copySubtree(
+            $this->tagsService->loadTag( 7 ),
+            $this->tagsService->loadTag( 8 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     */
+    public function testCopySubtreeThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->copySubtree(
+            new Tag(
+                array(
+                    "id" => 16
+                )
+            ),
+            new Tag(
+                array(
+                    "id" => 40
+                )
+            )
+        );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
      */
     public function testMoveSubtree()
