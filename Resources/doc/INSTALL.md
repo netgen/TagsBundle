@@ -5,7 +5,7 @@ Requirements
 ------------
 
 * eZ Publish 5.0+
-* eZ Publish Legacy Stack with legacy eZ Tags extension installed and configured
+* eZ Publish Legacy Stack with legacy eZ Tags 1.2.2 installed and configured
 
 Installation steps
 ------------------
