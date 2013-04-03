@@ -1,11 +1,11 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\FieldType;
+namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
-use EzSystems\TagsBundle\Core\FieldType\Tags\Type as TagsType;
-use EzSystems\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
+use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use DateTime;
 use stdClass;
 
@@ -20,7 +20,7 @@ class TagsTest extends FieldTypeTest
     /**
      * Returns the field type under test.
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Type
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Type
      */
     protected function createFieldTypeUnderTest()
     {
@@ -50,7 +50,7 @@ class TagsTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
     protected function getEmptyValueExpectation()
     {
@@ -190,7 +190,7 @@ class TagsTest extends FieldTypeTest
     /**
      * Returns a tag for tests
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag()
     {

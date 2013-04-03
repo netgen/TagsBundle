@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\API\Repository\SetupFactory;
+namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
 use eZ\Publish\Core\Base\ServiceContainer;
@@ -112,14 +112,14 @@ class Legacy extends BaseLegacy
 
             /** START: eztags field type settings */
 
-            $serviceSettings["legacy_converter_registry"]["arguments"]["map"]["eztags"] = "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\Tags::create";
+            $serviceSettings["legacy_converter_registry"]["arguments"]["map"]["eztags"] = "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\Tags::create";
 
-            $serviceSettings["eztags:field_storage_legacy_gateway"]["class"] = "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage\\Gateway\\LegacyStorage";
+            $serviceSettings["eztags:field_storage_legacy_gateway"]["class"] = "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage\\Gateway\\LegacyStorage";
 
-            $serviceSettings["eztags:field_storage"]["class"] = "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage";
+            $serviceSettings["eztags:field_storage"]["class"] = "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage";
             $serviceSettings["eztags:field_storage"]["arguments"]["gateways"]["LegacyStorage"] = "@eztags:field_storage_legacy_gateway";
 
-            $serviceSettings["eztags:field_type"]["class"] = "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Type";
+            $serviceSettings["eztags:field_type"]["class"] = "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Type";
 
             /** END: eztags field type settings */
 

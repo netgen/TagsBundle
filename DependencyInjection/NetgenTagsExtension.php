@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\DependencyInjection;
+namespace Netgen\TagsBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * This is the class that loads and manages the bundle configuration
  */
-class eZTagsExtension extends Extension
+class NetgenTagsExtension extends Extension
 {
     /**
      * {@inheritDoc}

@@ -1,30 +1,30 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags;
+namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 class Handler implements BaseTagsHandler
 {
     /**
-     * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
     protected $gateway;
 
     /**
-     * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
     protected $mapper;
 
     /**
-     * @param \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway $gateway
-     * @param \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper $mapper
+     * @param \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway $gateway
+     * @param \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper $mapper
      */
     public function __construct( Gateway $gateway, Mapper $mapper )
     {
@@ -39,7 +39,7 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function load( $tagId )
     {
@@ -54,7 +54,7 @@ class Handler implements BaseTagsHandler
      *
      * @param string $remoteId
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function loadByRemoteId( $remoteId )
     {
@@ -71,7 +71,7 @@ class Handler implements BaseTagsHandler
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
     public function loadChildren( $tagId, $offset = 0, $limit = -1 )
     {
@@ -102,7 +102,7 @@ class Handler implements BaseTagsHandler
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
     public function loadSynonyms( $tagId, $offset = 0, $limit = -1 )
     {
@@ -157,9 +157,9 @@ class Handler implements BaseTagsHandler
     /**
      * Creates the new tag
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag
      */
     public function create( CreateStruct $createStruct )
     {
@@ -175,10 +175,10 @@ class Handler implements BaseTagsHandler
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The updated tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The updated tag
      */
     public function update( UpdateStruct $updateStruct, $tagId )
     {
@@ -196,7 +196,7 @@ class Handler implements BaseTagsHandler
      * @param mixed $tagId
      * @param string $keyword
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
      */
     public function addSynonym( $tagId, $keyword )
     {
@@ -216,7 +216,7 @@ class Handler implements BaseTagsHandler
      * @param mixed $tagId
      * @param mixed $mainTagId
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The converted synonym
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The converted synonym
      */
     public function convertToSynonym( $tagId, $mainTagId )
     {
@@ -282,7 +282,7 @@ class Handler implements BaseTagsHandler
      * @param mixed $sourceId The subtree denoted by the tag to copy
      * @param mixed $destinationParentId The target parent tag for the copy operation
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
     public function copySubtree( $sourceId, $destinationParentId )
     {
@@ -309,7 +309,7 @@ class Handler implements BaseTagsHandler
      * @param mixed $sourceData The subtree denoted by the tag to copy
      * @param mixed $destinationParentData The target parent tag for the copy operation
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
     protected function recursiveCopySubtree( array $sourceData, array $destinationParentData )
     {
@@ -345,7 +345,7 @@ class Handler implements BaseTagsHandler
      * @param mixed $sourceId
      * @param mixed $destinationParentId
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag The updated root tag of the moved subtree
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The updated root tag of the moved subtree
      */
     public function moveSubtree( $sourceId, $destinationParentId )
     {

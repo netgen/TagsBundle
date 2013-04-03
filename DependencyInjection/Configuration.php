@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\DependencyInjection;
+namespace Netgen\TagsBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -1,14 +1,14 @@
 <?php
 
-namespace EzSystems\TagsBundle\ApiLoader;
+namespace Netgen\TagsBundle\ApiLoader;
 
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
 
 class LegacyTagsHandlerFactory
 {
@@ -32,7 +32,7 @@ class LegacyTagsHandlerFactory
      *
      * @param \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler $dbHandler
      *
-     * @return \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler
+     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
      */
     public function buildLegacyTagsHandler( EzcDbHandler $dbHandler )
     {

@@ -1,12 +1,12 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy;
+namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy;
 
-use EzSystems\TagsBundle\Core\Repository\TagsService;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
+use Netgen\TagsBundle\Core\Repository\TagsService;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use RuntimeException;
 use Exception;
@@ -22,7 +22,7 @@ abstract class Utils
     protected static $serviceContainer;
 
     /**
-     * @return \EzSystems\TagsBundle\API\Repository\TagsService
+     * @return \Netgen\TagsBundle\API\Repository\TagsService
      */
     public static function getTagsService()
     {

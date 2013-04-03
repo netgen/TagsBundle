@@ -1,11 +1,11 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\FieldType\Tags;
+namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use EzSystems\TagsBundle\Core\FieldType\Tags\Value;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\FieldType\Tags\Value;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use DateTime;
 
@@ -29,13 +29,13 @@ class Type extends FieldType
     /**
      * Returns a human readable string representation from the given $value
      *
-     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return string
      */
     public function getName( $value )
     {
-        /** @var \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value */
+        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\Value $value */
         $value = $this->acceptValue( $value );
 
         return implode(
@@ -53,7 +53,7 @@ class Type extends FieldType
     /**
      * Returns the empty value for this field type.
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
     public function getEmptyValue()
     {
@@ -65,7 +65,7 @@ class Type extends FieldType
      *
      * @param mixed $hash
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
     public function fromHash( $hash )
     {
@@ -106,7 +106,7 @@ class Type extends FieldType
     /**
      * Converts the given $value into a plain hash format
      *
-     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return array
      */
@@ -138,7 +138,7 @@ class Type extends FieldType
      *
      * @param mixed $inputValue
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value.
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value.
      */
     protected function internalAcceptValue( $inputValue )
     {
@@ -150,7 +150,7 @@ class Type extends FieldType
                 {
                     throw new InvalidArgumentType(
                         "inputValue",
-                        "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+                        "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
                         $inputValue
                     );
                 }
@@ -166,7 +166,7 @@ class Type extends FieldType
         {
             throw new InvalidArgumentType(
                 "inputValue",
-                "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+                "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
                 $inputValue
             );
         }
@@ -189,7 +189,7 @@ class Type extends FieldType
     /**
      * Converts a $value to a persistence value
      *
-     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
      */
@@ -209,7 +209,7 @@ class Type extends FieldType
      *
      * @param \eZ\Publish\SPI\Persistence\Content\FieldValue $fieldValue
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
     public function fromPersistenceValue( FieldValue $fieldValue )
     {
@@ -219,7 +219,7 @@ class Type extends FieldType
     /**
      * Returns if the given $value is considered empty by the field type
      *
-     * @param \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return boolean
      */

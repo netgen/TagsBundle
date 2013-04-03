@@ -1,11 +1,11 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\API\Repository\FieldType;
+namespace Netgen\TagsBundle\Tests\API\Repository\FieldType;
 
 use eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest;
 use eZ\Publish\API\Repository\Values\Content\Field;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
-use EzSystems\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use DateTime;
 use stdClass;
 
@@ -94,7 +94,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Get initial field data for valid object creation
      *
-     * @return \EzSystems\TagsBundle\Core\FieldType\Tags\Value
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
     public function getValidCreationFieldData()
     {
@@ -116,7 +116,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertFieldDataLoadedCorrect( Field $field )
     {
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+            "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
             $field->value
         );
 
@@ -199,7 +199,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertUpdatedFieldDataLoadedCorrect( Field $field )
     {
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+            "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
             $field->value
         );
 
@@ -249,7 +249,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertCopiedFieldDataLoadedCorrectly( Field $field )
     {
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+            "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
             $field->value
         );
 
@@ -384,7 +384,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a tag for tests
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag1()
     {
@@ -408,7 +408,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a tag for tests
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag2()
     {

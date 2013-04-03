@@ -1,5 +1,5 @@
 {
-    "name": "ezsystems/tagsbundle",
+    "name": "netgen/tagsbundle",
     "description": "eZ Tags",
     "license": "GPL-2.0",
     "authors": [
@@ -13,7 +13,7 @@
         }
     ],
     "autoload": {
-        "psr-0": {"EzSystems\\TagsBundle": ""}
+        "psr-0": {"Netgen\\TagsBundle": ""}
     },
-    "target-dir": "EzSystems/TagsBundle"
+    "target-dir": "Netgen/TagsBundle"
 }

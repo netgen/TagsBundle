@@ -1,14 +1,14 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Repository\Values\Tags;
+namespace Netgen\TagsBundle\Tests\Core\Repository\Values\Tags;
 
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use PHPUnit_Framework_TestCase;
 
 class TagTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag::getProperties
+     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::getProperties
      */
     public function testObjectProperties()
     {

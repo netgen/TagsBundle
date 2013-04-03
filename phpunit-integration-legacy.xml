@@ -9,12 +9,12 @@
          colors="false"
          >
     <php>
-        <env name="setupFactory" value="EzSystems\TagsBundle\Tests\API\Repository\SetupFactory\Legacy" />
+        <env name="setupFactory" value="Netgen\TagsBundle\Tests\API\Repository\SetupFactory\Legacy" />
         <env name="backendVersion" value="5" />
         <env name="fixtureDir" value="Legacy" />
     </php>
     <testsuites>
-        <testsuite name="EzSystems\TagsBundle\Tests\API">
+        <testsuite name="Netgen\TagsBundle\Tests\API">
             <directory>Tests/API</directory>
         </testsuite>
     </testsuites>

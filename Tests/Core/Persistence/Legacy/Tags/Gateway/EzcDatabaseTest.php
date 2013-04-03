@@ -1,11 +1,11 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
+namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 /**
  * Test case for Tags Legacy gateway
@@ -56,7 +56,7 @@ class EzcDatabaseTest extends TestCase
     /**
      * Returns gateway implementation for legacy storage
      *
-     * @return \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase
+     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase
      */
     protected function getTagsGateway()
     {
@@ -83,7 +83,7 @@ class EzcDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagData
      *
      * @param string $field
      * @param mixed $value
@@ -102,7 +102,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagData
      * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
     public function testGetBasicTagDataThrowsNotFoundException()
@@ -114,7 +114,7 @@ class EzcDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagDataByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagDataByRemoteId
      *
      * @param string $field
      * @param mixed $value
@@ -133,7 +133,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagDataByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagDataByRemoteId
      * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
     public function testGetBasicTagDataByRemoteIdThrowsNotFoundException()
@@ -144,7 +144,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildren
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildren
      */
     public function testGetChildren()
     {
@@ -162,7 +162,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildrenCount
      */
     public function testGetChildrenCount()
     {
@@ -174,7 +174,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonyms
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonyms
      */
     public function testGetSynonyms()
     {
@@ -188,7 +188,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonymCount
      */
     public function testGetSynonymCount()
     {
@@ -200,7 +200,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentIds
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentIds
      */
     public function testGetRelatedContentIds()
     {
@@ -214,7 +214,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
      */
     public function testGetRelatedContentCount()
     {
@@ -227,7 +227,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
      */
     public function testCreate()
     {
@@ -262,7 +262,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::update
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::update
      */
     public function testUpdate()
     {
@@ -291,7 +291,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::createSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::createSynonym
      */
     public function testCreateSynonym()
     {
@@ -321,7 +321,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::convertToSynonym
      */
     public function testConvertToSynonym()
     {
@@ -350,7 +350,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::transferTagAttributeLinks
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::transferTagAttributeLinks
      */
     public function testTransferTagAttributeLinks()
     {
@@ -374,7 +374,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSubtree
      */
     public function testMoveSubtree()
     {
@@ -411,7 +411,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::deleteTag
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::deleteTag
      */
     public function testDeleteTag()
     {
@@ -443,7 +443,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
      */
     public function testUpdateSubtreeModificationTime()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\SPI\Persistence\Tags;
+namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
 use eZ\Publish\SPI\Persistence\ValueObject;
 

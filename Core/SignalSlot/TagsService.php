@@ -1,26 +1,26 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\SignalSlot;
+namespace Netgen\TagsBundle\Core\SignalSlot;
 
 use eZ\Publish\Core\SignalSlot\SignalDispatcher;
-use EzSystems\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
-use EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
 
 class TagsService implements TagsServiceInterface
 {
     /**
-     * @var \EzSystems\TagsBundle\API\Repository\TagsService
+     * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
     protected $service;
 
@@ -32,7 +32,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Constructor
      *
-     * @param \EzSystems\TagsBundle\API\Repository\TagsService $service
+     * @param \Netgen\TagsBundle\API\Repository\TagsService $service
      * @param \eZ\Publish\Core\SignalSlot\SignalDispatcher $signalDispatcher
      */
     public function __construct( TagsServiceInterface $service, SignalDispatcher $signalDispatcher )
@@ -49,7 +49,7 @@ class TagsService implements TagsServiceInterface
      *
      * @param mixed $tagId
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     public function loadTag( $tagId )
     {
@@ -64,7 +64,7 @@ class TagsService implements TagsServiceInterface
      *
      * @param string $remoteId
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     public function loadTagByRemoteId( $remoteId )
     {
@@ -76,11 +76,11 @@ class TagsService implements TagsServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
     public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 )
     {
@@ -92,7 +92,7 @@ class TagsService implements TagsServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return int
      */
@@ -107,11 +107,11 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
     public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1 )
     {
@@ -124,7 +124,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return int
      */
@@ -139,7 +139,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
      *
@@ -156,7 +156,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return int
      */
@@ -171,9 +171,9 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag
      */
     public function createTag( TagCreateStruct $tagCreateStruct )
     {
@@ -198,10 +198,10 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct $tagUpdateStruct
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct $tagUpdateStruct
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The updated tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated tag
      */
     public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct )
     {
@@ -226,10 +226,10 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param string $keyword
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
     public function addSynonym( Tag $tag, $keyword )
     {
@@ -255,10 +255,10 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *                                                                        If the main tag is a sub tag of the given tag
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $mainTag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $mainTag
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The converted synonym
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The converted synonym
      */
     public function convertToSynonym( Tag $tag, Tag $mainTag )
     {
@@ -283,8 +283,8 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *                                                                        If the target tag is a sub tag of the given tag
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetTag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetTag
      */
     public function mergeTags( Tag $tag, Tag $targetTag )
     {
@@ -308,10 +308,10 @@ class TagsService implements TagsServiceInterface
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag The target parent tag for the copy operation
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag The target parent tag for the copy operation
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
     public function copySubtree( Tag $tag, Tag $targetParentTag )
     {
@@ -338,10 +338,10 @@ class TagsService implements TagsServiceInterface
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
     public function moveSubtree( Tag $tag, Tag $targetParentTag )
     {
@@ -366,7 +366,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
     public function deleteTag( Tag $tag )
     {
@@ -386,7 +386,7 @@ class TagsService implements TagsServiceInterface
      * @param mixed $parentTagId
      * @param string $keyword
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
     public function newTagCreateStruct( $parentTagId, $keyword )
     {
@@ -396,7 +396,7 @@ class TagsService implements TagsServiceInterface
     /**
      * Instantiates a new tag update struct
      *
-     * @return \EzSystems\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
      */
     public function newTagUpdateStruct()
     {

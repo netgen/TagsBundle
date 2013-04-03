@@ -1,9 +1,9 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
+namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 
 /**
  * Test case for Tags mapper
@@ -53,7 +53,7 @@ class MapperTest extends TestCase
     );
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
      */
     public function testCreateTagFromRow()
     {
@@ -64,7 +64,7 @@ class MapperTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
 
@@ -75,7 +75,7 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
      */
     public function testCreateTagFromRowWithPrefix()
     {
@@ -92,7 +92,7 @@ class MapperTest extends TestCase
         $tag = $mapper->createTagFromRow( $data, $prefix );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
 
@@ -103,7 +103,7 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
      */
     public function testCreateTagsFromRows()
     {
@@ -125,7 +125,7 @@ class MapperTest extends TestCase
         foreach ( $tags as $tag )
         {
             $this->assertInstanceOf(
-                "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
                 $tag
             );
 
@@ -139,7 +139,7 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
      */
     public function testCreateTagsFromRowsWithPrefix()
     {
@@ -169,7 +169,7 @@ class MapperTest extends TestCase
         foreach ( $tags as $tag )
         {
             $this->assertInstanceOf(
-                "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
                 $tag
             );
 
@@ -183,7 +183,7 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::getTagCreateStruct
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::getTagCreateStruct
      */
     public function testGetTagCreateStruct()
     {

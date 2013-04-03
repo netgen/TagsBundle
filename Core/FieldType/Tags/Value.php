@@ -1,9 +1,9 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\FieldType\Tags;
+namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\Value as BaseValue;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 /**
  * Value for Tags field type
@@ -11,14 +11,14 @@ use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
 class Value extends BaseValue
 {
     /**
-     * @var \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[]
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
     public $tags = array();
 
     /**
      * Constructor
      *
-     * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
     public function __construct( $tags = null )
     {

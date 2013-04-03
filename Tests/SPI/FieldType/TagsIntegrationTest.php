@@ -1,12 +1,12 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\SPI\FieldType;
+namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
-use EzSystems\TagsBundle\Core\FieldType\Tags\Type as TagsType;
-use EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage;
-use EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage as TagsLegacyStorage;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage as TagsLegacyStorage;
 use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Persistence\Content\Field;

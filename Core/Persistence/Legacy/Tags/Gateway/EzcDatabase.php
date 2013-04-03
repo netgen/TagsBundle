@@ -1,11 +1,11 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
-use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use PDO;
@@ -360,10 +360,10 @@ class EzcDatabase extends Gateway
     /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function create( CreateStruct $createStruct, array $parentTag )
     {
@@ -424,7 +424,7 @@ class EzcDatabase extends Gateway
     /**
      * Updates an existing tag
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
      */
     public function update( UpdateStruct $updateStruct, $tagId )
@@ -454,7 +454,7 @@ class EzcDatabase extends Gateway
      * @param string $keyword
      * @param array $tag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function createSynonym( $keyword, array $tag )
     {

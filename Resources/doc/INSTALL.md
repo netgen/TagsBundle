@@ -18,11 +18,11 @@ Add the following to your composer.json and run `php composer.phar update` to re
 "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/netgen/EzSystemsTagsBundle.git"
+        "url": "https://github.com/netgen/NetgenTagsBundle.git"
     }
 ],
 "require": {
-    "ezsystems/tagsbundle": "dev-master"
+    "netgen/tagsbundle": "dev-master"
 }
 ```
 
@@ -31,7 +31,7 @@ Add the following to your composer.json and run `php composer.phar update` to re
 Activate the bundle in `ezpublish\EzPublishKernel.php` file.
 
 ```php
-use EzSystems\TagsBundle\EzSystemsTagsBundle;
+use Netgen\TagsBundle\NetgenTagsBundle;
 
 ...
 
@@ -40,7 +40,7 @@ public function registerBundles()
    $bundles = array(
        new FrameworkBundle(),
        ...
-       new EzSystemsTagsBundle()
+       new NetgenTagsBundle()
    );
 
    ...
@@ -55,7 +55,7 @@ Put the following config in your `ezpublish/config.yml` file to be able to load 
 parameters:
    ezsettings.YOUR_SITEACCESS_NAME.field_templates:
        - {template: EzPublishCoreBundle::content_fields.html.twig, priority: 0}
-       - {template: eZTagsBundle::eztags_content_field.html.twig, priority: 0}
+       - {template: NetgenTagsBundle::eztags_content_field.html.twig, priority: 0}
 ```
 
 Be sure to replace `YOUR_SITEACCESS_NAME` text with the name of your frontend siteaccess.

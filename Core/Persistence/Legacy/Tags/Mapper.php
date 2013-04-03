@@ -1,9 +1,9 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags;
+namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
-use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 
 class Mapper
 {
@@ -16,9 +16,9 @@ class Mapper
      *
      * @param array $data
      * @param string $prefix
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $tag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function createTagFromRow( array $data, $prefix = "", Tag $tag = null )
     {
@@ -42,7 +42,7 @@ class Mapper
      * @param array $rows
      * @param string $prefix
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag[]
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
     public function createTagsFromRows( array $rows, $prefix = "" )
     {
@@ -65,7 +65,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct
      */
     public function getTagCreateStruct( array $data )
     {

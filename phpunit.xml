@@ -7,10 +7,10 @@
          colors="false"
          >
     <testsuites>
-        <testsuite name="EzSystems\TagsBundle\Tests\Core">
+        <testsuite name="Netgen\TagsBundle\Tests\Core">
             <directory>Tests/Core</directory>
         </testsuite>
-        <testsuite name="EzSystems\TagsBundle\Tests\SPI">
+        <testsuite name="Netgen\TagsBundle\Tests\SPI">
             <directory>Tests/SPI</directory>
         </testsuite>
     </testsuites>

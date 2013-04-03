@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\FieldType\Tags;
+namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\GatewayBasedStorage;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
@@ -27,7 +27,7 @@ class TagsStorage extends GatewayBasedStorage
             return;
         }
 
-        /** @var \EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
+        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
         $gateway = $this->getGateway( $context );
         $gateway->storeFieldData( $versionInfo, $field );
     }
@@ -41,7 +41,7 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function getFieldData( VersionInfo $versionInfo, Field $field, array $context )
     {
-        /** @var \EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
+        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
         $gateway = $this->getGateway( $context );
         $gateway->getFieldData( $versionInfo, $field );
     }
@@ -58,7 +58,7 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function deleteFieldData( VersionInfo $versionInfo, array $fieldIds, array $context )
     {
-        /** @var \EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
+        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
         $gateway = $this->getGateway( $context );
         $gateway->deleteFieldData( $versionInfo, $fieldIds );
     }

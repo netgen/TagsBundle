@@ -1,12 +1,12 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
+namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition as PersistenceFieldDefinition;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -17,7 +17,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
     /**
      * Tags converter
      *
-     * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
      */
     protected $converter;
 
@@ -30,7 +30,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
     /**
      * @group fieldType
      * @group eztags
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageValue
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageValue
      */
     public function testToStorageValue()
     {
@@ -53,7 +53,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
     /**
      * @group fieldType
      * @group eztags
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldValue
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldValue
      */
     public function testToFieldValue()
     {
@@ -69,7 +69,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
     /**
      * @group fieldType
      * @group eztags
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
      */
     public function testToStorageFieldDefinition()
     {
@@ -79,7 +79,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
     /**
      * @group fieldType
      * @group eztags
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldDefinition
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldDefinition
      */
     public function testToFieldDefinition()
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
+namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 
-use EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;

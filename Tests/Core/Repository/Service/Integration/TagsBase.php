@@ -1,9 +1,9 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Repository\Service\Integration;
+namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
 
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
-use EzSystems\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
@@ -18,13 +18,13 @@ use DateTime;
 abstract class TagsBase extends BaseServiceTest
 {
     /**
-     * @var \EzSystems\TagsBundle\API\Repository\TagsService
+     * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
     protected $tagsService;
 
     /**
      * Test a new class and default values on properties
-     * @covers \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag::__construct
+     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct
      */
     public function testNewClass()
     {
@@ -47,7 +47,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test retrieving missing property
-     * @covers \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag::__get
+     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
      */
     public function testMissingProperty()
     {
@@ -64,7 +64,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test setting read only property
-     * @covers \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag::__set
+     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__set
      */
     public function testReadOnlyProperty()
     {
@@ -81,7 +81,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test if property exists
-     * @covers \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag::__isset
+     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__isset
      */
     public function testIsPropertySet()
     {
@@ -95,7 +95,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test unsetting a property
-     * @covers \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag::__unset
+     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__unset
      */
     public function testUnsetProperty()
     {
@@ -111,13 +111,13 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::newTagCreateStruct
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::newTagCreateStruct
      */
     public function testNewTagCreateStruct()
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct( 42, "New tag" );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\TagCreateStruct", $tagCreateStruct );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagCreateStruct", $tagCreateStruct );
 
         $this->assertPropertiesCorrect(
             array(
@@ -130,13 +130,13 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::newTagUpdateStruct
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::newTagUpdateStruct
      */
     public function testNewTagUpdateStruct()
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\TagUpdateStruct", $tagUpdateStruct );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagUpdateStruct", $tagUpdateStruct );
 
         $this->assertPropertiesCorrect(
             array(
@@ -148,13 +148,13 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTag
      */
     public function testLoadTag()
     {
         $tag = $this->tagsService->loadTag( 40 );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
 
         $this->assertPropertiesCorrect(
             array(
@@ -174,7 +174,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTag
      */
     public function testLoadTagThrowsNotFoundException()
     {
@@ -184,7 +184,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTag
      */
     public function testLoadTagThrowsUnauthorizedException()
     {
@@ -193,13 +193,13 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
      */
     public function testLoadTagByRemoteId()
     {
         $tag = $this->tagsService->loadTagByRemoteId( "182be0c5cdcd5072bb1864cdee4d3d6e" );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
 
         $this->assertPropertiesCorrect(
             array(
@@ -219,7 +219,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
      */
     public function testLoadTagByRemoteIdThrowsNotFoundException()
     {
@@ -229,7 +229,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
      */
     public function testLoadTagByRemoteIdThrowsUnauthorizedException()
     {
@@ -238,7 +238,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
      * @depends testLoadTag
      */
     public function testLoadTagChildren()
@@ -251,7 +251,7 @@ abstract class TagsBase extends BaseServiceTest
 
         foreach ( $children as $child )
         {
-            $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $child );
+            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $child );
             $this->assertEquals( $tag->id, $child->parentTagId );
         }
     }
@@ -259,7 +259,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
      */
     public function testLoadTagChildrenThrowsUnauthorizedException()
     {
@@ -272,7 +272,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
      * @depends testLoadTag
      */
     public function testGetTagChildrenCount()
@@ -287,7 +287,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
      */
     public function testGetTagChildrenCountThrowsUnauthorizedException()
     {
@@ -300,7 +300,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      * @depends testLoadTag
      */
     public function testLoadTagSynonyms()
@@ -313,7 +313,7 @@ abstract class TagsBase extends BaseServiceTest
 
         foreach ( $synonyms as $synonym )
         {
-            $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $synonym );
+            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $synonym );
             $this->assertEquals( $tag->id, $synonym->mainTagId );
         }
     }
@@ -321,7 +321,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      * @depends testLoadTag
      */
     public function testLoadTagSynonymsThrowsInvalidArgumentException()
@@ -334,7 +334,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      */
     public function testLoadTagSynonymsThrowsUnauthorizedException()
     {
@@ -347,7 +347,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
      * @depends testLoadTag
      */
     public function testGetTagSynonymCount()
@@ -362,7 +362,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
      * @depends testLoadTag
      */
     public function testGetTagSynonymCountThrowsInvalidArgumentException()
@@ -375,7 +375,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
      */
     public function testGetTagSynonymCountThrowsUnauthorizedException()
     {
@@ -388,7 +388,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      * @depends testLoadTag
      */
     public function testGetRelatedContent()
@@ -408,7 +408,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      * @depends testLoadTag
      */
     public function testGetRelatedContentThrowsNotFoundException()
@@ -421,7 +421,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      */
     public function testGetRelatedContentThrowsUnauthorizedException()
     {
@@ -434,7 +434,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      * @depends testLoadTag
      */
     public function testGetRelatedContentCount()
@@ -449,7 +449,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      * @depends testLoadTag
      */
     public function testGetRelatedContentCountThrowsNotFoundException()
@@ -462,7 +462,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      */
     public function testGetRelatedContentCountThrowsUnauthorizedException()
     {
@@ -475,7 +475,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::createTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
     public function testCreateTag()
@@ -485,7 +485,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $createdTag = $this->tagsService->createTag( $createStruct );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdTag );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdTag );
 
         $this->assertPropertiesCorrect(
             array(
@@ -507,7 +507,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::createTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagThrowsInvalidArgumentException()
@@ -521,7 +521,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::createTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagThrowsUnauthorizedException()
@@ -535,7 +535,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
@@ -552,7 +552,7 @@ abstract class TagsBase extends BaseServiceTest
             $updateStruct
         );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $updatedTag );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $updatedTag );
 
         $this->assertPropertiesCorrect(
             array(
@@ -574,7 +574,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testNewTagUpdateStruct
      */
     public function testUpdateTagThrowsNotFoundException()
@@ -596,7 +596,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
@@ -617,7 +617,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testNewTagUpdateStruct
      */
     public function testUpdateTagThrowsUnauthorizedException()
@@ -639,7 +639,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      * @depends testLoadTag
      */
     public function testAddSynonym()
@@ -647,7 +647,7 @@ abstract class TagsBase extends BaseServiceTest
         $tag = $this->tagsService->loadTag( 40 );
         $createdSynonym = $this->tagsService->addSynonym( $tag, "New synonym" );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdSynonym );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdSynonym );
 
         $this->assertPropertiesCorrect(
             array(
@@ -668,7 +668,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      */
     public function testAddSynonymThrowsNotFoundException()
     {
@@ -685,7 +685,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      * @depends testLoadTag
      */
     public function testAddSynonymThrowsInvalidArgumentException()
@@ -699,7 +699,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::addSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      */
     public function testAddSynonymThrowsUnauthorizedException()
     {
@@ -715,7 +715,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      * @depends testLoadTag
      * @depends testGetTagSynonymCount
      * @depends testGetTagChildrenCount
@@ -727,7 +727,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $convertedSynonym = $this->tagsService->convertToSynonym( $tag, $mainTag );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $convertedSynonym );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $convertedSynonym );
 
         $this->assertPropertiesCorrect(
             array(
@@ -753,7 +753,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      */
     public function testConvertToSynonymThrowsNotFoundException()
     {
@@ -801,7 +801,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      * @depends testLoadTag
      */
     public function testConvertToSynonymThrowsInvalidArgumentExceptionTagsAreSynonyms()
@@ -836,7 +836,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      * @depends testLoadTag
      */
     public function testConvertToSynonymThrowsInvalidArgumentExceptionMainTagBelowTag()
@@ -850,7 +850,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      */
     public function testConvertToSynonymThrowsUnauthorizedException()
     {
@@ -870,7 +870,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      * @depends testLoadTag
      * @depends testGetRelatedContentCount
      * @depends testGetTagChildrenCount
@@ -900,7 +900,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      */
     public function testMergeTagsThrowsNotFoundException()
     {
@@ -948,7 +948,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      * @depends testLoadTag
      */
     public function testMergeTagsThrowsInvalidArgumentExceptionTagsAreSynonyms()
@@ -983,7 +983,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      * @depends testLoadTag
      */
     public function testMergeTagsThrowsInvalidArgumentExceptionTargetTagBelowTag()
@@ -997,7 +997,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      */
     public function testMergeTagsThrowsUnauthorizedException()
     {
@@ -1017,7 +1017,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      */
     public function testCopySubtree()
     {
@@ -1025,7 +1025,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      */
     public function testCopySubtreeThrowsNotFoundException()
     {
@@ -1073,7 +1073,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      * @depends testLoadTag
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
@@ -1108,7 +1108,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      * @depends testLoadTag
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
@@ -1122,7 +1122,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      * @depends testLoadTag
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
@@ -1136,7 +1136,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      */
     public function testCopySubtreeThrowsUnauthorizedException()
     {
@@ -1156,7 +1156,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      * @depends testLoadTagSynonyms
      */
@@ -1167,7 +1167,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $movedTag = $this->tagsService->moveSubtree( $tag, $targetParentTag );
 
-        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $movedTag );
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $movedTag );
 
         $this->assertPropertiesCorrect(
             array(
@@ -1194,7 +1194,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      */
     public function testMoveSubtreeThrowsNotFoundException()
     {
@@ -1242,7 +1242,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
@@ -1277,7 +1277,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
@@ -1291,7 +1291,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
@@ -1305,7 +1305,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      */
     public function testMoveSubtreeThrowsUnauthorizedException()
     {
@@ -1325,7 +1325,7 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
      * @depends testLoadTag
      * @depends testLoadTagSynonyms
      * @depends testLoadTagChildren
@@ -1378,7 +1378,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
      */
     public function testDeleteTagThrowsNotFoundException()
     {
@@ -1394,7 +1394,7 @@ abstract class TagsBase extends BaseServiceTest
     /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
-     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
      */
     public function testDeleteTagThrowsUnauthorizedException()
     {

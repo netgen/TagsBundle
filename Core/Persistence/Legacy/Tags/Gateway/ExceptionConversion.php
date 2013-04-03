@@ -1,10 +1,10 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use ezcDbException;
 use PDOException;
 use RuntimeException;
@@ -14,14 +14,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway
      *
-     * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
     protected $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway
      *
-     * @param \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway $innerGateway
+     * @param \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway $innerGateway
      */
     public function __construct( Gateway $innerGateway )
     {
@@ -263,10 +263,10 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function create( CreateStruct $createStruct, array $parentTag )
     {
@@ -289,7 +289,7 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
      */
     public function update( UpdateStruct $updateStruct, $tagId )
@@ -316,7 +316,7 @@ class ExceptionConversion extends Gateway
      * @param string $keyword
      * @param array $tag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     public function createSynonym( $keyword, array $tag )
     {

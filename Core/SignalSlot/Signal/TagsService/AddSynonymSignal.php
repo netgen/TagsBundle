@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\SignalSlot\Signal\TagsService;
+namespace Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService;
 
 use eZ\Publish\Core\SignalSlot\Signal;
 

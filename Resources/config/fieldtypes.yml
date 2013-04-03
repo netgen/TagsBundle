@@ -1,6 +1,6 @@
 parameters:
-    ezpublish.fieldType.eztags.class: EzSystems\TagsBundle\Core\FieldType\Tags\Type
-    ezpublish.fieldType.eztags.externalStorage.class: EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage
+    ezpublish.fieldType.eztags.class: Netgen\TagsBundle\Core\FieldType\Tags\Type
+    ezpublish.fieldType.eztags.externalStorage.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
 
 services:
 

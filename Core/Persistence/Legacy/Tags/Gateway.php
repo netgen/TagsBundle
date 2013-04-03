@@ -1,9 +1,9 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\Persistence\Legacy\Tags;
+namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 abstract class Gateway
 {
@@ -96,17 +96,17 @@ abstract class Gateway
     /**
      * Creates a new tag using the given $createStruct below $parentTag
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     abstract public function create( CreateStruct $createStruct, array $parentTag );
 
     /**
      * Updates an existing tag
      *
-     * @param \EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
      */
     abstract public function update( UpdateStruct $updateStruct, $tagId );
@@ -117,7 +117,7 @@ abstract class Gateway
      * @param string $keyword
      * @param array $tag
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
     abstract public function createSynonym( $keyword, array $tag );
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
+namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 /**
  * Test case for Tags Handler
@@ -15,7 +15,7 @@ class TagsHandlerTest extends TestCase
     /**
      * Mocked tags gateway instance
      *
-     * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
     protected $gateway;
 
@@ -24,24 +24,24 @@ class TagsHandlerTest extends TestCase
      *
      * @param array $mockedMethods
      *
-     * @var \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
     protected $mapper;
 
     protected function getTagsHandler( array $mockedMethods = array( "updateSubtreeModificationTime" ) )
     {
         return $this->getMock(
-            "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Handler",
+            "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Handler",
             $mockedMethods,
             array(
-                $this->gateway = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway" ),
-                $this->mapper = $this->getMock( "EzSystems\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper" )
+                $this->gateway = $this->getMock( "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway" ),
+                $this->mapper = $this->getMock( "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper" )
             )
         );
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
      */
     public function testLoad()
     {
@@ -68,13 +68,13 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->load( 42 );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByRemoteId
      */
     public function testLoadByRemoteId()
     {
@@ -101,13 +101,13 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->loadByRemoteId( "abcdef" );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadChildren
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadChildren
      */
     public function testLoadChildren()
     {
@@ -160,14 +160,14 @@ class TagsHandlerTest extends TestCase
         foreach ( $tags as $tag )
         {
             $this->assertInstanceOf(
-                "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
                 $tag
             );
         }
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getChildrenCount
      */
     public function testGetChildrenCount()
     {
@@ -185,7 +185,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadSynonyms
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadSynonyms
      */
     public function testLoadSynonyms()
     {
@@ -238,14 +238,14 @@ class TagsHandlerTest extends TestCase
         foreach ( $tags as $tag )
         {
             $this->assertInstanceOf(
-                "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
                 $tag
             );
         }
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getSynonymCount
      */
     public function testGetSynonymCount()
     {
@@ -263,7 +263,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadRelatedContentIds
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadRelatedContentIds
      */
     public function testLoadRelatedContentIds()
     {
@@ -281,7 +281,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getRelatedContentCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getRelatedContentCount
      */
     public function testGetRelatedContentCount()
     {
@@ -299,7 +299,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
      */
     public function testCreate()
     {
@@ -363,7 +363,7 @@ class TagsHandlerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
 
@@ -379,7 +379,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::update
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::update
      */
     public function testUpdate()
     {
@@ -445,7 +445,7 @@ class TagsHandlerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
 
@@ -459,7 +459,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::addSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::addSynonym
      */
     public function testAddSynonym()
     {
@@ -534,7 +534,7 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->addSynonym( 21, "New synonym" );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
 
@@ -552,7 +552,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::convertToSynonym
      */
     public function testConvertToSynonym()
     {
@@ -605,7 +605,7 @@ class TagsHandlerTest extends TestCase
         $synonym = $handler->convertToSynonym( 42, 66 );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $synonym
         );
 
@@ -618,7 +618,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::merge
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::merge
      */
     public function testMerge()
     {
@@ -681,7 +681,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::copySubtree
      */
     public function testCopySubtree()
     {
@@ -689,7 +689,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::moveSubtree
      */
     public function testMoveSubtree()
     {
@@ -755,7 +755,7 @@ class TagsHandlerTest extends TestCase
         $movedTag = $handler->moveSubtree( 42, 66 );
 
         $this->assertInstanceOf(
-            "EzSystems\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $movedTag
         );
 
@@ -772,7 +772,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler::deleteTag
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::deleteTag
      */
     public function testDeleteTag()
     {

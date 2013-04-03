@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\ApiLoader;
+namespace Netgen\TagsBundle\ApiLoader;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,7 +26,7 @@ class TagsHandlerFactory
      *
      * @param string $storageEngineIdentifier
      *
-     * @return \EzSystems\TagsBundle\SPI\Persistence\Tags\Handler
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
     public function buildTagsHandler( $storageEngineIdentifier )
     {

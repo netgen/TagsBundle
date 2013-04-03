@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\API\Repository\Values\Tags;
+namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
 

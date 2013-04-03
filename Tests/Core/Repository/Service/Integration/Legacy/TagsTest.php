@@ -1,9 +1,9 @@
 <?php
 
-namespace EzSystems\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy;
+namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy;
 
-use EzSystems\TagsBundle\Tests\Core\Repository\Service\Integration\TagsBase as BaseTagsServiceTest;
-use EzSystems\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy\Utils;
+use Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\TagsBase as BaseTagsServiceTest;
+use Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy\Utils;
 use Exception;
 
 /**
@@ -34,7 +34,7 @@ class TagsTest extends BaseTagsServiceTest
     }
 
     /**
-     * @return \EzSystems\TagsBundle\API\Repository\TagsService
+     * @return \Netgen\TagsBundle\API\Repository\TagsService
      */
     protected function getTagsService()
     {

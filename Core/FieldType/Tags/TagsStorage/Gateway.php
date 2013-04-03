@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage;
+namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
 
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\SPI\Persistence\Content\Field;

@@ -1,12 +1,12 @@
 parameters:
-    ezpublish.fieldType.eztags.converter.class: EzSystems\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
-    ezpublish.fieldType.eztags.storage_gateway.class: EzSystems\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
+    ezpublish.fieldType.eztags.converter.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
+    ezpublish.fieldType.eztags.storage_gateway.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
 
-    ezpublish.api.persistence_handler.tags.factory.class: EzSystems\TagsBundle\ApiLoader\TagsHandlerFactory
-    ezpublish.api.persistence_handler.tags.class: EzSystems\TagsBundle\SPI\Persistence\Tags\Handler
+    ezpublish.api.persistence_handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\TagsHandlerFactory
+    ezpublish.api.persistence_handler.tags.class: Netgen\TagsBundle\SPI\Persistence\Tags\Handler
 
-    ezpublish.api.storage_engine.legacy.handler.tags.factory.class: EzSystems\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
-    ezpublish.api.storage_engine.legacy.handler.tags.class: EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler
+    ezpublish.api.storage_engine.legacy.handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
+    ezpublish.api.storage_engine.legacy.handler.tags.class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
 
 services:
     # eZ Tags field type
