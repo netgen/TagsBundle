@@ -179,8 +179,6 @@ interface TagsService
     /**
      * Copies the subtree starting from $tag as a new subtree of $targetParentTag
      *
-     * Only the items on which the user has read access are copied
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
@@ -197,12 +195,8 @@ interface TagsService
     /**
      * Moves the subtree to $targetParentTag
      *
-     * If a user has the permission to move the tag to a target tag
-     * he can do it regardless of an existing descendant on which the user has no permission
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag to the target
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user does not have read access to the whole source subtree
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
@@ -219,7 +213,7 @@ interface TagsService
      *
      * If $tag is a synonym, only the synonym is deleted
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag or a descendant
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \EzSystems\TagsBundle\API\Repository\Values\Tags\Tag $tag
