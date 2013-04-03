@@ -371,7 +371,7 @@ class TagsService implements TagsServiceInterface
             try
             {
                 $existingTag = $this->tagsHandler->loadByRemoteId( $tagUpdateStruct->remoteId );
-                if ( $existingTag->remoteId !== $spiTag->remoteId )
+                if ( $existingTag->id !== $spiTag->id )
                 {
                     throw new InvalidArgumentException( "tagUpdateStruct", "Tag with provided remote ID already exists" );
                 }
