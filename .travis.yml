@@ -1,0 +1,38 @@
+language: php
+
+# run tests on php misc php versions
+php:
+  - 5.3.3
+  - 5.3
+  - 5.4
+  - 5.5
+
+# execute unit tests and integration tests using legacy storage engine
+env:
+  - TEST_CONFIG="phpunit.xml"
+  - TEST_CONFIG="phpunit-integration-legacy.xml"
+
+matrix:
+  allow_failures:
+    - php: 5.5
+
+# test only master (+ Pull requests)
+branches:
+  only:
+    - master
+
+# setup requirements for running unit tests
+before_script:
+  - composer install --dev --prefer-dist
+  - cp config.php-TRAVIS vendor/ezsystems/ezpublish-kernel/config.php
+
+# execute phpunit as the script command
+script: "phpunit -d memory_limit=-1 -c $TEST_CONFIG --bootstrap=vendor/ezsystems/ezpublish-kernel/bootstrap.php"
+
+# disable mail notifications
+notification:
+  email: false
+
+# reduce depth (history) of git checkout
+git:
+  depth: 30

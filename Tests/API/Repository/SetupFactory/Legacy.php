@@ -81,7 +81,7 @@ class Legacy extends BaseLegacy
     {
         if ( self::$globalSettings === null )
         {
-            $settingsPath = __DIR__ . "/../../../../../../../../ezsystems/ezpublish-kernel/config.php";
+            $settingsPath = "vendor/ezsystems/ezpublish-kernel/config.php";
 
             if ( !file_exists( $settingsPath ) )
             {
