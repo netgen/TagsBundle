@@ -349,7 +349,7 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetRelatedContent()
     {
-        $tag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag( 16 );
         $content = $this->tagsService->getRelatedContent( $tag );
 
         $this->assertInternalType( "array", $content );
@@ -394,7 +394,7 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetRelatedContentCount()
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag( 40 )
+            $this->tagsService->loadTag( 16 )
         );
 
         $this->assertEquals( 2, $contentCount );
@@ -706,7 +706,7 @@ abstract class TagsBase extends BaseServiceTest
                 ),
                 new Tag(
                     array(
-                        "id" => 42
+                        "id" => 40
                     )
                 )
             );
@@ -722,7 +722,7 @@ abstract class TagsBase extends BaseServiceTest
             $this->tagsService->convertToSynonym(
                 new Tag(
                     array(
-                        "id" => 40
+                        "id" => 16
                     )
                 ),
                 new Tag(
@@ -760,7 +760,7 @@ abstract class TagsBase extends BaseServiceTest
         try
         {
             $this->tagsService->convertToSynonym(
-                $this->tagsService->loadTag( 40 ),
+                $this->tagsService->loadTag( 16 ),
                 $this->tagsService->loadTag( 95 )
             );
             $this->fail( "Second tag is a synonym" );
@@ -795,12 +795,154 @@ abstract class TagsBase extends BaseServiceTest
         $this->tagsService->convertToSynonym(
             new Tag(
                 array(
-                    "id" => 40
+                    "id" => 16
                 )
             ),
             new Tag(
                 array(
-                    "id" => 42
+                    "id" => 40
+                )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     */
+    public function testMergeTags()
+    {
+        $tag = $this->tagsService->loadTag( 16 );
+        $targetTag = $this->tagsService->loadTag( 40 );
+
+        $this->tagsService->mergeTags( $tag, $targetTag );
+
+        try
+        {
+            $this->tagsService->loadTag( $tag->id );
+            $this->fail( "Tag not deleted after merging" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+
+        $relatedObjectsCount = $this->tagsService->getRelatedContentCount( $targetTag );
+        $this->assertEquals( 2, $relatedObjectsCount );
+
+        $childrenCount = $this->tagsService->getTagChildrenCount( $targetTag );
+        $this->assertEquals( 6, $childrenCount );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     */
+    public function testMergeTagsThrowsNotFoundException()
+    {
+        try
+        {
+            $this->tagsService->mergeTags(
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => 40
+                    )
+                )
+            );
+            $this->fail( "First tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->mergeTags(
+                new Tag(
+                    array(
+                        "id" => 16
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                )
+            );
+            $this->fail( "Second tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     */
+    public function testMergeTagsThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    {
+        try
+        {
+            $this->tagsService->mergeTags(
+                $this->tagsService->loadTag( 95 ),
+                $this->tagsService->loadTag( 40 )
+            );
+            $this->fail( "First tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->mergeTags(
+                $this->tagsService->loadTag( 16 ),
+                $this->tagsService->loadTag( 95 )
+            );
+            $this->fail( "Second tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     */
+    public function testMergeTagsThrowsInvalidArgumentExceptionTargetTagBelowTag()
+    {
+        $this->tagsService->mergeTags(
+            $this->tagsService->loadTag( 7 ),
+            $this->tagsService->loadTag( 40 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::mergeTags
+     */
+    public function testMergeTagsThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->mergeTags(
+            new Tag(
+                array(
+                    "id" => 16
+                )
+            ),
+            new Tag(
+                array(
+                    "id" => 40
                 )
             )
         );

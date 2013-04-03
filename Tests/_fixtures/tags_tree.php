@@ -1090,9 +1090,9 @@ return array(
         array( "id" => 1281, "keyword_id" => 69, "objectattribute_id" => 6552, "objectattribute_version" => 6, "object_id" => 1281),
         array( "id" => 1282, "keyword_id" => 41, "objectattribute_id" => 5467, "objectattribute_version" => 4, "object_id" => 1282),
         array( "id" => 1283, "keyword_id" => 42, "objectattribute_id" => 5467, "objectattribute_version" => 4, "object_id" => 1283),
-        array( "id" => 1284, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57),
-        array( "id" => 1285, "keyword_id" => 40, "objectattribute_id" => 242, "objectattribute_version" => 1, "object_id" => 58),
-        array( "id" => 1286, "keyword_id" => 40, "objectattribute_id" => 342, "objectattribute_version" => 1, "object_id" => 59),
-        array( "id" => 1287, "keyword_id" => 42, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57)
+        array( "id" => 1284, "keyword_id" => 16, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57),
+        array( "id" => 1285, "keyword_id" => 16, "objectattribute_id" => 242, "objectattribute_version" => 1, "object_id" => 58),
+        array( "id" => 1286, "keyword_id" => 16, "objectattribute_id" => 342, "objectattribute_version" => 1, "object_id" => 59),
+        array( "id" => 1287, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57)
     )
 );

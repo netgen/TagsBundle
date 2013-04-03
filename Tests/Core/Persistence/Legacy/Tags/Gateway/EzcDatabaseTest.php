@@ -207,7 +207,7 @@ class EzcDatabaseTest extends TestCase
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/content_objects.php" );
         $handler = $this->getTagsGateway();
-        $data = $handler->getRelatedContentIds( 40 );
+        $data = $handler->getRelatedContentIds( 16 );
 
         $this->assertCount( 3, $data );
         $this->assertEquals( array( 57, 58, 59 ), $data );
@@ -221,7 +221,7 @@ class EzcDatabaseTest extends TestCase
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/content_objects.php" );
         $handler = $this->getTagsGateway();
-        $contentCount = $handler->getRelatedContentCount( 40 );
+        $contentCount = $handler->getRelatedContentCount( 16 );
 
         $this->assertEquals( 3, $contentCount );
     }
@@ -357,14 +357,14 @@ class EzcDatabaseTest extends TestCase
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
 
-        $handler->transferTagAttributeLinks( 40, 42 );
+        $handler->transferTagAttributeLinks( 16, 40 );
 
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 1285, 42, 242, 1, 58 ),
-                array( 1286, 42, 342, 1, 59 ),
-                array( 1287, 42, 142, 1, 57 )
+                array( 1285, 40, 242, 1, 58 ),
+                array( 1286, 40, 342, 1, 59 ),
+                array( 1287, 40, 142, 1, 57 )
             ),
             $query
                 ->select( "id", "keyword_id", "objectattribute_id", "objectattribute_version", "object_id" )
