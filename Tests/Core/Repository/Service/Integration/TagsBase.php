@@ -343,6 +343,245 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     */
+    public function testGetRelatedContent()
+    {
+        $tag = $this->tagsService->loadTag( 40 );
+        $content = $this->tagsService->getRelatedContent( $tag );
+
+        $this->assertInternalType( "array", $content );
+        $this->assertCount( 2, $content );
+
+        foreach ( $content as $contentItem )
+        {
+            $this->assertInstanceOf( "\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content", $contentItem );
+            // $this->assertEquals( $tag->id, $contentItem->mainTagId );
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     */
+    public function testGetRelatedContentThrowsNotFoundException()
+    {
+        $this->tagsService->getRelatedContent(
+            $this->tagsService->loadTag( PHP_INT_MAX )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     */
+    public function testGetRelatedContentThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->getRelatedContent(
+            new Tag(
+                array( "id" => 40 )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     */
+    public function testGetRelatedContentCount()
+    {
+        $contentCount = $this->tagsService->getRelatedContentCount(
+            $this->tagsService->loadTag( 40 )
+        );
+
+        $this->assertEquals( 2, $contentCount );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     */
+    public function testGetRelatedContentCountThrowsNotFoundException()
+    {
+        $this->tagsService->getRelatedContentCount(
+            $this->tagsService->loadTag( PHP_INT_MAX )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     */
+    public function testGetRelatedContentCountThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->getRelatedContentCount(
+            new Tag(
+                array( "id" => 40 )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::createTag
+     */
+    public function testCreateTag()
+    {
+        $createStruct = $this->tagsService->newTagCreateStruct( 40, "Test tag" );
+        $createStruct->remoteId = "New remote ID";
+
+        $createdTag = $this->tagsService->createTag( $createStruct );
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdTag );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 97,
+                "parentTagId" => 40,
+                "mainTagId" => 0,
+                "keyword" => "Test tag",
+                "depth" => 4,
+                "pathString" => "/8/7/40/97/",
+                "remoteId" => "New remote ID"
+            ),
+            $createdTag
+        );
+
+        $this->assertInstanceOf( "\\DateTime", $createdTag->modificationDate );
+        $this->assertGreaterThan( 0, $createdTag->modificationDate->getTimestamp() );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::createTag
+     */
+    public function testCreateTagThrowsInvalidArgumentException()
+    {
+        $createStruct = $this->tagsService->newTagCreateStruct( 40, "Test tag" );
+        $createStruct->remoteId = "182be0c5cdcd5072bb1864cdee4d3d6e";
+
+        $this->tagsService->createTag( $createStruct );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::createTag
+     */
+    public function testCreateTagThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+
+        $createStruct = $this->tagsService->newTagCreateStruct( 40, "Test tag" );
+        $createStruct->remoteId = "New remote ID";
+
+        $this->tagsService->createTag( $createStruct );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     */
+    public function testUpdateTag()
+    {
+        $tag = $this->tagsService->loadTag( 40 );
+
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "New keyword";
+        $updateStruct->remoteId = "New remote ID";
+
+        $updatedTag = $this->tagsService->updateTag(
+            $tag,
+            $updateStruct
+        );
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $updatedTag );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 40,
+                "parentTagId" => 7,
+                "mainTagId" => 0,
+                "keyword" => "New keyword",
+                "depth" => 3,
+                "pathString" => "/8/7/40/",
+                "remoteId" => "New remote ID"
+            ),
+            $updatedTag
+        );
+
+        $this->assertInstanceOf( "\\DateTime", $updatedTag->modificationDate );
+        $this->assertGreaterThan( $tag->modificationDate->getTimestamp(), $updatedTag->modificationDate->getTimestamp() );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     */
+    public function testUpdateTagThrowsNotFoundException()
+    {
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "New keyword";
+        $updateStruct->remoteId = "New remote ID";
+
+        $this->tagsService->updateTag(
+            new Tag(
+                array(
+                    "id" => PHP_INT_MAX
+                )
+            ),
+            $updateStruct
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     */
+    public function testUpdateTagThrowsInvalidArgumentException()
+    {
+        $tag = $this->tagsService->loadTag( 40 );
+
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "New keyword";
+        $updateStruct->remoteId = "e2c420d928d4bf8ce0ff2ec19b371514";
+
+        $this->tagsService->updateTag(
+            $tag,
+            $updateStruct
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::updateTag
+     */
+    public function testUpdateTagThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "New keyword";
+        $updateStruct->remoteId = "New remote ID";
+
+        $this->tagsService->updateTag(
+            new Tag(
+                array(
+                    "id" => 40
+                )
+            ),
+            $updateStruct
+        );
+    }
+
+    /**
      * Creates and returns a \DateTime object with received timestamp
      *
      * @param int $timestamp
