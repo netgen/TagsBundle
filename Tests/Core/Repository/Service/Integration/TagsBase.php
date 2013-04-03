@@ -807,6 +807,124 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
+     */
+    public function testDeleteTag()
+    {
+        $tag = $this->tagsService->loadTag( 16 );
+        $tagSynonyms = $this->tagsService->loadTagSynonyms( $tag );
+        $tagChildren = $this->tagsService->loadTagChildren( $tag );
+
+        $this->tagsService->deleteTag( $tag );
+
+        try
+        {
+            $this->tagsService->loadTag( $tag->id );
+            $this->fail( "Tag not deleted" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+
+        foreach ( $tagSynonyms as $synonym )
+        {
+            try
+            {
+                $this->tagsService->loadTag( $synonym->id );
+                $this->fail( "Synonym not deleted" );
+            }
+            catch ( NotFoundException $e )
+            {
+                // Do nothing
+            }
+        }
+
+        foreach ( $tagChildren as $child )
+        {
+            try
+            {
+                $this->tagsService->loadTag( $child->id );
+                $this->fail( "Child not deleted" );
+            }
+            catch ( NotFoundException $e )
+            {
+                // Do nothing
+            }
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
+     */
+    public function testDeleteTagThrowsNotFoundException()
+    {
+        $this->tagsService->deleteTag(
+            new Tag(
+                array(
+                    "id" => PHP_INT_MAX
+                )
+            )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
+     */
+    public function testDeleteTagThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->deleteTag(
+            new Tag(
+                array(
+                    "id" => 40
+                )
+            )
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::newTagCreateStruct
+     */
+    public function testNewTagCreateStruct()
+    {
+        $tagCreateStruct = $this->tagsService->newTagCreateStruct( 42, "New tag" );
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\TagCreateStruct", $tagCreateStruct );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "parentTagId" => 42,
+                "keyword" => "New tag",
+                "remoteId" => null
+            ),
+            $tagCreateStruct
+        );
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::newTagUpdateStruct
+     */
+    public function testNewTagUpdateStruct()
+    {
+        $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\TagUpdateStruct", $tagUpdateStruct );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "keyword" => null,
+                "remoteId" => null
+            ),
+            $tagUpdateStruct
+        );
+    }
+
+    /**
      * Creates and returns a \DateTime object with received timestamp
      *
      * @param int $timestamp
