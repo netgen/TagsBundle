@@ -949,6 +949,170 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     */
+    public function testMoveSubtree()
+    {
+        $tag = $this->tagsService->loadTag( 16 );
+        $targetParentTag = $this->tagsService->loadTag( 40 );
+
+        $movedTag = $this->tagsService->moveSubtree( $tag, $targetParentTag );
+
+        $this->assertInstanceOf( "\\EzSystems\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $movedTag );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => $tag->id,
+                "parentTagId" => $targetParentTag->id,
+                "mainTagId" => $tag->mainTagId,
+                "keyword" => $tag->keyword,
+                "depth" => $targetParentTag->depth + 1,
+                "pathString" => $targetParentTag->pathString . $tag->id . "/",
+                "remoteId" => $tag->remoteId
+            ),
+            $movedTag
+        );
+
+        $this->assertInstanceOf( "\\DateTime", $movedTag->modificationDate );
+        $this->assertGreaterThan( $tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp() );
+
+        foreach ( $this->tagsService->loadTagSynonyms( $movedTag ) as $synonym )
+        {
+            $this->assertEquals( $targetParentTag->id, $synonym->parentTagId );
+            $this->assertEquals( $targetParentTag->depth + 1, $synonym->depth );
+            $this->assertEquals( $targetParentTag->pathString . $synonym->id . "/", $synonym->pathString );
+        }
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     */
+    public function testMoveSubtreeThrowsNotFoundException()
+    {
+        try
+        {
+            $this->tagsService->moveSubtree(
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => 40
+                    )
+                )
+            );
+            $this->fail( "First tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->moveSubtree(
+                new Tag(
+                    array(
+                        "id" => 16
+                    )
+                ),
+                new Tag(
+                    array(
+                        "id" => PHP_INT_MAX
+                    )
+                )
+            );
+            $this->fail( "Second tag was found" );
+        }
+        catch ( NotFoundException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     */
+    public function testMoveSubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    {
+        try
+        {
+            $this->tagsService->moveSubtree(
+                $this->tagsService->loadTag( 95 ),
+                $this->tagsService->loadTag( 40 )
+            );
+            $this->fail( "First tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+
+        try
+        {
+            $this->tagsService->moveSubtree(
+                $this->tagsService->loadTag( 16 ),
+                $this->tagsService->loadTag( 95 )
+            );
+            $this->fail( "Second tag is a synonym" );
+        }
+        catch ( InvalidArgumentException $e )
+        {
+            // Do nothing
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     */
+    public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
+    {
+        $this->tagsService->moveSubtree(
+            $this->tagsService->loadTag( 7 ),
+            $this->tagsService->loadTag( 40 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     */
+    public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
+    {
+        $this->tagsService->moveSubtree(
+            $this->tagsService->loadTag( 7 ),
+            $this->tagsService->loadTag( 8 )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::moveSubtree
+     */
+    public function testMoveSubtreeThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->moveSubtree(
+            new Tag(
+                array(
+                    "id" => 16
+                )
+            ),
+            new Tag(
+                array(
+                    "id" => 40
+                )
+            )
+        );
+    }
+
+    /**
      * @covers \EzSystems\TagsBundle\Core\Repository\TagsService::deleteTag
      */
     public function testDeleteTag()
