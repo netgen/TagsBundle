@@ -1,5 +1,5 @@
-Netgen Tags Bundle
-==============
+Netgen Tags Bundle [![Build status](https://travis-ci.org/netgen/TagsBundle.png)](https://travis-ci.org/netgen/TagsBundle)
+==================
 
 Netgen Tags Bundle is an eZ Publish 5 bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than ezkeyword field type included in eZ Publish kernel.
 
