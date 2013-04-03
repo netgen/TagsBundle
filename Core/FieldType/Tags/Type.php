@@ -35,6 +35,7 @@ class Type extends FieldType
      */
     public function getName( $value )
     {
+        /** @var \EzSystems\TagsBundle\Core\FieldType\Tags\Value $value */
         $value = $this->acceptValue( $value );
 
         return implode(
@@ -132,6 +133,8 @@ class Type extends FieldType
 
     /**
      * Implements the core of {@see acceptValue()}.
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentType If the value does not contain valid data type
      *
      * @param mixed $inputValue
      *

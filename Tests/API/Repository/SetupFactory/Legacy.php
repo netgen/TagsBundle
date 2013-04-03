@@ -5,6 +5,8 @@ namespace EzSystems\TagsBundle\Tests\API\Repository\SetupFactory;
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
 use eZ\Publish\Core\Base\ServiceContainer;
 
+use RuntimeException;
+
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
  * specific repository implementation to test.
@@ -71,6 +73,8 @@ class Legacy extends BaseLegacy
     /**
      * Returns the global ezpublish-kernel settings
      *
+     * @throws \RuntimeException If no config.php could be found
+     *
      * @return mixed
      */
     protected function getGlobalSettings()
@@ -81,7 +85,7 @@ class Legacy extends BaseLegacy
 
             if ( !file_exists( $settingsPath ) )
             {
-                throw new \RuntimeException( "Could not find config.php, please copy config.php-DEVELOPMENT to config.php customize to your needs!" );
+                throw new RuntimeException( "Could not find config.php, please copy config.php-DEVELOPMENT to config.php customize to your needs!" );
             }
 
             self::$globalSettings = include $settingsPath;

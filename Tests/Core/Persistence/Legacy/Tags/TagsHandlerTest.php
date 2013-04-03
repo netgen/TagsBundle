@@ -3,7 +3,6 @@
 namespace EzSystems\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use EzSystems\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\Tag;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use EzSystems\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
