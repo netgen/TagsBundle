@@ -164,7 +164,8 @@ class LegacyStorage extends Gateway
                         $query->bindValue( $versionNo, null, PDO::PARAM_INT )
                     )
                 )
-            );
+            )
+            ->orderBy( $connection->quoteColumn( "id", "eztags_attribute_link" ) );
 
         $statement = $query->prepare();
         $statement->execute();
