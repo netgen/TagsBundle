@@ -26,7 +26,7 @@ Unit tests
 
 There are two sets of tests available, unit tests and legacy integration tests. Both sets of tests are ran from root folder of eZ Publish 5 install.
 
-Before running the tests, copy (or symlink) `config.php-DEVELOPMENT` file to `config.php` in eZ Publish kernel.
+Before running the tests, copy (or symlink) `config.php-DEVELOPMENT` file to `config.php` in eZ Publish kernel:
 
     $ cp vendor/ezsystems/ezpublish-kernel/config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
 
