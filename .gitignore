@@ -1,4 +1,5 @@
 .idea/
+CodeCoverage/
 vendor/
 var/
 composer.phar
