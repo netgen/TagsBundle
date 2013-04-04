@@ -2,7 +2,6 @@ language: php
 
 # run tests on php misc php versions
 php:
-  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
@@ -21,9 +20,11 @@ branches:
   only:
     - master
 
+# install dependencies
+install: composer install --dev --prefer-dist
+
 # setup requirements for running unit tests
 before_script:
-  - composer install --dev --prefer-dist
   - cp config.php-TRAVIS vendor/ezsystems/ezpublish-kernel/config.php
 
 # execute phpunit as the script command
