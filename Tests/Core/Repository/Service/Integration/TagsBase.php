@@ -505,6 +505,31 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     * @depends testNewTagCreateStruct
+     */
+    public function testCreateTagThrowsInvalidArgumentValueInvalidKeyword()
+    {
+        $createStruct = $this->tagsService->newTagCreateStruct( 40, "" );
+        $this->tagsService->createTag( $createStruct );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     * @depends testNewTagCreateStruct
+     */
+    public function testCreateTagThrowsInvalidArgumentValueInvalidRemoteId()
+    {
+        $createStruct = $this->tagsService->newTagCreateStruct( 40, "New tag" );
+        $createStruct->remoteId = 42;
+        $this->tagsService->createTag( $createStruct );
+    }
+
+    /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
@@ -594,6 +619,48 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     * @depends testLoadTag
+     * @depends testNewTagUpdateStruct
+     */
+    public function testUpdateTagThrowsInvalidArgumentValueInvalidKeyword()
+    {
+        $tag = $this->tagsService->loadTag( 40 );
+
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "";
+        $updateStruct->remoteId = "e2c420d928d4bf8ce0ff2ec19b371514";
+
+        $this->tagsService->updateTag(
+            $tag,
+            $updateStruct
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     * @depends testLoadTag
+     * @depends testNewTagUpdateStruct
+     */
+    public function testUpdateTagThrowsInvalidArgumentValueInvalidRemoteId()
+    {
+        $tag = $this->tagsService->loadTag( 40 );
+
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "New keyword";
+        $updateStruct->remoteId = 42;
+
+        $this->tagsService->updateTag(
+            $tag,
+            $updateStruct
+        );
+    }
+
+    /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
@@ -632,6 +699,30 @@ abstract class TagsBase extends BaseServiceTest
             new Tag(
                 array(
                     "id" => 40
+                )
+            ),
+            $updateStruct
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     * @depends testNewTagUpdateStruct
+     */
+    public function testUpdateTagThrowsUnauthorizedExceptionForSynonym()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+
+        $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->keyword = "New keyword";
+        $updateStruct->remoteId = "New remote ID";
+
+        $this->tagsService->updateTag(
+            new Tag(
+                array(
+                    "id" => 95
                 )
             ),
             $updateStruct
@@ -679,6 +770,20 @@ abstract class TagsBase extends BaseServiceTest
                 )
             ),
             "New synonym"
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
+     * @depends testLoadTag
+     */
+    public function testAddSynonymThrowsInvalidArgumentValueInvalidKeyword()
+    {
+        $this->tagsService->addSynonym(
+            $this->tagsService->loadTag( 95 ),
+            ""
         );
     }
 
@@ -1403,6 +1508,23 @@ abstract class TagsBase extends BaseServiceTest
             new Tag(
                 array(
                     "id" => 40
+                )
+            )
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
+     */
+    public function testDeleteTagThrowsUnauthorizedExceptionForSynonym()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->deleteTag(
+            new Tag(
+                array(
+                    "id" => 95
                 )
             )
         );

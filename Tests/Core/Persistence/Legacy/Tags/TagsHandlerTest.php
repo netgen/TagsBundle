@@ -559,18 +559,27 @@ class TagsHandlerTest extends TestCase
         $handler = $this->getTagsHandler();
 
         $tagData = array(
-            "id" => 42,
-            "parent_id" => 21
+            "id" => 16,
+            "parent_id" => 0
         );
 
         $mainTagData = array(
             "id" => 66
         );
 
+        $synonyms = array(
+            array(
+                "id" => 95
+            ),
+            array(
+                "id" => 96
+            )
+        );
+
         $this->gateway
             ->expects( $this->at( 0 ) )
             ->method( "getBasicTagData" )
-            ->with( 42 )
+            ->with( 16 )
             ->will( $this->returnValue( $tagData ) );
 
         $this->gateway
@@ -582,27 +591,35 @@ class TagsHandlerTest extends TestCase
         $this->gateway
             ->expects( $this->at( 2 ) )
             ->method( "getSynonyms" )
-            ->with( 42 )
-            ->will( $this->returnValue( array() ) );
+            ->with( 16 )
+            ->will( $this->returnValue( $synonyms ) );
+
+        foreach ( $synonyms as $index => $synonym )
+        {
+            $this->gateway
+                ->expects( $this->at( $index + 3 ) )
+                ->method( "moveSynonym" )
+                ->with( $synonym["id"], $mainTagData );
+        }
 
         $this->gateway
             ->expects( $this->once() )
             ->method( "convertToSynonym" )
-            ->with( 42, $mainTagData );
+            ->with( 16, $mainTagData );
 
         $this->gateway
-            ->expects( $this->at( 4 ) )
+            ->expects( $this->at( 4 + count( $synonyms ) ) )
             ->method( "getBasicTagData" )
-            ->with( 42 )
+            ->with( 16 )
             ->will( $this->returnValue( $tagData ) );
 
         $this->mapper
             ->expects( $this->at( 0 ) )
             ->method( "createTagFromRow" )
             ->with( $tagData )
-            ->will( $this->returnValue( new Tag( array( "id" => 42 ) ) ) );
+            ->will( $this->returnValue( new Tag( array( "id" => 16 ) ) ) );
 
-        $synonym = $handler->convertToSynonym( 42, 66 );
+        $synonym = $handler->convertToSynonym( 16, 66 );
 
         $this->assertInstanceOf(
             "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
@@ -611,7 +628,7 @@ class TagsHandlerTest extends TestCase
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 42
+                "id" => 16
             ),
             $synonym
         );
