@@ -22,12 +22,17 @@
         <whitelist>
             <directory>.</directory>
             <exclude>
-                <directory>Core</directory>
+                <directory>API</directory>
+                <directory>Core/Persistence</directory>
+                <directory>Core/Repository</directory>
+                <directory>Core/SignalSlot</directory>
                 <directory>SPI</directory>
                 <directory>ApiLoader</directory>
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
+                <directory>vendor</directory>
+                <directory>var</directory>
             </exclude>
         </whitelist>
     </filter>
