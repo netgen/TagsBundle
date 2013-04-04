@@ -215,7 +215,7 @@ class TagsService implements TagsServiceInterface
 
         $spiTag = $this->tagsHandler->load( $tag->id );
 
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id, $offset, $limit );
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
         if ( empty( $relatedContentIds ) )
         {
             return array();
@@ -224,6 +224,8 @@ class TagsService implements TagsServiceInterface
         $searchResult = $this->repository->getSearchService()->findContent(
             new Query(
                 array(
+                    "offset" => $offset,
+                    "limit" => $limit,
                     "criterion" => new ContentId( $relatedContentIds )
                 )
             )
@@ -257,7 +259,22 @@ class TagsService implements TagsServiceInterface
 
         $spiTag = $this->tagsHandler->load( $tag->id );
 
-        return $this->tagsHandler->getRelatedContentCount( $spiTag->id );
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
+        if ( empty( $relatedContentIds ) )
+        {
+            return array();
+        }
+
+        $searchResult = $this->repository->getSearchService()->findContent(
+            new Query(
+                array(
+                    "limit" => 0,
+                    "criterion" => new ContentId( $relatedContentIds )
+                )
+            )
+        );
+
+        return $searchResult->totalCount;
     }
 
     /**
