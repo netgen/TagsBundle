@@ -8,12 +8,6 @@
             "homepage": "http://www.netgenlabs.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/lolautruche/TedivmStashBundle"
-        }
-    ],
     "require": {
         "ezsystems/ezpublish-kernel": "dev-master"
     },
