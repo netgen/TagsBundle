@@ -406,6 +406,19 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     * @depends testLoadTag
+     */
+    public function testGetRelatedContentNoContent()
+    {
+        $tag = $this->tagsService->loadTag( 42 );
+        $content = $this->tagsService->getRelatedContent( $tag );
+
+        $this->assertInternalType( "array", $content );
+        $this->assertCount( 0, $content );
+    }
+
+    /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
@@ -444,6 +457,19 @@ abstract class TagsBase extends BaseServiceTest
         );
 
         $this->assertEquals( 2, $contentCount );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     * @depends testLoadTag
+     */
+    public function testGetRelatedContentCountNoContent()
+    {
+        $contentCount = $this->tagsService->getRelatedContentCount(
+            $this->tagsService->loadTag( 42 )
+        );
+
+        $this->assertEquals( 0, $contentCount );
     }
 
     /**

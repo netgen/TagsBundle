@@ -262,7 +262,7 @@ class TagsService implements TagsServiceInterface
         $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
         if ( empty( $relatedContentIds ) )
         {
-            return array();
+            return 0;
         }
 
         $searchResult = $this->repository->getSearchService()->findContent(
