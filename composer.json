@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "dev-master"
+        "ezsystems/ezpublish-kernel": "*"
     },
     "minimum-stability": "dev",
     "autoload": {
