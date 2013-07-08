@@ -3,3 +3,4 @@ CodeCoverage/
 vendor/
 var/
 composer.phar
+composer.lock
