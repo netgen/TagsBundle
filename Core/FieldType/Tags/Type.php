@@ -3,8 +3,10 @@
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\FieldType;
+use eZ\Publish\Core\FieldType\Value as BaseValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
+use eZ\Publish\SPI\FieldType\Value as SPIValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use DateTime;
@@ -33,11 +35,8 @@ class Type extends FieldType
      *
      * @return string
      */
-    public function getName( $value )
+    public function getName( SPIValue $value )
     {
-        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\Value $value */
-        $value = $this->acceptValue( $value );
-
         return implode(
             ", ",
             array_map(
@@ -58,6 +57,62 @@ class Type extends FieldType
     public function getEmptyValue()
     {
         return new Value();
+    }
+
+    /**
+     * Inspects given $inputValue and potentially converts it into a dedicated value object.
+     *
+     * @param mixed $inputValue
+     *
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value.
+     */
+    protected function createValueFromInput( $inputValue )
+    {
+        if ( is_array( $inputValue ) )
+        {
+            foreach ( $inputValue as $inputValueItem )
+            {
+                if ( !$inputValueItem instanceof Tag )
+                {
+                    return $inputValue;
+                }
+            }
+
+            $inputValue = new Value( $inputValue );
+        }
+
+        return $inputValue;
+    }
+
+    /**
+     * Throws an exception if value structure is not of expected format.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     *
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     */
+    protected function checkValueStructure( BaseValue $value )
+    {
+        if ( !is_array( $value->tags ) )
+        {
+            throw new InvalidArgumentType(
+                '$value->tags',
+                'array',
+                $value->tags
+            );
+        }
+
+        foreach ( $value->tags as $tag )
+        {
+            if ( !$tag instanceof Tag )
+            {
+                throw new InvalidArgumentType(
+                    "$tag",
+                    "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+                    $tag
+                );
+            }
+        }
     }
 
     /**
@@ -110,7 +165,7 @@ class Type extends FieldType
      *
      * @return array
      */
-    public function toHash( $value )
+    public function toHash( SPIValue $value )
     {
         $hash = array();
 
@@ -132,56 +187,13 @@ class Type extends FieldType
     }
 
     /**
-     * Implements the core of {@see acceptValue()}.
-     *
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentType If the value does not contain valid data type
-     *
-     * @param mixed $inputValue
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value.
-     */
-    protected function internalAcceptValue( $inputValue )
-    {
-        if ( is_array( $inputValue ) )
-        {
-            foreach ( $inputValue as $inputValueItem )
-            {
-                if ( !$inputValueItem instanceof Tag )
-                {
-                    throw new InvalidArgumentType(
-                        "inputValue",
-                        "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
-                        $inputValue
-                    );
-                }
-            }
-
-            $inputValue = new Value( $inputValue );
-        }
-        else if ( $inputValue === null )
-        {
-            $inputValue = new Value();
-        }
-        else if ( !$inputValue instanceof Value )
-        {
-            throw new InvalidArgumentType(
-                "inputValue",
-                "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
-                $inputValue
-            );
-        }
-
-        return $inputValue;
-    }
-
-    /**
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
-     * @param mixed $value
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return bool
      */
-    protected function getSortInfo( $value )
+    protected function getSortInfo( BaseValue $value )
     {
         return false;
     }
@@ -193,7 +205,7 @@ class Type extends FieldType
      *
      * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue( $value )
+    public function toPersistenceValue( SPIValue $value )
     {
         return new FieldValue(
             array(
@@ -223,7 +235,7 @@ class Type extends FieldType
      *
      * @return boolean
      */
-    public function isEmptyValue( $value )
+    public function isEmptyValue( SPIValue $value )
     {
         return $value === null || $value->tags == $this->getEmptyValue()->tags;
     }
