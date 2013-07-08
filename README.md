@@ -5,10 +5,8 @@ Netgen Tags Bundle is an eZ Publish 5 bundle for taxonomy management and easier 
 
 This repository represents eZ Publish 5 rewrite of the original eZ Publish 4 extension located at [http://github.com/ezsystems/eztags](/ezsystems/eztags).
 
-The bundle is currently in alpha state and stability is not guaranteed.
-
-Implemented for now
--------------------
+Implemented features
+--------------------
 
 * `eztags` field type
 * Tags service and legacy SPI handler
