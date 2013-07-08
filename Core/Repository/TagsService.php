@@ -225,7 +225,7 @@ class TagsService implements TagsServiceInterface
             new Query(
                 array(
                     "offset" => $offset,
-                    "limit" => $limit,
+                    "limit" => $limit > 0 ? $limit : PHP_INT_MAX,
                     "criterion" => new ContentId( $relatedContentIds )
                 )
             )
