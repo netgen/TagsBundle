@@ -11,10 +11,6 @@ env:
   - TEST_CONFIG="phpunit.xml"
   - TEST_CONFIG="phpunit-integration-legacy.xml"
 
-matrix:
-  allow_failures:
-    - php: 5.5
-
 # test only master (+ Pull requests)
 branches:
   only:
