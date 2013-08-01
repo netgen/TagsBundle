@@ -47,7 +47,7 @@ public function registerBundles()
 
 ### Edit configuration
 
-Put the following config in your `ezpublish/config.yml` file to be able to load `eztags` content field template.
+Put the following config in your `ezpublish/config/config.yml` file to be able to load `eztags` content field template.
 
 ```yml
 parameters:
