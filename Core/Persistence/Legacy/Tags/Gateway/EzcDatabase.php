@@ -231,6 +231,16 @@ class EzcDatabase extends Gateway
      */
     function getRelatedContentIds( $tagId, $offset = 0, $limit = -1, $contentTypeId = null )
     {
+        $in = '1';
+        if( $contentTypeId != null ) {
+            if( !is_array( $contentTypeId ) ) {
+                $contentTypeId = array( $contentTypeId );
+            }
+
+            $in = $this->handler->quoteColumn( "contentclass_id", "ezcontentobject" );
+            $in .=  " IN ( " . join( ', ', $contentTypeId ) . ' )';
+        }
+
         $query = $this->handler->createSelectQuery();
         $query
             ->selectDistinct(
@@ -251,7 +261,8 @@ class EzcDatabase extends Gateway
                     $query->expr->eq(
                         $this->handler->quoteColumn( "status", "ezcontentobject" ),
                         1
-                    )
+                    ),
+                    $in
                 )
             )->where(
                 $query->expr->eq(
@@ -284,6 +295,16 @@ class EzcDatabase extends Gateway
      */
     function getRelatedContentCount( $tagId, $contentTypeId = null )
     {
+        $in = '1';
+        if( $contentTypeId != null ) {
+            if( !is_array( $contentTypeId ) ) {
+                $contentTypeId = array( $contentTypeId );
+            }
+
+            $in = $this->handler->quoteColumn( "contentclass_id", "ezcontentobject" );
+            $in .=  " IN ( " . join( ', ', $contentTypeId ) . ' )';
+        }
+
         $query = $this->handler->createSelectQuery();
         $query
             ->selectDistinct(
@@ -309,7 +330,8 @@ class EzcDatabase extends Gateway
                     $query->expr->eq(
                         $this->handler->quoteColumn( "status", "ezcontentobject" ),
                         1
-                    )
+                    ),
+                    $in
                 )
             )->where(
                 $query->expr->eq(
