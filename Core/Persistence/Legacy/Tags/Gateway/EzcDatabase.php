@@ -225,10 +225,11 @@ class EzcDatabase extends Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return array
      */
-    function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
+    function getRelatedContentIds( $tagId, $offset = 0, $limit = -1, $contentTypeId = null )
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -277,10 +278,11 @@ class EzcDatabase extends Gateway
      * Returns the number of content objects related to tag identified by $tagId
      *
      * @param mixed $tagId
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return int
      */
-    function getRelatedContentCount( $tagId )
+    function getRelatedContentCount( $tagId, $contentTypeId = null )
     {
         $query = $this->handler->createSelectQuery();
         $query

@@ -85,10 +85,11 @@ interface Handler
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return array
      */
-    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1 );
+    public function loadRelatedContentIds( $tagId, $offset = 0, $limit, $contentTypeId = null );
 
     /**
      * Returns the number of content objects related to tag identified by $tagId
@@ -96,10 +97,11 @@ interface Handler
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return int
      */
-    public function getRelatedContentCount( $tagId );
+    public function getRelatedContentCount( $tagId, $contentTypeId = null );
 
     /**
      * Creates the new tag
