@@ -198,7 +198,7 @@ class ExceptionConversion extends Gateway
     {
         try
         {
-            return $this->innerGateway->getRelatedContentIds( $tagId, $offset, $limit );
+            return $this->innerGateway->getRelatedContentIds( $tagId, $offset, $limit, $contentTypeId );
         }
         catch ( ezcDbException $e )
         {
@@ -224,7 +224,7 @@ class ExceptionConversion extends Gateway
     {
         try
         {
-            return $this->innerGateway->getRelatedContentCount( $tagId );
+            return $this->innerGateway->getRelatedContentCount( $tagId, $contentTypeId );
         }
         catch ( ezcDbException $e )
         {
