@@ -216,7 +216,7 @@ class TagsService implements TagsServiceInterface
 
         $spiTag = $this->tagsHandler->load( $tag->id );
 
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id, 0, -1, $contentTypeId );
         if ( empty( $relatedContentIds ) )
         {
             return array();
@@ -261,7 +261,7 @@ class TagsService implements TagsServiceInterface
 
         $spiTag = $this->tagsHandler->load( $tag->id );
 
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id, 0, -1, $contentTypeId );
         if ( empty( $relatedContentIds ) )
         {
             return 0;
