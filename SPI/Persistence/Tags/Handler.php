@@ -89,7 +89,7 @@ interface Handler
      *
      * @return array
      */
-    public function loadRelatedContentIds( $tagId, $offset = 0, $limit, $contentTypeId = null );
+    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1, $contentTypeId = null );
 
     /**
      * Returns the number of content objects related to tag identified by $tagId
