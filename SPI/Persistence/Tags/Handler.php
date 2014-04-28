@@ -54,6 +54,25 @@ interface Handler
     public function getChildrenCount( $tagId );
 
     /**
+     * Returns all Tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
+     */
+    public function loadTags( $offset = 0, $limit = -1 );
+
+    /**
+     * Returns the number of tags
+     *
+     * @internal param mixed $tagId
+     *
+     * @return int
+     */
+    public function getTagsCount();
+
+    /**
      * Loads the synonyms of a tag identified by $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found

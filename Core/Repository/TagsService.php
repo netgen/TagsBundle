@@ -135,6 +135,51 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
+     * Loads all tags
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
+     */
+    public function loadTags( $offset = 0, $limit = -1 )
+    {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
+        $spiTags = $this->tagsHandler->loadTags( $offset, $limit );
+
+        $tags = array();
+        foreach ( $spiTags as $spiTag )
+        {
+            $tags[] = $this->buildTagDomainObject( $spiTag );
+        }
+
+        return $tags;
+    }
+
+    /**
+     * Returns the number of tags
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @return int
+     */
+    public function getTagsCount()
+    {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
+        return $this->tagsHandler->getTagsCount();
+    }
+
+    /**
      * Loads synonyms of a tag object
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags

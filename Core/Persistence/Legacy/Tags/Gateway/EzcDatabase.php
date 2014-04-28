@@ -161,6 +161,48 @@ class EzcDatabase extends Gateway
     }
 
     /**
+     * Returns all Tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getTags( $offset = 0, $limit = -1 ) {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
+    }
+
+    /**
+     * Returns how many tags exist
+     *
+     * @return array
+     */
+    public function getTagsCount() {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select(
+                $query->alias( $query->expr->count( "*" ), "count" )
+            )
+            ->from( $this->handler->quoteTable( "eztags" ) );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        return (int)$rows[0]["count"];
+    }
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @param mixed $tagId

@@ -131,6 +131,56 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns all Tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     *
+     * @throws \RuntimeException
+     *
+     * @return array
+     */
+    public function getTags( $offset = 0, $limit = -1 )
+    {
+        try
+        {
+            return $this->innerGateway->getTags( $offset, $limit );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
+     * Returns how many tags exist
+     *
+     * @throws \RuntimeException
+     *
+     *
+     * @return int
+     */
+    public function getTagsCount()
+    {
+        try
+        {
+            return $this->innerGateway->getTagsCount();
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @throws \RuntimeException
