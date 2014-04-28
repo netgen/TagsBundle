@@ -214,6 +214,20 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentIds
+     */
+    public function testGetRelatedContentIdsWithContentTypeId()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/content_objects.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getRelatedContentIds( 16, 0, -1, array(20, 21) );
+
+        $this->assertCount( 2, $data );
+        $this->assertEquals( array( 57, 58 ), $data );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
      */
     public function testGetRelatedContentCount()
@@ -224,6 +238,18 @@ class EzcDatabaseTest extends TestCase
         $contentCount = $handler->getRelatedContentCount( 16 );
 
         $this->assertEquals( 3, $contentCount );
+    }
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
+     */
+    public function testGetRelatedContentCountWithContentTypeId()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/content_objects.php" );
+        $handler = $this->getTagsGateway();
+        $contentCount = $handler->getRelatedContentCount( 16, array(20, 21) );
+
+        $this->assertEquals( 2, $contentCount );
     }
 
     /**

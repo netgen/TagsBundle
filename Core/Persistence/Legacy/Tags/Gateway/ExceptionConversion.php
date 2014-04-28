@@ -131,6 +131,56 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns all Tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     *
+     * @throws \RuntimeException
+     *
+     * @return array
+     */
+    public function getTags( $offset = 0, $limit = -1 )
+    {
+        try
+        {
+            return $this->innerGateway->getTags( $offset, $limit );
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
+     * Returns how many tags exist
+     *
+     * @throws \RuntimeException
+     *
+     *
+     * @return int
+     */
+    public function getTagsCount()
+    {
+        try
+        {
+            return $this->innerGateway->getTagsCount();
+        }
+        catch ( ezcDbException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @throws \RuntimeException
@@ -190,14 +240,15 @@ class ExceptionConversion extends Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return array
      */
-    function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
+    function getRelatedContentIds( $tagId, $offset = 0, $limit = -1, $contentTypeId = null )
     {
         try
         {
-            return $this->innerGateway->getRelatedContentIds( $tagId, $offset, $limit );
+            return $this->innerGateway->getRelatedContentIds( $tagId, $offset, $limit, $contentTypeId );
         }
         catch ( ezcDbException $e )
         {
@@ -215,14 +266,15 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param mixed $tagId
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return int
      */
-    function getRelatedContentCount( $tagId )
+    function getRelatedContentCount( $tagId, $contentTypeId = null )
     {
         try
         {
-            return $this->innerGateway->getRelatedContentCount( $tagId );
+            return $this->innerGateway->getRelatedContentCount( $tagId, $contentTypeId );
         }
         catch ( ezcDbException $e )
         {

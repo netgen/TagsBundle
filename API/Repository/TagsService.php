@@ -57,6 +57,27 @@ interface TagsService
     public function getTagChildrenCount( Tag $tag );
 
     /**
+     * Loads all tags
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
+     */
+    public function loadTags( $offset = 0, $limit = -1 );
+
+    /**
+     * Returns the number of children of a tag object
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @return int
+     */
+    public function getTagsCount();
+
+    /**
      * Loads synonyms of a tag object
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -91,10 +112,10 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
-     *
+     * @param int|int[] $contentTypeId The content type id
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function getRelatedContent( Tag $tag, $offset = 0, $limit = -1 );
+    public function getRelatedContent( Tag $tag, $offset = 0, $limit = -1, $contentTypeId = null );
 
     /**
      * Returns the number of content objects related to $tag
@@ -103,10 +124,11 @@ interface TagsService
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return int
      */
-    public function getRelatedContentCount( Tag $tag );
+    public function getRelatedContentCount( Tag $tag, $contentTypeId = null );
 
     /**
      * Creates the new tag

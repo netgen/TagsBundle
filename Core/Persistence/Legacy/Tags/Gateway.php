@@ -46,6 +46,23 @@ abstract class Gateway
     abstract public function getChildrenCount( $tagId );
 
     /**
+     * Returns all Tags
+     *
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     *
+     * @return array
+     */
+    abstract public function getTags( $offset = 0, $limit = -1 );
+
+    /**
+     * Returns how many tags exist
+     *
+     * @return array
+     */
+    abstract public function getTagsCount();
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @param mixed $tagId
@@ -71,19 +88,21 @@ abstract class Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return array
      */
-    abstract function getRelatedContentIds( $tagId, $offset = 0, $limit = -1 );
+    abstract function getRelatedContentIds( $tagId, $offset = 0, $limit = -1, $contentTypeId = null );
 
     /**
      * Returns the number of content objects related to tag identified by $tagId
      *
      * @param mixed $tagId
+     * @param int|int[] $contentTypeId The content type id
      *
      * @return int
      */
-    abstract function getRelatedContentCount( $tagId );
+    abstract function getRelatedContentCount( $tagId, $contentTypeId = null );
 
     /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData
