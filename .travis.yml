@@ -21,7 +21,7 @@ install: composer install --dev --prefer-source
 
 # setup requirements for running unit tests
 before_script:
-  - cp config.php-TRAVIS vendor/ezsystems/ezpublish-kernel/config.php
+  - cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
 
 # execute phpunit as the script command
 script: "phpunit -d memory_limit=-1 -c $TEST_CONFIG"
