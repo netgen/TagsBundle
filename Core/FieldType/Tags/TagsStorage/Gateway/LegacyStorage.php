@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
+use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
 use RuntimeException;
 use PDO;
 
@@ -14,7 +14,7 @@ class LegacyStorage extends Gateway
     /**
      * Connection
      *
-     * @var \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler
+     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
     protected $connection;
 
@@ -22,9 +22,9 @@ class LegacyStorage extends Gateway
      * Sets the data storage connection to use
      *
      * @throws \RuntimeException if $connection is not an instance of
-     *         {@link \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler}
+     *         {@link \eZ\Publish\Core\Persistence\Database\DatabaseHandler}
      *
-     * @param \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler $connection
+     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $connection
      */
     public function setConnection( $connection )
     {
@@ -32,7 +32,7 @@ class LegacyStorage extends Gateway
         // the given class design there is no sane other option. Actually the
         // dbHandler *should* be passed to the constructor, and there should
         // not be the need to post-inject it.
-        if ( !$connection instanceof EzcDbHandler )
+        if ( !$connection instanceof DatabaseHandler )
         {
             throw new RuntimeException( "Invalid connection passed" );
         }
@@ -45,7 +45,7 @@ class LegacyStorage extends Gateway
      *
      * @throws \RuntimeException if no connection has been set, yet.
      *
-     * @return \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler
+     * @return \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
     protected function getConnection()
     {

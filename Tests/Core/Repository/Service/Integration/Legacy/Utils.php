@@ -6,8 +6,8 @@ use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
-use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
+use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
 use RuntimeException;
 use Exception;
 
@@ -29,12 +29,12 @@ abstract class Utils
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = self::$serviceContainer->get( "inner_repository" );
 
-        /** @var \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler $legacyDbHandler */
+        /** @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler $legacyDbHandler */
         $legacyDbHandler = self::$serviceContainer->get( "legacy_db_handler" );
 
         $tagsHandler = new Handler(
             new ExceptionConversion(
-                new EzcDatabase(
+                new DoctrineDatabase(
                     $legacyDbHandler
                 )
             ),
@@ -100,11 +100,11 @@ abstract class Utils
     }
 
     /**
-     * @param \eZ\Publish\Core\Persistence\Legacy\EzcDbHandler $handler
+     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $handler
      *
      * @throws \Exception
      */
-    protected static function insertLegacyData( EzcDbHandler $handler )
+    protected static function insertLegacyData( DatabaseHandler $handler )
     {
         $dsn = getenv( "DATABASE" );
         if ( !$dsn )

@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use ezcDbException;
+use Doctrine\DBAL\DBALException;
 use PDOException;
 use RuntimeException;
 
@@ -43,7 +43,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getBasicTagData( $tagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -68,7 +68,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getBasicTagDataByRemoteId( $remoteId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -95,7 +95,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getChildren( $tagId, $offset, $limit );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -120,7 +120,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getChildrenCount( $tagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -147,7 +147,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getSynonyms( $tagId, $offset, $limit );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -172,7 +172,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getSynonymCount( $tagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -199,7 +199,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getRelatedContentIds( $tagId, $offset, $limit );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -224,7 +224,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->getRelatedContentCount( $tagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -248,7 +248,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->moveSynonym( $synonymId, $mainTagData );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -274,7 +274,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->create( $createStruct, $parentTag );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -298,7 +298,7 @@ class ExceptionConversion extends Gateway
         {
             $this->innerGateway->update( $updateStruct, $tagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -324,7 +324,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->createSynonym( $keyword, $tag );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -348,7 +348,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->convertToSynonym( $tagId, $mainTagData );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -372,7 +372,7 @@ class ExceptionConversion extends Gateway
         {
             $this->innerGateway->transferTagAttributeLinks( $tagId, $targetTagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -398,7 +398,7 @@ class ExceptionConversion extends Gateway
         {
             return $this->innerGateway->moveSubtree( $sourceTagData, $destinationParentTagData );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -423,7 +423,7 @@ class ExceptionConversion extends Gateway
         {
             $this->innerGateway->deleteTag( $tagId );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }
@@ -447,7 +447,7 @@ class ExceptionConversion extends Gateway
         {
             $this->innerGateway->updateSubtreeModificationTime( $pathString, $timestamp );
         }
-        catch ( ezcDbException $e )
+        catch ( DBALException $e )
         {
             throw new RuntimeException( "Database error", 0, $e );
         }

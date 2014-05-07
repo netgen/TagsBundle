@@ -3,14 +3,14 @@
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 /**
  * Test case for Tags Legacy gateway
  */
-class EzcDatabaseTest extends TestCase
+class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Sets up the test suite
@@ -56,12 +56,12 @@ class EzcDatabaseTest extends TestCase
     /**
      * Returns gateway implementation for legacy storage
      *
-     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase
+     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
      */
     protected function getTagsGateway()
     {
         $dbHandler = $this->getDatabaseHandler();
-        return new EzcDatabase( $dbHandler );
+        return new DoctrineDatabase( $dbHandler );
     }
 
     /**
@@ -83,7 +83,7 @@ class EzcDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
      *
      * @param string $field
      * @param mixed $value
@@ -102,7 +102,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
      * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
     public function testGetBasicTagDataThrowsNotFoundException()
@@ -114,7 +114,7 @@ class EzcDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagDataByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByRemoteId
      *
      * @param string $field
      * @param mixed $value
@@ -133,7 +133,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getBasicTagDataByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByRemoteId
      * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
     public function testGetBasicTagDataByRemoteIdThrowsNotFoundException()
@@ -144,7 +144,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildren
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
      */
     public function testGetChildren()
     {
@@ -162,7 +162,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
      */
     public function testGetChildrenCount()
     {
@@ -174,7 +174,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonyms
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
      */
     public function testGetSynonyms()
     {
@@ -188,7 +188,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
      */
     public function testGetSynonymCount()
     {
@@ -200,7 +200,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentIds
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getRelatedContentIds
      */
     public function testGetRelatedContentIds()
     {
@@ -214,7 +214,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getRelatedContentCount
      */
     public function testGetRelatedContentCount()
     {
@@ -227,7 +227,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::moveSynonym
      */
     public function testMoveSynonym()
     {
@@ -256,7 +256,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::create
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::create
      */
     public function testCreate()
     {
@@ -291,7 +291,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::update
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::update
      */
     public function testUpdate()
     {
@@ -320,7 +320,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::createSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createSynonym
      */
     public function testCreateSynonym()
     {
@@ -350,7 +350,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::convertToSynonym
      */
     public function testConvertToSynonym()
     {
@@ -379,7 +379,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::transferTagAttributeLinks
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::transferTagAttributeLinks
      */
     public function testTransferTagAttributeLinks()
     {
@@ -403,7 +403,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::moveSubtree
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::moveSubtree
      */
     public function testMoveSubtree()
     {
@@ -440,7 +440,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::deleteTag
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::deleteTag
      */
     public function testDeleteTag()
     {
@@ -472,7 +472,7 @@ class EzcDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::updateSubtreeModificationTime
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::updateSubtreeModificationTime
      */
     public function testUpdateSubtreeModificationTime()
     {
