@@ -22,16 +22,21 @@ License and installation instructions
 Unit tests
 ----------
 
-There are two sets of tests available, unit tests and legacy integration tests. Both sets of tests are ran from root folder of eZ Publish 5 install.
+There are two sets of tests available, unit tests and legacy integration tests.
 
-Before running the tests, copy (or symlink) `config.php-DEVELOPMENT` file to `config.php` in eZ Publish kernel:
+To run the tests, first you need to install dependencies with Composer:
 
-    $ cp vendor/ezsystems/ezpublish-kernel/config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
+    $ curl -sS https://getcomposer.org/installer | php
+    $ php composer.phar install
+
+After that, copy (or symlink) `config.php-DEVELOPMENT` file from TagsBundle to `config.php` in eZ Publish kernel:
+
+    $ cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
 
 ### Running unit tests
 
-    $ phpunit -c vendor/netgen/tagsbundle/Netgen/TagsBundle/phpunit.xml
+    $ phpunit -c phpunit.xml
 
 ### Running legacy integration tests
 
-    $ phpunit -c vendor/netgen/tagsbundle/Netgen/TagsBundle/phpunit-integration-legacy.xml
+    $ phpunit -c phpunit-integration-legacy.xml
