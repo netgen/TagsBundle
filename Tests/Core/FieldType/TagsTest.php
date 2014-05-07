@@ -18,6 +18,16 @@ use stdClass;
 class TagsTest extends FieldTypeTest
 {
     /**
+     * Returns the identifier of the field type under test.
+     *
+     * @return string
+     */
+    protected function provideFieldTypeIdentifier()
+    {
+        return "eztags";
+    }
+
+    /**
      * Returns the field type under test.
      *
      * @return \Netgen\TagsBundle\Core\FieldType\Tags\Type
@@ -183,6 +193,46 @@ class TagsTest extends FieldTypeTest
                         $this->getTag()
                     )
                 )
+            )
+        );
+    }
+
+    /**
+     * Provides data for the getName() test.
+     *
+     * @return array
+     */
+    public function provideDataForGetName()
+    {
+        return array(
+            array(
+                new TagsValue(),
+                ""
+            ),
+            array(
+                new TagsValue( null ),
+                ""
+            ),
+            array(
+                new TagsValue( array() ),
+                ""
+            ),
+            array(
+                new TagsValue(
+                    array(
+                        $this->getTag()
+                    )
+                ),
+                "eztags"
+            ),
+            array(
+                new TagsValue(
+                    array(
+                        $this->getTag(),
+                        $this->getTag()
+                    )
+                ),
+                "eztags, eztags"
             )
         );
     }

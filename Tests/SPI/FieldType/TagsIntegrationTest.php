@@ -103,26 +103,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getCustomHandler()
     {
-        $handler = $this->getHandler();
-
-        $handler->getFieldTypeRegistry()->register(
-            "eztags",
-            new TagsType()
-        );
-        $handler->getStorageRegistry()->register(
-            "eztags",
-            new TagsStorage(
-                array(
-                    "LegacyStorage" => new TagsLegacyStorage(),
-                )
-            )
-        );
-        $handler->getFieldValueConverterRegistry()->register(
-            "eztags",
-            new TagsConverter()
-        );
-
-        return $handler;
+        return $this->getHandler();
     }
 
     /**
