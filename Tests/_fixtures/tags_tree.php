@@ -93,6 +93,8 @@ return array(
         array( "id" => 1284, "keyword_id" => 16, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57),
         array( "id" => 1285, "keyword_id" => 16, "objectattribute_id" => 242, "objectattribute_version" => 1, "object_id" => 58),
         array( "id" => 1286, "keyword_id" => 16, "objectattribute_id" => 342, "objectattribute_version" => 1, "object_id" => 59),
-        array( "id" => 1287, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57)
+        array( "id" => 1287, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57),
+        array( "id" => 1288, "keyword_id" => 40, "objectattribute_id" => 442, "objectattribute_version" => 1, "object_id" => 60),
+        array( "id" => 1289, "keyword_id" => 41, "objectattribute_id" => 542, "objectattribute_version" => 1, "object_id" => 61)
     )
 );
