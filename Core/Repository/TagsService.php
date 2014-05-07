@@ -91,20 +91,24 @@ class TagsService implements TagsServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tags from the first level will be returned
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag, $offset = 0, $limit = -1 )
+    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1 )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTags = $this->tagsHandler->loadChildren( $tag->id, $offset, $limit );
+        $spiTags = $this->tagsHandler->loadChildren(
+            $tag !== null ? $tag->id : 0,
+            $offset,
+            $limit
+        );
 
         $tags = array();
         foreach ( $spiTags as $spiTag )
@@ -120,18 +124,20 @@ class TagsService implements TagsServiceInterface
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
      *
      * @return int
      */
-    public function getTagChildrenCount( Tag $tag )
+    public function getTagChildrenCount( Tag $tag = null )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        return $this->tagsHandler->getChildrenCount( $tag->id );
+        return $this->tagsHandler->getChildrenCount(
+            $tag !== null ? $tag->id : 0
+        );
     }
 
     /**

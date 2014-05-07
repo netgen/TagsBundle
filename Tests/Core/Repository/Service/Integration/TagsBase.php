@@ -257,6 +257,24 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     * @depends testLoadTag
+     */
+    public function testLoadTagChildrenFromRoot()
+    {
+        $children = $this->tagsService->loadTagChildren();
+
+        $this->assertInternalType( "array", $children );
+        $this->assertCount( 9, $children );
+
+        foreach ( $children as $child )
+        {
+            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $child );
+            $this->assertEquals( 0, $child->parentTagId );
+        }
+    }
+
+    /**
      * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
@@ -282,6 +300,17 @@ abstract class TagsBase extends BaseServiceTest
         );
 
         $this->assertEquals( 6, $childrenCount );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     * @depends testLoadTag
+     */
+    public function testGetTagChildrenCountFromRoot()
+    {
+        $childrenCount = $this->tagsService->getTagChildrenCount();
+
+        $this->assertEquals( 9, $childrenCount );
     }
 
     /**
