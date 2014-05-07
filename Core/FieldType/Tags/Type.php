@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\Core\FieldType\Tags;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\Core\FieldType\Value as BaseValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use eZ\Publish\SPI\FieldType\Value as SPIValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;

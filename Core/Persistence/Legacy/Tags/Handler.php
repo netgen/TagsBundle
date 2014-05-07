@@ -2,12 +2,9 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
-use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 class Handler implements BaseTagsHandler

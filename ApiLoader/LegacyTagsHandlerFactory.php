@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\ApiLoader;
 use eZ\Publish\Core\Persistence\Legacy\EzcDbHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;

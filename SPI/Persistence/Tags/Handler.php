@@ -2,9 +2,6 @@
 
 namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
-use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-
 interface Handler
 {
     /**
