@@ -15,9 +15,10 @@ use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHa
 
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagId as TagIdCriterionHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagKeyword as TagKeywordCriterionHandler;
 
 /**
- * Test case for ContentSearchHandler with TagId criterion
+ * Test case for ContentSearchHandler with Tags criterions
  */
 class TagsSearchHandlerTest extends LanguageAwareTestCase
 {
@@ -104,6 +105,9 @@ class TagsSearchHandlerTest extends LanguageAwareTestCase
                 new Content\Search\Common\Gateway\CriteriaConverter(
                     array(
                         new TagIdCriterionHandler(
+                            $this->getDatabaseHandler()
+                        ),
+                        new TagKeywordCriterionHandler(
                             $this->getDatabaseHandler()
                         ),
                         new CriterionHandler\ContentId(
@@ -233,6 +237,75 @@ class TagsSearchHandlerTest extends LanguageAwareTestCase
                                 new Criterion\TagId( 40 )
                             )
                         ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilter()
+    {
+        $this->assertSearchResults(
+            array( 57, 60 ),
+            $this->getContentSearchHandler()->findContent(
+                new Query(
+                    array(
+                        'filter' => new Criterion\TagKeyword( Query\Criterion\Operator::EQ, 'eztags' ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterIn()
+    {
+        $this->assertSearchResults(
+            array( 57, 60, 61 ),
+            $this->getContentSearchHandler()->findContent(
+                new Query(
+                    array(
+                        'filter' => new Criterion\TagKeyword( Query\Criterion\Operator::IN, array( 'eztags', 'cms' ) ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterInWithLogicalAnd()
+    {
+        $this->assertSearchResults(
+            array( 57 ),
+            $this->getContentSearchHandler()->findContent(
+                new Query(
+                    array(
+                        'filter' => new Query\Criterion\LogicalAnd(
+                            array(
+                                new Criterion\TagKeyword( Query\Criterion\Operator::EQ, 'mobile' ),
+                                new Criterion\TagKeyword( Query\Criterion\Operator::EQ, 'eztags' )
+                            )
+                        ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterLike()
+    {
+        $this->assertSearchResults(
+            array( 57, 58, 59, 60 ),
+            $this->getContentSearchHandler()->findContent(
+                new Query(
+                    array(
+                        'filter' => new Criterion\TagKeyword( Query\Criterion\Operator::LIKE, '%e%' ),
                         'limit' => 10,
                         'sortClauses' => array( new SortClause\ContentId ),
                     )

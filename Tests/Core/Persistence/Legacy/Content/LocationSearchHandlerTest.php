@@ -16,9 +16,10 @@ use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\SortClauseH
 
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagId as TagIdCriterionHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagKeyword as TagKeywordCriterionHandler;
 
 /**
- * Test case for LocationSearchHandler
+ * Test case for LocationSearchHandler with Tags criterions
  */
 class LocationSearchHandlerTest extends LanguageAwareTestCase
 {
@@ -96,6 +97,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
                 new CriteriaConverter(
                     array(
                         new TagIdCriterionHandler( $this->getDatabaseHandler() ),
+                        new TagKeywordCriterionHandler( $this->getDatabaseHandler() ),
                         new CommonCriterionHandler\ContentId( $this->getDatabaseHandler() ),
                         new CommonCriterionHandler\LogicalAnd( $this->getDatabaseHandler() ),
                         new CommonCriterionHandler\MatchAll( $this->getDatabaseHandler() ),
@@ -195,6 +197,75 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
                         ),
                         'limit' => 10,
                         'sortClauses' => array( new SortClause\Location\Id ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilter()
+    {
+        $this->assertSearchResults(
+            array( 59, 62 ),
+            $this->getLocationSearchHandler()->findLocations(
+                new LocationQuery(
+                    array(
+                        'filter' => new Criterion\TagKeyword( Query\Criterion\Operator::EQ, 'eztags' ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterIn()
+    {
+        $this->assertSearchResults(
+            array( 59, 62, 63 ),
+            $this->getLocationSearchHandler()->findLocations(
+                new LocationQuery(
+                    array(
+                        'filter' => new Criterion\TagKeyword( Query\Criterion\Operator::IN, array( 'eztags', 'cms' ) ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterInWithLogicalAnd()
+    {
+        $this->assertSearchResults(
+            array( 59 ),
+            $this->getLocationSearchHandler()->findLocations(
+                new LocationQuery(
+                    array(
+                        'filter' => new Query\Criterion\LogicalAnd(
+                            array(
+                                new Criterion\TagKeyword( Query\Criterion\Operator::EQ, 'mobile' ),
+                                new Criterion\TagKeyword( Query\Criterion\Operator::EQ, 'eztags' )
+                            )
+                        ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterLike()
+    {
+        $this->assertSearchResults(
+            array( 59, 60, 61, 62 ),
+            $this->getLocationSearchHandler()->findLocations(
+                new LocationQuery(
+                    array(
+                        'filter' => new Criterion\TagKeyword( Query\Criterion\Operator::LIKE, '%e%' ),
+                        'limit' => 10,
+                        'sortClauses' => array( new SortClause\ContentId ),
                     )
                 )
             )
