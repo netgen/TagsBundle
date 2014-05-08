@@ -43,8 +43,8 @@ class TagsExtensionTest extends PHPUnit_Framework_TestCase
     public function testGetTagUrl( Tag $tag, $expectedUrl )
     {
         $this->assertEquals(
-             $expectedUrl,
-             $this->tagsExtension->getTagUrl( $tag )
+            $expectedUrl,
+            $this->tagsExtension->getTagUrl( $tag )
         );
     }
 
