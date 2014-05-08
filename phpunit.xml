@@ -13,6 +13,9 @@
         <testsuite name="Netgen\TagsBundle\Tests\SPI">
             <directory>Tests/SPI</directory>
         </testsuite>
+        <testsuite name="Netgen\TagsBundle\Tests\Twig">
+            <directory>Tests/Twig</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>

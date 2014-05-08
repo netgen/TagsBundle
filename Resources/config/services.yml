@@ -1,0 +1,9 @@
+parameters:
+    eztags.twig.extension.class: Netgen\TagsBundle\Twig\Extension\TagsExtension
+
+services:
+    eztags.twig.extension:
+        class: %eztags.twig.extension.class%
+        arguments: [@ezpublish.api.service.tags]
+        tags:
+            - { name: twig.extension }

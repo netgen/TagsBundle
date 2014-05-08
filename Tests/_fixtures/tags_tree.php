@@ -5,7 +5,7 @@ return array(
         array( "id" => 5, "parent_id" => 47, "main_tag_id" => 0, "keyword" => "memcache", "depth" => 2, "path_string" => "/47/5/", "modified" => 1308152828, "remote_id" => "cfcd208495d565ef66e7dff9f98764da" ),
         array( "id" => 6, "parent_id" => 50, "main_tag_id" => 0, "keyword" => "performance", "depth" => 2, "path_string" => "/50/6/", "modified" => 1308153377, "remote_id" => "c4ca4238a0b923820dcc509a6f75849b" ),
         array( "id" => 7, "parent_id" => 8, "main_tag_id" => 0, "keyword" => "extensions", "depth" => 2, "path_string" => "/8/7/", "modified" => 1308571445, "remote_id" => "c81e728d9d4c2f636f067f89cc14862c" ),
-        array( "id" => 8, "parent_id" => 0, "main_tag_id" => 0, "keyword" => "ezpublish", "depth" => 1, "path_string" => "/8/", "modified" => 1343169159, "remote_id" => "eccbc87e4b5ce2fe28308fd9f2a7baf3" ),
+        array( "id" => 8, "parent_id" => 0, "main_tag_id" => 0, "keyword" => "ez publish", "depth" => 1, "path_string" => "/8/", "modified" => 1343169159, "remote_id" => "eccbc87e4b5ce2fe28308fd9f2a7baf3" ),
         array( "id" => 9, "parent_id" => 47, "main_tag_id" => 0, "keyword" => "php", "depth" => 2, "path_string" => "/47/9/", "modified" => 1343169159, "remote_id" => "a87ff679a2f3e71d9181a67b7542122c" ),
         array( "id" => 10, "parent_id" => 47, "main_tag_id" => 0, "keyword" => "javascript", "depth" => 2, "path_string" => "/47/10/", "modified" => 1308152818, "remote_id" => "e4da3b7fbbce2345d7772b0674a318d5" ),
         array( "id" => 11, "parent_id" => 47, "main_tag_id" => 0, "keyword" => "jquery", "depth" => 2, "path_string" => "/47/11/", "modified" => 1308152823, "remote_id" => "1679091c5a880faf6fb5e6087eb1b2dc" ),

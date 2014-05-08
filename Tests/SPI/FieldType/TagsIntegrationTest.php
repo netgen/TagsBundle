@@ -244,7 +244,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
             "id" => 8,
             "parent_id" => 0,
             "main_tag_id" => 0,
-            "keyword" => "ezpublish",
+            "keyword" => "ez publish",
             "depth" => 1,
             "path_string" => "/8/",
             "modified" => 1343169159,

@@ -420,7 +420,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 "id" => 8,
                 "parentTagId" => 0,
                 "mainTagId" => 0,
-                "keyword" => "ezpublish",
+                "keyword" => "ez publish",
                 "depth" => 1,
                 "pathString" => "/8/",
                 "modificationDate" => $modificationDate,
