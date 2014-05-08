@@ -19,7 +19,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\Crit
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagKeyword as TagKeywordCriterionHandler;
 
 /**
- * Test case for LocationSearchHandler with Tags criterions
+ * Test case for LocationSearchHandler with Tags criteria
  */
 class LocationSearchHandlerTest extends LanguageAwareTestCase
 {

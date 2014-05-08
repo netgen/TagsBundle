@@ -18,7 +18,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\Crit
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagKeyword as TagKeywordCriterionHandler;
 
 /**
- * Test case for ContentSearchHandler with Tags criterions
+ * Test case for ContentSearchHandler with Tags criteria
  */
 class TagsSearchHandlerTest extends LanguageAwareTestCase
 {

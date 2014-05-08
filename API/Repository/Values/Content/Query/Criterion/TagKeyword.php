@@ -54,6 +54,6 @@ class TagKeyword extends Criterion implements CriterionInterface
 
     public static function createFromQueryBuilder( $target, $operator, $value )
     {
-        return new self( $value );
+        return new self( $operator, $value );
     }
 }
