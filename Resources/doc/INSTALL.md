@@ -20,7 +20,8 @@ Add the following to your composer.json and run `php composer.phar update` to re
 
 ```json
 "require": {
-    "netgen/tagsbundle": "1.0"
+    "netgen/tagsbundle": "~1.0",
+    "ezsystems/eztags-ls": "~1.3"
 }
 ```
 
