@@ -7,10 +7,12 @@ services:
         parent: ezpublish.persistence.legacy.search.gateway.criterion_handler.base
         class: %ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_id.class%
         tags:
-            - {name: ezpublish.persistence.legacy.search.gateway.criterion_handler.common}
+            - {name: ezpublish.persistence.legacy.search.gateway.criterion_handler.content}
+            - {name: ezpublish.persistence.legacy.search.gateway.criterion_handler.location}
 
     ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_keyword:
         parent: ezpublish.persistence.legacy.search.gateway.criterion_handler.base
         class: %ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_keyword.class%
         tags:
-            - {name: ezpublish.persistence.legacy.search.gateway.criterion_handler.common}
+            - {name: ezpublish.persistence.legacy.search.gateway.criterion_handler.content}
+            - {name: ezpublish.persistence.legacy.search.gateway.criterion_handler.location}
