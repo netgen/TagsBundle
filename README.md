@@ -19,6 +19,8 @@ License and installation instructions
 
 [Installation instructions](Resources/doc/INSTALL.md)
 
+[Changelog](Resources/doc/CHANGELOG.md)
+
 Unit tests
 ----------
 
