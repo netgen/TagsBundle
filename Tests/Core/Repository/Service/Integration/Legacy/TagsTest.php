@@ -3,8 +3,6 @@
 namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy;
 
 use Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\TagsBase as BaseTagsServiceTest;
-use Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy\Utils;
-use Exception;
 
 /**
  * Test case for Tags Service using Legacy storage class
@@ -23,14 +21,7 @@ class TagsTest extends BaseTagsServiceTest
      */
     protected function getRepository()
     {
-        try
-        {
-            return Utils::getRepository();
-        }
-        catch ( Exception $e )
-        {
-            $this->markTestIncomplete( $e->getMessage() );
-        }
+        return Utils::getRepository();
     }
 
     /**
@@ -38,13 +29,6 @@ class TagsTest extends BaseTagsServiceTest
      */
     protected function getTagsService()
     {
-        try
-        {
-            return Utils::getTagsService();
-        }
-        catch ( Exception $e )
-        {
-            $this->markTestIncomplete( $e->getMessage() );
-        }
+        return Utils::getTagsService();
     }
 }

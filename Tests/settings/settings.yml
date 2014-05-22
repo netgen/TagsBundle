@@ -1,0 +1,2 @@
+parameters:
+    storage_dir: vendor/ezsystems/ezpublish-kernel/var/ezdemo_site/storage

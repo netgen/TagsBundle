@@ -6,7 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         colors="false"
+         colors="true"
          >
     <php>
         <env name="setupFactory" value="Netgen\TagsBundle\Tests\API\Repository\SetupFactory\Legacy" />
@@ -31,6 +31,7 @@
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
+                <directory>Twig</directory>
                 <directory>vendor</directory>
                 <directory>var</directory>
             </exclude>

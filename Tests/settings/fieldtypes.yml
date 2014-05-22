@@ -1,0 +1,9 @@
+parameters:
+    ezpublish.fieldType.eztags.class: Netgen\TagsBundle\Core\FieldType\Tags\Type
+
+services:
+    ezpublish.fieldType.eztags:
+        class: %ezpublish.fieldType.eztags.class%
+        parent: ezpublish.fieldType
+        tags:
+            - {name: ezpublish.fieldType, alias: eztags}

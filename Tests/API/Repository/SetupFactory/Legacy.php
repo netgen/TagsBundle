@@ -5,8 +5,6 @@ namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
 use eZ\Publish\Core\Base\ServiceContainer;
 
-use RuntimeException;
-
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
  * specific repository implementation to test.
@@ -29,10 +27,10 @@ class Legacy extends BaseLegacy
     {
         $statements = parent::getPostInsertStatements();
 
-        if ( self::$db === "pgsql" )
+        if ( self::$db === 'pgsql' )
         {
-            $setvalPath = __DIR__ . "/../../../_fixtures/schema/setval.pgsql.sql";
-            return array_merge( $statements, array_filter( preg_split( "(;\\s*$)m", file_get_contents( $setvalPath ) ) ) );
+            $setvalPath = __DIR__ . '/../../../_fixtures/schema/setval.pgsql.sql';
+            return array_merge( $statements, array_filter( preg_split( '(;\\s*$)m', file_get_contents( $setvalPath ) ) ) );
         }
 
         return $statements;
@@ -49,7 +47,7 @@ class Legacy extends BaseLegacy
 
         if ( !isset( self::$tagsInitialData ) )
         {
-            self::$tagsInitialData = include __DIR__ . "/../../../_fixtures/tags_tree.php";
+            self::$tagsInitialData = include __DIR__ . '/../../../_fixtures/tags_tree.php';
             self::$initialData = array_merge( self::$initialData, self::$tagsInitialData );
         }
 
@@ -61,37 +59,24 @@ class Legacy extends BaseLegacy
      *
      * @return string[]
      */
-    protected function getSchemaStatements()
+    protected function getTagsSchemaStatements()
     {
-        $originalSchemaStatements = parent::getSchemaStatements();
+        $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
 
-        $tagsSchemaPath = __DIR__ . "/../../../_fixtures/schema/schema." . self::$db . ".sql";
-
-        return array_merge( $originalSchemaStatements, array_filter( preg_split( "(;\\s*$)m", file_get_contents( $tagsSchemaPath ) ) ) );
+        return array_filter( preg_split( '(;\\s*$)m', file_get_contents( $tagsSchemaPath ) ) );
     }
 
     /**
-     * Returns the global ezpublish-kernel settings
+     * Initializes the database schema
      *
-     * @throws \RuntimeException If no config.php could be found
-     *
-     * @return mixed
+     * @return void
      */
-    protected function getGlobalSettings()
+    protected function initializeSchema()
     {
-        if ( self::$globalSettings === null )
-        {
-            $settingsPath = "vendor/ezsystems/ezpublish-kernel/config.php";
+        parent::initializeSchema();
 
-            if ( !file_exists( $settingsPath ) )
-            {
-                throw new RuntimeException( "Could not find config.php, please copy config.php-DEVELOPMENT to config.php customize to your needs!" );
-            }
-
-            self::$globalSettings = include $settingsPath;
-        }
-
-        return self::$globalSettings;
+        $statements = $this->getTagsSchemaStatements();
+        $this->applyStatements( $statements );
     }
 
     /**
@@ -103,38 +88,31 @@ class Legacy extends BaseLegacy
     {
         if ( !isset( self::$serviceContainer ) )
         {
-            $configManager = $this->getConfigurationManager();
+            $config = include __DIR__ . '/../../../../vendor/ezsystems/ezpublish-kernel/config.php';
+            $installDir = $config['install_dir'];
 
-            $serviceSettings = $configManager->getConfiguration( "service" )->getAll();
+            /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
+            $containerBuilder = include $config['container_builder_path'];
 
-            $serviceSettings["persistence_handler"]["alias"] = "persistence_handler_legacy";
-            $serviceSettings["io_handler"]["alias"] = "io_handler_legacy";
+            /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
+            $loader->load( 'tests/integration_legacy.yml' );
+            $loader->load( __DIR__ . '/../../../../Tests/settings/settings.yml' );
+            $loader->load( __DIR__ . '/../../../../Tests/settings/fieldtype_external_storages.yml' );
+            $loader->load( __DIR__ . '/../../../../Tests/settings/fieldtypes.yml' );
+            $loader->load( __DIR__ . '/../../../../Tests/settings/storage_engines.yml' );
+            $loader->load( __DIR__ . '/../../../../Tests/settings/storage_engines/legacy.yml' );
 
-            /** START: eztags field type settings */
-
-            $serviceSettings["legacy_converter_registry"]["arguments"]["map"]["eztags"] = "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\Tags::create";
-
-            $serviceSettings["eztags:field_storage_legacy_gateway"]["class"] = "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage\\Gateway\\LegacyStorage";
-
-            $serviceSettings["eztags:field_storage"]["class"] = "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\TagsStorage";
-            $serviceSettings["eztags:field_storage"]["arguments"]["gateways"]["LegacyStorage"] = "@eztags:field_storage_legacy_gateway";
-
-            $serviceSettings["eztags:field_type"]["class"] = "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Type";
-
-            /** END: eztags field type settings */
-
-            /** START: Look for storage dir in eZ Publish 5 root */
-
-            $serviceSettings["parameters"]["storage_dir"] = "var";
-
-            /** END: Look for storage dir in eZ Publish 5 root */
-
-            $serviceSettings["persistence_handler_legacy"]["arguments"]["config"]["dsn"] = self::$dsn;
-            $serviceSettings["legacy_db_handler"]["arguments"]["dsn"] = self::$dsn;
+            $containerBuilder->setParameter(
+                'legacy_dsn',
+                self::$dsn
+            );
 
             self::$serviceContainer = new ServiceContainer(
-                $serviceSettings,
-                $this->getDependencyConfiguration()
+                $containerBuilder,
+                $installDir,
+                $config['cache_dir'],
+                true,
+                true
             );
         }
 

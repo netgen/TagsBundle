@@ -426,7 +426,7 @@ abstract class TagsBase extends BaseServiceTest
         $content = $this->tagsService->getRelatedContent( $tag );
 
         $this->assertInternalType( "array", $content );
-        $this->assertCount( 2, $content );
+        $this->assertCount( 3, $content );
 
         foreach ( $content as $contentItem )
         {
@@ -485,7 +485,7 @@ abstract class TagsBase extends BaseServiceTest
             $this->tagsService->loadTag( 16 )
         );
 
-        $this->assertEquals( 2, $contentCount );
+        $this->assertEquals( 3, $contentCount );
     }
 
     /**
@@ -1053,7 +1053,7 @@ abstract class TagsBase extends BaseServiceTest
         }
 
         $relatedObjectsCount = $this->tagsService->getRelatedContentCount( $targetTag );
-        $this->assertEquals( 2, $relatedObjectsCount );
+        $this->assertEquals( 3, $relatedObjectsCount );
 
         $childrenCount = $this->tagsService->getTagChildrenCount( $targetTag );
         $this->assertEquals( 6, $childrenCount );

@@ -1,0 +1,8 @@
+parameters:
+    ezpublish.fieldType.eztags.externalStorage.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
+
+services:
+    ezpublish.fieldType.eztags.externalStorage:
+        class: %ezpublish.fieldType.eztags.externalStorage.class%
+        tags:
+            - {name: ezpublish.fieldType.externalStorageHandler, alias: eztags}
