@@ -96,6 +96,60 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
+     * Returns an array with basic tag data for the tag with $url
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     *
+     * @param string $url
+     *
+     * @return array
+     */
+    public function getBasicTagDataByUrl( $url )
+    {
+        $explodedUrl = explode( '/', $url );
+        $parentId = 0;
+
+        foreach ( $explodedUrl as $urlItem )
+        {
+            $urlItem = trim( $urlItem );
+            if ( empty( $urlItem ) )
+            {
+                continue;
+            }
+
+            $query = $this->handler->createSelectQuery();
+            $query
+                ->select( "*" )
+                ->from( $this->handler->quoteTable( "eztags" ) )
+                ->where(
+                    $query->expr->lAnd(
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( "parent_id" ),
+                            $query->bindValue( $parentId, null, PDO::PARAM_INT )
+                        ),
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( "keyword" ),
+                            $query->bindValue( urldecode( $urlItem ), null, PDO::PARAM_STR )
+                        )
+                    )
+                );
+
+            $statement = $query->prepare();
+            $statement->execute();
+
+            if ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
+            {
+                $parentId = (int) $row["id"];
+                continue;
+            }
+
+            throw new NotFoundException( "tag", $url );
+        }
+
+        return $row;
+    }
+
+    /**
      * Returns data for the first level children of the tag identified by given $tagId
      *
      * @param mixed $tagId

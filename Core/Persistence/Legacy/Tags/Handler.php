@@ -60,6 +60,21 @@ class Handler implements BaseTagsHandler
     }
 
     /**
+     * Loads a tag object from its URL
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param string $url
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function loadByUrl( $url )
+    {
+        $data = $this->gateway->getBasicTagDataByUrl( $url );
+        return $this->mapper->createTagFromRow( $data );
+    }
+
+    /**
      * Loads children of a tag identified by $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found

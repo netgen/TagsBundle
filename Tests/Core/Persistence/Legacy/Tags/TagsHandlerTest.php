@@ -107,6 +107,39 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByUrl
+     */
+    public function testLoadByUrl()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getBasicTagDataByUrl" )
+            ->with( "ez+publish/extensions/eztags" )
+            ->will(
+                $this->returnValue(
+                    array(
+                        "id" => "40",
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "createTagFromRow" )
+            ->with( array( "id" => "40" ) )
+            ->will( $this->returnValue( new Tag( array( "id" => "40" ) ) ) );
+
+        $tag = $handler->loadByUrl( "ez+publish/extensions/eztags" );
+
+        $this->assertInstanceOf(
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $tag
+        );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadChildren
      */
     public function testLoadChildren()

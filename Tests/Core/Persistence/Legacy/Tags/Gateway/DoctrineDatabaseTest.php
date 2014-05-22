@@ -144,6 +144,37 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
+     * @dataProvider getLoadTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByUrl
+     *
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testGetBasicTagDataByUrl( $field, $value )
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getBasicTagDataByUrl( "ez+publish/extensions/eztags" );
+
+        $this->assertEquals(
+            $value,
+            $data[$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByUrl
+     * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     */
+    public function testGetBasicTagDataByUrlThrowsNotFoundException()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $handler->getBasicTagDataByRemoteId( "does/not/exist" );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
      */
     public function testGetChildren()

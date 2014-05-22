@@ -87,6 +87,27 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
+     * Loads a tag object from its URL
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param string $url
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    public function loadTagByUrl( $url )
+    {
+        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
+        {
+            throw new UnauthorizedException( "tags", "read" );
+        }
+
+        $spiTag = $this->tagsHandler->loadByUrl( trim( $url, '/' ) );
+        return $this->buildTagDomainObject( $spiTag );
+    }
+
+    /**
      * Loads children of a tag object
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags

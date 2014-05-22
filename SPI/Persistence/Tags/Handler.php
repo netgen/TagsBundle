@@ -27,6 +27,17 @@ interface Handler
     public function loadByRemoteId( $remoteId );
 
     /**
+     * Loads a tag object from its URL
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param string $url
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function loadByUrl( $url );
+
+    /**
      * Loads children of a tag identified by $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found

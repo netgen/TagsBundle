@@ -238,6 +238,51 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByUrl
+     */
+    public function testLoadTagByUrl()
+    {
+        $tag = $this->tagsService->loadTagByUrl( "ez+publish/extensions/eztags" );
+
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 40,
+                "parentTagId" => 7,
+                "mainTagId" => 0,
+                "keyword" => "eztags",
+                "depth" => 3,
+                "pathString" => "/8/7/40/",
+                "modificationDate" => $this->getDateTime( 1308153110 ),
+                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+            ),
+            $tag
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByUrl
+     */
+    public function testLoadTagByUrlThrowsNotFoundException()
+    {
+        $this->tagsService->loadTagByUrl( "does/not/exist" );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByUrl
+     */
+    public function testLoadTagByUrlThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->loadTagByUrl( "ez+publish/extensions/eztags" );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
      * @depends testLoadTag
      */

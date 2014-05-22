@@ -79,6 +79,31 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns an array with basic tag data for the tag with $url
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $url
+     *
+     * @return array
+     */
+    public function getBasicTagDataByUrl( $url )
+    {
+        try
+        {
+            return $this->innerGateway->getBasicTagDataByUrl( $url );
+        }
+        catch ( DBALException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Returns data for the first level children of the tag identified by given $tagId
      *
      * @throws \RuntimeException
