@@ -11,7 +11,7 @@ Implemented features
 * `eztags` field type
 * Tags service and legacy SPI handler
 * SignalSlot Tags service
-* `/tag/id/{tagId}` and `/tag/{tagUrl}` pages
+* `/tag/{tagId}` and `/tag/{tagUrl}` pages
 
 License and installation instructions
 -------------------------------------
