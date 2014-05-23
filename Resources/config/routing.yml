@@ -6,10 +6,10 @@ eztags_tag_view_id:
     requirements:
         tagId: \d+
 
-eztags_tag_view_slug:
-    path: /tag/{slug}
+eztags_tag_view_url:
+    path: /tag/{tagUrl}
     defaults:
-        _controller: eztags.controller.tag_view:viewTagBySlug
+        _controller: eztags.controller.tag_view:viewTagByUrl
     methods: [GET]
     requirements:
-        slug: .+
+        tagUrl: .+

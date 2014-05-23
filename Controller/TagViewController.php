@@ -40,15 +40,15 @@ class TagViewController extends Controller
     }
 
     /**
-     * Action for rendering a tag view by using tag URL (slug)
+     * Action for rendering a tag view by using tag URL
      *
-     * @param string $slug
+     * @param string $tagUrl
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewTagBySlug( $slug )
+    public function viewTagByUrl( $tagUrl )
     {
-        $tag = $this->tagsService->loadTagByUrl( $slug );
+        $tag = $this->tagsService->loadTagByUrl( $tagUrl );
         return $this->renderTag( $tag );
     }
 
