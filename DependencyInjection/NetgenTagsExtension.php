@@ -30,5 +30,7 @@ class NetgenTagsExtension extends Extension
         $loader->load( "storage_engines/legacy.yml" );
 
         $loader->load( "papi.yml" );
+
+        $loader->load( "default_settings.yml" );
     }
 }

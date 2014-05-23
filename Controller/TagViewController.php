@@ -3,13 +3,10 @@
 namespace Netgen\TagsBundle\Controller;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use eZ\Publish\Core\Pagination\Pagerfanta\ContentSearchAdapter;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
 use Pagerfanta\Pagerfanta;
-
-use Exception;
 
 class TagViewController extends Controller
 {
@@ -19,6 +16,8 @@ class TagViewController extends Controller
     protected $tagsService;
 
     /**
+     * Constructor
+     *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
     public function __construct( TagsService $tagsService )
@@ -61,24 +60,19 @@ class TagViewController extends Controller
      */
     protected function renderTag( Tag $tag )
     {
-        $response = new Response();
-        try
-        {
-            $relatedContent = $this->tagsService->getRelatedContent( $tag );
+        $pager = new Pagerfanta(
+            new RelatedContentAdapter( $tag, $this->tagsService )
+        );
 
-            return $this->render(
-                'NetgenTagsBundle:tag:view.html.twig',
-                array(
-                    'tag' => $tag,
-                    'relatedContent' => $relatedContent
-                ),
-                $response
-            );
-        }
-        catch ( Exception $e )
-        {
-            $this->get( 'logger' )->error( "An exception has been raised when viewing tag: {$e->getMessage()}" );
-            return $response;
-        }
+        $pager->setMaxPerPage( $this->container->getParameter( 'eztags.tag_view.related_content_list.limit' ) );
+        $pager->setCurrentPage( $this->getRequest()->get( 'page', 1 ) );
+
+        return $this->render(
+            'NetgenTagsBundle:tag:view.html.twig',
+            array(
+                'tag' => $tag,
+                'pager' => $pager
+            )
+        );
     }
 }

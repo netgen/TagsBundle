@@ -1,0 +1,3 @@
+parameters:
+    # Number of related content displayed per page in the tag view
+    eztags.tag_view.related_content_list.limit: 10
