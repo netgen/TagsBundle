@@ -239,6 +239,7 @@ class EzcDatabaseTest extends TestCase
 
         $this->assertEquals( 3, $contentCount );
     }
+    
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\EzcDatabase::getRelatedContentCount
      */
