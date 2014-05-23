@@ -8,7 +8,7 @@ Netgen Tags Bundle changelog
 * Add `TagKeyword` content & location search criterion
 * Allow loading tags and tag count from root level (by making `$tag` parameter in `TagsService::loadTagChildren` and `TagsService::getTagChildrenCount` optional)
 * Implement loading a tag by its URL (for example `ez+publish/extensions/eztags`)
-* Add a controller to render `/tag/{tagId}` and `/tag/{tagUrl}` pages
+* Add a controller to render `/tag/{tagId}` and `/tag/{tagUrl}` pages (includes pagination)
 * Add `eztags_tag_url` Twig function to be able to link to `/tag/{tagUrl}` page properly
 * Add links to `/tag/{tagUrl}` page for each tag in `eztags` content field template
 * Reconfigure unit tests to allow running from repo root instead of eZ Publish 5 root
