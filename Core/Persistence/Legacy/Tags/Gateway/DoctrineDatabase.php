@@ -139,7 +139,7 @@ class DoctrineDatabase extends Gateway
 
             if ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
             {
-                $parentId = (int) $row["id"];
+                $parentId = (int)$row["id"];
                 continue;
             }
 
