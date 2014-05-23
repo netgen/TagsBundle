@@ -59,6 +59,13 @@ parameters:
 
 Be sure to replace `YOUR_SITEACCESS_NAME` text with the name of your frontend siteaccess.
 
+Put the following in your `ezpublish/config/routing.yml` file to be able to display tag view pages:
+
+```yml
+_eztagsRoutes:
+    resource: "@NetgenTagsBundle/Resources/config/routing.yml"
+```
+
 ### Clear the caches
 
 Clear eZ Publish 5 caches.

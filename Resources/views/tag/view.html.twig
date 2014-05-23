@@ -1,0 +1,44 @@
+{#
+
+{% extends noLayout ? viewbaseLayout : "eZDemoBundle::pagelayout.html.twig" %}
+
+#}
+
+{% extends "eZDemoBundle::pagelayout.html.twig" %}
+
+{#
+    This is an example of how to customize the title of your page.
+    You can remove this block if you ever copy this file or use it as is to display a blog_post
+#}
+{% block page_head %}
+    {% set title = tag.keyword %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <section class="content-view-full">
+        <div class="row">
+            <div class="span12">
+                <div class="attribute-header">
+                    <h1>{{ tag.keyword }}</h1>
+                </div>
+
+                {% if relatedContent|length > 0 %}
+                    {% for relatedContentItem in relatedContent %}
+                        <section class="content-view-children">
+                            {{ render(
+                                controller(
+                                    "ez_content:viewLocation",
+                                    {
+                                        "locationId": relatedContentItem.contentInfo.mainLocationId,
+                                        "viewType": "line"
+                                    }
+                                )
+                            ) }}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,15 @@
+eztags_tag_view_id:
+    path: /tag/{tagId}
+    defaults:
+        _controller: eztags.controller.tag_view:viewTagById
+    methods: [GET]
+    requirements:
+        tagId: \d+
+
+eztags_tag_view_slug:
+    path: /tag/{slug}
+    defaults:
+        _controller: eztags.controller.tag_view:viewTagBySlug
+    methods: [GET]
+    requirements:
+        slug: .+
