@@ -4,12 +4,14 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Publish 5.2+ / eZ Publish Community Project 2013.07+
-* eZ Publish Legacy Stack with legacy eZ Tags 1.2.2 installed and configured
+* eZ Publish 5.3+ / eZ Publish Community Project 2014.05+
+* eZ Publish Legacy Stack with legacy eZ Tags 1.3 installed and configured
 
 ### Note
 
-Netgen Tags Bundle 1.0 can only be used with eZ Publish Enterprise 5.2 or later or eZ Publish Community Project 2013.07 or later due to [changes in field type API](https://github.com/ezsystems/ezpublish-kernel/pull/429). If you have previous versions of eZ Publish, please use 0.9 version of Tags Bundle.
+Netgen Tags Bundle 1.0 can only be used with eZ Publish Enterprise 5.2 or eZ Publish Community Project 2013.07-2014.03 due to [changes in field type API](https://github.com/ezsystems/ezpublish-kernel/pull/429). If you have previous versions of eZ Publish, please use 0.9 version of Tags Bundle.
+
+Netgen Tags Bundle 1.1 can only be used with eZ Publish Enterprise 5.3 or later or eZ Publish Community Project 2014.05 or later.
 
 Installation steps
 ------------------
