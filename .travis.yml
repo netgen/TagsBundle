@@ -11,11 +11,6 @@ matrix:
     allow_failures:
         - php: 5.6
 
-# execute unit tests and integration tests using legacy storage engine
-env:
-  - TEST_CONFIG="phpunit.xml"
-  - TEST_CONFIG="phpunit-integration-legacy.xml"
-
 # test only master (+ Pull requests)
 branches:
   only:
@@ -29,7 +24,9 @@ before_script:
   - cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
 
 # execute phpunit as the script command
-script: "phpunit -d memory_limit=-1 -c $TEST_CONFIG"
+script:
+  - phpunit -d memory_limit=-1 --colors -c phpunit.xml
+  - phpunit -d memory_limit=-1 --colors -c phpunit-integration-legacy.xml
 
 # disable mail notifications
 notification:
