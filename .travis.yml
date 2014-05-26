@@ -22,7 +22,7 @@ branches:
     - master
 
 # install dependencies
-install: composer install --dev --prefer-source
+install: composer install --no-dev --prefer-source
 
 # setup requirements for running unit tests
 before_script:
