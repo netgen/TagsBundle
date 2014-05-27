@@ -26,7 +26,7 @@ class NetgenTagsExtension extends Extension
 
         $loader->load( "fieldtypes.yml" );
 
-        $loader->load( "storage_engines.yml" );
+        $loader->load( "persistence.yml" );
         $loader->load( "storage_engines/legacy.yml" );
 
         $loader->load( "papi.yml" );
