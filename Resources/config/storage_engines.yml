@@ -1,28 +1,10 @@
 parameters:
-    ezpublish.fieldType.eztags.converter.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
-    ezpublish.fieldType.eztags.storage_gateway.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
-
     ezpublish.api.persistence_handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\TagsHandlerFactory
     ezpublish.api.persistence_handler.tags.class: Netgen\TagsBundle\SPI\Persistence\Tags\Handler
 
-    ezpublish.api.storage_engine.legacy.handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
-    ezpublish.api.storage_engine.legacy.handler.tags.class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
-
 services:
-    # eZ Tags field type
-    ezpublish.fieldType.eztags.converter:
-        class: %ezpublish.fieldType.eztags.converter.class%
-        tags:
-            - {name: ezpublish.storageEngine.legacy.converter, alias: eztags, lazy: true, callback: "::create"}
-
-    ezpublish.fieldType.eztags.storage_gateway:
-        class: %ezpublish.fieldType.eztags.storage_gateway.class%
-        tags:
-            - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: eztags, identifier: LegacyStorage}
-
     # Tags handler
-    # We use a factory instead of alias so there's
-    # no need setting default storage engine twice
+    # We use a factory instead of alias so there's no need setting default storage engine twice
     ezpublish.api.persistence_handler.tags.factory:
         class: %ezpublish.api.persistence_handler.tags.factory.class%
         arguments:
@@ -34,29 +16,3 @@ services:
         factory_method: buildTagsHandler
         arguments:
             - %ezpublish.api.storage_engine.default%
-
-    # Legacy Tags handler
-    ezpublish.api.storage_engine.legacy.handler.tags.factory:
-        class: %ezpublish.api.storage_engine.legacy.handler.tags.factory.class%
-        arguments:
-            - @service_container
-
-    ezpublish.api.storage_engine.legacy.handler.tags:
-        class: %ezpublish.api.storage_engine.legacy.handler.tags.class%
-        factory_service: ezpublish.api.storage_engine.legacy.handler.tags.factory
-        factory_method: buildLegacyTagsHandler
-        arguments:
-            - @ezpublish.api.storage_engine.legacy.dbhandler
-
-# SQL-NG Tags handler (just a placeholder for now)
-#     ezpublish.api.storage_engine.sqlng.handler.tags.factory:
-#         class: %ezpublish.api.storage_engine.sqlng.handler.tags.factory.class%
-#         arguments:
-#             - @service_container
-#
-#     ezpublish.api.storage_engine.sqlng.handler.tags:
-#         class: %ezpublish.api.storage_engine.sqlng.handler.tags.class%
-#         factory_service: ezpublish.api.storage_engine.sqlng.handler.tags.factory
-#         factory_method: buildSqlNgTagsHandler
-#         arguments:
-#             - @ezpublish.api.storage_engine.sqlng.dbhandler

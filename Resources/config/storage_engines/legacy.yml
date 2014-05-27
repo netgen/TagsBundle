@@ -1,2 +1,34 @@
 imports:
     - {resource: storage_engines/legacy/search_query_handlers.yml}
+
+parameters:
+    ezpublish.fieldType.eztags.converter.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
+    ezpublish.fieldType.eztags.storage_gateway.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
+
+    ezpublish.api.storage_engine.legacy.handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
+    ezpublish.api.storage_engine.legacy.handler.tags.class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
+
+services:
+    # eZ Tags field type
+    ezpublish.fieldType.eztags.converter:
+        class: %ezpublish.fieldType.eztags.converter.class%
+        tags:
+            - {name: ezpublish.storageEngine.legacy.converter, alias: eztags, lazy: true, callback: "::create"}
+
+    ezpublish.fieldType.eztags.storage_gateway:
+        class: %ezpublish.fieldType.eztags.storage_gateway.class%
+        tags:
+            - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: eztags, identifier: LegacyStorage}
+
+    # Legacy Tags handler
+    ezpublish.api.storage_engine.legacy.handler.tags.factory:
+        class: %ezpublish.api.storage_engine.legacy.handler.tags.factory.class%
+        arguments:
+            - @service_container
+
+    ezpublish.api.storage_engine.legacy.handler.tags:
+        class: %ezpublish.api.storage_engine.legacy.handler.tags.class%
+        factory_service: ezpublish.api.storage_engine.legacy.handler.tags.factory
+        factory_method: buildLegacyTagsHandler
+        arguments:
+            - @ezpublish.api.storage_engine.legacy.dbhandler

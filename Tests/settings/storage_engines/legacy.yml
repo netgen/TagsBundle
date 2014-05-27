@@ -1,2 +1,0 @@
-imports:
-    - {resource: storage_engines/legacy/search_query_handlers.yml}
