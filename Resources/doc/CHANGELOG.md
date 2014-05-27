@@ -1,8 +1,8 @@
 Netgen Tags Bundle changelog
 ============================
 
-1.1
----
+1.1 (27.05.2014)
+----------------
 
 * Add `TagId` content & location search criterion
 * Add `TagKeyword` content & location search criterion
