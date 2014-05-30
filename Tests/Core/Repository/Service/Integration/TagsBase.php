@@ -374,6 +374,57 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagsByKeyword
+     * @depends testLoadTag
+     */
+    public function testLoadTagsByKeyword()
+    {
+        $tags = $this->tagsService->loadTagsByKeyword( 'eztags' );
+
+        $this->assertInternalType( 'array', $tags );
+        $this->assertCount( 2, $tags );
+
+        foreach ( $tags as $tag )
+        {
+            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+            $this->assertEquals( 'eztags', $tag->keyword );
+        }
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagsByKeyword
+     */
+    public function testLoadTagsByKeywordThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->loadTagsByKeyword( 'eztags' );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagsByKeywordCount
+     * @depends testLoadTag
+     */
+    public function testGetTagsByKeywordCount()
+    {
+        $tagsCount = $this->tagsService->getTagsByKeywordCount( 'eztags' );
+
+        $this->assertEquals( 2, $tagsCount );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     *
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagsByKeywordCount
+     */
+    public function testGetTagsByKeywordCountThrowsUnauthorizedException()
+    {
+        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->tagsService->getTagsByKeywordCount( 'eztags' );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      * @depends testLoadTag
      */

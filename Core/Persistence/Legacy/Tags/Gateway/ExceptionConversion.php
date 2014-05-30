@@ -156,6 +156,58 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns data for tags identified by given $keyword
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $keyword
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
+    {
+        try
+        {
+            return $this->innerGateway->getTagsByKeyword( $keyword, $offset, $limit );
+        }
+        catch ( DBALException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
+     * Returns how many tags exist with $keyword
+     *
+     * @throws \RuntimeException
+     *
+     * @param string $keyword
+     *
+     * @return int
+     */
+    public function getTagsByKeywordCount( $keyword )
+    {
+        try
+        {
+            return $this->innerGateway->getTagsByKeywordCount( $keyword );
+        }
+        catch ( DBALException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @throws \RuntimeException

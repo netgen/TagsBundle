@@ -218,6 +218,79 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getTagsByKeyword
+     */
+    public function testGetTagsByKeyword()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getTagsByKeyword" )
+            ->with( "eztags" )
+            ->will(
+                $this->returnValue(
+                    array(
+                        array(
+                            "keyword" => "eztags",
+                        ),
+                        array(
+                            "keyword" => "eztags",
+                        )
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "createTagsFromRows" )
+            ->with(
+                array(
+                    array( "keyword" => "eztags" ),
+                    array( "keyword" => "eztags" )
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    array(
+                        new Tag( array( "keyword" => "eztags" ) ),
+                        new Tag( array( "keyword" => "eztags" ) )
+                    )
+                )
+            );
+
+        $tags = $handler->loadTagsByKeyword( "eztags" );
+
+        $this->assertCount( 2, $tags );
+
+        foreach ( $tags as $tag )
+        {
+            $this->assertInstanceOf(
+                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                $tag
+            );
+        }
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getTagsByKeywordCount
+     */
+    public function testGetTagsByKeywordCount()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getTagsByKeywordCount" )
+            ->with( "eztags" )
+            ->will( $this->returnValue( 2 ) );
+
+        $tagsCount = $handler->getTagsByKeywordCount( "eztags" );
+
+        $this->assertEquals( 2, $tagsCount );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadSynonyms
      */
     public function testLoadSynonyms()

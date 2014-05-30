@@ -205,6 +205,32 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeyword
+     */
+    public function testGetTagsByKeyword()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getTagsByKeyword( "eztags" );
+
+        $this->assertCount( 2, $data );
+        $this->assertEquals( "eztags", $data[0]["keyword"] );
+        $this->assertEquals( "eztags", $data[1]["keyword"] );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeywordCount
+     */
+    public function testGetTagsByKeywordCount()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getTagsByKeywordCount( "eztags" );
+
+        $this->assertEquals( 2, $tagsCount );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
      */
     public function testGetSynonyms()

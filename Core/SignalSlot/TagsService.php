@@ -117,6 +117,36 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
+     * Loads tags by specified keyword
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @param string $keyword The keyword to fetch tags for
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
+     */
+    public function loadTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
+    {
+        $this->service->loadTagsByKeyword( $keyword, $offset, $limit );
+    }
+
+    /**
+     * Returns the number of tags by specified keyword
+     *
+     * @param string $keyword The keyword to fetch tags count for
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @return int
+     */
+    public function getTagsByKeywordCount( $keyword )
+    {
+        $this->service->getTagsByKeywordCount( $keyword );
+    }
+
+    /**
      * Loads synonyms of a tag object
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags

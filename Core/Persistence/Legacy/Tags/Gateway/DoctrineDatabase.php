@@ -215,6 +215,65 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
+     * Returns data for tags identified by given $keyword
+     *
+     * @param string $keyword
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return array
+     */
+    public function getTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "keyword", "eztags" ),
+                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
+                )
+            )
+            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
+    }
+
+    /**
+     * Returns how many tags exist with $keyword
+     *
+     * @param string $keyword
+     *
+     * @return int
+     */
+    public function getTagsByKeywordCount( $keyword )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select(
+                $query->alias( $query->expr->count( "*" ), "count" )
+            )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "keyword", "eztags" ),
+                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+
+        return (int)$rows[0]["count"];
+    }
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @param mixed $tagId

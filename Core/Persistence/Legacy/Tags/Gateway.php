@@ -55,6 +55,26 @@ abstract class Gateway
     abstract public function getChildrenCount( $tagId );
 
     /**
+     * Returns data for tags identified by given $keyword
+     *
+     * @param string $keyword
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return array
+     */
+    abstract public function getTagsByKeyword( $keyword, $offset = 0, $limit = -1 );
+
+    /**
+     * Returns how many tags exist with $keyword
+     *
+     * @param string $keyword
+     *
+     * @return int
+     */
+    abstract public function getTagsByKeywordCount( $keyword );
+
+    /**
      * Returns data for synonyms of the tag identified by given $tagId
      *
      * @param mixed $tagId
