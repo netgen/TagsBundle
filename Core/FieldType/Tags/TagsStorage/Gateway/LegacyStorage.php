@@ -145,7 +145,7 @@ class LegacyStorage extends Gateway
 
         $query = $connection->createSelectQuery();
         $query
-            ->selectDistinct( "eztags_attribute_link.id, eztags.*" )
+            ->selectDistinct( "eztags.*" )
             ->from( $connection->quoteTable( "eztags" ) )
             ->innerJoin(
                 $connection->quoteTable( "eztags_attribute_link" ),
