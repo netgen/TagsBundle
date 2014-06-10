@@ -393,14 +393,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
         return new Tag(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
+            	"id" => 8,
+                "parentTagId" => 0,
                 "mainTagId" => 0,
-                "keyword" => "eztags",
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
+                "keyword" => "ez publish",
+                "depth" => 1,
+                "pathString" => "/8/",
                 "modificationDate" => $modificationDate,
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+                "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
             )
         );
     }
@@ -417,14 +417,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
         return new Tag(
             array(
-                "id" => 8,
-                "parentTagId" => 0,
+                "id" => 40,
+                "parentTagId" => 7,
                 "mainTagId" => 0,
-                "keyword" => "ez publish",
-                "depth" => 1,
-                "pathString" => "/8/",
+                "keyword" => "eztags",
+                "depth" => 3,
+                "pathString" => "/8/7/40/",
                 "modificationDate" => $modificationDate,
-                "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
+                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e"
             )
         );
     }
@@ -437,14 +437,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
     protected function getTagHash1()
     {
         return array(
-            "id" => 40,
-            "parent_id" => 7,
-            "main_tag_id" => 0,
-            "keyword" => "eztags",
-            "depth" => 3,
-            "path_string" => "/8/7/40/",
-            "modified" => 1308153110,
-            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+            "id" => 8,
+            "parentTagId" => 0,
+            "mainTagId" => 0,
+            "keyword" => "ez publish",
+            "depth" => 1,
+            "pathString" => "/8/",
+            "modificationDate" => $modificationDate,
+            "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
         );
     }
 }
