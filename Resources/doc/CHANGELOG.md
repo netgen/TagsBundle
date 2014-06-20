@@ -1,8 +1,8 @@
 Netgen Tags Bundle changelog
 ============================
 
-1.2
-----------------
+1.1.1 (20.06.2014)
+------------------
 
 * Add loading tags and tags count by keyword in `TagsService`
 * Add implementation of `Tag` limitation for use in `tags/add` policy
