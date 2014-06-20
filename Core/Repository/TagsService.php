@@ -364,7 +364,7 @@ class TagsService implements TagsServiceInterface
      */
     public function createTag( TagCreateStruct $tagCreateStruct )
     {
-        if ( $this->repository->hasAccess( "tags", "add" ) !== true )
+        if ( $this->repository->canUser( "tags", "add", $this->loadTag( $tagCreateStruct->parentTagId ) ) !== true )
         {
             throw new UnauthorizedException( "tags", "add" );
         }

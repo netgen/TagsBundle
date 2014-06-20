@@ -23,14 +23,11 @@ class NetgenTagsExtension extends Extension
         $loader = new YamlFileLoader( $container, new FileLocator( __DIR__ . "/../Resources/config" ) );
 
         $loader->load( "services.yml" );
-
         $loader->load( "fieldtypes.yml" );
-
         $loader->load( "persistence.yml" );
         $loader->load( "storage_engines/legacy.yml" );
-
         $loader->load( "papi.yml" );
-
         $loader->load( "default_settings.yml" );
+        $loader->load( "roles.yml" );
     }
 }

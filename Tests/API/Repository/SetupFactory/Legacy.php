@@ -5,6 +5,12 @@ namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
 use eZ\Publish\Core\Base\ServiceContainer;
 
+use Netgen\TagsBundle\Core\Repository\TagsService;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
+
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
  * specific repository implementation to test.
@@ -97,6 +103,7 @@ class Legacy extends BaseLegacy
             /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
             $loader->load( 'tests/integration_legacy.yml' );
             $loader->load( __DIR__ . '/../../../../Tests/settings/settings.yml' );
+            $loader->load( __DIR__ . '/../../../../Resources/config/roles.yml' );
             $loader->load( __DIR__ . '/../../../../Resources/config/fieldtypes.yml' );
             $loader->load( __DIR__ . '/../../../../Resources/config/persistence.yml' );
             $loader->load( __DIR__ . '/../../../../Resources/config/storage_engines/legacy.yml' );
@@ -116,5 +123,29 @@ class Legacy extends BaseLegacy
         }
 
         return self::$serviceContainer;
+    }
+
+    /**
+     * Returns a configured tags service for testing.
+     *
+     * @param boolean $initializeFromScratch if the back end should be initialized
+     *                                    from scratch or re-used
+     *
+     * @return \Netgen\TagsBundle\API\Repository\TagsService
+     */
+    public function getTagsService( $initializeFromScratch = true )
+    {
+        $repository = $this->getRepository( $initializeFromScratch );
+
+        $tagsHandler = new Handler(
+            new ExceptionConversion(
+                new DoctrineDatabase(
+                    $this->getDatabaseHandler()
+                )
+            ),
+            new Mapper()
+        );
+
+        return new TagsService( $repository, $tagsHandler );
     }
 }
