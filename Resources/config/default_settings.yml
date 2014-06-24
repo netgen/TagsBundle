@@ -1,3 +1,12 @@
 parameters:
     # Number of related content displayed per page in the tag view
     eztags.default.tag_view.related_content_list.limit: 10
+
+    # Whether to use tag view page cache or not (Last-Modified based)
+    eztags.default.tag_view.cache: true
+
+    # Whether to use TTL cache for tag view page (i.e. Max-Age response header)
+    eztags.default.tag_view.ttl_cache: true
+
+    # Default TTL cache value for tag view page
+    eztags.default.tag_view.default_ttl: 60

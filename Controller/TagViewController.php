@@ -68,12 +68,37 @@ class TagViewController extends Controller
         $pager->setMaxPerPage( $this->getConfigResolver()->getParameter( 'tag_view.related_content_list.limit', 'eztags' ) );
         $pager->setCurrentPage( $this->getRequest()->get( 'page', 1 ) );
 
+        $response = new Response();
+        $response->headers->set( 'X-Tag-Id', $tag->id );
+
+        if ( $this->getConfigResolver()->getParameter( 'tag_view.cache', 'eztags' ) === true )
+        {
+            $response->setPublic();
+            if ( $this->getConfigResolver()->getParameter( 'tag_view.ttl_cache', 'eztags' ) === true )
+            {
+                $response->setSharedMaxAge(
+                    $this->getConfigResolver()->getParameter( 'tag_view.default_ttl', 'eztags' )
+                );
+            }
+
+            // Make the response vary against X-User-Hash header ensures that an HTTP
+            // reverse proxy caches the different possible variations of the
+            // response as it can depend on user role for instance.
+            if ( $this->getRequest()->headers->has( 'X-User-Hash' ) )
+            {
+                $response->setVary( 'X-User-Hash' );
+            }
+
+            $response->setLastModified( $tag->modificationDate );
+        }
+
         return $this->render(
             'NetgenTagsBundle:tag:view.html.twig',
             array(
                 'tag' => $tag,
                 'pager' => $pager
-            )
+            ),
+            $response
         );
     }
 }
