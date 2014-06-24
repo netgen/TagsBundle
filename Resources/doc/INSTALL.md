@@ -76,6 +76,22 @@ Clear eZ Publish 5 caches.
 php ezpublish/console cache:clear
 ```
 
+### Edit Varnish configuration
+
+Add the following block to the end of `if (req.request == "PURGE")` block in `ez_purge` method in your Varnish configuration file to be able to clear Varnish cache for tag view pages:
+
+```varnish
+if ( req.http.X-Tag-Id == "*" ) {
+    # Purge all tags
+    ban( "obj.http.X-Tag-Id ~ ^[0-9]+$" );
+    error 200 "Purge all tags done.";
+} elseif ( req.http.X-Tag-Id ) {
+    # Purge tag by its ID
+    ban( "obj.http.X-Tag-Id == " + req.http.X-Tag-Id );
+    error 200 "Purge of tag with id " + req.http.X-Tag-Id + " done.";
+}
+```
+
 ### Use the bundle
 
 1) You can now load and create content with `eztags` field type

@@ -1,6 +1,12 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.1.2
+------------------
+
+* Enable reverse proxy caching of tag view page and clearing the cache via `X-Tag-Id` header
+
+
 1.1.1 (20.06.2014)
 ------------------
 
