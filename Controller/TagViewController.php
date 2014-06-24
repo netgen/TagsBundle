@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -64,7 +65,7 @@ class TagViewController extends Controller
             new RelatedContentAdapter( $tag, $this->tagsService )
         );
 
-        $pager->setMaxPerPage( $this->container->getParameter( 'eztags.tag_view.related_content_list.limit' ) );
+        $pager->setMaxPerPage( $this->getConfigResolver()->getParameter( 'tag_view.related_content_list.limit', 'eztags' ) );
         $pager->setCurrentPage( $this->getRequest()->get( 'page', 1 ) );
 
         return $this->render(
