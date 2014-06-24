@@ -92,6 +92,14 @@ if ( req.http.X-Tag-Id == "*" ) {
 }
 ```
 
+After you restart Varnish, you will be able to clear the caches for a specific tag with the following example shell command:
+
+```bash
+$ curl -v -X PURGE -H "X-Tag-Id: 1" http://varnish.local:81/
+```
+
+This will clear Varnish cache for tag view pages for tag with ID of 1.
+
 ### Use the bundle
 
 1) You can now load and create content with `eztags` field type
