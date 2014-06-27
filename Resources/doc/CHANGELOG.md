@@ -5,6 +5,7 @@ Netgen Tags Bundle changelog
 ------------------
 
 * Enable reverse proxy caching of tag view page and clearing the cache via `X-Tag-Id` header
+* Switched usage of `eztags.tag_view.related_content_list.limit` parameter in tag view controller to config resolver
 
 
 1.1.1 (20.06.2014)
