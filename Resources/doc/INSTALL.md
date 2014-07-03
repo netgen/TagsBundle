@@ -18,7 +18,7 @@ Installation steps
 
 ### Use Composer
 
-Add the following to your composer.json and run `php composer.phar update` to refresh dependencies:
+Add the following to your composer.json and run `php composer.phar update netgen/tagsbundle` to refresh dependencies:
 
 ```json
 "require": {
