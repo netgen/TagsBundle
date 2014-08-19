@@ -129,7 +129,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
     {
-        $this->service->loadTagsByKeyword( $keyword, $offset, $limit );
+        return $this->service->loadTagsByKeyword( $keyword, $offset, $limit );
     }
 
     /**
@@ -143,7 +143,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagsByKeywordCount( $keyword )
     {
-        $this->service->getTagsByKeywordCount( $keyword );
+        return $this->service->getTagsByKeywordCount( $keyword );
     }
 
     /**
