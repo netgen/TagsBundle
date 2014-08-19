@@ -1,6 +1,13 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.1.3 (19.08.2014)
+
+* Fix recursion in signal slot methods `loadTagSynonyms` & `getTagSynonymCount`
+* Fix signal slot methods `loadTagsByKeyword` and `getTagsByKeywordCount` not returning value
+* Add unit tests for signal slot service
+
+
 1.1.2 (27.06.2014)
 ------------------
 
