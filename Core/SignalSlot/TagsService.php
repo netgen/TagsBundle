@@ -160,7 +160,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1 )
     {
-        return $this->loadTagSynonyms( $tag, $offset, $limit );
+        return $this->service->loadTagSynonyms( $tag, $offset, $limit );
     }
 
     /**
@@ -175,7 +175,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagSynonymCount( Tag $tag )
     {
-        return $this->getTagSynonymCount( $tag );
+        return $this->service->getTagSynonymCount( $tag );
     }
 
     /**
