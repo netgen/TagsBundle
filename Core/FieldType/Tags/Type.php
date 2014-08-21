@@ -2,12 +2,15 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\TagsService;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\Core\FieldType\Value as BaseValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use eZ\Publish\Core\FieldType\ValidationError;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use DateTime;
 
 /**
@@ -17,6 +20,45 @@ use DateTime;
  */
 class Type extends FieldType
 {
+    /**
+     * List of settings available for this FieldType
+     *
+     * The key is the setting name, and the value is the default value for this setting
+     *
+     * @var array
+     */
+    protected $settingsSchema = array(
+        "subTreeLimit" => array(
+            "type" => "int",
+            "default" => 0
+        ),
+        "showDropDown" => array(
+            "type" => "boolean",
+            "default" => false
+        ),
+        "hideRootTag" => array(
+            "type" => "boolean",
+            "default" => false
+        ),
+        "maxTags" => array(
+            "type" => "int",
+            "default" => 0
+        )
+    );
+
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\TagsService
+     */
+    protected $tagsService;
+
+    /**
+     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     */
+    public function __construct( TagsService $tagsService )
+    {
+        $this->tagsService = $tagsService;
+    }
+
     /**
      * Returns the field type identifier for this field type
      *
@@ -237,5 +279,133 @@ class Type extends FieldType
     public function isEmptyValue( SPIValue $value )
     {
         return $value === null || $value->tags == $this->getEmptyValue()->tags;
+    }
+
+    /**
+     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct
+     *
+     * @param mixed $fieldSettings
+     *
+     * @return \eZ\Publish\SPI\FieldType\ValidationError[]
+     */
+    public function validateFieldSettings( $fieldSettings )
+    {
+        $validationErrors = array();
+
+        if ( !is_array( $fieldSettings ) )
+        {
+            $validationErrors[] = new ValidationError( "Field settings must be in form of an array" );
+
+            return $validationErrors;
+        }
+
+        foreach ( $fieldSettings as $name => $value )
+        {
+            if ( !isset( $this->settingsSchema[$name] ) )
+            {
+                $validationErrors[] = new ValidationError(
+                    "Setting '%setting%' is unknown",
+                    null,
+                    array(
+                        "setting" => $name
+                    )
+                );
+                continue;
+            }
+
+            switch ( $name )
+            {
+                case "subTreeLimit":
+                    if ( !is_integer( $value ) )
+                    {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be of integer type",
+                            null,
+                            array(
+                                "setting" => $name
+                            )
+                        );
+                    }
+
+                    if ( $value < 0 )
+                    {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be equal or larger than 0",
+                            null,
+                            array(
+                                "setting" => $name
+                            )
+                        );
+                    }
+
+                    if ( $value > 0 )
+                    {
+                        try
+                        {
+                            $this->tagsService->loadTag( $value );
+                        }
+                        catch ( NotFoundException $e )
+                        {
+                            $validationErrors[] = new ValidationError(
+                                "Setting '%setting%' value must be a valid tag ID",
+                                null,
+                                array(
+                                    "setting" => $name
+                                )
+                            );
+                        }
+                    }
+                    break;
+                case "showDropDown":
+                    if ( !is_bool( $value ) )
+                    {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be of boolean type",
+                            null,
+                            array(
+                                "setting" => $name
+                            )
+                        );
+                    }
+                    break;
+                case "hideRootTag":
+                    if ( !is_bool( $value ) )
+                    {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be of boolean type",
+                            null,
+                            array(
+                                "setting" => $name
+                            )
+                        );
+                    }
+                    break;
+                case "maxTags":
+                    if ( !is_integer( $value ) )
+                    {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be of integer type",
+                            null,
+                            array(
+                                "setting" => $name
+                            )
+                        );
+                    }
+
+                    if ( $value < 0 )
+                    {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be equal or larger than 0",
+                            null,
+                            array(
+                                "setting" => $name
+                            )
+                        );
+                    }
+                    break;
+            }
+        }
+
+        return $validationErrors;
     }
 }

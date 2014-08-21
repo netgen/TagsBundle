@@ -34,7 +34,24 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getSettingsSchema()
     {
-        return array();
+        return array(
+            "subTreeLimit" => array(
+                "type" => "int",
+                "default" => 0
+            ),
+            "showDropDown" => array(
+                "type" => "boolean",
+                "default" => false
+            ),
+            "hideRootTag" => array(
+                "type" => "boolean",
+                "default" => false
+            ),
+            "maxTags" => array(
+                "type" => "int",
+                "default" => 0
+            )
+        );
     }
 
     /**
@@ -44,7 +61,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getValidFieldSettings()
     {
-        return array();
+        return array(
+            "subTreeLimit" => 0,
+            "showDropDown" => false,
+            "hideRootTag" => true,
+            "maxTags" => 10
+        );
     }
 
     /**

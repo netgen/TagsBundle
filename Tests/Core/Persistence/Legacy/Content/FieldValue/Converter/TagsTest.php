@@ -7,6 +7,8 @@ use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition as PersistenceFieldDefinition;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
+use eZ\Publish\Core\FieldType\FieldSettings;
+use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -73,7 +75,30 @@ class TagsTest extends PHPUnit_Framework_TestCase
      */
     public function testToStorageFieldDefinition()
     {
-        $this->converter->toStorageFieldDefinition( new PersistenceFieldDefinition(), new StorageFieldDefinition() );
+        $fieldTypeConstraints = new FieldTypeConstraints();
+        $fieldTypeConstraints->fieldSettings = new FieldSettings(
+            array(
+                "subTreeLimit" => 0,
+                "showDropDown" => false,
+                "hideRootTag" => true,
+                "maxTags" => 10
+            )
+        );
+
+        $storageFieldDefinition = new StorageFieldDefinition();
+        $this->converter->toStorageFieldDefinition(
+            new PersistenceFieldDefinition(
+                array(
+                    "fieldTypeConstraints" => $fieldTypeConstraints
+                )
+            ),
+            $storageFieldDefinition
+        );
+
+        self::assertEquals( 0, $storageFieldDefinition->dataInt1 );
+        self::assertEquals( false, $storageFieldDefinition->dataInt2 );
+        self::assertEquals( true, $storageFieldDefinition->dataInt3 );
+        self::assertEquals( 10, $storageFieldDefinition->dataInt4 );
     }
 
     /**
@@ -83,6 +108,25 @@ class TagsTest extends PHPUnit_Framework_TestCase
      */
     public function testToFieldDefinition()
     {
-        $this->converter->toFieldDefinition( new StorageFieldDefinition(), new PersistenceFieldDefinition() );
+        $fieldDefinition = new PersistenceFieldDefinition();
+
+        $this->converter->toFieldDefinition(
+            new StorageFieldDefinition(
+                array(
+                    "dataInt1" => 0,
+                    "dataInt2" => false,
+                    "dataInt3" => true,
+                    "dataInt4" => 10,
+                )
+            ),
+            $fieldDefinition
+        );
+
+        self::assertInstanceOf( "eZ\\Publish\\Core\\FieldType\\FieldSettings", $fieldDefinition->fieldTypeConstraints->fieldSettings );
+        self::assertEquals( 0, $fieldDefinition->fieldTypeConstraints->fieldSettings["subTreeLimit"] );
+        self::assertEquals( false, $fieldDefinition->fieldTypeConstraints->fieldSettings["showDropDown"] );
+        self::assertEquals( true, $fieldDefinition->fieldTypeConstraints->fieldSettings["hideRootTag"] );
+        self::assertEquals( 10, $fieldDefinition->fieldTypeConstraints->fieldSettings["maxTags"] );
+        self::assertNull( $fieldDefinition->defaultValue->data );
     }
 }

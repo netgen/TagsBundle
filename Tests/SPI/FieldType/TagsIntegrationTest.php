@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
+use eZ\Publish\Core\FieldType\FieldSettings;
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
@@ -33,6 +34,11 @@ use eZ\Publish\SPI\Persistence\Content\Field;
  */
 class TagsIntegrationTest extends BaseIntegrationTest
 {
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $tagsService;
+
     /**
      * Only set up once for these read only tests on a large fixture
      *
@@ -103,7 +109,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getCustomHandler()
     {
-        $fieldType = new TagsType();
+        $this->tagsService = $this->getMock( "Netgen\\TagsBundle\\API\\Repository\\TagsService" );
+
+        $fieldType = new TagsType( $this->tagsService );
         $fieldType->setTransformationProcessor( $this->getTransformationProcessor() );
 
         return $this->getHandler(
@@ -139,10 +147,20 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getFieldDefinitionData()
     {
+        $fieldTypeConstraints = new FieldTypeConstraints();
+        $fieldTypeConstraints->fieldSettings = new FieldSettings(
+            array(
+                "subTreeLimit" => 0,
+                "showDropDown" => false,
+                "hideRootTag" => false,
+                "maxTags" => 0
+            )
+        );
+
         return array(
             // The eztags field type does not have any special field definition properties
             array( "fieldType", "eztags" ),
-            array( "fieldTypeConstraints", new FieldTypeConstraints() ),
+            array( "fieldTypeConstraints", $fieldTypeConstraints ),
         );
     }
 

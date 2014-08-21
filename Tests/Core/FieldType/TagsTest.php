@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
@@ -17,6 +18,11 @@ use stdClass;
  */
 class TagsTest extends FieldTypeTest
 {
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $tagsService;
+
     /**
      * Returns the identifier of the field type under test.
      *
@@ -34,7 +40,13 @@ class TagsTest extends FieldTypeTest
      */
     protected function createFieldTypeUnderTest()
     {
-        return new TagsType();
+        $this->tagsService = $this->getMock( "Netgen\\TagsBundle\\API\\Repository\\TagsService" );
+
+        $this->tagsService->expects( $this->any() )
+            ->method( "loadTag" )
+            ->will( $this->returnCallback( array( $this, "getTagsServiceLoadTagValues" ) ) );
+
+        return new TagsType( $this->tagsService );
     }
 
     /**
@@ -54,7 +66,24 @@ class TagsTest extends FieldTypeTest
      */
     protected function getSettingsSchemaExpectation()
     {
-        return array();
+        return array(
+            "subTreeLimit" => array(
+                "type" => "int",
+                "default" => 0
+            ),
+            "showDropDown" => array(
+                "type" => "boolean",
+                "default" => false
+            ),
+            "hideRootTag" => array(
+                "type" => "boolean",
+                "default" => false
+            ),
+            "maxTags" => array(
+                "type" => "int",
+                "default" => 0
+            )
+        );
     }
 
     /**
@@ -65,6 +94,146 @@ class TagsTest extends FieldTypeTest
     protected function getEmptyValueExpectation()
     {
         return new TagsValue();
+    }
+
+    /**
+     * Returns values for TagsService::loadTag based on input value
+     *
+     * @param int $tagId
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    public function getTagsServiceLoadTagValues( $tagId )
+    {
+        if ( $tagId < 0 || $tagId == PHP_INT_MAX )
+        {
+            throw new NotFoundException( "tag", $tagId );
+        }
+
+        return new Tag(
+            array(
+                "id" => $tagId
+            )
+        );
+    }
+
+    /**
+     * Provide data sets with field settings which are considered valid by the
+     * {@link validateFieldSettings()} method.
+     *
+     * Returns an array of data provider sets with a single argument: A valid
+     * set of field settings.
+     *
+     * @return array
+     */
+    public function provideValidFieldSettings()
+    {
+        return array(
+            array(
+                array()
+            ),
+            array(
+                array(
+                    'subTreeLimit' => 0
+                )
+            ),
+            array(
+                array(
+                    'subTreeLimit' => 5
+                )
+            ),
+            array(
+                array(
+                    'showDropDown' => true
+                )
+            ),
+            array(
+                array(
+                    'showDropDown' => false
+                )
+            ),
+            array(
+                array(
+                    'hideRootTag' => true
+                )
+            ),
+            array(
+                array(
+                    'hideRootTag' => false
+                )
+            ),
+            array(
+                array(
+                    'maxTags' => 0
+                )
+            ),
+            array(
+                array(
+                    'maxTags' => 10
+                )
+            ),
+        );
+    }
+
+    /**
+     * Provide data sets with field settings which are considered invalid by the
+     * {@link validateFieldSettings()} method. The method must return a
+     * non-empty array of validation error when receiving such field settings.
+     *
+     * Returns an array of data provider sets with a single argument: A valid
+     * set of field settings.
+     *
+     * @return array
+     */
+    public function provideInValidFieldSettings()
+    {
+        return array(
+            array(
+                true
+            ),
+            array(
+                array(
+                    'nonExistingKey' => 42
+                )
+            ),
+            array(
+                array(
+                    'subTreeLimit' => true
+                )
+            ),
+            array(
+                array(
+                    'subTreeLimit' => -5
+                )
+            ),
+            array(
+                array(
+                    'subTreeLimit' => PHP_INT_MAX
+                )
+            ),
+            array(
+                array(
+                    'showDropDown' => 42
+                )
+            ),
+            array(
+                array(
+                    'hideRootTag' => 42
+                )
+            ),
+            array(
+                array(
+                    'maxTags' => true
+                )
+            ),
+            array(
+                array(
+                    'maxTags' => -5
+                )
+            ),
+        );
     }
 
     /**
