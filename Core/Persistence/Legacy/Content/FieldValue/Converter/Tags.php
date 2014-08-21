@@ -55,19 +55,19 @@ class Tags implements Converter
     public function toStorageFieldDefinition( FieldDefinition $fieldDef, StorageFieldDefinition $storageDef )
     {
         $storageDef->dataInt1 = isset(  $fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] ) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] :
+            (int)$fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] :
             0;
 
         $storageDef->dataInt2 = isset(  $fieldDef->fieldTypeConstraints->fieldSettings['showDropDown'] ) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['showDropDown'] :
+            (int)$fieldDef->fieldTypeConstraints->fieldSettings['showDropDown'] :
             0;
 
         $storageDef->dataInt3 = isset(  $fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] ) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
+            (int)$fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
             0;
 
         $storageDef->dataInt4 = isset(  $fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] ) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] :
+            (int)$fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] :
             0;
     }
 
@@ -81,10 +81,10 @@ class Tags implements Converter
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
-                'subTreeLimit' => (int) $storageDef->dataInt1,
-                'showDropDown' => (bool) $storageDef->dataInt2,
-                'hideRootTag' => (bool) $storageDef->dataInt3,
-                'maxTags' => (int) $storageDef->dataInt4
+                'subTreeLimit' => (int)$storageDef->dataInt1,
+                'showDropDown' => (bool)$storageDef->dataInt2,
+                'hideRootTag' => (bool)$storageDef->dataInt3,
+                'maxTags' => (int)$storageDef->dataInt4
             )
         );
     }

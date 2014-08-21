@@ -63,8 +63,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                 $this->returnValue(
                     new Tag( array( 'id' => 42 ) )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tag = $signalSlotService->loadTag( 42 );
@@ -86,8 +85,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                 $this->returnValue(
                     new Tag( array( 'remoteId' => '12345' ) )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tag = $signalSlotService->loadTagByRemoteId( '12345' );
@@ -109,8 +107,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                 $this->returnValue(
                     new Tag( array( 'keyword' => 'TagsBundle' ) )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tag = $signalSlotService->loadTagByUrl( 'Netgen/TagsBundle' );
@@ -135,8 +132,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         new Tag( array( 'parentTagId' => 42 ) )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tags = $signalSlotService->loadTagChildren( new Tag( array( 'id' => 42 ) ) );
@@ -183,8 +179,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         new Tag( array( 'keyword' => 'netgen' ) )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tags = $signalSlotService->loadTagsByKeyword( 'netgen' );
@@ -231,8 +226,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         new Tag( array( 'mainTagId' => 42 ) )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tags = $signalSlotService->loadTagSynonyms( new Tag( array( 'id' => 42 ) ) );
@@ -279,8 +273,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         new Content()
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $content = $signalSlotService->getRelatedContent( new Tag( array( 'id' => 42 ) ) );
@@ -333,8 +326,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $this->signalDispatcher
             ->expects( $this->once() )
@@ -349,8 +341,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $createdTag = $signalSlotService->createTag( $tagCreateStruct );
@@ -395,8 +386,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $this->signalDispatcher
             ->expects( $this->once() )
@@ -411,8 +401,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $updatedTag = $signalSlotService->updateTag( $tag, $tagUpdateStruct );
@@ -453,8 +442,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $this->signalDispatcher
             ->expects( $this->once() )
@@ -469,8 +457,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $synonym = $signalSlotService->addSynonym( $tag, 'netgenlabs' );
@@ -515,8 +502,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $this->signalDispatcher
             ->expects( $this->once() )
@@ -530,8 +516,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $synonym = $signalSlotService->convertToSynonym( $tag, $mainTag );
@@ -579,8 +564,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $signalSlotService->mergeTags( $tag, $targetTag );
@@ -621,8 +605,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $this->signalDispatcher
             ->expects( $this->once() )
@@ -637,8 +620,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $copiedTag = $signalSlotService->copySubtree( $tag, $targetTag );
@@ -683,8 +665,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $this->signalDispatcher
             ->expects( $this->once() )
@@ -698,8 +679,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $movedTag = $signalSlotService->moveSubtree( $tag, $targetTag );
@@ -739,8 +719,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $signalSlotService->deleteTag( $tag );
@@ -759,8 +738,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                 $this->returnValue(
                     new TagCreateStruct( array( 'parentTagId' => 42, 'keyword' => 'netgen' ) )
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tagCreateStruct = $signalSlotService->newTagCreateStruct( 42, 'netgen' );
@@ -782,8 +760,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                 $this->returnValue(
                     new TagUpdateStruct()
                 )
-            )
-        ;
+            );
 
         $signalSlotService = $this->getSignalSlotService();
         $tagUpdateStruct = $signalSlotService->newTagUpdateStruct();
