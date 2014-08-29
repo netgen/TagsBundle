@@ -165,7 +165,7 @@ class LegacyStorage extends Gateway
                     )
                 )
             )
-            ->orderBy( $connection->quoteColumn( "id", "eztags_attribute_link" ) );
+            ->orderBy( $connection->quoteColumn( "keyword", "eztags" ) );
 
         $statement = $query->prepare();
         $statement->execute();
