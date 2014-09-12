@@ -1,6 +1,13 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2
+-----------------
+
+* Add support for specifying field definition settings in process of creating it
+* Add support for setting the priority of tags stored in field, load tags from field by priority
+
+
 1.1.3 (19.08.2014)
 ------------------
 
