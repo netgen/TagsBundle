@@ -347,7 +347,7 @@ class Type extends FieldType
                         catch ( NotFoundException $e )
                         {
                             $validationErrors[] = new ValidationError(
-                                "Setting '%setting%' value must be a valid tag ID",
+                                "Setting '%setting%' value must be an existing tag ID",
                                 null,
                                 array(
                                     "setting" => $name
