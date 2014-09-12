@@ -67,7 +67,7 @@ class LegacyStorage extends Gateway
     {
         $connection = $this->getConnection();
 
-        foreach ( $field->value->externalData as $tag )
+        foreach ( $field->value->externalData as $priority => $tag )
         {
             $insertQuery = $connection->createInsertQuery();
             $insertQuery
@@ -84,6 +84,9 @@ class LegacyStorage extends Gateway
                 )->set(
                     $connection->quoteColumn( "object_id" ),
                     $insertQuery->bindValue( $versionInfo->contentInfo->id, null, PDO::PARAM_INT )
+                )->set(
+                    $connection->quoteColumn( "priority" ),
+                    $insertQuery->bindValue( $priority, null, PDO::PARAM_INT )
                 );
 
             $insertQuery->prepare()->execute();
@@ -165,7 +168,7 @@ class LegacyStorage extends Gateway
                     )
                 )
             )
-            ->orderBy( $connection->quoteColumn( "id", "eztags_attribute_link" ) );
+            ->orderBy( $connection->quoteColumn( "priority", "eztags_attribute_link" ) );
 
         $statement = $query->prepare();
         $statement->execute();

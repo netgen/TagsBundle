@@ -33,7 +33,8 @@ CREATE TABLE eztags_attribute_link (
   keyword_id integer DEFAULT 0 NOT NULL,
   objectattribute_id integer DEFAULT 0 NOT NULL,
   objectattribute_version integer DEFAULT 0 NOT NULL,
-  object_id integer DEFAULT 0 NOT NULL
+  object_id integer DEFAULT 0 NOT NULL,
+  priority integer DEFAULT 0 NOT NULL
 );
 
 CREATE UNIQUE INDEX eztags_remote_id ON eztags USING btree ( remote_id );

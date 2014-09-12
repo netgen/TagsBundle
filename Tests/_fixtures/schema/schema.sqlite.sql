@@ -17,7 +17,8 @@ CREATE TABLE 'eztags_attribute_link' (
   'keyword_id' integer NOT NULL DEFAULT 0,
   'objectattribute_id' integer NOT NULL DEFAULT 0,
   'objectattribute_version' integer NOT NULL DEFAULT 0,
-  'object_id' integer NOT NULL DEFAULT 0
+  'object_id' integer NOT NULL DEFAULT 0,
+  'priority' integer NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX 'eztags_remote_id' ON 'eztags' ( 'remote_id' );

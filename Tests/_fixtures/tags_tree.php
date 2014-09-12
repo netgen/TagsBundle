@@ -91,11 +91,11 @@ return array(
         array( "id" => 96, "parent_id" => 50, "main_tag_id" => 16, "keyword" => "project 3", "depth" => 1, "path_string" => "/96/", "modified" => 1363263046, "remote_id" => "fe9fc289c3ff0af142b6d3bead98a925" )
     ),
     "eztags_attribute_link" => array(
-        array( "id" => 1284, "keyword_id" => 16, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57),
-        array( "id" => 1285, "keyword_id" => 16, "objectattribute_id" => 242, "objectattribute_version" => 1, "object_id" => 58),
-        array( "id" => 1286, "keyword_id" => 16, "objectattribute_id" => 342, "objectattribute_version" => 1, "object_id" => 59),
-        array( "id" => 1287, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57),
-        array( "id" => 1288, "keyword_id" => 40, "objectattribute_id" => 442, "objectattribute_version" => 1, "object_id" => 60),
-        array( "id" => 1289, "keyword_id" => 41, "objectattribute_id" => 542, "objectattribute_version" => 1, "object_id" => 61)
+        array( "id" => 1284, "keyword_id" => 16, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57, "priority" => 0),
+        array( "id" => 1285, "keyword_id" => 16, "objectattribute_id" => 242, "objectattribute_version" => 1, "object_id" => 58, "priority" => 0),
+        array( "id" => 1286, "keyword_id" => 16, "objectattribute_id" => 342, "objectattribute_version" => 1, "object_id" => 59, "priority" => 0),
+        array( "id" => 1287, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57, "priority" => 1),
+        array( "id" => 1288, "keyword_id" => 40, "objectattribute_id" => 442, "objectattribute_version" => 1, "object_id" => 60, "priority" => 0),
+        array( "id" => 1289, "keyword_id" => 41, "objectattribute_id" => 542, "objectattribute_version" => 1, "object_id" => 61, "priority" => 0)
     )
 );
