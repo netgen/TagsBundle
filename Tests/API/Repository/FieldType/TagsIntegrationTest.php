@@ -204,8 +204,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         return new TagsValue(
             array(
-                $this->getTag1(),
-                $this->getTag2()
+                $this->getTag2(),
+                $this->getTag3()
             )
         );
     }
@@ -227,8 +227,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(
             array(
-                $this->getTag1(),
-                $this->getTag2()
+                $this->getTag2(),
+                $this->getTag3()
             ),
             $field->value->tags
         );
@@ -447,6 +447,30 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 "pathString" => "/8/",
                 "modificationDate" => $modificationDate,
                 "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
+            )
+        );
+    }
+
+    /**
+     * Returns a tag for tests
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    protected function getTag3()
+    {
+        $modificationDate = new Datetime();
+        $modificationDate->setTimestamp( 1343169159 );
+
+        return new Tag(
+            array(
+                "id" => 9,
+                "parentTagId" => 47,
+                "mainTagId" => 0,
+                "keyword" => "php",
+                "depth" => 2,
+                "pathString" => "/47/9/",
+                "modificationDate" => $modificationDate,
+                "remoteId" => "a87ff679a2f3e71d9181a67b7542122c"
             )
         );
     }

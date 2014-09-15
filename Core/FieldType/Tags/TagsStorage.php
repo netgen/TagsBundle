@@ -22,14 +22,14 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function storeFieldData( VersionInfo $versionInfo, Field $field, array $context )
     {
-        if ( empty( $field->value->externalData ) )
-        {
-            return;
-        }
-
         /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
         $gateway = $this->getGateway( $context );
-        $gateway->storeFieldData( $versionInfo, $field );
+
+        $gateway->deleteFieldData( $versionInfo, array( $field->id ) );
+        if ( !empty( $field->value->externalData ) )
+        {
+            $gateway->storeFieldData( $versionInfo, $field );
+        }
     }
 
     /**
