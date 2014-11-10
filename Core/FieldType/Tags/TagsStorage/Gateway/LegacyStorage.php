@@ -148,7 +148,7 @@ class LegacyStorage extends Gateway
 
         $query = $connection->createSelectQuery();
         $query
-            ->selectDistinct( "eztags.*" )
+            ->selectDistinct( "eztags.*", $connection->quoteColumn( "priority", "eztags_attribute_link" ) )
             ->from( $connection->quoteTable( "eztags" ) )
             ->innerJoin(
                 $connection->quoteTable( "eztags_attribute_link" ),
@@ -173,6 +173,12 @@ class LegacyStorage extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        return $statement->fetchAll( PDO::FETCH_ASSOC );
+        // Remove 'priority' column add by pgsql requirement for all columns used in order by must be in select
+        $rs = $statement->fetchAll( PDO::FETCH_ASSOC );
+        foreach ( array_keys( $rs ) as $key ) {
+            unset( $rs[$key]['priority'] );
+        }
+        
+        return $rs;
     }
 }
