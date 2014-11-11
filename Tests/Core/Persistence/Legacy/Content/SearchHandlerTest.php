@@ -79,7 +79,7 @@ class TagsSearchHandlerTest extends LanguageAwareTestCase
         $result = array_map(
             function ( $hit )
             {
-                return $hit->valueObject->versionInfo->contentInfo->id;
+                return $hit->valueObject->id;
             },
             $searchResult->searchHits
         );
