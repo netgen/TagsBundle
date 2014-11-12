@@ -6,6 +6,8 @@ Netgen Tags Bundle changelog
 
 * Add support for specifying field definition settings in process of creating it
 * Add support for setting the priority of tags stored in field, load tags from field by priority
+* Fixed a bug with removing a tag from content through Public API
+* Fixed support for pgsql databases
 
 
 1.1.3 (19.08.2014)
