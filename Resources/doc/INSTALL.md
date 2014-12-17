@@ -5,7 +5,7 @@ Requirements
 ------------
 
 * eZ Publish 5.3+ / eZ Publish Community Project 2014.05+
-* eZ Publish Legacy Stack with legacy eZ Tags 1.4 installed and configured
+* eZ Publish Legacy Stack with legacy eZ Tags 1.3 installed and configured
 
 ### Note
 
@@ -23,7 +23,7 @@ Add the following to your composer.json and run `php composer.phar update netgen
 ```json
 "require": {
     "netgen/tagsbundle": "~1.1",
-    "ezsystems/eztags-ls": "~1.4"
+    "ezsystems/eztags-ls": "~1.3"
 }
 ```
 
