@@ -345,7 +345,7 @@ class ExceptionConversion extends Gateway
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function create( CreateStruct $createStruct, array $parentTag )
+    public function create( CreateStruct $createStruct, array $parentTag = null )
     {
         try
         {

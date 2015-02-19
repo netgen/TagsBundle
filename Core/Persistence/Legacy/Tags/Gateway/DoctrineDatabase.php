@@ -478,7 +478,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function create( CreateStruct $createStruct, array $parentTag )
+    public function create( CreateStruct $createStruct, array $parentTag = null )
     {
         $tag = new Tag();
 
@@ -490,7 +490,7 @@ class DoctrineDatabase extends Gateway
                 $this->handler->getAutoIncrementValue( "eztags", "id" )
             )->set(
                 $this->handler->quoteColumn( "parent_id" ),
-                $query->bindValue( $tag->parentTagId = (int)$parentTag["id"], null, PDO::PARAM_INT )
+                $query->bindValue( $tag->parentTagId = $parentTag !== null ? (int)$parentTag["id"] : 0, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "main_tag_id" ),
                 $query->bindValue( $tag->mainTagId = 0, null, PDO::PARAM_INT )
@@ -499,7 +499,7 @@ class DoctrineDatabase extends Gateway
                 $query->bindValue( $tag->keyword = $createStruct->keyword, null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "depth" ),
-                $query->bindValue( $tag->depth = (int)$parentTag["depth"] + 1, null, PDO::PARAM_INT )
+                $query->bindValue( $tag->depth = $parentTag !== null ? (int)$parentTag["depth"] + 1 : 1, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "path_string" ),
                 $query->bindValue( "dummy" ) // Set later
@@ -514,7 +514,7 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
 
         $tag->id = $this->handler->lastInsertId( $this->handler->getSequenceName( "eztags", "id" ) );
-        $tag->pathString = $parentTag["path_string"] . $tag->id . "/";
+        $tag->pathString = ( $parentTag !== null ? $parentTag["path_string"] : "/" ) . $tag->id . "/";
 
         $query = $this->handler->createUpdateQuery();
         $query

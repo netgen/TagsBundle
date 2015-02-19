@@ -364,7 +364,14 @@ class TagsService implements TagsServiceInterface
      */
     public function createTag( TagCreateStruct $tagCreateStruct )
     {
-        if ( $this->repository->canUser( "tags", "add", $this->loadTag( $tagCreateStruct->parentTagId ) ) !== true )
+        if ( !empty( $tagCreateStruct->parentTagId ) )
+        {
+            if ( $this->repository->canUser( "tags", "add", $this->loadTag( $tagCreateStruct->parentTagId ) ) !== true )
+            {
+                throw new UnauthorizedException( "tags", "add" );
+            }
+        }
+        else if ( $this->repository->hasAccess( "tags", "add" ) !== true )
         {
             throw new UnauthorizedException( "tags", "add" );
         }
@@ -398,7 +405,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $createStruct = new CreateStruct();
-        $createStruct->parentTagId = $tagCreateStruct->parentTagId;
+        $createStruct->parentTagId = !empty( $tagCreateStruct->parentTagId ) ? $tagCreateStruct->parentTagId : 0;
         $createStruct->keyword = $tagCreateStruct->keyword;
         $createStruct->remoteId = $tagCreateStruct->remoteId;
 

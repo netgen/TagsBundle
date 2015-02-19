@@ -348,6 +348,36 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::create
+     */
+    public function testCreateWithNoParent()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $handler->create(
+            new CreateStruct(
+                array(
+                    "parentTagId" => 0,
+                    "keyword" => "New tag",
+                    "remoteId" => "newRemoteId"
+                )
+            )
+        );
+
+        $query = $this->handler->createSelectQuery();
+        $this->assertQueryResult(
+            array(
+                array( 97, 0, 0, "New tag", 1, "/97/", "newRemoteId" )
+            ),
+            // 97 is the next inserted ID
+            $query
+                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id" )
+                ->from( "eztags" )
+                ->where( $query->expr->eq( "id", 97 ) )
+        );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::update
      */
     public function testUpdate()

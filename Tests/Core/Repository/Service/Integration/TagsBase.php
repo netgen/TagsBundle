@@ -656,6 +656,36 @@ abstract class TagsBase extends BaseServiceTest
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     * @depends testNewTagCreateStruct
+     */
+    public function testCreateTagWithNoParent()
+    {
+        $createStruct = $this->tagsService->newTagCreateStruct( 0, "Test tag" );
+        $createStruct->remoteId = "New remote ID";
+
+        $createdTag = $this->tagsService->createTag( $createStruct );
+
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdTag );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 97,
+                "parentTagId" => 0,
+                "mainTagId" => 0,
+                "keyword" => "Test tag",
+                "depth" => 1,
+                "pathString" => "/97/",
+                "remoteId" => "New remote ID"
+            ),
+            $createdTag
+        );
+
+        $this->assertInstanceOf( "\\DateTime", $createdTag->modificationDate );
+        $this->assertGreaterThan( 0, $createdTag->modificationDate->getTimestamp() );
+    }
+
+    /**
      * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
      *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag

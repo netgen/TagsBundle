@@ -485,6 +485,67 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
+     */
+    public function testCreateWithNoParent()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "create" )
+            ->with(
+                new CreateStruct(
+                    array(
+                        "parentTagId" => 0,
+                        "keyword" => "New tag",
+                        "remoteId" => "123456abcdef"
+                    )
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    new Tag(
+                        array(
+                            "id" => 95,
+                            "parentTagId" => 0,
+                            "mainTagId" => 0,
+                            "keyword" => "New tag",
+                            "depth" => 1,
+                            "pathString" => "/95/",
+                            "remoteId" => "123456abcdef"
+                        )
+                    )
+                )
+            );
+
+        $tag = $handler->create(
+            new CreateStruct(
+                array(
+                    "parentTagId" => 0,
+                    "keyword" => "New tag",
+                    "remoteId" => "123456abcdef"
+                )
+            )
+        );
+
+        $this->assertInstanceOf(
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $tag
+        );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "id" => 95,
+                "parentTagId" => 0,
+                "keyword" => "New tag",
+                "remoteId" => "123456abcdef"
+            ),
+            $tag
+        );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::update
      */
     public function testUpdate()

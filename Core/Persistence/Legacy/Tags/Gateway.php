@@ -130,7 +130,7 @@ abstract class Gateway
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    abstract public function create( CreateStruct $createStruct, array $parentTag );
+    abstract public function create( CreateStruct $createStruct, array $parentTag = null );
 
     /**
      * Updates an existing tag
