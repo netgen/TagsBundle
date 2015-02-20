@@ -408,4 +408,14 @@ class Type extends FieldType
 
         return $validationErrors;
     }
+    
+    /**
+     * Returns whether the field type is searchable
+     *
+     * @return boolean
+     */
+    public function isSearchable()
+    {
+        return true;
+    }
 }
