@@ -29,7 +29,7 @@ Add the following to your composer.json and run `php composer.phar update netgen
 
 ### Activate the bundle
 
-Activate the bundle in `ezpublish\EzPublishKernel.php` file.
+Activate the bundle in `ezpublish/EzPublishKernel.php` file.
 
 ```php
 use Netgen\TagsBundle\NetgenTagsBundle;
