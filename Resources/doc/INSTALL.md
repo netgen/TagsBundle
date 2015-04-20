@@ -50,17 +50,6 @@ public function registerBundles()
 
 ### Edit configuration
 
-Put the following config in your `ezpublish/config/config.yml` file to be able to load `eztags` content field template.
-
-```yml
-parameters:
-   ezsettings.YOUR_SITEACCESS_NAME.field_templates:
-       - {template: EzPublishCoreBundle::content_fields.html.twig, priority: 0}
-       - {template: NetgenTagsBundle::eztags_content_field.html.twig, priority: 0}
-```
-
-Be sure to replace `YOUR_SITEACCESS_NAME` text with the name of your frontend siteaccess.
-
 Put the following in your `ezpublish/config/routing.yml` file to be able to display tag view pages:
 
 ```yml
