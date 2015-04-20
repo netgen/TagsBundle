@@ -1,13 +1,14 @@
 Netgen Tags Bundle changelog
 ============================
 
-1.2
------------------
+1.2 (20.04.2015)
+----------------
 
 * Add support for specifying field definition settings in process of creating it
 * Add support for setting the priority of tags stored in field, load tags from field by priority
 * Fixed a bug with removing a tag from content through Public API
 * Fixed support for pgsql databases
+* Fixed creating tags with parent ID 0
 
 
 1.1.3 (19.08.2014)
