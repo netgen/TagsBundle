@@ -1,6 +1,7 @@
 parameters:
     ezpublish.fieldType.eztags.class: Netgen\TagsBundle\Core\FieldType\Tags\Type
     ezpublish.fieldType.eztags.externalStorage.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
+    ezpublish.fieldType.indexable.eztags.class: %ezpublish.fieldType.indexable.unindexed.class%
 
 services:
     ezpublish.fieldType.eztags:
@@ -14,3 +15,8 @@ services:
         class: %ezpublish.fieldType.eztags.externalStorage.class%
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler, alias: eztags}
+
+    ezpublish.fieldType.indexable.eztags:
+        class: %ezpublish.fieldType.indexable.eztags.class%
+        tags:
+            - {name: ezpublish.fieldType.indexable, alias: eztags}

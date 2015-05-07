@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2.1 (07.05.2015)
+------------------
+
+* Mark `eztags` field type as unindexable for now
+
 1.2 (20.04.2015)
 ----------------
 
