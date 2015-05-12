@@ -408,7 +408,7 @@ class Type extends FieldType
 
         return $validationErrors;
     }
-    
+
     /**
      * Returns whether the field type is searchable
      *

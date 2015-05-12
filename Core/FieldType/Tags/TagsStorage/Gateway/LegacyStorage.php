@@ -173,12 +173,14 @@ class LegacyStorage extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        // Remove 'priority' column add by pgsql requirement for all columns used in order by must be in select
-        $rs = $statement->fetchAll( PDO::FETCH_ASSOC );
-        foreach ( array_keys( $rs ) as $key ) {
-            unset( $rs[$key]['priority'] );
+        // Remove 'priority' column added by pgsql requirement
+        // that all columns used in ORDER BY must be in SELECT
+        $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
+        foreach ( array_keys( $rows ) as $key )
+        {
+            unset( $rows[$key]["priority"] );
         }
-        
-        return $rs;
+
+        return $rows;
     }
 }
