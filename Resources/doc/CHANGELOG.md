@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2.2 (13.05.2015)
+------------------
+
+* Support new namespaces for search implementation in eZ Publish kernel
+
 1.2.1 (07.05.2015)
 ------------------
 
