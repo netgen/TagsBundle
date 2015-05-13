@@ -1,6 +1,3 @@
-imports:
-    - {resource: storage_engines/legacy/search_query_handlers.yml}
-
 parameters:
     ezpublish.fieldType.eztags.converter.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
     ezpublish.fieldType.eztags.storage_gateway.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
