@@ -228,7 +228,9 @@ class TagsService implements TagsServiceInterface
                 array(
                     "tagId" => $returnValue->id,
                     "parentTagId" => $returnValue->parentTagId,
-                    "keywords" => $returnValue->keywords
+                    "keywords" => $returnValue->keywords,
+                    "mainLanguageCode" => $returnValue->mainLanguageCode,
+                    "alwaysAvailable" => $returnValue->alwaysAvailable
                 )
             )
         );
@@ -256,7 +258,9 @@ class TagsService implements TagsServiceInterface
                 array(
                     "tagId" => $returnValue->id,
                     "keywords" => $returnValue->keywords,
-                    "remoteId" => $returnValue->remoteId
+                    "remoteId" => $returnValue->remoteId,
+                    "mainLanguageCode" => $returnValue->mainLanguageCode,
+                    "alwaysAvailable" => $returnValue->alwaysAvailable
                 )
             )
         );
