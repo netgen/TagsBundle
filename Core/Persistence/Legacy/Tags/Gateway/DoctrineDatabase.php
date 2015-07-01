@@ -917,6 +917,18 @@ class DoctrineDatabase extends Gateway
 
         $query = $this->handler->createDeleteQuery();
         $query
+            ->deleteFrom( $this->handler->quoteTable( "eztags_keyword" ) )
+            ->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $tagIds
+                )
+            );
+
+        $query->prepare()->execute();
+
+        $query = $this->handler->createDeleteQuery();
+        $query
             ->deleteFrom( $this->handler->quoteTable( "eztags" ) )
             ->where(
                 $query->expr->in(
