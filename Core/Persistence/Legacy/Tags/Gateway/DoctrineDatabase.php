@@ -575,36 +575,7 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        foreach ( $createStruct->keywords as $languageCode => $keyword )
-        {
-            $query = $this->handler->createInsertQuery();
-            $query
-                ->insertInto( $this->handler->quoteTable( "eztags_keyword" ) )
-                ->set(
-                    $this->handler->quoteColumn( "keyword_id" ),
-                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                )->set(
-                    $this->handler->quoteColumn( "language_id" ),
-                    $query->bindValue(
-                        $this->languageHandler->loadByLanguageCode(
-                            $languageCode
-                        )->id,
-                        null,
-                        PDO::PARAM_INT
-                    )
-                )->set(
-                    $this->handler->quoteColumn( "keyword" ),
-                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
-                )->set(
-                    $this->handler->quoteColumn( "locale" ),
-                    $query->bindValue( $languageCode, null, PDO::PARAM_STR )
-                )->set(
-                    $this->handler->quoteColumn( "status" ),
-                    $query->bindValue( 1, null, PDO::PARAM_INT )
-                );
-
-            $query->prepare()->execute();
-        }
+        $this->insertTagKeywords( $tagId, $createStruct->keywords );
 
         return $tagId;
     }
@@ -666,36 +637,7 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        foreach ( $updateStruct->keywords as $languageCode => $keyword )
-        {
-            $query = $this->handler->createInsertQuery();
-            $query
-                ->insertInto( $this->handler->quoteTable( "eztags_keyword" ) )
-                ->set(
-                    $this->handler->quoteColumn( "keyword_id" ),
-                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                )->set(
-                    $this->handler->quoteColumn( "language_id" ),
-                    $query->bindValue(
-                        $this->languageHandler->loadByLanguageCode(
-                            $languageCode
-                        )->id,
-                        null,
-                        PDO::PARAM_INT
-                    )
-                )->set(
-                    $this->handler->quoteColumn( "keyword" ),
-                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
-                )->set(
-                    $this->handler->quoteColumn( "locale" ),
-                    $query->bindValue( $languageCode, null, PDO::PARAM_STR )
-                )->set(
-                    $this->handler->quoteColumn( "status" ),
-                    $query->bindValue( 1, null, PDO::PARAM_INT )
-                );
-
-            $query->prepare()->execute();
-        }
+        $this->insertTagKeywords( $tagId, $updateStruct->keywords );
     }
 
     /**
@@ -1151,6 +1093,46 @@ class DoctrineDatabase extends Gateway
         );
 
         return $query;
+    }
+
+    /**
+     * Inserts keywords for tag with provided tag ID
+     *
+     * @param mixed $tagId
+     * @param array $keywords
+     */
+    protected function insertTagKeywords( $tagId, array $keywords )
+    {
+        foreach ( $keywords as $languageCode => $keyword )
+        {
+            $query = $this->handler->createInsertQuery();
+            $query
+                ->insertInto( $this->handler->quoteTable( "eztags_keyword" ) )
+                ->set(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )->set(
+                    $this->handler->quoteColumn( "language_id" ),
+                    $query->bindValue(
+                        $this->languageHandler->loadByLanguageCode(
+                            $languageCode
+                        )->id,
+                        null,
+                        PDO::PARAM_INT
+                    )
+                )->set(
+                    $this->handler->quoteColumn( "keyword" ),
+                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
+                )->set(
+                    $this->handler->quoteColumn( "locale" ),
+                    $query->bindValue( $languageCode, null, PDO::PARAM_STR )
+                )->set(
+                    $this->handler->quoteColumn( "status" ),
+                    $query->bindValue( 1, null, PDO::PARAM_INT )
+                );
+
+            $query->prepare()->execute();
+        }
     }
 
     /**
