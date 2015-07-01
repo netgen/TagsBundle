@@ -265,7 +265,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords );
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords );
 
     /**
      * Instantiates a new tag update struct

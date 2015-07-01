@@ -879,7 +879,7 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords )
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords )
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = $parentTagId;
