@@ -478,9 +478,9 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ( $tagUpdateStruct->keyword !== null && ( !is_string( $tagUpdateStruct->keyword ) || empty( $tagUpdateStruct->keyword ) ) )
+        if ( $tagUpdateStruct->keywords !== null && ( !is_array( $tagUpdateStruct->keywords ) || empty( $tagUpdateStruct->keywords ) ) )
         {
-            throw new InvalidArgumentValue( "keyword", $tagUpdateStruct->keyword, "TagUpdateStruct" );
+            throw new InvalidArgumentValue( "keywords", $tagUpdateStruct->keywords, "TagUpdateStruct" );
         }
 
         if ( $tagUpdateStruct->remoteId !== null && ( !is_string( $tagUpdateStruct->remoteId ) || empty( $tagUpdateStruct->remoteId ) ) )
@@ -506,9 +506,38 @@ class TagsService implements TagsServiceInterface
             }
         }
 
+        if ( $tagUpdateStruct->mainLanguageCode !== null && ( !is_string( $tagUpdateStruct->mainLanguageCode ) || empty( $tagUpdateStruct->mainLanguageCode ) ) )
+        {
+            throw new InvalidArgumentValue( "mainLanguageCode", $tagUpdateStruct->mainLanguageCode, "TagUpdateStruct" );
+        }
+
+        $mainLanguageCode = $spiTag->mainLanguageCode;
+        if ( $tagUpdateStruct->mainLanguageCode !== null )
+        {
+            $mainLanguageCode = $tagUpdateStruct->mainLanguageCode;
+        }
+
+        $keywords = $spiTag->keywords;
+        if ( $tagUpdateStruct->keywords !== null )
+        {
+            $keywords = $tagUpdateStruct->keywords;
+        }
+
+        if ( !isset( $keywords[$mainLanguageCode] ) )
+        {
+            throw new InvalidArgumentValue( "mainLanguageCode", $tagUpdateStruct->mainLanguageCode, "TagUpdateStruct" );
+        }
+
+        if ( $tagUpdateStruct->alwaysAvailable !== null && !is_bool( $tagUpdateStruct->alwaysAvailable ) )
+        {
+            throw new InvalidArgumentValue( "alwaysAvailable", $tagUpdateStruct->alwaysAvailable, "TagUpdateStruct" );
+        }
+
         $updateStruct = new UpdateStruct();
-        $updateStruct->keyword = $tagUpdateStruct->keyword !== null ? trim( $tagUpdateStruct->keyword ) : $spiTag->keyword;
+        $updateStruct->keywords = $tagUpdateStruct->keywords !== null ? $tagUpdateStruct->keywords : $spiTag->keywords;
         $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim( $tagUpdateStruct->remoteId ) : $spiTag->remoteId;
+        $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim( $tagUpdateStruct->mainLanguageCode ) : $spiTag->mainLanguageCode;
+        $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable !== null ? $tagUpdateStruct->alwaysAvailable : $spiTag->alwaysAvailable;
 
         $this->repository->beginTransaction();
         try

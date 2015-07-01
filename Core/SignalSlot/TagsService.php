@@ -255,7 +255,7 @@ class TagsService implements TagsServiceInterface
             new UpdateTagSignal(
                 array(
                     "tagId" => $returnValue->id,
-                    "keyword" => $returnValue->keyword,
+                    "keywords" => $returnValue->keywords,
                     "remoteId" => $returnValue->remoteId
                 )
             )

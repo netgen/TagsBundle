@@ -14,11 +14,12 @@ class UpdateTagSignal extends Signal
     public $tagId;
 
     /**
-     * Tag keyword
+     * Tag keywords in the available languages
+     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
      *
-     * @var string
+     * @var string[]
      */
-    public $keyword;
+    public $keywords;
 
     /**
      * Remote ID

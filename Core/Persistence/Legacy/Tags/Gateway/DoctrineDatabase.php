@@ -622,10 +622,29 @@ class DoctrineDatabase extends Gateway
             ->update( $this->handler->quoteTable( "eztags" ) )
             ->set(
                 $this->handler->quoteColumn( "keyword" ),
-                $query->bindValue( $updateStruct->keyword, null, PDO::PARAM_STR )
+                $query->bindValue( $updateStruct->keywords[$updateStruct->mainLanguageCode], null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "remote_id" ),
                 $query->bindValue( $updateStruct->remoteId, null, PDO::PARAM_STR )
+            )->set(
+                $this->handler->quoteColumn( "main_language_id" ),
+                $query->bindValue(
+                    $this->languageHandler->loadByLanguageCode(
+                        $updateStruct->mainLanguageCode
+                    )->id,
+                    null,
+                    PDO::PARAM_INT
+                )
+            )->set(
+                $this->handler->quoteColumn( "language_mask" ),
+                $query->bindValue(
+                    $this->generateLanguageMask(
+                        $updateStruct->keywords,
+                        is_bool( $updateStruct->alwaysAvailable ) ? $updateStruct->alwaysAvailable : true
+                    ),
+                    null,
+                    PDO::PARAM_INT
+                )
             )->where(
                 $query->expr->eq(
                     $this->handler->quoteColumn( "id" ),
@@ -634,6 +653,49 @@ class DoctrineDatabase extends Gateway
             );
 
         $query->prepare()->execute();
+
+        $query = $this->handler->createDeleteQuery();
+        $query
+            ->deleteFrom( $this->handler->quoteTable( "eztags_keyword" ) )
+            ->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $tagId
+                )
+            );
+
+        $query->prepare()->execute();
+
+        foreach ( $updateStruct->keywords as $languageCode => $keyword )
+        {
+            $query = $this->handler->createInsertQuery();
+            $query
+                ->insertInto( $this->handler->quoteTable( "eztags_keyword" ) )
+                ->set(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )->set(
+                    $this->handler->quoteColumn( "language_id" ),
+                    $query->bindValue(
+                        $this->languageHandler->loadByLanguageCode(
+                            $languageCode
+                        )->id,
+                        null,
+                        PDO::PARAM_INT
+                    )
+                )->set(
+                    $this->handler->quoteColumn( "keyword" ),
+                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
+                )->set(
+                    $this->handler->quoteColumn( "locale" ),
+                    $query->bindValue( $languageCode, null, PDO::PARAM_STR )
+                )->set(
+                    $this->handler->quoteColumn( "status" ),
+                    $query->bindValue( 1, null, PDO::PARAM_INT )
+                );
+
+            $query->prepare()->execute();
+        }
     }
 
     /**
