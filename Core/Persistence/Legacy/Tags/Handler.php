@@ -223,7 +223,9 @@ class Handler implements BaseTagsHandler
             $parentTagData = $this->gateway->getBasicTagData( $createStruct->parentTagId );
         }
 
-        $newTag = $this->gateway->create( $createStruct, $parentTagData );
+        $newTagId = $this->gateway->create( $createStruct, $parentTagData );
+
+        $newTag = $this->load( $newTagId );
         $this->updateSubtreeModificationTime( $newTag->id, $newTag->modificationDate );
 
         return $newTag;

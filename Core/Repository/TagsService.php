@@ -384,9 +384,9 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "add" );
         }
 
-        if ( empty( $tagCreateStruct->keyword ) || !is_string( $tagCreateStruct->keyword ) )
+        if ( empty( $tagCreateStruct->keywords ) || !is_array( $tagCreateStruct->keywords ) )
         {
-            throw new InvalidArgumentValue( "keyword", $tagCreateStruct->keyword, "TagCreateStruct" );
+            throw new InvalidArgumentValue( "keywords", $tagCreateStruct->keywords, "TagCreateStruct" );
         }
 
         if ( $tagCreateStruct->remoteId !== null && ( empty( $tagCreateStruct->remoteId ) || !is_string( $tagCreateStruct->remoteId ) ) )
@@ -414,7 +414,7 @@ class TagsService implements TagsServiceInterface
 
         $createStruct = new CreateStruct();
         $createStruct->parentTagId = !empty( $tagCreateStruct->parentTagId ) ? $tagCreateStruct->parentTagId : 0;
-        $createStruct->keyword = $tagCreateStruct->keyword;
+        $createStruct->keywords = $tagCreateStruct->keywords;
         $createStruct->remoteId = $tagCreateStruct->remoteId;
 
         $this->repository->beginTransaction();
@@ -828,15 +828,15 @@ class TagsService implements TagsServiceInterface
      * Instantiates a new tag create struct
      *
      * @param mixed $parentTagId
-     * @param string $keyword
+     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $keyword )
+    public function newTagCreateStruct( $parentTagId, $keywords )
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = $parentTagId;
-        $tagCreateStruct->keyword = $keyword;
+        $tagCreateStruct->keywords = $keywords;
 
         return $tagCreateStruct;
     }

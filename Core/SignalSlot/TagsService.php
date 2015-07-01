@@ -228,7 +228,7 @@ class TagsService implements TagsServiceInterface
                 array(
                     "tagId" => $returnValue->id,
                     "parentTagId" => $returnValue->parentTagId,
-                    "keyword" => $returnValue->keyword
+                    "keywords" => $returnValue->keywords
                 )
             )
         );
@@ -429,13 +429,13 @@ class TagsService implements TagsServiceInterface
      * Instantiates a new tag create struct
      *
      * @param mixed $parentTagId
-     * @param string $keyword
+     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $keyword )
+    public function newTagCreateStruct( $parentTagId, $keywords )
     {
-        return $this->service->newTagCreateStruct( $parentTagId, $keyword );
+        return $this->service->newTagCreateStruct( $parentTagId, $keywords );
     }
 
     /**

@@ -7,6 +7,8 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use PDO;
 
@@ -20,13 +22,31 @@ class DoctrineDatabase extends Gateway
     protected $handler;
 
     /**
-     * Construct from database handler
+     * Caching language handler
+     *
+     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     */
+    protected $languageHandler;
+
+    /**
+     * Language mask generator
+     *
+     * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     */
+    protected $languageMaskGenerator;
+
+    /**
+     * Constructor
      *
      * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $handler
+     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
+     * @param \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator
      */
-    public function __construct( DatabaseHandler $handler )
+    public function __construct( DatabaseHandler $handler, LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator )
     {
         $this->handler = $handler;
+        $this->languageHandler = $languageHandler;
+        $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     /**
@@ -483,11 +503,12 @@ class DoctrineDatabase extends Gateway
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
      *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return int
      */
     public function create( CreateStruct $createStruct, array $parentTag = null )
     {
-        $tag = new Tag();
+        $keywordValues = array_values( $createStruct->keywords );
+        $languageCodes = array_keys( $createStruct->keywords );
 
         $query = $this->handler->createInsertQuery();
         $query
@@ -497,48 +518,79 @@ class DoctrineDatabase extends Gateway
                 $this->handler->getAutoIncrementValue( "eztags", "id" )
             )->set(
                 $this->handler->quoteColumn( "parent_id" ),
-                $query->bindValue( $tag->parentTagId = $parentTag !== null ? (int)$parentTag["id"] : 0, null, PDO::PARAM_INT )
+                $query->bindValue( $parentTag !== null ? (int)$parentTag["id"] : 0, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "main_tag_id" ),
-                $query->bindValue( $tag->mainTagId = 0, null, PDO::PARAM_INT )
+                $query->bindValue( 0, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "keyword" ),
-                $query->bindValue( $tag->keyword = $createStruct->keyword, null, PDO::PARAM_STR )
+                $query->bindValue( $keywordValues[0], null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "depth" ),
-                $query->bindValue( $tag->depth = $parentTag !== null ? (int)$parentTag["depth"] + 1 : 1, null, PDO::PARAM_INT )
+                $query->bindValue( $parentTag !== null ? (int)$parentTag["depth"] + 1 : 1, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "path_string" ),
                 $query->bindValue( "dummy" ) // Set later
             )->set(
                 $this->handler->quoteColumn( "modified" ),
-                $query->bindValue( $tag->modificationDate = time(), null, PDO::PARAM_INT )
+                $query->bindValue( time(), null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "remote_id" ),
-                $query->bindValue( $tag->remoteId = $createStruct->remoteId, null, PDO::PARAM_STR )
+                $query->bindValue( $createStruct->remoteId, null, PDO::PARAM_STR )
+            )->set(
+                $this->handler->quoteColumn( "main_language_id" ),
+                $query->bindValue( $this->languageHandler->loadByLanguageCode( $languageCodes[0] )->id, null, PDO::PARAM_INT )
+            )->set(
+                $this->handler->quoteColumn( "language_mask" ),
+                $query->bindValue( $this->generateLanguageMask( $createStruct->keywords, true ), null, PDO::PARAM_INT )
             );
 
         $query->prepare()->execute();
 
-        $tag->id = $this->handler->lastInsertId( $this->handler->getSequenceName( "eztags", "id" ) );
-        $tag->pathString = ( $parentTag !== null ? $parentTag["path_string"] : "/" ) . $tag->id . "/";
+        $tagId = $this->handler->lastInsertId( $this->handler->getSequenceName( "eztags", "id" ) );
+        $pathString = ( $parentTag !== null ? $parentTag["path_string"] : "/" ) . $tagId . "/";
 
         $query = $this->handler->createUpdateQuery();
         $query
             ->update( $this->handler->quoteTable( "eztags" ) )
             ->set(
                 $this->handler->quoteColumn( "path_string" ),
-                $query->bindValue( $tag->pathString, null, PDO::PARAM_STR )
+                $query->bindValue( $pathString, null, PDO::PARAM_STR )
             )->where(
                 $query->expr->eq(
                     $this->handler->quoteColumn( "id" ),
-                    $query->bindValue( $tag->id, null, PDO::PARAM_INT )
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
                 )
             );
 
         $query->prepare()->execute();
 
-        return $tag;
+        foreach ( $createStruct->keywords as $languageCode => $keyword )
+        {
+            $query = $this->handler->createInsertQuery();
+            $query
+                ->insertInto( $this->handler->quoteTable( "eztags_keyword" ) )
+                ->set(
+                    $this->handler->quoteColumn( "keyword_id" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                )->set(
+                    $this->handler->quoteColumn( "language_id" ),
+                    $query->bindValue( $this->languageHandler->loadByLanguageCode( $languageCode )->id, null, PDO::PARAM_INT )
+                )->set(
+                    $this->handler->quoteColumn( "keyword" ),
+                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
+                )->set(
+                    $this->handler->quoteColumn( "locale" ),
+                    $query->bindValue( $languageCode, null, PDO::PARAM_STR )
+                )->set(
+                    $this->handler->quoteColumn( "status" ),
+                    $query->bindValue( 1, null, PDO::PARAM_INT )
+                );
+
+            $query->prepare()->execute();
+        }
+
+        return $tagId;
     }
 
     /**
@@ -1037,5 +1089,30 @@ class DoctrineDatabase extends Gateway
         array_pop( $pathStringElements );
 
         return ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . (int)$synonymId . "/";
+    }
+
+    /**
+     * Generates a language mask for provided keywords
+     *
+     * @param string[] $keywords
+     * @param boolean $alwaysAvailable
+     *
+     * @return int
+     */
+    protected function generateLanguageMask( array $keywords, $alwaysAvailable = true )
+    {
+        $languages = array();
+
+        foreach ( $keywords as $languageCode => $keyword )
+        {
+            $languages[$languageCode] = true;
+        }
+
+        if ( $alwaysAvailable )
+        {
+            $languages['always-available'] = true;
+        }
+
+        return $this->languageMaskGenerator->generateLanguageMask( $languages );
     }
 }

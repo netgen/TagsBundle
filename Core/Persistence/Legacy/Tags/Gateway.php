@@ -137,7 +137,7 @@ abstract class Gateway
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
      *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return int
      */
     abstract public function create( CreateStruct $createStruct, array $parentTag = null );
 

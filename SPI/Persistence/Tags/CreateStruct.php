@@ -19,13 +19,14 @@ class CreateStruct extends ValueObject
     public $parentTagId;
 
     /**
-     * Tag keyword
+     * Tag keywords in the target languages
+     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
      *
      * @required
      *
-     * @var string
+     * @var string[]
      */
-    public $keyword;
+    public $keywords;
 
     /**
      * A global unique ID of the tag

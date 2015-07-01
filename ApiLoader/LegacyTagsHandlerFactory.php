@@ -35,14 +35,15 @@ class LegacyTagsHandlerFactory
      */
     public function buildLegacyTagsHandler( DatabaseHandler $dbHandler )
     {
+        $languageHandler = $this->container->get( 'ezpublish.spi.persistence.legacy.language.handler' );
+        $languageMaskGenerator = $this->container->get( 'ezpublish.persistence.legacy.language.mask_generator' );
+
         $legacyTagsHandlerClass = $this->container->getParameter( "ezpublish.api.storage_engine.legacy.handler.tags.class" );
         return new $legacyTagsHandlerClass(
             new ExceptionConversion(
-                new DoctrineDatabase( $dbHandler )
+                new DoctrineDatabase( $dbHandler, $languageHandler, $languageMaskGenerator )
             ),
-            new Mapper(
-                $this->container->get( 'ezpublish.spi.persistence.legacy.language.handler' )
-            )
+            new Mapper( $languageHandler )
         );
     }
 }
