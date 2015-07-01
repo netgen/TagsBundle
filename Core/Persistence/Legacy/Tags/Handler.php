@@ -103,7 +103,7 @@ class Handler implements BaseTagsHandler
     public function loadChildren( $tagId, $offset = 0, $limit = -1 )
     {
         $tags = $this->gateway->getChildren( $tagId, $offset, $limit );
-        return $this->mapper->createTagsFromRows( $tags );
+        return $this->mapper->extractTagListFromRows( $tags );
     }
 
     /**
@@ -161,7 +161,7 @@ class Handler implements BaseTagsHandler
     public function loadSynonyms( $tagId, $offset = 0, $limit = -1 )
     {
         $tags = $this->gateway->getSynonyms( $tagId, $offset, $limit );
-        return $this->mapper->createTagsFromRows( $tags );
+        return $this->mapper->extractTagListFromRows( $tags );
     }
 
     /**

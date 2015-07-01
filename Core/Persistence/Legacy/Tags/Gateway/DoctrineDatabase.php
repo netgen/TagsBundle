@@ -173,20 +173,17 @@ class DoctrineDatabase extends Gateway
      */
     public function getChildren( $tagId, $offset = 0, $limit = -1 )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select( "*" )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
-                $query->expr->lAnd(
-                    $query->expr->eq(
-                        $this->handler->quoteColumn( "parent_id", "eztags" ),
-                        $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                    ),
-                    $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
-                )
+        $query = $this->createTagFindQuery();
+        $query->where(
+            $query->expr->lAnd(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "parent_id", "eztags" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                ),
+                $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
             )
-            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+        )
+        ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -297,17 +294,14 @@ class DoctrineDatabase extends Gateway
      */
     public function getSynonyms( $tagId, $offset = 0, $limit = -1 )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select( "*" )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn( "main_tag_id", "eztags" ),
-                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                )
+        $query = $this->createTagFindQuery();
+        $query->where(
+            $query->expr->eq(
+                $this->handler->quoteColumn( "main_tag_id", "eztags" ),
+                $query->bindValue( $tagId, null, PDO::PARAM_INT )
             )
-            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+        )
+        ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
 
         $statement = $query->prepare();
         $statement->execute();
