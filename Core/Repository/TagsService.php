@@ -4,7 +4,8 @@ namespace Netgen\TagsBundle\Core\Repository;
 
 use eZ\Publish\API\Repository\Repository;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
-use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandler;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
@@ -33,15 +34,22 @@ class TagsService implements TagsServiceInterface
     protected $tagsHandler;
 
     /**
+     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     */
+    protected $languageHandler;
+
+    /**
      * Constructor
      *
      * @param \eZ\Publish\API\Repository\Repository $repository
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Handler $tagsHandler
+     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
      */
-    public function __construct( Repository $repository, Handler $tagsHandler )
+    public function __construct( Repository $repository, TagsHandler $tagsHandler, LanguageHandler $languageHandler )
     {
         $this->repository = $repository;
         $this->tagsHandler = $tagsHandler;
+        $this->languageHandler = $languageHandler;
     }
 
     /**
@@ -845,6 +853,12 @@ class TagsService implements TagsServiceInterface
 
     protected function buildTagDomainObject( SPITag $spiTag )
     {
+        $languageCodes = array();
+        foreach ( $spiTag->languageIds as $languageId )
+        {
+            $languageCodes[] = $this->languageHandler->load( $languageId )->languageCode;
+        }
+
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp( $spiTag->modificationDate );
 
@@ -853,11 +867,14 @@ class TagsService implements TagsServiceInterface
                 "id" => $spiTag->id,
                 "parentTagId" => $spiTag->parentTagId,
                 "mainTagId" => $spiTag->mainTagId,
-                "keyword" => $spiTag->keyword,
+                "keywords" => $spiTag->keywords,
                 "depth" => $spiTag->depth,
                 "pathString" => $spiTag->pathString,
                 "modificationDate" => $modificationDate,
-                "remoteId" => $spiTag->remoteId
+                "remoteId" => $spiTag->remoteId,
+                "alwaysAvailable" => $spiTag->alwaysAvailable,
+                "mainLanguageCode" => $spiTag->mainLanguageCode,
+                "languageCodes" => $languageCodes
             )
         );
     }

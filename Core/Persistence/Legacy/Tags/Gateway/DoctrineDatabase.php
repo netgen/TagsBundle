@@ -63,36 +63,49 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Returns an array with basic tag data for the tag with $remoteId
+     * Returns an array with full tag data
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     * @param mixed $tagId
+     *
+     * @return array
+     */
+    public function getFullTagData( $tagId )
+    {
+        $query = $this->createTagFindQuery();
+        $query->where(
+            $query->expr->eq(
+                $this->handler->quoteColumn( 'id', 'eztags' ),
+                $query->bindValue( $tagId, null, PDO::PARAM_INT )
+            )
+        );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
+    }
+
+    /**
+     * Returns an array with full tag data for the tag with $remoteId
      *
      * @param string $remoteId
      *
      * @return array
      */
-    public function getBasicTagDataByRemoteId( $remoteId )
+    public function getFullTagDataByRemoteId( $remoteId )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select( "*" )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn( "remote_id" ),
-                    $query->bindValue( $remoteId, null, PDO::PARAM_STR )
-                )
-            );
+        $query = $this->createTagFindQuery();
+        $query->where(
+            $query->expr->eq(
+                $this->handler->quoteColumn( 'remote_id', 'eztags' ),
+                $query->bindValue( $remoteId, null, PDO::PARAM_INT )
+            )
+        );
 
         $statement = $query->prepare();
         $statement->execute();
 
-        if ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
-        {
-            return $row;
-        }
-
-        throw new NotFoundException( "tag", $remoteId );
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
     }
 
     /**
@@ -951,6 +964,57 @@ class DoctrineDatabase extends Gateway
             );
 
         $query->prepare()->execute();
+    }
+
+    /**
+     * Creates a select query for tag objects
+     *
+     * Creates a select query with all necessary joins to fetch a complete
+     * tag. Does not apply any WHERE conditions.
+     *
+     * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
+     */
+    protected function createTagFindQuery()
+    {
+        /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
+        $query = $this->handler->createSelectQuery();
+        $query->select(
+            // Tag
+            $this->handler->aliasedColumn( $query, 'id', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'parent_id', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'main_tag_id', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'keyword', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'depth', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'path_string', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'modified', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'remote_id', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'main_language_id', 'eztags' ),
+            $this->handler->aliasedColumn( $query, 'language_mask', 'eztags' ),
+            // Tag keywords
+            $this->handler->aliasedColumn( $query, 'keyword', 'eztags_keyword' ),
+            $this->handler->aliasedColumn( $query, 'locale', 'eztags_keyword' )
+        )->from(
+            $this->handler->quoteTable( 'eztags' )
+        )
+        // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
+        // since it creates an additional cartesian product with translations.
+        ->leftJoin(
+            $this->handler->quoteTable( 'eztags_keyword' ),
+            $query->expr->lAnd(
+                // eztags_keyword.locale is also part of the PK but can't be
+                // easily joined with something at this level
+                $query->expr->eq(
+                    $this->handler->quoteColumn( 'keyword_id', 'eztags_keyword' ),
+                    $this->handler->quoteColumn( 'id', 'eztags' )
+                ),
+                $query->expr->eq(
+                    $this->handler->quoteColumn( 'status', 'eztags_keyword' ),
+                    $query->bindValue( 1, null, PDO::PARAM_INT )
+                )
+            )
+        );
+
+        return $query;
     }
 
     /**

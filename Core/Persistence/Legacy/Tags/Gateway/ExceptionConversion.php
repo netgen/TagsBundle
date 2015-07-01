@@ -54,6 +54,31 @@ class ExceptionConversion extends Gateway
     }
 
     /**
+     * Returns an array with full tag data
+     *
+     * @throws \RuntimeException
+     *
+     * @param mixed $tagId
+     *
+     * @return array
+     */
+    public function getFullTagData( $tagId )
+    {
+        try
+        {
+            return $this->innerGateway->getFullTagData( $tagId );
+        }
+        catch ( DBALException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+        catch ( PDOException $e )
+        {
+            throw new RuntimeException( "Database error", 0, $e );
+        }
+    }
+
+    /**
      * Returns an array with basic tag data for the tag with $remoteId
      *
      * @throws \RuntimeException
@@ -62,11 +87,11 @@ class ExceptionConversion extends Gateway
      *
      * @return array
      */
-    public function getBasicTagDataByRemoteId( $remoteId )
+    public function getFullTagDataByRemoteId( $remoteId )
     {
         try
         {
-            return $this->innerGateway->getBasicTagDataByRemoteId( $remoteId );
+            return $this->innerGateway->getFullTagDataByRemoteId( $remoteId );
         }
         catch ( DBALException $e )
         {

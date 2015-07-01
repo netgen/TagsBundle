@@ -17,3 +17,4 @@ services:
         arguments:
             - @ezpublish.api.repository
             - @ezpublish.api.persistence_handler.tags
+            - @ezpublish.spi.persistence.legacy.language.handler

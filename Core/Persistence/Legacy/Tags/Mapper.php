@@ -4,9 +4,27 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 
 class Mapper
 {
+    /**
+     * Caching language handler
+     *
+     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     */
+    protected $languageHandler;
+
+    /**
+     * Constructor
+     *
+     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
+     */
+    public function __construct( LanguageHandler $languageHandler )
+    {
+        $this->languageHandler = $languageHandler;
+    }
+
     /**
      * Creates a tag from a $data row
      *
@@ -61,6 +79,45 @@ class Mapper
     }
 
     /**
+     * Extracts a Tag object from $row
+     *
+     * @param array $rows
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
+     */
+    public function extractTagListFromRows( array $rows )
+    {
+        $tagList = array();
+        foreach ( $rows as $row )
+        {
+            $tagId = (int)$row['eztags_id'];
+            if ( !isset( $tagList[$tagId] ) )
+            {
+                $tag = new Tag();
+                $tag->id = (int)$row['eztags_id'];
+                $tag->parentTagId = (int)$row['eztags_parent_id'];
+                $tag->mainTagId = (int)$row['eztags_main_tag_id'];
+                $tag->keywords = array();
+                $tag->depth = (int)$row['eztags_depth'];
+                $tag->pathString = $row['eztags_path_string'];
+                $tag->modificationDate = (int)$row['eztags_modified'];
+                $tag->remoteId = $row['eztags_remote_id'];
+                $tag->alwaysAvailable = ( (int)$row['eztags_language_mask'] & 1 ) ? true : false;
+                $tag->mainLanguageCode = $this->languageHandler->load( $row['eztags_main_language_id'] )->languageCode;
+                $tag->languageIds = $this->extractLanguageIdsFromMask( (int)$row['eztags_language_mask'] );
+                $tagList[$tagId] = $tag;
+            }
+
+            if ( !isset( $tagList[$tagId]->keywords[$row['eztags_keyword_locale']] ) )
+            {
+                $tagList[$tagId]->keywords[$row['eztags_keyword_locale']] = $row['eztags_keyword_keyword'];
+            }
+        }
+
+        return array_values( $tagList );
+    }
+
+    /**
      * Creates a Tag CreateStruct from a $data row
      *
      * @param array $data
@@ -76,5 +133,31 @@ class Mapper
         $struct->remoteId = md5( uniqid( get_class( $this ), true ) );
 
         return $struct;
+    }
+
+    /**
+     * Extracts language IDs from language mask
+     *
+     * @TODO Use language mask handler for this
+     *
+     * @param int $languageMask
+     *
+     * @return array
+     */
+    protected function extractLanguageIdsFromMask( $languageMask )
+    {
+        $exp = 2;
+        $result = array();
+
+        // Decomposition of $languageMask into its binary components
+        while ( $exp <= $languageMask )
+        {
+            if ( $languageMask & $exp )
+                $result[] = $exp;
+
+            $exp *= 2;
+        }
+
+        return $result;
     }
 }

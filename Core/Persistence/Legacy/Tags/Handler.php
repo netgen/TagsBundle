@@ -6,6 +6,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 
 class Handler implements BaseTagsHandler
 {
@@ -40,8 +41,15 @@ class Handler implements BaseTagsHandler
      */
     public function load( $tagId )
     {
-        $data = $this->gateway->getBasicTagData( $tagId );
-        return $this->mapper->createTagFromRow( $data );
+        $rows = $this->gateway->getFullTagData( $tagId );
+        if ( empty( $rows ) )
+        {
+            throw new NotFoundException( "tag", $tagId );
+        }
+
+        $tag = $this->mapper->extractTagListFromRows( $rows );
+
+        return reset( $tag );
     }
 
     /**
@@ -55,8 +63,15 @@ class Handler implements BaseTagsHandler
      */
     public function loadByRemoteId( $remoteId )
     {
-        $data = $this->gateway->getBasicTagDataByRemoteId( $remoteId );
-        return $this->mapper->createTagFromRow( $data );
+        $rows = $this->gateway->getFullTagDataByRemoteId( $remoteId );
+        if ( empty( $rows ) )
+        {
+            throw new NotFoundException( "tag", $remoteId );
+        }
+
+        $tag = $this->mapper->extractTagListFromRows( $rows );
+
+        return reset( $tag );
     }
 
     /**

@@ -33,11 +33,12 @@ class Tag extends ValueObject
     public $mainTagId;
 
     /**
-     * Tag keyword
+     * Returns the keywords in the available languages
+     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
      *
-     * @var string
+     * @return string[]
      */
-    public $keyword;
+    public $keywords = array();
 
     /**
      * The depth tag has in tag tree
@@ -66,4 +67,25 @@ class Tag extends ValueObject
      * @var string
      */
     public $remoteId;
+
+    /**
+     * Indicates if the tag is shown in the main language if its not present in an other requested language
+     *
+     * @var boolean
+     */
+    public $alwaysAvailable;
+
+    /**
+     * The main language code of the tag
+     *
+     * @var string
+     */
+    public $mainLanguageCode;
+
+    /**
+     * List of languages in this tag
+     *
+     * @var int[]
+     */
+    public $languageIds = array();
 }

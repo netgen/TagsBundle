@@ -40,7 +40,9 @@ class LegacyTagsHandlerFactory
             new ExceptionConversion(
                 new DoctrineDatabase( $dbHandler )
             ),
-            new Mapper()
+            new Mapper(
+                $this->container->get( 'ezpublish.spi.persistence.legacy.language.handler' )
+            )
         );
     }
 }
