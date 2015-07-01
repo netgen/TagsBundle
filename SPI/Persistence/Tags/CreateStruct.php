@@ -19,6 +19,15 @@ class CreateStruct extends ValueObject
     public $parentTagId;
 
     /**
+     * The main language code for the tag
+     *
+     * @required
+     *
+     * @var string
+     */
+    public $mainLanguageCode;
+
+    /**
      * Tag keywords in the target languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
      *
@@ -34,4 +43,11 @@ class CreateStruct extends ValueObject
      * @var string
      */
     public $remoteId;
+
+    /**
+     * Indicates if the tag is shown in the main language if it's not present in an other requested language
+     *
+     * @var boolean
+     */
+    public $alwaysAvailable;
 }

@@ -429,13 +429,14 @@ class TagsService implements TagsServiceInterface
      * Instantiates a new tag create struct
      *
      * @param mixed $parentTagId
+     * @param string $mainLanguageCode
      * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $keywords )
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords )
     {
-        return $this->service->newTagCreateStruct( $parentTagId, $keywords );
+        return $this->service->newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords );
     }
 
     /**

@@ -384,7 +384,17 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "add" );
         }
 
+        if ( empty( $tagCreateStruct->mainLanguageCode ) || !is_string( $tagCreateStruct->mainLanguageCode ) )
+        {
+            throw new InvalidArgumentValue( "mainLanguageCode", $tagCreateStruct->mainLanguageCode, "TagCreateStruct" );
+        }
+
         if ( empty( $tagCreateStruct->keywords ) || !is_array( $tagCreateStruct->keywords ) )
+        {
+            throw new InvalidArgumentValue( "keywords", $tagCreateStruct->keywords, "TagCreateStruct" );
+        }
+
+        if ( !isset( $tagCreateStruct->keywords[$tagCreateStruct->mainLanguageCode] ) )
         {
             throw new InvalidArgumentValue( "keywords", $tagCreateStruct->keywords, "TagCreateStruct" );
         }
@@ -412,10 +422,17 @@ class TagsService implements TagsServiceInterface
             $tagCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
         }
 
+        if ( !is_bool( $tagCreateStruct->alwaysAvailable ) )
+        {
+            throw new InvalidArgumentValue( "alwaysAvailable", $tagCreateStruct->alwaysAvailable, "TagCreateStruct" );
+        }
+
         $createStruct = new CreateStruct();
         $createStruct->parentTagId = !empty( $tagCreateStruct->parentTagId ) ? $tagCreateStruct->parentTagId : 0;
+        $createStruct->mainLanguageCode = $tagCreateStruct->mainLanguageCode;
         $createStruct->keywords = $tagCreateStruct->keywords;
         $createStruct->remoteId = $tagCreateStruct->remoteId;
+        $createStruct->alwaysAvailable = $tagCreateStruct->alwaysAvailable;
 
         $this->repository->beginTransaction();
         try
@@ -828,14 +845,16 @@ class TagsService implements TagsServiceInterface
      * Instantiates a new tag create struct
      *
      * @param mixed $parentTagId
+     * @param string $mainLanguageCode
      * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $keywords )
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords )
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = $parentTagId;
+        $tagCreateStruct->mainLanguageCode = $mainLanguageCode;
         $tagCreateStruct->keywords = $keywords;
 
         return $tagCreateStruct;

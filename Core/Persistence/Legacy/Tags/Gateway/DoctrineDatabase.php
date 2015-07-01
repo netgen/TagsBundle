@@ -507,9 +507,6 @@ class DoctrineDatabase extends Gateway
      */
     public function create( CreateStruct $createStruct, array $parentTag = null )
     {
-        $keywordValues = array_values( $createStruct->keywords );
-        $languageCodes = array_keys( $createStruct->keywords );
-
         $query = $this->handler->createInsertQuery();
         $query
             ->insertInto( $this->handler->quoteTable( "eztags" ) )
@@ -524,7 +521,7 @@ class DoctrineDatabase extends Gateway
                 $query->bindValue( 0, null, PDO::PARAM_INT )
             )->set(
                 $this->handler->quoteColumn( "keyword" ),
-                $query->bindValue( $keywordValues[0], null, PDO::PARAM_STR )
+                $query->bindValue( $createStruct->keywords[$createStruct->mainLanguageCode], null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "depth" ),
                 $query->bindValue( $parentTag !== null ? (int)$parentTag["depth"] + 1 : 1, null, PDO::PARAM_INT )
@@ -539,10 +536,23 @@ class DoctrineDatabase extends Gateway
                 $query->bindValue( $createStruct->remoteId, null, PDO::PARAM_STR )
             )->set(
                 $this->handler->quoteColumn( "main_language_id" ),
-                $query->bindValue( $this->languageHandler->loadByLanguageCode( $languageCodes[0] )->id, null, PDO::PARAM_INT )
+                $query->bindValue(
+                    $this->languageHandler->loadByLanguageCode(
+                        $createStruct->mainLanguageCode
+                    )->id,
+                    null,
+                    PDO::PARAM_INT
+                )
             )->set(
                 $this->handler->quoteColumn( "language_mask" ),
-                $query->bindValue( $this->generateLanguageMask( $createStruct->keywords, true ), null, PDO::PARAM_INT )
+                $query->bindValue(
+                    $this->generateLanguageMask(
+                        $createStruct->keywords,
+                        is_bool( $createStruct->alwaysAvailable ) ? $createStruct->alwaysAvailable : true
+                    ),
+                    null,
+                    PDO::PARAM_INT
+                )
             );
 
         $query->prepare()->execute();
@@ -575,7 +585,13 @@ class DoctrineDatabase extends Gateway
                     $query->bindValue( $tagId, null, PDO::PARAM_INT )
                 )->set(
                     $this->handler->quoteColumn( "language_id" ),
-                    $query->bindValue( $this->languageHandler->loadByLanguageCode( $languageCode )->id, null, PDO::PARAM_INT )
+                    $query->bindValue(
+                        $this->languageHandler->loadByLanguageCode(
+                            $languageCode
+                        )->id,
+                        null,
+                        PDO::PARAM_INT
+                    )
                 )->set(
                     $this->handler->quoteColumn( "keyword" ),
                     $query->bindValue( $keyword, null, PDO::PARAM_STR )

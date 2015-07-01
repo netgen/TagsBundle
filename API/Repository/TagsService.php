@@ -260,11 +260,12 @@ interface TagsService
      * Instantiates a new tag create struct
      *
      * @param mixed $parentTagId
+     * @param string $mainLanguageCode
      * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $keywords );
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords );
 
     /**
      * Instantiates a new tag update struct
