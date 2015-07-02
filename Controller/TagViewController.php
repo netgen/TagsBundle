@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -30,43 +31,46 @@ class TagViewController extends Controller
      * Action for rendering a tag view by using tag ID
      *
      * @param mixed $tagId
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewTagById( $tagId )
+    public function viewTagById( $tagId, Request $request )
     {
         $tag = $this->tagsService->loadTag( $tagId );
-        return $this->renderTag( $tag );
+        return $this->renderTag( $tag, $request );
     }
 
     /**
      * Action for rendering a tag view by using tag URL
      *
      * @param string $tagUrl
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewTagByUrl( $tagUrl )
+    public function viewTagByUrl( $tagUrl, Request $request )
     {
         $tag = $this->tagsService->loadTagByUrl( $tagUrl );
-        return $this->renderTag( $tag );
+        return $this->renderTag( $tag, $request );
     }
 
     /**
      * Renders the tag
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function renderTag( Tag $tag )
+    protected function renderTag( Tag $tag, Request $request )
     {
         $pager = new Pagerfanta(
             new RelatedContentAdapter( $tag, $this->tagsService )
         );
 
         $pager->setMaxPerPage( $this->getConfigResolver()->getParameter( 'tag_view.related_content_list.limit', 'eztags' ) );
-        $pager->setCurrentPage( $this->getRequest()->get( 'page', 1 ) );
+        $pager->setCurrentPage( $request->get( 'page', 1 ) );
 
         $response = new Response();
         $response->headers->set( 'X-Tag-Id', $tag->id );
@@ -84,7 +88,7 @@ class TagViewController extends Controller
             // Make the response vary against X-User-Hash header ensures that an HTTP
             // reverse proxy caches the different possible variations of the
             // response as it can depend on user role for instance.
-            if ( $this->getRequest()->headers->has( 'X-User-Hash' ) )
+            if ( $request->headers->has( 'X-User-Hash' ) )
             {
                 $response->setVary( 'X-User-Hash' );
             }
