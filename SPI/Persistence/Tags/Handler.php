@@ -34,13 +34,29 @@ interface Handler
     /**
      * Loads a tag object from its $remoteId
      *
+     * Optionally a translation filter may be specified. If specified only the
+     * translations with the listed language codes will be retrieved. If not,
+     * all translations will be retrieved.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param string $remoteId
+     * @param string[] $translations
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     */
+    public function loadByRemoteId( $remoteId, array $translations = null );
+
+    /**
+     * Loads a tag info object from its remote ID
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
      *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
-    public function loadByRemoteId( $remoteId );
+    public function loadTagInfoByRemoteId( $remoteId );
 
     /**
      * Loads a tag object from its URL

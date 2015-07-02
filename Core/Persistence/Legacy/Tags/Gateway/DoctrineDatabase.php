@@ -83,6 +83,39 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
+     * Returns an array with basic tag data by remote ID
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     *
+     * @param string $remoteId
+     *
+     * @return array
+     */
+    public function getBasicTagDataByRemoteId( $remoteId )
+    {
+        $query = $this->handler->createSelectQuery();
+        $query
+            ->select( "*" )
+            ->from( $this->handler->quoteTable( "eztags" ) )
+            ->where(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "remote_id" ),
+                    $query->bindValue( $remoteId, null, PDO::PARAM_STR )
+                )
+            );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        if ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
+        {
+            return $row;
+        }
+
+        throw new NotFoundException( "tag", $remoteId );
+    }
+
+    /**
      * Returns an array with full tag data
      *
      * @param mixed $tagId
@@ -110,12 +143,13 @@ class DoctrineDatabase extends Gateway
      * Returns an array with full tag data for the tag with $remoteId
      *
      * @param string $remoteId
+     * @param string[] $translations
      *
      * @return array
      */
-    public function getFullTagDataByRemoteId( $remoteId )
+    public function getFullTagDataByRemoteId( $remoteId, array $translations = null )
     {
-        $query = $this->createTagFindQuery();
+        $query = $this->createTagFindQuery( $translations );
         $query->where(
             $query->expr->eq(
                 $this->handler->quoteColumn( 'remote_id', 'eztags' ),

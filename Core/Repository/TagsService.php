@@ -12,6 +12,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -73,10 +74,12 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tagId );
+
         $spiTag = $this->tagsHandler->load(
             $tagId,
             $this->generateLanguagesList(
-                $tagId,
+                $spiTagInfo,
                 $languages,
                 $useAlwaysAvailable
             )
@@ -92,17 +95,29 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByRemoteId( $remoteId )
+    public function loadTagByRemoteId( $remoteId, array $languages = null, $useAlwaysAvailable = true )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTag = $this->tagsHandler->loadByRemoteId( $remoteId );
+        $spiTagInfo = $this->tagsHandler->loadTagInfoByRemoteId( $remoteId );
+
+        $spiTag = $this->tagsHandler->loadByRemoteId(
+            $remoteId,
+            $this->generateLanguagesList(
+                $spiTagInfo,
+                $languages,
+                $useAlwaysAvailable
+            )
+        );
+
         return $this->buildTagDomainObject( $spiTag );
     }
 
@@ -1003,21 +1018,20 @@ class TagsService implements TagsServiceInterface
     /**
      * Generates correct languages array for a tag
      *
-     * @param mixed $tagId
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo $spiTagInfo
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
      * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return array
      */
-    protected function generateLanguagesList( $tagId, array $languages = null, $useAlwaysAvailable = true )
+    protected function generateLanguagesList( TagInfo $spiTagInfo, array $languages = null, $useAlwaysAvailable = true )
     {
         // Set main language on $languages filter if not empty and $useAlwaysAvailable being true
         if ( !empty( $languages ) && $useAlwaysAvailable )
         {
-            $tagInfo = $this->tagsHandler->loadTagInfo( $tagId );
-            if ( $tagInfo->alwaysAvailable )
+            if ( $spiTagInfo->alwaysAvailable )
             {
-                $languages[] = $tagInfo->mainLanguageCode;
+                $languages[] = $spiTagInfo->mainLanguageCode;
                 $languages = array_unique( $languages );
             }
         }

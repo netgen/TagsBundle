@@ -18,6 +18,15 @@ abstract class Gateway
     abstract public function getBasicTagData( $tagId );
 
     /**
+     * Returns an array with basic tag data by remote ID
+     *
+     * @param string $remoteId
+     *
+     * @return array
+     */
+    abstract public function getBasicTagDataByRemoteId( $remoteId );
+
+    /**
      * Returns an array with full tag data
      *
      * @param mixed $tagId
@@ -31,10 +40,11 @@ abstract class Gateway
      * Returns an array with basic tag data for the tag with $remoteId
      *
      * @param string $remoteId
+     * @param string[] $translations
      *
      * @return array
      */
-    abstract public function getFullTagDataByRemoteId( $remoteId );
+    abstract public function getFullTagDataByRemoteId( $remoteId, array $translations = null );
 
     /**
      * Returns an array with basic tag data for the tag with $url
