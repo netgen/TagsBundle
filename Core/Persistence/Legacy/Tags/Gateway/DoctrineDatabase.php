@@ -575,7 +575,12 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        $this->insertTagKeywords( $tagId, $createStruct->keywords );
+        $this->insertTagKeywords(
+            $tagId,
+            $createStruct->keywords,
+            $createStruct->mainLanguageCode,
+            $createStruct->alwaysAvailable
+        );
 
         return $tagId;
     }
@@ -637,7 +642,12 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        $this->insertTagKeywords( $tagId, $updateStruct->keywords );
+        $this->insertTagKeywords(
+            $tagId,
+            $updateStruct->keywords,
+            $updateStruct->mainLanguageCode,
+            $updateStruct->alwaysAvailable
+        );
     }
 
     /**
@@ -718,7 +728,12 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        $this->insertTagKeywords( $synonymId, $createStruct->keywords );
+        $this->insertTagKeywords(
+            $synonymId,
+            $createStruct->keywords,
+            $createStruct->mainLanguageCode,
+            $createStruct->alwaysAvailable
+        );
 
         return $synonymId;
     }
@@ -1119,8 +1134,10 @@ class DoctrineDatabase extends Gateway
      *
      * @param mixed $tagId
      * @param array $keywords
+     * @param string $mainLanguageCode
+     * @param boolean $alwaysAvailable
      */
-    protected function insertTagKeywords( $tagId, array $keywords )
+    protected function insertTagKeywords( $tagId, array $keywords, $mainLanguageCode, $alwaysAvailable )
     {
         foreach ( $keywords as $languageCode => $keyword )
         {
@@ -1135,7 +1152,7 @@ class DoctrineDatabase extends Gateway
                     $query->bindValue(
                         $this->languageHandler->loadByLanguageCode(
                             $languageCode
-                        )->id,
+                        )->id + (int)( $languageCode === $mainLanguageCode && $alwaysAvailable ),
                         null,
                         PDO::PARAM_INT
                     )
