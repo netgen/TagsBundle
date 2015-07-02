@@ -6,6 +6,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 
@@ -380,14 +381,20 @@ class Handler implements BaseTagsHandler
         $createStruct->parentTagId = $destinationParentTag->id;
         $createStruct->keywords = $sourceTag->keywords;
         $createStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
-        $createStruct->mainTagId = $sourceTag->mainTagId;
         $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
         $createStruct->mainLanguageCode = $sourceTag->mainLanguageCode;
 
         $createdTag = $this->create( $createStruct );
         foreach ( $this->loadSynonyms( $sourceTag->id ) as $synonym )
         {
-            $this->addSynonym( $createdTag->id, $synonym->keyword );
+            $synonymCreateStruct = new SynonymCreateStruct();
+            $synonymCreateStruct->keywords = $synonym->keywords;
+            $synonymCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+            $synonymCreateStruct->mainTagId = $createdTag->id;
+            $synonymCreateStruct->alwaysAvailable = $synonym->alwaysAvailable;
+            $synonymCreateStruct->mainLanguageCode = $synonym->mainLanguageCode;
+
+            $this->addSynonym( $synonymCreateStruct );
         }
 
         // Then copy the children
