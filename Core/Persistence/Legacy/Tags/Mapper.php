@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 
 class Mapper
@@ -27,30 +28,26 @@ class Mapper
     /**
      * Creates a tag from a $data row
      *
-     * $prefix can be used to define a table prefix for the eztags table
+     * @param array $row
      *
-     * Optionally pass a Tag object, which will be filled with the values
-     *
-     * @param array $data
-     * @param string $prefix
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $tag
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
-    public function createTagFromRow( array $data, $prefix = "", Tag $tag = null )
+    public function createTagInfoFromRow( array $row )
     {
-        $tag = $tag ?: new Tag();
+        $tagInfo = new TagInfo();
 
-        $tag->id = (int)$data[$prefix . "id"];
-        $tag->parentTagId = (int)$data[$prefix . "parent_id"];
-        $tag->mainTagId = (int)$data[$prefix . "main_tag_id"];
-        $tag->keyword = $data[$prefix . "keyword"];
-        $tag->depth = (int)$data[$prefix . "depth"];
-        $tag->pathString = $data[$prefix . "path_string"];
-        $tag->modificationDate = (int)$data[$prefix . "modified"];
-        $tag->remoteId = $data[$prefix . "remote_id"];
+        $tagInfo->id = (int)$row["id"];
+        $tagInfo->parentTagId = (int)$row["parent_id"];
+        $tagInfo->mainTagId = (int)$row["main_tag_id"];
+        $tagInfo->depth = (int)$row["depth"];
+        $tagInfo->pathString = $row["path_string"];
+        $tagInfo->modificationDate = (int)$row["modified"];
+        $tagInfo->remoteId = $row["remote_id"];
+        $tagInfo->alwaysAvailable = ( (int)$row["language_mask"] & 1 ) ? true : false;
+        $tagInfo->mainLanguageCode = $this->languageHandler->load( $row["main_language_id"] )->languageCode;
+        $tagInfo->languageIds = $this->extractLanguageIdsFromMask( (int)$row["language_mask"] );
 
-        return $tag;
+        return $tagInfo;
     }
 
     /**

@@ -16,6 +16,17 @@ interface Handler
     public function load( $tagId );
 
     /**
+     * Loads a tag info object from its $tagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     *
+     * @param mixed $tagId
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
+     */
+    public function loadTagInfo( $tagId );
+
+    /**
      * Loads a tag object from its $remoteId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
