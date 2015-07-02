@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Doctrine\DBAL\DBALException;
 use PDOException;
 use RuntimeException;
@@ -415,16 +416,16 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      *
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      * @param array $tag
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function createSynonym( $keyword, array $tag )
+    public function createSynonym( SynonymCreateStruct $createStruct, array $tag )
     {
         try
         {
-            return $this->innerGateway->createSynonym( $keyword, $tag );
+            return $this->innerGateway->createSynonym( $createStruct, $tag );
         }
         catch ( DBALException $e )
         {

@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 
 abstract class Gateway
 {
@@ -152,12 +153,12 @@ abstract class Gateway
     /**
      * Creates a new synonym using the given $keyword for tag $tag
      *
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      * @param array $tag
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    abstract public function createSynonym( $keyword, array $tag );
+    abstract public function createSynonym( SynonymCreateStruct $createStruct, array $tag );
 
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData

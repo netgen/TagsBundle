@@ -151,16 +151,13 @@ interface Handler
     public function update( UpdateStruct $updateStruct, $tagId );
 
     /**
-     * Creates a synonym for tag identified by $tagId
+     * Creates a synonym
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
-     *
-     * @param mixed $tagId
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
      */
-    public function addSynonym( $tagId, $keyword );
+    public function addSynonym( $createStruct );
 
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId

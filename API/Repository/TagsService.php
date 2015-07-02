@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\API\Repository;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 
 interface TagsService
 {
@@ -173,16 +174,14 @@ interface TagsService
     /**
      * Creates a synonym for $tag
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct $synonymCreateStruct
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
-    public function addSynonym( Tag $tag, $keyword );
+    public function addSynonym( SynonymCreateStruct $synonymCreateStruct );
 
     /**
      * Converts $tag to a synonym of $mainTag
@@ -266,6 +265,17 @@ interface TagsService
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
     public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords );
+
+    /**
+     * Instantiates a new synonym create struct
+     *
+     * @param mixed $mainTagId
+     * @param string $mainLanguageCode
+     * @param string[] $keywords
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
+     */
+    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode, array $keywords );
 
     /**
      * Instantiates a new tag update struct

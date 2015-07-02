@@ -7,6 +7,7 @@ use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
@@ -271,24 +272,24 @@ class TagsService implements TagsServiceInterface
     /**
      * Creates a synonym for $tag
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct $synonymCreateStruct
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
-    public function addSynonym( Tag $tag, $keyword )
+    public function addSynonym( SynonymCreateStruct $synonymCreateStruct )
     {
-        $returnValue = $this->service->addSynonym( $tag, $keyword );
+        $returnValue = $this->service->addSynonym( $synonymCreateStruct );
         $this->signalDispatcher->emit(
             new AddSynonymSignal(
                 array(
                     "tagId" => $returnValue->id,
                     "mainTagId" => $returnValue->mainTagId,
-                    "keyword" => $returnValue->keyword
+                    "keywords" => $returnValue->keywords,
+                    "mainLanguageCode" => $returnValue->mainLanguageCode,
+                    "alwaysAvailable" => $returnValue->alwaysAvailable
                 )
             )
         );
@@ -441,6 +442,20 @@ class TagsService implements TagsServiceInterface
     public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords )
     {
         return $this->service->newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords );
+    }
+
+    /**
+     * Instantiates a new synonym create struct
+     *
+     * @param mixed $mainTagId
+     * @param string $mainLanguageCode
+     * @param string[] $keywords
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
+     */
+    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode, array $keywords )
+    {
+        return $this->service->newSynonymCreateStruct( $mainTagId, $mainLanguageCode, $keywords );
     }
 
     /**

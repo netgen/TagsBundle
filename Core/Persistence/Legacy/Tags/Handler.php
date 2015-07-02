@@ -251,21 +251,20 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Creates a synonym for tag identified by $tagId
+     * Creates a synonym
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
-     *
-     * @param mixed $tagId
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
      */
-    public function addSynonym( $tagId, $keyword )
+    public function addSynonym( $createStruct )
     {
-        $tagData = $this->gateway->getBasicTagData( $tagId );
-        $newSynonym = $this->gateway->createSynonym( $keyword, $tagData );
+        $mainTagData = $this->gateway->getBasicTagData( $createStruct->mainTagId );
+        $newSynonymId = $this->gateway->createSynonym( $createStruct, $mainTagData );
 
-        $this->updateSubtreeModificationTime( $tagId, $newSynonym->modificationDate );
+        $newSynonym = $this->load( $newSynonymId );
+        $this->updateSubtreeModificationTime( $newSynonym->id, $newSynonym->modificationDate );
+        $this->updateSubtreeModificationTime( $createStruct->mainTagId, $newSynonym->modificationDate );
 
         return $newSynonym;
     }

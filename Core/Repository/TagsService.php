@@ -9,9 +9,11 @@ use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
@@ -557,38 +559,80 @@ class TagsService implements TagsServiceInterface
     /**
      * Creates a synonym for $tag
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param string $keyword
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct $synonymCreateStruct
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
-    public function addSynonym( Tag $tag, $keyword )
+    public function addSynonym( SynonymCreateStruct $synonymCreateStruct )
     {
         if ( $this->repository->hasAccess( "tags", "addsynonym" ) !== true )
         {
             throw new UnauthorizedException( "tags", "addsynonym" );
         }
 
-        if ( empty( $keyword ) || !is_string( $keyword ) )
+        $mainTag = $this->tagsHandler->load( $synonymCreateStruct->mainTagId );
+        if ( $mainTag->mainTagId > 0 )
         {
-            throw new InvalidArgumentValue( "keyword", $keyword );
+            throw new InvalidArgumentValue( "mainTagId", $synonymCreateStruct->mainTagId, "SynonymCreateStruct" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-
-        if ( $spiTag->mainTagId > 0 )
+        if ( empty( $synonymCreateStruct->mainLanguageCode ) || !is_string( $synonymCreateStruct->mainLanguageCode ) )
         {
-            throw new InvalidArgumentException( "tag", "Main tag is a synonym" );
+            throw new InvalidArgumentValue( "mainLanguageCode", $synonymCreateStruct->mainLanguageCode, "SynonymCreateStruct" );
         }
+
+        if ( empty( $synonymCreateStruct->keywords ) || !is_array( $synonymCreateStruct->keywords ) )
+        {
+            throw new InvalidArgumentValue( "keywords", $synonymCreateStruct->keywords, "SynonymCreateStruct" );
+        }
+
+        if ( !isset( $synonymCreateStruct->keywords[$synonymCreateStruct->mainLanguageCode] ) )
+        {
+            throw new InvalidArgumentValue( "keywords", $synonymCreateStruct->keywords, "SynonymCreateStruct" );
+        }
+
+        if ( $synonymCreateStruct->remoteId !== null && ( empty( $synonymCreateStruct->remoteId ) || !is_string( $synonymCreateStruct->remoteId ) ) )
+        {
+            throw new InvalidArgumentValue( "remoteId", $synonymCreateStruct->remoteId, "SynonymCreateStruct" );
+        }
+
+        // check for existence of tag with provided remote ID
+        if ( $synonymCreateStruct->remoteId !== null )
+        {
+            try
+            {
+                $this->tagsHandler->loadByRemoteId( $synonymCreateStruct->remoteId );
+                throw new InvalidArgumentException( "synonymCreateStruct", "Tag with provided remote ID already exists" );
+            }
+            catch ( NotFoundException $e )
+            {
+                // Do nothing
+            }
+        }
+        else
+        {
+            $synonymCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+        }
+
+        if ( !is_bool( $synonymCreateStruct->alwaysAvailable ) )
+        {
+            throw new InvalidArgumentValue( "alwaysAvailable", $synonymCreateStruct->alwaysAvailable, "SynonymCreateStruct" );
+        }
+
+        $createStruct = new SPISynonymCreateStruct();
+        $createStruct->mainTagId = $synonymCreateStruct->mainTagId;
+        $createStruct->mainLanguageCode = $synonymCreateStruct->mainLanguageCode;
+        $createStruct->keywords = $synonymCreateStruct->keywords;
+        $createStruct->remoteId = $synonymCreateStruct->remoteId;
+        $createStruct->alwaysAvailable = $synonymCreateStruct->alwaysAvailable;
 
         $this->repository->beginTransaction();
         try
         {
-            $createdSynonym = $this->tagsHandler->addSynonym( $spiTag->id, $keyword );
+            $newTag = $this->tagsHandler->addSynonym( $createStruct );
             $this->repository->commit();
         }
         catch ( Exception $e )
@@ -597,7 +641,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $createdSynonym );
+        return $this->buildTagDomainObject( $newTag );
     }
 
     /**
@@ -887,6 +931,25 @@ class TagsService implements TagsServiceInterface
         $tagCreateStruct->keywords = $keywords;
 
         return $tagCreateStruct;
+    }
+
+    /**
+     * Instantiates a new synonym create struct
+     *
+     * @param mixed $mainTagId
+     * @param string $mainLanguageCode
+     * @param string[] $keywords
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
+     */
+    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode, array $keywords )
+    {
+        $synonymCreateStruct = new SynonymCreateStruct();
+        $synonymCreateStruct->mainTagId = $mainTagId;
+        $synonymCreateStruct->mainLanguageCode = $mainLanguageCode;
+        $synonymCreateStruct->keywords = $keywords;
+
+        return $synonymCreateStruct;
     }
 
     /**
