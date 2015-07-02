@@ -21,10 +21,11 @@ abstract class Gateway
      * Returns an array with full tag data
      *
      * @param mixed $tagId
+     * @param string[] $translations
      *
      * @return array
      */
-    abstract public function getFullTagData( $tagId );
+    abstract public function getFullTagData( $tagId, array $translations = null );
 
     /**
      * Returns an array with basic tag data for the tag with $remoteId

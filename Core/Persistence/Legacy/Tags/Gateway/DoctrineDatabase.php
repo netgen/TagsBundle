@@ -86,12 +86,13 @@ class DoctrineDatabase extends Gateway
      * Returns an array with full tag data
      *
      * @param mixed $tagId
+     * @param string[] $translations
      *
      * @return array
      */
-    public function getFullTagData( $tagId )
+    public function getFullTagData( $tagId, array $translations = null )
     {
-        $query = $this->createTagFindQuery();
+        $query = $this->createTagFindQuery( $translations );
         $query->where(
             $query->expr->eq(
                 $this->handler->quoteColumn( 'id', 'eztags' ),
@@ -1084,9 +1085,11 @@ class DoctrineDatabase extends Gateway
      * Creates a select query with all necessary joins to fetch a complete
      * tag. Does not apply any WHERE conditions.
      *
+     * @param string[] $translations
+     *
      * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    protected function createTagFindQuery()
+    protected function createTagFindQuery( array $translations = null )
     {
         /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
         $query = $this->handler->createSelectQuery();
@@ -1125,6 +1128,16 @@ class DoctrineDatabase extends Gateway
                 )
             )
         );
+
+        if ( !empty( $translations ) )
+        {
+            $query->where(
+                $query->expr->in(
+                    $this->handler->quoteColumn( 'locale', 'eztags_keyword' ),
+                    $translations
+                )
+            );
+        }
 
         return $query;
     }

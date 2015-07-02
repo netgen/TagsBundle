@@ -61,17 +61,27 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTag( $tagId )
+    public function loadTag( $tagId, array $languages = null, $useAlwaysAvailable = true )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tagId );
+        $spiTag = $this->tagsHandler->load(
+            $tagId,
+            $this->generateLanguagesList(
+                $tagId,
+                $languages,
+                $useAlwaysAvailable
+            )
+        );
+
         return $this->buildTagDomainObject( $spiTag );
     }
 
@@ -988,5 +998,30 @@ class TagsService implements TagsServiceInterface
                 "languageCodes" => $languageCodes
             )
         );
+    }
+
+    /**
+     * Generates correct languages array for a tag
+     *
+     * @param mixed $tagId
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     *
+     * @return array
+     */
+    protected function generateLanguagesList( $tagId, array $languages = null, $useAlwaysAvailable = true )
+    {
+        // Set main language on $languages filter if not empty and $useAlwaysAvailable being true
+        if ( !empty( $languages ) && $useAlwaysAvailable )
+        {
+            $tagInfo = $this->tagsHandler->loadTagInfo( $tagId );
+            if ( $tagInfo->alwaysAvailable )
+            {
+                $languages[] = $tagInfo->mainLanguageCode;
+                $languages = array_unique( $languages );
+            }
+        }
+
+        return $languages;
     }
 }

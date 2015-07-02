@@ -35,15 +35,20 @@ class Handler implements BaseTagsHandler
     /**
      * Loads a tag object from its $tagId
      *
+     * Optionally a translation filter may be specified. If specified only the
+     * translations with the listed language codes will be retrieved. If not,
+     * all translations will be retrieved.
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     * @param string[] $translations
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function load( $tagId )
+    public function load( $tagId, array $translations = null )
     {
-        $rows = $this->gateway->getFullTagData( $tagId );
+        $rows = $this->gateway->getFullTagData( $tagId, $translations );
         if ( empty( $rows ) )
         {
             throw new NotFoundException( "tag", $tagId );

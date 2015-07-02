@@ -49,12 +49,14 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTag( $tagId )
+    public function loadTag( $tagId, array $languages = null, $useAlwaysAvailable = true )
     {
-        return $this->service->loadTag( $tagId );
+        return $this->service->loadTag( $tagId, $languages, $useAlwaysAvailable );
     }
 
     /**

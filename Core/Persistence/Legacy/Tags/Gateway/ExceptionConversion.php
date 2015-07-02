@@ -60,14 +60,15 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param mixed $tagId
+     * @param string[] $translations
      *
      * @return array
      */
-    public function getFullTagData( $tagId )
+    public function getFullTagData( $tagId, array $translations = null )
     {
         try
         {
-            return $this->innerGateway->getFullTagData( $tagId );
+            return $this->innerGateway->getFullTagData( $tagId, $translations );
         }
         catch ( DBALException $e )
         {
