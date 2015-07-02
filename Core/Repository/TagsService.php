@@ -323,9 +323,8 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTagInfo->id );
         if ( empty( $relatedContentIds ) )
         {
             return array();
@@ -367,9 +366,8 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTagInfo->id );
         if ( empty( $relatedContentIds ) )
         {
             return 0;
@@ -436,7 +434,7 @@ class TagsService implements TagsServiceInterface
         {
             try
             {
-                $this->tagsHandler->loadByRemoteId( $tagCreateStruct->remoteId );
+                $this->tagsHandler->loadTagInfoByRemoteId( $tagCreateStruct->remoteId );
                 throw new InvalidArgumentException( "tagCreateStruct", "Tag with provided remote ID already exists" );
             }
             catch ( NotFoundException $e )
@@ -521,7 +519,7 @@ class TagsService implements TagsServiceInterface
         {
             try
             {
-                $existingTag = $this->tagsHandler->loadByRemoteId( $tagUpdateStruct->remoteId );
+                $existingTag = $this->tagsHandler->loadTagInfoByRemoteId( $tagUpdateStruct->remoteId );
                 if ( $existingTag->id !== $spiTag->id )
                 {
                     throw new InvalidArgumentException( "tagUpdateStruct", "Tag with provided remote ID already exists" );
@@ -598,7 +596,7 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "addsynonym" );
         }
 
-        $mainTag = $this->tagsHandler->load( $synonymCreateStruct->mainTagId );
+        $mainTag = $this->tagsHandler->loadTagInfo( $synonymCreateStruct->mainTagId );
         if ( $mainTag->mainTagId > 0 )
         {
             throw new InvalidArgumentValue( "mainTagId", $synonymCreateStruct->mainTagId, "SynonymCreateStruct" );
@@ -629,7 +627,7 @@ class TagsService implements TagsServiceInterface
         {
             try
             {
-                $this->tagsHandler->loadByRemoteId( $synonymCreateStruct->remoteId );
+                $this->tagsHandler->loadTagInfoByRemoteId( $synonymCreateStruct->remoteId );
                 throw new InvalidArgumentException( "synonymCreateStruct", "Tag with provided remote ID already exists" );
             }
             catch ( NotFoundException $e )
@@ -689,20 +687,20 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "makesynonym" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-        $spiMainTag = $this->tagsHandler->load( $mainTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
+        $spiMainTagInfo = $this->tagsHandler->loadTagInfo( $mainTag->id );
 
-        if ( $spiTag->mainTagId > 0 )
+        if ( $spiTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
         }
 
-        if ( $spiMainTag->mainTagId > 0 )
+        if ( $spiMainTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "mainTag", "Destination tag is a synonym" );
         }
 
-        if ( strpos( $spiMainTag->pathString, $spiTag->pathString ) === 0 )
+        if ( strpos( $spiMainTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
         {
             throw new InvalidArgumentException( "mainTag", "Destination tag is a sub tag of the given tag" );
         }
@@ -710,12 +708,12 @@ class TagsService implements TagsServiceInterface
         $this->repository->beginTransaction();
         try
         {
-            foreach ( $this->tagsHandler->loadChildren( $spiTag->id ) as $child )
+            foreach ( $this->tagsHandler->loadChildren( $spiTagInfo->id ) as $child )
             {
-                $this->tagsHandler->moveSubtree( $child->id, $spiMainTag->id );
+                $this->tagsHandler->moveSubtree( $child->id, $spiMainTagInfo->id );
             }
 
-            $convertedTag = $this->tagsHandler->convertToSynonym( $spiTag->id, $spiMainTag->id );
+            $convertedTag = $this->tagsHandler->convertToSynonym( $spiTagInfo->id, $spiMainTagInfo->id );
             $this->repository->commit();
         }
         catch ( Exception $e )
@@ -745,20 +743,20 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "merge" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-        $spiTargetTag = $this->tagsHandler->load( $targetTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
+        $spiTargetTagInfo = $this->tagsHandler->loadTagInfo( $targetTag->id );
 
-        if ( $spiTag->mainTagId > 0 )
+        if ( $spiTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
         }
 
-        if ( $spiTargetTag->mainTagId > 0 )
+        if ( $spiTargetTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "targetTag", "Target tag is a synonym" );
         }
 
-        if ( strpos( $spiTargetTag->pathString, $spiTag->pathString ) === 0 )
+        if ( strpos( $spiTargetTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
         {
             throw new InvalidArgumentException( "targetParentTag", "Target tag is a sub tag of the given tag" );
         }
@@ -766,12 +764,12 @@ class TagsService implements TagsServiceInterface
         $this->repository->beginTransaction();
         try
         {
-            foreach ( $this->tagsHandler->loadChildren( $spiTag->id ) as $child )
+            foreach ( $this->tagsHandler->loadChildren( $spiTagInfo->id ) as $child )
             {
-                $this->tagsHandler->moveSubtree( $child->id, $spiTargetTag->id );
+                $this->tagsHandler->moveSubtree( $child->id, $spiTargetTagInfo->id );
             }
 
-            $this->tagsHandler->merge( $spiTag->id, $spiTargetTag->id );
+            $this->tagsHandler->merge( $spiTagInfo->id, $spiTargetTagInfo->id );
             $this->repository->commit();
         }
         catch ( Exception $e )
@@ -802,15 +800,15 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-        $spiParentTag = $this->tagsHandler->load( $targetParentTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
+        $spiParentTagInfo = $this->tagsHandler->loadTagInfo( $targetParentTag->id );
 
-        if ( $spiTag->mainTagId > 0 )
+        if ( $spiTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
         }
 
-        if ( $spiParentTag->mainTagId > 0 )
+        if ( $spiParentTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a synonym" );
         }
@@ -820,7 +818,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException( "targetParentTag", "Target parent tag is already the parent of the given tag" );
         }
 
-        if ( strpos( $spiParentTag->pathString, $spiTag->pathString ) === 0 )
+        if ( strpos( $spiParentTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
         {
             throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a sub tag of the given tag" );
         }
@@ -828,7 +826,7 @@ class TagsService implements TagsServiceInterface
         $this->repository->beginTransaction();
         try
         {
-            $copiedTag = $this->tagsHandler->copySubtree( $spiTag->id, $spiParentTag->id );
+            $copiedTag = $this->tagsHandler->copySubtree( $spiTagInfo->id, $spiParentTagInfo->id );
             $this->repository->commit();
         }
         catch ( Exception $e )
@@ -861,15 +859,15 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "edit" );
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
-        $spiParentTag = $this->tagsHandler->load( $targetParentTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
+        $spiParentTagInfo = $this->tagsHandler->loadTagInfo( $targetParentTag->id );
 
-        if ( $spiTag->mainTagId > 0 )
+        if ( $spiTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
         }
 
-        if ( $spiParentTag->mainTagId > 0 )
+        if ( $spiParentTagInfo->mainTagId > 0 )
         {
             throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a synonym" );
         }
@@ -879,7 +877,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException( "targetParentTag", "Target parent tag is already the parent of the given tag" );
         }
 
-        if ( strpos( $spiParentTag->pathString, $spiTag->pathString ) === 0 )
+        if ( strpos( $spiParentTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
         {
             throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a sub tag of the given tag" );
         }
@@ -887,7 +885,7 @@ class TagsService implements TagsServiceInterface
         $this->repository->beginTransaction();
         try
         {
-            $movedTag = $this->tagsHandler->moveSubtree( $spiTag->id, $spiParentTag->id );
+            $movedTag = $this->tagsHandler->moveSubtree( $spiTagInfo->id, $spiParentTagInfo->id );
             $this->repository->commit();
         }
         catch ( Exception $e )
