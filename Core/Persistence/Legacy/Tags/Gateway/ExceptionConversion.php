@@ -517,14 +517,12 @@ class ExceptionConversion extends Gateway
      *
      * @param array $sourceTagData
      * @param array $destinationParentTagData
-     *
-     * @return array Tag data of the updated root tag
      */
     public function moveSubtree( array $sourceTagData, array $destinationParentTagData )
     {
         try
         {
-            return $this->innerGateway->moveSubtree( $sourceTagData, $destinationParentTagData );
+            $this->innerGateway->moveSubtree( $sourceTagData, $destinationParentTagData );
         }
         catch ( DBALException $e )
         {

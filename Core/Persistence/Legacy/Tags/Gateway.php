@@ -192,8 +192,6 @@ abstract class Gateway
      *
      * @param array $sourceTagData
      * @param array $destinationParentTagData
-     *
-     * @return array Tag data of the updated root tag
      */
     abstract public function moveSubtree( array $sourceTagData, array $destinationParentTagData );
 

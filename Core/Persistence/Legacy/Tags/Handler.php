@@ -267,10 +267,9 @@ class Handler implements BaseTagsHandler
 
         $newTagId = $this->gateway->create( $createStruct, $parentTagData );
 
-        $newTag = $this->load( $newTagId );
-        $this->updateSubtreeModificationTime( $newTag->id, $newTag->modificationDate );
+        $this->updateSubtreeModificationTime( $newTagId );
 
-        return $newTag;
+        return $this->load( $newTagId );
     }
 
     /**
@@ -288,6 +287,7 @@ class Handler implements BaseTagsHandler
         $this->gateway->update( $updateStruct, $tagId );
 
         $this->updateSubtreeModificationTime( $tagId );
+
         return $this->load( $tagId );
     }
 
@@ -303,11 +303,9 @@ class Handler implements BaseTagsHandler
         $mainTagData = $this->gateway->getBasicTagData( $createStruct->mainTagId );
         $newSynonymId = $this->gateway->createSynonym( $createStruct, $mainTagData );
 
-        $newSynonym = $this->load( $newSynonymId );
-        $this->updateSubtreeModificationTime( $newSynonym->id, $newSynonym->modificationDate );
-        $this->updateSubtreeModificationTime( $createStruct->mainTagId, $newSynonym->modificationDate );
+        $this->updateSubtreeModificationTime( $newSynonymId );
 
-        return $newSynonym;
+        return $this->load( $newSynonymId );
     }
 
     /**
@@ -322,7 +320,7 @@ class Handler implements BaseTagsHandler
      */
     public function convertToSynonym( $tagId, $mainTagId )
     {
-        $tagData = $this->gateway->getBasicTagData( $tagId );
+        $tagInfo = $this->loadTagInfo( $tagId );
         $mainTagData = $this->gateway->getBasicTagData( $mainTagId );
 
         foreach ( $this->loadSynonyms( $tagId ) as $synonym )
@@ -330,17 +328,13 @@ class Handler implements BaseTagsHandler
             $this->gateway->moveSynonym( $synonym->id, $mainTagData );
         }
 
-        $this->gateway->convertToSynonym( $tagData["id"], $mainTagData );
+        $this->gateway->convertToSynonym( $tagInfo->id, $mainTagData );
 
-        $convertedTag = $this->load( $tagId );
-        if ( $tagData["parent_id"] > 0 )
-        {
-            $this->updateSubtreeModificationTime( $tagData["parent_id"], $convertedTag->modificationDate );
-        }
+        $timestamp = time();
+        $this->updateSubtreeModificationTime( $tagInfo->parentTagId, $timestamp );
+        $this->updateSubtreeModificationTime( $tagInfo->id, $timestamp );
 
-        $this->updateSubtreeModificationTime( $mainTagData["id"], $convertedTag->modificationDate );
-
-        return $convertedTag;
+        return $this->load( $tagId );
     }
 
     /**
@@ -353,8 +347,8 @@ class Handler implements BaseTagsHandler
      */
     public function merge( $tagId, $targetTagId )
     {
-        $tagData = $this->gateway->getBasicTagData( $tagId );
-        $targetTagData = $this->gateway->getBasicTagData( $targetTagId );
+        $tagInfo = $this->loadTagInfo( $tagId );
+        $targetTagInfo = $this->loadTagInfo( $targetTagId );
 
         foreach ( $this->loadSynonyms( $tagId ) as $synonym )
         {
@@ -366,12 +360,8 @@ class Handler implements BaseTagsHandler
         $this->gateway->deleteTag( $tagId );
 
         $timestamp = time();
-        if ( $tagData["parent_id"] > 0 )
-        {
-            $this->updateSubtreeModificationTime( $tagData["parent_id"], $timestamp );
-        }
-
-        $this->updateSubtreeModificationTime( $targetTagData["id"], $timestamp );
+        $this->updateSubtreeModificationTime( $tagInfo->parentTagId, $timestamp );
+        $this->updateSubtreeModificationTime( $targetTagInfo->id, $timestamp );
     }
 
     /**
@@ -391,16 +381,11 @@ class Handler implements BaseTagsHandler
         $sourceTag = $this->load( $sourceId );
         $destinationParentTag = $this->load( $destinationParentId );
 
-        $copiedTag = $this->recursiveCopySubtree( $sourceTag, $destinationParentTag );
+        $copiedTagId = $this->recursiveCopySubtree( $sourceTag, $destinationParentTag->id );
 
-        if ( $sourceTag->parentTagId > 0 )
-        {
-            $this->updateSubtreeModificationTime( $sourceTag->parentTagId, $copiedTag->modificationDate );
-        }
+        $this->updateSubtreeModificationTime( $copiedTagId );
 
-        $this->updateSubtreeModificationTime( $copiedTag->id, $copiedTag->modificationDate );
-
-        return $copiedTag;
+        return $this->load( $copiedTagId );
     }
 
     /**
@@ -409,16 +394,16 @@ class Handler implements BaseTagsHandler
      * Also performs a copy of all child locations of $sourceData tag
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $sourceTag The subtree denoted by the tag to copy
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $destinationParentTag The target parent tag for the copy operation
+     * @param int $destinationParentTagId The target parent tag ID for the copy operation
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
-    protected function recursiveCopySubtree( Tag $sourceTag, Tag $destinationParentTag )
+    protected function recursiveCopySubtree( Tag $sourceTag, $destinationParentTagId )
     {
         // First copy the root node
 
         $createStruct = new CreateStruct();
-        $createStruct->parentTagId = $destinationParentTag->id;
+        $createStruct->parentTagId = $destinationParentTagId;
         $createStruct->keywords = $sourceTag->keywords;
         $createStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
         $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
@@ -443,11 +428,11 @@ class Handler implements BaseTagsHandler
         {
             $this->recursiveCopySubtree(
                 $child,
-                $createdTag
+                $createdTag->id
             );
         }
 
-        return $createdTag;
+        return $createdTag->id;
     }
 
     /**
@@ -465,16 +450,13 @@ class Handler implements BaseTagsHandler
         $sourceTagData = $this->gateway->getBasicTagData( $sourceId );
         $destinationParentTagData = $this->gateway->getBasicTagData( $destinationParentId );
 
-        $movedTagData = $this->gateway->moveSubtree( $sourceTagData, $destinationParentTagData );
+        $this->gateway->moveSubtree( $sourceTagData, $destinationParentTagData );
 
-        if ( $sourceTagData["parent_id"] > 0 )
-        {
-            $this->updateSubtreeModificationTime( $sourceTagData["parent_id"], $movedTagData["modified"] );
-        }
+        $timestamp = time();
+        $this->updateSubtreeModificationTime( $sourceTagData["parent_id"], $timestamp );
+        $this->updateSubtreeModificationTime( $sourceId, $timestamp );
 
-        $this->updateSubtreeModificationTime( $movedTagData["id"], $movedTagData["modified"] );
-
-        return $this->load( $movedTagData["id"] );
+        return $this->load( $sourceId );
     }
 
     /**
@@ -488,14 +470,10 @@ class Handler implements BaseTagsHandler
      */
     public function deleteTag( $tagId )
     {
-        $tagData = $this->gateway->getBasicTagData( $tagId );
+        $tagInfo = $this->loadTagInfo( $tagId );
+        $this->gateway->deleteTag( $tagInfo->id );
 
-        $this->gateway->deleteTag( $tagData["id"] );
-
-        if ( $tagData["parent_tag_id"] > 0 )
-        {
-            $this->updateSubtreeModificationTime( $tagData["parent_tag_id"] );
-        }
+        $this->updateSubtreeModificationTime( $tagInfo->parentTagId );
     }
 
     /**
@@ -508,14 +486,17 @@ class Handler implements BaseTagsHandler
      */
     protected function updateSubtreeModificationTime( $tagId, $timestamp = null )
     {
-        $tagData = $this->gateway->getBasicTagData( $tagId );
-        $timestamp = $timestamp ?: time();
-
-        $this->gateway->updateSubtreeModificationTime( $tagData["path_string"], $timestamp );
-
-        if ( $tagData["main_tag_id"] > 0 )
+        if ( $tagId > 0 )
         {
-            $this->gateway->updateSubtreeModificationTime( (string)$tagData["main_tag_id"], $timestamp );
+            $tagInfo = $this->loadTagInfo( $tagId );
+            $timestamp = $timestamp ?: time();
+
+            $this->gateway->updateSubtreeModificationTime( $tagInfo->pathString, $timestamp );
+
+            if ( $tagInfo->mainTagId > 0 )
+            {
+                $this->gateway->updateSubtreeModificationTime( (string)$tagInfo->mainTagId, $timestamp );
+            }
         }
     }
 }

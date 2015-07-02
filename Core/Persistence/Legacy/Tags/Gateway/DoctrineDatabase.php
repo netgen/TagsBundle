@@ -564,9 +564,6 @@ class DoctrineDatabase extends Gateway
                 $this->handler->quoteColumn( "path_string" ),
                 $query->bindValue( "dummy" ) // Set later
             )->set(
-                $this->handler->quoteColumn( "modified" ),
-                $query->bindValue( time(), null, PDO::PARAM_INT )
-            )->set(
                 $this->handler->quoteColumn( "remote_id" ),
                 $query->bindValue( $createStruct->remoteId, null, PDO::PARAM_STR )
             )->set(
@@ -717,9 +714,6 @@ class DoctrineDatabase extends Gateway
                 $this->handler->quoteColumn( "path_string" ),
                 $query->bindValue( "dummy" ) // Set later
             )->set(
-                $this->handler->quoteColumn( "modified" ),
-                $query->bindValue( time(), null, PDO::PARAM_INT )
-            )->set(
                 $this->handler->quoteColumn( "remote_id" ),
                 $query->bindValue( $createStruct->remoteId, null, PDO::PARAM_STR )
             )->set(
@@ -796,9 +790,6 @@ class DoctrineDatabase extends Gateway
             )->set(
                 $this->handler->quoteColumn( "path_string" ),
                 $query->bindValue( $this->getSynonymPathString( $tagId, $mainTagData["path_string"] ), null, PDO::PARAM_STR )
-            )->set(
-                $this->handler->quoteColumn( "modified" ),
-                $query->bindValue( time(), null, PDO::PARAM_INT )
             )->where(
                 $query->expr->eq(
                     $this->handler->quoteColumn( "id" ),
@@ -915,13 +906,9 @@ class DoctrineDatabase extends Gateway
      *
      * @param array $sourceTagData
      * @param array $destinationParentTagData
-     *
-     * @return array Tag data of the updated root tag
      */
     public function moveSubtree( array $sourceTagData, array $destinationParentTagData )
     {
-        $fromPathString = $sourceTagData["path_string"];
-
         $query = $this->handler->createSelectQuery();
         $query
             ->select(
@@ -935,7 +922,7 @@ class DoctrineDatabase extends Gateway
                 $query->expr->lOr(
                     $query->expr->like(
                         $this->handler->quoteColumn( "path_string" ),
-                        $query->bindValue( $fromPathString . "%", null, PDO::PARAM_STR )
+                        $query->bindValue( $sourceTagData["path_string"] . "%", null, PDO::PARAM_STR )
                     ),
                     $query->expr->eq(
                         $this->handler->quoteColumn( "main_tag_id" ),
@@ -949,8 +936,7 @@ class DoctrineDatabase extends Gateway
 
         $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
 
-        $oldParentPathString = implode( "/", array_slice( explode( "/", $fromPathString ), 0, -2 ) ) . "/";
-        $timestamp = time();
+        $oldParentPathString = implode( "/", array_slice( explode( "/", $sourceTagData["path_string"] ), 0, -2 ) ) . "/";
         foreach ( $rows as $row )
         {
             // Prefixing ensures correct replacement when there is no parent
@@ -961,20 +947,12 @@ class DoctrineDatabase extends Gateway
             );
 
             $newParentId = $row["parent_id"];
-            if ( $row["path_string"] === $fromPathString || $row["main_tag_id"] == $sourceTagData["id"] )
+            if ( $row["path_string"] === $sourceTagData["path_string"] || $row["main_tag_id"] == $sourceTagData["id"] )
             {
                 $newParentId = (int)implode( "", array_slice( explode( "/", $newPathString ), -3, 1 ) );
             }
 
             $newDepth = substr_count( $newPathString, "/" ) - 1;
-
-            if ( $row["id"] == $sourceTagData["id"] )
-            {
-                $sourceTagData["parent_id"] = $newParentId;
-                $sourceTagData["depth"] = $newDepth;
-                $sourceTagData["path_string"] = $newPathString;
-                $sourceTagData["modified"] = $timestamp;
-            }
 
             $query = $this->handler->createUpdateQuery();
             $query
@@ -988,9 +966,6 @@ class DoctrineDatabase extends Gateway
                 )->set(
                     $this->handler->quoteColumn( "parent_id" ),
                     $query->bindValue( $newParentId, null, PDO::PARAM_INT )
-                )->set(
-                    $this->handler->quoteColumn( "modified" ),
-                    $query->bindValue( $timestamp, null, PDO::PARAM_INT )
                 )->where(
                     $query->expr->eq(
                         $this->handler->quoteColumn( "id" ),
@@ -1000,8 +975,6 @@ class DoctrineDatabase extends Gateway
 
             $query->prepare()->execute();
         }
-
-        return $sourceTagData;
     }
 
     /**
