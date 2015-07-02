@@ -7,6 +7,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 
 class Handler implements BaseTagsHandler
 {
@@ -347,14 +348,14 @@ class Handler implements BaseTagsHandler
      */
     public function copySubtree( $sourceId, $destinationParentId )
     {
-        $sourceData = $this->gateway->getBasicTagData( $sourceId );
-        $destinationParentData = $this->gateway->getBasicTagData( $destinationParentId );
+        $sourceTag = $this->load( $sourceId );
+        $destinationParentTag = $this->load( $destinationParentId );
 
-        $copiedTag = $this->recursiveCopySubtree( $sourceData, $destinationParentData );
+        $copiedTag = $this->recursiveCopySubtree( $sourceTag, $destinationParentTag );
 
-        if ( $sourceData["parent_id"] > 0 )
+        if ( $sourceTag->parentTagId > 0 )
         {
-            $this->updateSubtreeModificationTime( $sourceData["parent_id"], $copiedTag->modificationDate );
+            $this->updateSubtreeModificationTime( $sourceTag->parentTagId, $copiedTag->modificationDate );
         }
 
         $this->updateSubtreeModificationTime( $copiedTag->id, $copiedTag->modificationDate );
@@ -367,31 +368,36 @@ class Handler implements BaseTagsHandler
      *
      * Also performs a copy of all child locations of $sourceData tag
      *
-     * @param mixed $sourceData The subtree denoted by the tag to copy
-     * @param mixed $destinationParentData The target parent tag for the copy operation
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $sourceTag The subtree denoted by the tag to copy
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $destinationParentTag The target parent tag for the copy operation
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
-    protected function recursiveCopySubtree( array $sourceData, array $destinationParentData )
+    protected function recursiveCopySubtree( Tag $sourceTag, Tag $destinationParentTag )
     {
         // First copy the root node
-        $createStruct = $this->mapper->getTagCreateStruct( $sourceData );
-        $createStruct->parentTagId = $destinationParentData["id"];
-        $createdTag = $this->gateway->create( $createStruct, $destinationParentData );
-        $createdTagData = $this->gateway->getBasicTagData( $createdTag->id );
 
-        foreach ( $this->loadSynonyms( $sourceData["id"] ) as $synonym )
+        $createStruct = new CreateStruct();
+        $createStruct->parentTagId = $destinationParentTag->id;
+        $createStruct->keywords = $sourceTag->keywords;
+        $createStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+        $createStruct->mainTagId = $sourceTag->mainTagId;
+        $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
+        $createStruct->mainLanguageCode = $sourceTag->mainLanguageCode;
+
+        $createdTag = $this->create( $createStruct );
+        foreach ( $this->loadSynonyms( $sourceTag->id ) as $synonym )
         {
-            $this->gateway->createSynonym( $synonym->keyword, $createdTagData );
+            $this->addSynonym( $createdTag->id, $synonym->keyword );
         }
 
         // Then copy the children
-        $children = $this->gateway->getChildren( $sourceData["id"] );
+        $children = $this->loadChildren( $sourceTag->id );
         foreach ( $children as $child )
         {
             $this->recursiveCopySubtree(
                 $child,
-                $this->gateway->getBasicTagData( $createdTag->id )
+                $createdTag
             );
         }
 

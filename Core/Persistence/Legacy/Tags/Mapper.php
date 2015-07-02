@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
-use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 
 class Mapper
@@ -115,24 +114,6 @@ class Mapper
         }
 
         return array_values( $tagList );
-    }
-
-    /**
-     * Creates a Tag CreateStruct from a $data row
-     *
-     * @param array $data
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct
-     */
-    public function getTagCreateStruct( array $data )
-    {
-        $struct = new CreateStruct();
-
-        $struct->parentTagId = $data["parent_id"];
-        $struct->keyword = $data["keyword"];
-        $struct->remoteId = md5( uniqid( get_class( $this ), true ) );
-
-        return $struct;
     }
 
     /**
