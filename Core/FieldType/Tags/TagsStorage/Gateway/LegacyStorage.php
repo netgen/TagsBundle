@@ -6,6 +6,7 @@ use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use RuntimeException;
 use PDO;
 
@@ -17,6 +18,23 @@ class LegacyStorage extends Gateway
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
     protected $connection;
+
+    /**
+     * Caching language handler
+     *
+     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     */
+    protected $languageHandler;
+
+    /**
+     * Constructor
+     *
+     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
+     */
+    public function __construct( LanguageHandler $languageHandler )
+    {
+        $this->languageHandler = $languageHandler;
+    }
 
     /**
      * Sets the data storage connection to use
@@ -148,13 +166,37 @@ class LegacyStorage extends Gateway
 
         $query = $connection->createSelectQuery();
         $query
-            ->selectDistinct( "eztags.*", $connection->quoteColumn( "priority", "eztags_attribute_link" ) )
+            ->selectDistinct(
+                // Tag
+                $connection->aliasedColumn( $query, "id", "eztags" ),
+                $connection->aliasedColumn( $query, "parent_id", "eztags" ),
+                $connection->aliasedColumn( $query, "main_tag_id", "eztags" ),
+                $connection->aliasedColumn( $query, "keyword", "eztags" ),
+                $connection->aliasedColumn( $query, "depth", "eztags" ),
+                $connection->aliasedColumn( $query, "path_string", "eztags" ),
+                $connection->aliasedColumn( $query, "modified", "eztags" ),
+                $connection->aliasedColumn( $query, "remote_id", "eztags" ),
+                $connection->aliasedColumn( $query, "main_language_id", "eztags" ),
+                $connection->aliasedColumn( $query, "language_mask", "eztags" ),
+                // Tag keywords
+                $connection->aliasedColumn( $query, "keyword", "eztags_keyword" ),
+                $connection->aliasedColumn( $query, "locale", "eztags_keyword" ),
+                // Tag attribute links
+                $connection->aliasedColumn( $query, "priority", "eztags_attribute_link" )
+            )
             ->from( $connection->quoteTable( "eztags" ) )
             ->innerJoin(
                 $connection->quoteTable( "eztags_attribute_link" ),
                 $query->expr->eq(
                     $connection->quoteColumn( "id", "eztags" ),
                     $connection->quoteColumn( "keyword_id", "eztags_attribute_link" )
+                )
+            )
+            ->innerJoin(
+                $connection->quoteTable( "eztags_keyword" ),
+                $query->expr->eq(
+                    $connection->quoteColumn( "id", "eztags" ),
+                    $connection->quoteColumn( "keyword_id", "eztags_keyword" )
                 )
             )->where(
                 $query->expr->lAnd(
@@ -173,14 +215,39 @@ class LegacyStorage extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        // Remove 'priority' column added by pgsql requirement
-        // that all columns used in ORDER BY must be in SELECT
         $rows = $statement->fetchAll( PDO::FETCH_ASSOC );
-        foreach ( array_keys( $rows ) as $key )
+
+        $tagList = array();
+        foreach ( $rows as $row )
         {
-            unset( $rows[$key]["priority"] );
+            $tagId = (int)$row["eztags_id"];
+            if ( !isset( $tagList[$tagId] ) )
+            {
+                $tagList[$tagId] = array();
+                $tagList[$tagId]["id"] = (int)$row["eztags_id"];
+                $tagList[$tagId]["parent_id"] = (int)$row["eztags_parent_id"];
+                $tagList[$tagId]["main_tag_id"] = (int)$row["eztags_main_tag_id"];
+                $tagList[$tagId]["keywords"] = array();
+                $tagList[$tagId]["depth"] = (int)$row["eztags_depth"];
+                $tagList[$tagId]["path_string"] = $row["eztags_path_string"];
+                $tagList[$tagId]["modified"] = (int)$row["eztags_modified"];
+                $tagList[$tagId]["remote_id"] = $row["eztags_remote_id"];
+                $tagList[$tagId]["always_available"] = ( (int)$row["eztags_language_mask"] & 1 ) ? true : false;
+                $tagList[$tagId]["main_language_code"] = $this->languageHandler->load( $row["eztags_main_language_id"] )->languageCode;
+                $tagList[$tagId]["language_codes"] = array();
+            }
+
+            if ( !isset( $tagList[$tagId]["keywords"][$row["eztags_keyword_locale"]] ) )
+            {
+                $tagList[$tagId]["keywords"][$row["eztags_keyword_locale"]] = $row["eztags_keyword_keyword"];
+            }
+
+            if ( !in_array( [$row["eztags_keyword_locale"]], $tagList[$tagId]["language_codes"] ) )
+            {
+                $tagList[$tagId]["language_codes"][] = $row["eztags_keyword_locale"];
+            }
         }
 
-        return $rows;
+        return array_values( $tagList );
     }
 }
