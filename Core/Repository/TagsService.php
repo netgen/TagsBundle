@@ -12,7 +12,6 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -74,15 +73,10 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tagId );
-
         $spiTag = $this->tagsHandler->load(
             $tagId,
-            $this->generateLanguagesList(
-                $spiTagInfo,
-                $languages,
-                $useAlwaysAvailable
-            )
+            $languages,
+            $useAlwaysAvailable
         );
 
         return $this->buildTagDomainObject( $spiTag );
@@ -107,15 +101,10 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfoByRemoteId( $remoteId );
-
         $spiTag = $this->tagsHandler->loadByRemoteId(
             $remoteId,
-            $this->generateLanguagesList(
-                $spiTagInfo,
-                $languages,
-                $useAlwaysAvailable
-            )
+            $languages,
+            $useAlwaysAvailable
         );
 
         return $this->buildTagDomainObject( $spiTag );
@@ -1033,29 +1022,5 @@ class TagsService implements TagsServiceInterface
                 "languageCodes" => $languageCodes
             )
         );
-    }
-
-    /**
-     * Generates correct languages array for a tag
-     *
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo $spiTagInfo
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
-     *
-     * @return array
-     */
-    protected function generateLanguagesList( TagInfo $spiTagInfo, array $languages = null, $useAlwaysAvailable = true )
-    {
-        // Set main language on $languages filter if not empty and $useAlwaysAvailable being true
-        if ( !empty( $languages ) && $useAlwaysAvailable )
-        {
-            if ( $spiTagInfo->alwaysAvailable )
-            {
-                $languages[] = $spiTagInfo->mainLanguageCode;
-                $languages = array_unique( $languages );
-            }
-        }
-
-        return $languages;
     }
 }

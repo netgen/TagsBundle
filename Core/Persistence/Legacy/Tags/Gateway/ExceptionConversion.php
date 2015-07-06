@@ -84,14 +84,15 @@ class ExceptionConversion extends Gateway
      *
      * @param mixed $tagId
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    public function getFullTagData( $tagId, array $translations = null )
+    public function getFullTagData( $tagId, array $translations = null, $useAlwaysAvailable = true )
     {
         try
         {
-            return $this->innerGateway->getFullTagData( $tagId, $translations );
+            return $this->innerGateway->getFullTagData( $tagId, $translations, $useAlwaysAvailable );
         }
         catch ( DBALException $e )
         {
@@ -110,14 +111,15 @@ class ExceptionConversion extends Gateway
      *
      * @param string $remoteId
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    public function getFullTagDataByRemoteId( $remoteId, array $translations = null )
+    public function getFullTagDataByRemoteId( $remoteId, array $translations = null, $useAlwaysAvailable = true )
     {
         try
         {
-            return $this->innerGateway->getFullTagDataByRemoteId( $remoteId, $translations );
+            return $this->innerGateway->getFullTagDataByRemoteId( $remoteId, $translations, $useAlwaysAvailable );
         }
         catch ( DBALException $e )
         {
@@ -162,8 +164,8 @@ class ExceptionConversion extends Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
@@ -189,8 +191,8 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param mixed $tagId
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
@@ -270,8 +272,8 @@ class ExceptionConversion extends Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
@@ -297,8 +299,8 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param mixed $tagId
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */

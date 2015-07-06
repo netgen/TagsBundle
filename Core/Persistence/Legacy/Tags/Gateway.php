@@ -31,20 +31,22 @@ abstract class Gateway
      *
      * @param mixed $tagId
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    abstract public function getFullTagData( $tagId, array $translations = null );
+    abstract public function getFullTagData( $tagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns an array with basic tag data for the tag with $remoteId
      *
      * @param string $remoteId
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    abstract public function getFullTagDataByRemoteId( $remoteId, array $translations = null );
+    abstract public function getFullTagDataByRemoteId( $remoteId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns an array with basic tag data for the tag with $url
@@ -61,8 +63,8 @@ abstract class Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
@@ -72,8 +74,8 @@ abstract class Gateway
      * Returns how many tags exist below tag identified by $tagId
      *
      * @param mixed $tagId
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
@@ -105,8 +107,8 @@ abstract class Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
@@ -116,8 +118,8 @@ abstract class Gateway
      * Returns how many synonyms exist for a tag identified by $tagId
      *
      * @param mixed $tagId
-     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */

@@ -15,10 +15,11 @@ interface Handler
      *
      * @param mixed $tagId
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function load( $tagId, array $translations = null );
+    public function load( $tagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Loads a tag info object from its $tagId
@@ -42,10 +43,11 @@ interface Handler
      *
      * @param string $remoteId
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function loadByRemoteId( $remoteId, array $translations = null );
+    public function loadByRemoteId( $remoteId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Loads a tag info object from its remote ID
@@ -77,12 +79,12 @@ interface Handler
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadChildren( $tagId, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true );
+    public function loadChildren( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns the number of children of a tag identified by $tagId
@@ -90,12 +92,12 @@ interface Handler
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
-    public function getChildrenCount( $tagId, array $languages = null, $useAlwaysAvailable = true );
+    public function getChildrenCount( $tagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Loads tags with specified $keyword
@@ -125,12 +127,12 @@ interface Handler
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadSynonyms( $tagId, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true );
+    public function loadSynonyms( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns the number of synonyms of a tag identified by $tagId
@@ -138,12 +140,12 @@ interface Handler
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
-    public function getSynonymCount( $tagId, array $languages = null, $useAlwaysAvailable = true );
+    public function getSynonymCount( $tagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Loads content IDs related to tag identified by $tagId
