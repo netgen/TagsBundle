@@ -87,7 +87,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         {
             try
             {
-                $this->tagsPersistence->load( $id );
+                $this->tagsPersistence->loadTagInfo( $id );
             }
             catch ( NotFoundException $e )
             {
