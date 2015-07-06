@@ -40,7 +40,7 @@ class Value extends BaseValue
             array_map(
                 function ( Tag $tag )
                 {
-                    return $tag->keyword;
+                    return $tag->getKeyword();
                 },
                 $this->tags
             )
