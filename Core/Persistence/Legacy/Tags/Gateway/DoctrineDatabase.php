@@ -284,24 +284,23 @@ class DoctrineDatabase extends Gateway
      * Returns data for tags identified by given $keyword
      *
      * @param string $keyword
+     * @param string $translation
+     * @param boolean $useAlwaysAvailable
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
      * @return array
      */
-    public function getTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
+    public function getTagsByKeyword( $keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1 )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select( "*" )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn( "keyword", "eztags" ),
-                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
-                )
+        $query = $this->createTagFindQuery( array( $translation ), $useAlwaysAvailable );
+        $query->where(
+            $query->expr->eq(
+                $this->handler->quoteColumn( "keyword", "eztags_keyword" ),
+                $query->bindValue( $keyword, null, PDO::PARAM_STR )
             )
-            ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
+        )
+        ->limit( $limit > 0 ? $limit : PHP_INT_MAX, $offset );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -313,23 +312,20 @@ class DoctrineDatabase extends Gateway
      * Returns how many tags exist with $keyword
      *
      * @param string $keyword
+     * @param string $translation
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword )
+    public function getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable = true )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select(
-                $query->alias( $query->expr->count( "*" ), "count" )
+        $query = $this->createTagCountQuery( array( $translation, $useAlwaysAvailable ) );
+        $query->where(
+            $query->expr->eq(
+                $this->handler->quoteColumn( "keyword", "eztags_keyword" ),
+                $query->bindValue( $keyword, null, PDO::PARAM_STR )
             )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn( "keyword", "eztags" ),
-                    $query->bindValue( $keyword, null, PDO::PARAM_STR )
-                )
-            );
+        );
 
         $statement = $query->prepare();
         $statement->execute();

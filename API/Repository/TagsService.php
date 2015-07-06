@@ -83,23 +83,27 @@ interface TagsService
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param string $keyword The keyword to fetch tags for
+     * @param string $language The language to check for
+     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagsByKeyword( $keyword, $offset = 0, $limit = -1 );
+    public function loadTagsByKeyword( $keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1 );
 
     /**
      * Returns the number of tags by specified keyword
      *
      * @param string $keyword The keyword to fetch tags count for
+     * @param string $language The language to check for
+     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword );
+    public function getTagsByKeywordCount( $keyword, $language, $useAlwaysAvailable = true );
 
     /**
      * Loads synonyms of a tag object

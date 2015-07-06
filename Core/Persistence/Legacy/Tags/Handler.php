@@ -172,27 +172,31 @@ class Handler implements BaseTagsHandler
      * Loads tags with specified $keyword
      *
      * @param string $keyword
+     * @param string $translation
+     * @param boolean $useAlwaysAvailable
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
+    public function loadTagsByKeyword( $keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1 )
     {
-        $tags = $this->gateway->getTagsByKeyword( $keyword, $offset, $limit );
-        return $this->mapper->createTagsFromRows( $tags );
+        $tags = $this->gateway->getTagsByKeyword( $keyword, $translation, $useAlwaysAvailable, $offset, $limit );
+        return $this->mapper->extractTagListFromRows( $tags );
     }
 
     /**
      * Returns the number of tags with specified $keyword
      *
      * @param string $keyword
+     * @param string $translation
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword )
+    public function getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable = true )
     {
-        return $this->gateway->getTagsByKeywordCount( $keyword );
+        return $this->gateway->getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable );
     }
 
     /**

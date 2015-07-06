@@ -218,16 +218,18 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param string $keyword
+     * @param string $translation
+     * @param boolean $useAlwaysAvailable
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
      * @return array
      */
-    public function getTagsByKeyword( $keyword, $offset = 0, $limit = -1 )
+    public function getTagsByKeyword( $keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1 )
     {
         try
         {
-            return $this->innerGateway->getTagsByKeyword( $keyword, $offset, $limit );
+            return $this->innerGateway->getTagsByKeyword( $keyword, $translation, $useAlwaysAvailable, $offset, $limit );
         }
         catch ( DBALException $e )
         {
@@ -245,14 +247,16 @@ class ExceptionConversion extends Gateway
      * @throws \RuntimeException
      *
      * @param string $keyword
+     * @param string $translation
+     * @param boolean $useAlwaysAvailable
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword )
+    public function getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable = true )
     {
         try
         {
-            return $this->innerGateway->getTagsByKeywordCount( $keyword );
+            return $this->innerGateway->getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable );
         }
         catch ( DBALException $e )
         {
