@@ -178,11 +178,14 @@ class Type extends FieldType
                     "id" => $hashItem["id"],
                     "parentTagId" => $hashItem["parent_id"],
                     "mainTagId" => $hashItem["main_tag_id"],
-                    "keyword" => $hashItem["keyword"],
+                    "keywords" => $hashItem["keywords"],
                     "depth" => $hashItem["depth"],
                     "pathString" => $hashItem["path_string"],
                     "modificationDate" => $modificationDate,
-                    "remoteId" => $hashItem["remote_id"]
+                    "remoteId" => $hashItem["remote_id"],
+                    "alwaysAvailable" => $hashItem["always_available"],
+                    "mainLanguageCode" => $hashItem["main_language_code"],
+                    "languageCodes" => $hashItem["language_codes"]
                 )
             );
         }
@@ -207,11 +210,14 @@ class Type extends FieldType
                 "id" => $tag->id,
                 "parent_id" => $tag->parentTagId,
                 "main_tag_id" => $tag->mainTagId,
-                "keyword" => $tag->keyword,
+                "keywords" => $tag->keywords,
                 "depth" => $tag->depth,
                 "path_string" => $tag->pathString,
                 "modified" => $tag->modificationDate->getTimestamp(),
-                "remote_id" => $tag->remoteId
+                "remote_id" => $tag->remoteId,
+                "always_available" => $tag->alwaysAvailable,
+                "main_language_code" => $tag->mainLanguageCode,
+                "language_codes" => $tag->languageCodes
             );
         }
 
