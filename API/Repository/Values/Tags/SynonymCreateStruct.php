@@ -35,7 +35,7 @@ class SynonymCreateStruct extends ValueObject
      *
      * @var string[]
      */
-    public $keywords;
+    protected $keywords;
 
     /**
      * A global unique ID of the tag
@@ -50,4 +50,20 @@ class SynonymCreateStruct extends ValueObject
      * @var boolean
      */
     public $alwaysAvailable = true;
+
+    /**
+     * Adds a keyword to keyword collection
+     *
+     * @param string $keyword Keyword to add
+     * @param string $language If not given, the main language is used
+     */
+    public function setKeyword( $keyword, $language = null )
+    {
+        if ( empty( $language ) )
+        {
+            $language = $this->mainLanguageCode;
+        }
+
+        $this->keywords[$language] = $keyword;
+    }
 }
