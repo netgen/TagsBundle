@@ -139,12 +139,14 @@ class Handler implements BaseTagsHandler
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadChildren( $tagId, $offset = 0, $limit = -1 )
+    public function loadChildren( $tagId, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true )
     {
-        $tags = $this->gateway->getChildren( $tagId, $offset, $limit );
+        $tags = $this->gateway->getChildren( $tagId, $offset, $limit, $languages, $useAlwaysAvailable );
         return $this->mapper->extractTagListFromRows( $tags );
     }
 
@@ -154,12 +156,14 @@ class Handler implements BaseTagsHandler
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getChildrenCount( $tagId )
+    public function getChildrenCount( $tagId, array $languages = null, $useAlwaysAvailable = true )
     {
-        return $this->gateway->getChildrenCount( $tagId );
+        return $this->gateway->getChildrenCount( $tagId, $languages, $useAlwaysAvailable );
     }
 
     /**
@@ -197,12 +201,14 @@ class Handler implements BaseTagsHandler
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadSynonyms( $tagId, $offset = 0, $limit = -1 )
+    public function loadSynonyms( $tagId, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true )
     {
-        $tags = $this->gateway->getSynonyms( $tagId, $offset, $limit );
+        $tags = $this->gateway->getSynonyms( $tagId, $offset, $limit, $languages, $useAlwaysAvailable );
         return $this->mapper->extractTagListFromRows( $tags );
     }
 
@@ -212,12 +218,14 @@ class Handler implements BaseTagsHandler
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getSynonymCount( $tagId )
+    public function getSynonymCount( $tagId, array $languages = null, $useAlwaysAvailable = true )
     {
-        return $this->gateway->getSynonymCount( $tagId );
+        return $this->gateway->getSynonymCount( $tagId, $languages, $useAlwaysAvailable );
     }
 
     /**

@@ -57,10 +57,12 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tags from the first level will be returned
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1 );
+    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true );
 
     /**
      * Returns the number of children of a tag object
@@ -68,10 +70,12 @@ interface TagsService
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagChildrenCount( Tag $tag = null );
+    public function getTagChildrenCount( Tag $tag = null, array $languages = null, $useAlwaysAvailable = true );
 
     /**
      * Loads tags by specified keyword
@@ -106,10 +110,12 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1 );
+    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true );
 
     /**
      * Returns the number of synonyms of a tag object
@@ -118,10 +124,12 @@ interface TagsService
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagSynonymCount( Tag $tag );
+    public function getTagSynonymCount( Tag $tag, array $languages = null, $useAlwaysAvailable = true );
 
     /**
      * Loads content related to $tag

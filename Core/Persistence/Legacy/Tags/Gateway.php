@@ -61,19 +61,23 @@ abstract class Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return array
      */
-    abstract public function getChildren( $tagId, $offset = 0, $limit = -1 );
+    abstract public function getChildren( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns how many tags exist below tag identified by $tagId
      *
      * @param mixed $tagId
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    abstract public function getChildrenCount( $tagId );
+    abstract public function getChildrenCount( $tagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns data for tags identified by given $keyword
@@ -101,19 +105,23 @@ abstract class Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return array
      */
-    abstract public function getSynonyms( $tagId, $offset = 0, $limit = -1 );
+    abstract public function getSynonyms( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns how many synonyms exist for a tag identified by $tagId
      *
      * @param mixed $tagId
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    abstract public function getSynonymCount( $tagId );
+    abstract public function getSynonymCount( $tagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Loads content IDs related to tag identified by $tagId

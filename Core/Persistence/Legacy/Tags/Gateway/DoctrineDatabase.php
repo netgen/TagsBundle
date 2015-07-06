@@ -223,12 +223,14 @@ class DoctrineDatabase extends Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return array
      */
-    public function getChildren( $tagId, $offset = 0, $limit = -1 )
+    public function getChildren( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true )
     {
-        $query = $this->createTagFindQuery();
+        $query = $this->createTagFindQuery( $translations, $useAlwaysAvailable );
         $query->where(
             $query->expr->lAnd(
                 $query->expr->eq(
@@ -250,18 +252,15 @@ class DoctrineDatabase extends Gateway
      * Returns how many tags exist below tag identified by $tagId
      *
      * @param mixed $tagId
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getChildrenCount( $tagId )
+    public function getChildrenCount( $tagId, array $translations = null, $useAlwaysAvailable = true )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select(
-                $query->alias( $query->expr->count( "*" ), "count" )
-            )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
+        $query = $this->createTagCountQuery( $translations, $useAlwaysAvailable );
+        $query->where(
                 $query->expr->lAnd(
                     $query->expr->eq(
                         $this->handler->quoteColumn( "parent_id", "eztags" ),
@@ -344,12 +343,14 @@ class DoctrineDatabase extends Gateway
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return array
      */
-    public function getSynonyms( $tagId, $offset = 0, $limit = -1 )
+    public function getSynonyms( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true )
     {
-        $query = $this->createTagFindQuery();
+        $query = $this->createTagFindQuery( $translations, $useAlwaysAvailable );
         $query->where(
             $query->expr->eq(
                 $this->handler->quoteColumn( "main_tag_id", "eztags" ),
@@ -368,18 +369,15 @@ class DoctrineDatabase extends Gateway
      * Returns how many synonyms exist for a tag identified by $tagId
      *
      * @param mixed $tagId
+     * @param string[] $translations A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getSynonymCount( $tagId )
+    public function getSynonymCount( $tagId, array $translations = null, $useAlwaysAvailable = true )
     {
-        $query = $this->handler->createSelectQuery();
-        $query
-            ->select(
-                $query->alias( $query->expr->count( "*" ), "count" )
-            )
-            ->from( $this->handler->quoteTable( "eztags" ) )
-            ->where(
+        $query = $this->createTagCountQuery( $translations, $useAlwaysAvailable );
+        $query->where(
                 $query->expr->eq(
                     $this->handler->quoteColumn( "main_tag_id", "eztags" ),
                     $query->bindValue( $tagId, null, PDO::PARAM_INT )
@@ -1093,10 +1091,11 @@ class DoctrineDatabase extends Gateway
      * tag. Does not apply any WHERE conditions.
      *
      * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    protected function createTagFindQuery( array $translations = null )
+    protected function createTagFindQuery( array $translations = null, $useAlwaysAvailable = true )
     {
         /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
         $query = $this->handler->createSelectQuery();
@@ -1138,12 +1137,105 @@ class DoctrineDatabase extends Gateway
 
         if ( !empty( $translations ) )
         {
-            $query->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn( 'locale', 'eztags_keyword' ),
-                    $translations
+            if ( $useAlwaysAvailable )
+            {
+                $query->where(
+                    $query->expr->lOr(
+                        $query->expr->in(
+                            $this->handler->quoteColumn( 'locale', 'eztags_keyword' ),
+                            $translations
+                        ),
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( 'main_language_id', 'eztags' ),
+                            $query->expr->bitAnd(
+                                $this->handler->quoteColumn( 'language_id', 'eztags_keyword' ),
+                                -2 // -2 == PHP_INT_MAX << 1
+                            )
+                        )
+                    )
+                );
+            }
+            else
+            {
+                $query->where(
+                    $query->expr->in(
+                        $this->handler->quoteColumn( 'locale', 'eztags_keyword' ),
+                        $translations
+                    )
+                );
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Creates a select count query for tag objects
+     *
+     * Creates a select query with all necessary joins to fetch a complete
+     * tag. Does not apply any WHERE conditions.
+     *
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
+     *
+     * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
+     */
+    protected function createTagCountQuery( array $translations = null, $useAlwaysAvailable = true )
+    {
+        /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
+        $query = $this->handler->createSelectQuery();
+        $query->select(
+            $query->alias( $query->expr->count( 'DISTINCT eztags.id' ), 'count' )
+        )->from(
+            $this->handler->quoteTable( 'eztags' )
+        )
+        // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
+        // since it creates an additional cartesian product with translations.
+        ->leftJoin(
+            $this->handler->quoteTable( 'eztags_keyword' ),
+            $query->expr->lAnd(
+                // eztags_keyword.locale is also part of the PK but can't be
+                // easily joined with something at this level
+                $query->expr->eq(
+                    $this->handler->quoteColumn( 'keyword_id', 'eztags_keyword' ),
+                    $this->handler->quoteColumn( 'id', 'eztags' )
+                ),
+                $query->expr->eq(
+                    $this->handler->quoteColumn( 'status', 'eztags_keyword' ),
+                    $query->bindValue( 1, null, PDO::PARAM_INT )
                 )
-            );
+            )
+        );
+
+        if ( !empty( $translations ) )
+        {
+            if ( $useAlwaysAvailable )
+            {
+                $query->where(
+                    $query->expr->lOr(
+                        $query->expr->in(
+                            $this->handler->quoteColumn( 'locale', 'eztags_keyword' ),
+                            $translations
+                        ),
+                        $query->expr->eq(
+                            $this->handler->quoteColumn( 'main_language_id', 'eztags' ),
+                            $query->expr->bitAnd(
+                                $this->handler->quoteColumn( 'language_id', 'eztags_keyword' ),
+                                -2 // -2 == PHP_INT_MAX << 1
+                            )
+                        )
+                    )
+                );
+            }
+            else
+            {
+                $query->where(
+                    $query->expr->in(
+                        $this->handler->quoteColumn( 'locale', 'eztags_keyword' ),
+                        $translations
+                    )
+                );
+            }
         }
 
         return $query;

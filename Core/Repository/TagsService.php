@@ -150,10 +150,12 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tags from the first level will be returned
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1 )
+    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -163,7 +165,9 @@ class TagsService implements TagsServiceInterface
         $spiTags = $this->tagsHandler->loadChildren(
             $tag !== null ? $tag->id : 0,
             $offset,
-            $limit
+            $limit,
+            $languages,
+            $useAlwaysAvailable
         );
 
         $tags = array();
@@ -181,10 +185,12 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagChildrenCount( Tag $tag = null )
+    public function getTagChildrenCount( Tag $tag = null, array $languages = null, $useAlwaysAvailable = true )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -192,7 +198,9 @@ class TagsService implements TagsServiceInterface
         }
 
         return $this->tagsHandler->getChildrenCount(
-            $tag !== null ? $tag->id : 0
+            $tag !== null ? $tag->id : 0,
+            $languages,
+            $useAlwaysAvailable
         );
     }
 
@@ -253,10 +261,12 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1 )
+    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -268,7 +278,13 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException( "tag", "Tag is a synonym" );
         }
 
-        $spiTags = $this->tagsHandler->loadSynonyms( $tag->id, $offset, $limit );
+        $spiTags = $this->tagsHandler->loadSynonyms(
+            $tag->id,
+            $offset,
+            $limit,
+            $languages,
+            $useAlwaysAvailable
+        );
 
         $tags = array();
         foreach ( $spiTags as $spiTag )
@@ -286,10 +302,12 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagSynonymCount( Tag $tag )
+    public function getTagSynonymCount( Tag $tag, array $languages = null, $useAlwaysAvailable = true )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -301,7 +319,11 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException( "tag", "Tag is a synonym" );
         }
 
-        return $this->tagsHandler->getSynonymCount( $tag->id );
+        return $this->tagsHandler->getSynonymCount(
+            $tag->id,
+            $languages,
+            $useAlwaysAvailable
+        );
     }
 
     /**
