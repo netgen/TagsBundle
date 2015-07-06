@@ -78,16 +78,7 @@ class Type extends FieldType
      */
     public function getName( SPIValue $value )
     {
-        return implode(
-            ", ",
-            array_map(
-                function ( Tag $tag )
-                {
-                    return $tag->keyword;
-                },
-                $value->tags
-            )
-        );
+        return (string)$value;
     }
 
     /**
