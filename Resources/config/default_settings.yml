@@ -10,3 +10,6 @@ parameters:
 
     # Default TTL cache value for tag view page
     eztags.default.tag_view.default_ttl: 60
+
+    # Default template used to generate tag view page
+    eztags.default.tag_view.template: 'NetgenTagsBundle:tag:view.html.twig'

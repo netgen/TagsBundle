@@ -65,23 +65,25 @@ class TagViewController extends Controller
      */
     protected function renderTag( Tag $tag, Request $request )
     {
+        $configResolver = $this->getConfigResolver();
+
         $pager = new Pagerfanta(
             new RelatedContentAdapter( $tag, $this->tagsService )
         );
 
-        $pager->setMaxPerPage( $this->getConfigResolver()->getParameter( 'tag_view.related_content_list.limit', 'eztags' ) );
+        $pager->setMaxPerPage( $configResolver->getParameter( 'tag_view.related_content_list.limit', 'eztags' ) );
         $pager->setCurrentPage( $request->get( 'page', 1 ) );
 
         $response = new Response();
         $response->headers->set( 'X-Tag-Id', $tag->id );
 
-        if ( $this->getConfigResolver()->getParameter( 'tag_view.cache', 'eztags' ) === true )
+        if ( $configResolver->getParameter( 'tag_view.cache', 'eztags' ) === true )
         {
             $response->setPublic();
-            if ( $this->getConfigResolver()->getParameter( 'tag_view.ttl_cache', 'eztags' ) === true )
+            if ( $configResolver->getParameter( 'tag_view.ttl_cache', 'eztags' ) === true )
             {
                 $response->setSharedMaxAge(
-                    $this->getConfigResolver()->getParameter( 'tag_view.default_ttl', 'eztags' )
+                    $configResolver->getParameter( 'tag_view.default_ttl', 'eztags' )
                 );
             }
 
@@ -97,7 +99,7 @@ class TagViewController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:tag:view.html.twig',
+            $configResolver->getParameter( 'tag_view.template', 'eztags' ),
             array(
                 'tag' => $tag,
                 'pager' => $pager
