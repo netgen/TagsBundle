@@ -132,19 +132,20 @@ class ExceptionConversion extends Gateway
     }
 
     /**
-     * Returns an array with basic tag data for the tag with $url
+     * Returns an array with full tag data for the tag with $parentId parent ID and $keyword keyword
      *
-     * @throws \RuntimeException
-     *
-     * @param string $url
+     * @param string $keyword
+     * @param string $parentId
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    public function getBasicTagDataByUrl( $url )
+    public function getFullTagDataByKeywordAndParentId( $keyword, $parentId, array $translations = null, $useAlwaysAvailable = true )
     {
         try
         {
-            return $this->innerGateway->getBasicTagDataByUrl( $url );
+            return $this->innerGateway->getFullTagDataByKeywordAndParentId( $keyword, $parentId, $translations, $useAlwaysAvailable );
         }
         catch ( DBALException $e )
         {

@@ -1,15 +1,7 @@
-# eztags_tag_view_id:
-#     path: /tags/view/{tagId}
-#     defaults:
-#         _controller: eztags.controller.tag_view:viewTagById
-#     methods: [GET]
-#     requirements:
-#         tagId: \d+
-
-eztags_tag_view_url:
-    path: /tags/view/{tagUrl}
+_eztagsTag:
+    path: /tags/id/{tagId}
     defaults:
-        _controller: eztags.controller.tag_view:viewTagByUrl
+        _controller: eztags.controller.tag_view:viewTag
     methods: [GET]
     requirements:
-        tagUrl: .+
+        tagId: \d+

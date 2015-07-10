@@ -13,3 +13,8 @@ parameters:
 
     # Default template used to generate tag view page
     eztags.default.tag_view.template: 'NetgenTagsBundle:tag:view.html.twig'
+
+    # Default path prefix to use when generating tag view links
+    # Since it's NOT recommended to use empty path prefix here,
+    # it will fallback to /tags/view if not specified
+    eztags.default.tag_view.path_prefix: '/tags/view'

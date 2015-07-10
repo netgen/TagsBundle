@@ -1,7 +1,12 @@
 {% extends "eZDemoBundle::pagelayout.html.twig" %}
 
+{% set tagKeyword = tag.keywords[ezpublish.availableLanguages[0]] is defined ?
+    tag.keywords[ezpublish.availableLanguages[0]] :
+    tag.keyword
+%}
+
 {% block page_head %}
-    {% set title = tag.keyword %}
+    {% set title = tagKeyword %}
     {{ parent() }}
 {% endblock %}
 
@@ -10,7 +15,7 @@
         <div class="row">
             <div class="span8">
                 <div class="attribute-header">
-                    <h1>{{ tag.keyword }}</h1>
+                    <h1>{{ tagKeyword }}</h1>
                 </div>
 
                 {% if pager|length > 0 %}

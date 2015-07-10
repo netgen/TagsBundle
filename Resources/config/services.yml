@@ -1,15 +1,28 @@
 parameters:
-    eztags.twig.extension.class: Netgen\TagsBundle\Twig\Extension\TagsExtension
     eztags.controller.tag_view.class: Netgen\TagsBundle\Controller\TagViewController
+    eztags.routing.tag_url_generator.class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
+    eztags.routing.tag_router.class: Netgen\TagsBundle\Routing\TagRouter
 
 services:
-    eztags.twig.extension:
-        class: %eztags.twig.extension.class%
-        arguments: [@ezpublish.api.service.tags]
-        tags:
-            - { name: twig.extension }
-
     eztags.controller.tag_view:
         class: %eztags.controller.tag_view.class%
         arguments: [@ezpublish.api.service.tags]
         parent: ezpublish.controller.base
+
+    eztags.routing.tag_url_generator:
+        class: %eztags.routing.tag_url_generator.class%
+        parent: ezpublish.url_generator.base
+        arguments:
+            - @ezpublish.api.service.tags
+            - @router.default
+            - @ezpublish.config.resolver
+
+    eztags.routing.tag_router:
+        class: %eztags.routing.tag_router.class%
+        arguments:
+            - @ezpublish.api.service.tags
+            - @eztags.routing.tag_url_generator
+            - @?router.request_context
+            - @?logger
+        tags:
+            - {name: router, priority: 200}

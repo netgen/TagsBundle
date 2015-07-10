@@ -49,13 +49,16 @@ abstract class Gateway
     abstract public function getFullTagDataByRemoteId( $remoteId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
-     * Returns an array with basic tag data for the tag with $url
+     * Returns an array with full tag data for the tag with $parentId parent ID and $keyword keyword
      *
-     * @param string $url
+     * @param string $keyword
+     * @param string $parentId
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    abstract public function getBasicTagDataByUrl( $url );
+    abstract public function getFullTagDataByKeywordAndParentId( $keyword, $parentId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Returns data for the first level children of the tag identified by given $tagId

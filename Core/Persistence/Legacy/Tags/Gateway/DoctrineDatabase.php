@@ -166,57 +166,37 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Returns an array with basic tag data for the tag with $url
+     * Returns an array with full tag data for the tag with $parentId parent ID and $keyword keyword
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
-     *
-     * @param string $url
+     * @param string $keyword
+     * @param string $parentId
+     * @param string[] $translations
+     * @param boolean $useAlwaysAvailable
      *
      * @return array
      */
-    public function getBasicTagDataByUrl( $url )
+    public function getFullTagDataByKeywordAndParentId( $keyword, $parentId, array $translations = null, $useAlwaysAvailable = true )
     {
-        $explodedUrl = explode( '/', $url );
-        $parentId = 0;
+        $query = $this->createTagFindQuery( $translations, $useAlwaysAvailable );
+        $query->where(
+            $query->expr->eq(
+                $this->handler->quoteColumn( 'keyword', 'eztags_keyword' ),
+                $query->bindValue( $keyword, null, PDO::PARAM_STR )
+            ),
+            $query->expr->eq(
+                $this->handler->quoteColumn( 'parent_id', 'eztags' ),
+                $query->bindValue( $parentId, null, PDO::PARAM_INT )
+            ),
+            $query->expr->eq(
+                $this->handler->quoteColumn( 'main_tag_id', 'eztags' ),
+                $query->bindValue( 0, null, PDO::PARAM_INT )
+            )
+        );
 
-        foreach ( $explodedUrl as $urlItem )
-        {
-            $urlItem = trim( $urlItem );
-            if ( empty( $urlItem ) )
-            {
-                continue;
-            }
+        $statement = $query->prepare();
+        $statement->execute();
 
-            $query = $this->handler->createSelectQuery();
-            $query
-                ->select( "*" )
-                ->from( $this->handler->quoteTable( "eztags" ) )
-                ->where(
-                    $query->expr->lAnd(
-                        $query->expr->eq(
-                            $this->handler->quoteColumn( "parent_id" ),
-                            $query->bindValue( $parentId, null, PDO::PARAM_INT )
-                        ),
-                        $query->expr->eq(
-                            $this->handler->quoteColumn( "keyword" ),
-                            $query->bindValue( urldecode( $urlItem ), null, PDO::PARAM_STR )
-                        )
-                    )
-                );
-
-            $statement = $query->prepare();
-            $statement->execute();
-
-            if ( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
-            {
-                $parentId = (int)$row["id"];
-                continue;
-            }
-
-            throw new NotFoundException( "tag", $url );
-        }
-
-        return $row;
+        return $statement->fetchAll( PDO::FETCH_ASSOC );
     }
 
     /**

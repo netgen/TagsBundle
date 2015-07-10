@@ -61,15 +61,18 @@ interface Handler
     public function loadTagInfoByRemoteId( $remoteId );
 
     /**
-     * Loads a tag object from its URL
+     * Loads tag by specified keyword and parent ID
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @param string $url
+     * @param string $keyword The keyword to fetch tag for
+     * @param mixed $parentTagId The parent ID to fetch tag for
+     * @param string[] $translations The languages to load
+     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadByUrl( $url );
+    public function loadTagByKeywordAndParentId( $keyword, $parentTagId, array $translations = null, $useAlwaysAvailable = true );
 
     /**
      * Loads children of a tag identified by $tagId

@@ -17,6 +17,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCrea
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
 use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
@@ -41,17 +42,34 @@ class TagsService implements TagsServiceInterface
     protected $languageHandler;
 
     /**
+     * @var array
+     */
+    protected $languages = array();
+
+    /**
      * Constructor
      *
      * @param \eZ\Publish\API\Repository\Repository $repository
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Handler $tagsHandler
      * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
      */
-    public function __construct( Repository $repository, TagsHandler $tagsHandler, LanguageHandler $languageHandler )
+    public function __construct(
+        Repository $repository,
+        TagsHandler $tagsHandler,
+        LanguageHandler $languageHandler
+    )
     {
         $this->repository = $repository;
         $this->tagsHandler = $tagsHandler;
         $this->languageHandler = $languageHandler;
+    }
+
+    public function setLanguages( $languages = null )
+    {
+        if ( is_array( $languages ) )
+        {
+            $this->languages = $languages;
+        }
     }
 
     /**
@@ -113,6 +131,8 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its URL
      *
+     * @todo Make possible to load synonyms
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -127,7 +147,60 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException( "tags", "read" );
         }
 
-        $spiTag = $this->tagsHandler->loadByUrl( trim( $url, '/' ) );
+        $keywordArray = explode( '/', trim( $url, '/' ) );
+        if ( !is_array( $keywordArray ) || empty( $keywordArray ) )
+        {
+            throw new InvalidArgumentValue( "url", $url );
+        }
+
+        $parentId = 0;
+        $spiTag = null;
+
+        if ( !empty( $this->languages ) )
+        {
+            foreach ( $keywordArray as $keyword )
+            {
+                if ( empty( $keyword ) )
+                {
+                    continue;
+                }
+
+                $spiTag = $this->tagsHandler->loadTagByKeywordAndParentId( $keyword, $parentId, $this->languages );
+
+                // Reasoning behind this is that the FIRST item sorted by languages must be matched to the keyword
+                // If not, it means that the tag is not translated to the correct keyword in the most prioritized language
+                $spiTagKeywords = array();
+                foreach ( $this->languages as $language )
+                {
+                    if ( isset( $spiTag->keywords[$language] ) )
+                    {
+                        $spiTagKeywords[$language] = $spiTag->keywords[$language];
+                    }
+                }
+
+                if ( $spiTag->alwaysAvailable )
+                {
+                    if ( !isset( $spiTagKeywords[$spiTag->mainLanguageCode] ) && isset( $spiTag->keywords[$spiTag->mainLanguageCode] ) )
+                    {
+                        $spiTagKeywords[$spiTag->mainLanguageCode] = $spiTag->keywords[$spiTag->mainLanguageCode];
+                    }
+                }
+
+                $spiTagKeywords = array_values( $spiTagKeywords );
+                if ( !empty( $spiTagKeywords ) && $spiTagKeywords[0] !== $keyword )
+                {
+                    throw new BaseNotFoundException( "tag", $url );
+                }
+
+                $parentId = $spiTag->id;
+            }
+        }
+
+        if ( !$spiTag instanceof SPITag )
+        {
+            throw new BaseNotFoundException( "tag", $url );
+        }
+
         return $this->buildTagDomainObject( $spiTag );
     }
 

@@ -28,30 +28,16 @@ class TagViewController extends Controller
     }
 
     /**
-     * Action for rendering a tag view by using tag ID
+     * Action for rendering a tag view
      *
      * @param mixed $tagId
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewTagById( $tagId, Request $request )
+    public function viewTag( $tagId, Request $request )
     {
         $tag = $this->tagsService->loadTag( $tagId );
-        return $this->renderTag( $tag, $request );
-    }
-
-    /**
-     * Action for rendering a tag view by using tag URL
-     *
-     * @param string $tagUrl
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function viewTagByUrl( $tagUrl, Request $request )
-    {
-        $tag = $this->tagsService->loadTagByUrl( $tagUrl );
         return $this->renderTag( $tag, $request );
     }
 

@@ -119,18 +119,28 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Loads a tag object from its URL
+     * Loads tags by specified keyword and parent ID
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @param string $url
+     * @param string $keyword The keyword to fetch tag for
+     * @param mixed $parentTagId The parent ID to fetch tag for
+     * @param string[] $translations The languages to load
+     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadByUrl( $url )
+    public function loadTagByKeywordAndParentId( $keyword, $parentTagId, array $translations = null, $useAlwaysAvailable = true )
     {
-        $data = $this->gateway->getBasicTagDataByUrl( $url );
-        return $this->mapper->createTagFromRow( $data );
+        $rows = $this->gateway->getFullTagDataByKeywordAndParentId( $keyword, $parentTagId, $translations, $useAlwaysAvailable );
+        if ( empty( $rows ) )
+        {
+            throw new NotFoundException( "tag", $keyword );
+        }
+
+        $tag = $this->mapper->extractTagListFromRows( $rows );
+
+        return reset( $tag );
     }
 
     /**
