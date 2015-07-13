@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Routing;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
