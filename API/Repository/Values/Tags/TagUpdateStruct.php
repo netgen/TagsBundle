@@ -15,7 +15,7 @@ class TagUpdateStruct extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords;
+    protected $keywords = array();
 
     /**
      * A global unique ID of the tag
@@ -37,6 +37,16 @@ class TagUpdateStruct extends ValueObject
      * @var boolean
      */
     public $alwaysAvailable;
+
+    /**
+     * Returns keywords available in the struct
+     *
+     * @return string[]
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
 
     /**
      * Adds a keyword to keyword collection

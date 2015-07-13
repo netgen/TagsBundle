@@ -490,14 +490,14 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue( "mainLanguageCode", $tagCreateStruct->mainLanguageCode, "TagCreateStruct" );
         }
 
-        if ( empty( $tagCreateStruct->keywords ) || !is_array( $tagCreateStruct->keywords ) )
+        if ( empty( $tagCreateStruct->getKeywords() ) || !is_array( $tagCreateStruct->getKeywords() ) )
         {
-            throw new InvalidArgumentValue( "keywords", $tagCreateStruct->keywords, "TagCreateStruct" );
+            throw new InvalidArgumentValue( "keywords", $tagCreateStruct->getKeywords(), "TagCreateStruct" );
         }
 
-        if ( !isset( $tagCreateStruct->keywords[$tagCreateStruct->mainLanguageCode] ) )
+        if ( !isset( $tagCreateStruct->getKeywords()[$tagCreateStruct->mainLanguageCode] ) )
         {
-            throw new InvalidArgumentValue( "keywords", $tagCreateStruct->keywords, "TagCreateStruct" );
+            throw new InvalidArgumentValue( "keywords", $tagCreateStruct->getKeywords(), "TagCreateStruct" );
         }
 
         if ( $tagCreateStruct->remoteId !== null && ( empty( $tagCreateStruct->remoteId ) || !is_string( $tagCreateStruct->remoteId ) ) )
@@ -531,7 +531,7 @@ class TagsService implements TagsServiceInterface
         $createStruct = new CreateStruct();
         $createStruct->parentTagId = !empty( $tagCreateStruct->parentTagId ) ? $tagCreateStruct->parentTagId : 0;
         $createStruct->mainLanguageCode = $tagCreateStruct->mainLanguageCode;
-        $createStruct->keywords = $tagCreateStruct->keywords;
+        $createStruct->keywords = $tagCreateStruct->getKeywords();
         $createStruct->remoteId = $tagCreateStruct->remoteId;
         $createStruct->alwaysAvailable = $tagCreateStruct->alwaysAvailable;
 
@@ -579,9 +579,9 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ( $tagUpdateStruct->keywords !== null && ( !is_array( $tagUpdateStruct->keywords ) || empty( $tagUpdateStruct->keywords ) ) )
+        if ( $tagUpdateStruct->getKeywords() !== null && ( !is_array( $tagUpdateStruct->getKeywords() ) || empty( $tagUpdateStruct->getKeywords() ) ) )
         {
-            throw new InvalidArgumentValue( "keywords", $tagUpdateStruct->keywords, "TagUpdateStruct" );
+            throw new InvalidArgumentValue( "keywords", $tagUpdateStruct->getKeywords(), "TagUpdateStruct" );
         }
 
         if ( $tagUpdateStruct->remoteId !== null && ( !is_string( $tagUpdateStruct->remoteId ) || empty( $tagUpdateStruct->remoteId ) ) )
@@ -619,9 +619,9 @@ class TagsService implements TagsServiceInterface
         }
 
         $keywords = $spiTag->keywords;
-        if ( $tagUpdateStruct->keywords !== null )
+        if ( $tagUpdateStruct->getKeywords() !== null )
         {
-            $keywords = $tagUpdateStruct->keywords;
+            $keywords = $tagUpdateStruct->getKeywords();
         }
 
         if ( !isset( $keywords[$mainLanguageCode] ) )
@@ -635,7 +635,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $updateStruct = new UpdateStruct();
-        $updateStruct->keywords = $tagUpdateStruct->keywords !== null ? $tagUpdateStruct->keywords : $spiTag->keywords;
+        $updateStruct->keywords = $tagUpdateStruct->getKeywords() !== null ? $tagUpdateStruct->getKeywords() : $spiTag->keywords;
         $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim( $tagUpdateStruct->remoteId ) : $spiTag->remoteId;
         $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim( $tagUpdateStruct->mainLanguageCode ) : $spiTag->mainLanguageCode;
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable !== null ? $tagUpdateStruct->alwaysAvailable : $spiTag->alwaysAvailable;
@@ -683,14 +683,14 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue( "mainLanguageCode", $synonymCreateStruct->mainLanguageCode, "SynonymCreateStruct" );
         }
 
-        if ( empty( $synonymCreateStruct->keywords ) || !is_array( $synonymCreateStruct->keywords ) )
+        if ( empty( $synonymCreateStruct->getKeywords() ) || !is_array( $synonymCreateStruct->getKeywords() ) )
         {
-            throw new InvalidArgumentValue( "keywords", $synonymCreateStruct->keywords, "SynonymCreateStruct" );
+            throw new InvalidArgumentValue( "keywords", $synonymCreateStruct->getKeywords(), "SynonymCreateStruct" );
         }
 
-        if ( !isset( $synonymCreateStruct->keywords[$synonymCreateStruct->mainLanguageCode] ) )
+        if ( !isset( $synonymCreateStruct->getKeywords()[$synonymCreateStruct->mainLanguageCode] ) )
         {
-            throw new InvalidArgumentValue( "keywords", $synonymCreateStruct->keywords, "SynonymCreateStruct" );
+            throw new InvalidArgumentValue( "keywords", $synonymCreateStruct->getKeywords(), "SynonymCreateStruct" );
         }
 
         if ( $synonymCreateStruct->remoteId !== null && ( empty( $synonymCreateStruct->remoteId ) || !is_string( $synonymCreateStruct->remoteId ) ) )
@@ -724,7 +724,7 @@ class TagsService implements TagsServiceInterface
         $createStruct = new SPISynonymCreateStruct();
         $createStruct->mainTagId = $synonymCreateStruct->mainTagId;
         $createStruct->mainLanguageCode = $synonymCreateStruct->mainLanguageCode;
-        $createStruct->keywords = $synonymCreateStruct->keywords;
+        $createStruct->keywords = $synonymCreateStruct->getKeywords();
         $createStruct->remoteId = $synonymCreateStruct->remoteId;
         $createStruct->alwaysAvailable = $synonymCreateStruct->alwaysAvailable;
 
@@ -1018,16 +1018,14 @@ class TagsService implements TagsServiceInterface
      *
      * @param mixed $parentTagId
      * @param string $mainLanguageCode
-     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords )
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode )
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = $parentTagId;
         $tagCreateStruct->mainLanguageCode = $mainLanguageCode;
-        $tagCreateStruct->keywords = $keywords;
 
         return $tagCreateStruct;
     }
@@ -1037,16 +1035,14 @@ class TagsService implements TagsServiceInterface
      *
      * @param mixed $mainTagId
      * @param string $mainLanguageCode
-     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
-    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode, array $keywords )
+    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode )
     {
         $synonymCreateStruct = new SynonymCreateStruct();
         $synonymCreateStruct->mainTagId = $mainTagId;
         $synonymCreateStruct->mainLanguageCode = $mainLanguageCode;
-        $synonymCreateStruct->keywords = $keywords;
 
         return $synonymCreateStruct;
     }

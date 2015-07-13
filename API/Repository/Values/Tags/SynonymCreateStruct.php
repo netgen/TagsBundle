@@ -35,7 +35,7 @@ class SynonymCreateStruct extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords;
+    protected $keywords = array();
 
     /**
      * A global unique ID of the tag
@@ -50,6 +50,16 @@ class SynonymCreateStruct extends ValueObject
      * @var boolean
      */
     public $alwaysAvailable = true;
+
+    /**
+     * Returns keywords available in the struct
+     *
+     * @return string[]
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
 
     /**
      * Adds a keyword to keyword collection

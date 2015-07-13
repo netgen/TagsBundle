@@ -277,22 +277,20 @@ interface TagsService
      *
      * @param mixed $parentTagId
      * @param string $mainLanguageCode
-     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords );
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode );
 
     /**
      * Instantiates a new synonym create struct
      *
      * @param mixed $mainTagId
      * @param string $mainLanguageCode
-     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
-    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode, array $keywords );
+    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode );
 
     /**
      * Instantiates a new tag update struct

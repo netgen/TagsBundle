@@ -52,6 +52,16 @@ class TagCreateStruct extends ValueObject
     public $alwaysAvailable = true;
 
     /**
+     * Returns keywords available in the struct
+     *
+     * @return string[]
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
      * Adds a keyword to keyword collection
      *
      * @param string $keyword Keyword to add

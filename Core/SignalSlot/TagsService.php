@@ -452,13 +452,12 @@ class TagsService implements TagsServiceInterface
      *
      * @param mixed $parentTagId
      * @param string $mainLanguageCode
-     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode, array $keywords )
+    public function newTagCreateStruct( $parentTagId, $mainLanguageCode )
     {
-        return $this->service->newTagCreateStruct( $parentTagId, $mainLanguageCode, $keywords );
+        return $this->service->newTagCreateStruct( $parentTagId, $mainLanguageCode );
     }
 
     /**
@@ -466,13 +465,12 @@ class TagsService implements TagsServiceInterface
      *
      * @param mixed $mainTagId
      * @param string $mainLanguageCode
-     * @param string[] $keywords
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
-    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode, array $keywords )
+    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode )
     {
-        return $this->service->newSynonymCreateStruct( $mainTagId, $mainLanguageCode, $keywords );
+        return $this->service->newSynonymCreateStruct( $mainTagId, $mainLanguageCode );
     }
 
     /**
