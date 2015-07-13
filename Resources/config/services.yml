@@ -24,5 +24,7 @@ services:
             - @eztags.routing.tag_url_generator
             - @?router.request_context
             - @?logger
+        calls:
+            - [setConfigResolver, [@ezpublish.config.resolver]]
         tags:
             - {name: router, priority: 200}

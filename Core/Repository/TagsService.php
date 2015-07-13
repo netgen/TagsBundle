@@ -42,11 +42,6 @@ class TagsService implements TagsServiceInterface
     protected $languageHandler;
 
     /**
-     * @var array
-     */
-    protected $languages = array();
-
-    /**
      * Constructor
      *
      * @param \eZ\Publish\API\Repository\Repository $repository
@@ -62,14 +57,6 @@ class TagsService implements TagsServiceInterface
         $this->repository = $repository;
         $this->tagsHandler = $tagsHandler;
         $this->languageHandler = $languageHandler;
-    }
-
-    public function setLanguages( $languages = null )
-    {
-        if ( is_array( $languages ) )
-        {
-            $this->languages = $languages;
-        }
     }
 
     /**
@@ -137,10 +124,11 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $url
+     * @param string[] $languages
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByUrl( $url )
+    public function loadTagByUrl( $url, array $languages )
     {
         if ( $this->repository->hasAccess( "tags", "read" ) !== true )
         {
@@ -156,7 +144,7 @@ class TagsService implements TagsServiceInterface
         $parentId = 0;
         $spiTag = null;
 
-        if ( !empty( $this->languages ) )
+        if ( !empty( $languages ) )
         {
             foreach ( $keywordArray as $keyword )
             {
@@ -165,12 +153,12 @@ class TagsService implements TagsServiceInterface
                     continue;
                 }
 
-                $spiTag = $this->tagsHandler->loadTagByKeywordAndParentId( $keyword, $parentId, $this->languages );
+                $spiTag = $this->tagsHandler->loadTagByKeywordAndParentId( $keyword, $parentId, $languages );
 
                 // Reasoning behind this is that the FIRST item sorted by languages must be matched to the keyword
                 // If not, it means that the tag is not translated to the correct keyword in the most prioritized language
                 $spiTagKeywords = array();
-                foreach ( $this->languages as $language )
+                foreach ( $languages as $language )
                 {
                     if ( isset( $spiTag->keywords[$language] ) )
                     {

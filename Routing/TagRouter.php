@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Routing;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
@@ -46,6 +47,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     protected $logger;
 
     /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     */
+    protected $configResolver;
+
+    /**
      * Constructor
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -64,6 +70,14 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         $this->generator = $generator;
         $this->requestContext = $requestContext !== null ? $requestContext : new RequestContext();
         $this->logger = $logger;
+    }
+
+    /**
+     * @param \eZ\Publish\Core\MVC\ConfigResolverInterface $configResolver
+     */
+    public function setConfigResolver( ConfigResolverInterface $configResolver )
+    {
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -96,7 +110,10 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             throw new ResourceNotFoundException();
         }
 
-        $tag = $this->tagsService->loadTagByUrl( $requestedPath );
+        $tag = $this->tagsService->loadTagByUrl(
+            $requestedPath,
+            $this->configResolver->getParameter( 'languages' )
+        );
 
         $params = array(
             '_route' => self::TAG_URL_ROUTE_NAME,

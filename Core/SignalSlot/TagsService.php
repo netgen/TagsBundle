@@ -83,12 +83,13 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $url
+     * @param string[] $languages
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByUrl( $url )
+    public function loadTagByUrl( $url, array $languages )
     {
-        return $this->service->loadTagByUrl( $url );
+        return $this->service->loadTagByUrl( $url, $languages );
     }
 
     /**

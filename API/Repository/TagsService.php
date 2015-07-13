@@ -44,10 +44,11 @@ interface TagsService
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $url
+     * @param string[] $languages
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByUrl( $url );
+    public function loadTagByUrl( $url, array $languages );
 
     /**
      * Loads children of a tag object
