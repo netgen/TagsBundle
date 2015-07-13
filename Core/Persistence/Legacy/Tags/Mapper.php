@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 
 class Mapper
 {
@@ -16,13 +17,22 @@ class Mapper
     protected $languageHandler;
 
     /**
+     * Language mask generator
+     *
+     * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     */
+    protected $languageMaskGenerator;
+
+    /**
      * Constructor
      *
      * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
+     * @param \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator
      */
-    public function __construct( LanguageHandler $languageHandler )
+    public function __construct( LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator )
     {
         $this->languageHandler = $languageHandler;
+        $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     /**
@@ -45,7 +55,7 @@ class Mapper
         $tagInfo->remoteId = $row["remote_id"];
         $tagInfo->alwaysAvailable = ( (int)$row["language_mask"] & 1 ) ? true : false;
         $tagInfo->mainLanguageCode = $this->languageHandler->load( $row["main_language_id"] )->languageCode;
-        $tagInfo->languageIds = $this->extractLanguageIdsFromMask( (int)$row["language_mask"] );
+        $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask( (int)$row["language_mask"] );
 
         return $tagInfo;
     }
@@ -100,7 +110,7 @@ class Mapper
                 $tag->remoteId = $row['eztags_remote_id'];
                 $tag->alwaysAvailable = ( (int)$row['eztags_language_mask'] & 1 ) ? true : false;
                 $tag->mainLanguageCode = $this->languageHandler->load( $row['eztags_main_language_id'] )->languageCode;
-                $tag->languageIds = $this->extractLanguageIdsFromMask( (int)$row['eztags_language_mask'] );
+                $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask( (int)$row['eztags_language_mask'] );
                 $tagList[$tagId] = $tag;
             }
 
@@ -111,31 +121,5 @@ class Mapper
         }
 
         return array_values( $tagList );
-    }
-
-    /**
-     * Extracts language IDs from language mask
-     *
-     * @TODO Use language mask handler for this
-     *
-     * @param int $languageMask
-     *
-     * @return array
-     */
-    protected function extractLanguageIdsFromMask( $languageMask )
-    {
-        $exp = 2;
-        $result = array();
-
-        // Decomposition of $languageMask into its binary components
-        while ( $exp <= $languageMask )
-        {
-            if ( $languageMask & $exp )
-                $result[] = $exp;
-
-            $exp *= 2;
-        }
-
-        return $result;
     }
 }

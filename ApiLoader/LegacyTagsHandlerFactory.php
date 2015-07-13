@@ -43,7 +43,7 @@ class LegacyTagsHandlerFactory
             new ExceptionConversion(
                 new DoctrineDatabase( $dbHandler, $languageHandler, $languageMaskGenerator )
             ),
-            new Mapper( $languageHandler )
+            new Mapper( $languageHandler, $languageMaskGenerator )
         );
     }
 }
