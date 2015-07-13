@@ -110,7 +110,8 @@ class TagUrlGenerator extends Generator
                 $tagUrl = '/' . $tagKeyword . $tagUrl;
 
                 $tagId = $tag->parentTagId;
-            } while( $tagId > 0 );
+            }
+            while ( $tagId > 0 );
         }
         catch ( NotFoundException $e )
         {

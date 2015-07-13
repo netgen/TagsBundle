@@ -243,14 +243,14 @@ class DoctrineDatabase extends Gateway
     {
         $query = $this->createTagCountQuery( $translations, $useAlwaysAvailable );
         $query->where(
-                $query->expr->lAnd(
-                    $query->expr->eq(
-                        $this->handler->quoteColumn( "parent_id", "eztags" ),
-                        $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                    ),
-                    $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
-                )
-            );
+            $query->expr->lAnd(
+                $query->expr->eq(
+                    $this->handler->quoteColumn( "parent_id", "eztags" ),
+                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
+                ),
+                $query->expr->eq( $this->handler->quoteColumn( "main_tag_id", "eztags" ), 0 )
+            )
+        );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -356,11 +356,11 @@ class DoctrineDatabase extends Gateway
     {
         $query = $this->createTagCountQuery( $translations, $useAlwaysAvailable );
         $query->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn( "main_tag_id", "eztags" ),
-                    $query->bindValue( $tagId, null, PDO::PARAM_INT )
-                )
-            );
+            $query->expr->eq(
+                $this->handler->quoteColumn( "main_tag_id", "eztags" ),
+                $query->bindValue( $tagId, null, PDO::PARAM_INT )
+            )
+        );
 
         $statement = $query->prepare();
         $statement->execute();
