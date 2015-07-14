@@ -1,7 +1,9 @@
 {% extends "eZDemoBundle::pagelayout.html.twig" %}
 
-{% set tagKeyword = tag.keywords[ezpublish.availableLanguages[0]] is defined ?
-    tag.keywords[ezpublish.availableLanguages[0]] :
+{% set prioritizedLanguages = ezpublish.configResolver.parameter( 'languages' ) %}
+
+{% set tagKeyword = tag.keywords[prioritizedLanguages[0]] is defined ?
+    tag.keywords[prioritizedLanguages[0]] :
     tag.keyword
 %}
 
