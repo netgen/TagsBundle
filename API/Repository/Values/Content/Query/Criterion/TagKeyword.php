@@ -6,6 +6,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
 
 /**
  * A criterion that matches content based on tag keyword that is located in one of the fields
@@ -22,13 +23,14 @@ class TagKeyword extends Criterion implements CriterionInterface
      *
      * @param string $operator
      * @param string|string[] $value One or more tag keywords that must be matched
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value $valueData
      *
      * @throws \InvalidArgumentException if a non string parameter is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct( $operator, $value )
+    public function __construct( $operator, $value, Value $valueData = null )
     {
-        parent::__construct( null, $operator, $value );
+        parent::__construct( null, $operator, $value, $valueData );
     }
 
     public function getSpecifications()

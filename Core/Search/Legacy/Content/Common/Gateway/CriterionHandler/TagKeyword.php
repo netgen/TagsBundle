@@ -39,6 +39,9 @@ class TagKeyword extends CriterionHandler
      */
     public function handle( CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null )
     {
+        /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue $valueData */
+        $valueData = $criterion->valueData;
+
         $subSelect = $query->subSelect();
         $subSelect
             ->select( $this->dbHandler->quoteColumn( 'id', 'ezcontentobject' ) )
@@ -63,22 +66,65 @@ class TagKeyword extends CriterionHandler
                     $this->dbHandler->quoteColumn( 'keyword_id', 'eztags_attribute_link' ),
                     $this->dbHandler->quoteColumn( 'id', 'eztags' )
                 )
+            )->leftJoin(
+                $this->dbHandler->quoteTable( 'eztags_keyword' ),
+                $subSelect->expr->lAnd(
+                    $subSelect->expr->eq(
+                        $this->dbHandler->quoteColumn( 'id', 'eztags' ),
+                        $this->dbHandler->quoteColumn( 'keyword_id', 'eztags_keyword' )
+                    ),
+                    $subSelect->expr->eq(
+                        $this->dbHandler->quoteColumn( 'status', 'eztags_keyword' ),
+                        $subSelect->bindValue( 1, null, \PDO::PARAM_INT )
+                    )
+                )
             );
+
+        if ( $valueData !== null && !empty( $valueData->languages ) )
+        {
+            if ( $valueData->useAlwaysAvailable )
+            {
+                $subSelect->where(
+                    $subSelect->expr->lOr(
+                        $subSelect->expr->in(
+                            $this->dbHandler->quoteColumn( 'locale', 'eztags_keyword' ),
+                            $valueData->languages
+                        ),
+                        $subSelect->expr->eq(
+                            $this->dbHandler->quoteColumn( 'main_language_id', 'eztags' ),
+                            $subSelect->expr->bitAnd(
+                                $this->dbHandler->quoteColumn( 'language_id', 'eztags_keyword' ),
+                                -2 // -2 == PHP_INT_MAX << 1
+                            )
+                        )
+                    )
+                );
+            }
+            else
+            {
+                $subSelect->where(
+                    $subSelect->expr->in(
+                        $this->dbHandler->quoteColumn( 'locale', 'eztags_keyword' ),
+                        $valueData->languages
+                    )
+                );
+            }
+        }
 
         if ( $criterion->operator == Criterion\Operator::LIKE )
         {
             $subSelect->where(
-                $query->expr->like(
-                    $this->dbHandler->quoteColumn( 'keyword', 'eztags' ),
-                    $query->bindValue( $criterion->value[0] )
+                $subSelect->expr->like(
+                    $this->dbHandler->quoteColumn( 'keyword', 'eztags_keyword' ),
+                    $subSelect->bindValue( $criterion->value[0] )
                 )
             );
         }
         else
         {
             $subSelect->where(
-                $query->expr->in(
-                    $this->dbHandler->quoteColumn( 'keyword', 'eztags' ),
+                $subSelect->expr->in(
+                    $this->dbHandler->quoteColumn( 'keyword', 'eztags_keyword' ),
                     $criterion->value
                 )
             );
