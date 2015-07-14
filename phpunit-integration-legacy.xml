@@ -31,7 +31,6 @@
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
-                <directory>Twig</directory>
                 <directory>vendor</directory>
                 <directory>var</directory>
             </exclude>
