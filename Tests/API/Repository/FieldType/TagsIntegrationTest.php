@@ -418,11 +418,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 "id" => 40,
                 "parentTagId" => 7,
                 "mainTagId" => 0,
-                "keyword" => "eztags",
+                "keywords" => array( "eng-GB" => "eztags" ),
                 "depth" => 3,
                 "pathString" => "/8/7/40/",
                 "modificationDate" => $modificationDate,
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e",
+                "alwaysAvailable" => false,
+                "mainLanguageCode" => "eng-GB",
+                "languageCodes" => array( "eng-GB" )
             )
         );
     }
@@ -442,11 +445,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 "id" => 8,
                 "parentTagId" => 0,
                 "mainTagId" => 0,
-                "keyword" => "ez publish",
+                "keywords" => array( "eng-GB" => "ez publish" ),
                 "depth" => 1,
                 "pathString" => "/8/",
                 "modificationDate" => $modificationDate,
-                "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
+                "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+                "alwaysAvailable" => false,
+                "mainLanguageCode" => "eng-GB",
+                "languageCodes" => array( "eng-GB" )
             )
         );
     }
@@ -466,11 +472,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 "id" => 9,
                 "parentTagId" => 47,
                 "mainTagId" => 0,
-                "keyword" => "php",
+                "keywords" => array( "eng-GB" => "php" ),
                 "depth" => 2,
                 "pathString" => "/47/9/",
                 "modificationDate" => $modificationDate,
-                "remoteId" => "a87ff679a2f3e71d9181a67b7542122c"
+                "remoteId" => "a87ff679a2f3e71d9181a67b7542122c",
+                "alwaysAvailable" => false,
+                "mainLanguageCode" => "eng-GB",
+                "languageCodes" => array( "eng-GB" )
             )
         );
     }
@@ -486,11 +495,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
             "id" => 40,
             "parent_id" => 7,
             "main_tag_id" => 0,
-            "keyword" => "eztags",
+            "keywords" => array( "eng-GB" => "eztags" ),
             "depth" => 3,
             "path_string" => "/8/7/40/",
             "modified" => 1308153110,
-            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e",
+            "always_available" => false,
+            "main_language_code" => "eng-GB",
+            "language_codes" => array( "eng-GB" )
         );
     }
 }

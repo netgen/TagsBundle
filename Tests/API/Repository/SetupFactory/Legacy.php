@@ -138,15 +138,27 @@ class Legacy extends BaseLegacy
     {
         $repository = $this->getRepository( $initializeFromScratch );
 
+        $languageHandler = $this->getServiceContainer()->get( 'ezpublish.spi.persistence.legacy.language.handler' );
+        $languageMaskGenerator = $this->getServiceContainer()->get( 'ezpublish.persistence.legacy.language.mask_generator' );
+
         $tagsHandler = new Handler(
             new ExceptionConversion(
                 new DoctrineDatabase(
-                    $this->getDatabaseHandler()
+                    $this->getDatabaseHandler(),
+                    $languageHandler,
+                    $languageMaskGenerator
                 )
             ),
-            new Mapper()
+            new Mapper(
+                $languageHandler,
+                $languageMaskGenerator
+            )
         );
 
-        return new TagsService( $repository, $tagsHandler );
+        return new TagsService(
+            $repository,
+            $tagsHandler,
+            $languageHandler
+        );
     }
 }

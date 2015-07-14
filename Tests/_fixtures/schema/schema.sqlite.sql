@@ -8,7 +8,9 @@ CREATE TABLE 'eztags' (
   'depth' integer NOT NULL DEFAULT '1',
   'path_string' text(255) NOT NULL DEFAULT '',
   'modified' integer NOT NULL DEFAULT 0,
-  'remote_id' text(100) NOT NULL DEFAULT ''
+  'remote_id' text(100) NOT NULL DEFAULT '',
+  'main_language_id' integer NOT NULL DEFAULT 0,
+  'language_mask' integer NOT NULL DEFAULT 0
 );
 
 DROP TABLE IF EXISTS 'eztags_attribute_link';
@@ -21,11 +23,20 @@ CREATE TABLE 'eztags_attribute_link' (
   'priority' integer NOT NULL DEFAULT 0
 );
 
-CREATE UNIQUE INDEX 'eztags_remote_id' ON 'eztags' ( 'remote_id' );
-CREATE INDEX 'eztags_keyword' ON 'eztags' ( 'keyword' );
-CREATE INDEX 'eztags_keyword_id' ON 'eztags' ( 'keyword', 'id' );
+DROP TABLE IF EXISTS 'eztags_keyword';
+CREATE TABLE 'eztags_keyword' (
+  'keyword_id' integer NOT NULL DEFAULT 0,
+  'language_id' integer NOT NULL DEFAULT 0,
+  'keyword' text(255) NOT NULL DEFAULT '',
+  'locale' text(255) NOT NULL DEFAULT '',
+  'status' integer NOT NULL DEFAULT 0
+);
 
-CREATE INDEX 'eztags_attr_link_keyword_id' ON 'eztags_attribute_link' ( 'keyword_id' );
-CREATE INDEX 'eztags_attr_link_kid_oaid_oav' ON 'eztags_attribute_link' ( 'keyword_id', 'objectattribute_id', 'objectattribute_version' );
-CREATE INDEX 'eztags_attr_link_kid_oid' ON 'eztags_attribute_link' ( 'keyword_id', 'object_id' );
-CREATE INDEX 'eztags_attr_link_oaid_oav' ON 'eztags_attribute_link' ( 'objectattribute_id', 'objectattribute_version' );
+CREATE UNIQUE INDEX 'idx_eztags_remote_id' ON 'eztags' ( 'remote_id' );
+CREATE INDEX 'idx_eztags_keyword' ON 'eztags' ( 'keyword' );
+CREATE INDEX 'idx_eztags_keyword_id' ON 'eztags' ( 'keyword', 'id' );
+
+CREATE INDEX 'idx_eztags_attr_link_keyword_id' ON 'eztags_attribute_link' ( 'keyword_id' );
+CREATE INDEX 'idx_eztags_attr_link_kid_oaid_oav' ON 'eztags_attribute_link' ( 'keyword_id', 'objectattribute_id', 'objectattribute_version' );
+CREATE INDEX 'idx_eztags_attr_link_kid_oid' ON 'eztags_attribute_link' ( 'keyword_id', 'object_id' );
+CREATE INDEX 'idx_eztags_attr_link_oaid_oav' ON 'eztags_attribute_link' ( 'objectattribute_id', 'objectattribute_version' );

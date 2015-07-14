@@ -41,18 +41,19 @@ class TagLimitationTest extends BaseLimitationTest
         $roleService->assignRoleToUser( $role, $user );
         $repository->setCurrentUser( $user );
 
-        $createdTag = $tagsService->createTag(
-            $tagsService->newTagCreateStruct(
-                $tagsService->loadTag( 47 )->id,
-                'netgen'
-            )
+        $tagCreateStruct = $tagsService->newTagCreateStruct(
+            $tagsService->loadTag( 47 )->id,
+            'eng-GB'
         );
+        $tagCreateStruct->setKeyword( 'netgen', 'eng-GB' );
+
+        $createdTag = $tagsService->createTag( $tagCreateStruct );
 
         /* END: Use Case */
 
         $this->assertEquals(
             'netgen',
-            $createdTag->keyword
+            $createdTag->getKeyword( 'eng-GB' )
         );
     }
 
@@ -92,12 +93,13 @@ class TagLimitationTest extends BaseLimitationTest
         $roleService->assignRoleToUser( $role, $user );
         $repository->setCurrentUser( $user );
 
-        $tagsService->createTag(
-            $tagsService->newTagCreateStruct(
-                $tagsService->loadTag( 50 )->id,
-                'netgen'
-            )
+        $tagCreateStruct = $tagsService->newTagCreateStruct(
+            $tagsService->loadTag( 50 )->id,
+            'eng-GB'
         );
+        $tagCreateStruct->setKeyword( 'netgen', 'eng-GB' );
+
+        $tagsService->createTag( $tagCreateStruct );
 
         /* END: Use Case */
     }

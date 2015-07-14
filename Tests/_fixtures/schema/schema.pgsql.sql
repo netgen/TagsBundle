@@ -24,7 +24,9 @@ CREATE TABLE eztags (
     depth integer DEFAULT 0 NOT NULL,
     path_string character varying(255) DEFAULT ''::character varying NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
-    remote_id character varying(100) DEFAULT ''::character varying NOT NULL
+    remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
+    main_language_id integer DEFAULT 0 NOT NULL,
+    language_mask integer DEFAULT 0 NOT NULL
 );
 
 DROP TABLE IF EXISTS eztags_attribute_link;
@@ -37,11 +39,20 @@ CREATE TABLE eztags_attribute_link (
   priority integer DEFAULT 0 NOT NULL
 );
 
-CREATE UNIQUE INDEX eztags_remote_id ON eztags USING btree ( remote_id );
-CREATE INDEX eztags_keyword ON eztags USING btree ( keyword );
-CREATE INDEX eztags_keyword_id ON eztags USING btree ( keyword, id );
+DROP TABLE IF EXISTS eztags_keyword;
+CREATE TABLE eztags_keyword (
+    keyword_id integer DEFAULT 0 NOT NULL,
+    language_id integer DEFAULT 0 NOT NULL,
+    locale character varying(255) DEFAULT ''::character varying NOT NULL,
+    keyword character varying(255) DEFAULT ''::character varying NOT NULL,
+    status integer DEFAULT 0 NOT NULL
+);
 
-CREATE INDEX eztags_attr_link_keyword_id ON eztags_attribute_link USING btree ( keyword_id );
-CREATE INDEX eztags_attr_link_kid_oaid_oav ON eztags_attribute_link USING btree ( keyword_id, objectattribute_id, objectattribute_version );
-CREATE INDEX eztags_attr_link_kid_oid ON eztags_attribute_link USING btree ( keyword_id, object_id );
-CREATE INDEX eztags_attr_link_oaid_oav ON eztags_attribute_link USING btree ( objectattribute_id, objectattribute_version );
+CREATE UNIQUE INDEX idx_eztags_remote_id ON eztags USING btree ( remote_id );
+CREATE INDEX idx_eztags_keyword ON eztags USING btree ( keyword );
+CREATE INDEX idx_eztags_keyword_id ON eztags USING btree ( keyword, id );
+
+CREATE INDEX idx_eztags_attr_link_keyword_id ON eztags_attribute_link USING btree ( keyword_id );
+CREATE INDEX idx_eztags_attr_link_kid_oaid_oav ON eztags_attribute_link USING btree ( keyword_id, objectattribute_id, objectattribute_version );
+CREATE INDEX idx_eztags_attr_link_kid_oid ON eztags_attribute_link USING btree ( keyword_id, object_id );
+CREATE INDEX idx_eztags_attr_link_oaid_oav ON eztags_attribute_link USING btree ( objectattribute_id, objectattribute_version );
