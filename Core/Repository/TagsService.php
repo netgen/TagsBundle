@@ -584,6 +584,17 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue( "keywords", $tagUpdateStruct->getKeywords(), "TagUpdateStruct" );
         }
 
+        if ( $tagUpdateStruct->getKeywords() !== null )
+        {
+            foreach ( $tagUpdateStruct->getKeywords() as $keyword )
+            {
+                if ( empty( $keyword ) )
+                {
+                    throw new InvalidArgumentValue( "keywords", $tagUpdateStruct->getKeywords(), "TagUpdateStruct" );
+                }
+            }
+        }
+
         if ( $tagUpdateStruct->remoteId !== null && ( !is_string( $tagUpdateStruct->remoteId ) || empty( $tagUpdateStruct->remoteId ) ) )
         {
             throw new InvalidArgumentValue( "remoteId", $tagUpdateStruct->remoteId, "TagUpdateStruct" );
