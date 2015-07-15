@@ -12,7 +12,7 @@ use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
 class TagLimitationTypeTest extends Base
 {
@@ -243,11 +243,11 @@ class TagLimitationTypeTest extends Base
                 {
                     $this->tagsHandlerMock
                         ->expects( $this->at( $key ) )
-                        ->method( 'load' )
+                        ->method( 'loadTagInfo' )
                         ->with( $value )
                         ->will(
                             $this->returnValue(
-                                new SPITag( array( 'id' => $value ) )
+                                new TagInfo( array( 'id' => $value ) )
                             )
                         );
                 }
@@ -255,7 +255,7 @@ class TagLimitationTypeTest extends Base
                 {
                     $this->tagsHandlerMock
                         ->expects( $this->at( $key ) )
-                        ->method( "load" )
+                        ->method( "loadTagInfo" )
                         ->with( $value )
                         ->will( $this->throwException( new NotFoundException( 'tag', $value ) ) );
                 }

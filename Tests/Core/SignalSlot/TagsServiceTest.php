@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\SignalSlot;
 
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
@@ -102,18 +103,18 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->tagsService
             ->expects( $this->once() )
             ->method( 'loadTagByUrl' )
-            ->with( $this->equalTo( 'Netgen/TagsBundle' ) )
+            ->with( 'Netgen/TagsBundle', array( 'eng-GB' ) )
             ->will(
                 $this->returnValue(
-                    new Tag( array( 'keyword' => 'TagsBundle' ) )
+                    new Tag( array( 'keywords' => array( 'eng-GB' => 'TagsBundle' ) ) )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tag = $signalSlotService->loadTagByUrl( 'Netgen/TagsBundle' );
+        $tag = $signalSlotService->loadTagByUrl( 'Netgen/TagsBundle', array( 'eng-GB' ) );
 
         $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-        $this->assertEquals( 'TagsBundle', $tag->keyword );
+        $this->assertEquals( array( 'eng-GB' => 'TagsBundle' ), $tag->keywords );
     }
 
     /**
@@ -171,25 +172,25 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->tagsService
             ->expects( $this->once() )
             ->method( 'loadTagsByKeyword' )
-            ->with( $this->equalTo( 'netgen' ) )
+            ->with( 'netgen', 'eng-GB' )
             ->will(
                 $this->returnValue(
                     array(
-                        new Tag( array( 'keyword' => 'netgen' ) ),
-                        new Tag( array( 'keyword' => 'netgen' ) )
+                        new Tag( array( 'keywords' => array( 'eng-GB' => 'netgen' ) ) ),
+                        new Tag( array( 'keywords' => array( 'eng-GB' => 'netgen' ) ) )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tags = $signalSlotService->loadTagsByKeyword( 'netgen' );
+        $tags = $signalSlotService->loadTagsByKeyword( 'netgen', 'eng-GB' );
 
         $this->assertCount( 2, $tags );
 
         foreach ( $tags as $tag )
         {
             $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-            $this->assertEquals( 'netgen', $tag->keyword );
+            $this->assertEquals( array( 'eng-GB' => 'netgen' ), $tag->keywords );
         }
     }
 
@@ -201,11 +202,11 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->tagsService
             ->expects( $this->once() )
             ->method( 'getTagsByKeywordCount' )
-            ->with( $this->equalTo( 'netgen' ) )
+            ->with( 'netgen', 'eng-GB' )
             ->will( $this->returnValue( 2 ) );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tagsCount = $signalSlotService->getTagsByKeywordCount( 'netgen' );
+        $tagsCount = $signalSlotService->getTagsByKeywordCount( 'netgen', 'eng-GB' );
 
         $this->assertEquals( 2, $tagsCount );
     }
@@ -310,7 +311,9 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = '42';
-        $tagCreateStruct->keyword = 'netgen';
+        $tagCreateStruct->mainLanguageCode = 'eng-GB';
+        $tagCreateStruct->alwaysAvailable = true;
+        $tagCreateStruct->setKeyword( 'netgen' );
 
         $this->tagsService
             ->expects( $this->once() )
@@ -322,7 +325,9 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         array(
                             'id' => 24,
                             'parentTagId' => 42,
-                            'keyword' => 'netgen'
+                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'mainLanguageCode' => 'eng-GB',
+                            'alwaysAvailable' => true
                         )
                     )
                 )
@@ -337,7 +342,9 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         array(
                             'tagId' => 24,
                             'parentTagId' => 42,
-                            'keyword' => 'netgen'
+                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'mainLanguageCode' => 'eng-GB',
+                            'alwaysAvailable' => true
                         )
                     )
                 )
@@ -350,7 +357,9 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals( 24, $createdTag->id );
         $this->assertEquals( 42, $createdTag->parentTagId );
-        $this->assertEquals( 'netgen', $createdTag->keyword );
+        $this->assertEquals( array( 'eng-GB' => 'netgen' ), $createdTag->keywords );
+        $this->assertEquals( 'eng-GB', $createdTag->mainLanguageCode );
+        $this->assertEquals( true, $createdTag->alwaysAvailable );
     }
 
     /**
@@ -359,13 +368,16 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testUpdateTag()
     {
         $tagUpdateStruct = new TagUpdateStruct();
-        $tagUpdateStruct->keyword = 'netgen';
+        $tagUpdateStruct->alwaysAvailable = true;
+        $tagUpdateStruct->setKeyword( 'netgen' );
 
         $tag = new Tag(
             array(
                 'id' => 42,
-                'keyword' => 'ez',
-                'remoteId' => '123456'
+                'keywords' => array( 'eng-GB' => 'ez' ),
+                'remoteId' => '123456',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => false
             )
         );
 
@@ -381,8 +393,10 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                     new Tag(
                         array(
                             'id' => 42,
-                            'keyword' => 'netgen',
-                            'remoteId' => 123456
+                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'remoteId' => 123456,
+                            'mainLanguageCode' => 'eng-GB',
+                            'alwaysAvailable' => true
                         )
                     )
                 )
@@ -396,8 +410,10 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                     new UpdateTagSignal(
                         array(
                             'tagId' => 42,
-                            'keyword' => 'netgen',
-                            'remoteId' => '123456'
+                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'remoteId' => '123456',
+                            'mainLanguageCode' => 'eng-GB',
+                            'alwaysAvailable' => true
                         )
                     )
                 )
@@ -409,8 +425,10 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $updatedTag );
 
         $this->assertEquals( 42, $updatedTag->id );
-        $this->assertEquals( 'netgen', $updatedTag->keyword );
+        $this->assertEquals( array( 'eng-GB' => 'netgen' ), $updatedTag->keywords );
         $this->assertEquals( '123456', $updatedTag->remoteId );
+        $this->assertEquals( 'eng-GB', $updatedTag->mainLanguageCode );
+        $this->assertEquals( true, $updatedTag->alwaysAvailable );
     }
 
     /**
@@ -418,27 +436,29 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testAddSynonym()
     {
-        $tag = new Tag(
-            array(
-                'id' => 42,
-                'keyword' => 'netgen'
-            )
-        );
+        $synonymCreateStruct = new SynonymCreateStruct();
+        $synonymCreateStruct->mainTagId = '42';
+        $synonymCreateStruct->mainLanguageCode = 'eng-GB';
+        $synonymCreateStruct->alwaysAvailable = true;
+        $synonymCreateStruct->setKeyword( 'netgenlabs' );
 
         $this->tagsService
             ->expects( $this->once() )
             ->method( 'addSynonym' )
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( 'netgenlabs' )
+                $this->equalTo(
+                    $synonymCreateStruct
+                )
             )
             ->will(
                 $this->returnValue(
                     new Tag(
                         array(
                             'id' => 24,
-                            'keyword' => 'netgenlabs',
-                            'mainTagId' => 42
+                            'keywords' => array( 'eng-GB' => 'netgenlabs' ),
+                            'mainTagId' => 42,
+                            'mainLanguageCode' => 'eng-GB',
+                            'alwaysAvailable' => true
                         )
                     )
                 )
@@ -453,20 +473,24 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         array(
                             'tagId' => 24,
                             'mainTagId' => 42,
-                            'keyword' => 'netgenlabs'
+                            'keywords' => array( 'eng-GB' => 'netgenlabs' ),
+                            'mainLanguageCode' => 'eng-GB',
+                            'alwaysAvailable' => true
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $synonym = $signalSlotService->addSynonym( $tag, 'netgenlabs' );
+        $synonym = $signalSlotService->addSynonym( $synonymCreateStruct );
 
         $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym );
 
         $this->assertEquals( 24, $synonym->id );
         $this->assertEquals( 42, $synonym->mainTagId );
-        $this->assertEquals( 'netgenlabs', $synonym->keyword );
+        $this->assertEquals( array( 'eng-GB' => 'netgenlabs' ), $synonym->keywords );
+        $this->assertEquals( 'eng-GB', $synonym->mainLanguageCode );
+        $this->assertEquals( true, $synonym->alwaysAvailable );
     }
 
     /**
@@ -578,7 +602,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $tag = new Tag(
             array(
                 'id' => 24,
-                'keyword' => 'netgen'
+                'keywords' => array( 'eng-GB' => 'netgen' )
             )
         );
 
@@ -601,7 +625,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         array(
                             'id' => 42,
                             'parentTagId' => 25,
-                            'keyword' => 'netgen'
+                            'keywords' => array( 'eng-GB' => 'netgen' )
                         )
                     )
                 )
@@ -629,7 +653,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals( 42, $copiedTag->id );
         $this->assertEquals( 25, $copiedTag->parentTagId );
-        $this->assertEquals( 'netgen', $copiedTag->keyword );
+        $this->assertEquals( array( 'eng-GB' => 'netgen' ), $copiedTag->keywords );
     }
 
     /**
@@ -733,19 +757,19 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->tagsService
             ->expects( $this->once() )
             ->method( 'newTagCreateStruct' )
-            ->with( $this->equalTo( 42 ), $this->equalTo( 'netgen' ) )
+            ->with( $this->equalTo( 42 ), $this->equalTo( 'eng-GB' ) )
             ->will(
                 $this->returnValue(
-                    new TagCreateStruct( array( 'parentTagId' => 42, 'keyword' => 'netgen' ) )
+                    new TagCreateStruct( array( 'parentTagId' => 42, 'mainLanguageCode' => 'eng-GB' ) )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tagCreateStruct = $signalSlotService->newTagCreateStruct( 42, 'netgen' );
+        $tagCreateStruct = $signalSlotService->newTagCreateStruct( 42, 'eng-GB' );
 
         $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct', $tagCreateStruct );
         $this->assertEquals( 42, $tagCreateStruct->parentTagId );
-        $this->assertEquals( 'netgen', $tagCreateStruct->keyword );
+        $this->assertEquals( 'eng-GB', $tagCreateStruct->mainLanguageCode );
     }
 
     /**

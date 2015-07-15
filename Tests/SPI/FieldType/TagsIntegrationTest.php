@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
 use eZ\Publish\Core\FieldType\FieldSettings;
+use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
@@ -120,7 +121,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
             new TagsConverter(),
             new TagsStorage(
                 array(
-                    'LegacyStorage' => new TagsLegacyStorage(),
+                    'LegacyStorage' => new TagsLegacyStorage(
+                        new LanguageHandlerMock()
+                    ),
                 )
             )
         );
@@ -255,11 +258,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
             "id" => 40,
             "parent_id" => 7,
             "main_tag_id" => 0,
-            "keyword" => "eztags",
+            "keywords" => array( "eng-GB" => "eztags" ),
             "depth" => 3,
             "path_string" => "/8/7/40/",
             "modified" => 1308153110,
-            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e"
+            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e",
+            "always_available" => false,
+            "main_language_code" => "eng-GB",
+            "language_codes" => array( "eng-GB" )
         );
     }
 
@@ -274,11 +280,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
             "id" => 8,
             "parent_id" => 0,
             "main_tag_id" => 0,
-            "keyword" => "ez publish",
+            "keywords" => array( "eng-GB" => "ez publish" ),
             "depth" => 1,
             "path_string" => "/8/",
             "modified" => 1343169159,
-            "remote_id" => "eccbc87e4b5ce2fe28308fd9f2a7baf3"
+            "remote_id" => "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+            "always_available" => false,
+            "main_language_code" => "eng-GB",
+            "language_codes" => array( "eng-GB" )
         );
     }
 }

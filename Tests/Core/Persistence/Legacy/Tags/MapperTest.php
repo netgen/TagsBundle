@@ -4,6 +4,8 @@ namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
  * Test case for Tags mapper
@@ -23,7 +25,29 @@ class MapperTest extends TestCase
         "depth" => 3,
         "path_string" => "/1/21/42/",
         "modified" => 1234567,
-        "remote_id" => "123456abcdef"
+        "remote_id" => "123456abcdef",
+        "main_language_id" => 8,
+        "language_mask" => 9
+    );
+
+    /**
+     * Tags list data from the database
+     *
+     * @var array
+     */
+    protected $tagListRow = array(
+        "eztags_id" => 42,
+        "eztags_parent_id" => 21,
+        "eztags_main_tag_id" => 0,
+        "eztags_keyword" => "Croatia",
+        "eztags_depth" => 3,
+        "eztags_path_string" => "/1/21/42/",
+        "eztags_modified" => 1234567,
+        "eztags_remote_id" => "123456abcdef",
+        "eztags_main_language_id" => 8,
+        "eztags_language_mask" => 9,
+        "eztags_keyword_keyword" => "Croatia",
+        "eztags_keyword_locale" => "eng-GB"
     );
 
     /**
@@ -35,64 +59,47 @@ class MapperTest extends TestCase
         "id" => 42,
         "parentTagId" => 21,
         "mainTagId" => 0,
-        "keyword" => "Croatia",
         "depth" => 3,
         "pathString" => "/1/21/42/",
         "modificationDate" => 1234567,
-        "remoteId" => "123456abcdef"
+        "remoteId" => "123456abcdef",
+        "alwaysAvailable" => true,
+        "mainLanguageCode" => "eng-GB",
+        "languageIds" => array( 8 )
     );
 
     /**
-     * Expected Tag CreateStruct object properties values
+     * Expected Tag object properties values
      *
      * @var array
      */
-    protected $tagCreateStructValues = array(
+    protected $tagListValues = array(
+        "id" => 42,
         "parentTagId" => 21,
-        "keyword" => "Croatia"
+        "mainTagId" => 0,
+        "keywords" => array( "eng-GB" => "Croatia" ),
+        "depth" => 3,
+        "pathString" => "/1/21/42/",
+        "modificationDate" => 1234567,
+        "remoteId" => "123456abcdef",
+        "alwaysAvailable" => true,
+        "mainLanguageCode" => "eng-GB",
+        "languageIds" => array( 8 )
     );
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
      */
-    public function testCreateTagFromRow()
+    public function testCreateTagInfoFromRow()
     {
-        $mapper = new Mapper();
+        $mapper = $this->getMapper();
 
-        $tag = $mapper->createTagFromRow(
+        $tag = $mapper->createTagInfoFromRow(
             $this->tagRow
         );
 
         $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
-            $tag
-        );
-
-        $this->assertPropertiesCorrect(
-            $this->tagValues,
-            $tag
-        );
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
-     */
-    public function testCreateTagFromRowWithPrefix()
-    {
-        $prefix = "some_prefix_";
-
-        $data = array();
-        foreach ( $this->tagRow as $key => $val )
-        {
-            $data[$prefix . $key] = $val;
-        }
-
-        $mapper = new Mapper();
-
-        $tag = $mapper->createTagFromRow( $data, $prefix );
-
-        $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo",
             $tag
         );
 
@@ -105,19 +112,19 @@ class MapperTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
      */
-    public function testCreateTagsFromRows()
+    public function testExtractTagListFromRows()
     {
         $inputRows = array();
         for ( $i = 0; $i < 3; $i++ )
         {
-            $row = $this->tagRow;
-            $row["id"] += $i;
+            $row = $this->tagListRow;
+            $row["eztags_id"] += $i;
             $inputRows[] = $row;
         }
 
-        $mapper = new Mapper();
+        $mapper = $this->getMapper();
 
-        $tags = $mapper->createTagsFromRows( $inputRows );
+        $tags = $mapper->extractTagListFromRows( $inputRows );
 
         $this->assertCount( 3, $tags );
 
@@ -130,7 +137,7 @@ class MapperTest extends TestCase
             );
 
             $this->assertPropertiesCorrect(
-                array( "id" => $this->tagValues["id"] + $i ) + $this->tagValues,
+                array( "id" => $this->tagListValues["id"] + $i ) + $this->tagListValues,
                 $tag
             );
 
@@ -139,64 +146,17 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
+     * Returns mapper instance for testing
+     *
+     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
-    public function testCreateTagsFromRowsWithPrefix()
+    protected function getMapper()
     {
-        $prefix = "some_prefix_";
-
-        $data = array();
-        foreach ( $this->tagRow as $key => $val )
-        {
-            $data[$prefix . $key] = $val;
-        }
-
-        $inputRows = array();
-        for ( $i = 0; $i < 3; $i++ )
-        {
-            $row = $data;
-            $row[$prefix . "id"] += $i;
-            $inputRows[] = $row;
-        }
-
-        $mapper = new Mapper();
-
-        $tags = $mapper->createTagsFromRows( $inputRows, $prefix );
-
-        $this->assertCount( 3, $tags );
-
-        $i = 0;
-        foreach ( $tags as $tag )
-        {
-            $this->assertInstanceOf(
-                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
-                $tag
-            );
-
-            $this->assertPropertiesCorrect(
-                array( "id" => $this->tagValues["id"] + $i ) + $this->tagValues,
-                $tag
-            );
-
-            $i++;
-        }
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::getTagCreateStruct
-     */
-    public function testGetTagCreateStruct()
-    {
-        $mapper = new Mapper();
-
-        $createStruct = $mapper->getTagCreateStruct(
-            $this->tagRow
-        );
-
-        $this->assertNotEquals( $this->tagRow["remote_id"], $createStruct->remoteId );
-        $this->assertPropertiesCorrect(
-            $this->tagCreateStructValues,
-            $createStruct
+        return new Mapper(
+            new LanguageHandlerMock(),
+            new MaskGenerator(
+                new LanguageHandlerMock()
+            )
         );
     }
 }

@@ -3,9 +3,13 @@
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
  * Test case for Tags Handler
@@ -35,7 +39,16 @@ class TagsHandlerTest extends TestCase
             $mockedMethods,
             array(
                 $this->gateway = $this->getMock( "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway" ),
-                $this->mapper = $this->getMock( "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper" )
+                $this->mapper = $this->getMock(
+                    "Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper",
+                    array(),
+                    array(
+                        new LanguageHandlerMock(),
+                        new MaskGenerator(
+                            new LanguageHandlerMock()
+                        )
+                    )
+                )
             )
         );
     }
@@ -49,21 +62,23 @@ class TagsHandlerTest extends TestCase
 
         $this->gateway
             ->expects( $this->once() )
-            ->method( "getBasicTagData" )
+            ->method( "getFullTagData" )
             ->with( 42 )
             ->will(
                 $this->returnValue(
                     array(
-                        "id" => 42,
+                        array(
+                            "eztags_id" => 42,
+                        )
                     )
                 )
             );
 
         $this->mapper
             ->expects( $this->once() )
-            ->method( "createTagFromRow" )
-            ->with( array( "id" => 42 ) )
-            ->will( $this->returnValue( new Tag( array( "id" => 42 ) ) ) );
+            ->method( "extractTagListFromRows" )
+            ->with( array( array( "eztags_id" => 42 ) ) )
+            ->will( $this->returnValue( array( new Tag( array( "id" => 42 ) ) ) ) );
 
         $tag = $handler->load( 42 );
 
@@ -82,56 +97,25 @@ class TagsHandlerTest extends TestCase
 
         $this->gateway
             ->expects( $this->once() )
-            ->method( "getBasicTagDataByRemoteId" )
+            ->method( "getFullTagDataByRemoteId" )
             ->with( "abcdef" )
             ->will(
                 $this->returnValue(
                     array(
-                        "remote_id" => "abcdef",
+                        array(
+                            "eztags_remote_id" => "abcdef",
+                        )
                     )
                 )
             );
 
         $this->mapper
             ->expects( $this->once() )
-            ->method( "createTagFromRow" )
-            ->with( array( "remote_id" => "abcdef" ) )
-            ->will( $this->returnValue( new Tag( array( "remoteId" => "abcdef" ) ) ) );
+            ->method( "extractTagListFromRows" )
+            ->with( array( array( "eztags_remote_id" => "abcdef" ) ) )
+            ->will( $this->returnValue( array( new Tag( array( "remoteId" => "abcdef" ) ) ) ) );
 
         $tag = $handler->loadByRemoteId( "abcdef" );
-
-        $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
-            $tag
-        );
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByUrl
-     */
-    public function testLoadByUrl()
-    {
-        $handler = $this->getTagsHandler();
-
-        $this->gateway
-            ->expects( $this->once() )
-            ->method( "getBasicTagDataByUrl" )
-            ->with( "ez+publish/extensions/eztags" )
-            ->will(
-                $this->returnValue(
-                    array(
-                        "id" => "40",
-                    )
-                )
-            );
-
-        $this->mapper
-            ->expects( $this->once() )
-            ->method( "createTagFromRow" )
-            ->with( array( "id" => "40" ) )
-            ->will( $this->returnValue( new Tag( array( "id" => "40" ) ) ) );
-
-        $tag = $handler->loadByUrl( "ez+publish/extensions/eztags" );
 
         $this->assertInstanceOf(
             "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
@@ -154,13 +138,13 @@ class TagsHandlerTest extends TestCase
                 $this->returnValue(
                     array(
                         array(
-                            "id" => 43,
+                            "eztags_id" => 43,
                         ),
                         array(
-                            "id" => 44,
+                            "eztags_id" => 44,
                         ),
                         array(
-                            "id" => 45,
+                            "eztags_id" => 45,
                         )
                     )
                 )
@@ -168,12 +152,12 @@ class TagsHandlerTest extends TestCase
 
         $this->mapper
             ->expects( $this->once() )
-            ->method( "createTagsFromRows" )
+            ->method( "extractTagListFromRows" )
             ->with(
                 array(
-                    array( "id" => 43 ),
-                    array( "id" => 44 ),
-                    array( "id" => 45 )
+                    array( "eztags_id" => 43 ),
+                    array( "eztags_id" => 44 ),
+                    array( "eztags_id" => 45 )
                 )
             )
             ->will(
@@ -185,6 +169,7 @@ class TagsHandlerTest extends TestCase
                     )
                 )
             );
+
 
         $tags = $handler->loadChildren( 42 );
 
@@ -220,22 +205,24 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getTagsByKeyword
      */
-    public function testGetTagsByKeyword()
+    public function testLoadTagsByKeyword()
     {
         $handler = $this->getTagsHandler();
 
         $this->gateway
             ->expects( $this->once() )
             ->method( "getTagsByKeyword" )
-            ->with( "eztags" )
+            ->with( "eztags", "eng-GB" )
             ->will(
                 $this->returnValue(
                     array(
                         array(
-                            "keyword" => "eztags",
+                            "eztags_keyword" => "eztags",
+                            "eztags_main_language_id" => 4
                         ),
                         array(
-                            "keyword" => "eztags",
+                            "eztags_keyword" => "eztags",
+                            "eztags_main_language_id" => 4
                         )
                     )
                 )
@@ -243,23 +230,23 @@ class TagsHandlerTest extends TestCase
 
         $this->mapper
             ->expects( $this->once() )
-            ->method( "createTagsFromRows" )
+            ->method( "extractTagListFromRows" )
             ->with(
                 array(
-                    array( "keyword" => "eztags" ),
-                    array( "keyword" => "eztags" )
+                    array( "eztags_keyword" => "eztags", "eztags_main_language_id" => 4 ),
+                    array( "eztags_keyword" => "eztags", "eztags_main_language_id" => 4 )
                 )
             )
             ->will(
                 $this->returnValue(
                     array(
-                        new Tag( array( "keyword" => "eztags" ) ),
-                        new Tag( array( "keyword" => "eztags" ) )
+                        new Tag( array( "keywords" => array( "eng-GB" => "eztags" ) ) ),
+                        new Tag( array( "keywords" => array( "eng-GB" => "eztags" ) ) )
                     )
                 )
             );
 
-        $tags = $handler->loadTagsByKeyword( "eztags" );
+        $tags = $handler->loadTagsByKeyword( "eztags", "eng-GB" );
 
         $this->assertCount( 2, $tags );
 
@@ -282,10 +269,10 @@ class TagsHandlerTest extends TestCase
         $this->gateway
             ->expects( $this->once() )
             ->method( "getTagsByKeywordCount" )
-            ->with( "eztags" )
+            ->with( "eztags", "eng-GB" )
             ->will( $this->returnValue( 2 ) );
 
-        $tagsCount = $handler->getTagsByKeywordCount( "eztags" );
+        $tagsCount = $handler->getTagsByKeywordCount( "eztags", "eng-GB" );
 
         $this->assertEquals( 2, $tagsCount );
     }
@@ -305,13 +292,13 @@ class TagsHandlerTest extends TestCase
                 $this->returnValue(
                     array(
                         array(
-                            "id" => 43,
+                            "eztags_id" => 43,
                         ),
                         array(
-                            "id" => 44,
+                            "eztags_id" => 44,
                         ),
                         array(
-                            "id" => 45,
+                            "eztags_id" => 45,
                         )
                     )
                 )
@@ -319,12 +306,12 @@ class TagsHandlerTest extends TestCase
 
         $this->mapper
             ->expects( $this->once() )
-            ->method( "createTagsFromRows" )
+            ->method( "extractTagListFromRows" )
             ->with(
                 array(
-                    array( "id" => 43 ),
-                    array( "id" => 44 ),
-                    array( "id" => 45 )
+                    array( "eztags_id" => 43 ),
+                    array( "eztags_id" => 44 ),
+                    array( "eztags_id" => 45 )
                 )
             )
             ->will(
@@ -409,7 +396,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testCreate()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "load", "updateSubtreeModificationTime" ) );
 
         $this->gateway
             ->expects( $this->once() )
@@ -432,8 +419,10 @@ class TagsHandlerTest extends TestCase
                 new CreateStruct(
                     array(
                         "parentTagId" => 21,
-                        "keyword" => "New tag",
-                        "remoteId" => "123456abcdef"
+                        "mainLanguageCode" => "eng-GB",
+                        "keywords" => array( "eng-GB" => "New tag" ),
+                        "remoteId" => "123456abcdef",
+                        "alwaysAvailable" => true
                     )
                 ),
                 array(
@@ -444,15 +433,31 @@ class TagsHandlerTest extends TestCase
             )
             ->will(
                 $this->returnValue(
-                    new Tag(
+                    95
+                )
+            );
+
+        $handler->expects( $this->once() )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 95 );
+
+        $handler->expects( $this->once() )
+            ->method( "load" )
+            ->with( 95 )
+            ->will(
+                $this->returnValue(
+                  new Tag(
                         array(
                             "id" => 95,
                             "parentTagId" => 21,
                             "mainTagId" => 0,
-                            "keyword" => "New tag",
+                            "keywords" => array( "eng-GB" => "New tag" ),
                             "depth" => 3,
                             "pathString" => "/1/2/95/",
-                            "remoteId" => "123456abcdef"
+                            "remoteId" => "123456abcdef",
+                            "alwaysAvailable" => true,
+                            "mainLanguageCode" => "eng-GB",
+                            "languageIds" => array( 4 )
                         )
                     )
                 )
@@ -462,8 +467,10 @@ class TagsHandlerTest extends TestCase
             new CreateStruct(
                 array(
                     "parentTagId" => 21,
-                    "keyword" => "New tag",
-                    "remoteId" => "123456abcdef"
+                    "mainLanguageCode" => "eng-GB",
+                    "keywords" => array( "eng-GB" => "New tag" ),
+                    "remoteId" => "123456abcdef",
+                    "alwaysAvailable" => true
                 )
             )
         );
@@ -477,8 +484,11 @@ class TagsHandlerTest extends TestCase
             array(
                 "id" => 95,
                 "parentTagId" => 21,
-                "keyword" => "New tag",
-                "remoteId" => "123456abcdef"
+                "keywords" => array( "eng-GB" => "New tag" ),
+                "remoteId" => "123456abcdef",
+                "mainLanguageCode" => "eng-GB",
+                "alwaysAvailable" => true,
+                "languageIds" => array( 4 )
             ),
             $tag
         );
@@ -489,7 +499,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testCreateWithNoParent()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "load", "updateSubtreeModificationTime" ) );
 
         $this->gateway
             ->expects( $this->once() )
@@ -498,22 +508,40 @@ class TagsHandlerTest extends TestCase
                 new CreateStruct(
                     array(
                         "parentTagId" => 0,
-                        "keyword" => "New tag",
-                        "remoteId" => "123456abcdef"
+                        "mainLanguageCode" => "eng-GB",
+                        "keywords" => array( "eng-GB" => "New tag" ),
+                        "remoteId" => "123456abcdef",
+                        "alwaysAvailable" => true
                     )
                 )
             )
             ->will(
                 $this->returnValue(
-                    new Tag(
+                    95
+                )
+            );
+
+        $handler->expects( $this->once() )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 95 );
+
+        $handler->expects( $this->once() )
+            ->method( "load" )
+            ->with( 95 )
+            ->will(
+                $this->returnValue(
+                  new Tag(
                         array(
                             "id" => 95,
                             "parentTagId" => 0,
                             "mainTagId" => 0,
-                            "keyword" => "New tag",
-                            "depth" => 1,
-                            "pathString" => "/95/",
-                            "remoteId" => "123456abcdef"
+                            "keywords" => array( "eng-GB" => "New tag" ),
+                            "depth" => 3,
+                            "pathString" => "/1/2/95/",
+                            "remoteId" => "123456abcdef",
+                            "alwaysAvailable" => true,
+                            "mainLanguageCode" => "eng-GB",
+                            "languageIds" => array( 4 )
                         )
                     )
                 )
@@ -523,8 +551,10 @@ class TagsHandlerTest extends TestCase
             new CreateStruct(
                 array(
                     "parentTagId" => 0,
-                    "keyword" => "New tag",
-                    "remoteId" => "123456abcdef"
+                    "mainLanguageCode" => "eng-GB",
+                    "keywords" => array( "eng-GB" => "New tag" ),
+                    "remoteId" => "123456abcdef",
+                    "alwaysAvailable" => true
                 )
             )
         );
@@ -538,8 +568,11 @@ class TagsHandlerTest extends TestCase
             array(
                 "id" => 95,
                 "parentTagId" => 0,
-                "keyword" => "New tag",
-                "remoteId" => "123456abcdef"
+                "keywords" => array( "eng-GB" => "New tag" ),
+                "remoteId" => "123456abcdef",
+                "mainLanguageCode" => "eng-GB",
+                "alwaysAvailable" => true,
+                "languageIds" => array( 4 )
             ),
             $tag
         );
@@ -550,7 +583,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testUpdate()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "load", "updateSubtreeModificationTime" ) );
 
         $this->gateway
             ->expects( $this->once() )
@@ -558,44 +591,34 @@ class TagsHandlerTest extends TestCase
             ->with(
                 new UpdateStruct(
                     array(
-                        "keyword" => "Updated tag",
-                        "remoteId" => "123456abcdef"
+                        "keywords" => array( "eng-US" => "Updated tag US", "eng-GB" => "Updated tag" ),
+                        "remoteId" => "123456abcdef",
+                        "mainLanguageCode" => "eng-US",
+                        "alwaysAvailable" => true
                     )
                 ),
                 40
             );
 
-        $this->gateway
-            ->expects( $this->any() )
-            ->method( "getBasicTagData" )
-            ->with( 40 )
-            ->will(
-                $this->returnValue(
-                    array(
-                        "id" => 40,
-                        "keyword" => "Updated tag",
-                        "remote_id" => "123456abcdef"
-                    )
-                )
-            );
+        $handler
+            ->expects( $this->once() )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 40 );
 
-        $this->mapper
-            ->expects( $this->any() )
-            ->method( "createTagFromRow" )
-            ->with(
-                array(
-                    "id" => 40,
-                    "keyword" => "Updated tag",
-                    "remote_id" => "123456abcdef"
-                )
-            )
+        $handler
+            ->expects( $this->once() )
+            ->method( "load" )
+            ->with( 40 )
             ->will(
                 $this->returnValue(
                     new Tag(
                         array(
                             "id" => 40,
-                            "keyword" => "Updated tag",
-                            "remoteId" => "123456abcdef"
+                            "keywords" => array( "eng-US" => "Updated tag US", "eng-GB" => "Updated tag" ),
+                            "remoteId" => "123456abcdef",
+                            "mainLanguageCode" => "eng-US",
+                            "alwaysAvailable" => true,
+                            "languageIds" => array( 2, 4 )
                         )
                     )
                 )
@@ -604,8 +627,10 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->update(
             new UpdateStruct(
                 array(
-                    "keyword" => "Updated tag",
-                    "remoteId" => "123456abcdef"
+                    "keywords" => array( "eng-US" => "Updated tag US", "eng-GB" => "Updated tag" ),
+                    "remoteId" => "123456abcdef",
+                    "mainLanguageCode" => "eng-US",
+                    "alwaysAvailable" => true
                 )
             ),
             40
@@ -618,8 +643,12 @@ class TagsHandlerTest extends TestCase
 
         $this->assertPropertiesCorrect(
             array(
-                "keyword" => "Updated tag",
-                "remoteId" => "123456abcdef"
+                "id" => 40,
+                "keywords" => array( "eng-US" => "Updated tag US", "eng-GB" => "Updated tag" ),
+                "remoteId" => "123456abcdef",
+                "mainLanguageCode" => "eng-US",
+                "alwaysAvailable" => true,
+                "languageIds" => array( 2, 4 )
             ),
             $tag
         );
@@ -630,7 +659,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testAddSynonym()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "load", "updateSubtreeModificationTime" ) );
 
         $this->gateway
             ->expects( $this->once() )
@@ -651,7 +680,15 @@ class TagsHandlerTest extends TestCase
             ->expects( $this->once() )
             ->method( "createSynonym" )
             ->with(
-                "New synonym",
+                new SynonymCreateStruct(
+                    array(
+                        "mainTagId" => 21,
+                        "mainLanguageCode" => "eng-GB",
+                        "keywords" => array( "eng-GB" => "New synonym" ),
+                        "remoteId" => "12345",
+                        "alwaysAvailable" => true
+                    )
+                ),
                 array(
                     "id" => 21,
                     "parent_id" => 1,
@@ -659,6 +696,21 @@ class TagsHandlerTest extends TestCase
                     "path_string" => "/1/21/",
                 )
             )
+            ->will(
+                $this->returnValue(
+                    95
+                )
+            );
+
+        $handler
+            ->expects( $this->once() )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 95 );
+
+        $handler
+            ->expects( $this->once() )
+            ->method( "load" )
+            ->with( 95 )
             ->will(
                 $this->returnValue(
                     new Tag(
@@ -666,39 +718,29 @@ class TagsHandlerTest extends TestCase
                             "id" => 95,
                             "parentTagId" => 1,
                             "mainTagId" => 21,
-                            "keyword" => "New synonym",
+                            "keywords" => array( "eng-GB" => "New synonym" ),
                             "depth" => 2,
-                            "pathString" => "/1/95/"
+                            "pathString" => "/1/95/",
+                            "remoteId" => "12345",
+                            "mainLanguageCode" => "eng-GB",
+                            "alwaysAvailable" => true,
+                            "languageIds" => array( 4 )
                         )
                     )
                 )
             );
 
-        $this->mapper
-            ->expects( $this->any() )
-            ->method( "createTagFromRow" )
-            ->with(
+        $tag = $handler->addSynonym(
+            new SynonymCreateStruct(
                 array(
-                    "id" => 21,
-                    "parent_id" => 1,
-                    "depth" => 2,
-                    "path_string" => "/1/21/",
+                    "mainTagId" => 21,
+                    "mainLanguageCode" => "eng-GB",
+                    "keywords" => array( "eng-GB" => "New synonym" ),
+                    "remoteId" => "12345",
+                    "alwaysAvailable" => true
                 )
             )
-            ->will(
-                $this->returnValue(
-                    new Tag(
-                        array(
-                            "id" => 21,
-                            "parentTagId" => 1,
-                            "depth" => 2,
-                            "pathString" => "/1/21/"
-                        )
-                    )
-                )
-            );
-
-        $tag = $handler->addSynonym( 21, "New synonym" );
+        );
 
         $this->assertInstanceOf(
             "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
@@ -710,9 +752,13 @@ class TagsHandlerTest extends TestCase
                 "id" => 95,
                 "parentTagId" => 1,
                 "mainTagId" => 21,
-                "keyword" => "New synonym",
+                "keywords" => array( "eng-GB" => "New synonym" ),
                 "depth" => 2,
-                "pathString" => "/1/95/"
+                "pathString" => "/1/95/",
+                "remoteId" => "12345",
+                "mainLanguageCode" => "eng-GB",
+                "alwaysAvailable" => true,
+                "languageIds" => array( 4 )
             ),
             $tag
         );
@@ -723,11 +769,13 @@ class TagsHandlerTest extends TestCase
      */
     public function testConvertToSynonym()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "load", "loadTagInfo", "loadSynonyms", "updateSubtreeModificationTime" ) );
 
-        $tagData = array(
-            "id" => 16,
-            "parent_id" => 0
+        $tag = new TagInfo(
+            array(
+                "id" => 16,
+                "parentTagId" => 0
+            )
         );
 
         $mainTagData = array(
@@ -735,38 +783,38 @@ class TagsHandlerTest extends TestCase
         );
 
         $synonyms = array(
-            array(
-                "id" => 95
-            ),
-            array(
-                "id" => 96
-            )
+            new Tag( array( "id" => 95 ) ),
+            new Tag( array( "id" => 96 ) )
         );
+
+        $handler
+            ->expects( $this->at( 0 ) )
+            ->method( "loadTagInfo" )
+            ->with( 16 )
+            ->will(
+                $this->returnValue(
+                    $tag
+                )
+            );
 
         $this->gateway
             ->expects( $this->at( 0 ) )
             ->method( "getBasicTagData" )
-            ->with( 16 )
-            ->will( $this->returnValue( $tagData ) );
-
-        $this->gateway
-            ->expects( $this->at( 1 ) )
-            ->method( "getBasicTagData" )
             ->with( 66 )
             ->will( $this->returnValue( $mainTagData ) );
 
-        $this->gateway
-            ->expects( $this->at( 2 ) )
-            ->method( "getSynonyms" )
+        $handler
+            ->expects( $this->at( 1 ) )
+            ->method( "loadSynonyms" )
             ->with( 16 )
             ->will( $this->returnValue( $synonyms ) );
 
         foreach ( $synonyms as $index => $synonym )
         {
             $this->gateway
-                ->expects( $this->at( $index + 3 ) )
+                ->expects( $this->at( $index + 1 ) )
                 ->method( "moveSynonym" )
-                ->with( $synonym["id"], $mainTagData );
+                ->with( $synonym->id, $mainTagData );
         }
 
         $this->gateway
@@ -774,17 +822,29 @@ class TagsHandlerTest extends TestCase
             ->method( "convertToSynonym" )
             ->with( 16, $mainTagData );
 
-        $this->gateway
-            ->expects( $this->at( 4 + count( $synonyms ) ) )
-            ->method( "getBasicTagData" )
-            ->with( 16 )
-            ->will( $this->returnValue( $tagData ) );
+        $handler
+            ->expects( $this->at( 2 ) )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 0 );
 
-        $this->mapper
-            ->expects( $this->at( 0 ) )
-            ->method( "createTagFromRow" )
-            ->with( $tagData )
-            ->will( $this->returnValue( new Tag( array( "id" => 16 ) ) ) );
+        $handler
+            ->expects( $this->at( 3 ) )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 16 );
+
+        $handler
+            ->expects( $this->at( 4 ) )
+            ->method( "load" )
+            ->with( 16 )
+            ->will(
+                $this->returnValue(
+                    new Tag(
+                        array(
+                            "id" => 16
+                        )
+                    )
+                )
+            );
 
         $synonym = $handler->convertToSynonym( 16, 66 );
 
@@ -806,29 +866,33 @@ class TagsHandlerTest extends TestCase
      */
     public function testMerge()
     {
-        $handler = $this->getTagsHandler( array( "loadSynonyms", "updateSubtreeModificationTime" ) );
+        $handler = $this->getTagsHandler( array( "loadTagInfo", "loadSynonyms", "updateSubtreeModificationTime" ) );
 
-        $this->gateway
+        $handler
             ->expects( $this->at( 0 ) )
-            ->method( "getBasicTagData" )
+            ->method( "loadTagInfo" )
             ->with( 40 )
             ->will(
                 $this->returnValue(
-                    array(
-                        "id" => 40,
-                        "parent_id" => 7
+                    new TagInfo(
+                        array(
+                            "id" => 40,
+                            "parentTagId" => 7
+                        )
                     )
                 )
             );
 
-        $this->gateway
+        $handler
             ->expects( $this->at( 1 ) )
-            ->method( "getBasicTagData" )
+            ->method( "loadTagInfo" )
             ->with( 42 )
             ->will(
                 $this->returnValue(
-                    array(
-                        "id" => 42,
+                    new TagInfo(
+                        array(
+                            "id" => 42,
+                        )
                     )
                 )
             );
@@ -851,15 +915,25 @@ class TagsHandlerTest extends TestCase
         foreach ( $tags as $index => $tag )
         {
             $this->gateway
-                ->expects( $this->at( ( $index + 1 ) * 2 ) )
+                ->expects( $this->at( $index * 2 ) )
                 ->method( "transferTagAttributeLinks" )
                 ->with( $tag->id, 42 );
 
             $this->gateway
-                ->expects( $this->at( ( $index + 1 ) * 2 + 1 ) )
+                ->expects( $this->at( $index * 2 + 1 ) )
                 ->method( "deleteTag" )
                 ->with( $tag->id );
         }
+
+        $handler
+            ->expects( $this->at( 3 ) )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 7 );
+
+        $handler
+            ->expects( $this->at( 4 ) )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 42 );
 
         $handler->merge( 40, 42 );
     }
@@ -877,7 +951,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testMoveSubtree()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "load", "updateSubtreeModificationTime" ) );
 
         $sourceData = array(
             "id" => 42,
@@ -918,10 +992,20 @@ class TagsHandlerTest extends TestCase
             ->with( $sourceData, $destinationData )
             ->will( $this->returnValue( $movedData ) );
 
-        $this->mapper
+        $handler
+            ->expects( $this->at( 0 ) )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( $sourceData["parent_id"] );
+
+        $handler
+            ->expects( $this->at( 1 ) )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( $movedData["id"] );
+
+        $handler
             ->expects( $this->once() )
-            ->method( "createTagFromRow" )
-            ->with( $movedData )
+            ->method( "load" )
+            ->with( $movedData["id"] )
             ->will(
                 $this->returnValue(
                     new Tag(
@@ -960,30 +1044,32 @@ class TagsHandlerTest extends TestCase
      */
     public function testDeleteTag()
     {
-        $handler = $this->getTagsHandler();
+        $handler = $this->getTagsHandler( array( "loadTagInfo", "updateSubtreeModificationTime" ) );
 
-        $this->gateway
+        $handler
             ->expects( $this->once() )
-            ->method( "getBasicTagData" )
+            ->method( "loadTagInfo" )
             ->with( 40 )
             ->will(
                 $this->returnValue(
-                    array(
-                        "id" => 40,
+                    new TagInfo(
+                        array(
+                            "id" => 40,
+                            "parentTagId" => 21
+                        )
                     )
                 )
             );
-
-        $this->mapper
-            ->expects( $this->once() )
-            ->method( "createTagFromRow" )
-            ->with( array( "id" => 40 ) )
-            ->will( $this->returnValue( new Tag( array( "id" => 40 ) ) ) );
 
         $this->gateway
             ->expects( $this->once() )
             ->method( "deleteTag" )
             ->with( 40 );
+
+        $handler
+            ->expects( $this->once() )
+            ->method( "updateSubtreeModificationTime" )
+            ->with( 21 );
 
         $handler->deleteTag( 40 );
     }

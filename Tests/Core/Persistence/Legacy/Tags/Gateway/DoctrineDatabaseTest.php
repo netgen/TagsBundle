@@ -5,7 +5,10 @@ namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
  * Test case for Tags Legacy gateway
@@ -61,7 +64,13 @@ class DoctrineDatabaseTest extends TestCase
     protected function getTagsGateway()
     {
         $dbHandler = $this->getDatabaseHandler();
-        return new DoctrineDatabase( $dbHandler );
+        return new DoctrineDatabase(
+            $dbHandler,
+            new LanguageHandlerMock(),
+            new MaskGenerator(
+                new LanguageHandlerMock()
+            )
+        );
     }
 
     /**
@@ -144,26 +153,6 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @dataProvider getLoadTagValues
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByUrl
-     *
-     * @param string $field
-     * @param mixed $value
-     */
-    public function testGetBasicTagDataByUrl( $field, $value )
-    {
-        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
-        $handler = $this->getTagsGateway();
-        $data = $handler->getBasicTagDataByUrl( "ez+publish/extensions/eztags" );
-
-        $this->assertEquals(
-            $value,
-            $data[$field],
-            "Value in property $field not as expected."
-        );
-    }
-
-    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByUrl
      * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
@@ -184,12 +173,12 @@ class DoctrineDatabaseTest extends TestCase
         $data = $handler->getChildren( 16 );
 
         $this->assertCount( 6, $data );
-        $this->assertEquals( 15, $data[0]["id"] );
-        $this->assertEquals( 18, $data[1]["id"] );
-        $this->assertEquals( 19, $data[2]["id"] );
-        $this->assertEquals( 20, $data[3]["id"] );
-        $this->assertEquals( 71, $data[4]["id"] );
-        $this->assertEquals( 72, $data[5]["id"] );
+        $this->assertEquals( 15, $data[0]["eztags_id"] );
+        $this->assertEquals( 18, $data[1]["eztags_id"] );
+        $this->assertEquals( 19, $data[2]["eztags_id"] );
+        $this->assertEquals( 20, $data[3]["eztags_id"] );
+        $this->assertEquals( 71, $data[4]["eztags_id"] );
+        $this->assertEquals( 72, $data[5]["eztags_id"] );
     }
 
     /**
@@ -211,11 +200,11 @@ class DoctrineDatabaseTest extends TestCase
     {
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
-        $data = $handler->getTagsByKeyword( "eztags" );
+        $data = $handler->getTagsByKeyword( "eztags", "eng-GB" );
 
         $this->assertCount( 2, $data );
-        $this->assertEquals( "eztags", $data[0]["keyword"] );
-        $this->assertEquals( "eztags", $data[1]["keyword"] );
+        $this->assertEquals( "eztags", $data[0]["eztags_keyword_keyword"] );
+        $this->assertEquals( "eztags", $data[1]["eztags_keyword_keyword"] );
     }
 
     /**
@@ -225,7 +214,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getTagsByKeywordCount( "eztags" );
+        $tagsCount = $handler->getTagsByKeywordCount( "eztags", "eng-GB" );
 
         $this->assertEquals( 2, $tagsCount );
     }
@@ -240,8 +229,8 @@ class DoctrineDatabaseTest extends TestCase
         $data = $handler->getSynonyms( 16 );
 
         $this->assertCount( 2, $data );
-        $this->assertEquals( 95, $data[0]["id"] );
-        $this->assertEquals( 96, $data[1]["id"] );
+        $this->assertEquals( 95, $data[0]["eztags_id"] );
+        $this->assertEquals( 96, $data[1]["eztags_id"] );
     }
 
     /**
@@ -323,8 +312,10 @@ class DoctrineDatabaseTest extends TestCase
             new CreateStruct(
                 array(
                     "parentTagId" => 40,
-                    "keyword" => "New tag",
-                    "remoteId" => "newRemoteId"
+                    "mainLanguageCode" => "eng-GB",
+                    "keywords" => array( "eng-GB" => "New tag" ),
+                    "remoteId" => "newRemoteId",
+                    "alwaysAvailable" => false
                 )
             ),
             array(
@@ -337,11 +328,11 @@ class DoctrineDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 97, 40, 0, "New tag", 4, "/8/7/40/97/", "newRemoteId" )
+                array( 97, 40, 0, "New tag", 4, "/8/7/40/97/", "newRemoteId", 8, 8 )
             ),
             // 97 is the next inserted ID
             $query
-                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id" )
+                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id", "main_language_id", "language_mask" )
                 ->from( "eztags" )
                 ->where( $query->expr->eq( "id", 97 ) )
         );
@@ -358,8 +349,10 @@ class DoctrineDatabaseTest extends TestCase
             new CreateStruct(
                 array(
                     "parentTagId" => 0,
-                    "keyword" => "New tag",
-                    "remoteId" => "newRemoteId"
+                    "mainLanguageCode" => "eng-GB",
+                    "keywords" => array( "eng-GB" => "New tag" ),
+                    "remoteId" => "newRemoteId",
+                    "alwaysAvailable" => false
                 )
             )
         );
@@ -367,11 +360,11 @@ class DoctrineDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 97, 0, 0, "New tag", 1, "/97/", "newRemoteId" )
+                array( 97, 0, 0, "New tag", 1, "/97/", "newRemoteId", 8, 8 )
             ),
             // 97 is the next inserted ID
             $query
-                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id" )
+                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id", "main_language_id", "language_mask" )
                 ->from( "eztags" )
                 ->where( $query->expr->eq( "id", 97 ) )
         );
@@ -387,8 +380,10 @@ class DoctrineDatabaseTest extends TestCase
         $handler->update(
             new UpdateStruct(
                 array(
-                    "keyword" => "Updated tag",
-                    "remoteId" => "updatedRemoteId"
+                    "keywords" => array( "eng-GB" => "Updated tag US", "eng-US" => "Updated tag" ),
+                    "remoteId" => "updatedRemoteId",
+                    "mainLanguageCode" => "eng-US",
+                    "alwaysAvailable" => true
                 )
             ),
             40
@@ -397,7 +392,7 @@ class DoctrineDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 40, 7, 0, "Updated tag", 3, "/8/7/40/", 1308153110, "updatedRemoteId" )
+                array( 40, 7, 0, "Updated tag", 3, "/8/7/40/", 1308153110, "updatedRemoteId", 2, 11 )
             ),
             $query
                 ->select( "*" )
@@ -414,9 +409,16 @@ class DoctrineDatabaseTest extends TestCase
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
         $handler->createSynonym(
-            "New synonym",
+            new SynonymCreateStruct(
+                array(
+                    "mainTagId" => 40,
+                    "mainLanguageCode" => "eng-GB",
+                    "keywords" => array( "eng-GB" => "New synonym" ),
+                    "remoteId" => "newRemoteId",
+                    "alwaysAvailable" => true
+                )
+            ),
             array(
-                "id" => 40,
                 "parent_id" => 7,
                 "depth" => 3,
                 "path_string" => "/8/7/40/"
@@ -426,11 +428,11 @@ class DoctrineDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array( 97, 7, 40, "New synonym", 3, "/8/7/97/" )
+                array( 97, 7, 40, "New synonym", 3, "/8/7/97/", "newRemoteId", 8, 9 )
             ),
             // 97 is the next inserted ID
             $query
-                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string" )
+                ->select( "id", "parent_id", "main_tag_id", "keyword", "depth", "path_string", "remote_id", "main_language_id", "language_mask" )
                 ->from( "eztags" )
                 ->where( $query->expr->eq( "id", 97 ) )
         );
