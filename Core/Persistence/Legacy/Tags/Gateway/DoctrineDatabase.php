@@ -155,7 +155,7 @@ class DoctrineDatabase extends Gateway
         $query->where(
             $query->expr->eq(
                 $this->handler->quoteColumn( 'remote_id', 'eztags' ),
-                $query->bindValue( $remoteId, null, PDO::PARAM_INT )
+                $query->bindValue( $remoteId, null, PDO::PARAM_STR )
             )
         );
 
