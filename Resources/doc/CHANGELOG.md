@@ -1,6 +1,10 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2.3 (16.07.2015)
+
+* Require `ezsystems/eztags-ls` 1.x
+
 1.2.2 (13.05.2015)
 ------------------
 
