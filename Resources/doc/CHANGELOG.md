@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.0.1 (16.07.2015)
+------------------
+
+* Fix calling `empty()` with expressions
+
 2.0 (16.07.2015)
 ----------------
 
