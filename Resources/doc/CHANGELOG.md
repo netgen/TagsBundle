@@ -1,7 +1,7 @@
 Netgen Tags Bundle changelog
 ============================
 
-2.0
+2.0 (16.07.2015)
 ----------------
 
 * Support multilanguage tags!
@@ -10,6 +10,11 @@ Netgen Tags Bundle changelog
 * You can now use a container parameter to change the path prefix used to generate tag URLs
 * You can now use a container parameter to select which template will `/tags/view` controller use
 * Various bug fixes and optimizations
+
+1.2.3 (16.07.2015)
+------------------
+
+* Require `ezsystems/eztags-ls` 1.x
 
 1.2.2 (13.05.2015)
 ------------------
