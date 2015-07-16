@@ -9,10 +9,8 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "*"
-    },
-    "suggest": {
-        "ezsystems/eztags-ls": "Legacy extension, to activate tags management in admin interface."
+        "ezsystems/ezpublish-kernel": "*",
+        "ezsystems/eztags-ls": "~1.4"
     },
     "autoload": {
         "psr-0": {"Netgen\\TagsBundle": ""}
