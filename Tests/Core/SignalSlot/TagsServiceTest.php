@@ -773,6 +773,29 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::newSynonymCreateStruct
+     */
+    public function testNewSynonymCreateStruct()
+    {
+        $this->tagsService
+            ->expects( $this->once() )
+            ->method( 'newSynonymCreateStruct' )
+            ->with( $this->equalTo( 42 ), $this->equalTo( 'eng-GB' ) )
+            ->will(
+                $this->returnValue(
+                    new SynonymCreateStruct( array( 'mainTagId' => 42, 'mainLanguageCode' => 'eng-GB' ) )
+                )
+            );
+
+        $signalSlotService = $this->getSignalSlotService();
+        $synonymCreateStruct = $signalSlotService->newSynonymCreateStruct( 42, 'eng-GB' );
+
+        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct', $synonymCreateStruct );
+        $this->assertEquals( 42, $synonymCreateStruct->mainTagId );
+        $this->assertEquals( 'eng-GB', $synonymCreateStruct->mainLanguageCode );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::newTagUpdateStruct
      */
     public function testNewTagUpdateStruct()

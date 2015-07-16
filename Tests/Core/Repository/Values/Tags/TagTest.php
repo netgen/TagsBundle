@@ -17,11 +17,14 @@ class TagTest extends PHPUnit_Framework_TestCase
         $this->assertContains( "id", $properties, "Property not found" );
         $this->assertContains( "parentTagId", $properties, "Property not found" );
         $this->assertContains( "mainTagId", $properties, "Property not found" );
-        $this->assertContains( "keyword", $properties, "Property not found" );
+        $this->assertContains( "keywords", $properties, "Property not found" );
         $this->assertContains( "depth", $properties, "Property not found" );
         $this->assertContains( "pathString", $properties, "Property not found" );
         $this->assertContains( "modificationDate", $properties, "Property not found" );
         $this->assertContains( "remoteId", $properties, "Property not found" );
+        $this->assertContains( "mainLanguageCode", $properties, "Property not found" );
+        $this->assertContains( "alwaysAvailable", $properties, "Property not found" );
+        $this->assertContains( "languageCodes", $properties, "Property not found" );
 
         // check for duplicates and double check existence of property
         $propertiesHash = array();

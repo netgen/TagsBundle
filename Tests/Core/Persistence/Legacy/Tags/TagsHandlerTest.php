@@ -89,6 +89,39 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagInfo
+     */
+    public function testLoadTagInfo()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getBasicTagData" )
+            ->with( 42 )
+            ->will(
+                $this->returnValue(
+                    array(
+                        "id" => 42
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "createTagInfoFromRow" )
+            ->with( array( "id" => 42 ) )
+            ->will( $this->returnValue( new TagInfo( array( "id" => 42 ) ) ) );
+
+        $tagInfo = $handler->loadTagInfo( 42 );
+
+        $this->assertInstanceOf(
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo",
+            $tagInfo
+        );
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByRemoteId
      */
     public function testLoadByRemoteId()
@@ -121,6 +154,92 @@ class TagsHandlerTest extends TestCase
             "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
             $tag
         );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagInfoByRemoteId
+     */
+    public function testLoadTagInfoByRemoteId()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getBasicTagDataByRemoteId" )
+            ->with( "12345" )
+            ->will(
+                $this->returnValue(
+                    array(
+                        "remote_id" => "12345"
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "createTagInfoFromRow" )
+            ->with( array( "remote_id" => "12345" ) )
+            ->will( $this->returnValue( new TagInfo( array( "remoteId" => "12345" ) ) ) );
+
+        $tagInfo = $handler->loadTagInfoByRemoteId( "12345" );
+
+        $this->assertInstanceOf(
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo",
+            $tagInfo
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagByKeywordAndParentId
+     */
+    public function testLoadTagByKeywordAndParentId()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getFullTagDataByKeywordAndParentId" )
+            ->with( "eztags", 42 )
+            ->will(
+                $this->returnValue(
+                    array(
+                        array(
+                            "eztags_id" => 42,
+                            "eztags_keyword" => "eztags",
+                            "eztags_keyword_keyword" => "eztags"
+                        )
+                    )
+                )
+            );
+
+        $this->mapper
+            ->expects( $this->once() )
+            ->method( "extractTagListFromRows" )
+            ->with( array( array( "eztags_id" => 42, "eztags_keyword" => "eztags", "eztags_keyword_keyword" => "eztags" ) ) )
+            ->will( $this->returnValue( array( new Tag( array( "id" => 42, "keywords" => array( "eng-GB" => "eztags" ) ) ) ) ) );
+
+        $tag = $handler->loadTagByKeywordAndParentId( "eztags", 42 );
+
+        $this->assertInstanceOf(
+            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+            $tag
+        );
+    }
+
+    /**
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagByKeywordAndParentId
+     */
+    public function testLoadTagByKeywordAndParentIdThrowsNotFoundException()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects( $this->once() )
+            ->method( "getFullTagDataByKeywordAndParentId" )
+            ->with( "unknown", 999 );
+
+        $handler->loadTagByKeywordAndParentId( "unknown", 999 );
     }
 
     /**

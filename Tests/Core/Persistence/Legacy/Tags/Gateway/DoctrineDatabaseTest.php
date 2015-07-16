@@ -86,7 +86,30 @@ class DoctrineDatabaseTest extends TestCase
             array( "depth", 3 ),
             array( "path_string", "/8/7/40/" ),
             array( "modified", 1308153110 ),
-            array( "remote_id", "182be0c5cdcd5072bb1864cdee4d3d6e" )
+            array( "remote_id", "182be0c5cdcd5072bb1864cdee4d3d6e" ),
+            array( "main_language_id", 8 ),
+            array( "language_mask", "8" )
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLoadFullTagValues()
+    {
+        return array(
+            array( "eztags_id", 40 ),
+            array( "eztags_parent_id", 7 ),
+            array( "eztags_main_tag_id", 0 ),
+            array( "eztags_keyword", "eztags" ),
+            array( "eztags_depth", 3 ),
+            array( "eztags_path_string", "/8/7/40/" ),
+            array( "eztags_modified", 1308153110 ),
+            array( "eztags_remote_id", "182be0c5cdcd5072bb1864cdee4d3d6e" ),
+            array( "eztags_main_language_id", 8 ),
+            array( "eztags_language_mask", "8" ),
+            array( "eztags_keyword_keyword", "eztags" ),
+            array( "eztags_keyword_locale", "eng-GB" )
         );
     }
 
@@ -153,14 +176,99 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByUrl
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
+     * @dataProvider getLoadFullTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     *
+     * @param string $field
+     * @param mixed $value
      */
-    public function testGetBasicTagDataByUrlThrowsNotFoundException()
+    public function testGetFullTagData( $field, $value )
     {
         $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
         $handler = $this->getTagsGateway();
-        $handler->getBasicTagDataByRemoteId( "does/not/exist" );
+        $data = $handler->getFullTagData( 40 );
+
+        $this->assertEquals(
+            $value,
+            $data[0][$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     */
+    public function testGetNonExistentFullTagData()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagData( 999 );
+
+        $this->assertEquals( array(), $data );
+    }
+
+    /**
+     * @dataProvider getLoadFullTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
+     *
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testGetFullTagDataByRemoteId( $field, $value )
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByRemoteId( "182be0c5cdcd5072bb1864cdee4d3d6e" );
+
+        $this->assertEquals(
+            $value,
+            $data[0][$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
+     */
+    public function testGetNonExistentFullTagDataByRemoteId()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByRemoteId( "unknown" );
+
+        $this->assertEquals( array(), $data );
+    }
+
+    /**
+     * @dataProvider getLoadFullTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     *
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testGetFullTagDataByKeywordIdAndParentId( $field, $value )
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByKeywordAndParentId( "eztags", 7 );
+
+        $this->assertEquals(
+            $value,
+            $data[0][$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     */
+    public function testGetNonExistentFullTagDataByKeywordIdAndParentId()
+    {
+        $this->insertDatabaseFixture( __DIR__ . "/../../../../../_fixtures/tags_tree.php" );
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByKeywordAndParentId( "unknown", 999 );
+
+        $this->assertEquals( array(), $data );
     }
 
     /**

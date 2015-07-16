@@ -35,11 +35,14 @@ abstract class TagsBase extends BaseServiceTest
                 "id" => null,
                 "parentTagId" => null,
                 "mainTagId" => null,
-                "keyword" => null,
+                "keywords" => array(),
                 "depth" => null,
                 "pathString" => null,
                 "modificationDate" => null,
-                "remoteId" => null
+                "remoteId" => null,
+                "mainLanguageCode" => null,
+                "alwaysAvailable" => null,
+                "languageCodes" => array()
             ),
             $tag
         );
@@ -128,6 +131,27 @@ abstract class TagsBase extends BaseServiceTest
                 "keywords" => array()
             ),
             $tagCreateStruct
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::newTagCreateStruct
+     */
+    public function testNewSynonymCreateStruct()
+    {
+        $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct( 42, "eng-GB" );
+
+        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\SynonymCreateStruct", $synonymCreateStruct );
+
+        $this->assertPropertiesCorrect(
+            array(
+                "mainTagId" => 42,
+                "mainLanguageCode" => "eng-GB",
+                "remoteId" => null,
+                "alwaysAvailable" => true,
+                "keywords" => array()
+            ),
+            $synonymCreateStruct
         );
     }
 
