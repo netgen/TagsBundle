@@ -3,15 +3,11 @@ language: php
 matrix:
     # mark as finished before allow_failures are run
     fast_finish: true
-    allow_failures:
-        - php: hhvm-nightly
-        - php: nightly
     include:
         - php: 5.4
         - php: 5.5
         - php: 5.6
-        - hhvm-nightly
-        - nightly 
+        - php: 7.0
 
 # test only master (+ Pull requests)
 branches:
@@ -37,3 +33,6 @@ notification:
 # reduce depth (history) of git checkout
 git:
   depth: 30
+
+# we don't need sudo
+sudo: false
