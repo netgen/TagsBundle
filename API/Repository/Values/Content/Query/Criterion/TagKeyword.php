@@ -9,7 +9,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
 
 /**
- * A criterion that matches content based on tag keyword that is located in one of the fields
+ * A criterion that matches content based on tag keyword that is located in one of the fields.
  *
  * Supported operators:
  * - IN: matches against a list of tag keywords (with OR operator)
@@ -19,7 +19,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
 class TagKeyword extends Criterion implements CriterionInterface
 {
     /**
-     * Creates a new TagKeyword criterion
+     * Creates a new TagKeyword criterion.
      *
      * @param string $operator
      * @param string|string[] $value One or more tag keywords that must be matched
@@ -28,9 +28,9 @@ class TagKeyword extends Criterion implements CriterionInterface
      * @throws \InvalidArgumentException if a non string parameter is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct( $operator, $value, Value $valueData = null )
+    public function __construct($operator, $value, Value $valueData = null)
     {
-        parent::__construct( null, $operator, $value, $valueData );
+        parent::__construct(null, $operator, $value, $valueData);
     }
 
     public function getSpecifications()
@@ -54,8 +54,8 @@ class TagKeyword extends Criterion implements CriterionInterface
         );
     }
 
-    public static function createFromQueryBuilder( $target, $operator, $value )
+    public static function createFromQueryBuilder($target, $operator, $value)
     {
-        return new self( $operator, $value );
+        return new self($operator, $value);
     }
 }

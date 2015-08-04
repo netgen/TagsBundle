@@ -10,35 +10,35 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 interface TagsService
 {
     /**
-     * Loads a tag object from its $tagId
+     * Loads a tag object from its $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTag( $tagId, array $languages = null, $useAlwaysAvailable = true );
+    public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true);
 
     /**
-     * Loads a tag object from its $remoteId
+     * Loads a tag object from its $remoteId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByRemoteId( $remoteId, array $languages = null, $useAlwaysAvailable = true );
+    public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true);
 
     /**
-     * Loads a tag object from its URL
+     * Loads a tag object from its URL.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -48,10 +48,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByUrl( $url, array $languages );
+    public function loadTagByUrl($url, array $languages);
 
     /**
-     * Loads children of a tag object
+     * Loads children of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
@@ -59,55 +59,55 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true );
+    public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true);
 
     /**
-     * Returns the number of children of a tag object
+     * Returns the number of children of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagChildrenCount( Tag $tag = null, array $languages = null, $useAlwaysAvailable = true );
+    public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true);
 
     /**
-     * Loads tags by specified keyword
+     * Loads tags by specified keyword.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param string $keyword The keyword to fetch tags for
      * @param string $language The language to check for
-     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagsByKeyword( $keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1 );
+    public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1);
 
     /**
-     * Returns the number of tags by specified keyword
+     * Returns the number of tags by specified keyword.
      *
      * @param string $keyword The keyword to fetch tags count for
      * @param string $language The language to check for
-     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword, $language, $useAlwaysAvailable = true );
+    public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true);
 
     /**
-     * Loads synonyms of a tag object
+     * Loads synonyms of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
@@ -116,28 +116,28 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true );
+    public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true);
 
     /**
-     * Returns the number of synonyms of a tag object
+     * Returns the number of synonyms of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagSynonymCount( Tag $tag, array $languages = null, $useAlwaysAvailable = true );
+    public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true);
 
     /**
-     * Loads content related to $tag
+     * Loads content related to $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -148,10 +148,10 @@ interface TagsService
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function getRelatedContent( Tag $tag, $offset = 0, $limit = -1 );
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1);
 
     /**
-     * Returns the number of content objects related to $tag
+     * Returns the number of content objects related to $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -160,10 +160,10 @@ interface TagsService
      *
      * @return int
      */
-    public function getRelatedContentCount( Tag $tag );
+    public function getRelatedContentCount(Tag $tag);
 
     /**
-     * Creates the new tag
+     * Creates the new tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
@@ -172,10 +172,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag
      */
-    public function createTag( TagCreateStruct $tagCreateStruct );
+    public function createTag(TagCreateStruct $tagCreateStruct);
 
     /**
-     * Updates $tag
+     * Updates $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
@@ -186,10 +186,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated tag
      */
-    public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct );
+    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct);
 
     /**
-     * Creates a synonym for $tag
+     * Creates a synonym for $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
@@ -198,10 +198,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
-    public function addSynonym( SynonymCreateStruct $synonymCreateStruct );
+    public function addSynonym(SynonymCreateStruct $synonymCreateStruct);
 
     /**
-     * Converts $tag to a synonym of $mainTag
+     * Converts $tag to a synonym of $mainTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
@@ -213,10 +213,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The converted synonym
      */
-    public function convertToSynonym( Tag $tag, Tag $mainTag );
+    public function convertToSynonym(Tag $tag, Tag $mainTag);
 
     /**
-     * Merges the $tag into the $targetTag
+     * Merges the $tag into the $targetTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to merge tags
@@ -226,10 +226,10 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetTag
      */
-    public function mergeTags( Tag $tag, Tag $targetTag );
+    public function mergeTags(Tag $tag, Tag $targetTag);
 
     /**
-     * Copies the subtree starting from $tag as a new subtree of $targetParentTag
+     * Copies the subtree starting from $tag as a new subtree of $targetParentTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -242,10 +242,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree( Tag $tag, Tag $targetParentTag );
+    public function copySubtree(Tag $tag, Tag $targetParentTag);
 
     /**
-     * Moves the subtree to $targetParentTag
+     * Moves the subtree to $targetParentTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag
@@ -258,10 +258,10 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree( Tag $tag, Tag $targetParentTag );
+    public function moveSubtree(Tag $tag, Tag $targetParentTag);
 
     /**
-     * Deletes $tag and all its descendants and synonyms
+     * Deletes $tag and all its descendants and synonyms.
      *
      * If $tag is a synonym, only the synonym is deleted
      *
@@ -270,30 +270,30 @@ interface TagsService
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
-    public function deleteTag( Tag $tag );
+    public function deleteTag(Tag $tag);
 
     /**
-     * Instantiates a new tag create struct
+     * Instantiates a new tag create struct.
      *
      * @param mixed $parentTagId
      * @param string $mainLanguageCode
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode );
+    public function newTagCreateStruct($parentTagId, $mainLanguageCode);
 
     /**
-     * Instantiates a new synonym create struct
+     * Instantiates a new synonym create struct.
      *
      * @param mixed $mainTagId
      * @param string $mainLanguageCode
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
-    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode );
+    public function newSynonymCreateStruct($mainTagId, $mainLanguageCode);
 
     /**
-     * Instantiates a new tag update struct
+     * Instantiates a new tag update struct.
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
      */

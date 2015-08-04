@@ -1,6 +1,7 @@
 <?php
 
 namespace Netgen\TagsBundle\Tests\Core\Pagination\Pagerfanta;
+
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
@@ -15,12 +16,12 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
     protected $tagsService;
 
     /**
-     * Sets up the test
+     * Sets up the test.
      */
     protected function setUp()
     {
         parent::setUp();
-        $this->tagsService = $this->getMock( 'Netgen\TagsBundle\API\Repository\TagsService' );
+        $this->tagsService = $this->getMock('Netgen\TagsBundle\API\Repository\TagsService');
     }
 
     /**
@@ -31,9 +32,9 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
      *
      * @return \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
      */
-    protected function getAdapter( Tag $tag, TagsService $tagsService )
+    protected function getAdapter(Tag $tag, TagsService $tagsService)
     {
-        return new RelatedContentAdapter( $tag, $tagsService );
+        return new RelatedContentAdapter($tag, $tagsService);
     }
 
     /**
@@ -45,21 +46,21 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
 
         $tag = new Tag(
             array(
-                'id' => 42
+                'id' => 42,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getRelatedContentCount' )
-            ->with( $this->equalTo( $tag ) )
-            ->will( $this->returnValue( $nbResults ) );
+            ->expects($this->once())
+            ->method('getRelatedContentCount')
+            ->with($this->equalTo($tag))
+            ->will($this->returnValue($nbResults));
 
-        $adapter = $this->getAdapter( $tag, $this->tagsService );
-        $this->assertSame( $nbResults, $adapter->getNbResults() );
+        $adapter = $this->getAdapter($tag, $this->tagsService);
+        $this->assertSame($nbResults, $adapter->getNbResults());
 
         // Running a 2nd time to ensure TagsService::getRelatedContentCount() is called only once.
-        $this->assertSame( $nbResults, $adapter->getNbResults() );
+        $this->assertSame($nbResults, $adapter->getNbResults());
     }
 
     /**
@@ -73,45 +74,45 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
 
         $tag = new Tag(
             array(
-                'id' => 42
+                'id' => 42,
             )
         );
 
         $relatedContent = array(
             new Content(
                 array(
-                    'internalFields' => array()
+                    'internalFields' => array(),
                 )
             ),
             new Content(
                 array(
-                    'internalFields' => array()
+                    'internalFields' => array(),
                 )
-            )
+            ),
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getRelatedContentCount' )
-            ->with( $this->equalTo( $tag ) )
-            ->will( $this->returnValue( $nbResults ) );
+            ->expects($this->once())
+            ->method('getRelatedContentCount')
+            ->with($this->equalTo($tag))
+            ->will($this->returnValue($nbResults));
 
         $this
             ->tagsService
-            ->expects( $this->once() )
-            ->method( 'getRelatedContent' )
+            ->expects($this->once())
+            ->method('getRelatedContent')
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( $offset ),
-                $this->equalTo( $limit )
+                $this->equalTo($tag),
+                $this->equalTo($offset),
+                $this->equalTo($limit)
             )
             ->will(
-                $this->returnValue( $relatedContent )
+                $this->returnValue($relatedContent)
             );
 
-        $adapter = $this->getAdapter( $tag, $this->tagsService );
+        $adapter = $this->getAdapter($tag, $this->tagsService);
 
-        $this->assertSame( $relatedContent, $adapter->getSlice( $offset, $limit ) );
-        $this->assertSame( $nbResults, $adapter->getNbResults() );
+        $this->assertSame($relatedContent, $adapter->getSlice($offset, $limit));
+        $this->assertSame($nbResults, $adapter->getNbResults());
     }
 }

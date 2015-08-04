@@ -28,12 +28,12 @@ class RelatedContentAdapter implements AdapterInterface
     protected $nbResults;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
-    public function __construct( Tag $tag, TagsService $tagsService )
+    public function __construct(Tag $tag, TagsService $tagsService)
     {
         $this->tag = $tag;
         $this->tagsService = $tagsService;
@@ -42,13 +42,12 @@ class RelatedContentAdapter implements AdapterInterface
     /**
      * Returns the number of results.
      *
-     * @return integer The number of results.
+     * @return int The number of results.
      */
     public function getNbResults()
     {
-        if ( !isset( $this->nbResults ) )
-        {
-            $this->nbResults = $this->tagsService->getRelatedContentCount( $this->tag );
+        if (!isset($this->nbResults)) {
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
         }
 
         return $this->nbResults;
@@ -57,18 +56,17 @@ class RelatedContentAdapter implements AdapterInterface
     /**
      * Returns an slice of the results.
      *
-     * @param integer $offset The offset.
-     * @param integer $length The length.
+     * @param int $offset The offset.
+     * @param int $length The length.
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function getSlice( $offset, $length )
+    public function getSlice($offset, $length)
     {
-        $relatedContent = $this->tagsService->getRelatedContent( $this->tag, $offset, $length );
+        $relatedContent = $this->tagsService->getRelatedContent($this->tag, $offset, $length);
 
-        if ( !isset( $this->nbResults ) )
-        {
-            $this->nbResults = $this->tagsService->getRelatedContentCount( $this->tag );
+        if (!isset($this->nbResults)) {
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
         }
 
         return $relatedContent;

@@ -12,24 +12,24 @@ class TagsHandlerFactory
     protected $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    public function __construct( ContainerInterface $container )
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-     * Builds the tags handler
+     * Builds the tags handler.
      *
      * @param string $storageEngineIdentifier
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
-    public function buildTagsHandler( $storageEngineIdentifier )
+    public function buildTagsHandler($storageEngineIdentifier)
     {
-        return $this->container->get( "ezpublish.api.storage_engine.$storageEngineIdentifier.handler.tags" );
+        return $this->container->get("ezpublish.api.storage_engine.$storageEngineIdentifier.handler.tags");
     }
 }

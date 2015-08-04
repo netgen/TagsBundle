@@ -6,6 +6,7 @@ Netgen Tags Bundle changelog
 
 * Use `ez_trans_prop` to render tag keywords in most prioritized languages in field template and tag view template
 * Fix generating tag URLs when fallback to internal route occurs
+* Switch coding standards to PSR2
 
 2.0.1 (16.07.2015)
 ------------------

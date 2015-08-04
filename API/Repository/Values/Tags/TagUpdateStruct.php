@@ -5,41 +5,41 @@ namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 use eZ\Publish\API\Repository\Values\ValueObject;
 
 /**
- * This class represents a value for updating a tag
+ * This class represents a value for updating a tag.
  */
 class TagUpdateStruct extends ValueObject
 {
     /**
      * Tag keywords in the target languages
-     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
+     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
      * @var string[]
      */
     protected $keywords = array();
 
     /**
-     * A global unique ID of the tag
+     * A global unique ID of the tag.
      *
      * @var string
      */
     public $remoteId;
 
     /**
-     * The main language code for the tag
+     * The main language code for the tag.
      *
      * @var string
      */
     public $mainLanguageCode;
 
     /**
-     * Indicates if the tag is shown in the main language if it's not present in an other requested language
+     * Indicates if the tag is shown in the main language if it's not present in an other requested language.
      *
-     * @var boolean
+     * @var bool
      */
     public $alwaysAvailable;
 
     /**
-     * Returns keywords available in the struct
+     * Returns keywords available in the struct.
      *
      * @return string[]
      */
@@ -49,15 +49,14 @@ class TagUpdateStruct extends ValueObject
     }
 
     /**
-     * Adds a keyword to keyword collection
+     * Adds a keyword to keyword collection.
      *
      * @param string $keyword Keyword to add
      * @param string $language If not given, the main language is used
      */
-    public function setKeyword( $keyword, $language = null )
+    public function setKeyword($keyword, $language = null)
     {
-        if ( empty( $language ) )
-        {
+        if (empty($language)) {
             $language = $this->mainLanguageCode;
         }
 

@@ -7,14 +7,14 @@ use eZ\Publish\Core\SignalSlot\Signal;
 class MergeTagsSignal extends Signal
 {
     /**
-     * Tag ID
+     * Tag ID.
      *
      * @var mixed
      */
     public $tagId;
 
     /**
-     * Target tag ID
+     * Target tag ID.
      *
      * @var mixed
      */

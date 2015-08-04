@@ -6,7 +6,7 @@ use eZ\Publish\Core\FieldType\Value as BaseValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 /**
- * Value for Tags field type
+ * Value for Tags field type.
  */
 class Value extends BaseValue
 {
@@ -16,14 +16,13 @@ class Value extends BaseValue
     public $tags = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
-    public function __construct( $tags = null )
+    public function __construct($tags = null)
     {
-        if ( is_array( $tags ) )
-        {
+        if (is_array($tags)) {
             $this->tags = $tags;
         }
     }
@@ -36,10 +35,9 @@ class Value extends BaseValue
     public function __toString()
     {
         return implode(
-            ", ",
+            ', ',
             array_map(
-                function ( Tag $tag )
-                {
+                function (Tag $tag) {
                     return $tag->getKeyword();
                 },
                 $this->tags

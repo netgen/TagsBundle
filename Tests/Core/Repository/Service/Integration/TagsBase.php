@@ -4,16 +4,14 @@ namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
 
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-
 use DateTime;
 
 /**
- * Test case for Tags Service
+ * Test case for Tags Service.
  */
 abstract class TagsBase extends BaseServiceTest
 {
@@ -23,7 +21,7 @@ abstract class TagsBase extends BaseServiceTest
     protected $tagsService;
 
     /**
-     * Test a new class and default values on properties
+     * Test a new class and default values on properties.
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct
      */
     public function testNewClass()
@@ -32,84 +30,75 @@ abstract class TagsBase extends BaseServiceTest
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => null,
-                "parentTagId" => null,
-                "mainTagId" => null,
-                "keywords" => array(),
-                "depth" => null,
-                "pathString" => null,
-                "modificationDate" => null,
-                "remoteId" => null,
-                "mainLanguageCode" => null,
-                "alwaysAvailable" => null,
-                "languageCodes" => array()
+                'id' => null,
+                'parentTagId' => null,
+                'mainTagId' => null,
+                'keywords' => array(),
+                'depth' => null,
+                'pathString' => null,
+                'modificationDate' => null,
+                'remoteId' => null,
+                'mainLanguageCode' => null,
+                'alwaysAvailable' => null,
+                'languageCodes' => array(),
             ),
             $tag
         );
     }
 
     /**
-     * Test retrieving missing property
+     * Test retrieving missing property.
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
      */
     public function testMissingProperty()
     {
-        try
-        {
+        try {
             $tag = new Tag();
             $value = $tag->notDefined;
-            $this->fail( "Succeeded getting non existing property" );
-        }
-        catch ( PropertyNotFoundException $e )
-        {
+            $this->fail('Succeeded getting non existing property');
+        } catch (PropertyNotFoundException $e) {
         }
     }
 
     /**
-     * Test setting read only property
+     * Test setting read only property.
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__set
      */
     public function testReadOnlyProperty()
     {
-        try
-        {
+        try {
             $tag = new Tag();
             $tag->id = 42;
-            $this->fail( "Succeeded setting read only property" );
-        }
-        catch ( PropertyReadOnlyException $e )
-        {
+            $this->fail('Succeeded setting read only property');
+        } catch (PropertyReadOnlyException $e) {
         }
     }
 
     /**
-     * Test if property exists
+     * Test if property exists.
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__isset
      */
     public function testIsPropertySet()
     {
         $tag = new Tag();
-        $value = isset( $tag->notDefined );
-        $this->assertEquals( false, $value );
+        $value = isset($tag->notDefined);
+        $this->assertEquals(false, $value);
 
-        $value = isset( $tag->id );
-        $this->assertEquals( true, $value );
+        $value = isset($tag->id);
+        $this->assertEquals(true, $value);
     }
 
     /**
-     * Test unsetting a property
+     * Test unsetting a property.
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__unset
      */
     public function testUnsetProperty()
     {
-        $tag = new Tag( array( "id" => 2 ) );
-        try
-        {
-            unset( $tag->id );
-            $this->fail( "Unsetting read-only property succeeded" );
-        }
-        catch ( PropertyReadOnlyException $e )
-        {
+        $tag = new Tag(array('id' => 2));
+        try {
+            unset($tag->id);
+            $this->fail('Unsetting read-only property succeeded');
+        } catch (PropertyReadOnlyException $e) {
         }
     }
 
@@ -118,17 +107,17 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testNewTagCreateStruct()
     {
-        $tagCreateStruct = $this->tagsService->newTagCreateStruct( 42, "eng-GB" );
+        $tagCreateStruct = $this->tagsService->newTagCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagCreateStruct", $tagCreateStruct );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagCreateStruct', $tagCreateStruct);
 
         $this->assertPropertiesCorrect(
             array(
-                "parentTagId" => 42,
-                "mainLanguageCode" => "eng-GB",
-                "remoteId" => null,
-                "alwaysAvailable" => true,
-                "keywords" => array()
+                'parentTagId' => 42,
+                'mainLanguageCode' => 'eng-GB',
+                'remoteId' => null,
+                'alwaysAvailable' => true,
+                'keywords' => array(),
             ),
             $tagCreateStruct
         );
@@ -139,17 +128,17 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testNewSynonymCreateStruct()
     {
-        $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct( 42, "eng-GB" );
+        $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\SynonymCreateStruct", $synonymCreateStruct );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\SynonymCreateStruct', $synonymCreateStruct);
 
         $this->assertPropertiesCorrect(
             array(
-                "mainTagId" => 42,
-                "mainLanguageCode" => "eng-GB",
-                "remoteId" => null,
-                "alwaysAvailable" => true,
-                "keywords" => array()
+                'mainTagId' => 42,
+                'mainLanguageCode' => 'eng-GB',
+                'remoteId' => null,
+                'alwaysAvailable' => true,
+                'keywords' => array(),
             ),
             $synonymCreateStruct
         );
@@ -162,14 +151,14 @@ abstract class TagsBase extends BaseServiceTest
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagUpdateStruct", $tagUpdateStruct );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagUpdateStruct', $tagUpdateStruct);
 
         $this->assertPropertiesCorrect(
             array(
-                "keywords" => array(),
-                "remoteId" => null,
-                "mainLanguageCode" => null,
-                "alwaysAvailable" => null
+                'keywords' => array(),
+                'remoteId' => null,
+                'mainLanguageCode' => null,
+                'alwaysAvailable' => null,
             ),
             $tagUpdateStruct
         );
@@ -180,23 +169,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTag()
     {
-        $tag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(40);
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "eztags" ),
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
-                "modificationDate" => $this->getDateTime( 1308153110 ),
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-                "mainLanguageCode" => "eng-GB",
-                "alwaysAvailable" => false,
-                "languageCodes" => array( "eng-GB" )
+                'id' => 40,
+                'parentTagId' => 7,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'eztags'),
+                'depth' => 3,
+                'pathString' => '/8/7/40/',
+                'modificationDate' => $this->getDateTime(1308153110),
+                'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => false,
+                'languageCodes' => array('eng-GB'),
             ),
             $tag
         );
@@ -209,7 +198,7 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagThrowsNotFoundException()
     {
-        $this->tagsService->loadTag( PHP_INT_MAX );
+        $this->tagsService->loadTag(PHP_INT_MAX);
     }
 
     /**
@@ -219,8 +208,8 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
-        $this->tagsService->loadTag( 40 );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->tagsService->loadTag(40);
     }
 
     /**
@@ -230,23 +219,23 @@ abstract class TagsBase extends BaseServiceTest
     {
         // $this->markTestSkipped( "Fails for unknown reason!" );
 
-        $tag = $this->tagsService->loadTagByRemoteId( "182be0c5cdcd5072bb1864cdee4d3d6e" );
+        $tag = $this->tagsService->loadTagByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "eztags" ),
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
-                "modificationDate" => $this->getDateTime( 1308153110 ),
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-                "mainLanguageCode" => "eng-GB",
-                "alwaysAvailable" => false,
-                "languageCodes" => array( "eng-GB" )
+                'id' => 40,
+                'parentTagId' => 7,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'eztags'),
+                'depth' => 3,
+                'pathString' => '/8/7/40/',
+                'modificationDate' => $this->getDateTime(1308153110),
+                'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => false,
+                'languageCodes' => array('eng-GB'),
             ),
             $tag
         );
@@ -259,7 +248,7 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagByRemoteIdThrowsNotFoundException()
     {
-        $this->tagsService->loadTagByRemoteId( "Non-existing remote ID" );
+        $this->tagsService->loadTagByRemoteId('Non-existing remote ID');
     }
 
     /**
@@ -269,8 +258,8 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagByRemoteIdThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
-        $this->tagsService->loadTagByRemoteId( "182be0c5cdcd5072bb1864cdee4d3d6e" );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->tagsService->loadTagByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
     }
 
     /**
@@ -278,23 +267,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagByUrl()
     {
-        $tag = $this->tagsService->loadTagByUrl( "ez publish/extensions/eztags", array( "eng-GB" ) );
+        $tag = $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', array('eng-GB'));
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "eztags" ),
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
-                "modificationDate" => $this->getDateTime( 1308153110 ),
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-                "mainLanguageCode" => "eng-GB",
-                "alwaysAvailable" => false,
-                "languageCodes" => array( "eng-GB" )
+                'id' => 40,
+                'parentTagId' => 7,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'eztags'),
+                'depth' => 3,
+                'pathString' => '/8/7/40/',
+                'modificationDate' => $this->getDateTime(1308153110),
+                'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => false,
+                'languageCodes' => array('eng-GB'),
             ),
             $tag
         );
@@ -307,7 +296,7 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagByUrlThrowsNotFoundException()
     {
-        $this->tagsService->loadTagByUrl( "does/not/exist", array( "eng-GB" ) );
+        $this->tagsService->loadTagByUrl('does/not/exist', array('eng-GB'));
     }
 
     /**
@@ -317,8 +306,8 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagByUrlThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
-        $this->tagsService->loadTagByUrl( "ez publish/extensions/eztags", array( "eng-GB" ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', array('eng-GB'));
     }
 
     /**
@@ -327,16 +316,15 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagChildren()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $children = $this->tagsService->loadTagChildren( $tag );
+        $tag = $this->tagsService->loadTag(16);
+        $children = $this->tagsService->loadTagChildren($tag);
 
-        $this->assertInternalType( "array", $children );
-        $this->assertCount( 6, $children );
+        $this->assertInternalType('array', $children);
+        $this->assertCount(6, $children);
 
-        foreach ( $children as $child )
-        {
-            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $child );
-            $this->assertEquals( $tag->id, $child->parentTagId );
+        foreach ($children as $child) {
+            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $child);
+            $this->assertEquals($tag->id, $child->parentTagId);
         }
     }
 
@@ -348,13 +336,12 @@ abstract class TagsBase extends BaseServiceTest
     {
         $children = $this->tagsService->loadTagChildren();
 
-        $this->assertInternalType( "array", $children );
-        $this->assertCount( 9, $children );
+        $this->assertInternalType('array', $children);
+        $this->assertCount(9, $children);
 
-        foreach ( $children as $child )
-        {
-            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $child );
-            $this->assertEquals( 0, $child->parentTagId );
+        foreach ($children as $child) {
+            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $child);
+            $this->assertEquals(0, $child->parentTagId);
         }
     }
 
@@ -365,10 +352,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagChildrenThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagChildren(
             new Tag(
-                array( "id" => 16 )
+                array('id' => 16)
             )
         );
     }
@@ -380,10 +367,10 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetTagChildrenCount()
     {
         $childrenCount = $this->tagsService->getTagChildrenCount(
-            $tag = $this->tagsService->loadTag( 16 )
+            $tag = $this->tagsService->loadTag(16)
         );
 
-        $this->assertEquals( 6, $childrenCount );
+        $this->assertEquals(6, $childrenCount);
     }
 
     /**
@@ -394,7 +381,7 @@ abstract class TagsBase extends BaseServiceTest
     {
         $childrenCount = $this->tagsService->getTagChildrenCount();
 
-        $this->assertEquals( 9, $childrenCount );
+        $this->assertEquals(9, $childrenCount);
     }
 
     /**
@@ -404,10 +391,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetTagChildrenCountThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getTagChildrenCount(
             new Tag(
-                array( "id" => 16 )
+                array('id' => 16)
             )
         );
     }
@@ -418,15 +405,14 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagsByKeyword()
     {
-        $tags = $this->tagsService->loadTagsByKeyword( 'eztags', 'eng-GB' );
+        $tags = $this->tagsService->loadTagsByKeyword('eztags', 'eng-GB');
 
-        $this->assertInternalType( 'array', $tags );
-        $this->assertCount( 2, $tags );
+        $this->assertInternalType('array', $tags);
+        $this->assertCount(2, $tags);
 
-        foreach ( $tags as $tag )
-        {
-            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $tag );
-            $this->assertEquals( array( 'eng-GB' => 'eztags' ), $tag->keywords );
+        foreach ($tags as $tag) {
+            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
+            $this->assertEquals(array('eng-GB' => 'eztags'), $tag->keywords);
         }
     }
 
@@ -437,8 +423,8 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagsByKeywordThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
-        $this->tagsService->loadTagsByKeyword( 'eztags', 'eng-GB' );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->tagsService->loadTagsByKeyword('eztags', 'eng-GB');
     }
 
     /**
@@ -447,9 +433,9 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetTagsByKeywordCount()
     {
-        $tagsCount = $this->tagsService->getTagsByKeywordCount( 'eztags', 'eng-GB' );
+        $tagsCount = $this->tagsService->getTagsByKeywordCount('eztags', 'eng-GB');
 
-        $this->assertEquals( 2, $tagsCount );
+        $this->assertEquals(2, $tagsCount);
     }
 
     /**
@@ -459,8 +445,8 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetTagsByKeywordCountThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
-        $this->tagsService->getTagsByKeywordCount( 'eztags', 'eng-GB' );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->tagsService->getTagsByKeywordCount('eztags', 'eng-GB');
     }
 
     /**
@@ -469,16 +455,15 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagSynonyms()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $synonyms = $this->tagsService->loadTagSynonyms( $tag );
+        $tag = $this->tagsService->loadTag(16);
+        $synonyms = $this->tagsService->loadTagSynonyms($tag);
 
-        $this->assertInternalType( "array", $synonyms );
-        $this->assertCount( 2, $synonyms );
+        $this->assertInternalType('array', $synonyms);
+        $this->assertCount(2, $synonyms);
 
-        foreach ( $synonyms as $synonym )
-        {
-            $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $synonym );
-            $this->assertEquals( $tag->id, $synonym->mainTagId );
+        foreach ($synonyms as $synonym) {
+            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $synonym);
+            $this->assertEquals($tag->id, $synonym->mainTagId);
         }
     }
 
@@ -491,7 +476,7 @@ abstract class TagsBase extends BaseServiceTest
     public function testLoadTagSynonymsThrowsInvalidArgumentException()
     {
         $this->tagsService->loadTagSynonyms(
-            $this->tagsService->loadTag( 95 )
+            $this->tagsService->loadTag(95)
         );
     }
 
@@ -502,10 +487,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testLoadTagSynonymsThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagSynonyms(
             new Tag(
-                array( "id" => 94 )
+                array('id' => 94)
             )
         );
     }
@@ -517,10 +502,10 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetTagSynonymCount()
     {
         $synonymsCount = $this->tagsService->getTagSynonymCount(
-            $this->tagsService->loadTag( 16 )
+            $this->tagsService->loadTag(16)
         );
 
-        $this->assertEquals( 2, $synonymsCount );
+        $this->assertEquals(2, $synonymsCount);
     }
 
     /**
@@ -532,7 +517,7 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetTagSynonymCountThrowsInvalidArgumentException()
     {
         $this->tagsService->getTagSynonymCount(
-            $this->tagsService->loadTag( 95 )
+            $this->tagsService->loadTag(95)
         );
     }
 
@@ -543,10 +528,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetTagSynonymCountThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getTagSynonymCount(
             new Tag(
-                array( "id" => 94 )
+                array('id' => 94)
             )
         );
     }
@@ -557,15 +542,14 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetRelatedContent()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $content = $this->tagsService->getRelatedContent( $tag );
+        $tag = $this->tagsService->loadTag(16);
+        $content = $this->tagsService->getRelatedContent($tag);
 
-        $this->assertInternalType( "array", $content );
-        $this->assertCount( 3, $content );
+        $this->assertInternalType('array', $content);
+        $this->assertCount(3, $content);
 
-        foreach ( $content as $contentItem )
-        {
-            $this->assertInstanceOf( "\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content", $contentItem );
+        foreach ($content as $contentItem) {
+            $this->assertInstanceOf('\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content', $contentItem);
         }
     }
 
@@ -575,11 +559,11 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetRelatedContentNoContent()
     {
-        $tag = $this->tagsService->loadTag( 42 );
-        $content = $this->tagsService->getRelatedContent( $tag );
+        $tag = $this->tagsService->loadTag(42);
+        $content = $this->tagsService->getRelatedContent($tag);
 
-        $this->assertInternalType( "array", $content );
-        $this->assertCount( 0, $content );
+        $this->assertInternalType('array', $content);
+        $this->assertCount(0, $content);
     }
 
     /**
@@ -591,7 +575,7 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetRelatedContentThrowsNotFoundException()
     {
         $this->tagsService->getRelatedContent(
-            $this->tagsService->loadTag( PHP_INT_MAX )
+            $this->tagsService->loadTag(PHP_INT_MAX)
         );
     }
 
@@ -602,10 +586,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetRelatedContentThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getRelatedContent(
             new Tag(
-                array( "id" => 40 )
+                array('id' => 40)
             )
         );
     }
@@ -617,10 +601,10 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetRelatedContentCount()
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag( 16 )
+            $this->tagsService->loadTag(16)
         );
 
-        $this->assertEquals( 3, $contentCount );
+        $this->assertEquals(3, $contentCount);
     }
 
     /**
@@ -630,10 +614,10 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetRelatedContentCountNoContent()
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag( 42 )
+            $this->tagsService->loadTag(42)
         );
 
-        $this->assertEquals( 0, $contentCount );
+        $this->assertEquals(0, $contentCount);
     }
 
     /**
@@ -645,7 +629,7 @@ abstract class TagsBase extends BaseServiceTest
     public function testGetRelatedContentCountThrowsNotFoundException()
     {
         $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag( PHP_INT_MAX )
+            $this->tagsService->loadTag(PHP_INT_MAX)
         );
     }
 
@@ -656,10 +640,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testGetRelatedContentCountThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getRelatedContentCount(
             new Tag(
-                array( "id" => 40 )
+                array('id' => 40)
             )
         );
     }
@@ -670,33 +654,33 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCreateTag()
     {
-        $createStruct = $this->tagsService->newTagCreateStruct( 40, "eng-GB" );
-        $createStruct->setKeyword( "Test tag" );
+        $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
+        $createStruct->setKeyword('Test tag');
         $createStruct->alwaysAvailable = true;
-        $createStruct->remoteId = "New remote ID";
+        $createStruct->remoteId = 'New remote ID';
 
-        $createdTag = $this->tagsService->createTag( $createStruct );
+        $createdTag = $this->tagsService->createTag($createStruct);
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdTag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $createdTag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 97,
-                "parentTagId" => 40,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "Test tag" ),
-                "depth" => 4,
-                "pathString" => "/8/7/40/97/",
-                "remoteId" => "New remote ID",
-                "mainLanguageCode" => "eng-GB",
-                "alwaysAvailable" => true,
-                "languageCodes" => array( "eng-GB" )
+                'id' => 97,
+                'parentTagId' => 40,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'Test tag'),
+                'depth' => 4,
+                'pathString' => '/8/7/40/97/',
+                'remoteId' => 'New remote ID',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => true,
+                'languageCodes' => array('eng-GB'),
             ),
             $createdTag
         );
 
-        $this->assertInstanceOf( "\\DateTime", $createdTag->modificationDate );
-        $this->assertGreaterThan( 0, $createdTag->modificationDate->getTimestamp() );
+        $this->assertInstanceOf('\\DateTime', $createdTag->modificationDate);
+        $this->assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
     }
 
     /**
@@ -705,33 +689,33 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCreateTagWithNoParent()
     {
-        $createStruct = $this->tagsService->newTagCreateStruct( 0, "eng-GB" );
-        $createStruct->setKeyword( "Test tag" );
+        $createStruct = $this->tagsService->newTagCreateStruct(0, 'eng-GB');
+        $createStruct->setKeyword('Test tag');
         $createStruct->alwaysAvailable = true;
-        $createStruct->remoteId = "New remote ID";
+        $createStruct->remoteId = 'New remote ID';
 
-        $createdTag = $this->tagsService->createTag( $createStruct );
+        $createdTag = $this->tagsService->createTag($createStruct);
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdTag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $createdTag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 97,
-                "parentTagId" => 0,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "Test tag" ),
-                "depth" => 1,
-                "pathString" => "/97/",
-                "remoteId" => "New remote ID",
-                "mainLanguageCode" => "eng-GB",
-                "alwaysAvailable" => true,
-                "languageCodes" => array( "eng-GB" )
+                'id' => 97,
+                'parentTagId' => 0,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'Test tag'),
+                'depth' => 1,
+                'pathString' => '/97/',
+                'remoteId' => 'New remote ID',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => true,
+                'languageCodes' => array('eng-GB'),
             ),
             $createdTag
         );
 
-        $this->assertInstanceOf( "\\DateTime", $createdTag->modificationDate );
-        $this->assertGreaterThan( 0, $createdTag->modificationDate->getTimestamp() );
+        $this->assertInstanceOf('\\DateTime', $createdTag->modificationDate);
+        $this->assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
     }
 
     /**
@@ -742,8 +726,8 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCreateTagThrowsInvalidArgumentValueInvalidLanguageCode()
     {
-        $createStruct = $this->tagsService->newTagCreateStruct( 40, "" );
-        $this->tagsService->createTag( $createStruct );
+        $createStruct = $this->tagsService->newTagCreateStruct(40, '');
+        $this->tagsService->createTag($createStruct);
     }
 
     /**
@@ -754,9 +738,9 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCreateTagThrowsInvalidArgumentValueInvalidRemoteId()
     {
-        $createStruct = $this->tagsService->newTagCreateStruct( 40, "eng-GB" );
+        $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
         $createStruct->remoteId = 42;
-        $this->tagsService->createTag( $createStruct );
+        $this->tagsService->createTag($createStruct);
     }
 
     /**
@@ -767,10 +751,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCreateTagThrowsInvalidArgumentException()
     {
-        $createStruct = $this->tagsService->newTagCreateStruct( 40, "eng-GB" );
-        $createStruct->remoteId = "182be0c5cdcd5072bb1864cdee4d3d6e";
+        $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
+        $createStruct->remoteId = '182be0c5cdcd5072bb1864cdee4d3d6e';
 
-        $this->tagsService->createTag( $createStruct );
+        $this->tagsService->createTag($createStruct);
     }
 
     /**
@@ -781,12 +765,12 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCreateTagThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
 
-        $createStruct = $this->tagsService->newTagCreateStruct( 40, "eng-GB" );
-        $createStruct->remoteId = "New remote ID";
+        $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
+        $createStruct->remoteId = 'New remote ID';
 
-        $this->tagsService->createTag( $createStruct );
+        $this->tagsService->createTag($createStruct);
     }
 
     /**
@@ -796,40 +780,40 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testUpdateTag()
     {
-        $tag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "New keyword", "eng-GB" );
-        $updateStruct->setKeyword( "New keyword US", "eng-US" );
-        $updateStruct->mainLanguageCode = "eng-US";
+        $updateStruct->setKeyword('New keyword', 'eng-GB');
+        $updateStruct->setKeyword('New keyword US', 'eng-US');
+        $updateStruct->mainLanguageCode = 'eng-US';
         $updateStruct->alwaysAvailable = true;
-        $updateStruct->remoteId = "New remote ID";
+        $updateStruct->remoteId = 'New remote ID';
 
         $updatedTag = $this->tagsService->updateTag(
             $tag,
             $updateStruct
         );
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $updatedTag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $updatedTag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-US" => "New keyword US", "eng-GB" => "New keyword" ),
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
-                "remoteId" => "New remote ID",
-                "mainLanguageCode" => "eng-US",
-                "alwaysAvailable" => true,
-                "languageCodes" => array( "eng-US", "eng-GB" )
+                'id' => 40,
+                'parentTagId' => 7,
+                'mainTagId' => 0,
+                'keywords' => array('eng-US' => 'New keyword US', 'eng-GB' => 'New keyword'),
+                'depth' => 3,
+                'pathString' => '/8/7/40/',
+                'remoteId' => 'New remote ID',
+                'mainLanguageCode' => 'eng-US',
+                'alwaysAvailable' => true,
+                'languageCodes' => array('eng-US', 'eng-GB'),
             ),
             $updatedTag
         );
 
-        $this->assertInstanceOf( "\\DateTime", $updatedTag->modificationDate );
-        $this->assertGreaterThan( $tag->modificationDate->getTimestamp(), $updatedTag->modificationDate->getTimestamp() );
+        $this->assertInstanceOf('\\DateTime', $updatedTag->modificationDate);
+        $this->assertGreaterThan($tag->modificationDate->getTimestamp(), $updatedTag->modificationDate->getTimestamp());
     }
 
     /**
@@ -841,13 +825,13 @@ abstract class TagsBase extends BaseServiceTest
     public function testUpdateTagThrowsNotFoundException()
     {
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "New keyword" );
-        $updateStruct->remoteId = "New remote ID";
+        $updateStruct->setKeyword('New keyword');
+        $updateStruct->remoteId = 'New remote ID';
 
         $this->tagsService->updateTag(
             new Tag(
                 array(
-                    "id" => PHP_INT_MAX
+                    'id' => PHP_INT_MAX,
                 )
             ),
             $updateStruct
@@ -863,11 +847,11 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testUpdateTagThrowsInvalidArgumentValueInvalidKeyword()
     {
-        $tag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "" );
-        $updateStruct->remoteId = "e2c420d928d4bf8ce0ff2ec19b371514";
+        $updateStruct->setKeyword('');
+        $updateStruct->remoteId = 'e2c420d928d4bf8ce0ff2ec19b371514';
 
         $this->tagsService->updateTag(
             $tag,
@@ -884,10 +868,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testUpdateTagThrowsInvalidArgumentValueInvalidRemoteId()
     {
-        $tag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "New keyword" );
+        $updateStruct->setKeyword('New keyword');
         $updateStruct->remoteId = 42;
 
         $this->tagsService->updateTag(
@@ -905,11 +889,11 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testUpdateTagThrowsInvalidArgumentException()
     {
-        $tag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "New keyword" );
-        $updateStruct->remoteId = "e2c420d928d4bf8ce0ff2ec19b371514";
+        $updateStruct->setKeyword('New keyword');
+        $updateStruct->remoteId = 'e2c420d928d4bf8ce0ff2ec19b371514';
 
         $this->tagsService->updateTag(
             $tag,
@@ -925,16 +909,16 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testUpdateTagThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "New keyword" );
-        $updateStruct->remoteId = "New remote ID";
+        $updateStruct->setKeyword('New keyword');
+        $updateStruct->remoteId = 'New remote ID';
 
         $this->tagsService->updateTag(
             new Tag(
                 array(
-                    "id" => 40
+                    'id' => 40,
                 )
             ),
             $updateStruct
@@ -949,16 +933,16 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testUpdateTagThrowsUnauthorizedExceptionForSynonym()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword( "New keyword" );
-        $updateStruct->remoteId = "New remote ID";
+        $updateStruct->setKeyword('New keyword');
+        $updateStruct->remoteId = 'New remote ID';
 
         $this->tagsService->updateTag(
             new Tag(
                 array(
-                    "id" => 95
+                    'id' => 95,
                 )
             ),
             $updateStruct
@@ -971,33 +955,33 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testAddSynonym()
     {
-        $createStruct = $this->tagsService->newSynonymCreateStruct( 40, "eng-GB" );
-        $createStruct->setKeyword( "New synonym" );
+        $createStruct = $this->tagsService->newSynonymCreateStruct(40, 'eng-GB');
+        $createStruct->setKeyword('New synonym');
         $createStruct->alwaysAvailable = true;
-        $createStruct->remoteId = "New remote ID";
+        $createStruct->remoteId = 'New remote ID';
 
-        $createdSynonym = $this->tagsService->addSynonym( $createStruct );
+        $createdSynonym = $this->tagsService->addSynonym($createStruct);
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $createdSynonym );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $createdSynonym);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => 97,
-                "parentTagId" => 7,
-                "mainTagId" => 40,
-                "keywords" => array( "eng-GB" => "New synonym" ),
-                "depth" => 3,
-                "pathString" => "/8/7/97/",
-                "remoteId" => "New remote ID",
-                "mainLanguageCode" => "eng-GB",
-                "alwaysAvailable" => true,
-                "languageCodes" => array( "eng-GB" )
+                'id' => 97,
+                'parentTagId' => 7,
+                'mainTagId' => 40,
+                'keywords' => array('eng-GB' => 'New synonym'),
+                'depth' => 3,
+                'pathString' => '/8/7/97/',
+                'remoteId' => 'New remote ID',
+                'mainLanguageCode' => 'eng-GB',
+                'alwaysAvailable' => true,
+                'languageCodes' => array('eng-GB'),
             ),
             $createdSynonym
         );
 
-        $this->assertInstanceOf( "\\DateTime", $createdSynonym->modificationDate );
-        $this->assertGreaterThan( 0, $createdSynonym->modificationDate->getTimestamp() );
+        $this->assertInstanceOf('\\DateTime', $createdSynonym->modificationDate);
+        $this->assertGreaterThan(0, $createdSynonym->modificationDate->getTimestamp());
     }
 
     /**
@@ -1007,10 +991,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testAddSynonymThrowsNotFoundException()
     {
-        $createStruct = $this->tagsService->newSynonymCreateStruct( PHP_INT_MAX, "eng-GB" );
-        $createStruct->setKeyword( "Test tag" );
+        $createStruct = $this->tagsService->newSynonymCreateStruct(PHP_INT_MAX, 'eng-GB');
+        $createStruct->setKeyword('Test tag');
 
-        $this->tagsService->addSynonym( $createStruct );
+        $this->tagsService->addSynonym($createStruct);
     }
 
     /**
@@ -1021,10 +1005,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testAddSynonymThrowsInvalidArgumentValueInvalidKeyword()
     {
-        $createStruct = $this->tagsService->newSynonymCreateStruct( 95, "eng-GB" );
-        $createStruct->setKeyword( "" );
+        $createStruct = $this->tagsService->newSynonymCreateStruct(95, 'eng-GB');
+        $createStruct->setKeyword('');
 
-        $this->tagsService->addSynonym( $createStruct );
+        $this->tagsService->addSynonym($createStruct);
     }
 
     /**
@@ -1035,10 +1019,10 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testAddSynonymThrowsInvalidArgumentException()
     {
-        $createStruct = $this->tagsService->newSynonymCreateStruct( 95, "eng-GB" );
-        $createStruct->setKeyword( "New synonym" );
+        $createStruct = $this->tagsService->newSynonymCreateStruct(95, 'eng-GB');
+        $createStruct->setKeyword('New synonym');
 
-        $this->tagsService->addSynonym( $createStruct );
+        $this->tagsService->addSynonym($createStruct);
     }
 
     /**
@@ -1048,11 +1032,11 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testAddSynonymThrowsUnauthorizedException()
     {
-        $createStruct = $this->tagsService->newSynonymCreateStruct( 40, "eng-GB" );
-        $createStruct->setKeyword( "New synonym" );
+        $createStruct = $this->tagsService->newSynonymCreateStruct(40, 'eng-GB');
+        $createStruct->setKeyword('New synonym');
 
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
-        $this->tagsService->addSynonym( $createStruct );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->tagsService->addSynonym($createStruct);
     }
 
     /**
@@ -1063,34 +1047,34 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testConvertToSynonym()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $mainTag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(16);
+        $mainTag = $this->tagsService->loadTag(40);
 
-        $convertedSynonym = $this->tagsService->convertToSynonym( $tag, $mainTag );
+        $convertedSynonym = $this->tagsService->convertToSynonym($tag, $mainTag);
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $convertedSynonym );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $convertedSynonym);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => $tag->id,
-                "parentTagId" => $mainTag->parentTagId,
-                "mainTagId" => $mainTag->id,
-                "keyword" => $tag->keyword,
-                "depth" => $mainTag->depth,
-                "pathString" => $this->getSynonymPathString( $convertedSynonym->id, $mainTag->pathString ),
-                "remoteId" => $tag->remoteId
+                'id' => $tag->id,
+                'parentTagId' => $mainTag->parentTagId,
+                'mainTagId' => $mainTag->id,
+                'keyword' => $tag->keyword,
+                'depth' => $mainTag->depth,
+                'pathString' => $this->getSynonymPathString($convertedSynonym->id, $mainTag->pathString),
+                'remoteId' => $tag->remoteId,
             ),
             $convertedSynonym
         );
 
-        $this->assertInstanceOf( "\\DateTime", $convertedSynonym->modificationDate );
-        $this->assertGreaterThan( $tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp() );
+        $this->assertInstanceOf('\\DateTime', $convertedSynonym->modificationDate);
+        $this->assertGreaterThan($tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp());
 
-        $synonymsCount = $this->tagsService->getTagSynonymCount( $mainTag );
-        $this->assertEquals( 3, $synonymsCount );
+        $synonymsCount = $this->tagsService->getTagSynonymCount($mainTag);
+        $this->assertEquals(3, $synonymsCount);
 
-        $childrenCount = $this->tagsService->getTagChildrenCount( $mainTag );
-        $this->assertEquals( 6, $childrenCount );
+        $childrenCount = $this->tagsService->getTagChildrenCount($mainTag);
+        $this->assertEquals(6, $childrenCount);
     }
 
     /**
@@ -1098,45 +1082,39 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testConvertToSynonymThrowsNotFoundException()
     {
-        try
-        {
+        try {
             $this->tagsService->convertToSynonym(
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => 40
+                        'id' => 40,
                     )
                 )
             );
-            $this->fail( "First tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('First tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->convertToSynonym(
                 new Tag(
                     array(
-                        "id" => 16
+                        'id' => 16,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 )
             );
-            $this->fail( "Second tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('Second tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
     }
@@ -1147,29 +1125,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testConvertToSynonymThrowsInvalidArgumentExceptionTagsAreSynonyms()
     {
-        try
-        {
+        try {
             $this->tagsService->convertToSynonym(
-                $this->tagsService->loadTag( 95 ),
-                $this->tagsService->loadTag( 40 )
+                $this->tagsService->loadTag(95),
+                $this->tagsService->loadTag(40)
             );
-            $this->fail( "First tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('First tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->convertToSynonym(
-                $this->tagsService->loadTag( 16 ),
-                $this->tagsService->loadTag( 95 )
+                $this->tagsService->loadTag(16),
+                $this->tagsService->loadTag(95)
             );
-            $this->fail( "Second tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('Second tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
     }
@@ -1183,8 +1155,8 @@ abstract class TagsBase extends BaseServiceTest
     public function testConvertToSynonymThrowsInvalidArgumentExceptionMainTagBelowTag()
     {
         $this->tagsService->convertToSynonym(
-            $this->tagsService->loadTag( 7 ),
-            $this->tagsService->loadTag( 40 )
+            $this->tagsService->loadTag(7),
+            $this->tagsService->loadTag(40)
         );
     }
 
@@ -1195,16 +1167,16 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testConvertToSynonymThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->convertToSynonym(
             new Tag(
                 array(
-                    "id" => 16
+                    'id' => 16,
                 )
             ),
             new Tag(
                 array(
-                    "id" => 40
+                    'id' => 40,
                 )
             )
         );
@@ -1218,26 +1190,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMergeTags()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $targetTag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(16);
+        $targetTag = $this->tagsService->loadTag(40);
 
-        $this->tagsService->mergeTags( $tag, $targetTag );
+        $this->tagsService->mergeTags($tag, $targetTag);
 
-        try
-        {
-            $this->tagsService->loadTag( $tag->id );
-            $this->fail( "Tag not deleted after merging" );
-        }
-        catch ( NotFoundException $e )
-        {
+        try {
+            $this->tagsService->loadTag($tag->id);
+            $this->fail('Tag not deleted after merging');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
 
-        $relatedObjectsCount = $this->tagsService->getRelatedContentCount( $targetTag );
-        $this->assertEquals( 3, $relatedObjectsCount );
+        $relatedObjectsCount = $this->tagsService->getRelatedContentCount($targetTag);
+        $this->assertEquals(3, $relatedObjectsCount);
 
-        $childrenCount = $this->tagsService->getTagChildrenCount( $targetTag );
-        $this->assertEquals( 6, $childrenCount );
+        $childrenCount = $this->tagsService->getTagChildrenCount($targetTag);
+        $this->assertEquals(6, $childrenCount);
     }
 
     /**
@@ -1245,45 +1214,39 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMergeTagsThrowsNotFoundException()
     {
-        try
-        {
+        try {
             $this->tagsService->mergeTags(
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => 40
+                        'id' => 40,
                     )
                 )
             );
-            $this->fail( "First tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('First tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->mergeTags(
                 new Tag(
                     array(
-                        "id" => 16
+                        'id' => 16,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 )
             );
-            $this->fail( "Second tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('Second tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
     }
@@ -1294,29 +1257,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMergeTagsThrowsInvalidArgumentExceptionTagsAreSynonyms()
     {
-        try
-        {
+        try {
             $this->tagsService->mergeTags(
-                $this->tagsService->loadTag( 95 ),
-                $this->tagsService->loadTag( 40 )
+                $this->tagsService->loadTag(95),
+                $this->tagsService->loadTag(40)
             );
-            $this->fail( "First tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('First tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->mergeTags(
-                $this->tagsService->loadTag( 16 ),
-                $this->tagsService->loadTag( 95 )
+                $this->tagsService->loadTag(16),
+                $this->tagsService->loadTag(95)
             );
-            $this->fail( "Second tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('Second tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
     }
@@ -1330,8 +1287,8 @@ abstract class TagsBase extends BaseServiceTest
     public function testMergeTagsThrowsInvalidArgumentExceptionTargetTagBelowTag()
     {
         $this->tagsService->mergeTags(
-            $this->tagsService->loadTag( 7 ),
-            $this->tagsService->loadTag( 40 )
+            $this->tagsService->loadTag(7),
+            $this->tagsService->loadTag(40)
         );
     }
 
@@ -1342,16 +1299,16 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMergeTagsThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->mergeTags(
             new Tag(
                 array(
-                    "id" => 16
+                    'id' => 16,
                 )
             ),
             new Tag(
                 array(
-                    "id" => 40
+                    'id' => 40,
                 )
             )
         );
@@ -1362,7 +1319,7 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCopySubtree()
     {
-        $this->markTestIncomplete( "@TODO: Implement test for copySubtree" );
+        $this->markTestIncomplete('@TODO: Implement test for copySubtree');
     }
 
     /**
@@ -1370,45 +1327,39 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCopySubtreeThrowsNotFoundException()
     {
-        try
-        {
+        try {
             $this->tagsService->copySubtree(
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => 40
+                        'id' => 40,
                     )
                 )
             );
-            $this->fail( "First tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('First tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->copySubtree(
                 new Tag(
                     array(
-                        "id" => 16
+                        'id' => 16,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 )
             );
-            $this->fail( "Second tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('Second tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
     }
@@ -1419,29 +1370,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
     {
-        try
-        {
+        try {
             $this->tagsService->copySubtree(
-                $this->tagsService->loadTag( 95 ),
-                $this->tagsService->loadTag( 40 )
+                $this->tagsService->loadTag(95),
+                $this->tagsService->loadTag(40)
             );
-            $this->fail( "First tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('First tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->copySubtree(
-                $this->tagsService->loadTag( 16 ),
-                $this->tagsService->loadTag( 95 )
+                $this->tagsService->loadTag(16),
+                $this->tagsService->loadTag(95)
             );
-            $this->fail( "Second tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('Second tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
     }
@@ -1455,8 +1400,8 @@ abstract class TagsBase extends BaseServiceTest
     public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
     {
         $this->tagsService->copySubtree(
-            $this->tagsService->loadTag( 7 ),
-            $this->tagsService->loadTag( 40 )
+            $this->tagsService->loadTag(7),
+            $this->tagsService->loadTag(40)
         );
     }
 
@@ -1469,8 +1414,8 @@ abstract class TagsBase extends BaseServiceTest
     public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
     {
         $this->tagsService->copySubtree(
-            $this->tagsService->loadTag( 7 ),
-            $this->tagsService->loadTag( 8 )
+            $this->tagsService->loadTag(7),
+            $this->tagsService->loadTag(8)
         );
     }
 
@@ -1481,16 +1426,16 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testCopySubtreeThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->copySubtree(
             new Tag(
                 array(
-                    "id" => 16
+                    'id' => 16,
                 )
             ),
             new Tag(
                 array(
-                    "id" => 40
+                    'id' => 40,
                 )
             )
         );
@@ -1503,34 +1448,33 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMoveSubtree()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $targetParentTag = $this->tagsService->loadTag( 40 );
+        $tag = $this->tagsService->loadTag(16);
+        $targetParentTag = $this->tagsService->loadTag(40);
 
-        $movedTag = $this->tagsService->moveSubtree( $tag, $targetParentTag );
+        $movedTag = $this->tagsService->moveSubtree($tag, $targetParentTag);
 
-        $this->assertInstanceOf( "\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag", $movedTag );
+        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $movedTag);
 
         $this->assertPropertiesCorrect(
             array(
-                "id" => $tag->id,
-                "parentTagId" => $targetParentTag->id,
-                "mainTagId" => $tag->mainTagId,
-                "keyword" => $tag->keyword,
-                "depth" => $targetParentTag->depth + 1,
-                "pathString" => $targetParentTag->pathString . $tag->id . "/",
-                "remoteId" => $tag->remoteId
+                'id' => $tag->id,
+                'parentTagId' => $targetParentTag->id,
+                'mainTagId' => $tag->mainTagId,
+                'keyword' => $tag->keyword,
+                'depth' => $targetParentTag->depth + 1,
+                'pathString' => $targetParentTag->pathString . $tag->id . '/',
+                'remoteId' => $tag->remoteId,
             ),
             $movedTag
         );
 
-        $this->assertInstanceOf( "\\DateTime", $movedTag->modificationDate );
-        $this->assertGreaterThan( $tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp() );
+        $this->assertInstanceOf('\\DateTime', $movedTag->modificationDate);
+        $this->assertGreaterThan($tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp());
 
-        foreach ( $this->tagsService->loadTagSynonyms( $movedTag ) as $synonym )
-        {
-            $this->assertEquals( $targetParentTag->id, $synonym->parentTagId );
-            $this->assertEquals( $targetParentTag->depth + 1, $synonym->depth );
-            $this->assertEquals( $targetParentTag->pathString . $synonym->id . "/", $synonym->pathString );
+        foreach ($this->tagsService->loadTagSynonyms($movedTag) as $synonym) {
+            $this->assertEquals($targetParentTag->id, $synonym->parentTagId);
+            $this->assertEquals($targetParentTag->depth + 1, $synonym->depth);
+            $this->assertEquals($targetParentTag->pathString . $synonym->id . '/', $synonym->pathString);
         }
     }
 
@@ -1539,45 +1483,39 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMoveSubtreeThrowsNotFoundException()
     {
-        try
-        {
+        try {
             $this->tagsService->moveSubtree(
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => 40
+                        'id' => 40,
                     )
                 )
             );
-            $this->fail( "First tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('First tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->moveSubtree(
                 new Tag(
                     array(
-                        "id" => 16
+                        'id' => 16,
                     )
                 ),
                 new Tag(
                     array(
-                        "id" => PHP_INT_MAX
+                        'id' => PHP_INT_MAX,
                     )
                 )
             );
-            $this->fail( "Second tag was found" );
-        }
-        catch ( NotFoundException $e )
-        {
+            $this->fail('Second tag was found');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
     }
@@ -1588,29 +1526,23 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
     {
-        try
-        {
+        try {
             $this->tagsService->moveSubtree(
-                $this->tagsService->loadTag( 95 ),
-                $this->tagsService->loadTag( 40 )
+                $this->tagsService->loadTag(95),
+                $this->tagsService->loadTag(40)
             );
-            $this->fail( "First tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('First tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
 
-        try
-        {
+        try {
             $this->tagsService->moveSubtree(
-                $this->tagsService->loadTag( 16 ),
-                $this->tagsService->loadTag( 95 )
+                $this->tagsService->loadTag(16),
+                $this->tagsService->loadTag(95)
             );
-            $this->fail( "Second tag is a synonym" );
-        }
-        catch ( InvalidArgumentException $e )
-        {
+            $this->fail('Second tag is a synonym');
+        } catch (InvalidArgumentException $e) {
             // Do nothing
         }
     }
@@ -1624,8 +1556,8 @@ abstract class TagsBase extends BaseServiceTest
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
     {
         $this->tagsService->moveSubtree(
-            $this->tagsService->loadTag( 7 ),
-            $this->tagsService->loadTag( 40 )
+            $this->tagsService->loadTag(7),
+            $this->tagsService->loadTag(40)
         );
     }
 
@@ -1638,8 +1570,8 @@ abstract class TagsBase extends BaseServiceTest
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
     {
         $this->tagsService->moveSubtree(
-            $this->tagsService->loadTag( 7 ),
-            $this->tagsService->loadTag( 8 )
+            $this->tagsService->loadTag(7),
+            $this->tagsService->loadTag(8)
         );
     }
 
@@ -1650,16 +1582,16 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testMoveSubtreeThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->moveSubtree(
             new Tag(
                 array(
-                    "id" => 16
+                    'id' => 16,
                 )
             ),
             new Tag(
                 array(
-                    "id" => 40
+                    'id' => 40,
                 )
             )
         );
@@ -1673,44 +1605,33 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testDeleteTag()
     {
-        $tag = $this->tagsService->loadTag( 16 );
-        $tagSynonyms = $this->tagsService->loadTagSynonyms( $tag );
-        $tagChildren = $this->tagsService->loadTagChildren( $tag );
+        $tag = $this->tagsService->loadTag(16);
+        $tagSynonyms = $this->tagsService->loadTagSynonyms($tag);
+        $tagChildren = $this->tagsService->loadTagChildren($tag);
 
-        $this->tagsService->deleteTag( $tag );
+        $this->tagsService->deleteTag($tag);
 
-        try
-        {
-            $this->tagsService->loadTag( $tag->id );
-            $this->fail( "Tag not deleted" );
-        }
-        catch ( NotFoundException $e )
-        {
+        try {
+            $this->tagsService->loadTag($tag->id);
+            $this->fail('Tag not deleted');
+        } catch (NotFoundException $e) {
             // Do nothing
         }
 
-        foreach ( $tagSynonyms as $synonym )
-        {
-            try
-            {
-                $this->tagsService->loadTag( $synonym->id );
-                $this->fail( "Synonym not deleted" );
-            }
-            catch ( NotFoundException $e )
-            {
+        foreach ($tagSynonyms as $synonym) {
+            try {
+                $this->tagsService->loadTag($synonym->id);
+                $this->fail('Synonym not deleted');
+            } catch (NotFoundException $e) {
                 // Do nothing
             }
         }
 
-        foreach ( $tagChildren as $child )
-        {
-            try
-            {
-                $this->tagsService->loadTag( $child->id );
-                $this->fail( "Child not deleted" );
-            }
-            catch ( NotFoundException $e )
-            {
+        foreach ($tagChildren as $child) {
+            try {
+                $this->tagsService->loadTag($child->id);
+                $this->fail('Child not deleted');
+            } catch (NotFoundException $e) {
                 // Do nothing
             }
         }
@@ -1726,7 +1647,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->tagsService->deleteTag(
             new Tag(
                 array(
-                    "id" => PHP_INT_MAX
+                    'id' => PHP_INT_MAX,
                 )
             )
         );
@@ -1739,11 +1660,11 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testDeleteTagThrowsUnauthorizedException()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->deleteTag(
             new Tag(
                 array(
-                    "id" => 40
+                    'id' => 40,
                 )
             )
         );
@@ -1756,46 +1677,46 @@ abstract class TagsBase extends BaseServiceTest
      */
     public function testDeleteTagThrowsUnauthorizedExceptionForSynonym()
     {
-        $this->repository->setCurrentUser( $this->getStubbedUser( 10 ) );
+        $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->deleteTag(
             new Tag(
                 array(
-                    "id" => 95
+                    'id' => 95,
                 )
             )
         );
     }
 
     /**
-     * Creates and returns a \DateTime object with received timestamp
+     * Creates and returns a \DateTime object with received timestamp.
      *
      * @param int $timestamp
      *
      * @return \DateTime
      */
-    protected function getDateTime( $timestamp = null )
+    protected function getDateTime($timestamp = null)
     {
         $timestamp = $timestamp ?: time();
 
         $dateTime = new DateTime();
-        $dateTime->setTimestamp( $timestamp );
+        $dateTime->setTimestamp($timestamp);
 
         return $dateTime;
     }
 
     /**
-     * Returns the path string of a synonym for main tag path string
+     * Returns the path string of a synonym for main tag path string.
      *
      * @param mixed $synonymId
      * @param string $mainTagPathString
      *
      * @return string
      */
-    protected function getSynonymPathString( $synonymId, $mainTagPathString )
+    protected function getSynonymPathString($synonymId, $mainTagPathString)
     {
-        $pathStringElements = explode( "/", trim( $mainTagPathString, "/" ) );
-        array_pop( $pathStringElements );
+        $pathStringElements = explode('/', trim($mainTagPathString, '/'));
+        array_pop($pathStringElements);
 
-        return ( !empty( $pathStringElements ) ? "/" . implode( "/", $pathStringElements ) : "" ) . "/" . (int)$synonymId . "/";
+        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int)$synonymId . '/';
     }
 }

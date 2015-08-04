@@ -7,14 +7,14 @@ use eZ\Publish\Core\SignalSlot\Signal;
 class AddSynonymSignal extends Signal
 {
     /**
-     * Tag ID
+     * Tag ID.
      *
      * @var mixed
      */
     public $tagId;
 
     /**
-     * Main tag ID
+     * Main tag ID.
      *
      * @var mixed
      */
@@ -22,23 +22,23 @@ class AddSynonymSignal extends Signal
 
     /**
      * Tag keywords in the available languages
-     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
+     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
      * @var string[]
      */
     public $keywords;
 
     /**
-     * The main language code for the tag
+     * The main language code for the tag.
      *
      * @var string
      */
     public $mainLanguageCode;
 
     /**
-     * Indicates if the tag is shown in the main language if it's not present in an other requested language
+     * Indicates if the tag is shown in the main language if it's not present in an other requested language.
      *
-     * @var boolean
+     * @var bool
      */
     public $alwaysAvailable;
 }

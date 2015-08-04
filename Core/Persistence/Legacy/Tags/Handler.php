@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
@@ -26,14 +25,14 @@ class Handler implements BaseTagsHandler
      * @param \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway $gateway
      * @param \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper $mapper
      */
-    public function __construct( Gateway $gateway, Mapper $mapper )
+    public function __construct(Gateway $gateway, Mapper $mapper)
     {
         $this->gateway = $gateway;
         $this->mapper = $mapper;
     }
 
     /**
-     * Loads a tag object from its $tagId
+     * Loads a tag object from its $tagId.
      *
      * Optionally a translation filter may be specified. If specified only the
      * translations with the listed language codes will be retrieved. If not,
@@ -43,25 +42,24 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      * @param string[] $translations
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function load( $tagId, array $translations = null, $useAlwaysAvailable = true )
+    public function load($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $rows = $this->gateway->getFullTagData( $tagId, $translations, $useAlwaysAvailable );
-        if ( empty( $rows ) )
-        {
-            throw new NotFoundException( "tag", $tagId );
+        $rows = $this->gateway->getFullTagData($tagId, $translations, $useAlwaysAvailable);
+        if (empty($rows)) {
+            throw new NotFoundException('tag', $tagId);
         }
 
-        $tag = $this->mapper->extractTagListFromRows( $rows );
+        $tag = $this->mapper->extractTagListFromRows($rows);
 
-        return reset( $tag );
+        return reset($tag);
     }
 
     /**
-     * Loads a tag info object from its $tagId
+     * Loads a tag info object from its $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -69,14 +67,15 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
-    public function loadTagInfo( $tagId )
+    public function loadTagInfo($tagId)
     {
-        $row = $this->gateway->getBasicTagData( $tagId );
-        return $this->mapper->createTagInfoFromRow( $row );
+        $row = $this->gateway->getBasicTagData($tagId);
+
+        return $this->mapper->createTagInfoFromRow($row);
     }
 
     /**
-     * Loads a tag object from its $remoteId
+     * Loads a tag object from its $remoteId.
      *
      * Optionally a translation filter may be specified. If specified only the
      * translations with the listed language codes will be retrieved. If not,
@@ -86,25 +85,24 @@ class Handler implements BaseTagsHandler
      *
      * @param string $remoteId
      * @param string[] $translations
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
-    public function loadByRemoteId( $remoteId, array $translations = null, $useAlwaysAvailable = true )
+    public function loadByRemoteId($remoteId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $rows = $this->gateway->getFullTagDataByRemoteId( $remoteId, $translations, $useAlwaysAvailable );
-        if ( empty( $rows ) )
-        {
-            throw new NotFoundException( "tag", $remoteId );
+        $rows = $this->gateway->getFullTagDataByRemoteId($remoteId, $translations, $useAlwaysAvailable);
+        if (empty($rows)) {
+            throw new NotFoundException('tag', $remoteId);
         }
 
-        $tag = $this->mapper->extractTagListFromRows( $rows );
+        $tag = $this->mapper->extractTagListFromRows($rows);
 
-        return reset( $tag );
+        return reset($tag);
     }
 
     /**
-     * Loads a tag info object from its remote ID
+     * Loads a tag info object from its remote ID.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -112,39 +110,39 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
-    public function loadTagInfoByRemoteId( $remoteId )
+    public function loadTagInfoByRemoteId($remoteId)
     {
-        $row = $this->gateway->getBasicTagDataByRemoteId( $remoteId );
-        return $this->mapper->createTagInfoFromRow( $row );
+        $row = $this->gateway->getBasicTagDataByRemoteId($remoteId);
+
+        return $this->mapper->createTagInfoFromRow($row);
     }
 
     /**
-     * Loads tags by specified keyword and parent ID
+     * Loads tags by specified keyword and parent ID.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $keyword The keyword to fetch tag for
      * @param mixed $parentTagId The parent ID to fetch tag for
      * @param string[] $translations The languages to load
-     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByKeywordAndParentId( $keyword, $parentTagId, array $translations = null, $useAlwaysAvailable = true )
+    public function loadTagByKeywordAndParentId($keyword, $parentTagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $rows = $this->gateway->getFullTagDataByKeywordAndParentId( $keyword, $parentTagId, $translations, $useAlwaysAvailable );
-        if ( empty( $rows ) )
-        {
-            throw new NotFoundException( "tag", $keyword );
+        $rows = $this->gateway->getFullTagDataByKeywordAndParentId($keyword, $parentTagId, $translations, $useAlwaysAvailable);
+        if (empty($rows)) {
+            throw new NotFoundException('tag', $keyword);
         }
 
-        $tag = $this->mapper->extractTagListFromRows( $rows );
+        $tag = $this->mapper->extractTagListFromRows($rows);
 
-        return reset( $tag );
+        return reset($tag);
     }
 
     /**
-     * Loads children of a tag identified by $tagId
+     * Loads children of a tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -152,65 +150,67 @@ class Handler implements BaseTagsHandler
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param string[] $translations
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadChildren( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true )
+    public function loadChildren($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
-        $tags = $this->gateway->getChildren( $tagId, $offset, $limit, $translations, $useAlwaysAvailable );
-        return $this->mapper->extractTagListFromRows( $tags );
+        $tags = $this->gateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+
+        return $this->mapper->extractTagListFromRows($tags);
     }
 
     /**
-     * Returns the number of children of a tag identified by $tagId
+     * Returns the number of children of a tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param string[] $translations
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return int
      */
-    public function getChildrenCount( $tagId, array $translations = null, $useAlwaysAvailable = true )
+    public function getChildrenCount($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        return $this->gateway->getChildrenCount( $tagId, $translations, $useAlwaysAvailable );
+        return $this->gateway->getChildrenCount($tagId, $translations, $useAlwaysAvailable);
     }
 
     /**
-     * Loads tags with specified $keyword
+     * Loads tags with specified $keyword.
      *
      * @param string $keyword
      * @param string $translation
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadTagsByKeyword( $keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1 )
+    public function loadTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        $tags = $this->gateway->getTagsByKeyword( $keyword, $translation, $useAlwaysAvailable, $offset, $limit );
-        return $this->mapper->extractTagListFromRows( $tags );
+        $tags = $this->gateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $offset, $limit);
+
+        return $this->mapper->extractTagListFromRows($tags);
     }
 
     /**
-     * Returns the number of tags with specified $keyword
+     * Returns the number of tags with specified $keyword.
      *
      * @param string $keyword
      * @param string $translation
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable = true )
+    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true)
     {
-        return $this->gateway->getTagsByKeywordCount( $keyword, $translation, $useAlwaysAvailable );
+        return $this->gateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable);
     }
 
     /**
-     * Loads the synonyms of a tag identified by $tagId
+     * Loads the synonyms of a tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -218,34 +218,35 @@ class Handler implements BaseTagsHandler
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param string[] $translations
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function loadSynonyms( $tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true )
+    public function loadSynonyms($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
-        $tags = $this->gateway->getSynonyms( $tagId, $offset, $limit, $translations, $useAlwaysAvailable );
-        return $this->mapper->extractTagListFromRows( $tags );
+        $tags = $this->gateway->getSynonyms($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+
+        return $this->mapper->extractTagListFromRows($tags);
     }
 
     /**
-     * Returns the number of synonyms of a tag identified by $tagId
+     * Returns the number of synonyms of a tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param string[] $translations
-     * @param boolean $useAlwaysAvailable
+     * @param bool $useAlwaysAvailable
      *
      * @return int
      */
-    public function getSynonymCount( $tagId, array $translations = null, $useAlwaysAvailable = true )
+    public function getSynonymCount($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        return $this->gateway->getSynonymCount( $tagId, $translations, $useAlwaysAvailable );
+        return $this->gateway->getSynonymCount($tagId, $translations, $useAlwaysAvailable);
     }
 
     /**
-     * Loads content IDs related to tag identified by $tagId
+     * Loads content IDs related to tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -255,13 +256,13 @@ class Handler implements BaseTagsHandler
      *
      * @return array
      */
-    public function loadRelatedContentIds( $tagId, $offset = 0, $limit = -1 )
+    public function loadRelatedContentIds($tagId, $offset = 0, $limit = -1)
     {
-        return $this->gateway->getRelatedContentIds( $tagId, $offset, $limit );
+        return $this->gateway->getRelatedContentIds($tagId, $offset, $limit);
     }
 
     /**
-     * Returns the number of content objects related to tag identified by $tagId
+     * Returns the number of content objects related to tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -269,35 +270,34 @@ class Handler implements BaseTagsHandler
      *
      * @return int
      */
-    public function getRelatedContentCount( $tagId )
+    public function getRelatedContentCount($tagId)
     {
-        return $this->gateway->getRelatedContentCount( $tagId );
+        return $this->gateway->getRelatedContentCount($tagId);
     }
 
     /**
-     * Creates the new tag
+     * Creates the new tag.
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag
      */
-    public function create( CreateStruct $createStruct )
+    public function create(CreateStruct $createStruct)
     {
         $parentTagData = null;
-        if ( !empty( $createStruct->parentTagId ) )
-        {
-            $parentTagData = $this->gateway->getBasicTagData( $createStruct->parentTagId );
+        if (!empty($createStruct->parentTagId)) {
+            $parentTagData = $this->gateway->getBasicTagData($createStruct->parentTagId);
         }
 
-        $newTagId = $this->gateway->create( $createStruct, $parentTagData );
+        $newTagId = $this->gateway->create($createStruct, $parentTagData);
 
-        $this->updateSubtreeModificationTime( $newTagId );
+        $this->updateSubtreeModificationTime($newTagId);
 
-        return $this->load( $newTagId );
+        return $this->load($newTagId);
     }
 
     /**
-     * Updates tag identified by $tagId
+     * Updates tag identified by $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -306,34 +306,34 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The updated tag
      */
-    public function update( UpdateStruct $updateStruct, $tagId )
+    public function update(UpdateStruct $updateStruct, $tagId)
     {
-        $this->gateway->update( $updateStruct, $tagId );
+        $this->gateway->update($updateStruct, $tagId);
 
-        $this->updateSubtreeModificationTime( $tagId );
+        $this->updateSubtreeModificationTime($tagId);
 
-        return $this->load( $tagId );
+        return $this->load($tagId);
     }
 
     /**
-     * Creates a synonym
+     * Creates a synonym.
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
      */
-    public function addSynonym( $createStruct )
+    public function addSynonym($createStruct)
     {
-        $mainTagData = $this->gateway->getBasicTagData( $createStruct->mainTagId );
-        $newSynonymId = $this->gateway->createSynonym( $createStruct, $mainTagData );
+        $mainTagData = $this->gateway->getBasicTagData($createStruct->mainTagId);
+        $newSynonymId = $this->gateway->createSynonym($createStruct, $mainTagData);
 
-        $this->updateSubtreeModificationTime( $newSynonymId );
+        $this->updateSubtreeModificationTime($newSynonymId);
 
-        return $this->load( $newSynonymId );
+        return $this->load($newSynonymId);
     }
 
     /**
-     * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId
+     * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $mainTagId are invalid
      *
@@ -342,54 +342,52 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The converted synonym
      */
-    public function convertToSynonym( $tagId, $mainTagId )
+    public function convertToSynonym($tagId, $mainTagId)
     {
-        $tagInfo = $this->loadTagInfo( $tagId );
-        $mainTagData = $this->gateway->getBasicTagData( $mainTagId );
+        $tagInfo = $this->loadTagInfo($tagId);
+        $mainTagData = $this->gateway->getBasicTagData($mainTagId);
 
-        foreach ( $this->loadSynonyms( $tagId ) as $synonym )
-        {
-            $this->gateway->moveSynonym( $synonym->id, $mainTagData );
+        foreach ($this->loadSynonyms($tagId) as $synonym) {
+            $this->gateway->moveSynonym($synonym->id, $mainTagData);
         }
 
-        $this->gateway->convertToSynonym( $tagInfo->id, $mainTagData );
+        $this->gateway->convertToSynonym($tagInfo->id, $mainTagData);
 
         $timestamp = time();
-        $this->updateSubtreeModificationTime( $tagInfo->parentTagId, $timestamp );
-        $this->updateSubtreeModificationTime( $tagInfo->id, $timestamp );
+        $this->updateSubtreeModificationTime($tagInfo->parentTagId, $timestamp);
+        $this->updateSubtreeModificationTime($tagInfo->id, $timestamp);
 
-        return $this->load( $tagId );
+        return $this->load($tagId);
     }
 
     /**
-     * Merges the tag identified by $tagId into the tag identified by $targetTagId
+     * Merges the tag identified by $tagId into the tag identified by $targetTagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      *
      * @param mixed $tagId
      * @param mixed $targetTagId
      */
-    public function merge( $tagId, $targetTagId )
+    public function merge($tagId, $targetTagId)
     {
-        $tagInfo = $this->loadTagInfo( $tagId );
-        $targetTagInfo = $this->loadTagInfo( $targetTagId );
+        $tagInfo = $this->loadTagInfo($tagId);
+        $targetTagInfo = $this->loadTagInfo($targetTagId);
 
-        foreach ( $this->loadSynonyms( $tagId ) as $synonym )
-        {
-            $this->gateway->transferTagAttributeLinks( $synonym->id, $targetTagId );
-            $this->gateway->deleteTag( $synonym->id );
+        foreach ($this->loadSynonyms($tagId) as $synonym) {
+            $this->gateway->transferTagAttributeLinks($synonym->id, $targetTagId);
+            $this->gateway->deleteTag($synonym->id);
         }
 
-        $this->gateway->transferTagAttributeLinks( $tagId, $targetTagId );
-        $this->gateway->deleteTag( $tagId );
+        $this->gateway->transferTagAttributeLinks($tagId, $targetTagId);
+        $this->gateway->deleteTag($tagId);
 
         $timestamp = time();
-        $this->updateSubtreeModificationTime( $tagInfo->parentTagId, $timestamp );
-        $this->updateSubtreeModificationTime( $targetTagInfo->id, $timestamp );
+        $this->updateSubtreeModificationTime($tagInfo->parentTagId, $timestamp);
+        $this->updateSubtreeModificationTime($targetTagInfo->id, $timestamp);
     }
 
     /**
-     * Copies tag object identified by $sourceId into destination identified by $destinationParentId
+     * Copies tag object identified by $sourceId into destination identified by $destinationParentId.
      *
      * Also performs a copy of all child locations of $sourceId tag
      *
@@ -400,20 +398,20 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree( $sourceId, $destinationParentId )
+    public function copySubtree($sourceId, $destinationParentId)
     {
-        $sourceTag = $this->load( $sourceId );
-        $destinationParentTag = $this->load( $destinationParentId );
+        $sourceTag = $this->load($sourceId);
+        $destinationParentTag = $this->load($destinationParentId);
 
-        $copiedTagId = $this->recursiveCopySubtree( $sourceTag, $destinationParentTag->id );
+        $copiedTagId = $this->recursiveCopySubtree($sourceTag, $destinationParentTag->id);
 
-        $this->updateSubtreeModificationTime( $copiedTagId );
+        $this->updateSubtreeModificationTime($copiedTagId);
 
-        return $this->load( $copiedTagId );
+        return $this->load($copiedTagId);
     }
 
     /**
-     * Copies tag object identified by $sourceData into destination identified by $destinationParentData
+     * Copies tag object identified by $sourceData into destination identified by $destinationParentData.
      *
      * Also performs a copy of all child locations of $sourceData tag
      *
@@ -422,34 +420,32 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
-    protected function recursiveCopySubtree( Tag $sourceTag, $destinationParentTagId )
+    protected function recursiveCopySubtree(Tag $sourceTag, $destinationParentTagId)
     {
         // First copy the root node
 
         $createStruct = new CreateStruct();
         $createStruct->parentTagId = $destinationParentTagId;
         $createStruct->keywords = $sourceTag->keywords;
-        $createStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+        $createStruct->remoteId = md5(uniqid(get_class($this), true));
         $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
         $createStruct->mainLanguageCode = $sourceTag->mainLanguageCode;
 
-        $createdTag = $this->create( $createStruct );
-        foreach ( $this->loadSynonyms( $sourceTag->id ) as $synonym )
-        {
+        $createdTag = $this->create($createStruct);
+        foreach ($this->loadSynonyms($sourceTag->id) as $synonym) {
             $synonymCreateStruct = new SynonymCreateStruct();
             $synonymCreateStruct->keywords = $synonym->keywords;
-            $synonymCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+            $synonymCreateStruct->remoteId = md5(uniqid(get_class($this), true));
             $synonymCreateStruct->mainTagId = $createdTag->id;
             $synonymCreateStruct->alwaysAvailable = $synonym->alwaysAvailable;
             $synonymCreateStruct->mainLanguageCode = $synonym->mainLanguageCode;
 
-            $this->addSynonym( $synonymCreateStruct );
+            $this->addSynonym($synonymCreateStruct);
         }
 
         // Then copy the children
-        $children = $this->loadChildren( $sourceTag->id );
-        foreach ( $children as $child )
-        {
+        $children = $this->loadChildren($sourceTag->id);
+        foreach ($children as $child) {
             $this->recursiveCopySubtree(
                 $child,
                 $createdTag->id
@@ -460,7 +456,7 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Moves a tag identified by $sourceId into new parent identified by $destinationParentId
+     * Moves a tag identified by $sourceId into new parent identified by $destinationParentId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
@@ -469,22 +465,22 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree( $sourceId, $destinationParentId )
+    public function moveSubtree($sourceId, $destinationParentId)
     {
-        $sourceTagData = $this->gateway->getBasicTagData( $sourceId );
-        $destinationParentTagData = $this->gateway->getBasicTagData( $destinationParentId );
+        $sourceTagData = $this->gateway->getBasicTagData($sourceId);
+        $destinationParentTagData = $this->gateway->getBasicTagData($destinationParentId);
 
-        $this->gateway->moveSubtree( $sourceTagData, $destinationParentTagData );
+        $this->gateway->moveSubtree($sourceTagData, $destinationParentTagData);
 
         $timestamp = time();
-        $this->updateSubtreeModificationTime( $sourceTagData["parent_id"], $timestamp );
-        $this->updateSubtreeModificationTime( $sourceId, $timestamp );
+        $this->updateSubtreeModificationTime($sourceTagData['parent_id'], $timestamp);
+        $this->updateSubtreeModificationTime($sourceId, $timestamp);
 
-        return $this->load( $sourceId );
+        return $this->load($sourceId);
     }
 
     /**
-     * Deletes tag identified by $tagId, including its synonyms and all tags under it
+     * Deletes tag identified by $tagId, including its synonyms and all tags under it.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -492,34 +488,32 @@ class Handler implements BaseTagsHandler
      *
      * @param mixed $tagId
      */
-    public function deleteTag( $tagId )
+    public function deleteTag($tagId)
     {
-        $tagInfo = $this->loadTagInfo( $tagId );
-        $this->gateway->deleteTag( $tagInfo->id );
+        $tagInfo = $this->loadTagInfo($tagId);
+        $this->gateway->deleteTag($tagInfo->id);
 
-        $this->updateSubtreeModificationTime( $tagInfo->parentTagId );
+        $this->updateSubtreeModificationTime($tagInfo->parentTagId);
     }
 
     /**
-     * Updated subtree modification time for tag and all its parents
+     * Updated subtree modification time for tag and all its parents.
      *
      * If tag is a synonym, subtree modification time of its main tag is updated
      *
      * @param mixed $tagId
      * @param int $timestamp
      */
-    protected function updateSubtreeModificationTime( $tagId, $timestamp = null )
+    protected function updateSubtreeModificationTime($tagId, $timestamp = null)
     {
-        if ( $tagId > 0 )
-        {
-            $tagInfo = $this->loadTagInfo( $tagId );
+        if ($tagId > 0) {
+            $tagInfo = $this->loadTagInfo($tagId);
             $timestamp = $timestamp ?: time();
 
-            $this->gateway->updateSubtreeModificationTime( $tagInfo->pathString, $timestamp );
+            $this->gateway->updateSubtreeModificationTime($tagInfo->pathString, $timestamp);
 
-            if ( $tagInfo->mainTagId > 0 )
-            {
-                $this->gateway->updateSubtreeModificationTime( (string)$tagInfo->mainTagId, $timestamp );
+            if ($tagInfo->mainTagId > 0) {
+                $this->gateway->updateSubtreeModificationTime((string)$tagInfo->mainTagId, $timestamp);
             }
         }
     }

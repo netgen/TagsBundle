@@ -31,24 +31,24 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     protected $signalDispatcher;
 
     /**
-     * Sets up the test
+     * Sets up the test.
      */
     protected function setUp()
     {
         parent::setUp();
 
-        $this->tagsService = $this->getMock( 'Netgen\TagsBundle\API\Repository\TagsService' );
-        $this->signalDispatcher = $this->getMock( 'eZ\Publish\Core\SignalSlot\SignalDispatcher' );
+        $this->tagsService = $this->getMock('Netgen\TagsBundle\API\Repository\TagsService');
+        $this->signalDispatcher = $this->getMock('eZ\Publish\Core\SignalSlot\SignalDispatcher');
     }
 
     /**
-     * Returns signal slot service under test
+     * Returns signal slot service under test.
      *
      * @return \Netgen\TagsBundle\Core\SignalSlot\TagsService
      */
     protected function getSignalSlotService()
     {
-        return new TagsService( $this->tagsService, $this->signalDispatcher );
+        return new TagsService($this->tagsService, $this->signalDispatcher);
     }
 
     /**
@@ -57,20 +57,20 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testLoadTag()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'loadTag' )
-            ->with( $this->equalTo( 42 ) )
+            ->expects($this->once())
+            ->method('loadTag')
+            ->with($this->equalTo(42))
             ->will(
                 $this->returnValue(
-                    new Tag( array( 'id' => 42 ) )
+                    new Tag(array('id' => 42))
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tag = $signalSlotService->loadTag( 42 );
+        $tag = $signalSlotService->loadTag(42);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-        $this->assertEquals( 42, $tag->id );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+        $this->assertEquals(42, $tag->id);
     }
 
     /**
@@ -79,20 +79,20 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testLoadTagByRemoteId()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'loadTagByRemoteId' )
-            ->with( $this->equalTo( '12345' ) )
+            ->expects($this->once())
+            ->method('loadTagByRemoteId')
+            ->with($this->equalTo('12345'))
             ->will(
                 $this->returnValue(
-                    new Tag( array( 'remoteId' => '12345' ) )
+                    new Tag(array('remoteId' => '12345'))
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tag = $signalSlotService->loadTagByRemoteId( '12345' );
+        $tag = $signalSlotService->loadTagByRemoteId('12345');
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-        $this->assertEquals( '12345', $tag->remoteId );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+        $this->assertEquals('12345', $tag->remoteId);
     }
 
     /**
@@ -101,20 +101,20 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testLoadTagByUrl()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'loadTagByUrl' )
-            ->with( 'Netgen/TagsBundle', array( 'eng-GB' ) )
+            ->expects($this->once())
+            ->method('loadTagByUrl')
+            ->with('Netgen/TagsBundle', array('eng-GB'))
             ->will(
                 $this->returnValue(
-                    new Tag( array( 'keywords' => array( 'eng-GB' => 'TagsBundle' ) ) )
+                    new Tag(array('keywords' => array('eng-GB' => 'TagsBundle')))
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tag = $signalSlotService->loadTagByUrl( 'Netgen/TagsBundle', array( 'eng-GB' ) );
+        $tag = $signalSlotService->loadTagByUrl('Netgen/TagsBundle', array('eng-GB'));
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-        $this->assertEquals( array( 'eng-GB' => 'TagsBundle' ), $tag->keywords );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+        $this->assertEquals(array('eng-GB' => 'TagsBundle'), $tag->keywords);
     }
 
     /**
@@ -123,27 +123,26 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testLoadTagChildren()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'loadTagChildren' )
-            ->with( $this->equalTo( new Tag( array( 'id' => 42 ) ) ) )
+            ->expects($this->once())
+            ->method('loadTagChildren')
+            ->with($this->equalTo(new Tag(array('id' => 42))))
             ->will(
                 $this->returnValue(
                     array(
-                        new Tag( array( 'parentTagId' => 42 ) ),
-                        new Tag( array( 'parentTagId' => 42 ) )
+                        new Tag(array('parentTagId' => 42)),
+                        new Tag(array('parentTagId' => 42)),
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tags = $signalSlotService->loadTagChildren( new Tag( array( 'id' => 42 ) ) );
+        $tags = $signalSlotService->loadTagChildren(new Tag(array('id' => 42)));
 
-        $this->assertCount( 2, $tags );
+        $this->assertCount(2, $tags);
 
-        foreach ( $tags as $tag )
-        {
-            $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-            $this->assertEquals( 42, $tag->parentTagId );
+        foreach ($tags as $tag) {
+            $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+            $this->assertEquals(42, $tag->parentTagId);
         }
     }
 
@@ -153,15 +152,15 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testGetTagChildrenCount()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getTagChildrenCount' )
-            ->with( $this->equalTo( new Tag( array( 'id' => 42 ) ) ) )
-            ->will( $this->returnValue( 2 ) );
+            ->expects($this->once())
+            ->method('getTagChildrenCount')
+            ->with($this->equalTo(new Tag(array('id' => 42))))
+            ->will($this->returnValue(2));
 
         $signalSlotService = $this->getSignalSlotService();
-        $tagsCount = $signalSlotService->getTagChildrenCount( new Tag( array( 'id' => 42 ) ) );
+        $tagsCount = $signalSlotService->getTagChildrenCount(new Tag(array('id' => 42)));
 
-        $this->assertEquals( 2, $tagsCount );
+        $this->assertEquals(2, $tagsCount);
     }
 
     /**
@@ -170,27 +169,26 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testLoadTagsByKeyword()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'loadTagsByKeyword' )
-            ->with( 'netgen', 'eng-GB' )
+            ->expects($this->once())
+            ->method('loadTagsByKeyword')
+            ->with('netgen', 'eng-GB')
             ->will(
                 $this->returnValue(
                     array(
-                        new Tag( array( 'keywords' => array( 'eng-GB' => 'netgen' ) ) ),
-                        new Tag( array( 'keywords' => array( 'eng-GB' => 'netgen' ) ) )
+                        new Tag(array('keywords' => array('eng-GB' => 'netgen'))),
+                        new Tag(array('keywords' => array('eng-GB' => 'netgen'))),
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tags = $signalSlotService->loadTagsByKeyword( 'netgen', 'eng-GB' );
+        $tags = $signalSlotService->loadTagsByKeyword('netgen', 'eng-GB');
 
-        $this->assertCount( 2, $tags );
+        $this->assertCount(2, $tags);
 
-        foreach ( $tags as $tag )
-        {
-            $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-            $this->assertEquals( array( 'eng-GB' => 'netgen' ), $tag->keywords );
+        foreach ($tags as $tag) {
+            $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+            $this->assertEquals(array('eng-GB' => 'netgen'), $tag->keywords);
         }
     }
 
@@ -200,15 +198,15 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testGetTagsByKeywordCount()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getTagsByKeywordCount' )
-            ->with( 'netgen', 'eng-GB' )
-            ->will( $this->returnValue( 2 ) );
+            ->expects($this->once())
+            ->method('getTagsByKeywordCount')
+            ->with('netgen', 'eng-GB')
+            ->will($this->returnValue(2));
 
         $signalSlotService = $this->getSignalSlotService();
-        $tagsCount = $signalSlotService->getTagsByKeywordCount( 'netgen', 'eng-GB' );
+        $tagsCount = $signalSlotService->getTagsByKeywordCount('netgen', 'eng-GB');
 
-        $this->assertEquals( 2, $tagsCount );
+        $this->assertEquals(2, $tagsCount);
     }
 
     /**
@@ -217,27 +215,26 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testLoadTagSynonyms()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'loadTagSynonyms' )
-            ->with( $this->equalTo( new Tag( array( 'id' => 42 ) ) ) )
+            ->expects($this->once())
+            ->method('loadTagSynonyms')
+            ->with($this->equalTo(new Tag(array('id' => 42))))
             ->will(
                 $this->returnValue(
                     array(
-                        new Tag( array( 'mainTagId' => 42 ) ),
-                        new Tag( array( 'mainTagId' => 42 ) )
+                        new Tag(array('mainTagId' => 42)),
+                        new Tag(array('mainTagId' => 42)),
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tags = $signalSlotService->loadTagSynonyms( new Tag( array( 'id' => 42 ) ) );
+        $tags = $signalSlotService->loadTagSynonyms(new Tag(array('id' => 42)));
 
-        $this->assertCount( 2, $tags );
+        $this->assertCount(2, $tags);
 
-        foreach ( $tags as $tag )
-        {
-            $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag );
-            $this->assertEquals( 42, $tag->mainTagId );
+        foreach ($tags as $tag) {
+            $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+            $this->assertEquals(42, $tag->mainTagId);
         }
     }
 
@@ -247,15 +244,15 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testGetTagSynonymCount()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getTagSynonymCount' )
-            ->with( $this->equalTo( new Tag( array( 'id' => 42 ) ) ) )
-            ->will( $this->returnValue( 2 ) );
+            ->expects($this->once())
+            ->method('getTagSynonymCount')
+            ->with($this->equalTo(new Tag(array('id' => 42))))
+            ->will($this->returnValue(2));
 
         $signalSlotService = $this->getSignalSlotService();
-        $tagsCount = $signalSlotService->getTagSynonymCount( new Tag( array( 'id' => 42 ) ) );
+        $tagsCount = $signalSlotService->getTagSynonymCount(new Tag(array('id' => 42)));
 
-        $this->assertEquals( 2, $tagsCount );
+        $this->assertEquals(2, $tagsCount);
     }
 
     /**
@@ -264,26 +261,25 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testGetRelatedContent()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getRelatedContent' )
-            ->with( $this->equalTo( new Tag( array( 'id' => 42 ) ) ) )
+            ->expects($this->once())
+            ->method('getRelatedContent')
+            ->with($this->equalTo(new Tag(array('id' => 42))))
             ->will(
                 $this->returnValue(
                     array(
                         new Content(),
-                        new Content()
+                        new Content(),
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $content = $signalSlotService->getRelatedContent( new Tag( array( 'id' => 42 ) ) );
+        $content = $signalSlotService->getRelatedContent(new Tag(array('id' => 42)));
 
-        $this->assertCount( 2, $content );
+        $this->assertCount(2, $content);
 
-        foreach ( $content as $contentItem )
-        {
-            $this->assertInstanceOf( 'eZ\Publish\API\Repository\Values\Content\Content', $contentItem );
+        foreach ($content as $contentItem) {
+            $this->assertInstanceOf('eZ\Publish\API\Repository\Values\Content\Content', $contentItem);
         }
     }
 
@@ -293,15 +289,15 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testGetRelatedContentCount()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'getRelatedContentCount' )
-            ->with( $this->equalTo( new Tag( array( 'id' => 42 ) ) ) )
-            ->will( $this->returnValue( 2 ) );
+            ->expects($this->once())
+            ->method('getRelatedContentCount')
+            ->with($this->equalTo(new Tag(array('id' => 42))))
+            ->will($this->returnValue(2));
 
         $signalSlotService = $this->getSignalSlotService();
-        $contentCount = $signalSlotService->getRelatedContentCount( new Tag( array( 'id' => 42 ) ) );
+        $contentCount = $signalSlotService->getRelatedContentCount(new Tag(array('id' => 42)));
 
-        $this->assertEquals( 2, $contentCount );
+        $this->assertEquals(2, $contentCount);
     }
 
     /**
@@ -313,53 +309,53 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $tagCreateStruct->parentTagId = '42';
         $tagCreateStruct->mainLanguageCode = 'eng-GB';
         $tagCreateStruct->alwaysAvailable = true;
-        $tagCreateStruct->setKeyword( 'netgen' );
+        $tagCreateStruct->setKeyword('netgen');
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'createTag' )
-            ->with( $this->equalTo( $tagCreateStruct ) )
+            ->expects($this->once())
+            ->method('createTag')
+            ->with($this->equalTo($tagCreateStruct))
             ->will(
                 $this->returnValue(
                     new Tag(
                         array(
                             'id' => 24,
                             'parentTagId' => 42,
-                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'keywords' => array('eng-GB' => 'netgen'),
                             'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true
+                            'alwaysAvailable' => true,
                         )
                     )
                 )
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new CreateTagSignal(
                         array(
                             'tagId' => 24,
                             'parentTagId' => 42,
-                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'keywords' => array('eng-GB' => 'netgen'),
                             'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true
+                            'alwaysAvailable' => true,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $createdTag = $signalSlotService->createTag( $tagCreateStruct );
+        $createdTag = $signalSlotService->createTag($tagCreateStruct);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $createdTag );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $createdTag);
 
-        $this->assertEquals( 24, $createdTag->id );
-        $this->assertEquals( 42, $createdTag->parentTagId );
-        $this->assertEquals( array( 'eng-GB' => 'netgen' ), $createdTag->keywords );
-        $this->assertEquals( 'eng-GB', $createdTag->mainLanguageCode );
-        $this->assertEquals( true, $createdTag->alwaysAvailable );
+        $this->assertEquals(24, $createdTag->id);
+        $this->assertEquals(42, $createdTag->parentTagId);
+        $this->assertEquals(array('eng-GB' => 'netgen'), $createdTag->keywords);
+        $this->assertEquals('eng-GB', $createdTag->mainLanguageCode);
+        $this->assertEquals(true, $createdTag->alwaysAvailable);
     }
 
     /**
@@ -369,66 +365,66 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         $tagUpdateStruct = new TagUpdateStruct();
         $tagUpdateStruct->alwaysAvailable = true;
-        $tagUpdateStruct->setKeyword( 'netgen' );
+        $tagUpdateStruct->setKeyword('netgen');
 
         $tag = new Tag(
             array(
                 'id' => 42,
-                'keywords' => array( 'eng-GB' => 'ez' ),
+                'keywords' => array('eng-GB' => 'ez'),
                 'remoteId' => '123456',
                 'mainLanguageCode' => 'eng-GB',
-                'alwaysAvailable' => false
+                'alwaysAvailable' => false,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'updateTag' )
+            ->expects($this->once())
+            ->method('updateTag')
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( $tagUpdateStruct )
+                $this->equalTo($tag),
+                $this->equalTo($tagUpdateStruct)
             )
             ->will(
                 $this->returnValue(
                     new Tag(
                         array(
                             'id' => 42,
-                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'keywords' => array('eng-GB' => 'netgen'),
                             'remoteId' => 123456,
                             'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true
+                            'alwaysAvailable' => true,
                         )
                     )
                 )
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new UpdateTagSignal(
                         array(
                             'tagId' => 42,
-                            'keywords' => array( 'eng-GB' => 'netgen' ),
+                            'keywords' => array('eng-GB' => 'netgen'),
                             'remoteId' => '123456',
                             'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true
+                            'alwaysAvailable' => true,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $updatedTag = $signalSlotService->updateTag( $tag, $tagUpdateStruct );
+        $updatedTag = $signalSlotService->updateTag($tag, $tagUpdateStruct);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $updatedTag );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $updatedTag);
 
-        $this->assertEquals( 42, $updatedTag->id );
-        $this->assertEquals( array( 'eng-GB' => 'netgen' ), $updatedTag->keywords );
-        $this->assertEquals( '123456', $updatedTag->remoteId );
-        $this->assertEquals( 'eng-GB', $updatedTag->mainLanguageCode );
-        $this->assertEquals( true, $updatedTag->alwaysAvailable );
+        $this->assertEquals(42, $updatedTag->id);
+        $this->assertEquals(array('eng-GB' => 'netgen'), $updatedTag->keywords);
+        $this->assertEquals('123456', $updatedTag->remoteId);
+        $this->assertEquals('eng-GB', $updatedTag->mainLanguageCode);
+        $this->assertEquals(true, $updatedTag->alwaysAvailable);
     }
 
     /**
@@ -440,11 +436,11 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $synonymCreateStruct->mainTagId = '42';
         $synonymCreateStruct->mainLanguageCode = 'eng-GB';
         $synonymCreateStruct->alwaysAvailable = true;
-        $synonymCreateStruct->setKeyword( 'netgenlabs' );
+        $synonymCreateStruct->setKeyword('netgenlabs');
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'addSynonym' )
+            ->expects($this->once())
+            ->method('addSynonym')
             ->with(
                 $this->equalTo(
                     $synonymCreateStruct
@@ -455,42 +451,42 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                     new Tag(
                         array(
                             'id' => 24,
-                            'keywords' => array( 'eng-GB' => 'netgenlabs' ),
+                            'keywords' => array('eng-GB' => 'netgenlabs'),
                             'mainTagId' => 42,
                             'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true
+                            'alwaysAvailable' => true,
                         )
                     )
                 )
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new AddSynonymSignal(
                         array(
                             'tagId' => 24,
                             'mainTagId' => 42,
-                            'keywords' => array( 'eng-GB' => 'netgenlabs' ),
+                            'keywords' => array('eng-GB' => 'netgenlabs'),
                             'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true
+                            'alwaysAvailable' => true,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $synonym = $signalSlotService->addSynonym( $synonymCreateStruct );
+        $synonym = $signalSlotService->addSynonym($synonymCreateStruct);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym);
 
-        $this->assertEquals( 24, $synonym->id );
-        $this->assertEquals( 42, $synonym->mainTagId );
-        $this->assertEquals( array( 'eng-GB' => 'netgenlabs' ), $synonym->keywords );
-        $this->assertEquals( 'eng-GB', $synonym->mainLanguageCode );
-        $this->assertEquals( true, $synonym->alwaysAvailable );
+        $this->assertEquals(24, $synonym->id);
+        $this->assertEquals(42, $synonym->mainTagId);
+        $this->assertEquals(array('eng-GB' => 'netgenlabs'), $synonym->keywords);
+        $this->assertEquals('eng-GB', $synonym->mainLanguageCode);
+        $this->assertEquals(true, $synonym->alwaysAvailable);
     }
 
     /**
@@ -500,55 +496,55 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         $tag = new Tag(
             array(
-                'id' => 42
+                'id' => 42,
             )
         );
 
         $mainTag = new Tag(
             array(
-                'id' => 24
+                'id' => 24,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'convertToSynonym' )
+            ->expects($this->once())
+            ->method('convertToSynonym')
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( $mainTag )
+                $this->equalTo($tag),
+                $this->equalTo($mainTag)
             )
             ->will(
                 $this->returnValue(
                     new Tag(
                         array(
                             'id' => 42,
-                            'mainTagId' => 24
+                            'mainTagId' => 24,
                         )
                     )
                 )
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new ConvertToSynonymSignal(
                         array(
                             'tagId' => 42,
-                            'mainTagId' => 24
+                            'mainTagId' => 24,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $synonym = $signalSlotService->convertToSynonym( $tag, $mainTag );
+        $synonym = $signalSlotService->convertToSynonym($tag, $mainTag);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym);
 
-        $this->assertEquals( 42, $synonym->id );
-        $this->assertEquals( 24, $synonym->mainTagId );
+        $this->assertEquals(42, $synonym->id);
+        $this->assertEquals(24, $synonym->mainTagId);
     }
 
     /**
@@ -558,40 +554,40 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         $tag = new Tag(
             array(
-                'id' => 42
+                'id' => 42,
             )
         );
 
         $targetTag = new Tag(
             array(
-                'id' => 24
+                'id' => 24,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'mergeTags' )
+            ->expects($this->once())
+            ->method('mergeTags')
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( $targetTag )
+                $this->equalTo($tag),
+                $this->equalTo($targetTag)
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new MergeTagsSignal(
                         array(
                             'tagId' => 42,
-                            'targetTagId' => 24
+                            'targetTagId' => 24,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $signalSlotService->mergeTags( $tag, $targetTag );
+        $signalSlotService->mergeTags($tag, $targetTag);
     }
 
     /**
@@ -602,22 +598,22 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $tag = new Tag(
             array(
                 'id' => 24,
-                'keywords' => array( 'eng-GB' => 'netgen' )
+                'keywords' => array('eng-GB' => 'netgen'),
             )
         );
 
         $targetTag = new Tag(
             array(
-                'id' => 25
+                'id' => 25,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'copySubtree' )
+            ->expects($this->once())
+            ->method('copySubtree')
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( $targetTag )
+                $this->equalTo($tag),
+                $this->equalTo($targetTag)
             )
             ->will(
                 $this->returnValue(
@@ -625,35 +621,35 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
                         array(
                             'id' => 42,
                             'parentTagId' => 25,
-                            'keywords' => array( 'eng-GB' => 'netgen' )
+                            'keywords' => array('eng-GB' => 'netgen'),
                         )
                     )
                 )
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new CopySubtreeSignal(
                         array(
                             'sourceTagId' => 24,
                             'targetParentTagId' => 25,
-                            'newTagId' => 42
+                            'newTagId' => 42,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $copiedTag = $signalSlotService->copySubtree( $tag, $targetTag );
+        $copiedTag = $signalSlotService->copySubtree($tag, $targetTag);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $copiedTag );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $copiedTag);
 
-        $this->assertEquals( 42, $copiedTag->id );
-        $this->assertEquals( 25, $copiedTag->parentTagId );
-        $this->assertEquals( array( 'eng-GB' => 'netgen' ), $copiedTag->keywords );
+        $this->assertEquals(42, $copiedTag->id);
+        $this->assertEquals(25, $copiedTag->parentTagId);
+        $this->assertEquals(array('eng-GB' => 'netgen'), $copiedTag->keywords);
     }
 
     /**
@@ -663,55 +659,55 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         $tag = new Tag(
             array(
-                'id' => 24
+                'id' => 24,
             )
         );
 
         $targetTag = new Tag(
             array(
-                'id' => 25
+                'id' => 25,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'moveSubtree' )
+            ->expects($this->once())
+            ->method('moveSubtree')
             ->with(
-                $this->equalTo( $tag ),
-                $this->equalTo( $targetTag )
+                $this->equalTo($tag),
+                $this->equalTo($targetTag)
             )
             ->will(
                 $this->returnValue(
                     new Tag(
                         array(
                             'id' => 24,
-                            'parentTagId' => 25
+                            'parentTagId' => 25,
                         )
                     )
                 )
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new MoveSubtreeSignal(
                         array(
                             'sourceTagId' => 24,
-                            'targetParentTagId' => 25
+                            'targetParentTagId' => 25,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $movedTag = $signalSlotService->moveSubtree( $tag, $targetTag );
+        $movedTag = $signalSlotService->moveSubtree($tag, $targetTag);
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $movedTag );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $movedTag);
 
-        $this->assertEquals( 24, $movedTag->id );
-        $this->assertEquals( 25, $movedTag->parentTagId );
+        $this->assertEquals(24, $movedTag->id);
+        $this->assertEquals(25, $movedTag->parentTagId);
     }
 
     /**
@@ -721,32 +717,32 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         $tag = new Tag(
             array(
-                'id' => 42
+                'id' => 42,
             )
         );
 
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'deleteTag' )
+            ->expects($this->once())
+            ->method('deleteTag')
             ->with(
-                $this->equalTo( $tag )
+                $this->equalTo($tag)
             );
 
         $this->signalDispatcher
-            ->expects( $this->once() )
-            ->method( 'emit' )
+            ->expects($this->once())
+            ->method('emit')
             ->with(
                 $this->equalTo(
                     new DeleteTagSignal(
                         array(
-                            'tagId' => 42
+                            'tagId' => 42,
                         )
                     )
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $signalSlotService->deleteTag( $tag );
+        $signalSlotService->deleteTag($tag);
     }
 
     /**
@@ -755,21 +751,21 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testNewTagCreateStruct()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'newTagCreateStruct' )
-            ->with( $this->equalTo( 42 ), $this->equalTo( 'eng-GB' ) )
+            ->expects($this->once())
+            ->method('newTagCreateStruct')
+            ->with($this->equalTo(42), $this->equalTo('eng-GB'))
             ->will(
                 $this->returnValue(
-                    new TagCreateStruct( array( 'parentTagId' => 42, 'mainLanguageCode' => 'eng-GB' ) )
+                    new TagCreateStruct(array('parentTagId' => 42, 'mainLanguageCode' => 'eng-GB'))
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $tagCreateStruct = $signalSlotService->newTagCreateStruct( 42, 'eng-GB' );
+        $tagCreateStruct = $signalSlotService->newTagCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct', $tagCreateStruct );
-        $this->assertEquals( 42, $tagCreateStruct->parentTagId );
-        $this->assertEquals( 'eng-GB', $tagCreateStruct->mainLanguageCode );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct', $tagCreateStruct);
+        $this->assertEquals(42, $tagCreateStruct->parentTagId);
+        $this->assertEquals('eng-GB', $tagCreateStruct->mainLanguageCode);
     }
 
     /**
@@ -778,21 +774,21 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testNewSynonymCreateStruct()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'newSynonymCreateStruct' )
-            ->with( $this->equalTo( 42 ), $this->equalTo( 'eng-GB' ) )
+            ->expects($this->once())
+            ->method('newSynonymCreateStruct')
+            ->with($this->equalTo(42), $this->equalTo('eng-GB'))
             ->will(
                 $this->returnValue(
-                    new SynonymCreateStruct( array( 'mainTagId' => 42, 'mainLanguageCode' => 'eng-GB' ) )
+                    new SynonymCreateStruct(array('mainTagId' => 42, 'mainLanguageCode' => 'eng-GB'))
                 )
             );
 
         $signalSlotService = $this->getSignalSlotService();
-        $synonymCreateStruct = $signalSlotService->newSynonymCreateStruct( 42, 'eng-GB' );
+        $synonymCreateStruct = $signalSlotService->newSynonymCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct', $synonymCreateStruct );
-        $this->assertEquals( 42, $synonymCreateStruct->mainTagId );
-        $this->assertEquals( 'eng-GB', $synonymCreateStruct->mainLanguageCode );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct', $synonymCreateStruct);
+        $this->assertEquals(42, $synonymCreateStruct->mainTagId);
+        $this->assertEquals('eng-GB', $synonymCreateStruct->mainLanguageCode);
     }
 
     /**
@@ -801,8 +797,8 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     public function testNewTagUpdateStruct()
     {
         $this->tagsService
-            ->expects( $this->once() )
-            ->method( 'newTagUpdateStruct' )
+            ->expects($this->once())
+            ->method('newTagUpdateStruct')
             ->will(
                 $this->returnValue(
                     new TagUpdateStruct()
@@ -812,6 +808,6 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tagUpdateStruct = $signalSlotService->newTagUpdateStruct();
 
-        $this->assertInstanceOf( 'Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct', $tagUpdateStruct );
+        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct', $tagUpdateStruct);
     }
 }

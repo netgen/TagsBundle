@@ -42,7 +42,7 @@ class TagsService implements TagsServiceInterface
     protected $languageHandler;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \eZ\Publish\API\Repository\Repository $repository
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Handler $tagsHandler
@@ -52,30 +52,28 @@ class TagsService implements TagsServiceInterface
         Repository $repository,
         TagsHandler $tagsHandler,
         LanguageHandler $languageHandler
-    )
-    {
+    ) {
         $this->repository = $repository;
         $this->tagsHandler = $tagsHandler;
         $this->languageHandler = $languageHandler;
     }
 
     /**
-     * Loads a tag object from its $tagId
+     * Loads a tag object from its $tagId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTag( $tagId, array $languages = null, $useAlwaysAvailable = true )
+    public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
         $spiTag = $this->tagsHandler->load(
@@ -84,26 +82,25 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        return $this->buildTagDomainObject( $spiTag );
+        return $this->buildTagDomainObject($spiTag);
     }
 
     /**
-     * Loads a tag object from its $remoteId
+     * Loads a tag object from its $remoteId.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByRemoteId( $remoteId, array $languages = null, $useAlwaysAvailable = true )
+    public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
         $spiTag = $this->tagsHandler->loadByRemoteId(
@@ -112,11 +109,11 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        return $this->buildTagDomainObject( $spiTag );
+        return $this->buildTagDomainObject($spiTag);
     }
 
     /**
-     * Loads a tag object from its URL
+     * Loads a tag object from its URL.
      *
      * @todo Make possible to load synonyms
      *
@@ -128,72 +125,61 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByUrl( $url, array $languages )
+    public function loadTagByUrl($url, array $languages)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        $keywordArray = explode( '/', trim( $url, '/' ) );
-        if ( !is_array( $keywordArray ) || empty( $keywordArray ) )
-        {
-            throw new InvalidArgumentValue( "url", $url );
+        $keywordArray = explode('/', trim($url, '/'));
+        if (!is_array($keywordArray) || empty($keywordArray)) {
+            throw new InvalidArgumentValue('url', $url);
         }
 
         $parentId = 0;
         $spiTag = null;
 
-        if ( !empty( $languages ) )
-        {
-            foreach ( $keywordArray as $keyword )
-            {
-                if ( empty( $keyword ) )
-                {
+        if (!empty($languages)) {
+            foreach ($keywordArray as $keyword) {
+                if (empty($keyword)) {
                     continue;
                 }
 
-                $spiTag = $this->tagsHandler->loadTagByKeywordAndParentId( $keyword, $parentId, $languages );
+                $spiTag = $this->tagsHandler->loadTagByKeywordAndParentId($keyword, $parentId, $languages);
 
                 // Reasoning behind this is that the FIRST item sorted by languages must be matched to the keyword
                 // If not, it means that the tag is not translated to the correct keyword in the most prioritized language
                 $spiTagKeywords = array();
-                foreach ( $languages as $language )
-                {
-                    if ( isset( $spiTag->keywords[$language] ) )
-                    {
+                foreach ($languages as $language) {
+                    if (isset($spiTag->keywords[$language])) {
                         $spiTagKeywords[$language] = $spiTag->keywords[$language];
                     }
                 }
 
-                if ( $spiTag->alwaysAvailable )
-                {
-                    if ( !isset( $spiTagKeywords[$spiTag->mainLanguageCode] ) && isset( $spiTag->keywords[$spiTag->mainLanguageCode] ) )
-                    {
+                if ($spiTag->alwaysAvailable) {
+                    if (!isset($spiTagKeywords[$spiTag->mainLanguageCode]) && isset($spiTag->keywords[$spiTag->mainLanguageCode])) {
                         $spiTagKeywords[$spiTag->mainLanguageCode] = $spiTag->keywords[$spiTag->mainLanguageCode];
                     }
                 }
 
-                $spiTagKeywords = array_values( $spiTagKeywords );
-                if ( !empty( $spiTagKeywords ) && $spiTagKeywords[0] !== $keyword )
-                {
-                    throw new BaseNotFoundException( "tag", $url );
+                $spiTagKeywords = array_values($spiTagKeywords);
+                if (!empty($spiTagKeywords) && $spiTagKeywords[0] !== $keyword) {
+                    throw new BaseNotFoundException('tag', $url);
                 }
 
                 $parentId = $spiTag->id;
             }
         }
 
-        if ( !$spiTag instanceof SPITag )
-        {
-            throw new BaseNotFoundException( "tag", $url );
+        if (!$spiTag instanceof SPITag) {
+            throw new BaseNotFoundException('tag', $url);
         }
 
-        return $this->buildTagDomainObject( $spiTag );
+        return $this->buildTagDomainObject($spiTag);
     }
 
     /**
-     * Loads children of a tag object
+     * Loads children of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
@@ -201,15 +187,14 @@ class TagsService implements TagsServiceInterface
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren( Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true )
+    public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
         $spiTags = $this->tagsHandler->loadChildren(
@@ -221,30 +206,28 @@ class TagsService implements TagsServiceInterface
         );
 
         $tags = array();
-        foreach ( $spiTags as $spiTag )
-        {
-            $tags[] = $this->buildTagDomainObject( $spiTag );
+        foreach ($spiTags as $spiTag) {
+            $tags[] = $this->buildTagDomainObject($spiTag);
         }
 
         return $tags;
     }
 
     /**
-     * Returns the number of children of a tag object
+     * Returns the number of children of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagChildrenCount( Tag $tag = null, array $languages = null, $useAlwaysAvailable = true )
+    public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
         return $this->tagsHandler->getChildrenCount(
@@ -255,59 +238,56 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Loads tags by specified keyword
+     * Loads tags by specified keyword.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param string $keyword The keyword to fetch tags for
      * @param string $language The language to check for
-     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagsByKeyword( $keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1 )
+    public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTags = $this->tagsHandler->loadTagsByKeyword( $keyword, $language, $useAlwaysAvailable, $offset, $limit );
+        $spiTags = $this->tagsHandler->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit);
 
         $tags = array();
-        foreach ( $spiTags as $spiTag )
-        {
-            $tags[] = $this->buildTagDomainObject( $spiTag );
+        foreach ($spiTags as $spiTag) {
+            $tags[] = $this->buildTagDomainObject($spiTag);
         }
 
         return $tags;
     }
 
     /**
-     * Returns the number of tags by specified keyword
+     * Returns the number of tags by specified keyword.
      *
      * @param string $keyword The keyword to fetch tags count for
      * @param string $language The language to check for
-     * @param boolean $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return int
      */
-    public function getTagsByKeywordCount( $keyword, $language, $useAlwaysAvailable = true )
+    public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        return $this->tagsHandler->getTagsByKeywordCount( $keyword, $language, $useAlwaysAvailable );
+        return $this->tagsHandler->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable);
     }
 
     /**
-     * Loads synonyms of a tag object
+     * Loads synonyms of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
@@ -316,20 +296,18 @@ class TagsService implements TagsServiceInterface
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagSynonyms( Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true )
+    public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        if ( $tag->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "tag", "Tag is a synonym" );
+        if ($tag->mainTagId > 0) {
+            throw new InvalidArgumentException('tag', 'Tag is a synonym');
         }
 
         $spiTags = $this->tagsHandler->loadSynonyms(
@@ -341,36 +319,33 @@ class TagsService implements TagsServiceInterface
         );
 
         $tags = array();
-        foreach ( $spiTags as $spiTag )
-        {
-            $tags[] = $this->buildTagDomainObject( $spiTag );
+        foreach ($spiTags as $spiTag) {
+            $tags[] = $this->buildTagDomainObject($spiTag);
         }
 
         return $tags;
     }
 
     /**
-     * Returns the number of synonyms of a tag object
+     * Returns the number of synonyms of a tag object.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param array|null $languages A language filter for keywords. If not given all languages are returned.
-     * @param boolean $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
      */
-    public function getTagSynonymCount( Tag $tag, array $languages = null, $useAlwaysAvailable = true )
+    public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        if ( $tag->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "tag", "Tag is a synonym" );
+        if ($tag->mainTagId > 0) {
+            throw new InvalidArgumentException('tag', 'Tag is a synonym');
         }
 
         return $this->tagsHandler->getSynonymCount(
@@ -381,7 +356,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Loads content related to $tag
+     * Loads content related to $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -392,33 +367,30 @@ class TagsService implements TagsServiceInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function getRelatedContent( Tag $tag, $offset = 0, $limit = -1 )
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTagInfo->id );
-        if ( empty( $relatedContentIds ) )
-        {
+        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds($spiTagInfo->id);
+        if (empty($relatedContentIds)) {
             return array();
         }
 
         $searchResult = $this->repository->getSearchService()->findContent(
             new Query(
                 array(
-                    "offset" => $offset,
-                    "limit" => $limit > 0 ? $limit : PHP_INT_MAX,
-                    "criterion" => new ContentId( $relatedContentIds )
+                    'offset' => $offset,
+                    'limit' => $limit > 0 ? $limit : PHP_INT_MAX,
+                    'criterion' => new ContentId($relatedContentIds),
                 )
             )
         );
 
         $content = array();
-        foreach ( $searchResult->searchHits as $searchHit )
-        {
+        foreach ($searchResult->searchHits as $searchHit) {
             $content[] = $searchHit->valueObject;
         }
 
@@ -426,7 +398,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Returns the number of content objects related to $tag
+     * Returns the number of content objects related to $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -435,25 +407,23 @@ class TagsService implements TagsServiceInterface
      *
      * @return int
      */
-    public function getRelatedContentCount( Tag $tag )
+    public function getRelatedContentCount(Tag $tag)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds( $spiTagInfo->id );
-        if ( empty( $relatedContentIds ) )
-        {
+        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
+        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds($spiTagInfo->id);
+        if (empty($relatedContentIds)) {
             return 0;
         }
 
         $searchResult = $this->repository->getSearchService()->findContent(
             new Query(
                 array(
-                    "limit" => 0,
-                    "criterion" => new ContentId( $relatedContentIds )
+                    'limit' => 0,
+                    'criterion' => new ContentId($relatedContentIds),
                 )
             )
         );
@@ -462,7 +432,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Creates the new tag
+     * Creates the new tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
@@ -471,89 +441,71 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag
      */
-    public function createTag( TagCreateStruct $tagCreateStruct )
+    public function createTag(TagCreateStruct $tagCreateStruct)
     {
         $keywords = $tagCreateStruct->getKeywords();
 
-        if ( !empty( $tagCreateStruct->parentTagId ) )
-        {
-            if ( $this->repository->canUser( "tags", "add", $this->loadTag( $tagCreateStruct->parentTagId ) ) !== true )
-            {
-                throw new UnauthorizedException( "tags", "add" );
+        if (!empty($tagCreateStruct->parentTagId)) {
+            if ($this->repository->canUser('tags', 'add', $this->loadTag($tagCreateStruct->parentTagId)) !== true) {
+                throw new UnauthorizedException('tags', 'add');
             }
-        }
-        else if ( $this->repository->hasAccess( "tags", "add" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "add" );
+        } elseif ($this->repository->hasAccess('tags', 'add') !== true) {
+            throw new UnauthorizedException('tags', 'add');
         }
 
-        if ( empty( $tagCreateStruct->mainLanguageCode ) || !is_string( $tagCreateStruct->mainLanguageCode ) )
-        {
-            throw new InvalidArgumentValue( "mainLanguageCode", $tagCreateStruct->mainLanguageCode, "TagCreateStruct" );
+        if (empty($tagCreateStruct->mainLanguageCode) || !is_string($tagCreateStruct->mainLanguageCode)) {
+            throw new InvalidArgumentValue('mainLanguageCode', $tagCreateStruct->mainLanguageCode, 'TagCreateStruct');
         }
 
-        if ( empty( $keywords ) || !is_array( $keywords ) )
-        {
-            throw new InvalidArgumentValue( "keywords", $keywords, "TagCreateStruct" );
+        if (empty($keywords) || !is_array($keywords)) {
+            throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
-        if ( !isset( $keywords[$tagCreateStruct->mainLanguageCode] ) )
-        {
-            throw new InvalidArgumentValue( "keywords", $keywords, "TagCreateStruct" );
+        if (!isset($keywords[$tagCreateStruct->mainLanguageCode])) {
+            throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
-        if ( $tagCreateStruct->remoteId !== null && ( empty( $tagCreateStruct->remoteId ) || !is_string( $tagCreateStruct->remoteId ) ) )
-        {
-            throw new InvalidArgumentValue( "remoteId", $tagCreateStruct->remoteId, "TagCreateStruct" );
+        if ($tagCreateStruct->remoteId !== null && (empty($tagCreateStruct->remoteId) || !is_string($tagCreateStruct->remoteId))) {
+            throw new InvalidArgumentValue('remoteId', $tagCreateStruct->remoteId, 'TagCreateStruct');
         }
 
         // check for existence of tag with provided remote ID
-        if ( $tagCreateStruct->remoteId !== null )
-        {
-            try
-            {
-                $this->tagsHandler->loadTagInfoByRemoteId( $tagCreateStruct->remoteId );
-                throw new InvalidArgumentException( "tagCreateStruct", "Tag with provided remote ID already exists" );
-            }
-            catch ( NotFoundException $e )
-            {
+        if ($tagCreateStruct->remoteId !== null) {
+            try {
+                $this->tagsHandler->loadTagInfoByRemoteId($tagCreateStruct->remoteId);
+                throw new InvalidArgumentException('tagCreateStruct', 'Tag with provided remote ID already exists');
+            } catch (NotFoundException $e) {
                 // Do nothing
             }
-        }
-        else
-        {
-            $tagCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+        } else {
+            $tagCreateStruct->remoteId = md5(uniqid(get_class($this), true));
         }
 
-        if ( !is_bool( $tagCreateStruct->alwaysAvailable ) )
-        {
-            throw new InvalidArgumentValue( "alwaysAvailable", $tagCreateStruct->alwaysAvailable, "TagCreateStruct" );
+        if (!is_bool($tagCreateStruct->alwaysAvailable)) {
+            throw new InvalidArgumentValue('alwaysAvailable', $tagCreateStruct->alwaysAvailable, 'TagCreateStruct');
         }
 
         $createStruct = new CreateStruct();
-        $createStruct->parentTagId = !empty( $tagCreateStruct->parentTagId ) ? $tagCreateStruct->parentTagId : 0;
+        $createStruct->parentTagId = !empty($tagCreateStruct->parentTagId) ? $tagCreateStruct->parentTagId : 0;
         $createStruct->mainLanguageCode = $tagCreateStruct->mainLanguageCode;
         $createStruct->keywords = $keywords;
         $createStruct->remoteId = $tagCreateStruct->remoteId;
         $createStruct->alwaysAvailable = $tagCreateStruct->alwaysAvailable;
 
         $this->repository->beginTransaction();
-        try
-        {
-            $newTag = $this->tagsHandler->create( $createStruct );
+        try {
+            $newTag = $this->tagsHandler->create($createStruct);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $newTag );
+        return $this->buildTagDomainObject($newTag);
     }
 
     /**
-     * Updates $tag
+     * Updates $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
@@ -564,114 +516,91 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated tag
      */
-    public function updateTag( Tag $tag, TagUpdateStruct $tagUpdateStruct )
+    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct)
     {
         $keywords = $tagUpdateStruct->getKeywords();
 
-        if ( $tag->mainTagId > 0 )
-        {
-            if ( $this->repository->hasAccess( "tags", "edit" ) !== true )
-            {
-                throw new UnauthorizedException( "tags", "edit" );
+        if ($tag->mainTagId > 0) {
+            if ($this->repository->hasAccess('tags', 'edit') !== true) {
+                throw new UnauthorizedException('tags', 'edit');
             }
-        }
-        else
-        {
-            if ( $this->repository->hasAccess( "tags", "editsynonym" ) !== true )
-            {
-                throw new UnauthorizedException( "tags", "editsynonym" );
+        } else {
+            if ($this->repository->hasAccess('tags', 'editsynonym') !== true) {
+                throw new UnauthorizedException('tags', 'editsynonym');
             }
         }
 
-        if ( $keywords !== null && ( !is_array( $keywords ) || empty( $keywords ) ) )
-        {
-            throw new InvalidArgumentValue( "keywords", $keywords, "TagUpdateStruct" );
+        if ($keywords !== null && (!is_array($keywords) || empty($keywords))) {
+            throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
         }
 
-        if ( $keywords !== null )
-        {
-            foreach ( $keywords as $keyword )
-            {
-                if ( empty( $keyword ) )
-                {
-                    throw new InvalidArgumentValue( "keywords", $keywords, "TagUpdateStruct" );
+        if ($keywords !== null) {
+            foreach ($keywords as $keyword) {
+                if (empty($keyword)) {
+                    throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
                 }
             }
         }
 
-        if ( $tagUpdateStruct->remoteId !== null && ( !is_string( $tagUpdateStruct->remoteId ) || empty( $tagUpdateStruct->remoteId ) ) )
-        {
-            throw new InvalidArgumentValue( "remoteId", $tagUpdateStruct->remoteId, "TagUpdateStruct" );
+        if ($tagUpdateStruct->remoteId !== null && (!is_string($tagUpdateStruct->remoteId) || empty($tagUpdateStruct->remoteId))) {
+            throw new InvalidArgumentValue('remoteId', $tagUpdateStruct->remoteId, 'TagUpdateStruct');
         }
 
-        $spiTag = $this->tagsHandler->load( $tag->id );
+        $spiTag = $this->tagsHandler->load($tag->id);
 
-        if ( $tagUpdateStruct->remoteId !== null )
-        {
-            try
-            {
-                $existingTag = $this->tagsHandler->loadTagInfoByRemoteId( $tagUpdateStruct->remoteId );
-                if ( $existingTag->id !== $spiTag->id )
-                {
-                    throw new InvalidArgumentException( "tagUpdateStruct", "Tag with provided remote ID already exists" );
+        if ($tagUpdateStruct->remoteId !== null) {
+            try {
+                $existingTag = $this->tagsHandler->loadTagInfoByRemoteId($tagUpdateStruct->remoteId);
+                if ($existingTag->id !== $spiTag->id) {
+                    throw new InvalidArgumentException('tagUpdateStruct', 'Tag with provided remote ID already exists');
                 }
-            }
-            catch ( NotFoundException $e )
-            {
+            } catch (NotFoundException $e) {
                 // Do nothing
             }
         }
 
-        if ( $tagUpdateStruct->mainLanguageCode !== null && ( !is_string( $tagUpdateStruct->mainLanguageCode ) || empty( $tagUpdateStruct->mainLanguageCode ) ) )
-        {
-            throw new InvalidArgumentValue( "mainLanguageCode", $tagUpdateStruct->mainLanguageCode, "TagUpdateStruct" );
+        if ($tagUpdateStruct->mainLanguageCode !== null && (!is_string($tagUpdateStruct->mainLanguageCode) || empty($tagUpdateStruct->mainLanguageCode))) {
+            throw new InvalidArgumentValue('mainLanguageCode', $tagUpdateStruct->mainLanguageCode, 'TagUpdateStruct');
         }
 
         $mainLanguageCode = $spiTag->mainLanguageCode;
-        if ( $tagUpdateStruct->mainLanguageCode !== null )
-        {
+        if ($tagUpdateStruct->mainLanguageCode !== null) {
             $mainLanguageCode = $tagUpdateStruct->mainLanguageCode;
         }
 
         $newKeywords = $spiTag->keywords;
-        if ( $keywords !== null )
-        {
+        if ($keywords !== null) {
             $newKeywords = $keywords;
         }
 
-        if ( !isset( $newKeywords[$mainLanguageCode] ) )
-        {
-            throw new InvalidArgumentValue( "mainLanguageCode", $tagUpdateStruct->mainLanguageCode, "TagUpdateStruct" );
+        if (!isset($newKeywords[$mainLanguageCode])) {
+            throw new InvalidArgumentValue('mainLanguageCode', $tagUpdateStruct->mainLanguageCode, 'TagUpdateStruct');
         }
 
-        if ( $tagUpdateStruct->alwaysAvailable !== null && !is_bool( $tagUpdateStruct->alwaysAvailable ) )
-        {
-            throw new InvalidArgumentValue( "alwaysAvailable", $tagUpdateStruct->alwaysAvailable, "TagUpdateStruct" );
+        if ($tagUpdateStruct->alwaysAvailable !== null && !is_bool($tagUpdateStruct->alwaysAvailable)) {
+            throw new InvalidArgumentValue('alwaysAvailable', $tagUpdateStruct->alwaysAvailable, 'TagUpdateStruct');
         }
 
         $updateStruct = new UpdateStruct();
         $updateStruct->keywords = $newKeywords !== null ? $newKeywords : $spiTag->keywords;
-        $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim( $tagUpdateStruct->remoteId ) : $spiTag->remoteId;
-        $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim( $tagUpdateStruct->mainLanguageCode ) : $spiTag->mainLanguageCode;
+        $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim($tagUpdateStruct->remoteId) : $spiTag->remoteId;
+        $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim($tagUpdateStruct->mainLanguageCode) : $spiTag->mainLanguageCode;
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable !== null ? $tagUpdateStruct->alwaysAvailable : $spiTag->alwaysAvailable;
 
         $this->repository->beginTransaction();
-        try
-        {
-            $updatedTag = $this->tagsHandler->update( $updateStruct, $spiTag->id );
+        try {
+            $updatedTag = $this->tagsHandler->update($updateStruct, $spiTag->id);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $updatedTag );
+        return $this->buildTagDomainObject($updatedTag);
     }
 
     /**
-     * Creates a synonym for $tag
+     * Creates a synonym for $tag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
@@ -680,62 +609,49 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
-    public function addSynonym( SynonymCreateStruct $synonymCreateStruct )
+    public function addSynonym(SynonymCreateStruct $synonymCreateStruct)
     {
         $keywords = $synonymCreateStruct->getKeywords();
 
-        if ( $this->repository->hasAccess( "tags", "addsynonym" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "addsynonym" );
+        if ($this->repository->hasAccess('tags', 'addsynonym') !== true) {
+            throw new UnauthorizedException('tags', 'addsynonym');
         }
 
-        $mainTag = $this->tagsHandler->loadTagInfo( $synonymCreateStruct->mainTagId );
-        if ( $mainTag->mainTagId > 0 )
-        {
-            throw new InvalidArgumentValue( "mainTagId", $synonymCreateStruct->mainTagId, "SynonymCreateStruct" );
+        $mainTag = $this->tagsHandler->loadTagInfo($synonymCreateStruct->mainTagId);
+        if ($mainTag->mainTagId > 0) {
+            throw new InvalidArgumentValue('mainTagId', $synonymCreateStruct->mainTagId, 'SynonymCreateStruct');
         }
 
-        if ( empty( $synonymCreateStruct->mainLanguageCode ) || !is_string( $synonymCreateStruct->mainLanguageCode ) )
-        {
-            throw new InvalidArgumentValue( "mainLanguageCode", $synonymCreateStruct->mainLanguageCode, "SynonymCreateStruct" );
+        if (empty($synonymCreateStruct->mainLanguageCode) || !is_string($synonymCreateStruct->mainLanguageCode)) {
+            throw new InvalidArgumentValue('mainLanguageCode', $synonymCreateStruct->mainLanguageCode, 'SynonymCreateStruct');
         }
 
-        if ( empty( $keywords ) || !is_array( $keywords ) )
-        {
-            throw new InvalidArgumentValue( "keywords", $keywords, "SynonymCreateStruct" );
+        if (empty($keywords) || !is_array($keywords)) {
+            throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
-        if ( !isset( $keywords[$synonymCreateStruct->mainLanguageCode] ) )
-        {
-            throw new InvalidArgumentValue( "keywords", $keywords, "SynonymCreateStruct" );
+        if (!isset($keywords[$synonymCreateStruct->mainLanguageCode])) {
+            throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
-        if ( $synonymCreateStruct->remoteId !== null && ( empty( $synonymCreateStruct->remoteId ) || !is_string( $synonymCreateStruct->remoteId ) ) )
-        {
-            throw new InvalidArgumentValue( "remoteId", $synonymCreateStruct->remoteId, "SynonymCreateStruct" );
+        if ($synonymCreateStruct->remoteId !== null && (empty($synonymCreateStruct->remoteId) || !is_string($synonymCreateStruct->remoteId))) {
+            throw new InvalidArgumentValue('remoteId', $synonymCreateStruct->remoteId, 'SynonymCreateStruct');
         }
 
         // check for existence of tag with provided remote ID
-        if ( $synonymCreateStruct->remoteId !== null )
-        {
-            try
-            {
-                $this->tagsHandler->loadTagInfoByRemoteId( $synonymCreateStruct->remoteId );
-                throw new InvalidArgumentException( "synonymCreateStruct", "Tag with provided remote ID already exists" );
-            }
-            catch ( NotFoundException $e )
-            {
+        if ($synonymCreateStruct->remoteId !== null) {
+            try {
+                $this->tagsHandler->loadTagInfoByRemoteId($synonymCreateStruct->remoteId);
+                throw new InvalidArgumentException('synonymCreateStruct', 'Tag with provided remote ID already exists');
+            } catch (NotFoundException $e) {
                 // Do nothing
             }
-        }
-        else
-        {
-            $synonymCreateStruct->remoteId = md5( uniqid( get_class( $this ), true ) );
+        } else {
+            $synonymCreateStruct->remoteId = md5(uniqid(get_class($this), true));
         }
 
-        if ( !is_bool( $synonymCreateStruct->alwaysAvailable ) )
-        {
-            throw new InvalidArgumentValue( "alwaysAvailable", $synonymCreateStruct->alwaysAvailable, "SynonymCreateStruct" );
+        if (!is_bool($synonymCreateStruct->alwaysAvailable)) {
+            throw new InvalidArgumentValue('alwaysAvailable', $synonymCreateStruct->alwaysAvailable, 'SynonymCreateStruct');
         }
 
         $createStruct = new SPISynonymCreateStruct();
@@ -746,22 +662,19 @@ class TagsService implements TagsServiceInterface
         $createStruct->alwaysAvailable = $synonymCreateStruct->alwaysAvailable;
 
         $this->repository->beginTransaction();
-        try
-        {
-            $newTag = $this->tagsHandler->addSynonym( $createStruct );
+        try {
+            $newTag = $this->tagsHandler->addSynonym($createStruct);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $newTag );
+        return $this->buildTagDomainObject($newTag);
     }
 
     /**
-     * Converts $tag to a synonym of $mainTag
+     * Converts $tag to a synonym of $mainTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
@@ -773,53 +686,45 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The converted synonym
      */
-    public function convertToSynonym( Tag $tag, Tag $mainTag )
+    public function convertToSynonym(Tag $tag, Tag $mainTag)
     {
-        if ( $this->repository->hasAccess( "tags", "makesynonym" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "makesynonym" );
+        if ($this->repository->hasAccess('tags', 'makesynonym') !== true) {
+            throw new UnauthorizedException('tags', 'makesynonym');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
-        $spiMainTagInfo = $this->tagsHandler->loadTagInfo( $mainTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
+        $spiMainTagInfo = $this->tagsHandler->loadTagInfo($mainTag->id);
 
-        if ( $spiTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        if ($spiTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if ( $spiMainTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "mainTag", "Destination tag is a synonym" );
+        if ($spiMainTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('mainTag', 'Destination tag is a synonym');
         }
 
-        if ( strpos( $spiMainTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
-        {
-            throw new InvalidArgumentException( "mainTag", "Destination tag is a sub tag of the given tag" );
+        if (strpos($spiMainTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            throw new InvalidArgumentException('mainTag', 'Destination tag is a sub tag of the given tag');
         }
 
         $this->repository->beginTransaction();
-        try
-        {
-            foreach ( $this->tagsHandler->loadChildren( $spiTagInfo->id ) as $child )
-            {
-                $this->tagsHandler->moveSubtree( $child->id, $spiMainTagInfo->id );
+        try {
+            foreach ($this->tagsHandler->loadChildren($spiTagInfo->id) as $child) {
+                $this->tagsHandler->moveSubtree($child->id, $spiMainTagInfo->id);
             }
 
-            $convertedTag = $this->tagsHandler->convertToSynonym( $spiTagInfo->id, $spiMainTagInfo->id );
+            $convertedTag = $this->tagsHandler->convertToSynonym($spiTagInfo->id, $spiMainTagInfo->id);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $convertedTag );
+        return $this->buildTagDomainObject($convertedTag);
     }
 
     /**
-     * Merges the $tag into the $targetTag
+     * Merges the $tag into the $targetTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to merge tags
@@ -829,51 +734,43 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetTag
      */
-    public function mergeTags( Tag $tag, Tag $targetTag )
+    public function mergeTags(Tag $tag, Tag $targetTag)
     {
-        if ( $this->repository->hasAccess( "tags", "merge" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "merge" );
+        if ($this->repository->hasAccess('tags', 'merge') !== true) {
+            throw new UnauthorizedException('tags', 'merge');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
-        $spiTargetTagInfo = $this->tagsHandler->loadTagInfo( $targetTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
+        $spiTargetTagInfo = $this->tagsHandler->loadTagInfo($targetTag->id);
 
-        if ( $spiTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        if ($spiTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if ( $spiTargetTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "targetTag", "Target tag is a synonym" );
+        if ($spiTargetTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('targetTag', 'Target tag is a synonym');
         }
 
-        if ( strpos( $spiTargetTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target tag is a sub tag of the given tag" );
+        if (strpos($spiTargetTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Target tag is a sub tag of the given tag');
         }
 
         $this->repository->beginTransaction();
-        try
-        {
-            foreach ( $this->tagsHandler->loadChildren( $spiTagInfo->id ) as $child )
-            {
-                $this->tagsHandler->moveSubtree( $child->id, $spiTargetTagInfo->id );
+        try {
+            foreach ($this->tagsHandler->loadChildren($spiTagInfo->id) as $child) {
+                $this->tagsHandler->moveSubtree($child->id, $spiTargetTagInfo->id);
             }
 
-            $this->tagsHandler->merge( $spiTagInfo->id, $spiTargetTagInfo->id );
+            $this->tagsHandler->merge($spiTagInfo->id, $spiTargetTagInfo->id);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
     }
 
     /**
-     * Copies the subtree starting from $tag as a new subtree of $targetParentTag
+     * Copies the subtree starting from $tag as a new subtree of $targetParentTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -886,53 +783,45 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree( Tag $tag, Tag $targetParentTag )
+    public function copySubtree(Tag $tag, Tag $targetParentTag)
     {
-        if ( $this->repository->hasAccess( "tags", "read" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "read" );
+        if ($this->repository->hasAccess('tags', 'read') !== true) {
+            throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
-        $spiParentTagInfo = $this->tagsHandler->loadTagInfo( $targetParentTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
+        $spiParentTagInfo = $this->tagsHandler->loadTagInfo($targetParentTag->id);
 
-        if ( $spiTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        if ($spiTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if ( $spiParentTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a synonym" );
+        if ($spiParentTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
         }
 
-        if ( $tag->parentTagId == $targetParentTag->id )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is already the parent of the given tag" );
+        if ($tag->parentTagId == $targetParentTag->id) {
+            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
-        if ( strpos( $spiParentTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a sub tag of the given tag" );
+        if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
         }
 
         $this->repository->beginTransaction();
-        try
-        {
-            $copiedTag = $this->tagsHandler->copySubtree( $spiTagInfo->id, $spiParentTagInfo->id );
+        try {
+            $copiedTag = $this->tagsHandler->copySubtree($spiTagInfo->id, $spiParentTagInfo->id);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $copiedTag );
+        return $this->buildTagDomainObject($copiedTag);
     }
 
     /**
-     * Moves the subtree to $targetParentTag
+     * Moves the subtree to $targetParentTag.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag
@@ -945,53 +834,45 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree( Tag $tag, Tag $targetParentTag )
+    public function moveSubtree(Tag $tag, Tag $targetParentTag)
     {
-        if ( $this->repository->hasAccess( "tags", "edit" ) !== true )
-        {
-            throw new UnauthorizedException( "tags", "edit" );
+        if ($this->repository->hasAccess('tags', 'edit') !== true) {
+            throw new UnauthorizedException('tags', 'edit');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo( $tag->id );
-        $spiParentTagInfo = $this->tagsHandler->loadTagInfo( $targetParentTag->id );
+        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
+        $spiParentTagInfo = $this->tagsHandler->loadTagInfo($targetParentTag->id);
 
-        if ( $spiTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "tag", "Source tag is a synonym" );
+        if ($spiTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if ( $spiParentTagInfo->mainTagId > 0 )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a synonym" );
+        if ($spiParentTagInfo->mainTagId > 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
         }
 
-        if ( $tag->parentTagId == $targetParentTag->id )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is already the parent of the given tag" );
+        if ($tag->parentTagId == $targetParentTag->id) {
+            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
-        if ( strpos( $spiParentTagInfo->pathString, $spiTagInfo->pathString ) === 0 )
-        {
-            throw new InvalidArgumentException( "targetParentTag", "Target parent tag is a sub tag of the given tag" );
+        if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
         }
 
         $this->repository->beginTransaction();
-        try
-        {
-            $movedTag = $this->tagsHandler->moveSubtree( $spiTagInfo->id, $spiParentTagInfo->id );
+        try {
+            $movedTag = $this->tagsHandler->moveSubtree($spiTagInfo->id, $spiParentTagInfo->id);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
 
-        return $this->buildTagDomainObject( $movedTag );
+        return $this->buildTagDomainObject($movedTag);
     }
 
     /**
-     * Deletes $tag and all its descendants and synonyms
+     * Deletes $tag and all its descendants and synonyms.
      *
      * If $tag is a synonym, only the synonym is deleted
      *
@@ -1000,45 +881,37 @@ class TagsService implements TagsServiceInterface
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
-    public function deleteTag( Tag $tag )
+    public function deleteTag(Tag $tag)
     {
-        if ( $tag->mainTagId > 0 )
-        {
-            if ( $this->repository->hasAccess( "tags", "deletesynonym" ) !== true )
-            {
-                throw new UnauthorizedException( "tags", "deletesynonym" );
+        if ($tag->mainTagId > 0) {
+            if ($this->repository->hasAccess('tags', 'deletesynonym') !== true) {
+                throw new UnauthorizedException('tags', 'deletesynonym');
             }
-        }
-        else
-        {
-            if ( $this->repository->hasAccess( "tags", "delete" ) !== true )
-            {
-                throw new UnauthorizedException( "tags", "delete" );
+        } else {
+            if ($this->repository->hasAccess('tags', 'delete') !== true) {
+                throw new UnauthorizedException('tags', 'delete');
             }
         }
 
         $this->repository->beginTransaction();
-        try
-        {
-            $this->tagsHandler->deleteTag( $tag->id );
+        try {
+            $this->tagsHandler->deleteTag($tag->id);
             $this->repository->commit();
-        }
-        catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }
     }
 
     /**
-     * Instantiates a new tag create struct
+     * Instantiates a new tag create struct.
      *
      * @param mixed $parentTagId
      * @param string $mainLanguageCode
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct( $parentTagId, $mainLanguageCode )
+    public function newTagCreateStruct($parentTagId, $mainLanguageCode)
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = $parentTagId;
@@ -1048,14 +921,14 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Instantiates a new synonym create struct
+     * Instantiates a new synonym create struct.
      *
      * @param mixed $mainTagId
      * @param string $mainLanguageCode
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
-    public function newSynonymCreateStruct( $mainTagId, $mainLanguageCode )
+    public function newSynonymCreateStruct($mainTagId, $mainLanguageCode)
     {
         $synonymCreateStruct = new SynonymCreateStruct();
         $synonymCreateStruct->mainTagId = $mainTagId;
@@ -1065,7 +938,7 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Instantiates a new tag update struct
+     * Instantiates a new tag update struct.
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
      */
@@ -1074,30 +947,29 @@ class TagsService implements TagsServiceInterface
         return new TagUpdateStruct();
     }
 
-    protected function buildTagDomainObject( SPITag $spiTag )
+    protected function buildTagDomainObject(SPITag $spiTag)
     {
         $languageCodes = array();
-        foreach ( $spiTag->languageIds as $languageId )
-        {
-            $languageCodes[] = $this->languageHandler->load( $languageId )->languageCode;
+        foreach ($spiTag->languageIds as $languageId) {
+            $languageCodes[] = $this->languageHandler->load($languageId)->languageCode;
         }
 
         $modificationDate = new DateTime();
-        $modificationDate->setTimestamp( $spiTag->modificationDate );
+        $modificationDate->setTimestamp($spiTag->modificationDate);
 
         return new Tag(
             array(
-                "id" => $spiTag->id,
-                "parentTagId" => $spiTag->parentTagId,
-                "mainTagId" => $spiTag->mainTagId,
-                "keywords" => $spiTag->keywords,
-                "depth" => $spiTag->depth,
-                "pathString" => $spiTag->pathString,
-                "modificationDate" => $modificationDate,
-                "remoteId" => $spiTag->remoteId,
-                "alwaysAvailable" => $spiTag->alwaysAvailable,
-                "mainLanguageCode" => $spiTag->mainLanguageCode,
-                "languageCodes" => $languageCodes
+                'id' => $spiTag->id,
+                'parentTagId' => $spiTag->parentTagId,
+                'mainTagId' => $spiTag->mainTagId,
+                'keywords' => $spiTag->keywords,
+                'depth' => $spiTag->depth,
+                'pathString' => $spiTag->pathString,
+                'modificationDate' => $modificationDate,
+                'remoteId' => $spiTag->remoteId,
+                'alwaysAvailable' => $spiTag->alwaysAvailable,
+                'mainLanguageCode' => $spiTag->mainLanguageCode,
+                'languageCodes' => $languageCodes,
             )
         );
     }

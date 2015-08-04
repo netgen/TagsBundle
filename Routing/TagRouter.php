@@ -52,7 +52,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     protected $configResolver;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      * @param \Netgen\TagsBundle\Routing\Generator\TagUrlGenerator $generator
@@ -64,8 +64,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         TagUrlGenerator $generator,
         RequestContext $requestContext,
         LoggerInterface $logger = null
-    )
-    {
+    ) {
         $this->tagsService = $tagsService;
         $this->generator = $generator;
         $this->requestContext = $requestContext !== null ? $requestContext : new RequestContext();
@@ -75,7 +74,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * @param \eZ\Publish\Core\MVC\ConfigResolverInterface $configResolver
      */
-    public function setConfigResolver( ConfigResolverInterface $configResolver )
+    public function setConfigResolver(ConfigResolverInterface $configResolver)
     {
         $this->configResolver = $configResolver;
     }
@@ -92,39 +91,36 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException If no matching resource could be found
      */
-    public function matchRequest( Request $request )
+    public function matchRequest(Request $request)
     {
-        $requestedPath = rawurldecode( $request->attributes->get( 'semanticPathinfo', $request->getPathInfo() ) );
+        $requestedPath = rawurldecode($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
         $pathPrefix = $this->generator->getPathPrefix();
 
-        if ( mb_stripos( $requestedPath, $pathPrefix ) !== 0 )
-        {
+        if (mb_stripos($requestedPath, $pathPrefix) !== 0) {
             throw new ResourceNotFoundException();
         }
 
-        $requestedPath = $this->removePathPrefix( $requestedPath, $pathPrefix );
-        $requestedPath = trim( $requestedPath, '/' );
+        $requestedPath = $this->removePathPrefix($requestedPath, $pathPrefix);
+        $requestedPath = trim($requestedPath, '/');
 
-        if ( empty( $requestedPath ) )
-        {
+        if (empty($requestedPath)) {
             throw new ResourceNotFoundException();
         }
 
         $tag = $this->tagsService->loadTagByUrl(
             $requestedPath,
-            $this->configResolver->getParameter( 'languages' )
+            $this->configResolver->getParameter('languages')
         );
 
         $params = array(
             '_route' => self::TAG_URL_ROUTE_NAME,
             '_controller' => static::TAG_VIEW_CONTROLLER,
-            'tagId' => $tag->id
+            'tagId' => $tag->id,
         );
 
-        $request->attributes->set( 'tagId', $tag->id );
+        $request->attributes->set('tagId', $tag->id);
 
-        if ( $this->logger !== null )
-        {
+        if ($this->logger !== null) {
             $this->logger->info(
                 "TagRouter matched tag #{$tag->id}. Forwarding to tag view controller"
             );
@@ -134,7 +130,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     }
 
     /**
-     * Generates a URL for a tag, from the given parameters
+     * Generates a URL for a tag, from the given parameters.
      *
      * It is possible to directly pass a Tag object as the route name, as the ChainRouter allows it through ChainedRouterInterface
      *
@@ -145,7 +141,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param string|\Netgen\TagsBundle\API\Repository\Values\Tags\Tag $name The name of the route or a Tag instance
      * @param mixed $parameters An array of parameters
-     * @param boolean $absolute Whether to generate an absolute URL
+     * @param bool $absolute Whether to generate an absolute URL
      *
      * @throws \LogicException
      * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
@@ -153,30 +149,27 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return string The generated URL
      */
-    public function generate( $name, $parameters = array(), $absolute = false )
+    public function generate($name, $parameters = array(), $absolute = false)
     {
         // Direct access to Tag
-        if ( $name instanceof Tag )
-        {
-            return $this->generator->generate( $name, $parameters, $absolute );
+        if ($name instanceof Tag) {
+            return $this->generator->generate($name, $parameters, $absolute);
         }
 
         // Normal route name
-        if ( $name === self::TAG_URL_ROUTE_NAME )
-        {
-            if ( isset( $parameters['tag'] ) || isset( $parameters['tagId'] ) )
-            {
+        if ($name === self::TAG_URL_ROUTE_NAME) {
+            if (isset($parameters['tag']) || isset($parameters['tagId'])) {
                 // Check if tag is a valid Tag object
-                if ( isset( $parameters['tag'] ) && !$parameters['tag'] instanceof Tag )
-                {
+                if (isset($parameters['tag']) && !$parameters['tag'] instanceof Tag) {
                     throw new LogicException(
                         "When generating a Tag route, 'tag' parameter must be a valid Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag."
                     );
                 }
 
-                $tag = isset( $parameters['tag'] ) ? $parameters['tag'] : $this->tagsService->loadTag( $parameters['tagId'] );
-                unset( $parameters['tag'], $parameters['tagId'], $parameters['viewType'], $parameters['layout'] );
-                return $this->generator->generate( $tag, $parameters, $absolute );
+                $tag = isset($parameters['tag']) ? $parameters['tag'] : $this->tagsService->loadTag($parameters['tagId']);
+                unset($parameters['tag'], $parameters['tagId'], $parameters['viewType'], $parameters['layout']);
+
+                return $this->generator->generate($tag, $parameters, $absolute);
             }
 
             throw new InvalidArgumentException(
@@ -184,11 +177,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             );
         }
 
-        throw new RouteNotFoundException( 'Could not match route' );
+        throw new RouteNotFoundException('Could not match route');
     }
 
     /**
-     * Gets the RouteCollection instance associated with this Router
+     * Gets the RouteCollection instance associated with this Router.
      *
      * @return \Symfony\Component\Routing\RouteCollection A RouteCollection instance
      */
@@ -198,18 +191,18 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     }
 
     /**
-     * Sets the request context
+     * Sets the request context.
      *
      * @param \Symfony\Component\Routing\RequestContext $context The context
      */
-    public function setContext( RequestContext $context )
+    public function setContext(RequestContext $context)
     {
         $this->requestContext = $context;
-        $this->generator->setRequestContext( $context );
+        $this->generator->setRequestContext($context);
     }
 
     /**
-     * Gets the request context
+     * Gets the request context.
      *
      * @return \Symfony\Component\Routing\RequestContext The context
      */
@@ -219,7 +212,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     }
 
     /**
-     * Tries to match a URL path with a set of routes
+     * Tries to match a URL path with a set of routes.
      *
      * If the matcher can not find information, it must throw one of the exceptions documented
      * below.
@@ -231,13 +224,13 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException If the resource could not be found
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException If the resource was found but the request method is not allowed
      */
-    public function match( $pathinfo )
+    public function match($pathinfo)
     {
-        throw new RuntimeException( "The TagRouter doesn't support the match() method. Please use matchRequest() instead." );
+        throw new RuntimeException("The TagRouter doesn't support the match() method. Please use matchRequest() instead.");
     }
 
     /**
-     * Whether this generator supports the supplied $name
+     * Whether this generator supports the supplied $name.
      *
      * This check does not need to look if the specific instance can be
      * resolved to a route, only whether the router can generate routes from
@@ -247,29 +240,27 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return bool
      */
-    public function supports( $name )
+    public function supports($name)
     {
         return $name instanceof Tag || $name === self::TAG_URL_ROUTE_NAME;
     }
 
     /**
      * Convert a route identifier (name, content object etc) into a string
-     * usable for logging and other debug/error messages
+     * usable for logging and other debug/error messages.
      *
      * @param mixed $name
      * @param array $parameters which should contain a content field containing a RouteReferrersReadInterface object
      *
      * @return string
      */
-    public function getRouteDebugMessage( $name, array $parameters = array() )
+    public function getRouteDebugMessage($name, array $parameters = array())
     {
-        if ( $name instanceof RouteObjectInterface )
-        {
+        if ($name instanceof RouteObjectInterface) {
             return 'Route with key ' . $name->getRouteKey();
         }
 
-        if ( $name instanceof SymfonyRoute )
-        {
+        if ($name instanceof SymfonyRoute) {
             return 'Route with pattern ' . $name->getPath();
         }
 
@@ -277,7 +268,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     }
 
     /**
-     * Removes prefix from path
+     * Removes prefix from path.
      *
      * Checks for presence of $prefix and removes it from $path if found.
      *
@@ -286,12 +277,12 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return string
      */
-    protected function removePathPrefix( $path, $prefix )
+    protected function removePathPrefix($path, $prefix)
     {
-        if ( $prefix !== '/' && mb_stripos( $path, $prefix ) === 0 )
-        {
-            $path = mb_substr( $path, mb_strlen( $prefix ) );
+        if ($prefix !== '/' && mb_stripos($path, $prefix) === 0) {
+            $path = mb_substr($path, mb_strlen($prefix));
         }
+
         return $path;
     }
 }

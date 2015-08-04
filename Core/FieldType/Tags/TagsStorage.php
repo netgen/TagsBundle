@@ -7,7 +7,7 @@ use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\SPI\Persistence\Content\Field;
 
 /**
- * Converter for Tags field type external storage
+ * Converter for Tags field type external storage.
  */
 class TagsStorage extends GatewayBasedStorage
 {
@@ -20,15 +20,14 @@ class TagsStorage extends GatewayBasedStorage
      *
      * @return mixed null|true
      */
-    public function storeFieldData( VersionInfo $versionInfo, Field $field, array $context )
+    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
         /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
-        $gateway = $this->getGateway( $context );
+        $gateway = $this->getGateway($context);
 
-        $gateway->deleteFieldData( $versionInfo, array( $field->id ) );
-        if ( !empty( $field->value->externalData ) )
-        {
-            $gateway->storeFieldData( $versionInfo, $field );
+        $gateway->deleteFieldData($versionInfo, array($field->id));
+        if (!empty($field->value->externalData)) {
+            $gateway->storeFieldData($versionInfo, $field);
         }
     }
 
@@ -39,11 +38,11 @@ class TagsStorage extends GatewayBasedStorage
      * @param \eZ\Publish\SPI\Persistence\Content\Field $field
      * @param array $context
      */
-    public function getFieldData( VersionInfo $versionInfo, Field $field, array $context )
+    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
         /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
-        $gateway = $this->getGateway( $context );
-        $gateway->getFieldData( $versionInfo, $field );
+        $gateway = $this->getGateway($context);
+        $gateway->getFieldData($versionInfo, $field);
     }
 
     /**
@@ -54,19 +53,19 @@ class TagsStorage extends GatewayBasedStorage
      * @param array $fieldIds Array of field IDs
      * @param array $context
      *
-     * @return boolean
+     * @return bool
      */
-    public function deleteFieldData( VersionInfo $versionInfo, array $fieldIds, array $context )
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
     {
         /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
-        $gateway = $this->getGateway( $context );
-        $gateway->deleteFieldData( $versionInfo, $fieldIds );
+        $gateway = $this->getGateway($context);
+        $gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 
     /**
-     * Checks if field type has external data to deal with
+     * Checks if field type has external data to deal with.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasFieldData()
     {
@@ -74,7 +73,7 @@ class TagsStorage extends GatewayBasedStorage
     }
 
     /**
-     * Get index data for external data for search backend
+     * Get index data for external data for search backend.
      *
      * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
      * @param \eZ\Publish\SPI\Persistence\Content\Field $field
@@ -82,7 +81,7 @@ class TagsStorage extends GatewayBasedStorage
      *
      * @return \eZ\Publish\SPI\Search\Field[]
      */
-    public function getIndexData( VersionInfo $versionInfo, Field $field, array $context )
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
     {
         return false;
     }

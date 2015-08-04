@@ -8,83 +8,83 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
- * Test case for Tags mapper
+ * Test case for Tags mapper.
  */
 class MapperTest extends TestCase
 {
     /**
-     * Tags data from the database
+     * Tags data from the database.
      *
      * @var array
      */
     protected $tagRow = array(
-        "id" => 42,
-        "parent_id" => 21,
-        "main_tag_id" => 0,
-        "keyword" => "Croatia",
-        "depth" => 3,
-        "path_string" => "/1/21/42/",
-        "modified" => 1234567,
-        "remote_id" => "123456abcdef",
-        "main_language_id" => 8,
-        "language_mask" => 9
+        'id' => 42,
+        'parent_id' => 21,
+        'main_tag_id' => 0,
+        'keyword' => 'Croatia',
+        'depth' => 3,
+        'path_string' => '/1/21/42/',
+        'modified' => 1234567,
+        'remote_id' => '123456abcdef',
+        'main_language_id' => 8,
+        'language_mask' => 9,
     );
 
     /**
-     * Tags list data from the database
+     * Tags list data from the database.
      *
      * @var array
      */
     protected $tagListRow = array(
-        "eztags_id" => 42,
-        "eztags_parent_id" => 21,
-        "eztags_main_tag_id" => 0,
-        "eztags_keyword" => "Croatia",
-        "eztags_depth" => 3,
-        "eztags_path_string" => "/1/21/42/",
-        "eztags_modified" => 1234567,
-        "eztags_remote_id" => "123456abcdef",
-        "eztags_main_language_id" => 8,
-        "eztags_language_mask" => 9,
-        "eztags_keyword_keyword" => "Croatia",
-        "eztags_keyword_locale" => "eng-GB"
+        'eztags_id' => 42,
+        'eztags_parent_id' => 21,
+        'eztags_main_tag_id' => 0,
+        'eztags_keyword' => 'Croatia',
+        'eztags_depth' => 3,
+        'eztags_path_string' => '/1/21/42/',
+        'eztags_modified' => 1234567,
+        'eztags_remote_id' => '123456abcdef',
+        'eztags_main_language_id' => 8,
+        'eztags_language_mask' => 9,
+        'eztags_keyword_keyword' => 'Croatia',
+        'eztags_keyword_locale' => 'eng-GB',
     );
 
     /**
-     * Expected Tag object properties values
+     * Expected Tag object properties values.
      *
      * @var array
      */
     protected $tagValues = array(
-        "id" => 42,
-        "parentTagId" => 21,
-        "mainTagId" => 0,
-        "depth" => 3,
-        "pathString" => "/1/21/42/",
-        "modificationDate" => 1234567,
-        "remoteId" => "123456abcdef",
-        "alwaysAvailable" => true,
-        "mainLanguageCode" => "eng-GB",
-        "languageIds" => array( 8 )
+        'id' => 42,
+        'parentTagId' => 21,
+        'mainTagId' => 0,
+        'depth' => 3,
+        'pathString' => '/1/21/42/',
+        'modificationDate' => 1234567,
+        'remoteId' => '123456abcdef',
+        'alwaysAvailable' => true,
+        'mainLanguageCode' => 'eng-GB',
+        'languageIds' => array(8),
     );
 
     /**
-     * Expected Tag object properties values
+     * Expected Tag object properties values.
      *
      * @var array
      */
     protected $tagListValues = array(
-        "id" => 42,
-        "parentTagId" => 21,
-        "mainTagId" => 0,
-        "keywords" => array( "eng-GB" => "Croatia" ),
-        "depth" => 3,
-        "pathString" => "/1/21/42/",
-        "modificationDate" => 1234567,
-        "remoteId" => "123456abcdef",
-        "alwaysAvailable" => true,
-        "mainLanguageCode" => "eng-GB",
-        "languageIds" => array( 8 )
+        'id' => 42,
+        'parentTagId' => 21,
+        'mainTagId' => 0,
+        'keywords' => array('eng-GB' => 'Croatia'),
+        'depth' => 3,
+        'pathString' => '/1/21/42/',
+        'modificationDate' => 1234567,
+        'remoteId' => '123456abcdef',
+        'alwaysAvailable' => true,
+        'mainLanguageCode' => 'eng-GB',
+        'languageIds' => array(8),
     );
 
     /**
@@ -99,7 +99,7 @@ class MapperTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo",
+            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo',
             $tag
         );
 
@@ -115,38 +115,36 @@ class MapperTest extends TestCase
     public function testExtractTagListFromRows()
     {
         $inputRows = array();
-        for ( $i = 0; $i < 3; $i++ )
-        {
+        for ($i = 0; $i < 3; ++$i) {
             $row = $this->tagListRow;
-            $row["eztags_id"] += $i;
+            $row['eztags_id'] += $i;
             $inputRows[] = $row;
         }
 
         $mapper = $this->getMapper();
 
-        $tags = $mapper->extractTagListFromRows( $inputRows );
+        $tags = $mapper->extractTagListFromRows($inputRows);
 
-        $this->assertCount( 3, $tags );
+        $this->assertCount(3, $tags);
 
         $i = 0;
-        foreach ( $tags as $tag )
-        {
+        foreach ($tags as $tag) {
             $this->assertInstanceOf(
-                "Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag",
+                'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
                 $tag
             );
 
             $this->assertPropertiesCorrect(
-                array( "id" => $this->tagListValues["id"] + $i ) + $this->tagListValues,
+                array('id' => $this->tagListValues['id'] + $i) + $this->tagListValues,
                 $tag
             );
 
-            $i++;
+            ++$i;
         }
     }
 
     /**
-     * Returns mapper instance for testing
+     * Returns mapper instance for testing.
      *
      * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */

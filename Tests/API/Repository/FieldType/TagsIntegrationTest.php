@@ -10,7 +10,7 @@ use DateTime;
 use stdClass;
 
 /**
- * Integration test for eztags field type
+ * Integration test for eztags field type.
  *
  * @group integration
  * @group field-type
@@ -18,71 +18,71 @@ use stdClass;
 class TagsIntegrationTest extends BaseIntegrationTest
 {
     /**
-     * Get name of tested field type
+     * Get name of tested field type.
      *
      * @return string
      */
     public function getTypeName()
     {
-        return "eztags";
+        return 'eztags';
     }
 
     /**
-     * Get expected settings schema
+     * Get expected settings schema.
      *
      * @return array
      */
     public function getSettingsSchema()
     {
         return array(
-            "subTreeLimit" => array(
-                "type" => "int",
-                "default" => 0
+            'subTreeLimit' => array(
+                'type' => 'int',
+                'default' => 0,
             ),
-            "showDropDown" => array(
-                "type" => "boolean",
-                "default" => false
+            'showDropDown' => array(
+                'type' => 'boolean',
+                'default' => false,
             ),
-            "hideRootTag" => array(
-                "type" => "boolean",
-                "default" => false
+            'hideRootTag' => array(
+                'type' => 'boolean',
+                'default' => false,
             ),
-            "maxTags" => array(
-                "type" => "int",
-                "default" => 0
-            )
+            'maxTags' => array(
+                'type' => 'int',
+                'default' => 0,
+            ),
         );
     }
 
     /**
-     * Get a valid $fieldSettings value
+     * Get a valid $fieldSettings value.
      *
      * @return array
      */
     public function getValidFieldSettings()
     {
         return array(
-            "subTreeLimit" => 0,
-            "showDropDown" => false,
-            "hideRootTag" => true,
-            "maxTags" => 10
+            'subTreeLimit' => 0,
+            'showDropDown' => false,
+            'hideRootTag' => true,
+            'maxTags' => 10,
         );
     }
 
     /**
-     * Get $fieldSettings value not accepted by the field type
+     * Get $fieldSettings value not accepted by the field type.
      *
      * @return array
      */
     public function getInvalidFieldSettings()
     {
         return array(
-            "unknown" => 42,
+            'unknown' => 42,
         );
     }
 
     /**
-     * Get expected validator schema
+     * Get expected validator schema.
      *
      * @return array
      */
@@ -92,7 +92,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     }
 
     /**
-     * Get a valid $validatorConfiguration
+     * Get a valid $validatorConfiguration.
      *
      * @return array
      */
@@ -102,19 +102,19 @@ class TagsIntegrationTest extends BaseIntegrationTest
     }
 
     /**
-     * Get $validatorConfiguration not accepted by the field type
+     * Get $validatorConfiguration not accepted by the field type.
      *
      * @return array
      */
     public function getInvalidValidatorConfiguration()
     {
         return array(
-            "unknown" => array( "value" => 42 )
+            'unknown' => array('value' => 42),
         );
     }
 
     /**
-     * Get initial field data for valid object creation
+     * Get initial field data for valid object creation.
      *
      * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
@@ -122,7 +122,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         return new TagsValue(
             array(
-                $this->getTag1()
+                $this->getTag1(),
             )
         );
     }
@@ -135,23 +135,23 @@ class TagsIntegrationTest extends BaseIntegrationTest
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect( Field $field )
+    public function assertFieldDataLoadedCorrect(Field $field)
     {
         $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+            'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
             $field->value
         );
 
         $this->assertEquals(
             array(
-                $this->getTag1()
+                $this->getTag1(),
             ),
             $field->value->tags
         );
     }
 
     /**
-     * Get field data which will result in errors during creation
+     * Get field data which will result in errors during creation.
      *
      * This is a PHPUnit data provider.
      *
@@ -176,27 +176,27 @@ class TagsIntegrationTest extends BaseIntegrationTest
         return array(
             array(
                 42,
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType"
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
             ),
             array(
-                "invalid",
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType"
+                'invalid',
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
             ),
             array(
                 array(
-                    new stdClass()
+                    new stdClass(),
                 ),
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType"
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
             ),
             array(
                 new stdClass(),
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType"
-            )
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
+            ),
         );
     }
 
     /**
-     * Get valid field data for updating content
+     * Get valid field data for updating content.
      *
      * @return mixed
      */
@@ -205,7 +205,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         return new TagsValue(
             array(
                 $this->getTag2(),
-                $this->getTag3()
+                $this->getTag3(),
             )
         );
     }
@@ -218,24 +218,24 @@ class TagsIntegrationTest extends BaseIntegrationTest
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Field $field
      */
-    public function assertUpdatedFieldDataLoadedCorrect( Field $field )
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
         $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+            'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
             $field->value
         );
 
         $this->assertEquals(
             array(
                 $this->getTag2(),
-                $this->getTag3()
+                $this->getTag3(),
             ),
             $field->value->tags
         );
     }
 
     /**
-     * Get field data which will result in errors during update
+     * Get field data which will result in errors during update.
      *
      * This is a PHPUnit data provider.
      *
@@ -268,23 +268,23 @@ class TagsIntegrationTest extends BaseIntegrationTest
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly( Field $field )
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
         $this->assertInstanceOf(
-            "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+            'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
             $field->value
         );
 
         $this->assertEquals(
             array(
-                $this->getTag1()
+                $this->getTag1(),
             ),
             $field->value->tags
         );
     }
 
     /**
-     * Get data to test to hash method
+     * Get data to test to hash method.
      *
      * This is a PHPUnit data provider
      *
@@ -308,31 +308,31 @@ class TagsIntegrationTest extends BaseIntegrationTest
         return array(
             array(
                 new TagsValue(),
-                array()
+                array(),
             ),
             array(
-                new TagsValue( null ),
-                array()
+                new TagsValue(null),
+                array(),
             ),
             array(
-                new TagsValue( array() ),
-                array()
+                new TagsValue(array()),
+                array(),
             ),
             array(
                 new TagsValue(
                     array(
-                        $this->getTag1()
+                        $this->getTag1(),
                     )
                 ),
                 array(
-                    $this->getTagHash1()
-                )
-            )
+                    $this->getTagHash1(),
+                ),
+            ),
         );
     }
 
     /**
-     * Get hashes and their respective converted values
+     * Get hashes and their respective converted values.
      *
      * This is a PHPUnit data provider
      *
@@ -356,41 +356,41 @@ class TagsIntegrationTest extends BaseIntegrationTest
         return array(
             array(
                 null,
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
                 array(),
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
                 array(
-                    $this->getTagHash1()
+                    $this->getTagHash1(),
                 ),
                 new TagsValue(
                     array(
-                        $this->getTag1()
+                        $this->getTag1(),
                     )
-                )
-            )
+                ),
+            ),
         );
     }
 
     /**
-     * Provides data for testing if field value is empty
+     * Provides data for testing if field value is empty.
      *
      * @return array
      */
     public function providerForTestIsEmptyValue()
     {
         return array(
-            array( new TagsValue() ),
-            array( new TagsValue( null ) ),
-            array( new TagsValue( array() ) )
+            array(new TagsValue()),
+            array(new TagsValue(null)),
+            array(new TagsValue(array())),
         );
     }
 
     /**
-     * Provides data for testing if field value is not empty
+     * Provides data for testing if field value is not empty.
      *
      * @return array
      */
@@ -398,111 +398,111 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         return array(
             array(
-                $this->getValidCreationFieldData()
-            )
+                $this->getValidCreationFieldData(),
+            ),
         );
     }
 
     /**
-     * Returns a tag for tests
+     * Returns a tag for tests.
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag1()
     {
         $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1308153110 );
+        $modificationDate->setTimestamp(1308153110);
 
         return new Tag(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "eztags" ),
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
-                "modificationDate" => $modificationDate,
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-                "alwaysAvailable" => false,
-                "mainLanguageCode" => "eng-GB",
-                "languageCodes" => array( "eng-GB" )
+                'id' => 40,
+                'parentTagId' => 7,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'eztags'),
+                'depth' => 3,
+                'pathString' => '/8/7/40/',
+                'modificationDate' => $modificationDate,
+                'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+                'alwaysAvailable' => false,
+                'mainLanguageCode' => 'eng-GB',
+                'languageCodes' => array('eng-GB'),
             )
         );
     }
 
     /**
-     * Returns a tag for tests
+     * Returns a tag for tests.
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag2()
     {
         $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1343169159 );
+        $modificationDate->setTimestamp(1343169159);
 
         return new Tag(
             array(
-                "id" => 8,
-                "parentTagId" => 0,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "ez publish" ),
-                "depth" => 1,
-                "pathString" => "/8/",
-                "modificationDate" => $modificationDate,
-                "remoteId" => "eccbc87e4b5ce2fe28308fd9f2a7baf3",
-                "alwaysAvailable" => false,
-                "mainLanguageCode" => "eng-GB",
-                "languageCodes" => array( "eng-GB" )
+                'id' => 8,
+                'parentTagId' => 0,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'ez publish'),
+                'depth' => 1,
+                'pathString' => '/8/',
+                'modificationDate' => $modificationDate,
+                'remoteId' => 'eccbc87e4b5ce2fe28308fd9f2a7baf3',
+                'alwaysAvailable' => false,
+                'mainLanguageCode' => 'eng-GB',
+                'languageCodes' => array('eng-GB'),
             )
         );
     }
 
     /**
-     * Returns a tag for tests
+     * Returns a tag for tests.
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag3()
     {
         $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1343169159 );
+        $modificationDate->setTimestamp(1343169159);
 
         return new Tag(
             array(
-                "id" => 9,
-                "parentTagId" => 47,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "php" ),
-                "depth" => 2,
-                "pathString" => "/47/9/",
-                "modificationDate" => $modificationDate,
-                "remoteId" => "a87ff679a2f3e71d9181a67b7542122c",
-                "alwaysAvailable" => false,
-                "mainLanguageCode" => "eng-GB",
-                "languageCodes" => array( "eng-GB" )
+                'id' => 9,
+                'parentTagId' => 47,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'php'),
+                'depth' => 2,
+                'pathString' => '/47/9/',
+                'modificationDate' => $modificationDate,
+                'remoteId' => 'a87ff679a2f3e71d9181a67b7542122c',
+                'alwaysAvailable' => false,
+                'mainLanguageCode' => 'eng-GB',
+                'languageCodes' => array('eng-GB'),
             )
         );
     }
 
     /**
-     * Returns a hash version of tag for tests
+     * Returns a hash version of tag for tests.
      *
      * @return array
      */
     protected function getTagHash1()
     {
         return array(
-            "id" => 40,
-            "parent_id" => 7,
-            "main_tag_id" => 0,
-            "keywords" => array( "eng-GB" => "eztags" ),
-            "depth" => 3,
-            "path_string" => "/8/7/40/",
-            "modified" => 1308153110,
-            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-            "always_available" => false,
-            "main_language_code" => "eng-GB",
-            "language_codes" => array( "eng-GB" )
+            'id' => 40,
+            'parent_id' => 7,
+            'main_tag_id' => 0,
+            'keywords' => array('eng-GB' => 'eztags'),
+            'depth' => 3,
+            'path_string' => '/8/7/40/',
+            'modified' => 1308153110,
+            'remote_id' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+            'always_available' => false,
+            'main_language_code' => 'eng-GB',
+            'language_codes' => array('eng-GB'),
         );
     }
 }

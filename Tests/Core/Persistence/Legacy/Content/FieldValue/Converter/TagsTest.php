@@ -12,12 +12,12 @@ use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Test case for Tags converter in Legacy storage
+ * Test case for Tags converter in Legacy storage.
  */
 class TagsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tags converter
+     * Tags converter.
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
      */
@@ -37,19 +37,19 @@ class TagsTest extends PHPUnit_Framework_TestCase
     public function testToStorageValue()
     {
         $value = new FieldValue();
-        $value->data = array( "key1", "key2" );
+        $value->data = array('key1', 'key2');
         $value->sortKey = false;
 
         $storageFieldValue = new StorageFieldValue();
 
-        $this->converter->toStorageValue( $value, $storageFieldValue );
+        $this->converter->toStorageValue($value, $storageFieldValue);
 
-        $this->assertNull( $storageFieldValue->dataText );
-        $this->assertNull( $storageFieldValue->dataInt );
-        $this->assertNull( $storageFieldValue->dataFloat );
+        $this->assertNull($storageFieldValue->dataText);
+        $this->assertNull($storageFieldValue->dataInt);
+        $this->assertNull($storageFieldValue->dataFloat);
 
-        $this->assertEquals( 0, $storageFieldValue->sortKeyInt );
-        $this->assertEquals( "", $storageFieldValue->sortKeyString );
+        $this->assertEquals(0, $storageFieldValue->sortKeyInt);
+        $this->assertEquals('', $storageFieldValue->sortKeyString);
     }
 
     /**
@@ -62,10 +62,10 @@ class TagsTest extends PHPUnit_Framework_TestCase
         $storageFieldValue = new StorageFieldValue();
         $fieldValue = new FieldValue();
 
-        $this->converter->toFieldValue( $storageFieldValue, $fieldValue );
+        $this->converter->toFieldValue($storageFieldValue, $fieldValue);
 
-        $this->assertNull( $fieldValue->data );
-        $this->assertNull( $fieldValue->sortKey );
+        $this->assertNull($fieldValue->data);
+        $this->assertNull($fieldValue->sortKey);
     }
 
     /**
@@ -78,10 +78,10 @@ class TagsTest extends PHPUnit_Framework_TestCase
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
-                "subTreeLimit" => 0,
-                "showDropDown" => false,
-                "hideRootTag" => true,
-                "maxTags" => 10
+                'subTreeLimit' => 0,
+                'showDropDown' => false,
+                'hideRootTag' => true,
+                'maxTags' => 10,
             )
         );
 
@@ -89,16 +89,16 @@ class TagsTest extends PHPUnit_Framework_TestCase
         $this->converter->toStorageFieldDefinition(
             new PersistenceFieldDefinition(
                 array(
-                    "fieldTypeConstraints" => $fieldTypeConstraints
+                    'fieldTypeConstraints' => $fieldTypeConstraints,
                 )
             ),
             $storageFieldDefinition
         );
 
-        self::assertEquals( 0, $storageFieldDefinition->dataInt1 );
-        self::assertEquals( false, $storageFieldDefinition->dataInt2 );
-        self::assertEquals( true, $storageFieldDefinition->dataInt3 );
-        self::assertEquals( 10, $storageFieldDefinition->dataInt4 );
+        self::assertEquals(0, $storageFieldDefinition->dataInt1);
+        self::assertEquals(false, $storageFieldDefinition->dataInt2);
+        self::assertEquals(true, $storageFieldDefinition->dataInt3);
+        self::assertEquals(10, $storageFieldDefinition->dataInt4);
     }
 
     /**
@@ -113,20 +113,20 @@ class TagsTest extends PHPUnit_Framework_TestCase
         $this->converter->toFieldDefinition(
             new StorageFieldDefinition(
                 array(
-                    "dataInt1" => 0,
-                    "dataInt2" => false,
-                    "dataInt3" => true,
-                    "dataInt4" => 10,
+                    'dataInt1' => 0,
+                    'dataInt2' => false,
+                    'dataInt3' => true,
+                    'dataInt4' => 10,
                 )
             ),
             $fieldDefinition
         );
 
-        self::assertInstanceOf( "eZ\\Publish\\Core\\FieldType\\FieldSettings", $fieldDefinition->fieldTypeConstraints->fieldSettings );
-        self::assertEquals( 0, $fieldDefinition->fieldTypeConstraints->fieldSettings["subTreeLimit"] );
-        self::assertEquals( false, $fieldDefinition->fieldTypeConstraints->fieldSettings["showDropDown"] );
-        self::assertEquals( true, $fieldDefinition->fieldTypeConstraints->fieldSettings["hideRootTag"] );
-        self::assertEquals( 10, $fieldDefinition->fieldTypeConstraints->fieldSettings["maxTags"] );
-        self::assertNull( $fieldDefinition->defaultValue->data );
+        self::assertInstanceOf('eZ\\Publish\\Core\\FieldType\\FieldSettings', $fieldDefinition->fieldTypeConstraints->fieldSettings);
+        self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->fieldSettings['subTreeLimit']);
+        self::assertEquals(false, $fieldDefinition->fieldTypeConstraints->fieldSettings['showDropDown']);
+        self::assertEquals(true, $fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
+        self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->fieldSettings['maxTags']);
+        self::assertNull($fieldDefinition->defaultValue->data);
     }
 }

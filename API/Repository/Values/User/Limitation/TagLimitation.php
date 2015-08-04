@@ -6,10 +6,10 @@ use eZ\Publish\API\Repository\Values\User\Limitation;
 
 class TagLimitation extends Limitation
 {
-    const TAG = "Tag";
+    const TAG = 'Tag';
 
     /**
-     * Returns the limitation identifier
+     * Returns the limitation identifier.
      *
      * @return string
      */

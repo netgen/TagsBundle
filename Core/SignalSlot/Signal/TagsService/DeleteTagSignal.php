@@ -7,7 +7,7 @@ use eZ\Publish\Core\SignalSlot\Signal;
 class DeleteTagSignal extends Signal
 {
     /**
-     * Tag ID
+     * Tag ID.
      *
      * @var mixed
      */

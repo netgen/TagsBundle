@@ -8,7 +8,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 
 /**
- * A criterion that matches content based on tag ID that is located in one of the fields
+ * A criterion that matches content based on tag ID that is located in one of the fields.
  *
  * Supported operators:
  * - IN: matches against a list of tag IDs (with OR operator)
@@ -17,16 +17,16 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 class TagId extends Criterion implements CriterionInterface
 {
     /**
-     * Creates a new TagId criterion
+     * Creates a new TagId criterion.
      *
      * @param int|int[] $value One or more tag IDs that must be matched
      *
      * @throws \InvalidArgumentException if a non numeric id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct( $value )
+    public function __construct($value)
     {
-        parent::__construct( null, null, $value );
+        parent::__construct(null, null, $value);
     }
 
     public function getSpecifications()
@@ -45,8 +45,8 @@ class TagId extends Criterion implements CriterionInterface
         );
     }
 
-    public static function createFromQueryBuilder( $target, $operator, $value )
+    public static function createFromQueryBuilder($target, $operator, $value)
     {
-        return new self( $value );
+        return new self($value);
     }
 }

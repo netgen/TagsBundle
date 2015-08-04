@@ -12,14 +12,13 @@ use Netgen\TagsBundle\Tests\API\Repository\SetupFactory\Legacy as APILegacySetup
 class SetupFactory extends APILegacySetupFactory
 {
     /**
-     * Returns the service container used for initialization of the repository
+     * Returns the service container used for initialization of the repository.
      *
      * @return \eZ\Publish\Core\Base\ServiceContainer
      */
     protected function getServiceContainer()
     {
-        if ( !isset( static::$serviceContainer ) )
-        {
+        if (!isset(static::$serviceContainer)) {
             $config = include __DIR__ . '/../../../../../../vendor/ezsystems/ezpublish-kernel/config.php';
             $installDir = $config['install_dir'];
 
@@ -27,8 +26,8 @@ class SetupFactory extends APILegacySetupFactory
             $containerBuilder = include $config['container_builder_path'];
 
             /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
-            $loader->load( 'tests/integration_legacy_core.yml' );
-            $loader->load( __DIR__ . '/../../../../../../Tests/settings/settings.yml' );
+            $loader->load('tests/integration_legacy_core.yml');
+            $loader->load(__DIR__ . '/../../../../../../Tests/settings/settings.yml');
 
             $containerBuilder->setParameter(
                 'legacy_dsn',

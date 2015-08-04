@@ -11,7 +11,7 @@ use DateTime;
 use stdClass;
 
 /**
- * Test for eztags field type
+ * Test for eztags field type.
  *
  * @group fieldType
  * @group eztags
@@ -30,7 +30,7 @@ class TagsTest extends FieldTypeTest
      */
     protected function provideFieldTypeIdentifier()
     {
-        return "eztags";
+        return 'eztags';
     }
 
     /**
@@ -40,13 +40,13 @@ class TagsTest extends FieldTypeTest
      */
     protected function createFieldTypeUnderTest()
     {
-        $this->tagsService = $this->getMock( "Netgen\\TagsBundle\\API\\Repository\\TagsService" );
+        $this->tagsService = $this->getMock('Netgen\\TagsBundle\\API\\Repository\\TagsService');
 
-        $this->tagsService->expects( $this->any() )
-            ->method( "loadTag" )
-            ->will( $this->returnCallback( array( $this, "getTagsServiceLoadTagValues" ) ) );
+        $this->tagsService->expects($this->any())
+            ->method('loadTag')
+            ->will($this->returnCallback(array($this, 'getTagsServiceLoadTagValues')));
 
-        return new TagsType( $this->tagsService );
+        return new TagsType($this->tagsService);
     }
 
     /**
@@ -67,22 +67,22 @@ class TagsTest extends FieldTypeTest
     protected function getSettingsSchemaExpectation()
     {
         return array(
-            "subTreeLimit" => array(
-                "type" => "int",
-                "default" => 0
+            'subTreeLimit' => array(
+                'type' => 'int',
+                'default' => 0,
             ),
-            "showDropDown" => array(
-                "type" => "boolean",
-                "default" => false
+            'showDropDown' => array(
+                'type' => 'boolean',
+                'default' => false,
             ),
-            "hideRootTag" => array(
-                "type" => "boolean",
-                "default" => false
+            'hideRootTag' => array(
+                'type' => 'boolean',
+                'default' => false,
             ),
-            "maxTags" => array(
-                "type" => "int",
-                "default" => 0
-            )
+            'maxTags' => array(
+                'type' => 'int',
+                'default' => 0,
+            ),
         );
     }
 
@@ -97,7 +97,7 @@ class TagsTest extends FieldTypeTest
     }
 
     /**
-     * Returns values for TagsService::loadTag based on input value
+     * Returns values for TagsService::loadTag based on input value.
      *
      * @param int $tagId
      *
@@ -105,16 +105,15 @@ class TagsTest extends FieldTypeTest
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function getTagsServiceLoadTagValues( $tagId )
+    public function getTagsServiceLoadTagValues($tagId)
     {
-        if ( $tagId < 0 || $tagId == PHP_INT_MAX )
-        {
-            throw new NotFoundException( "tag", $tagId );
+        if ($tagId < 0 || $tagId == PHP_INT_MAX) {
+            throw new NotFoundException('tag', $tagId);
         }
 
         return new Tag(
             array(
-                "id" => $tagId
+                'id' => $tagId,
             )
         );
     }
@@ -132,47 +131,47 @@ class TagsTest extends FieldTypeTest
     {
         return array(
             array(
-                array()
+                array(),
             ),
             array(
                 array(
-                    'subTreeLimit' => 0
-                )
+                    'subTreeLimit' => 0,
+                ),
             ),
             array(
                 array(
-                    'subTreeLimit' => 5
-                )
+                    'subTreeLimit' => 5,
+                ),
             ),
             array(
                 array(
-                    'showDropDown' => true
-                )
+                    'showDropDown' => true,
+                ),
             ),
             array(
                 array(
-                    'showDropDown' => false
-                )
+                    'showDropDown' => false,
+                ),
             ),
             array(
                 array(
-                    'hideRootTag' => true
-                )
+                    'hideRootTag' => true,
+                ),
             ),
             array(
                 array(
-                    'hideRootTag' => false
-                )
+                    'hideRootTag' => false,
+                ),
             ),
             array(
                 array(
-                    'maxTags' => 0
-                )
+                    'maxTags' => 0,
+                ),
             ),
             array(
                 array(
-                    'maxTags' => 10
-                )
+                    'maxTags' => 10,
+                ),
             ),
         );
     }
@@ -191,47 +190,47 @@ class TagsTest extends FieldTypeTest
     {
         return array(
             array(
-                true
+                true,
             ),
             array(
                 array(
-                    'nonExistingKey' => 42
-                )
+                    'nonExistingKey' => 42,
+                ),
             ),
             array(
                 array(
-                    'subTreeLimit' => true
-                )
+                    'subTreeLimit' => true,
+                ),
             ),
             array(
                 array(
-                    'subTreeLimit' => -5
-                )
+                    'subTreeLimit' => -5,
+                ),
             ),
             array(
                 array(
-                    'subTreeLimit' => PHP_INT_MAX
-                )
+                    'subTreeLimit' => PHP_INT_MAX,
+                ),
             ),
             array(
                 array(
-                    'showDropDown' => 42
-                )
+                    'showDropDown' => 42,
+                ),
             ),
             array(
                 array(
-                    'hideRootTag' => 42
-                )
+                    'hideRootTag' => 42,
+                ),
             ),
             array(
                 array(
-                    'maxTags' => true
-                )
+                    'maxTags' => true,
+                ),
             ),
             array(
                 array(
-                    'maxTags' => -5
-                )
+                    'maxTags' => -5,
+                ),
             ),
         );
     }
@@ -246,22 +245,22 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 42,
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException"
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
             ),
             array(
-                "invalid",
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException"
+                'invalid',
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
             ),
             array(
                 array(
-                    new stdClass()
+                    new stdClass(),
                 ),
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException"
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
             ),
             array(
                 new stdClass(),
-                "eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException"
-            )
+                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
+            ),
         );
     }
 
@@ -275,37 +274,37 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 null,
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
                 array(),
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
-                array( new Tag() ),
-                new TagsValue( array( new Tag() ) )
+                array(new Tag()),
+                new TagsValue(array(new Tag())),
             ),
             array(
                 new TagsValue(),
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
-                new TagsValue( null ),
-                new TagsValue()
+                new TagsValue(null),
+                new TagsValue(),
             ),
             array(
-                new TagsValue( array() ),
-                new TagsValue()
+                new TagsValue(array()),
+                new TagsValue(),
             ),
             array(
-                new TagsValue( array( new Tag() ) ),
-                new TagsValue( array( new Tag() ) )
-            )
+                new TagsValue(array(new Tag())),
+                new TagsValue(array(new Tag())),
+            ),
         );
     }
 
     /**
-     * Provide input for the toHash() method
+     * Provide input for the toHash() method.
      *
      * @return array
      */
@@ -314,31 +313,31 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 new TagsValue(),
-                array()
+                array(),
             ),
             array(
-                new TagsValue( null ),
-                array()
+                new TagsValue(null),
+                array(),
             ),
             array(
-                new TagsValue( array() ),
-                array()
+                new TagsValue(array()),
+                array(),
             ),
             array(
                 new TagsValue(
                     array(
-                        $this->getTag()
+                        $this->getTag(),
                     )
                 ),
                 array(
-                    $this->getTagHash()
-                )
-            )
+                    $this->getTagHash(),
+                ),
+            ),
         );
     }
 
     /**
-     * Provide input to fromHash() method
+     * Provide input to fromHash() method.
      *
      * @return array
      */
@@ -347,22 +346,22 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 null,
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
                 array(),
-                new TagsValue()
+                new TagsValue(),
             ),
             array(
                 array(
-                    $this->getTagHash()
+                    $this->getTagHash(),
                 ),
                 new TagsValue(
                     array(
-                        $this->getTag()
+                        $this->getTag(),
                     )
-                )
-            )
+                ),
+            ),
         );
     }
 
@@ -376,82 +375,82 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 new TagsValue(),
-                ""
+                '',
             ),
             array(
-                new TagsValue( null ),
-                ""
+                new TagsValue(null),
+                '',
             ),
             array(
-                new TagsValue( array() ),
-                ""
-            ),
-            array(
-                new TagsValue(
-                    array(
-                        $this->getTag()
-                    )
-                ),
-                "eztags"
+                new TagsValue(array()),
+                '',
             ),
             array(
                 new TagsValue(
                     array(
                         $this->getTag(),
-                        $this->getTag()
                     )
                 ),
-                "eztags, eztags"
-            )
+                'eztags',
+            ),
+            array(
+                new TagsValue(
+                    array(
+                        $this->getTag(),
+                        $this->getTag(),
+                    )
+                ),
+                'eztags, eztags',
+            ),
         );
     }
 
     /**
-     * Returns a tag for tests
+     * Returns a tag for tests.
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
     protected function getTag()
     {
         $modificationDate = new Datetime();
-        $modificationDate->setTimestamp( 1308153110 );
+        $modificationDate->setTimestamp(1308153110);
 
         return new Tag(
             array(
-                "id" => 40,
-                "parentTagId" => 7,
-                "mainTagId" => 0,
-                "keywords" => array( "eng-GB" => "eztags" ),
-                "depth" => 3,
-                "pathString" => "/8/7/40/",
-                "modificationDate" => $modificationDate,
-                "remoteId" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-                "alwaysAvailable" => false,
-                "mainLanguageCode" => "eng-GB",
-                "languageCodes" => array( "eng-GB" )
+                'id' => 40,
+                'parentTagId' => 7,
+                'mainTagId' => 0,
+                'keywords' => array('eng-GB' => 'eztags'),
+                'depth' => 3,
+                'pathString' => '/8/7/40/',
+                'modificationDate' => $modificationDate,
+                'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+                'alwaysAvailable' => false,
+                'mainLanguageCode' => 'eng-GB',
+                'languageCodes' => array('eng-GB'),
             )
         );
     }
 
     /**
-     * Returns a hash version of tag for tests
+     * Returns a hash version of tag for tests.
      *
      * @return array
      */
     protected function getTagHash()
     {
         return array(
-            "id" => 40,
-            "parent_id" => 7,
-            "main_tag_id" => 0,
-            "keywords" => array( "eng-GB" => "eztags" ),
-            "depth" => 3,
-            "path_string" => "/8/7/40/",
-            "modified" => 1308153110,
-            "remote_id" => "182be0c5cdcd5072bb1864cdee4d3d6e",
-            "always_available" => false,
-            "main_language_code" => "eng-GB",
-            "language_codes" => array( "eng-GB" )
+            'id' => 40,
+            'parent_id' => 7,
+            'main_tag_id' => 0,
+            'keywords' => array('eng-GB' => 'eztags'),
+            'depth' => 3,
+            'path_string' => '/8/7/40/',
+            'modified' => 1308153110,
+            'remote_id' => '182be0c5cdcd5072bb1864cdee4d3d6e',
+            'always_available' => false,
+            'main_language_code' => 'eng-GB',
+            'language_codes' => array('eng-GB'),
         );
     }
 }

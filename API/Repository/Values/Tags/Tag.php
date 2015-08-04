@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 use eZ\Publish\API\Repository\Values\ValueObject;
 
 /**
- * Class representing a tag
+ * Class representing a tag.
  *
  * @property-read mixed $id Tag ID
  * @property-read mixed $parentTagId Parent tag ID
@@ -23,21 +23,21 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 class Tag extends ValueObject
 {
     /**
-     * Tag ID
+     * Tag ID.
      *
      * @var mixed
      */
     protected $id;
 
     /**
-     * Parent tag ID
+     * Parent tag ID.
      *
      * @var mixed
      */
     protected $parentTagId;
 
     /**
-     * Main tag ID
+     * Main tag ID.
      *
      * Zero if tag is not a synonym
      *
@@ -47,63 +47,63 @@ class Tag extends ValueObject
 
     /**
      * Returns the keywords in the available languages
-     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" )
+     * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
      * @var string[]
      */
     protected $keywords = array();
 
     /**
-     * The depth tag has in tag tree
+     * The depth tag has in tag tree.
      *
      * @var int
      */
     protected $depth;
 
     /**
-     * The path to this tag e.g. /1/6/21/42 where 42 is the current ID
+     * The path to this tag e.g. /1/6/21/42 where 42 is the current ID.
      *
      * @var string
      */
     protected $pathString;
 
     /**
-     * Tag modification date
+     * Tag modification date.
      *
      * @var \DateTime
      */
     protected $modificationDate;
 
     /**
-     * A global unique ID of the tag
+     * A global unique ID of the tag.
      *
      * @var string
      */
     protected $remoteId;
 
     /**
-     * Indicates if the Tag object is shown in the main language if it is not present in an other requested language
+     * Indicates if the Tag object is shown in the main language if it is not present in an other requested language.
      *
-     * @var boolean
+     * @var bool
      */
     protected $alwaysAvailable;
 
     /**
-     * The main language code of the Tag object
+     * The main language code of the Tag object.
      *
      * @var string
      */
     protected $mainLanguageCode;
 
     /**
-     * List of languages in this Tag object
+     * List of languages in this Tag object.
      *
      * @var string[]
      */
     protected $languageCodes = array();
 
     /**
-     * Returns the keyword in the given language
+     * Returns the keyword in the given language.
      *
      * If no language is given, the keyword in main language of the tag if present, otherwise null
      *
@@ -111,15 +111,13 @@ class Tag extends ValueObject
      *
      * @return string
      */
-    public function getKeyword( $languageCode = null )
+    public function getKeyword($languageCode = null)
     {
-        if ( $languageCode === null )
-        {
+        if ($languageCode === null) {
             $languageCode = $this->mainLanguageCode;
         }
 
-        if ( isset( $this->keywords[$languageCode] ) )
-        {
+        if (isset($this->keywords[$languageCode])) {
             return $this->keywords[$languageCode];
         }
 
@@ -127,7 +125,7 @@ class Tag extends ValueObject
     }
 
     /**
-     * Function where list of properties are returned
+     * Function where list of properties are returned.
      *
      * Override to add dynamic properties
      * @uses parent::getProperties()
@@ -136,41 +134,41 @@ class Tag extends ValueObject
      *
      * @return array
      */
-    protected function getProperties( $dynamicProperties = array( 'keyword' ) )
+    protected function getProperties($dynamicProperties = array('keyword'))
     {
-        return parent::getProperties( $dynamicProperties );
+        return parent::getProperties($dynamicProperties);
     }
 
     /**
-     * Magic getter for retrieving convenience properties
+     * Magic getter for retrieving convenience properties.
      *
      * @param string $property The name of the property to retrieve
      *
      * @return mixed
      */
-    public function __get( $property )
+    public function __get($property)
     {
-        switch ( $property )
-        {
+        switch ($property) {
             case 'keyword':
                 return $this->getKeyword();
         }
 
-        return parent::__get( $property );
+        return parent::__get($property);
     }
 
     /**
-     * Magic isset for signaling existence of convenience properties
+     * Magic isset for signaling existence of convenience properties.
      *
      * @param string $property
      *
-     * @return boolean
+     * @return bool
      */
-    public function __isset( $property )
+    public function __isset($property)
     {
-        if ( $property === 'keyword' )
+        if ($property === 'keyword') {
             return true;
+        }
 
-        return parent::__isset( $property );
+        return parent::__isset($property);
     }
 }

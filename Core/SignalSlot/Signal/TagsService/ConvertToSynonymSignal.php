@@ -7,14 +7,14 @@ use eZ\Publish\Core\SignalSlot\Signal;
 class ConvertToSynonymSignal extends Signal
 {
     /**
-     * Tag ID
+     * Tag ID.
      *
      * @var mixed
      */
     public $tagId;
 
     /**
-     * Main tag ID
+     * Main tag ID.
      *
      * @var mixed
      */

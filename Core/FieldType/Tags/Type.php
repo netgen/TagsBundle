@@ -14,36 +14,36 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use DateTime;
 
 /**
- * Tags field type
+ * Tags field type.
  *
  * Represents tags.
  */
 class Type extends FieldType
 {
     /**
-     * List of settings available for this FieldType
+     * List of settings available for this FieldType.
      *
      * The key is the setting name, and the value is the default value for this setting
      *
      * @var array
      */
     protected $settingsSchema = array(
-        "subTreeLimit" => array(
-            "type" => "int",
-            "default" => 0
+        'subTreeLimit' => array(
+            'type' => 'int',
+            'default' => 0,
         ),
-        "showDropDown" => array(
-            "type" => "boolean",
-            "default" => false
+        'showDropDown' => array(
+            'type' => 'boolean',
+            'default' => false,
         ),
-        "hideRootTag" => array(
-            "type" => "boolean",
-            "default" => false
+        'hideRootTag' => array(
+            'type' => 'boolean',
+            'default' => false,
         ),
-        "maxTags" => array(
-            "type" => "int",
-            "default" => 0
-        )
+        'maxTags' => array(
+            'type' => 'int',
+            'default' => 0,
+        ),
     );
 
     /**
@@ -54,29 +54,29 @@ class Type extends FieldType
     /**
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
-    public function __construct( TagsService $tagsService )
+    public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
     }
 
     /**
-     * Returns the field type identifier for this field type
+     * Returns the field type identifier for this field type.
      *
      * @return string
      */
     public function getFieldTypeIdentifier()
     {
-        return "eztags";
+        return 'eztags';
     }
 
     /**
-     * Returns a human readable string representation from the given $value
+     * Returns a human readable string representation from the given $value.
      *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return string
      */
-    public function getName( SPIValue $value )
+    public function getName(SPIValue $value)
     {
         return (string)$value;
     }
@@ -98,19 +98,16 @@ class Type extends FieldType
      *
      * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value.
      */
-    protected function createValueFromInput( $inputValue )
+    protected function createValueFromInput($inputValue)
     {
-        if ( is_array( $inputValue ) )
-        {
-            foreach ( $inputValue as $inputValueItem )
-            {
-                if ( !$inputValueItem instanceof Tag )
-                {
+        if (is_array($inputValue)) {
+            foreach ($inputValue as $inputValueItem) {
+                if (!$inputValueItem instanceof Tag) {
                     return $inputValue;
                 }
             }
 
-            $inputValue = new Value( $inputValue );
+            $inputValue = new Value($inputValue);
         }
 
         return $inputValue;
@@ -123,10 +120,9 @@ class Type extends FieldType
      *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      */
-    protected function checkValueStructure( BaseValue $value )
+    protected function checkValueStructure(BaseValue $value)
     {
-        if ( !is_array( $value->tags ) )
-        {
+        if (!is_array($value->tags)) {
             throw new InvalidArgumentType(
                 '$value->tags',
                 'array',
@@ -134,13 +130,11 @@ class Type extends FieldType
             );
         }
 
-        foreach ( $value->tags as $tag )
-        {
-            if ( !$tag instanceof Tag )
-            {
+        foreach ($value->tags as $tag) {
+            if (!$tag instanceof Tag) {
                 throw new InvalidArgumentType(
                     "$tag",
-                    "Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value",
+                    'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
                     $tag
                 );
             }
@@ -148,76 +142,72 @@ class Type extends FieldType
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type
+     * Converts an $hash to the Value defined by the field type.
      *
      * @param mixed $hash
      *
      * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
-    public function fromHash( $hash )
+    public function fromHash($hash)
     {
-        if ( !is_array( $hash ) )
-        {
+        if (!is_array($hash)) {
             return new Value();
         }
 
         $tags = array();
 
-        foreach ( $hash as $hashItem )
-        {
-            if ( !is_array( $hashItem ) )
-            {
+        foreach ($hash as $hashItem) {
+            if (!is_array($hashItem)) {
                 continue;
             }
 
             $modificationDate = new DateTime();
-            $modificationDate->setTimestamp( $hashItem["modified"] );
+            $modificationDate->setTimestamp($hashItem['modified']);
 
             $tags[] = new Tag(
                 array(
-                    "id" => $hashItem["id"],
-                    "parentTagId" => $hashItem["parent_id"],
-                    "mainTagId" => $hashItem["main_tag_id"],
-                    "keywords" => $hashItem["keywords"],
-                    "depth" => $hashItem["depth"],
-                    "pathString" => $hashItem["path_string"],
-                    "modificationDate" => $modificationDate,
-                    "remoteId" => $hashItem["remote_id"],
-                    "alwaysAvailable" => $hashItem["always_available"],
-                    "mainLanguageCode" => $hashItem["main_language_code"],
-                    "languageCodes" => $hashItem["language_codes"]
+                    'id' => $hashItem['id'],
+                    'parentTagId' => $hashItem['parent_id'],
+                    'mainTagId' => $hashItem['main_tag_id'],
+                    'keywords' => $hashItem['keywords'],
+                    'depth' => $hashItem['depth'],
+                    'pathString' => $hashItem['path_string'],
+                    'modificationDate' => $modificationDate,
+                    'remoteId' => $hashItem['remote_id'],
+                    'alwaysAvailable' => $hashItem['always_available'],
+                    'mainLanguageCode' => $hashItem['main_language_code'],
+                    'languageCodes' => $hashItem['language_codes'],
                 )
             );
         }
 
-        return new Value( $tags );
+        return new Value($tags);
     }
 
     /**
-     * Converts the given $value into a plain hash format
+     * Converts the given $value into a plain hash format.
      *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return array
      */
-    public function toHash( SPIValue $value )
+    public function toHash(SPIValue $value)
     {
         $hash = array();
 
-        foreach ( $value->tags as $tag )
-        {
+        foreach ($value->tags as $tag) {
             $hash[] = array(
-                "id" => $tag->id,
-                "parent_id" => $tag->parentTagId,
-                "main_tag_id" => $tag->mainTagId,
-                "keywords" => $tag->keywords,
-                "depth" => $tag->depth,
-                "path_string" => $tag->pathString,
-                "modified" => $tag->modificationDate->getTimestamp(),
-                "remote_id" => $tag->remoteId,
-                "always_available" => $tag->alwaysAvailable,
-                "main_language_code" => $tag->mainLanguageCode,
-                "language_codes" => $tag->languageCodes
+                'id' => $tag->id,
+                'parent_id' => $tag->parentTagId,
+                'main_tag_id' => $tag->mainTagId,
+                'keywords' => $tag->keywords,
+                'depth' => $tag->depth,
+                'path_string' => $tag->pathString,
+                'modified' => $tag->modificationDate->getTimestamp(),
+                'remote_id' => $tag->remoteId,
+                'always_available' => $tag->alwaysAvailable,
+                'main_language_code' => $tag->mainLanguageCode,
+                'language_codes' => $tag->languageCodes,
             );
         }
 
@@ -231,171 +221,157 @@ class Type extends FieldType
      *
      * @return bool
      */
-    protected function getSortInfo( BaseValue $value )
+    protected function getSortInfo(BaseValue $value)
     {
         return false;
     }
 
     /**
-     * Converts a $value to a persistence value
+     * Converts a $value to a persistence value.
      *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue( SPIValue $value )
+    public function toPersistenceValue(SPIValue $value)
     {
         return new FieldValue(
             array(
-                "data" => null,
-                "externalData" => $this->toHash( $value ),
-                "sortKey" => $this->getSortInfo( $value ),
+                'data' => null,
+                'externalData' => $this->toHash($value),
+                'sortKey' => $this->getSortInfo($value),
             )
         );
     }
 
     /**
-     * Converts a persistence $fieldValue to a Value
+     * Converts a persistence $fieldValue to a Value.
      *
      * @param \eZ\Publish\SPI\Persistence\Content\FieldValue $fieldValue
      *
      * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
      */
-    public function fromPersistenceValue( FieldValue $fieldValue )
+    public function fromPersistenceValue(FieldValue $fieldValue)
     {
-        return $this->fromHash( $fieldValue->externalData );
+        return $this->fromHash($fieldValue->externalData);
     }
 
     /**
-     * Returns if the given $value is considered empty by the field type
+     * Returns if the given $value is considered empty by the field type.
      *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEmptyValue( SPIValue $value )
+    public function isEmptyValue(SPIValue $value)
     {
         return $value === null || $value->tags == $this->getEmptyValue()->tags;
     }
 
     /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct
+     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
      * @param mixed $fieldSettings
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
      */
-    public function validateFieldSettings( $fieldSettings )
+    public function validateFieldSettings($fieldSettings)
     {
         $validationErrors = array();
 
-        if ( !is_array( $fieldSettings ) )
-        {
-            $validationErrors[] = new ValidationError( "Field settings must be in form of an array" );
+        if (!is_array($fieldSettings)) {
+            $validationErrors[] = new ValidationError('Field settings must be in form of an array');
 
             return $validationErrors;
         }
 
-        foreach ( $fieldSettings as $name => $value )
-        {
-            if ( !isset( $this->settingsSchema[$name] ) )
-            {
+        foreach ($fieldSettings as $name => $value) {
+            if (!isset($this->settingsSchema[$name])) {
                 $validationErrors[] = new ValidationError(
                     "Setting '%setting%' is unknown",
                     null,
                     array(
-                        "setting" => $name
+                        'setting' => $name,
                     )
                 );
                 continue;
             }
 
-            switch ( $name )
-            {
-                case "subTreeLimit":
-                    if ( !is_integer( $value ) )
-                    {
+            switch ($name) {
+                case 'subTreeLimit':
+                    if (!is_integer($value)) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of integer type",
                             null,
                             array(
-                                "setting" => $name
+                                'setting' => $name,
                             )
                         );
                     }
 
-                    if ( $value < 0 )
-                    {
+                    if ($value < 0) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be equal or larger than 0",
                             null,
                             array(
-                                "setting" => $name
+                                'setting' => $name,
                             )
                         );
                     }
 
-                    if ( $value > 0 )
-                    {
-                        try
-                        {
-                            $this->tagsService->loadTag( $value );
-                        }
-                        catch ( NotFoundException $e )
-                        {
+                    if ($value > 0) {
+                        try {
+                            $this->tagsService->loadTag($value);
+                        } catch (NotFoundException $e) {
                             $validationErrors[] = new ValidationError(
                                 "Setting '%setting%' value must be an existing tag ID",
                                 null,
                                 array(
-                                    "setting" => $name
+                                    'setting' => $name,
                                 )
                             );
                         }
                     }
                     break;
-                case "showDropDown":
-                    if ( !is_bool( $value ) )
-                    {
+                case 'showDropDown':
+                    if (!is_bool($value)) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of boolean type",
                             null,
                             array(
-                                "setting" => $name
+                                'setting' => $name,
                             )
                         );
                     }
                     break;
-                case "hideRootTag":
-                    if ( !is_bool( $value ) )
-                    {
+                case 'hideRootTag':
+                    if (!is_bool($value)) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of boolean type",
                             null,
                             array(
-                                "setting" => $name
+                                'setting' => $name,
                             )
                         );
                     }
                     break;
-                case "maxTags":
-                    if ( !is_integer( $value ) )
-                    {
+                case 'maxTags':
+                    if (!is_integer($value)) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of integer type",
                             null,
                             array(
-                                "setting" => $name
+                                'setting' => $name,
                             )
                         );
                     }
 
-                    if ( $value < 0 )
-                    {
+                    if ($value < 0) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be equal or larger than 0",
                             null,
                             array(
-                                "setting" => $name
+                                'setting' => $name,
                             )
                         );
                     }
@@ -407,9 +383,9 @@ class Type extends FieldType
     }
 
     /**
-     * Returns whether the field type is searchable
+     * Returns whether the field type is searchable.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSearchable()
     {

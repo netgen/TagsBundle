@@ -9,6 +9,6 @@ class NetgenTagsBundle extends Bundle implements LegacyBundleInterface
 {
     public function getLegacyExtensionsNames()
     {
-        return array( 'eztags' );
+        return array('eztags');
     }
 }

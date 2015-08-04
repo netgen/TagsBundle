@@ -13,12 +13,10 @@ use eZ\Publish\SPI\Limitation\Type as SPILimitationTypeInterface;
 use eZ\Publish\Core\FieldType\ValidationError;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as SPITagsPersistenceHandler;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation as APITagLimitation;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-
 use RuntimeException;
 
 class TagLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
@@ -29,14 +27,14 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     protected $tagsPersistence;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \eZ\Publish\SPI\Persistence\Handler $persistence
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Handler $tagsPersistence
      */
-    public function __construct( SPIPersistenceHandler $persistence, SPITagsPersistenceHandler $tagsPersistence )
+    public function __construct(SPIPersistenceHandler $persistence, SPITagsPersistenceHandler $tagsPersistence)
     {
-        parent::__construct( $persistence );
+        parent::__construct($persistence);
 
         $this->tagsPersistence = $tagsPersistence;
     }
@@ -50,22 +48,17 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue( APILimitationValue $limitationValue )
+    public function acceptValue(APILimitationValue $limitationValue)
     {
-        if ( !$limitationValue instanceof APITagLimitation )
-        {
-            throw new InvalidArgumentType( "\$limitationValue", "TagLimitation", $limitationValue );
-        }
-        else if ( !is_array( $limitationValue->limitationValues ) )
-        {
-            throw new InvalidArgumentType( "\$limitationValue->limitationValues", "array", $limitationValue->limitationValues );
+        if (!$limitationValue instanceof APITagLimitation) {
+            throw new InvalidArgumentType('$limitationValue', 'TagLimitation', $limitationValue);
+        } elseif (!is_array($limitationValue->limitationValues)) {
+            throw new InvalidArgumentType('$limitationValue->limitationValues', 'array', $limitationValue->limitationValues);
         }
 
-        foreach ( $limitationValue->limitationValues as $key => $value )
-        {
-            if ( !is_int( $value ) && !ctype_digit( $value ) )
-            {
-                throw new InvalidArgumentType( "\$limitationValue->limitationValues[{$key}]", "int", $value );
+        foreach ($limitationValue->limitationValues as $key => $value) {
+            if (!is_int($value) && !ctype_digit($value)) {
+                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $value);
             }
         }
     }
@@ -79,24 +72,20 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
      */
-    public function validate( APILimitationValue $limitationValue )
+    public function validate(APILimitationValue $limitationValue)
     {
         $validationErrors = array();
 
-        foreach ( $limitationValue->limitationValues as $key => $id )
-        {
-            try
-            {
-                $this->tagsPersistence->loadTagInfo( $id );
-            }
-            catch ( NotFoundException $e )
-            {
+        foreach ($limitationValue->limitationValues as $key => $id) {
+            try {
+                $this->tagsPersistence->loadTagInfo($id);
+            } catch (NotFoundException $e) {
                 $validationErrors[] = new ValidationError(
                     "limitationValues[%key%] => '%value%' does not exist in the backend",
                     null,
                     array(
-                        "value" => $id,
-                        "key" => $key
+                        'value' => $id,
+                        'key' => $key,
                     )
                 );
             }
@@ -106,7 +95,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     }
 
     /**
-     * Create the Limitation Value
+     * Create the Limitation Value.
      *
      * The is the method to create values as Limitation type needs value knowledge anyway in acceptValue,
      * the reverse relation is provided by means of identifier lookup (Value has identifier, and so does RoleService).
@@ -115,13 +104,13 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *
      * @return \eZ\Publish\API\Repository\Values\User\Limitation
      */
-    public function buildValue( array $limitationValues )
+    public function buildValue(array $limitationValues)
     {
-        return new APITagLimitation( array( 'limitationValues' => $limitationValues ) );
+        return new APITagLimitation(array('limitationValues' => $limitationValues));
     }
 
     /**
-     * Evaluate permission against content and placement
+     * Evaluate permission against content and placement.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
@@ -134,30 +123,27 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      * @param \eZ\Publish\API\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
-     * @return boolean
+     * @return bool
      */
-    public function evaluate( APILimitationValue $value, APIUser $currentUser, ValueObject $object, array $targets = null )
+    public function evaluate(APILimitationValue $value, APIUser $currentUser, ValueObject $object, array $targets = null)
     {
-        if ( !$value instanceof APITagLimitation )
-        {
-            throw new InvalidArgumentException( '$value', 'Must be of type: TagLimitation' );
+        if (!$value instanceof APITagLimitation) {
+            throw new InvalidArgumentException('$value', 'Must be of type: TagLimitation');
         }
 
-        if ( !$object instanceof Tag )
-        {
-            throw new InvalidArgumentException( '$object', 'Must be of type: Tag' );
+        if (!$object instanceof Tag) {
+            throw new InvalidArgumentException('$object', 'Must be of type: Tag');
         }
 
-        if ( empty( $value->limitationValues ) )
-        {
+        if (empty($value->limitationValues)) {
             return false;
         }
 
-        return in_array( $object->id, $value->limitationValues );
+        return in_array($object->id, $value->limitationValues);
     }
 
     /**
-     * Returns Criterion for use in find() query
+     * Returns Criterion for use in find() query.
      *
      * @throws \RuntimeException If list of limitation values is empty
      *
@@ -166,27 +152,25 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion( APILimitationValue $value, APIUser $currentUser )
+    public function getCriterion(APILimitationValue $value, APIUser $currentUser)
     {
-        if ( empty( $value->limitationValues ) )
-        {
+        if (empty($value->limitationValues)) {
             // no limitation values
-            throw new RuntimeException( "\$value->limitationValues is empty, it should not have been stored in the first place" );
+            throw new RuntimeException('$value->limitationValues is empty, it should not have been stored in the first place');
         }
 
-        if ( !isset( $value->limitationValues[1] ) )
-        {
+        if (!isset($value->limitationValues[1])) {
             // 1 limitation value: EQ operation
-            return new TagId( $value->limitationValues[0] );
+            return new TagId($value->limitationValues[0]);
         }
 
         // several limitation values: IN operation
-        return new TagId( $value->limitationValues );
+        return new TagId($value->limitationValues);
     }
 
     /**
-     * Returns info on valid $limitationValues
-
+     * Returns info on valid $limitationValues.
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException If the limitation does not support
      *         value schema.
      *
@@ -196,6 +180,6 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      */
     public function valueSchema()
     {
-        throw new NotImplementedException( __METHOD__ );
+        throw new NotImplementedException(__METHOD__);
     }
 }

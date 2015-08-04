@@ -6,3 +6,4 @@ var/
 composer.phar
 composer.lock
 phpunit.phar
+.php_cs.cache

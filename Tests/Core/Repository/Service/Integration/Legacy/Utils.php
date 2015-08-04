@@ -3,22 +3,23 @@
 namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy;
 
 /**
- * Utils class for setting up repository
+ * Utils class for setting up repository.
  */
 abstract class Utils
 {
     /**
      * @var \Netgen\TagsBundle\Tests\Core\Repository\Service\Integration\Legacy\SetupFactory
      */
-    static $setupFactory;
+    public static $setupFactory;
 
     /**
      * @return \Netgen\TagsBundle\API\Repository\TagsService
      */
     public static function getTagsService()
     {
-        if ( static::$setupFactory === null )
+        if (static::$setupFactory === null) {
             static::$setupFactory = static::getSetupFactory();
+        }
 
         // Return tags service
         return static::$setupFactory->getTagsService();
@@ -29,8 +30,9 @@ abstract class Utils
      */
     final public static function getRepository()
     {
-        if ( static::$setupFactory === null )
+        if (static::$setupFactory === null) {
             static::$setupFactory = static::getSetupFactory();
+        }
 
         // Return repository
         return static::$setupFactory->getRepository();
