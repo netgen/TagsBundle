@@ -1,11 +1,6 @@
 {% extends "eZDemoBundle::pagelayout.html.twig" %}
 
-{% set prioritizedLanguages = ezpublish.configResolver.parameter( 'languages' ) %}
-
-{% set tagKeyword = tag.keywords[prioritizedLanguages[0]] is defined ?
-    tag.keywords[prioritizedLanguages[0]] :
-    tag.keyword
-%}
+{% set tagKeyword = ez_trans_prop( tag, 'keyword' ) %}
 
 {% block page_head %}
     {% set title = tagKeyword %}
