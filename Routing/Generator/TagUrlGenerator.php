@@ -76,6 +76,7 @@ class TagUrlGenerator extends Generator
         }
 
         $tagUrl = '';
+        $isInternal = false;
         $originalTagId = $tagId = $tag->id;
 
         try
@@ -115,6 +116,7 @@ class TagUrlGenerator extends Generator
         }
         catch ( NotFoundException $e )
         {
+            $isInternal = true;
             $tagUrl = $this->defaultRouter->generate(
                 self::INTERNAL_TAG_ROUTE,
                 array(
@@ -129,6 +131,7 @@ class TagUrlGenerator extends Generator
                 $this->logger->warning( $e->getMessage() );
             }
 
+            $isInternal = true;
             $tagUrl = $this->defaultRouter->generate(
                 self::INTERNAL_TAG_ROUTE,
                 array(
@@ -143,7 +146,7 @@ class TagUrlGenerator extends Generator
             $queryString = '?' . http_build_query( $parameters, '', '&' );
         }
 
-        return $this->getPathPrefix() . '/' . trim( $tagUrl, '/' ) . $queryString;
+        return ( !$isInternal ? $this->getPathPrefix() : '' ) . '/' . trim( $tagUrl, '/' ) . $queryString;
     }
 
     /**
