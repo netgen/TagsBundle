@@ -21,7 +21,7 @@ Installation steps
 Run the following from your website root folder to install Netgen Tags Bundle:
 
 ```
-$ composer require netgen/tagsbundle ~2.0
+$ composer require netgen/tagsbundle:~2.0
 ```
 
 ### Activate the bundle
