@@ -18,12 +18,10 @@ Installation steps
 
 ### Use Composer
 
-Add the following to your composer.json and run `php composer.phar update netgen/tagsbundle` to refresh dependencies:
+Run the following from your website root folder to install Netgen Tags Bundle:
 
-```json
-"require": {
-    "netgen/tagsbundle": "~2.0"
-}
+```
+$ composer require netgen/tagsbundle ~2.0
 ```
 
 ### Activate the bundle
@@ -55,6 +53,16 @@ Put the following in your `ezpublish/config/routing.yml` file to be able to disp
 _eztagsRoutes:
     resource: "@NetgenTagsBundle/Resources/config/routing.yml"
 ```
+
+### Import database tables
+
+Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Publish database:
+
+```
+$ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/Netgen/TagsBundle/Resources/sql/mysql/schema.sql
+```
+
+PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/Netgen/TagsBundle/Resources/sql/postgresql/schema.sql`
 
 ### Clear the caches
 
