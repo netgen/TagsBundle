@@ -5,7 +5,7 @@ Requirements
 ------------
 
 * eZ Publish 5.3+ / eZ Publish Community Project 2014.05+
-* eZ Publish Legacy Stack with legacy eZ Tags 1.4 installed and configured
+* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured
 
 ### Note
 
@@ -26,22 +26,16 @@ $ composer require netgen/tagsbundle:~2.0
 
 ### Activate the bundle
 
-Activate the bundle in `ezpublish/EzPublishKernel.php` file.
+Activate the bundle in `ezpublish/EzPublishKernel.php` file by adding it to the `$bundles` array in `registerBundles` method:
 
 ```php
-use Netgen\TagsBundle\NetgenTagsBundle;
-
-...
-
 public function registerBundles()
 {
-   $bundles = array(
-       new FrameworkBundle(),
-       ...
-       new NetgenTagsBundle()
-   );
+    ...
 
-   ...
+    $bundles[] = new Netgen\TagsBundle\NetgenTagsBundle();
+
+    return $bundles;
 }
 ```
 
@@ -69,7 +63,7 @@ PostgreSQL variant of the above schema file is also available at `vendor/netgen/
 Clear eZ Publish 5 caches.
 
 ```bash
-php ezpublish/console cache:clear
+$ php ezpublish/console cache:clear
 ```
 
 ### Edit Varnish configuration (requires eZ Publish Enterprise 5.4+ or eZ Publish Community 2014.11+)
