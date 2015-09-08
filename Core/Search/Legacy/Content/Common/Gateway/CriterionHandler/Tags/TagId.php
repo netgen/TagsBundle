@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as TagIdCriterion;
@@ -65,9 +64,8 @@ class TagId extends Tags
                 )
             );
 
-        $fieldDefinitionIds = $this->getSearchableFields( $criterion->target );
-        if ( $fieldDefinitionIds !== null )
-        {
+        $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
+        if ($fieldDefinitionIds !== null) {
             $subSelect->innerJoin(
                 $this->dbHandler->quoteTable('ezcontentobject_attribute'),
                 $subSelect->expr->lAnd(

@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as TagKeywordCriterion;
@@ -40,7 +39,7 @@ class TagKeyword extends Tags
      */
     public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null)
     {
-        $fieldDefinitionIds = $this->getSearchableFields( $criterion->target );
+        $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
 
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue $valueData */
         $valueData = $criterion->valueData;
@@ -126,9 +125,8 @@ class TagKeyword extends Tags
             );
         }
 
-        $fieldDefinitionIds = $this->getSearchableFields( $criterion->target );
-        if ( $fieldDefinitionIds !== null )
-        {
+        $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
+        if ($fieldDefinitionIds !== null) {
             $subSelect->innerJoin(
                 $this->dbHandler->quoteTable('ezcontentobject_attribute'),
                 $subSelect->expr->lAnd(

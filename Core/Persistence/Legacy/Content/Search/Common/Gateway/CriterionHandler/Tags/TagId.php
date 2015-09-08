@@ -63,9 +63,8 @@ class TagId extends Tags
                 )
             );
 
-        $fieldDefinitionIds = $this->getSearchableFields( $criterion->target );
-        if ( $fieldDefinitionIds !== null )
-        {
+        $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
+        if ($fieldDefinitionIds !== null) {
             $subSelect->innerJoin(
                 $this->dbHandler->quoteTable('ezcontentobject_attribute'),
                 $subSelect->expr->lAnd(
