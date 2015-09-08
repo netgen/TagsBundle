@@ -23,14 +23,15 @@ class TagKeyword extends Criterion implements CriterionInterface
      *
      * @param string $operator
      * @param string|string[] $value One or more tag keywords that must be matched
+     * @param string $target Field definition identifier to use
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value $valueData
      *
      * @throws \InvalidArgumentException if a non string parameter is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($operator, $value, Value $valueData = null)
+    public function __construct($operator, $value, $target = null, Value $valueData = null)
     {
-        parent::__construct(null, $operator, $value, $valueData);
+        parent::__construct($target, $operator, $value, $valueData);
     }
 
     public function getSpecifications()
