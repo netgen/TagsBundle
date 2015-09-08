@@ -39,8 +39,6 @@ class TagKeyword extends Tags
      */
     public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null)
     {
-        $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
-
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue $valueData */
         $valueData = $criterion->valueData;
 
