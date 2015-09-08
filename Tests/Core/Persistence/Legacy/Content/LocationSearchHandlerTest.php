@@ -14,8 +14,8 @@ use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHa
 use eZ\Publish\Core\Persistence\Legacy\Content\Search\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
 use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagId as TagIdCriterionHandler;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagKeyword as TagKeywordCriterionHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 
 /**
  * Test case for LocationSearchHandler with Tags criteria.
