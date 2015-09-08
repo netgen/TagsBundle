@@ -39,6 +39,8 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         }
 
         $loader->load('storage_engines/legacy.yml');
+
+        $loader->load('storage_engines/solr/criterion_visitors.yml');
     }
 
     /**
