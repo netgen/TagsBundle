@@ -1,7 +1,7 @@
 Netgen Tags Bundle changelog
 ============================
 
-2.0.2
+2.0.2 (08.09.2015)
 ------------------
 
 * Use `ez_trans_prop` to render tag keywords in most prioritized languages in field template and tag view template
