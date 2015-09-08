@@ -19,6 +19,9 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\Crit
 
 /**
  * Test case for LocationSearchHandler with Tags criteria.
+ *
+ * @todo Test with criterion target
+ * @todo Test TagKeyword criterion with languages/translations
  */
 class LocationSearchHandlerTest extends LanguageAwareTestCase
 {
