@@ -23,24 +23,17 @@ class SearchField implements Indexable
         $parentTagIds = array();
         $tagIds = array();
 
-        if ( !empty( $field->value->externalData ) )
-        {
-            foreach ( $field->value->externalData as $tag )
-            {
-                if ( isset( $tag['keywords'][$field->languageCode] ) )
-                {
+        if (!empty($field->value->externalData)) {
+            foreach ($field->value->externalData as $tag) {
+                if (isset($tag['keywords'][$field->languageCode])) {
                     $tagKeywords[] = $tag['keywords'][$field->languageCode];
                     $parentTagIds[] = $tag['parent_id'];
                     $tagIds[] = $tag['id'];
-                }
-                else if ( isset( $tag['keywords'][$tag['main_language_code']] ) )
-                {
+                } elseif (isset($tag['keywords'][$tag['main_language_code']])) {
                     $tagKeywords[] = $tag['keywords'][$tag['main_language_code']];
                     $parentTagIds[] = $tag['parent_id'];
                     $tagIds[] = $tag['id'];
-                }
-                else
-                {
+                } else {
                     // Something went wrong with the tag, we will not index it
                     continue;
                 }
@@ -65,9 +58,9 @@ class SearchField implements Indexable
             ),
             new Search\Field(
                 'tag_text',
-                implode( ' ', $tagKeywords ),
+                implode(' ', $tagKeywords),
                 new Search\FieldType\TextField()
-            )
+            ),
         );
     }
 
@@ -82,7 +75,7 @@ class SearchField implements Indexable
             'tag_keywords' => new Search\FieldType\MultipleStringField(),
             'parent_tag_ids' => new Search\FieldType\MultipleIntegerField(),
             'tag_ids' => new Search\FieldType\MultipleIntegerField(),
-            'tag_text' => new Search\FieldType\TextField()
+            'tag_text' => new Search\FieldType\TextField(),
         );
     }
 
