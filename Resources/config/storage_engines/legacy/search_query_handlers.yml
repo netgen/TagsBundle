@@ -1,6 +1,6 @@
 parameters:
-    ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_id.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagId
-    ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_keyword.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\TagKeyword
+    ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_id.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagId
+    ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_keyword.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagKeyword
 
 services:
     ezpublish.persistence.legacy.search.gateway.criterion_handler.common.tag_id:

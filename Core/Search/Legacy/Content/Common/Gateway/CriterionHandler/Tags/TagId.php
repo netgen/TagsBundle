@@ -1,7 +1,8 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
+use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
@@ -11,7 +12,7 @@ use eZ\Publish\Core\Persistence\Database\SelectQuery;
 /**
  * Tag ID criterion handler.
  */
-class TagId extends CriterionHandler
+class TagId extends Tags
 {
     /**
      * Check if this criterion handler accepts to handle the given criterion.
@@ -63,6 +64,33 @@ class TagId extends CriterionHandler
                     $criterion->value
                 )
             );
+
+        $fieldDefinitionIds = $this->getSearchableFields( $criterion->target );
+        if ( $fieldDefinitionIds !== null )
+        {
+            $subSelect->innerJoin(
+                $this->dbHandler->quoteTable('ezcontentobject_attribute'),
+                $subSelect->expr->lAnd(
+                    array(
+                        $subSelect->expr->eq(
+                            $this->dbHandler->quoteColumn('id', 'ezcontentobject_attribute'),
+                            $this->dbHandler->quoteColumn('objectattribute_id', 'eztags_attribute_link')
+                        ),
+                        $subSelect->expr->eq(
+                            $this->dbHandler->quoteColumn('version', 'ezcontentobject_attribute'),
+                            $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link')
+                        ),
+                    )
+                )
+            );
+
+            $subSelect->where(
+                $query->expr->in(
+                    $this->dbHandler->quoteColumn('contentclassattribute_id', 'ezcontentobject_attribute'),
+                    $fieldDefinitionIds
+                )
+            );
+        }
 
         return $query->expr->in(
             $this->dbHandler->quoteColumn('id', 'ezcontentobject'),

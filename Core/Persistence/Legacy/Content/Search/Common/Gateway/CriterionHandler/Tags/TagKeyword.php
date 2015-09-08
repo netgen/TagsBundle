@@ -1,8 +1,8 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler;
+namespace Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags;
 use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriteriaConverter;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as TagKeywordCriterion;
@@ -11,7 +11,7 @@ use eZ\Publish\Core\Persistence\Database\SelectQuery;
 /**
  * Tag keyword criterion handler.
  */
-class TagKeyword extends CriterionHandler
+class TagKeyword extends Tags
 {
     /**
      * Check if this criterion handler accepts to handle the given criterion.
@@ -118,6 +118,33 @@ class TagKeyword extends CriterionHandler
                 $subSelect->expr->in(
                     $this->dbHandler->quoteColumn('keyword', 'eztags_keyword'),
                     $criterion->value
+                )
+            );
+        }
+
+        $fieldDefinitionIds = $this->getSearchableFields( $criterion->target );
+        if ( $fieldDefinitionIds !== null )
+        {
+            $subSelect->innerJoin(
+                $this->dbHandler->quoteTable('ezcontentobject_attribute'),
+                $subSelect->expr->lAnd(
+                    array(
+                        $subSelect->expr->eq(
+                            $this->dbHandler->quoteColumn('id', 'ezcontentobject_attribute'),
+                            $this->dbHandler->quoteColumn('objectattribute_id', 'eztags_attribute_link')
+                        ),
+                        $subSelect->expr->eq(
+                            $this->dbHandler->quoteColumn('version', 'ezcontentobject_attribute'),
+                            $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link')
+                        ),
+                    )
+                )
+            );
+
+            $subSelect->where(
+                $query->expr->in(
+                    $this->dbHandler->quoteColumn('contentclassattribute_id', 'ezcontentobject_attribute'),
+                    $fieldDefinitionIds
                 )
             );
         }
