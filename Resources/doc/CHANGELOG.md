@@ -1,6 +1,12 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.0.4 (11.09.2015)
+------------------
+
+* Allow generating internal tag routes by setting `internal` parameter `true` when generating route
+* Replace `ez_trans_prop` usage with `netgen_tags_tag_keyword` function, to be able to get keyword by tag ID also
+
 2.0.3 (10.09.2015)
 ------------------
 

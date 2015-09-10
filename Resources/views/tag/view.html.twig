@@ -1,6 +1,6 @@
 {% extends "eZDemoBundle::pagelayout.html.twig" %}
 
-{% set tagKeyword = ez_trans_prop( tag, 'keyword' ) %}
+{% set tagKeyword = netgen_tags_tag_keyword( tag ) %}
 
 {% block page_head %}
     {% set title = tagKeyword %}

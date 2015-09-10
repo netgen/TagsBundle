@@ -1,7 +1,7 @@
 {% block eztags_field %}
 {% spaceless %}
     {% for tag in field.value.tags %}
-        <a href="{{ path( tag ) }}">{{ ez_trans_prop( tag, 'keyword' ) }}</a>{% if not loop.last %}, {% endif %}
+        <a href="{{ path( tag ) }}">{{ netgen_tags_tag_keyword( tag ) }}</a>{% if not loop.last %}, {% endif %}
     {% endfor %}
 {% endspaceless %}
 {% endblock %}
