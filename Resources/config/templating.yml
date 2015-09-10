@@ -1,0 +1,11 @@
+parameters:
+    eztags.templating.twig.extension.class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
+
+services:
+    eztags.templating.twig.extension:
+        class: %eztags.templating.twig.extension.class%
+        arguments:
+            - @ezpublish.api.service.tags
+            - @ezpublish.translation_helper
+        tags:
+            - { name: twig.extension }
