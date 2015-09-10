@@ -63,65 +63,58 @@ class TagUrlGenerator extends Generator
      */
     public function doGenerate($tag, array $parameters)
     {
-        $originalTagId = $tag->id;
-        $generateInternal = isset($parameters['internal']) && $parameters['internal'] === true;
+        if (isset($parameters['siteaccess'])) {
+            // We generate for a different siteaccess, so potentially in a different language.
+            $languages = $this->configResolver->getParameter('languages', null, $parameters['siteaccess']);
+            unset($parameters['siteaccess']);
+        } else {
+            $languages = $this->configResolver->getParameter('languages');
+        }
 
-        if (!$generateInternal) {
-            if (isset($parameters['siteaccess'])) {
-                // We generate for a different siteaccess, so potentially in a different language.
-                $languages = $this->configResolver->getParameter('languages', null, $parameters['siteaccess']);
-            } else {
-                $languages = $this->configResolver->getParameter('languages');
-            }
+        $tagUrl = '';
+        $isInternal = false;
+        $originalTagId = $tagId = $tag->id;
 
-            $tagUrl = '';
-            $tagId = $tag->id;
+        try {
+            do {
+                $tag = $this->tagsService->loadTag($tagId, $languages);
 
-            try {
-                do {
-                    $tag = $this->tagsService->loadTag($tagId, $languages);
+                $tagKeyword = null;
+                foreach ($languages as $language) {
+                    $tagKeyword = $tag->getKeyword($language);
+                    if (!empty($tagKeyword)) {
+                        break;
+                    }
+                }
 
-                    $tagKeyword = null;
-                    foreach ($languages as $language) {
-                        $tagKeyword = $tag->getKeyword($language);
-                        if (!empty($tagKeyword)) {
-                            break;
-                        }
+                if (empty($tagKeyword)) {
+                    if ($tag->alwaysAvailable) {
+                        $tagKeyword = $tag->getKeyword();
                     }
 
                     if (empty($tagKeyword)) {
-                        if ($tag->alwaysAvailable) {
-                            $tagKeyword = $tag->getKeyword();
-                        }
-
-                        if (empty($tagKeyword)) {
-                            throw new LogicException("Unknown error when generating URL for tag ID #{$originalTagId}");
-                        }
+                        throw new LogicException("Unknown error when generating URL for tag ID #{$originalTagId}");
                     }
-
-                    $tagUrl = '/' . $tagKeyword . $tagUrl;
-
-                    $tagId = $tag->parentTagId;
-                } while ($tagId > 0);
-            } catch (NotFoundException $e) {
-                $generateInternal = true;
-            } catch (LogicException $e) {
-                if ($this->logger !== null) {
-                    $this->logger->warning($e->getMessage());
                 }
 
-                $generateInternal = true;
+                $tagUrl = '/' . $tagKeyword . $tagUrl;
+
+                $tagId = $tag->parentTagId;
+            } while ($tagId > 0);
+        } catch (NotFoundException $e) {
+            $isInternal = true;
+            $tagUrl = $this->defaultRouter->generate(
+                self::INTERNAL_TAG_ROUTE,
+                array(
+                    'tagId' => $originalTagId,
+                )
+            );
+        } catch (LogicException $e) {
+            if ($this->logger !== null) {
+                $this->logger->warning($e->getMessage());
             }
-        }
 
-        unset($parameters['internal'], $parameters['siteaccess']);
-
-        $queryString = '';
-        if (!empty($parameters)) {
-            $queryString = '?' . http_build_query($parameters, '', '&');
-        }
-
-        if ($generateInternal) {
+            $isInternal = true;
             $tagUrl = $this->defaultRouter->generate(
                 self::INTERNAL_TAG_ROUTE,
                 array(
@@ -130,7 +123,12 @@ class TagUrlGenerator extends Generator
             );
         }
 
-        return (!$generateInternal ? $this->getPathPrefix() : '') . '/' . trim($tagUrl, '/') . $queryString;
+        $queryString = '';
+        if (!empty($parameters)) {
+            $queryString = '?' . http_build_query($parameters, '', '&');
+        }
+
+        return (!$isInternal ? $this->getPathPrefix() : '') . '/' . trim($tagUrl, '/') . $queryString;
     }
 
     /**
