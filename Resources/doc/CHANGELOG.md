@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.0.3 (10.09.2015)
+------------------
+
+* Do not use removed criterion property on Query object
+
 2.0.2 (08.09.2015)
 ------------------
 

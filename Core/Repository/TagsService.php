@@ -384,7 +384,7 @@ class TagsService implements TagsServiceInterface
                 array(
                     'offset' => $offset,
                     'limit' => $limit > 0 ? $limit : PHP_INT_MAX,
-                    'criterion' => new ContentId($relatedContentIds),
+                    'filter' => new ContentId($relatedContentIds),
                 )
             )
         );
@@ -423,7 +423,7 @@ class TagsService implements TagsServiceInterface
             new Query(
                 array(
                     'limit' => 0,
-                    'criterion' => new ContentId($relatedContentIds),
+                    'filter' => new ContentId($relatedContentIds),
                 )
             )
         );
