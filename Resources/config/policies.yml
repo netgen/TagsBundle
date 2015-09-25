@@ -1,0 +1,14 @@
+tags:
+    read: ~
+    dashboard: ~
+    id: ~
+    view: ~
+    add: [Tag]
+    addsynonym: ~
+    edit: ~
+    editsynonym: ~
+    delete: ~
+    deletesynonym: ~
+    makesynonym: ~
+    merge: ~
+    search: ~
