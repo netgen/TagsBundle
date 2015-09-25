@@ -1,6 +1,10 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.0.5 (25.09.2015)
+
+* Also support `UserReference` argument in `TagLimitationType` methods
+
 2.0.4 (10.09.2015)
 ------------------
 
