@@ -99,7 +99,7 @@ class Legacy extends BaseLegacy
             $loader->load('tests/integration_legacy.yml');
             $loader->load(__DIR__ . '/../../../../Tests/settings/settings.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/papi.yml');
-            $loader->load(__DIR__ . '/../../../../Resources/config/roles.yml');
+            $loader->load(__DIR__ . '/../../../../Resources/config/limitations_user.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/fieldtypes.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/persistence.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/storage_engines/legacy.yml');

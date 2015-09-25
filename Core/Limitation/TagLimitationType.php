@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\Core\Limitation;
 use eZ\Publish\Core\Limitation\AbstractPersistenceLimitationType;
 use eZ\Publish\SPI\Persistence\Handler as SPIPersistenceHandler;
 use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\API\Repository\Values\User\User as APIUser;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use eZ\Publish\API\Repository\Values\User\Limitation as APILimitationValue;
@@ -19,7 +18,7 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use RuntimeException;
 
-class TagLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
+abstract class TagLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
 {
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
@@ -118,14 +117,13 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $value
-     * @param \eZ\Publish\API\Repository\Values\User\User $currentUser
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object
      * @param \eZ\Publish\API\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUser $currentUser, ValueObject $object, array $targets = null)
+    protected function innerEvaluate(APILimitationValue $value, ValueObject $object, array $targets = null)
     {
         if (!$value instanceof APITagLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: TagLimitation');
@@ -148,11 +146,10 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      * @throws \RuntimeException If list of limitation values is empty
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $value
-     * @param \eZ\Publish\API\Repository\Values\User\User $currentUser
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUser $currentUser)
+    protected function innerGetCriterion(APILimitationValue $value)
     {
         if (empty($value->limitationValues)) {
             // no limitation values
