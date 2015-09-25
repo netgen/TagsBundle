@@ -61,6 +61,11 @@ class SearchField implements Indexable
                 implode(' ', $tagKeywords),
                 new Search\FieldType\TextField()
             ),
+            new Search\Field(
+                'fulltext',
+                implode(' ', $tagKeywords),
+                new Search\FieldType\FullTextField()
+            ),
         );
     }
 
