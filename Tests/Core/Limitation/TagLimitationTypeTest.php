@@ -13,7 +13,7 @@ use Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
-class TagLimitationTypeUserTest extends Base
+class TagLimitationTypeTest extends Base
 {
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler|\PHPUnit_Framework_MockObject_MockObject
