@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.0.6 (08.10.2015)
+------------------
+
+* Fix tag router causing config resolver to be created too early (thanks @wizhippo)
+
 2.0.5 (25.09.2015)
 ------------------
 
