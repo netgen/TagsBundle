@@ -8,6 +8,7 @@ services:
 
     ezpublish.signalslot.service.tags:
         class: %ezpublish.signalslot.service.tags.class%
+        lazy: true
         arguments:
             - @ezpublish.api.service.tags.inner
             - @ezpublish.signalslot.signal_dispatcher
