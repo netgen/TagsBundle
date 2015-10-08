@@ -81,6 +81,7 @@ class SearchField implements Indexable
             'parent_tag_ids' => new Search\FieldType\MultipleIntegerField(),
             'tag_ids' => new Search\FieldType\MultipleIntegerField(),
             'tag_text' => new Search\FieldType\TextField(),
+            'fulltext' => new Search\FieldType\FullTextField(),
         );
     }
 
