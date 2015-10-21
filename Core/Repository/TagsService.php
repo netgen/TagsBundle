@@ -958,13 +958,12 @@ class TagsService implements TagsServiceInterface
      * Allows API execution to be performed with full access sand-boxed.
      *
      * The closure sandbox will do a catch all on exceptions and rethrow after
-     * re-setting the sudo flag.
+     * re-setting the sudo nesting level.
      *
      * Example use:
-     *     $location = $repository->sudo(
-     *         function ( Repository $repo ) use ( $locationId )
-     *         {
-     *             return $repo->getLocationService()->loadLocation( $locationId )
+     *     $tag = $tagsService->sudo(
+     *         function (TagsService $tagsService) use ($tagCreateStruct) {
+     *             return $tagsService->createTag($tagCreateStruct)
      *         }
      *     );
      *
