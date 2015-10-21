@@ -42,6 +42,13 @@ class TagsService implements TagsServiceInterface
     protected $languageHandler;
 
     /**
+     * Counter for the current sudo nesting level {@see sudo()}.
+     *
+     * @var int
+     */
+    private $sudoNestingLevel = 0;
+
+    /**
      * Constructor.
      *
      * @param \eZ\Publish\API\Repository\Repository $repository
@@ -946,6 +953,90 @@ class TagsService implements TagsServiceInterface
     {
         return new TagUpdateStruct();
     }
+
+    /**
+     * Allows API execution to be performed with full access sand-boxed.
+     *
+     * The closure sandbox will do a catch all on exceptions and rethrow after
+     * re-setting the sudo flag.
+     *
+     * Example use:
+     *     $location = $repository->sudo(
+     *         function ( Repository $repo ) use ( $locationId )
+     *         {
+     *             return $repo->getLocationService()->loadLocation( $locationId )
+     *         }
+     *     );
+     *
+     *
+     * @param \Closure $callback
+     * @param \eZ\Publish\API\Repository\Repository $outerRepository
+     *
+     * @throws \RuntimeException Thrown on recursive sudo() use.
+     * @throws \Exception Re throws exceptions thrown inside $callback
+     *
+     * @return mixed
+     */
+    public function sudo(\Closure $callback, RepositoryInterface $outerRepository = null)
+    {
+        ++$this->sudoNestingLevel;
+        try {
+            $returnValue = $callback($outerRepository !== null ? $outerRepository : $this);
+        } catch (Exception $e) {
+            --$this->sudoNestingLevel;
+            throw $e;
+        }
+        --$this->sudoNestingLevel;
+        return $returnValue;
+    }
+
+    /**
+     * Check if user has access to a given module / function.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *
+     * @param string $module The module, aka controller identifier to check permissions on
+     * @param string $function The function, aka the controller action to check permissions on
+     * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
+     * @param mixed $targets The location, parent or "assignment" value object, or an array of the same
+     *
+     * @return bool
+     */
+    public function hasAccess($module, $function, User $user = null)
+    {
+        // Full access if sudo nesting level is set by {@see sudo()}
+        if ($this->sudoNestingLevel > 0) {
+            return true;
+        }
+
+        return $this->repository->hasAccess($module, $function, $user);
+    }
+
+    /**
+     * Check if user has access to a given action on a given value object.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *
+     * @param string $module
+     * @param string $function
+     * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
+     * @param mixed $targets The location, parent or "assignment" value object, or an array of the same
+     *
+     * @return bool
+     */
+    public function canUser($module, $function, ValueObject $object, $targets = null)
+    {
+        $permissionSets = $this->hasAccess( $module, $function );
+        if ( $permissionSets === false || $permissionSets === true )
+        {
+            return $permissionSets;
+        }
+
+        return $this->repository->canUser($module, $function, $object, $targets);
+    }
+
 
     protected function buildTagDomainObject(SPITag $spiTag)
     {
