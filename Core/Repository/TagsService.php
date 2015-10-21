@@ -969,14 +969,14 @@ class TagsService implements TagsServiceInterface
      *
      *
      * @param \Closure $callback
-     * @param \eZ\Publish\API\Repository\Repository $outerRepository
+     * @param TagsServiceInterface $outerRepository
      *
      * @throws \RuntimeException Thrown on recursive sudo() use.
      * @throws \Exception Re throws exceptions thrown inside $callback
      *
      * @return mixed
      */
-    public function sudo(\Closure $callback, RepositoryInterface $outerRepository = null)
+    public function sudo(\Closure $callback, TagsServiceInterface $outerRepository = null)
     {
         ++$this->sudoNestingLevel;
         try {
