@@ -42,6 +42,13 @@ class TagsService implements TagsServiceInterface
     protected $languageHandler;
 
     /**
+     * Counter for the current sudo nesting level {@see sudo()}.
+     *
+     * @var int
+     */
+    private $sudoNestingLevel = 0;
+
+    /**
      * Constructor.
      *
      * @param \eZ\Publish\API\Repository\Repository $repository
@@ -72,7 +79,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -99,7 +106,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -127,7 +134,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByUrl($url, array $languages)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -193,7 +200,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -226,7 +233,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -252,7 +259,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -279,7 +286,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -302,7 +309,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -340,7 +347,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -369,7 +376,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -409,7 +416,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContentCount(Tag $tag)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -446,10 +453,10 @@ class TagsService implements TagsServiceInterface
         $keywords = $tagCreateStruct->getKeywords();
 
         if (!empty($tagCreateStruct->parentTagId)) {
-            if ($this->repository->canUser('tags', 'add', $this->loadTag($tagCreateStruct->parentTagId)) !== true) {
+            if ($this->canUser('tags', 'add', $this->loadTag($tagCreateStruct->parentTagId)) !== true) {
                 throw new UnauthorizedException('tags', 'add');
             }
-        } elseif ($this->repository->hasAccess('tags', 'add') !== true) {
+        } elseif ($this->hasAccess('tags', 'add') !== true) {
             throw new UnauthorizedException('tags', 'add');
         }
 
@@ -521,11 +528,11 @@ class TagsService implements TagsServiceInterface
         $keywords = $tagUpdateStruct->getKeywords();
 
         if ($tag->mainTagId > 0) {
-            if ($this->repository->hasAccess('tags', 'edit') !== true) {
+            if ($this->hasAccess('tags', 'edit') !== true) {
                 throw new UnauthorizedException('tags', 'edit');
             }
         } else {
-            if ($this->repository->hasAccess('tags', 'editsynonym') !== true) {
+            if ($this->hasAccess('tags', 'editsynonym') !== true) {
                 throw new UnauthorizedException('tags', 'editsynonym');
             }
         }
@@ -613,7 +620,7 @@ class TagsService implements TagsServiceInterface
     {
         $keywords = $synonymCreateStruct->getKeywords();
 
-        if ($this->repository->hasAccess('tags', 'addsynonym') !== true) {
+        if ($this->hasAccess('tags', 'addsynonym') !== true) {
             throw new UnauthorizedException('tags', 'addsynonym');
         }
 
@@ -688,7 +695,7 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym(Tag $tag, Tag $mainTag)
     {
-        if ($this->repository->hasAccess('tags', 'makesynonym') !== true) {
+        if ($this->hasAccess('tags', 'makesynonym') !== true) {
             throw new UnauthorizedException('tags', 'makesynonym');
         }
 
@@ -736,7 +743,7 @@ class TagsService implements TagsServiceInterface
      */
     public function mergeTags(Tag $tag, Tag $targetTag)
     {
-        if ($this->repository->hasAccess('tags', 'merge') !== true) {
+        if ($this->hasAccess('tags', 'merge') !== true) {
             throw new UnauthorizedException('tags', 'merge');
         }
 
@@ -785,7 +792,7 @@ class TagsService implements TagsServiceInterface
      */
     public function copySubtree(Tag $tag, Tag $targetParentTag)
     {
-        if ($this->repository->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -836,7 +843,7 @@ class TagsService implements TagsServiceInterface
      */
     public function moveSubtree(Tag $tag, Tag $targetParentTag)
     {
-        if ($this->repository->hasAccess('tags', 'edit') !== true) {
+        if ($this->hasAccess('tags', 'edit') !== true) {
             throw new UnauthorizedException('tags', 'edit');
         }
 
@@ -884,11 +891,11 @@ class TagsService implements TagsServiceInterface
     public function deleteTag(Tag $tag)
     {
         if ($tag->mainTagId > 0) {
-            if ($this->repository->hasAccess('tags', 'deletesynonym') !== true) {
+            if ($this->hasAccess('tags', 'deletesynonym') !== true) {
                 throw new UnauthorizedException('tags', 'deletesynonym');
             }
         } else {
-            if ($this->repository->hasAccess('tags', 'delete') !== true) {
+            if ($this->hasAccess('tags', 'delete') !== true) {
                 throw new UnauthorizedException('tags', 'delete');
             }
         }
@@ -946,6 +953,89 @@ class TagsService implements TagsServiceInterface
     {
         return new TagUpdateStruct();
     }
+
+    /**
+     * Allows API execution to be performed with full access sand-boxed.
+     *
+     * The closure sandbox will do a catch all on exceptions and rethrow after
+     * re-setting the sudo nesting level.
+     *
+     * Example use:
+     *     $tag = $tagsService->sudo(
+     *         function (TagsService $tagsService) use ($tagCreateStruct) {
+     *             return $tagsService->createTag($tagCreateStruct)
+     *         }
+     *     );
+     *
+     *
+     * @param \Closure $callback
+     * @param TagsServiceInterface $outerRepository
+     *
+     * @throws \RuntimeException Thrown on recursive sudo() use.
+     * @throws \Exception Re throws exceptions thrown inside $callback
+     *
+     * @return mixed
+     */
+    public function sudo(\Closure $callback, TagsServiceInterface $outerRepository = null)
+    {
+        ++$this->sudoNestingLevel;
+        try {
+            $returnValue = $callback($outerRepository !== null ? $outerRepository : $this);
+        } catch (Exception $e) {
+            --$this->sudoNestingLevel;
+            throw $e;
+        }
+        --$this->sudoNestingLevel;
+        return $returnValue;
+    }
+
+    /**
+     * Check if user has access to a given module / function.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *
+     * @param string $module The module, aka controller identifier to check permissions on
+     * @param string $function The function, aka the controller action to check permissions on
+     * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
+     * @param mixed $targets The location, parent or "assignment" value object, or an array of the same
+     *
+     * @return bool
+     */
+    public function hasAccess($module, $function, User $user = null)
+    {
+        // Full access if sudo nesting level is set by {@see sudo()}
+        if ($this->sudoNestingLevel > 0) {
+            return true;
+        }
+
+        return $this->repository->hasAccess($module, $function, $user);
+    }
+
+    /**
+     * Check if user has access to a given action on a given value object.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *
+     * @param string $module
+     * @param string $function
+     * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
+     * @param mixed $targets The location, parent or "assignment" value object, or an array of the same
+     *
+     * @return bool
+     */
+    public function canUser($module, $function, ValueObject $object, $targets = null)
+    {
+        $permissionSets = $this->hasAccess( $module, $function );
+        if ( $permissionSets === false || $permissionSets === true )
+        {
+            return $permissionSets;
+        }
+
+        return $this->repository->canUser($module, $function, $object, $targets);
+    }
+
 
     protected function buildTagDomainObject(SPITag $spiTag)
     {
