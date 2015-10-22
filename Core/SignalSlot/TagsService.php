@@ -505,7 +505,7 @@ class TagsService implements TagsServiceInterface
      */
     public function sudo(\Closure $callback)
     {
-        return $this->repository->sudo($callback, $this);
+        return $this->service->sudo($callback, $this);
     }
 
 }
