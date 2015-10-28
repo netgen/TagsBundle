@@ -93,6 +93,10 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     public function matchRequest(Request $request)
     {
+        if ($this->configResolver->getParameter('routing.enable_tag_router', 'eztags') === false) {
+            throw new ResourceNotFoundException('Config says to bypass TagRouter');
+        }
+
         $requestedPath = rawurldecode($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
         $pathPrefix = $this->generator->getPathPrefix();
 
@@ -107,9 +111,14 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             throw new ResourceNotFoundException();
         }
 
-        $tag = $this->tagsService->loadTagByUrl(
-            $requestedPath,
-            $this->configResolver->getParameter('languages')
+        $languages = $this->configResolver->getParameter('languages');
+        $tag = $this->tagsService->sudo(
+            function (TagsService $tagsService) use ($requestedPath, $languages) {
+                return $tagsService->loadTagByUrl(
+                    $requestedPath,
+                    $languages
+                );
+            }
         );
 
         $params = array(

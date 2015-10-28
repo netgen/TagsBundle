@@ -16,6 +16,7 @@ use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
+use Closure;
 
 class TagsService implements TagsServiceInterface
 {
@@ -480,5 +481,31 @@ class TagsService implements TagsServiceInterface
     public function newTagUpdateStruct()
     {
         return $this->service->newTagUpdateStruct();
+    }
+
+    /**
+     * Allows tags API execution to be performed with full access sand-boxed.
+     *
+     * The closure sandbox will do a catch all on exceptions and rethrow after
+     * re-setting the sudo flag.
+     *
+     * Example use:
+     *     $tag = $tagsService->sudo(
+     *         function ( TagsService $tagsService ) use ( $tagId )
+     *         {
+     *             return $tagsService->loadTag( $tagId );
+     *         }
+     *     );
+     *
+     * @param \Closure $callback
+     *
+     * @throws \RuntimeException Thrown on recursive sudo() use.
+     * @throws \Exception Re throws exceptions thrown inside $callback
+     *
+     * @return mixed
+     */
+    public function sudo(Closure $callback)
+    {
+        return $this->service->sudo($callback, $this);
     }
 }
