@@ -5,6 +5,7 @@ Netgen Tags Bundle changelog
 ------------------
 
 * Add `sudo` method to Tags service, used by tags router to match the tag since at that point user is still anonymous
+* Add setting to enable or disable tag router, useful for legacy siteaccesses
 
 2.0.6 (08.10.2015)
 ------------------

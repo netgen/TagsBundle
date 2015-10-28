@@ -2,6 +2,7 @@ parameters:
     eztags.controller.tag_view.class: Netgen\TagsBundle\Controller\TagViewController
     eztags.routing.tag_url_generator.class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
     eztags.routing.tag_router.class: Netgen\TagsBundle\Routing\TagRouter
+    eztags.event_listener.routing_listener.class: Netgen\TagsBundle\EventListener\RouterListener
 
 services:
     eztags.controller.tag_view:
@@ -28,3 +29,13 @@ services:
             - [setConfigResolver, [@ezpublish.config.resolver]]
         tags:
             - {name: router, priority: 200}
+
+    eztags.event_listener.routing_listener:
+        class: %eztags.event_listener.routing_listener.class%
+        lazy: true
+        arguments:
+            - @?logger
+        calls:
+            - [setEnableTagRouter, [$routing.enable_tag_router;eztags$]]
+        tags:
+            - {name: kernel.event_subscriber}
