@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor;
 
-use eZ\Publish\Core\Search\Solr\Query\CriterionVisitor;
+use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use eZ\Publish\Core\Search\Common\FieldNameResolver;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
