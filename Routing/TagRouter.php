@@ -107,9 +107,14 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             throw new ResourceNotFoundException();
         }
 
-        $tag = $this->tagsService->loadTagByUrl(
-            $requestedPath,
-            $this->configResolver->getParameter('languages')
+        $languages = $this->configResolver->getParameter('languages');
+        $tag = $this->tagsService->sudo(
+            function (TagsService $tagsService) use ($requestedPath, $languages) {
+                return $tagsService->loadTagByUrl(
+                    $requestedPath,
+                    $languages
+                );
+            }
         );
 
         $params = array(
