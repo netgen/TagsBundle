@@ -46,7 +46,7 @@ class CachedViewResponseListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(KernelEvents::RESPONSE => 'configureCache');
+        return array(KernelEvents::RESPONSE => array('configureCache', 10));
     }
 
     /**
@@ -78,5 +78,11 @@ class CachedViewResponseListener implements EventSubscriberInterface
         if (!$response->headers->has('Last-Modified')) {
             $response->setLastModified($tag->modificationDate);
         }
+
+        // We disable the cache here so default cache view listener
+        // wouldn't mess with our view object.
+        // All listeners that modify the cache for tag view object
+        // should run before this event anyway
+        $view->setCacheEnabled(false);
     }
 }
