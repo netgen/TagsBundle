@@ -13,6 +13,7 @@ Netgen Tags Bundle changelog
 * Fix tag router causing config resolver to be created too early (thanks @wizhippo)
 
 2.0.5 (25.09.2015)
+------------------
 
 * Also support `UserReference` argument in `TagLimitationType` methods
 
