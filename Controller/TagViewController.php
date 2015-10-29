@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Controller;
 
+use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
@@ -33,6 +34,8 @@ class TagViewController extends Controller
      * @param mixed $tagId
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
+     * @deprecated since 2.1
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewTag($tagId, Request $request)
@@ -40,6 +43,18 @@ class TagViewController extends Controller
         $tag = $this->tagsService->loadTag($tagId);
 
         return $this->renderTag($tag, $request);
+    }
+
+    /**
+     * Action for rendering a tag view.
+     *
+     * @param \Netgen\TagsBundle\View\TagView $view
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function viewAction(TagView $view)
+    {
+        return $view;
     }
 
     /**

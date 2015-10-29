@@ -1,0 +1,63 @@
+parameters:
+    eztags.view.cache_response_listener.class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
+    eztags.view.builder_parameter_collector.current_page.class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
+    eztags.view.view_parameters_injector.tag_id.class: Netgen\TagsBundle\View\ParametersInjector\TagId
+    eztags.view.view_parameters_injector.related_content_pager.class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
+
+    eztags.view.tag_view_builder.class: Netgen\TagsBundle\View\Builder\TagViewBuilder
+    eztags.view.tag_matcher_factory.class: Netgen\TagsBundle\Matcher\TagMatcherFactory
+    eztags.view.tag_view_provider.class: Netgen\TagsBundle\View\Provider\TagViewProvider
+
+services:
+    eztags.view.builder_parameter_collector.current_page:
+        class: %eztags.view.builder_parameter_collector.current_page.class%
+        tags:
+            - {name: kernel.event_subscriber}
+
+    eztags.view.view_parameters_injector.tag_id:
+        class: %eztags.view.view_parameters_injector.tag_id.class%
+        tags:
+            - {name: kernel.event_subscriber}
+
+    eztags.view.view_parameters_injector.related_content_pager:
+        class: %eztags.view.view_parameters_injector.related_content_pager.class%
+        arguments:
+            - @ezpublish.api.service.tags
+        calls:
+            - [setPagerLimit, [$tag_view.related_content_list.limit;eztags$]]
+        tags:
+            - {name: kernel.event_subscriber}
+
+    eztags.view.cache_response_listener:
+        class: %eztags.view.cache_response_listener.class%
+        arguments:
+            - $tag_view.cache;eztags$
+            - $tag_view.ttl_cache;eztags$
+            - $tag_view.default_ttl;eztags$
+        tags:
+            - {name: kernel.event_subscriber}
+
+    eztags.view.tag_view_builder:
+        class: %eztags.view.tag_view_builder.class%
+        arguments:
+            - @ezpublish.api.service.tags
+            - @ezpublish.view.configurator
+            - @ezpublish.view.view_parameters.injector.dispatcher
+            - @ezpublish.config.resolver
+
+    eztags.view.tag_matcher_factory:
+        class: %eztags.view.tag_matcher_factory.class%
+        arguments:
+            - @ezpublish.api.service.tags
+            - @ezpublish.config.resolver
+            - @ezpublish.translation_helper
+            - @ezpublish.api.repository
+        calls:
+            - [setContainer, [@service_container]]
+
+    eztags.view.tag_view_provider:
+        class: %eztags.view.tag_view_provider.class%
+        arguments:
+            - @eztags.view.tag_matcher_factory
+        tags:
+            - {name: ezpublish.view_provider, type: 'Netgen\TagsBundle\View\TagView', priority: 10}

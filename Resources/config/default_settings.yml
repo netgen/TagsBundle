@@ -22,3 +22,6 @@ parameters:
     # Enables or disables tag router. It can be disabled for example
     # in legacy admin siteacccess
     eztags.default.routing.enable_tag_router: true
+
+    # Setting that will hold all tag view matcher rules
+    eztags.default.tag_view_match: {}

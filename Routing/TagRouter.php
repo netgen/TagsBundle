@@ -24,7 +24,12 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
     const TAG_URL_ROUTE_NAME = 'eztags_tag_url';
 
+    /**
+     * @deprecated since 2.1
+     */
     const TAG_VIEW_CONTROLLER = 'eztags.controller.tag_view:viewTag';
+
+    const TAG_VIEW_ACTION_CONTROLLER = 'eztags.controller.tag_view:viewAction';
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -121,9 +126,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             }
         );
 
+        // We specifically pass tag ID so tag view builder will reload the tag and check for permissions
+        // Unfortunately, since at this point user is still anonymous (why!?), this is the best we can do
         $params = array(
             '_route' => self::TAG_URL_ROUTE_NAME,
-            '_controller' => static::TAG_VIEW_CONTROLLER,
+            '_controller' => static::TAG_VIEW_ACTION_CONTROLLER,
             'tagId' => $tag->id,
         );
 

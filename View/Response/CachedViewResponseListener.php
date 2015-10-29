@@ -1,0 +1,82 @@
+<?php
+
+namespace Netgen\TagsBundle\View\Response;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+use eZ\Publish\Core\MVC\Symfony\View\CachableView;
+use Netgen\TagsBundle\View\TagView;
+
+class CachedViewResponseListener implements EventSubscriberInterface
+{
+    /**
+     * @var bool
+     */
+    protected $enableViewCache;
+
+    /**
+     * @var bool
+     */
+    protected $enableTtlCache;
+
+    /**
+     * @var int
+     */
+    protected $defaultTtl;
+
+    /**
+     * Constructor.
+     *
+     * @param bool $enableViewCache
+     * @param bool $enableTtlCache
+     * @param int $defaultTtl
+     */
+    public function __construct($enableViewCache, $enableTtlCache, $defaultTtl)
+    {
+        $this->enableViewCache = $enableViewCache;
+        $this->enableTtlCache = $enableTtlCache;
+        $this->defaultTtl = $defaultTtl;
+    }
+
+    /**
+     * Returns an array of event names this subscriber wants to listen to.
+     *
+     * @return array The event names to listen to
+     */
+    public static function getSubscribedEvents()
+    {
+        return array(KernelEvents::RESPONSE => 'configureCache');
+    }
+
+    /**
+     * Configures the caching headers on tag view.
+     *
+     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+     */
+    public function configureCache(FilterResponseEvent $event)
+    {
+        $view = $event->getRequest()->attributes->get('view');
+        if (!$view instanceof CachableView || !$view instanceof TagView) {
+            return;
+        }
+
+        if (!$this->enableViewCache || !$view->isCacheEnabled()) {
+            return;
+        }
+
+        $tag = $view->getTag();
+        $response = $event->getResponse();
+
+        $response->setPublic();
+        $response->headers->set('X-Tag-Id', $tag->id, false);
+
+        if ($this->enableTtlCache && !$response->headers->hasCacheControlDirective('s-maxage')) {
+            $response->setSharedMaxAge($this->defaultTtl);
+        }
+
+        if (!$response->headers->has('Last-Modified')) {
+            $response->setLastModified($tag->modificationDate);
+        }
+    }
+}

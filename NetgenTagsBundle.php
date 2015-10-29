@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle;
 use eZ\Bundle\EzPublishLegacyBundle\LegacyBundles\LegacyBundleInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Netgen\TagsBundle\DependencyInjection\Compiler\TagViewBuilderPass;
 use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProvider;
 
 class NetgenTagsBundle extends Bundle implements LegacyBundleInterface
@@ -29,6 +30,8 @@ class NetgenTagsBundle extends Bundle implements LegacyBundleInterface
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new TagViewBuilderPass());
 
         $eZExtension = $container->getExtension('ezpublish');
         if (method_exists($eZExtension, 'addPolicyProvider')) {
