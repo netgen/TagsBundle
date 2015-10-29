@@ -1,9 +1,9 @@
 {% extends "eZDemoBundle::pagelayout.html.twig" %}
 
-{% set tagKeyword = netgen_tags_tag_keyword( tag ) %}
+{% set tag_keyword = netgen_tags_tag_keyword( tag ) %}
 
 {% block page_head %}
-    {% set title = tagKeyword %}
+    {% set title = tag_keyword %}
     {{ parent() }}
 {% endblock %}
 
@@ -12,17 +12,18 @@
         <div class="row">
             <div class="span8">
                 <div class="attribute-header">
-                    <h1>{{ tagKeyword }}</h1>
+                    <h1>{{ tag_keyword }}</h1>
                 </div>
 
-                {% if pager|length > 0 %}
+                {% if related_content|length > 0 %}
                     <section class="content-view-children">
-                        {% for pagerItem in pager %}
+                        {% for related_content_item in related_content %}
                             {{ render(
                                 controller(
                                     "ez_content:viewLocation",
                                     {
-                                        "locationId": pagerItem.contentInfo.mainLocationId,
+                                        "contentId": related_content_item.id,
+                                        "locationId": related_content_item.contentInfo.mainLocationId,
                                         "viewType": "line"
                                     }
                                 )
@@ -30,9 +31,9 @@
                         {% endfor %}
                     </section>
 
-                    {% if pager.haveToPaginate() %}
+                    {% if related_content.haveToPaginate() %}
                         <div class="pagination-centered">
-                            {{ pagerfanta( pager, 'twitter_bootstrap_translated' ) }}
+                            {{ pagerfanta( related_content, 'twitter_bootstrap_translated' ) }}
                         </div>
                     {% endif %}
                 {% endif %}
