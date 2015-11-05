@@ -1,7 +1,13 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2.4 (05.11.2015)
+------------------
+
+* Parametrize template used for tag view pages
+
 1.2.3 (16.07.2015)
+------------------
 
 * Require `ezsystems/eztags-ls` 1.x
 
