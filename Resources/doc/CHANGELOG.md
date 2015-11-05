@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.0.8 (05.11.2015)
+------------------
+
+* Parametrize pagelayout used in tag view page
+
 2.0.7 (28.10.2015)
 ------------------
 
@@ -48,6 +53,11 @@ Netgen Tags Bundle changelog
 * You can now use a container parameter to change the path prefix used to generate tag URLs
 * You can now use a container parameter to select which template will `/tags/view` controller use
 * Various bug fixes and optimizations
+
+1.2.5 (05.11.2015)
+------------------
+
+* Parametrize pagelayout used in tag view page
 
 1.2.4 (05.11.2015)
 ------------------

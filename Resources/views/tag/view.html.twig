@@ -1,4 +1,4 @@
-{% extends "eZDemoBundle::pagelayout.html.twig" %}
+{% extends ezpublish.configResolver.parameter( 'tag_view.pagelayout', 'eztags' ) %}
 
 {% set tagKeyword = netgen_tags_tag_keyword( tag ) %}
 
