@@ -49,6 +49,11 @@ Netgen Tags Bundle changelog
 * You can now use a container parameter to select which template will `/tags/view` controller use
 * Various bug fixes and optimizations
 
+1.2.4 (05.11.2015)
+------------------
+
+* Parametrize template used for tag view pages
+
 1.2.3 (16.07.2015)
 ------------------
 
