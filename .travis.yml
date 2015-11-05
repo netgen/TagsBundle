@@ -12,14 +12,18 @@ matrix:
         - php: 5.4
         - php: 5.5
         - php: 5.6
+        - php: 7.0
 
-# test only master (+ Pull requests)
+# test only master (+ pull requests)
 branches:
   only:
     - master
 
+# make sure to update composer to latest available version
+before_install: composer self-update
+
 # install dependencies
-install: composer self-update && composer install --no-dev --prefer-source
+install: composer install --no-dev --prefer-source
 
 # setup requirements for running unit tests
 before_script:
