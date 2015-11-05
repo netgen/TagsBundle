@@ -12,7 +12,6 @@ matrix:
         - php: 5.4
         - php: 5.5
         - php: 5.6
-        - php: 7.0
 
 # test only master (+ pull requests)
 branches:
@@ -28,12 +27,6 @@ install: composer install --no-dev --prefer-source
 # setup requirements for running unit tests
 before_script:
   - cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
-  # Since eZ Publish 6 is not yet tagged stable, we workaround PHP7 failure by renaming Null class to NullConverter
-  - cd vendor/ezsystems/ezpublish-kernel/
-  - grep -rl "Converter\\\\Null" | xargs sed -i 's/Converter\\Null/Converter\\NullConverter/g'
-  - grep -rl "class Null implements" * | xargs sed -i 's/class Null implements/class NullConverter implements/g'
-  - mv eZ/Publish/Core/Persistence/Legacy/Content/FieldValue/Converter/Null.php eZ/Publish/Core/Persistence/Legacy/Content/FieldValue/Converter/NullConverter.php
-  - cd -
 
 # execute phpunit as the script command
 script:
