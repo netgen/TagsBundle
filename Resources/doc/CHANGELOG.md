@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2.5 (05.11.2015)
+------------------
+
+* Parametrize pagelayout used in tag view page
+
 1.2.4 (05.11.2015)
 ------------------
 

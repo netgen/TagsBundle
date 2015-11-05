@@ -13,3 +13,6 @@ parameters:
 
     # Default template used to generate tag view page
     eztags.default.tag_view.template: 'NetgenTagsBundle:tag:view.html.twig'
+
+    # Default pagelayout used in tag view page
+    eztags.default.tag_view.pagelayout: 'eZDemoBundle::pagelayout.html.twig'

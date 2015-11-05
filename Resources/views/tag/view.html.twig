@@ -1,4 +1,4 @@
-{% extends "eZDemoBundle::pagelayout.html.twig" %}
+{% extends ezpublish.configResolver.parameter( 'tag_view.pagelayout', 'eztags' ) %}
 
 {% block page_head %}
     {% set title = tag.keyword %}
