@@ -79,10 +79,8 @@ class CachedViewResponseListener implements EventSubscriberInterface
             $response->setLastModified($tag->modificationDate);
         }
 
-        // We disable the cache here so default cache view listener
-        // wouldn't mess with our view object.
-        // All listeners that modify the cache for tag view object
-        // should run before this event anyway
-        $view->setCacheEnabled(false);
+        // We stop the propagation here so default cache view listener wouldn't mess with our view object.
+        // All listeners that modify the cache for tag view object should run before this event
+        $event->stopPropagation();
     }
 }
