@@ -4,7 +4,7 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Publish 5.3+ / eZ Publish Community Project 2014.05+
+* eZ Publish 5.3+ / eZ Publish Community Project 2014.05+ / eZ Platform 1.0+
 * eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured
 
 ### Note
@@ -60,13 +60,13 @@ PostgreSQL variant of the above schema file is also available at `vendor/netgen/
 
 ### Clear the caches
 
-Clear eZ Publish 5 caches.
+Clear the eZ Publish caches with the following command:
 
 ```bash
 $ php ezpublish/console cache:clear
 ```
 
-### Edit Varnish configuration (requires eZ Publish Enterprise 5.4+ or eZ Publish Community 2014.11+)
+### Edit Varnish configuration (requires eZ Publish Enterprise 5.4+, eZ Publish Community 2014.11+ or eZ Platform 1.0+)
 
 #### Varnish 3
 
