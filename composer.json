@@ -13,7 +13,6 @@
         "ezsystems/eztags-ls": "~2.0"
     },
     "autoload": {
-        "psr-0": {"Netgen\\TagsBundle": ""}
-    },
-    "target-dir": "Netgen/TagsBundle"
+        "psr-4": {"Netgen\\TagsBundle\\": ""}
+    }
 }
