@@ -22,7 +22,7 @@ services:
     eztags.view.view_parameters_injector.related_content_pager:
         class: %eztags.view.view_parameters_injector.related_content_pager.class%
         arguments:
-            - @ezpublish.api.service.tags
+            - "@ezpublish.api.service.tags"
         calls:
             - [setPagerLimit, [$tag_view.related_content_list.limit;eztags$]]
         tags:
@@ -40,24 +40,24 @@ services:
     eztags.view.tag_view_builder:
         class: %eztags.view.tag_view_builder.class%
         arguments:
-            - @ezpublish.api.service.tags
-            - @ezpublish.view.configurator
-            - @ezpublish.view.view_parameters.injector.dispatcher
-            - @ezpublish.config.resolver
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish.view.configurator"
+            - "@ezpublish.view.view_parameters.injector.dispatcher"
+            - "@ezpublish.config.resolver"
 
     eztags.view.tag_matcher_factory:
         class: %eztags.view.tag_matcher_factory.class%
         arguments:
-            - @ezpublish.api.service.tags
-            - @ezpublish.translation_helper
-            - @ezpublish.api.repository
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish.translation_helper"
+            - "@ezpublish.api.repository"
         calls:
-            - [setContainer, [@service_container]]
+            - [setContainer, ["@service_container"]]
             - [setMatchConfig, [$tag_view_match;eztags$]]
 
     eztags.view.tag_view_provider:
         class: %eztags.view.tag_view_provider.class%
         arguments:
-            - @eztags.view.tag_matcher_factory
+            - "@eztags.view.tag_matcher_factory"
         tags:
             - {name: ezpublish.view_provider, type: 'Netgen\TagsBundle\View\TagView', priority: 10}

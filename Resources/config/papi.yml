@@ -10,12 +10,12 @@ services:
         class: %ezpublish.signalslot.service.tags.class%
         lazy: true
         arguments:
-            - @ezpublish.api.service.tags.inner
-            - @ezpublish.signalslot.signal_dispatcher
+            - "@ezpublish.api.service.tags.inner"
+            - "@ezpublish.signalslot.signal_dispatcher"
 
     ezpublish.api.service.tags.inner:
         class: %ezpublish.api.service.tags.inner.class%
         arguments:
-            - @ezpublish.api.repository
-            - @ezpublish.api.persistence_handler.tags
-            - @ezpublish.spi.persistence.legacy.language.handler
+            - "@ezpublish.api.repository"
+            - "@ezpublish.api.persistence_handler.tags"
+            - "@ezpublish.spi.persistence.legacy.language.handler"

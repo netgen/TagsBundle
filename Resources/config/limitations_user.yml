@@ -5,7 +5,7 @@ services:
     eztags.role.limitation_type.tag:
         class: %eztags.role.limitation_type.tag.class%
         arguments:
-            - @ezpublish.api.persistence_handler
-            - @ezpublish.api.persistence_handler.tags
+            - "@ezpublish.api.persistence_handler"
+            - "@ezpublish.api.persistence_handler.tags"
         tags:
             - {name: ezpublish.limitationType, alias: Tag}

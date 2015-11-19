@@ -7,26 +7,26 @@ parameters:
 services:
     eztags.controller.tag_view:
         class: %eztags.controller.tag_view.class%
-        arguments: [@ezpublish.api.service.tags]
+        arguments: ["@ezpublish.api.service.tags"]
         parent: ezpublish.controller.base
 
     eztags.routing.tag_url_generator:
         class: %eztags.routing.tag_url_generator.class%
         parent: ezpublish.url_generator.base
         arguments:
-            - @ezpublish.api.service.tags
-            - @router.default
-            - @ezpublish.config.resolver
+            - "@ezpublish.api.service.tags"
+            - "@router.default"
+            - "@ezpublish.config.resolver"
 
     eztags.routing.tag_router:
         class: %eztags.routing.tag_router.class%
         arguments:
-            - @ezpublish.api.service.tags
-            - @eztags.routing.tag_url_generator
-            - @?router.request_context
-            - @?logger
+            - "@ezpublish.api.service.tags"
+            - "@eztags.routing.tag_url_generator"
+            - "@?router.request_context"
+            - "@?logger"
         calls:
-            - [setConfigResolver, [@ezpublish.config.resolver]]
+            - [setConfigResolver, ["@ezpublish.config.resolver"]]
         tags:
             - {name: router, priority: 200}
 
@@ -34,7 +34,7 @@ services:
         class: %eztags.event_listener.routing_listener.class%
         lazy: true
         arguments:
-            - @?logger
+            - "@?logger"
         calls:
             - [setEnableTagRouter, [$routing.enable_tag_router;eztags$]]
         tags:

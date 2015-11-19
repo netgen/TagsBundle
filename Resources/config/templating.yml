@@ -6,14 +6,14 @@ services:
     eztags.templating.twig.extension:
         class: %eztags.templating.twig.extension.class%
         arguments:
-            - @ezpublish.api.service.tags
-            - @ezpublish.translation_helper
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish.translation_helper"
         tags:
             - { name: twig.extension }
 
     eztags.templating.converter.tag:
         class: %eztags.templating.converter.tag.class%
         arguments:
-            - @?ezpublish_legacy.kernel
+            - "@?ezpublish_legacy.kernel"
         tags:
             - {name: ezpublish_legacy.templating.converter, for: Netgen\TagsBundle\API\Repository\Values\Tags\Tag}

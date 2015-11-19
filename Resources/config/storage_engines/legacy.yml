@@ -15,7 +15,7 @@ services:
     ezpublish.fieldType.eztags.storage_gateway:
         class: %ezpublish.fieldType.eztags.storage_gateway.class%
         arguments:
-            - @ezpublish.spi.persistence.legacy.language.handler
+            - "@ezpublish.spi.persistence.legacy.language.handler"
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: eztags, identifier: LegacyStorage}
 
@@ -23,11 +23,11 @@ services:
     ezpublish.api.storage_engine.legacy.handler.tags.factory:
         class: %ezpublish.api.storage_engine.legacy.handler.tags.factory.class%
         arguments:
-            - @service_container
+            - "@service_container"
 
     ezpublish.api.storage_engine.legacy.handler.tags:
         class: %ezpublish.api.storage_engine.legacy.handler.tags.class%
         factory_service: ezpublish.api.storage_engine.legacy.handler.tags.factory
         factory_method: buildLegacyTagsHandler
         arguments:
-            - @ezpublish.api.storage_engine.legacy.dbhandler
+            - "@ezpublish.api.storage_engine.legacy.dbhandler"

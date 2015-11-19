@@ -8,35 +8,35 @@ services:
     ezpublish.search.solr.query.content.criterion_visitor.tag_id:
         class: %ezpublish.search.solr.query.content.criterion_visitor.tag_id.class%
         arguments:
-            - @ezpublish.search.common.field_name_resolver
-            - 'eztags'
-            - 'tag_ids'
+            - "@ezpublish.search.common.field_name_resolver"
+            - "eztags"
+            - "tag_ids"
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
 
     ezpublish.search.solr.query.location.criterion_visitor.tag_id:
         class: %ezpublish.search.solr.query.location.criterion_visitor.tag_id.class%
         arguments:
-            - @ezpublish.search.common.field_name_resolver
-            - 'eztags'
-            - 'tag_ids'
+            - "@ezpublish.search.common.field_name_resolver"
+            - "eztags"
+            - "tag_ids"
         tags:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
 
     ezpublish.search.solr.query.content.criterion_visitor.tag_keyword:
         class: %ezpublish.search.solr.query.content.criterion_visitor.tag_keyword.class%
         arguments:
-            - @ezpublish.search.common.field_name_resolver
-            - 'eztags'
-            - 'tag_keywords'
+            - "@ezpublish.search.common.field_name_resolver"
+            - "eztags"
+            - "tag_keywords"
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
 
     ezpublish.search.solr.query.location.criterion_visitor.tag_keyword:
         class: %ezpublish.search.solr.query.location.criterion_visitor.tag_keyword.class%
         arguments:
-            - @ezpublish.search.common.field_name_resolver
-            - 'eztags'
-            - 'tag_keywords'
+            - "@ezpublish.search.common.field_name_resolver"
+            - "eztags"
+            - "tag_keywords"
         tags:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
