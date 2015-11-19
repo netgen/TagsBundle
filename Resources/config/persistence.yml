@@ -12,7 +12,6 @@ services:
 
     ezpublish.api.persistence_handler.tags:
         class: %ezpublish.api.persistence_handler.tags.class%
-        factory_service: ezpublish.api.persistence_handler.tags.factory
-        factory_method: buildTagsHandler
+        factory: ["@ezpublish.api.persistence_handler.tags.factory", buildTagsHandler]
         arguments:
             - %ezpublish.api.storage_engine.default%
