@@ -6,7 +6,6 @@ use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
