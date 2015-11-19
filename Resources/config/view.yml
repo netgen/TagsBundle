@@ -49,11 +49,11 @@ services:
         class: %eztags.view.tag_matcher_factory.class%
         arguments:
             - @ezpublish.api.service.tags
-            - @ezpublish.config.resolver
             - @ezpublish.translation_helper
             - @ezpublish.api.repository
         calls:
             - [setContainer, [@service_container]]
+            - [setMatchConfig, [$tag_view_match;eztags$]]
 
     eztags.view.tag_view_provider:
         class: %eztags.view.tag_view_provider.class%
