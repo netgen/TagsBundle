@@ -23,6 +23,7 @@ services:
         class: %eztags.view.view_parameters_injector.related_content_pager.class%
         arguments:
             - "@ezpublish.api.service.tags"
+            - "@eztags.pagerfanta.related_content_adapter"
         calls:
             - [setPagerLimit, [$tag_view.related_content_list.limit;eztags$]]
         tags:
