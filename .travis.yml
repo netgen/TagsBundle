@@ -19,7 +19,9 @@ branches:
     - master
 
 # make sure to update composer to latest available version
-before_install: composer self-update
+before_install:
+    - phpenv config-rm xdebug.ini
+    - composer self-update
 
 # install dependencies
 install: composer install --no-dev --prefer-source
