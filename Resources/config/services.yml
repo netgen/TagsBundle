@@ -45,6 +45,5 @@ services:
 
     eztags.pager_fanta.related_content_adapter:
         class: %eztags.pager_fanta.related_content_adapter.class%
-        scope: prototype
         arguments:
             - @ezpublish.api.service.tags
