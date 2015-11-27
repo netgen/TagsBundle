@@ -10,7 +10,7 @@ use Pagerfanta\Adapter\AdapterInterface;
  * Pagerfanta adapter for content related to a tag.
  * Will return results as content objects.
  */
-class RelatedContentAdapter implements AdapterInterface
+class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
@@ -30,13 +30,21 @@ class RelatedContentAdapter implements AdapterInterface
     /**
      * Constructor.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
-    public function __construct(Tag $tag, TagsService $tagsService)
+    public function __construct(TagsService $tagsService)
+    {
+        $this->tagsService = $tagsService;
+    }
+
+    /**
+     * Set tag field
+     *
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     */
+    public function setTag(Tag $tag)
     {
         $this->tag = $tag;
-        $this->tagsService = $tagsService;
     }
 
     /**
@@ -46,6 +54,10 @@ class RelatedContentAdapter implements AdapterInterface
      */
     public function getNbResults()
     {
+        if (!$this->tag instanceof Tag) {
+            return 0;
+        }
+
         if (!isset($this->nbResults)) {
             $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
         }
@@ -63,6 +75,10 @@ class RelatedContentAdapter implements AdapterInterface
      */
     public function getSlice($offset, $length)
     {
+        if (!$this->tag instanceof Tag) {
+            return array();
+        }
+
         $relatedContent = $this->tagsService->getRelatedContent($this->tag, $offset, $length);
 
         if (!isset($this->nbResults)) {

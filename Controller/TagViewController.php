@@ -7,8 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
+use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 
 class TagViewController extends Controller
 {
@@ -18,13 +19,20 @@ class TagViewController extends Controller
     protected $tagsService;
 
     /**
+     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
+     */
+    protected $adapter;
+
+    /**
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     * @param \Pagerfanta\Adapter\AdapterInterface $adapter
      */
-    public function __construct(TagsService $tagsService)
+    public function __construct(TagsService $tagsService, AdapterInterface $adapter)
     {
         $this->tagsService = $tagsService;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -54,8 +62,12 @@ class TagViewController extends Controller
     {
         $configResolver = $this->getConfigResolver();
 
+        if ($this->adapter instanceof TagAdapterInterface) {
+            $this->adapter->setTag($tag);
+        }
+
         $pager = new Pagerfanta(
-            new RelatedContentAdapter($tag, $this->tagsService)
+            $this->adapter
         );
 
         $pager->setMaxPerPage($configResolver->getParameter('tag_view.related_content_list.limit', 'eztags'));

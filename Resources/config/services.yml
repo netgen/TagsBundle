@@ -3,11 +3,14 @@ parameters:
     eztags.routing.tag_url_generator.class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
     eztags.routing.tag_router.class: Netgen\TagsBundle\Routing\TagRouter
     eztags.event_listener.routing_listener.class: Netgen\TagsBundle\EventListener\RouterListener
+    eztags.pager_fanta.related_content_adapter.class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
 
 services:
     eztags.controller.tag_view:
         class: %eztags.controller.tag_view.class%
-        arguments: [@ezpublish.api.service.tags]
+        arguments:
+            - @ezpublish.api.service.tags
+            - @eztags.pager_fanta.related_content_adapter
         parent: ezpublish.controller.base
 
     eztags.routing.tag_url_generator:
@@ -39,3 +42,8 @@ services:
             - [setEnableTagRouter, [$routing.enable_tag_router;eztags$]]
         tags:
             - {name: kernel.event_subscriber}
+
+    eztags.pager_fanta.related_content_adapter:
+        class: %eztags.pager_fanta.related_content_adapter.class%
+        arguments:
+            - @ezpublish.api.service.tags
