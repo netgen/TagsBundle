@@ -38,7 +38,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     }
 
     /**
-     * Set tag field
+     * Sets the tag to the adapter.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */

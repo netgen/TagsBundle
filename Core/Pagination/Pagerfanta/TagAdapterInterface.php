@@ -7,7 +7,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 interface TagAdapterInterface
 {
     /**
-     * Set tag field
+     * Sets the tag to the adapter.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
