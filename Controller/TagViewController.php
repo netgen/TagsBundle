@@ -19,7 +19,7 @@ class TagViewController extends Controller
     protected $tagsService;
 
     /**
-     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
+     * @var \Pagerfanta\Adapter\AdapterInterface
      */
     protected $adapter;
 
