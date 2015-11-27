@@ -34,7 +34,10 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
      */
     protected function getAdapter(Tag $tag, TagsService $tagsService)
     {
-        return new RelatedContentAdapter($tag, $tagsService);
+        $adapter = new RelatedContentAdapter($tagsService);
+        $adapter->setTag($tag);
+
+        return $adapter;
     }
 
     /**
