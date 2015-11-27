@@ -9,6 +9,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 
 class TagViewController extends Controller
 {
@@ -61,7 +62,9 @@ class TagViewController extends Controller
     {
         $configResolver = $this->getConfigResolver();
 
-        $this->adapter->setTag($tag);
+        if ($this->adapter instanceof TagAdapterInterface) {
+            $this->adapter->setTag($tag);
+        }
 
         $pager = new Pagerfanta(
             $this->adapter

@@ -10,7 +10,7 @@ use Pagerfanta\Adapter\AdapterInterface;
  * Pagerfanta adapter for content related to a tag.
  * Will return results as content objects.
  */
-class RelatedContentAdapter implements AdapterInterface
+class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
@@ -38,7 +38,7 @@ class RelatedContentAdapter implements AdapterInterface
     }
 
     /**
-     * Set tag property
+     * Set tag field
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
