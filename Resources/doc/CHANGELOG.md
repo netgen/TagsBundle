@@ -1,7 +1,7 @@
 Netgen Tags Bundle changelog
 ============================
 
-2.1.0
+2.1
 ------------------
 
 * Implemented Solr indexing handler
