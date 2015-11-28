@@ -34,8 +34,6 @@ class NetgenTagsBundle extends Bundle implements LegacyBundleInterface
         $container->addCompilerPass(new TagViewBuilderPass());
 
         $eZExtension = $container->getExtension('ezpublish');
-        if (method_exists($eZExtension, 'addPolicyProvider')) {
-            $eZExtension->addPolicyProvider(new TagsPolicyProvider());
-        }
+        $eZExtension->addPolicyProvider(new TagsPolicyProvider());
     }
 }
