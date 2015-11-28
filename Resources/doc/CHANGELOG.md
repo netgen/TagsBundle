@@ -8,7 +8,7 @@ Netgen Tags Bundle changelog
 * Implemented `netgen_tags_tag_keyword` Twig function to fetch tag keyword in most prioritized translation
 * Refactored view controller to use eZ Platform view API
 * Added support for exposing tags policies
-* Various bug fixes and 
+* Various bug fixes
 
 2.0.9
 ------------------
