@@ -5,7 +5,6 @@ Netgen Tags Bundle changelog
 ------------------
 
 * Implemented Solr indexing handler
-* Implemented `netgen_tags_tag_keyword` Twig function to fetch tag keyword in most prioritized translation
 * Refactored view controller to use eZ Platform view API
 * Added support for exposing tags policies
 * Various bug fixes
