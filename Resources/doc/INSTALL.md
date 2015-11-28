@@ -4,8 +4,12 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Publish 5.3+ / eZ Publish Community Project 2014.05+ / eZ Platform 1.0+
-* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured
+* eZ Platform 1.0+
+
+Optional requirements
+---------------------
+
+* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured. eZ Tags extension is still required in `composer.json` though, for convenience.
 
 ### Note
 
