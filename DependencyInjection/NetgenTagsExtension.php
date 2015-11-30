@@ -39,15 +39,8 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         }
 
         $loader->load('storage_engines/legacy/search_query_handlers.yml');
-
-        if (interface_exists('eZ\Publish\API\Repository\Values\User\UserReference')) {
-            $loader->load('limitations_user_reference.yml');
-        } else {
-            $loader->load('limitations_user.yml');
-        }
-
+        $loader->load('limitations.yml');
         $loader->load('storage_engines/legacy.yml');
-
         $loader->load('storage_engines/solr/criterion_visitors.yml');
 
         $processor = new ConfigurationProcessor($container, 'eztags');
