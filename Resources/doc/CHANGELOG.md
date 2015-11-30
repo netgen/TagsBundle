@@ -1,7 +1,7 @@
 Netgen Tags Bundle changelog
 ============================
 
-2.0.9
+2.0.9 (30.11.2015)
 ------------------
 
 * Related content Pagerfanta adapter is now a service. Makes it possible to override it and implement custom related content logic (thanks @zsusac)
