@@ -33,11 +33,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('papi.yml');
         $loader->load('default_settings.yml');
         $loader->load('templating.yml');
-
-        if ($container->hasParameter('ezpublish.view_provider.registry.class')) {
-            $loader->load('view.yml');
-        }
-
+        $loader->load('view.yml');
         $loader->load('storage_engines/legacy/search_query_handlers.yml');
         $loader->load('limitations.yml');
         $loader->load('storage_engines/legacy.yml');
