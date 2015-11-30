@@ -9,7 +9,7 @@ use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
-use Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser;
+use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
@@ -46,11 +46,11 @@ class TagLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser
+     * @return \Netgen\TagsBundle\Core\Limitation\TagLimitationType
      */
     public function testConstruct()
     {
-        return new TagLimitationTypeUser(
+        return new TagLimitationType(
             $this->getPersistenceMock(),
             $this->tagsHandlerMock
         );
@@ -105,9 +105,9 @@ class TagLimitationTypeTest extends Base
      * @dataProvider providerForTestAcceptValue
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation $limitation
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testAcceptValue(TagLimitation $limitation, TagLimitationTypeUser $limitationType)
+    public function testAcceptValue(TagLimitation $limitation, TagLimitationType $limitationType)
     {
         $limitationType->acceptValue($limitation);
     }
@@ -142,9 +142,9 @@ class TagLimitationTypeTest extends Base
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitation
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, TagLimitationTypeUser $limitationType)
+    public function testAcceptValueException(Limitation $limitation, TagLimitationType $limitationType)
     {
         $limitationType->acceptValue($limitation);
     }
@@ -230,9 +230,9 @@ class TagLimitationTypeTest extends Base
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation $limitation
      * @param int $errorCount
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testValidate(TagLimitation $limitation, $errorCount, TagLimitationTypeUser $limitationType)
+    public function testValidate(TagLimitation $limitation, $errorCount, TagLimitationType $limitationType)
     {
         if (!empty($limitation->limitationValues)) {
             foreach ($limitation->limitationValues as $key => $value) {
@@ -270,9 +270,9 @@ class TagLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testBuildValue(TagLimitationTypeUser $limitationType)
+    public function testBuildValue(TagLimitationType $limitationType)
     {
         $expected = array('1', 2, '3');
         $value = $limitationType->buildValue($expected);
@@ -313,7 +313,7 @@ class TagLimitationTypeTest extends Base
      * @depends testConstruct
      * @dataProvider providerForTestEvaluate
      */
-    public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected, TagLimitationTypeUser $limitationType)
+    public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected, TagLimitationType $limitationType)
     {
         $userMock = $this->getUserMock();
         $userMock->expects($this->never())->method($this->anything());
@@ -348,7 +348,7 @@ class TagLimitationTypeTest extends Base
      * @dataProvider providerForTestEvaluateInvalidArgument
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, TagLimitationTypeUser $limitationType)
+    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, TagLimitationType $limitationType)
     {
         $userMock = $this->getUserMock();
         $userMock->expects($this->never())->method($this->anything());
@@ -360,9 +360,9 @@ class TagLimitationTypeTest extends Base
      * @depends testConstruct
      * @expectedException \RuntimeException
      *
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testGetCriterionInvalidValue(TagLimitationTypeUser $limitationType)
+    public function testGetCriterionInvalidValue(TagLimitationType $limitationType)
     {
         $limitationType->getCriterion(
             new TagLimitation(array()),
@@ -373,9 +373,9 @@ class TagLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testGetCriterionSingleValue(TagLimitationTypeUser $limitationType)
+    public function testGetCriterionSingleValue(TagLimitationType $limitationType)
     {
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId $criterion */
         $criterion = $limitationType->getCriterion(
@@ -393,9 +393,9 @@ class TagLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testGetCriterionMultipleValues(TagLimitationTypeUser $limitationType)
+    public function testGetCriterionMultipleValues(TagLimitationType $limitationType)
     {
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId $criterion */
         $criterion = $limitationType->getCriterion(
@@ -414,9 +414,9 @@ class TagLimitationTypeTest extends Base
      * @depends testConstruct
      * @expectedException \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      *
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUser $limitationType
+     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testValueSchema(TagLimitationTypeUser $limitationType)
+    public function testValueSchema(TagLimitationType $limitationType)
     {
         $limitationType->valueSchema();
     }
