@@ -28,11 +28,15 @@
                 <directory>Core/SignalSlot</directory>
                 <directory>SPI</directory>
                 <directory>ApiLoader</directory>
+                <directory>Controller</directory>
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
                 <directory>vendor</directory>
                 <directory>var</directory>
+                <directory>extension</directory>
+                <file>bootstrap.php</file>
+                <file>NetgenTagsBundle.php</file>
             </exclude>
         </whitelist>
     </filter>

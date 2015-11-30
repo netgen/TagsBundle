@@ -41,7 +41,9 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::testGetNbResults
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getNbResults
      */
     public function testGetNbResults()
     {
@@ -67,7 +69,24 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::testGetSlice
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getNbResults
+     */
+    public function testGetNbResultsWithoutTag()
+    {
+        $this->tagsService
+            ->expects($this->never())
+            ->method('getRelatedContentCount');
+
+        $adapter = new RelatedContentAdapter($this->tagsService);
+        $this->assertSame(0, $adapter->getNbResults());
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getSlice
      */
     public function testGetSlice()
     {
@@ -117,5 +136,26 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($relatedContent, $adapter->getSlice($offset, $limit));
         $this->assertSame($nbResults, $adapter->getNbResults());
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getSlice
+     */
+    public function testGetSliceWithoutTag()
+    {
+        $this->tagsService
+            ->expects($this->never())
+            ->method('getRelatedContentCount');
+
+        $this
+            ->tagsService
+            ->expects($this->never())
+            ->method('getRelatedContent');
+
+        $adapter = new RelatedContentAdapter($this->tagsService);
+
+        $this->assertSame(array(), $adapter->getSlice(2, 2));
     }
 }

@@ -37,7 +37,10 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->tagsService = $this->getMock('Netgen\TagsBundle\API\Repository\TagsService');
+        $this->tagsService = $this->getMockBuilder('Netgen\TagsBundle\Core\Repository\TagsService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->signalDispatcher = $this->getMock('eZ\Publish\Core\SignalSlot\SignalDispatcher');
     }
 
@@ -52,6 +55,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::__construct
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTag
      */
     public function testLoadTag()
@@ -809,5 +813,23 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $tagUpdateStruct = $signalSlotService->newTagUpdateStruct();
 
         $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct', $tagUpdateStruct);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::sudo
+     */
+    public function testSudo()
+    {
+        $callback = function(){};
+
+        $this->tagsService
+            ->expects($this->once())
+            ->method('sudo')
+            ->will($this->returnValue('some_value'));
+
+        $signalSlotService = $this->getSignalSlotService();
+        $value = $signalSlotService->sudo($callback);
+
+        $this->assertEquals('some_value', $value);
     }
 }

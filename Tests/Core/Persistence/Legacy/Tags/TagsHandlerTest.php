@@ -54,6 +54,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
      */
     public function testLoad()
@@ -86,6 +87,28 @@ class TagsHandlerTest extends TestCase
             'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
             $tag
         );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::__construct
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     */
+    public function testLoadThrowsNotFoundException()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects($this->once())
+            ->method('getFullTagData')
+            ->with(42)
+            ->will($this->returnValue(array()));
+
+        $this->mapper
+            ->expects($this->never())
+            ->method('extractTagListFromRows');
+
+        $handler->load(42);
     }
 
     /**
@@ -154,6 +177,27 @@ class TagsHandlerTest extends TestCase
             'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
             $tag
         );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByRemoteId
+     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     */
+    public function testLoadByRemoteIdThrowsNotFoundException()
+    {
+        $handler = $this->getTagsHandler();
+
+        $this->gateway
+            ->expects($this->once())
+            ->method('getFullTagDataByRemoteId')
+            ->with('abcdef')
+            ->will($this->returnValue(array()));
+
+        $this->mapper
+            ->expects($this->never())
+            ->method('extractTagListFromRows');
+
+        $handler->loadByRemoteId('abcdef');
     }
 
     /**
@@ -320,7 +364,7 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getTagsByKeyword
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagsByKeyword
      */
     public function testLoadTagsByKeyword()
     {
@@ -553,10 +597,6 @@ class TagsHandlerTest extends TestCase
             );
 
         $handler->expects($this->once())
-            ->method('updateSubtreeModificationTime')
-            ->with(95);
-
-        $handler->expects($this->once())
             ->method('load')
             ->with(95)
             ->will(
@@ -637,10 +677,6 @@ class TagsHandlerTest extends TestCase
             );
 
         $handler->expects($this->once())
-            ->method('updateSubtreeModificationTime')
-            ->with(95);
-
-        $handler->expects($this->once())
             ->method('load')
             ->with(95)
             ->will(
@@ -714,11 +750,6 @@ class TagsHandlerTest extends TestCase
                 ),
                 40
             );
-
-        $handler
-            ->expects($this->once())
-            ->method('updateSubtreeModificationTime')
-            ->with(40);
 
         $handler
             ->expects($this->once())
@@ -816,11 +847,6 @@ class TagsHandlerTest extends TestCase
                     95
                 )
             );
-
-        $handler
-            ->expects($this->once())
-            ->method('updateSubtreeModificationTime')
-            ->with(95);
 
         $handler
             ->expects($this->once())
@@ -937,16 +963,6 @@ class TagsHandlerTest extends TestCase
             ->with(16, $mainTagData);
 
         $handler
-            ->expects($this->at(2))
-            ->method('updateSubtreeModificationTime')
-            ->with(0);
-
-        $handler
-            ->expects($this->at(3))
-            ->method('updateSubtreeModificationTime')
-            ->with(16);
-
-        $handler
             ->expects($this->at(4))
             ->method('load')
             ->with(16)
@@ -1038,21 +1054,12 @@ class TagsHandlerTest extends TestCase
                 ->with($tag->id);
         }
 
-        $handler
-            ->expects($this->at(3))
-            ->method('updateSubtreeModificationTime')
-            ->with(7);
-
-        $handler
-            ->expects($this->at(4))
-            ->method('updateSubtreeModificationTime')
-            ->with(42);
-
         $handler->merge(40, 42);
     }
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::copySubtree
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::recursiveCopySubtree
      */
     public function testCopySubtree()
     {
@@ -1104,16 +1111,6 @@ class TagsHandlerTest extends TestCase
             ->method('moveSubtree')
             ->with($sourceData, $destinationData)
             ->will($this->returnValue($movedData));
-
-        $handler
-            ->expects($this->at(0))
-            ->method('updateSubtreeModificationTime')
-            ->with($sourceData['parent_id']);
-
-        $handler
-            ->expects($this->at(1))
-            ->method('updateSubtreeModificationTime')
-            ->with($movedData['id']);
 
         $handler
             ->expects($this->once())
@@ -1178,11 +1175,6 @@ class TagsHandlerTest extends TestCase
             ->expects($this->once())
             ->method('deleteTag')
             ->with(40);
-
-        $handler
-            ->expects($this->once())
-            ->method('updateSubtreeModificationTime')
-            ->with(21);
 
         $handler->deleteTag(40);
     }

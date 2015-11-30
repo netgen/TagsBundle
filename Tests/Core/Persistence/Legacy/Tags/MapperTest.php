@@ -88,7 +88,8 @@ class MapperTest extends TestCase
     );
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagFromRow
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::__construct
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagInfoFromRow
      */
     public function testCreateTagInfoFromRow()
     {
@@ -110,7 +111,8 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagsFromRows
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::__construct
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::extractTagListFromRows
      */
     public function testExtractTagListFromRows()
     {

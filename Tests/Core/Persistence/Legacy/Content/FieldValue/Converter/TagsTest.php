@@ -32,6 +32,17 @@ class TagsTest extends PHPUnit_Framework_TestCase
     /**
      * @group fieldType
      * @group eztags
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::create
+     */
+    public function testCreate()
+    {
+        $converter = TagsConverter::create();
+        $this->assertInstanceOf(get_class($this->converter), $converter);
+    }
+
+    /**
+     * @group fieldType
+     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageValue
      */
     public function testToStorageValue()
@@ -96,9 +107,28 @@ class TagsTest extends PHPUnit_Framework_TestCase
         );
 
         self::assertEquals(0, $storageFieldDefinition->dataInt1);
-        self::assertEquals(false, $storageFieldDefinition->dataInt2);
-        self::assertEquals(true, $storageFieldDefinition->dataInt3);
+        self::assertEquals(0, $storageFieldDefinition->dataInt2);
+        self::assertEquals(1, $storageFieldDefinition->dataInt3);
         self::assertEquals(10, $storageFieldDefinition->dataInt4);
+    }
+
+    /**
+     * @group fieldType
+     * @group eztags
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
+     */
+    public function testToStorageFieldDefinitionWithNoSettings()
+    {
+        $storageFieldDefinition = new StorageFieldDefinition();
+        $this->converter->toStorageFieldDefinition(
+            new PersistenceFieldDefinition(),
+            $storageFieldDefinition
+        );
+
+        self::assertEquals(0, $storageFieldDefinition->dataInt1);
+        self::assertEquals(0, $storageFieldDefinition->dataInt2);
+        self::assertEquals(0, $storageFieldDefinition->dataInt3);
+        self::assertEquals(0, $storageFieldDefinition->dataInt4);
     }
 
     /**
@@ -128,5 +158,16 @@ class TagsTest extends PHPUnit_Framework_TestCase
         self::assertEquals(true, $fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
         self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->fieldSettings['maxTags']);
         self::assertNull($fieldDefinition->defaultValue->data);
+    }
+
+    /**
+     * @group fieldType
+     * @group eztags
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::getIndexColumn
+     */
+    public function testGetIndexColumn()
+    {
+        $indexColumn = $this->converter->getIndexColumn();
+        self::assertEquals(false, $indexColumn);
     }
 }

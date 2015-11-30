@@ -113,6 +113,7 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
      *
      * @param string $field
@@ -176,6 +177,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @dataProvider getLoadFullTagValues
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      *
      * @param string $field
      * @param mixed $value
@@ -207,7 +209,41 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     *
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testGetFullTagDataWithoutAlwaysAvailable($field, $value)
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagData(40, array('eng-GB'), false);
+
+        $this->assertEquals(
+            $value,
+            $data[0][$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     */
+    public function testGetNonExistentFullTagDataWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagData(40, array('cro-HR'), false);
+
+        $this->assertEquals(array(), $data);
+    }
+
+    /**
+     * @dataProvider getLoadFullTagValues
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      *
      * @param string $field
      * @param mixed $value
@@ -239,7 +275,41 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     *
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable($field, $value)
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', array('eng-GB'), false);
+
+        $this->assertEquals(
+            $value,
+            $data[0][$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
+     */
+    public function testGetNonExistentFullTagDataByRemoteIdWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', array('cro-HR'), false);
+
+        $this->assertEquals(array(), $data);
+    }
+
+    /**
+     * @dataProvider getLoadFullTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      *
      * @param string $field
      * @param mixed $value
@@ -258,7 +328,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      */
     public function testGetNonExistentFullTagDataByKeywordIdAndParentId()
     {
@@ -270,7 +340,41 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
+     * @dataProvider getLoadFullTagValues
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     *
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable($field, $value)
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByKeywordAndParentId('eztags', 7, array('eng-GB'), false);
+
+        $this->assertEquals(
+            $value,
+            $data[0][$field],
+            "Value in property $field not as expected."
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
+     */
+    public function testGetNonExistentFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getFullTagDataByKeywordAndParentId('eztags', 7, array('cro-HR'), false);
+
+        $this->assertEquals(array(), $data);
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      */
     public function testGetChildren()
     {
@@ -289,6 +393,7 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      */
     public function testGetChildrenCount()
     {
@@ -300,7 +405,66 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     */
+    public function testGetChildrenWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getChildren(16, 0, -1, array('eng-GB'), false);
+
+        $this->assertCount(6, $data);
+        $this->assertEquals(15, $data[0]['eztags_id']);
+        $this->assertEquals(18, $data[1]['eztags_id']);
+        $this->assertEquals(19, $data[2]['eztags_id']);
+        $this->assertEquals(20, $data[3]['eztags_id']);
+        $this->assertEquals(71, $data[4]['eztags_id']);
+        $this->assertEquals(72, $data[5]['eztags_id']);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
+     */
+    public function testGetChildrenCountWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getChildrenCount(16, array('eng-GB'), false);
+
+        $this->assertEquals(6, $tagsCount);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     */
+    public function testGetChildrenWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getChildren(16, 0, -1, array('cro-HR'), false);
+
+        $this->assertCount(0, $data);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
+     */
+    public function testGetChildrenCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getChildrenCount(16, array('cro-HR'), false);
+
+        $this->assertEquals(0, $tagsCount);
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeyword
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      */
     public function testGetTagsByKeyword()
     {
@@ -315,6 +479,7 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeywordCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      */
     public function testGetTagsByKeywordCount()
     {
@@ -326,7 +491,36 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeyword
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     */
+    public function testGetTagsByKeywordWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getTagsByKeyword('eztags', 'eng-GB', false);
+
+        $this->assertCount(2, $data);
+        $this->assertEquals('eztags', $data[0]['eztags_keyword_keyword']);
+        $this->assertEquals('eztags', $data[1]['eztags_keyword_keyword']);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeywordCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
+     */
+    public function testGetTagsByKeywordCountWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getTagsByKeywordCount('eztags', 'eng-GB', false);
+
+        $this->assertEquals(2, $tagsCount);
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      */
     public function testGetSynonyms()
     {
@@ -341,6 +535,7 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      */
     public function testGetSynonymCount()
     {
@@ -349,6 +544,60 @@ class DoctrineDatabaseTest extends TestCase
         $tagsCount = $handler->getSynonymCount(16);
 
         $this->assertEquals(2, $tagsCount);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     */
+    public function testGetSynonymsWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getSynonyms(16, 0, -1, array('eng-GB'), false);
+
+        $this->assertCount(2, $data);
+        $this->assertEquals(95, $data[0]['eztags_id']);
+        $this->assertEquals(96, $data[1]['eztags_id']);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
+     */
+    public function testGetSynonymCountWithoutAlwaysAvailable()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getSynonymCount(16, array('eng-GB'), false);
+
+        $this->assertEquals(2, $tagsCount);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
+     */
+    public function testGetSynonymsWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $data = $handler->getSynonyms(16, 0, -1, array('cro-HR'), false);
+
+        $this->assertCount(0, $data);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
+     */
+    public function testGetSynonymCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $handler = $this->getTagsGateway();
+        $tagsCount = $handler->getSynonymCount(16, array('cro-HR'), false);
+
+        $this->assertEquals(0, $tagsCount);
     }
 
     /**
@@ -380,6 +629,7 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::moveSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
      */
     public function testMoveSynonym()
     {
@@ -409,6 +659,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::create
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::generateLanguageMask
      */
     public function testCreate()
     {
@@ -446,6 +698,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::create
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::generateLanguageMask
      */
     public function testCreateWithNoParent()
     {
@@ -478,6 +732,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::update
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::generateLanguageMask
      */
     public function testUpdate()
     {
@@ -509,6 +765,9 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::generateLanguageMask
      */
     public function testCreateSynonym()
     {
@@ -546,6 +805,7 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::convertToSynonym
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
      */
     public function testConvertToSynonym()
     {
