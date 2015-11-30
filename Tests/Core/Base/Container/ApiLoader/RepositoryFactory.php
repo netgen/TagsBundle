@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
 use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
+use eZ\Publish\SPI\Search\Handler as SearchHandler;
 
 class RepositoryFactory extends BaseRepositoryFactory
 {
@@ -29,10 +30,11 @@ class RepositoryFactory extends BaseRepositoryFactory
      *
      * @return \eZ\Publish\API\Repository\Repository
      */
-    public function buildRepository(PersistenceHandler $persistenceHandler)
+    public function buildRepository(PersistenceHandler $persistenceHandler, SearchHandler $searchHandler)
     {
         $repository = new $this->repositoryClass(
             $persistenceHandler,
+            $searchHandler,
             array(
                 'fieldType' => $this->fieldTypeCollectionFactory->getFieldTypes(),
                 'role' => array(

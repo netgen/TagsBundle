@@ -38,11 +38,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
             $loader->load('view.yml');
         }
 
-        if ($container->hasParameter('ezpublish.persistence.legacy.search.gateway.sort_clause_handler.common.field.class')) {
-            $loader->load('storage_engines/legacy/search_query_handlers.yml');
-        } else {
-            $loader->load('storage_engines/legacy/search_query_handlers_new_namespaces.yml');
-        }
+        $loader->load('storage_engines/legacy/search_query_handlers.yml');
 
         if (interface_exists('eZ\Publish\API\Repository\Values\User\UserReference')) {
             $loader->load('limitations_user_reference.yml');

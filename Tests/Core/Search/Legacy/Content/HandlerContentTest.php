@@ -1,9 +1,9 @@
 <?php
 
-namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content;
+namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
 use eZ\Publish\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Content;
+use eZ\Publish\Core\Search\Legacy\Content;
 use eZ\Publish\SPI\Persistence\Content as ContentObject;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
@@ -11,18 +11,18 @@ use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\SPI\Persistence\Content\ContentInfo;
 use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
 use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
+use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
+use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 
 /**
- * Test case for ContentSearchHandler with Tags criteria.
+ * Test case for legacy content search handler with Tags criteria.
  *
  * @todo Test with criterion target
  * @todo Test TagKeyword criterion with languages/translations
  */
-class SearchHandlerTest extends LanguageAwareTestCase
+class HandlerContentTest extends LanguageAwareTestCase
 {
     protected static $setUp = false;
 
@@ -90,14 +90,14 @@ class SearchHandlerTest extends LanguageAwareTestCase
      * This method returns a fully functional search handler to perform tests
      * on.
      *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Search\Handler
+     * @return \eZ\Publish\Core\Search\Legacy\Content\Handler
      */
     protected function getContentSearchHandler()
     {
-        return new Content\Search\Handler(
-            new Content\Search\Gateway\DoctrineDatabase(
+        return new Content\Handler(
+            new Content\Gateway\DoctrineDatabase(
                 $this->getDatabaseHandler(),
-                new Content\Search\Common\Gateway\CriteriaConverter(
+                new Content\Common\Gateway\CriteriaConverter(
                     array(
                         new TagIdCriterionHandler(
                             $this->getDatabaseHandler()
@@ -116,17 +116,17 @@ class SearchHandlerTest extends LanguageAwareTestCase
                         ),
                     )
                 ),
-                new Content\Search\Common\Gateway\SortClauseConverter(
+                new Content\Common\Gateway\SortClauseConverter(
                     array(
-                        new Content\Search\Common\Gateway\SortClauseHandler\ContentId($this->getDatabaseHandler()),
+                        new Content\Common\Gateway\SortClauseHandler\ContentId($this->getDatabaseHandler()),
                     )
                 ),
-                new QueryBuilder($this->getDatabaseHandler()),
-                $this->getLanguageHandler(),
-                $this->getLanguageMaskGenerator()
+                $this->getLanguageHandler()
             ),
+            $this->getMock('eZ\\Publish\\Core\\Search\\Legacy\\Content\\Location\\Gateway'),
             $this->getContentMapperMock(),
-            $this->getContentFieldHandlerMock()
+            $this->getMock('eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\Location\\Mapper'),
+            $this->getLanguageHandler()
         );
     }
 
@@ -168,22 +168,6 @@ class SearchHandlerTest extends LanguageAwareTestCase
             );
 
         return $mapperMock;
-    }
-
-    /**
-     * Returns a content field handler mock.
-     *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\FieldHandler
-     */
-    protected function getContentFieldHandlerMock()
-    {
-        return $this->getMock(
-            'eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\FieldHandler',
-            array('loadExternalFieldData'),
-            array(),
-            '',
-            false
-        );
     }
 
     public function testTagIdFilter()

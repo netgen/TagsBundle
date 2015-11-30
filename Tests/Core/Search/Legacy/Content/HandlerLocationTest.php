@@ -1,29 +1,29 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tests\Content;
+namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Search;
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\SortClauseConverter;
+use eZ\Publish\Core\Search\Legacy\Content;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler as CommonCriterionHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Search\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCriterionHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\Search\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
+use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
+use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 
 /**
- * Test case for LocationSearchHandler with Tags criteria.
+ * Test case for legacy location search handler with Tags criteria.
  *
  * @todo Test with criterion target
  * @todo Test TagKeyword criterion with languages/translations
  */
-class LocationSearchHandlerTest extends LanguageAwareTestCase
+class HandlerLocationTest extends LanguageAwareTestCase
 {
     protected static $setUp = false;
 
@@ -38,19 +38,19 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         if (!self::$setUp) {
             parent::setUp();
-            $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezpublish-kernel/eZ/Publish/Core/Persistence/Legacy/Tests/Content/SearchHandler/_fixtures/full_dump.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../../../vendor/ezsystems/ezpublish-kernel/eZ/Publish/Core/Persistence/Legacy/Tests/Content/SearchHandler/_fixtures/full_dump.php');
             self::$setUp = $this->handler;
 
             $handler = $this->getDatabaseHandler();
 
-            $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
+            $schema = __DIR__ . '/../../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
             $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents($schema)));
             foreach ($queries as $query) {
                 $handler->exec($query);
             }
 
-            $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/tags_tree.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
         } else {
             $this->handler = self::$setUp;
         }
@@ -82,12 +82,13 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
      * This method returns a fully functional search handler to perform tests
      * on.
      *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Search\Location\Handler
+     * @return \eZ\Publish\Core\Search\Legacy\Content\Handler
      */
-    protected function getLocationSearchHandler()
+    protected function getContentSearchHandler()
     {
-        return new Search\Location\Handler(
-            new Search\Location\Gateway\DoctrineDatabase(
+        return new Content\Handler(
+            $this->getMock('eZ\\Publish\\Core\\Search\\Legacy\\Content\\Gateway'),
+            new Content\Location\Gateway\DoctrineDatabase(
                 $this->getDatabaseHandler(),
                 new CriteriaConverter(
                     array(
@@ -103,9 +104,12 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
                         new LocationSortClauseHandler\Location\Id($this->getDatabaseHandler()),
                         new CommonSortClauseHandler\ContentId($this->getDatabaseHandler()),
                     )
-                )
+                ),
+                $this->getLanguageHandler()
             ),
-            $this->getLocationMapperMock()
+            $this->getMockBuilder('eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\Mapper')->disableOriginalConstructor()->getMock(),
+            $this->getLocationMapperMock(),
+            $this->getLanguageHandler()
         );
     }
 
@@ -148,7 +152,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59, 62),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Criterion\TagId(40),
@@ -164,7 +168,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59, 62, 63),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Criterion\TagId(array(40, 41)),
@@ -180,7 +184,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Query\Criterion\LogicalAnd(
@@ -201,7 +205,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59, 62),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
@@ -217,7 +221,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59, 62, 63),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::IN, array('eztags', 'cms')),
@@ -233,7 +237,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Query\Criterion\LogicalAnd(
@@ -254,7 +258,7 @@ class LocationSearchHandlerTest extends LanguageAwareTestCase
     {
         $this->assertSearchResults(
             array(59, 60, 61, 62),
-            $this->getLocationSearchHandler()->findLocations(
+            $this->getContentSearchHandler()->findLocations(
                 new LocationQuery(
                     array(
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::LIKE, '%e%'),
