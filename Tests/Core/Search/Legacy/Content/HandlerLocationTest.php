@@ -38,7 +38,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     {
         if (!self::$setUp) {
             parent::setUp();
-            $this->insertDatabaseFixture(__DIR__ . '/../../../../../../vendor/ezsystems/ezpublish-kernel/eZ/Publish/Core/Persistence/Legacy/Tests/Content/SearchHandler/_fixtures/full_dump.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezpublish-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
             self::$setUp = $this->handler;
 
             $handler = $this->getDatabaseHandler();
