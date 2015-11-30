@@ -43,14 +43,14 @@ class HandlerLocationTest extends LanguageAwareTestCase
 
             $handler = $this->getDatabaseHandler();
 
-            $schema = __DIR__ . '/../../../../../_fixtures/schema/schema.' . $this->db . '.sql';
+            $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
             $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents($schema)));
             foreach ($queries as $query) {
                 $handler->exec($query);
             }
 
-            $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/tags_tree.php');
         } else {
             $this->handler = self::$setUp;
         }
