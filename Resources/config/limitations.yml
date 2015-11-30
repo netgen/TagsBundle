@@ -1,5 +1,5 @@
 parameters:
-    eztags.role.limitation_type.tag.class: Netgen\TagsBundle\Core\Limitation\TagLimitationTypeUserReference
+    eztags.role.limitation_type.tag.class: Netgen\TagsBundle\Core\Limitation\TagLimitationType
 
 services:
     eztags.role.limitation_type.tag:
