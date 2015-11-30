@@ -24,6 +24,8 @@ class TagLimitationTest extends BaseLimitationTest
         $roleService = $repository->getRoleService();
 
         $role = $roleService->createRole($roleService->newRoleCreateStruct('Tags editor'));
+        $roleService->publishRoleDraft($role);
+        $role = $roleService->loadRole($role->id);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'add');
         $policyCreateStruct->addLimitation(
@@ -33,6 +35,7 @@ class TagLimitationTest extends BaseLimitationTest
                 )
             )
         );
+
         $role = $roleService->addPolicy($role, $policyCreateStruct);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'read');
@@ -76,6 +79,8 @@ class TagLimitationTest extends BaseLimitationTest
         $roleService = $repository->getRoleService();
 
         $role = $roleService->createRole($roleService->newRoleCreateStruct('Tags editor'));
+        $roleService->publishRoleDraft($role);
+        $role = $roleService->loadRole($role->id);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'add');
         $policyCreateStruct->addLimitation(

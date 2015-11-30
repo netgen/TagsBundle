@@ -38,7 +38,7 @@ class RepositoryFactory extends BaseRepositoryFactory
             array(
                 'fieldType' => $this->fieldTypeCollectionFactory->getFieldTypes(),
                 'role' => array(
-                    'limitationMap' => array('tags' => array('add' => array('Tag' => true))),
+                    'policyMap' => array('tags' => array('add' => array('Tag' => true))),
                     'limitationTypes' => $this->roleLimitations,
                 ),
                 'languages' => $this->container->getParameter('languages'),
