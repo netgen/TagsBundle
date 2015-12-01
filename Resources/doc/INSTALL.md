@@ -32,7 +32,7 @@ $ composer require netgen/tagsbundle:~2.0.0
 
 ### Activate the bundle
 
-Activate the bundle in `ezpublish/EzPublishKernel.php` file by adding it to the `$bundles` array in `registerBundles` method:
+Activate the bundle in `app/AppKernel.php` file by adding it to the `$bundles` array in `registerBundles` method:
 
 ```php
 public function registerBundles()
@@ -47,7 +47,7 @@ public function registerBundles()
 
 ### Edit configuration
 
-Put the following in your `ezpublish/config/routing.yml` file to be able to display tag view pages:
+Put the following in your `app/config/routing.yml` file to be able to display tag view pages:
 
 ```yml
 _eztagsRoutes:
@@ -69,7 +69,7 @@ PostgreSQL variant of the above schema file is also available at `vendor/netgen/
 Clear the eZ Publish caches with the following command:
 
 ```bash
-$ php ezpublish/console cache:clear
+$ php app/console cache:clear
 ```
 
 ### Edit Varnish configuration (requires eZ Platform 1.0+ or eZ Publish Enterprise 5.4+/eZ Publish Community 2014.11+ (in case of bundle version 2.0.x))
