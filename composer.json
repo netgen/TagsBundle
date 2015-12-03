@@ -9,8 +9,10 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "~6.0.0@dev",
-        "ezsystems/eztags-ls": "~2.0"
+        "ezsystems/ezpublish-kernel": "~6.0.0@dev"
+    },
+    "suggest": {
+        "ezsystems/eztags-ls": "For managing tags in legacy admin interface"
     },
     "autoload": {
         "psr-4": {"Netgen\\TagsBundle\\": ""}
