@@ -2,24 +2,13 @@
 
 namespace Netgen\TagsBundle;
 
-use eZ\Bundle\EzPublishLegacyBundle\LegacyBundles\LegacyBundleInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Netgen\TagsBundle\DependencyInjection\Compiler\TagViewBuilderPass;
 use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProvider;
 
-class NetgenTagsBundle extends Bundle implements LegacyBundleInterface
+class NetgenTagsBundle extends Bundle
 {
-    /**
-     * Returns a list of legacy extension names.
-     *
-     * @return array List of legacy extension names to inject to ActiveExtensions
-     */
-    public function getLegacyExtensionsNames()
-    {
-        return array('eztags');
-    }
-
     /**
      * Builds the bundle.
      *
