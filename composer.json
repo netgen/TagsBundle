@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "~6.0.0@dev"
+        "ezsystems/ezpublish-kernel": "~6.0.0"
     },
     "suggest": {
         "ezsystems/eztags-ls": "For managing tags in legacy admin interface"
