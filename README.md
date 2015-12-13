@@ -1,18 +1,19 @@
 Netgen Tags Bundle [![Build status](https://travis-ci.org/netgen/TagsBundle.png)](https://travis-ci.org/netgen/TagsBundle)
 ==================
 
-Netgen Tags Bundle is an eZ Publish 5 bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than `ezkeyword` field type included in eZ Publish kernel.
+Netgen Tags Bundle is an eZ Publish / eZ Platform bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than `ezkeyword` field type included in eZ Publish kernel.
 
-This repository represents eZ Publish 5 rewrite of the original eZ Publish 4 extension located at [http://github.com/ezsystems/eztags](/ezsystems/eztags). However, eZ Publish 4 version of eZ Tags is still required to administrate tags through the admin interface.
+This repository represents a rewrite of eZ Tags, the original eZ Publish 4 extension located at [http://github.com/ezsystems/eztags](/ezsystems/eztags). However, eZ Publish 4 version of eZ Tags is still required to administrate tags through the admin interface.
 
 Implemented features
 --------------------
 
 * `eztags` field type
 * Tags service and legacy SPI handler
-* SignalSlot tags service
+* Signal slot tags service
 * `/tags/id/{tagId}` and `/tags/view/{tagUrl}` pages
 * `TagId` and `TagKeyword` search criteria
+* Solr indexing of `eztags` field type
 * Tag router and path generator
 
 License and installation instructions
