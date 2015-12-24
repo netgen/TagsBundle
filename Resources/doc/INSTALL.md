@@ -9,15 +9,15 @@ Requirements
 Optional requirements
 ---------------------
 
-* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured. eZ Tags extension is still required in `composer.json` though, for convenience.
+* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured.
 
-### Note
+### Notes about versions
 
-Netgen Tags Bundle 1.0 can only be used with eZ Publish Enterprise 5.2 or eZ Publish Community Project 2013.07-2014.03 due to [changes in field type API](https://github.com/ezsystems/ezpublish-kernel/pull/429). If you have previous versions of eZ Publish, please use 0.9 version of Tags Bundle.
+Netgen Tags Bundle 2.1 can only be used with eZ Platform. Last version available for eZ Publish Community and eZ Publish Enterprise is 2.0.x
 
 Netgen Tags Bundle 1.1 can only be used with eZ Publish Enterprise 5.3 or later or eZ Publish Community Project 2014.05 or later.
 
-Netgen Tags Bundle 2.1 can only be used with eZ Platform. Last version available for eZ Publish Community and eZ Publish Enterprise is 2.0.x
+Netgen Tags Bundle 1.0 can only be used with eZ Publish Enterprise 5.2 or eZ Publish Community Project 2013.07-2014.03 due to [changes in field type API](https://github.com/ezsystems/ezpublish-kernel/pull/429). If you have previous versions of eZ Publish, please use 0.9 version of Tags Bundle.
 
 Installation steps
 ------------------
@@ -72,7 +72,7 @@ Clear the eZ Publish caches with the following command:
 $ php app/console cache:clear
 ```
 
-### Edit Varnish configuration (requires eZ Platform 1.0+ or eZ Publish Enterprise 5.4+/eZ Publish Community 2014.11+ (in case of bundle version 2.0.x))
+### Edit Varnish configuration (optional but recommended)
 
 #### Varnish 3
 
