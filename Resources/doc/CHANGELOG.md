@@ -8,7 +8,7 @@ Netgen Tags Bundle changelog
 * Legacy search criterion handlers now support specifying target (i.e. field definition identifier)
 * Refactored view controller to use eZ Platform view API
 * Added support for exposing tags policies
-* Add legacy template converter for `Tag` value object`
+* Add legacy template converter for `Tag` value object
 * Various bug fixes
 
 2.0.9 (30.11.2015)
