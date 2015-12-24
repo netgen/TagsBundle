@@ -20,7 +20,7 @@
                         {% for related_content_item in related_content %}
                             {{ render(
                                 controller(
-                                    "ez_content:viewLocation",
+                                    "ez_content:viewAction",
                                     {
                                         "contentId": related_content_item.id,
                                         "locationId": related_content_item.contentInfo.mainLocationId,
