@@ -24,11 +24,6 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
     const TAG_URL_ROUTE_NAME = 'eztags_tag_url';
 
-    /**
-     * @deprecated since 2.1
-     */
-    const TAG_VIEW_CONTROLLER = 'eztags.controller.tag_view:viewTag';
-
     const TAG_VIEW_ACTION_CONTROLLER = 'eztags.controller.tag_view:viewAction';
 
     /**

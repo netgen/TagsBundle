@@ -9,9 +9,6 @@ services:
     eztags.controller.tag_view:
         class: %eztags.controller.tag_view.class%
         parent: ezpublish.controller.base
-        arguments:
-            - "@ezpublish.api.service.tags"
-            - "@eztags.pagerfanta.related_content_adapter"
 
     eztags.routing.tag_url_generator:
         class: %eztags.routing.tag_url_generator.class%
