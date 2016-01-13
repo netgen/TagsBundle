@@ -5,8 +5,9 @@ namespace Netgen\TagsBundle\Matcher\Tag;
 use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 use Netgen\TagsBundle\TagsServiceAwareTrait;
+use Netgen\TagsBundle\TagsServiceAwareInterface;
 
-abstract class MultipleValued implements ViewMatcherInterface
+abstract class MultipleValued implements ViewMatcherInterface, TagsServiceAwareInterface
 {
     use TagsServiceAwareTrait;
 
