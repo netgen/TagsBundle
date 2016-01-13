@@ -4,10 +4,12 @@ namespace Netgen\TagsBundle\Matcher\Tag;
 
 use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
-use Netgen\TagsBundle\TagsServiceAware;
+use Netgen\TagsBundle\TagsServiceAwareTrait;
 
-abstract class MultipleValued extends TagsServiceAware implements ViewMatcherInterface
+abstract class MultipleValued implements ViewMatcherInterface
 {
+    use TagsServiceAwareTrait;
+
     /**
      * @var array
      */

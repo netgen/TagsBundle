@@ -4,7 +4,7 @@ namespace Netgen\TagsBundle;
 
 use Netgen\TagsBundle\API\Repository\TagsService;
 
-abstract class TagsServiceAware implements TagsServiceAwareInterface
+trait TagsServiceAwareTrait
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
