@@ -86,9 +86,5 @@ class RelatedContentPager implements EventSubscriberInterface
         $pager->setCurrentPage($builderParameters['page'] > 0 ? $builderParameters['page'] : 1);
 
         $event->getParameterBag()->set('related_content', $pager);
-
-        // Setting the pager variable too for BC
-        // @deprecated since 2.1
-        $event->getParameterBag()->set('pager', $pager);
     }
 }
