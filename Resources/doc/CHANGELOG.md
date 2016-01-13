@@ -1,8 +1,8 @@
 Netgen Tags Bundle changelog
 ============================
 
-2.1
-------------------
+2.1 (13.01.2016)
+----------------
 
 * Implemented Solr indexing handler
 * Legacy search criterion handlers now support specifying target (i.e. field definition identifier)
