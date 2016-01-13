@@ -1,7 +1,6 @@
 parameters:
     eztags.view.cache_response_listener.class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
     eztags.view.builder_parameter_collector.current_page.class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
-    eztags.view.view_parameters_injector.tag_id.class: Netgen\TagsBundle\View\ParametersInjector\TagId
     eztags.view.view_parameters_injector.related_content_pager.class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
 
     eztags.view.tag_view_builder.class: Netgen\TagsBundle\View\Builder\TagViewBuilder
@@ -11,11 +10,6 @@ parameters:
 services:
     eztags.view.builder_parameter_collector.current_page:
         class: %eztags.view.builder_parameter_collector.current_page.class%
-        tags:
-            - {name: kernel.event_subscriber}
-
-    eztags.view.view_parameters_injector.tag_id:
-        class: %eztags.view.view_parameters_injector.tag_id.class%
         tags:
             - {name: kernel.event_subscriber}
 
