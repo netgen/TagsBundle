@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+2.1.1 (05.02.2016)
+------------------
+
+* Allow installing eZ Publish kernel > 6.0.x
+
 2.1 (13.01.2016)
 ----------------
 
