@@ -24,7 +24,7 @@ class TagLimitationTypeUser extends TagLimitationType
      *
      * @return boolean
      */
-    public function evaluate( APILimitationValue $value, UserReference $currentUser, ValueObject $object, array $targets = null )
+    public function evaluate( Limitation $value, UserReference $currentUser, ValueObject $object, array $targets = null )
     {
         return $this->innerEvaluate($value, $object, $targets);
     }
@@ -39,7 +39,7 @@ class TagLimitationTypeUser extends TagLimitationType
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion( APILimitationValue $value, UserReference $currentUser )
+    public function getCriterion( Limitation $value, UserReference $currentUser )
     {
         return $this->innerGetCriterion($value);
     }
