@@ -11,6 +11,11 @@
     "require": {
         "ezsystems/ezpublish-kernel": "^6.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8|^5.0",
+        "symfony/symfony": "~2.7.0",
+        "symfony/phpunit-bridge": "~2.7.0"
+    },
     "suggest": {
         "ezsystems/eztags-ls": "For managing tags in legacy admin interface"
     },

@@ -3,13 +3,10 @@ language: php
 cache:
     directories:
         - vendor
-        - extension
 
 matrix:
     # mark as finished before allow_failures are run
     fast_finish: true
-    allow_failures:
-        - php: 7.0
     include:
         - php: 5.4
         - php: 5.5
@@ -27,7 +24,7 @@ before_install:
     - composer self-update
 
 # install dependencies
-install: composer install --no-dev --prefer-source
+install: composer install --prefer-source
 
 # setup requirements for running unit tests
 before_script:
@@ -35,8 +32,8 @@ before_script:
 
 # execute phpunit as the script command
 script:
-  - phpunit -d memory_limit=-1 --colors -c phpunit.xml
-  - phpunit -d memory_limit=-1 --colors -c phpunit-integration-legacy.xml
+  - ./vendor/bin/phpunit -d memory_limit=-1 --colors -c phpunit.xml
+  - ./vendor/bin/phpunit -d memory_limit=-1 --colors -c phpunit-integration-legacy.xml
 
 # disable mail notifications
 notification:
