@@ -1,6 +1,11 @@
 Netgen Tags Bundle changelog
 ============================
 
+1.2.6 (01.03.2016)
+------------------
+
+* Support `UserReference` in `Tag` limitation type, backport from Tags Bundle 2.0
+
 1.2.5 (05.11.2015)
 ------------------
 
