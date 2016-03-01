@@ -30,7 +30,6 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load( "persistence.yml" );
         $loader->load( "papi.yml" );
         $loader->load( "default_settings.yml" );
-        $loader->load( "roles.yml" );
 
         if ( $container->hasParameter( 'ezpublish.persistence.legacy.search.gateway.sort_clause_handler.common.field.class' ) )
         {
@@ -39,6 +38,15 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         else
         {
             $loader->load( 'storage_engines/legacy/search_query_handlers_new_namespaces.yml' );
+        }
+
+        if ( interface_exists( 'eZ\Publish\API\Repository\Values\User\UserReference' ) )
+        {
+            $loader->load( 'limitations_user_reference.yml' );
+        }
+        else
+        {
+            $loader->load( 'limitations_user.yml' );
         }
 
         $loader->load( "storage_engines/legacy.yml" );
