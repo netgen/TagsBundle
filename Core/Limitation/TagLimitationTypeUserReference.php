@@ -6,7 +6,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Values\User\UserReference;
 use eZ\Publish\API\Repository\Values\User\Limitation;
 
-class TagLimitationTypeUser extends TagLimitationType
+class TagLimitationTypeUserReference extends TagLimitationType
 {
     /**
      * Evaluate permission against content and placement
