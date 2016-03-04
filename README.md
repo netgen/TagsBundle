@@ -22,7 +22,7 @@ License and installation instructions
 
 [Installation instructions](Resources/doc/INSTALL.md)
 
-[Changelog](Resources/doc/CHANGELOG.md)
+[Changelog](Resources/doc/CHANGELOG-2.0.md)
 
 Unit tests
 ----------
