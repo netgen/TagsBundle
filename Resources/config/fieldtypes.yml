@@ -2,6 +2,7 @@ parameters:
     ezpublish.fieldType.eztags.class: Netgen\TagsBundle\Core\FieldType\Tags\Type
     ezpublish.fieldType.eztags.externalStorage.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
     ezpublish.fieldType.indexable.eztags.class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
+    ezpublish.fieldType.eztags.formMapper.class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
 
 services:
     ezpublish.fieldType.eztags:
@@ -20,3 +21,8 @@ services:
         class: %ezpublish.fieldType.indexable.eztags.class%
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
+
+    ezpublish.fieldType.eztags.formMapper:
+        class: %ezpublish.fieldType.eztags.formMapper.class%
+        tags:
+            - { name: ez.fieldType.formMapper, fieldType: eztags }

@@ -1,0 +1,25 @@
+{% block eztags_field_definition_edit %}
+    <div class="eztags-settings subtree-limit {{ group_class }}">
+        {{- form_label(form.subTreeLimit) -}}
+        {{- form_errors(form.subTreeLimit) -}}
+        {{- form_widget(form.subTreeLimit) -}}
+    </div>
+
+    <div class="eztags-settings show-dropdown {{ group_class }}">
+        {{- form_label(form.showDropDown) -}}
+        {{- form_errors(form.showDropDown) -}}
+        {{- form_widget(form.showDropDown) -}}
+    </div>
+
+    <div class="eztags-settings hide-root-tag {{ group_class }}">
+        {{- form_label(form.hideRootTag) -}}
+        {{- form_errors(form.hideRootTag) -}}
+        {{- form_widget(form.hideRootTag) -}}
+    </div>
+
+    <div class="eztags-settings max-tags {{ group_class }}">
+        {{- form_label(form.maxTags) -}}
+        {{- form_errors(form.maxTags) -}}
+        {{- form_widget(form.maxTags) -}}
+    </div>
+{% endblock %}
