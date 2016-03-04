@@ -7,7 +7,7 @@
         {% if settings.subTreeLimit > 0 %}
             <a href="{{ url( 'eztags_tag_url', { 'tagId': settings.subTreeLimit } ) }}">{{ netgen_tags_tag_keyword( settings.subTreeLimit ) }}</a>
         {% else %}
-            {{ 'field_definition.eztags.settings.no_subtree_limit'|trans }}
+            {{ 'field_definition.eztags.settings.subtree_limit.no_limit'|trans }}
         {% endif %}
     </li>
 

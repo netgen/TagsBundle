@@ -1,9 +1,13 @@
 field_definition.eztags.settings.subtree_limit: 'Limit by tags subtree'
+field_definition.eztags.settings.subtree_limit.current_tag: 'Current tag'
+field_definition.eztags.settings.subtree_limit.no_tag_selected: 'No tag selected'
+field_definition.eztags.settings.subtree_limit.no_limit: 'No subtree limit'
+
 field_definition.eztags.settings.show_dropdown: 'Show dropdown instead of autocomplete'
+
 field_definition.eztags.settings.hide_root_tag: 'Hide root subtree limit tag when editing object'
+
 field_definition.eztags.settings.max_tags: 'Maximum number of allowed tags'
-field_definition.eztags.settings.no_subtree_limit: 'No subtree limit'
-field_definition.eztags.settings.current_tag: 'Current tag'
-field_definition.eztags.settings.no_tag_selected: 'No tag selected'
+
 field_definition.eztags.settings.yes: 'Yes'
 field_definition.eztags.settings.no: 'No'

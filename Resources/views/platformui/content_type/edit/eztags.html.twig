@@ -7,12 +7,12 @@
         {{- form_widget(form.subTreeLimit) -}}
 
         {% if form.subTreeLimit.vars.value > 0 %}
-            <span>{{ 'field_definition.eztags.settings.current_tag'|trans }}: </span>
+            <span>{{ 'field_definition.eztags.settings.subtree_limit.current_tag'|trans }}: </span>
             <a href="{{ url( 'eztags_tag_url', { 'tagId': form.subTreeLimit.vars.value } ) }}">
                 {{ netgen_tags_tag_keyword( form.subTreeLimit.vars.value ) }}
             </a>
         {% else %}
-            {{ 'field_definition.eztags.settings.no_tag_selected'|trans }}
+            {{ 'field_definition.eztags.settings.subtree_limit.no_tag_selected'|trans }}
         {% endif %}
     </div>
 
