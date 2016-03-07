@@ -54,5 +54,10 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $config = Yaml::parse(file_get_contents($configFile));
         $container->prependExtensionConfig('ezpublish', $config);
         $container->addResource(new FileResource($configFile));
+
+        $configFile = __DIR__ . '/../Resources/config/ezplatform_ui.yml';
+        $config = Yaml::parse(file_get_contents($configFile));
+        $container->prependExtensionConfig('ez_platformui', $config);
+        $container->addResource(new FileResource($configFile));
     }
 }

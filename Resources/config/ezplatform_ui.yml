@@ -1,0 +1,16 @@
+system: ~
+system:
+    default:
+        yui:
+            modules:
+                ez-rawcontentview:
+                    requires:
+                        - netgen-tags-view
+
+                netgen-tags-view:
+                    requires: [ez-fieldview, netgen-tags-view-ez-template]
+                    path: bundles/netgentags/js/views/fields/netgen-tags-view.js
+
+                netgen-tags-view-ez-template:
+                    type: template
+                    path: bundles/netgentags/templates/fields/netgen-tags-view.hbt
