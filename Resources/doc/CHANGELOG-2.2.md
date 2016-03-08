@@ -8,3 +8,4 @@ Netgen Tags Bundle 2.2 changelog
 * Remove deprecated `TagViewController::viewTag` action
 * Remove setting the deprecated `pager` variable into tag view template
 * Remove injecting deprecated `tagId` variable into tag view template
+* Use `UrlGeneratorInterface` constants in tag router

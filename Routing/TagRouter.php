@@ -8,6 +8,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RequestContext;
@@ -152,7 +153,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param string|\Netgen\TagsBundle\API\Repository\Values\Tags\Tag $name The name of the route or a Tag instance
      * @param mixed $parameters An array of parameters
-     * @param bool $absolute Whether to generate an absolute URL
+     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \LogicException
      * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
@@ -160,11 +161,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return string The generated URL
      */
-    public function generate($name, $parameters = array(), $absolute = false)
+    public function generate($name, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         // Direct access to Tag
         if ($name instanceof Tag) {
-            return $this->generator->generate($name, $parameters, $absolute);
+            return $this->generator->generate($name, $parameters, $referenceType);
         }
 
         // Normal route name
@@ -180,7 +181,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
                 $tag = isset($parameters['tag']) ? $parameters['tag'] : $this->tagsService->loadTag($parameters['tagId']);
                 unset($parameters['tag'], $parameters['tagId'], $parameters['viewType'], $parameters['layout']);
 
-                return $this->generator->generate($tag, $parameters, $absolute);
+                return $this->generator->generate($tag, $parameters, $referenceType);
             }
 
             throw new InvalidArgumentException(
