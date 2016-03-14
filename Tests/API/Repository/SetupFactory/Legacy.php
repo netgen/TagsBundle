@@ -97,12 +97,14 @@ class Legacy extends BaseLegacy
 
             /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
             $loader->load('tests/integration_legacy.yml');
-            $loader->load(__DIR__ . '/../../../../Tests/settings/settings.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/papi.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/limitations.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/fieldtypes.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/persistence.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/storage_engines/legacy.yml');
+
+            $loader->load(__DIR__ . '/../../../../Tests/settings/settings.yml');
+            $loader->load(__DIR__ . '/../../../../Tests/settings/integration/legacy.yml');
 
             $containerBuilder->setParameter(
                 'legacy_dsn',

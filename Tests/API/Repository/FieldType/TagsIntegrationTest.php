@@ -6,6 +6,7 @@ use eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest;
 use eZ\Publish\API\Repository\Values\Content\Field;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use DateTime;
 use stdClass;
 
@@ -39,10 +40,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 'type' => 'int',
                 'default' => 0,
             ),
-            'showDropDown' => array(
-                'type' => 'boolean',
-                'default' => false,
-            ),
             'hideRootTag' => array(
                 'type' => 'boolean',
                 'default' => false,
@@ -50,6 +47,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
             'maxTags' => array(
                 'type' => 'int',
                 'default' => 0,
+            ),
+            'editView' => array(
+                'type' => 'string',
+                'default' => Type::EDIT_VIEW_DEFAULT_VALUE,
             ),
         );
     }
@@ -63,9 +64,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         return array(
             'subTreeLimit' => 0,
-            'showDropDown' => false,
             'hideRootTag' => true,
             'maxTags' => 10,
+            'editView' => Type::EDIT_VIEW_DEFAULT_VALUE,
         );
     }
 

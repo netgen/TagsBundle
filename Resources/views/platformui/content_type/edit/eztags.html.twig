@@ -16,12 +16,6 @@
         {% endif %}
     </div>
 
-    <div class="eztags-settings show-dropdown {{ group_class }}">
-        {{- form_label(form.showDropDown) -}}
-        {{- form_errors(form.showDropDown) -}}
-        {{- form_widget(form.showDropDown) -}}
-    </div>
-
     <div class="eztags-settings hide-root-tag {{ group_class }}">
         {{- form_label(form.hideRootTag) -}}
         {{- form_errors(form.hideRootTag) -}}
@@ -32,5 +26,11 @@
         {{- form_label(form.maxTags) -}}
         {{- form_errors(form.maxTags) -}}
         {{- form_widget(form.maxTags) -}}
+    </div>
+
+    <div class="eztags-settings edit-view {{ group_class }}">
+        {{- form_label(form.editView) -}}
+        {{- form_errors(form.editView) -}}
+        {{- form_widget(form.editView) -}}
     </div>
 {% endblock %}

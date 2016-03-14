@@ -8,7 +8,10 @@ services:
     ezpublish.fieldType.eztags:
         class: %ezpublish.fieldType.eztags.class%
         parent: ezpublish.fieldType
-        arguments: [ "@ezpublish.api.service.tags" ]
+        arguments:
+            - "@ezpublish.api.service.tags"
+        calls:
+            - [setEditViews, [$edit_views;eztags$]]
         tags:
             - {name: ezpublish.fieldType, alias: eztags}
 
@@ -24,5 +27,7 @@ services:
 
     ezpublish.fieldType.eztags.formMapper:
         class: %ezpublish.fieldType.eztags.formMapper.class%
+        calls:
+            - [setEditViews, [$edit_views;eztags$]]
         tags:
             - { name: ez.fieldType.formMapper, fieldType: eztags }

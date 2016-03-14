@@ -109,7 +109,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
         $this->tagsService = $this->getMock('Netgen\\TagsBundle\\API\\Repository\\TagsService');
 
         $fieldType = new TagsType($this->tagsService);
+
         $fieldType->setTransformationProcessor($this->getTransformationProcessor());
+        $fieldType->setEditViews(
+            array(
+                'default' => array('identifier' => 'Default'),
+                'select' => array('identifier' => 'Select'),
+            )
+        );
 
         return $this->getHandler(
             'eztags',
@@ -150,9 +157,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
                 'subTreeLimit' => 0,
-                'showDropDown' => false,
                 'hideRootTag' => false,
                 'maxTags' => 0,
+                'editView' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
             )
         );
 

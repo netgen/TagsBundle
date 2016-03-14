@@ -21,6 +21,11 @@ use DateTime;
 class Type extends FieldType
 {
     /**
+     * Default edit view interface for content field
+     */
+    const EDIT_VIEW_DEFAULT_VALUE = 'Default';
+
+    /**
      * List of settings available for this FieldType.
      *
      * The key is the setting name, and the value is the default value for this setting
@@ -32,10 +37,6 @@ class Type extends FieldType
             'type' => 'int',
             'default' => 0,
         ),
-        'showDropDown' => array(
-            'type' => 'boolean',
-            'default' => false,
-        ),
         'hideRootTag' => array(
             'type' => 'boolean',
             'default' => false,
@@ -43,6 +44,10 @@ class Type extends FieldType
         'maxTags' => array(
             'type' => 'int',
             'default' => 0,
+        ),
+        'editView' => array(
+            'type' => 'string',
+            'default' => self::EDIT_VIEW_DEFAULT_VALUE,
         ),
     );
 
@@ -52,11 +57,26 @@ class Type extends FieldType
     protected $tagsService;
 
     /**
+     * @var array
+     */
+    protected $availableEditViews = array();
+
+    /**
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
+    }
+
+    /**
+     * Sets the available edit views
+     *
+     * @param array $availableEditViews
+     */
+    public function setEditViews(array $availableEditViews)
+    {
+        $this->availableEditViews = $availableEditViews;
     }
 
     /**
@@ -333,17 +353,6 @@ class Type extends FieldType
                         }
                     }
                     break;
-                case 'showDropDown':
-                    if (!is_bool($value)) {
-                        $validationErrors[] = new ValidationError(
-                            "Setting '%setting%' value must be of boolean type",
-                            null,
-                            array(
-                                'setting' => $name,
-                            )
-                        );
-                    }
-                    break;
                 case 'hideRootTag':
                     if (!is_bool($value)) {
                         $validationErrors[] = new ValidationError(
@@ -372,6 +381,35 @@ class Type extends FieldType
                             null,
                             array(
                                 'setting' => $name,
+                            )
+                        );
+                    }
+                    break;
+                case 'editView':
+                    if (!is_string($value)) {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be of string type",
+                            null,
+                            array(
+                                'setting' => $name,
+                            )
+                        );
+                    }
+
+                    $editViewExists = false;
+                    foreach ($this->availableEditViews as $editView) {
+                        if ($editView['identifier'] === $value) {
+                            $editViewExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!$editViewExists) {
+                        $validationErrors[] = new ValidationError(
+                            "Edit view '%editView%' does not exist",
+                            null,
+                            array(
+                                'editView' => $value,
                             )
                         );
                     }

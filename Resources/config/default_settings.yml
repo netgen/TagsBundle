@@ -28,3 +28,6 @@ parameters:
 
     # Setting that will hold all tag view matcher rules
     eztags.default.tag_view_match: {}
+
+    # Setting that will hold all available edit views
+    eztags.default.edit_views: {}

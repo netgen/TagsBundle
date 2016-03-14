@@ -3,7 +3,9 @@ field_definition.eztags.settings.subtree_limit.current_tag: 'Current tag'
 field_definition.eztags.settings.subtree_limit.no_tag_selected: 'No tag selected'
 field_definition.eztags.settings.subtree_limit.no_limit: 'No subtree limit'
 
-field_definition.eztags.settings.show_dropdown: 'Show dropdown instead of autocomplete'
+field_definition.eztags.settings.edit_view: 'Edit view'
+field_definition.eztags.settings.edit_view.default: 'Default view'
+field_definition.eztags.settings.edit_view.select: 'Select view'
 
 field_definition.eztags.settings.hide_root_tag: 'Hide root subtree limit tag when editing object'
 

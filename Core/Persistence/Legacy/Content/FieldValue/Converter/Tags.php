@@ -8,6 +8,7 @@ use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use eZ\Publish\Core\FieldType\FieldSettings;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 
 /**
  * Converter for Tags field values in legacy storage.
@@ -58,10 +59,6 @@ class Tags implements Converter
             (int)$fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] :
             0;
 
-        $storageDef->dataInt2 = isset($fieldDef->fieldTypeConstraints->fieldSettings['showDropDown']) ?
-            (int)$fieldDef->fieldTypeConstraints->fieldSettings['showDropDown'] :
-            0;
-
         $storageDef->dataInt3 = isset($fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag']) ?
             (int)$fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
             0;
@@ -69,6 +66,10 @@ class Tags implements Converter
         $storageDef->dataInt4 = isset($fieldDef->fieldTypeConstraints->fieldSettings['maxTags']) ?
             (int)$fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] :
             0;
+
+        $storageDef->dataText1 = isset($fieldDef->fieldTypeConstraints->fieldSettings['editView']) ?
+            $fieldDef->fieldTypeConstraints->fieldSettings['editView'] :
+            Type::EDIT_VIEW_DEFAULT_VALUE;
     }
 
     /**
@@ -82,9 +83,9 @@ class Tags implements Converter
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
                 'subTreeLimit' => (int)$storageDef->dataInt1,
-                'showDropDown' => (bool)$storageDef->dataInt2,
                 'hideRootTag' => (bool)$storageDef->dataInt3,
                 'maxTags' => (int)$storageDef->dataInt4,
+                'editView' => $storageDef->dataText1,
             )
         );
     }

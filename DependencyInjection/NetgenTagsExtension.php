@@ -40,7 +40,9 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('storage_engines/solr/criterion_visitors.yml');
 
         $processor = new ConfigurationProcessor($container, 'eztags');
+
         $processor->mapConfigArray('tag_view_match', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
+        $processor->mapConfigArray('edit_views', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
     }
 
     /**
@@ -50,6 +52,11 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
      */
     public function prepend(ContainerBuilder $container)
     {
+        $configFile = __DIR__ . '/../Resources/config/netgen_tags.yml';
+        $config = Yaml::parse(file_get_contents($configFile));
+        $container->prependExtensionConfig('netgen_tags', $config);
+        $container->addResource(new FileResource($configFile));
+
         $configFile = __DIR__ . '/../Resources/config/ezpublish.yml';
         $config = Yaml::parse(file_get_contents($configFile));
         $container->prependExtensionConfig('ezpublish', $config);

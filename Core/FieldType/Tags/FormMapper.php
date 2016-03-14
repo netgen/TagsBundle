@@ -8,8 +8,28 @@ use Symfony\Component\Form\FormInterface;
 
 class FormMapper implements FieldTypeFormMapperInterface
 {
+    /**
+     * @var array
+     */
+    protected $availableEditViews = array();
+
+    /**
+     * Sets the available edit views
+     *
+     * @param array $availableEditViews
+     */
+    public function setEditViews(array $availableEditViews)
+    {
+        $this->availableEditViews = $availableEditViews;
+    }
+
     public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data)
     {
+        $editViewChoices = array();
+        foreach ($this->availableEditViews as $editView) {
+            $editViewChoices[$editView['identifier']] = $editView['name'];
+        }
+
         $fieldDefinitionForm
             ->add(
                 'subTreeLimit', 'integer', array(
@@ -17,13 +37,6 @@ class FormMapper implements FieldTypeFormMapperInterface
                     'property_path' => 'fieldSettings[subTreeLimit]',
                     'label' => 'field_definition.eztags.settings.subtree_limit',
                     'empty_data' => 0
-                )
-            )
-            ->add(
-                'showDropDown', 'checkbox', array(
-                    'required' => false,
-                    'property_path' => 'fieldSettings[showDropDown]',
-                    'label' => 'field_definition.eztags.settings.show_dropdown',
                 )
             )
             ->add(
@@ -42,6 +55,14 @@ class FormMapper implements FieldTypeFormMapperInterface
                     'attr' => array(
                         'min' => 0
                     )
+                )
+            )
+            ->add(
+                'editView', 'choice', array(
+                    'choices' => $editViewChoices,
+                    'required' => true,
+                    'property_path' => 'fieldSettings[editView]',
+                    'label' => 'field_definition.eztags.settings.edit_view',
                 )
             );
     }

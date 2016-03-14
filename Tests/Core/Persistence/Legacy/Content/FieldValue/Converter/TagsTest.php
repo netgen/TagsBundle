@@ -9,6 +9,7 @@ use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition as PersistenceFieldD
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use eZ\Publish\Core\FieldType\FieldSettings;
 use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -90,9 +91,9 @@ class TagsTest extends PHPUnit_Framework_TestCase
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
                 'subTreeLimit' => 0,
-                'showDropDown' => false,
                 'hideRootTag' => true,
                 'maxTags' => 10,
+                'editView' => 'Select',
             )
         );
 
@@ -107,9 +108,9 @@ class TagsTest extends PHPUnit_Framework_TestCase
         );
 
         self::assertEquals(0, $storageFieldDefinition->dataInt1);
-        self::assertEquals(0, $storageFieldDefinition->dataInt2);
         self::assertEquals(1, $storageFieldDefinition->dataInt3);
         self::assertEquals(10, $storageFieldDefinition->dataInt4);
+        self::assertEquals('Select', $storageFieldDefinition->dataText1);
     }
 
     /**
@@ -126,9 +127,9 @@ class TagsTest extends PHPUnit_Framework_TestCase
         );
 
         self::assertEquals(0, $storageFieldDefinition->dataInt1);
-        self::assertEquals(0, $storageFieldDefinition->dataInt2);
         self::assertEquals(0, $storageFieldDefinition->dataInt3);
         self::assertEquals(0, $storageFieldDefinition->dataInt4);
+        self::assertEquals(Type::EDIT_VIEW_DEFAULT_VALUE, $storageFieldDefinition->dataText1);
     }
 
     /**
@@ -144,9 +145,9 @@ class TagsTest extends PHPUnit_Framework_TestCase
             new StorageFieldDefinition(
                 array(
                     'dataInt1' => 0,
-                    'dataInt2' => false,
                     'dataInt3' => true,
                     'dataInt4' => 10,
+                    'dataText1' => 'Select',
                 )
             ),
             $fieldDefinition
@@ -154,9 +155,9 @@ class TagsTest extends PHPUnit_Framework_TestCase
 
         self::assertInstanceOf('eZ\\Publish\\Core\\FieldType\\FieldSettings', $fieldDefinition->fieldTypeConstraints->fieldSettings);
         self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->fieldSettings['subTreeLimit']);
-        self::assertEquals(false, $fieldDefinition->fieldTypeConstraints->fieldSettings['showDropDown']);
         self::assertEquals(true, $fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
         self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->fieldSettings['maxTags']);
+        self::assertEquals('Select', $fieldDefinition->fieldTypeConstraints->fieldSettings['editView']);
         self::assertNull($fieldDefinition->defaultValue->data);
     }
 

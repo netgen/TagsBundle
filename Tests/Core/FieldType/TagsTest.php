@@ -46,7 +46,15 @@ class TagsTest extends FieldTypeTest
             ->method('loadTag')
             ->will($this->returnCallback(array($this, 'getTagsServiceLoadTagValues')));
 
-        return new TagsType($this->tagsService);
+        $tagsType = new TagsType($this->tagsService);
+        $tagsType->setEditViews(
+            array(
+                'default' => array('identifier' => 'Default'),
+                'select' => array('identifier' => 'Select'),
+            )
+        );
+
+        return $tagsType;
     }
 
     /**
@@ -71,10 +79,6 @@ class TagsTest extends FieldTypeTest
                 'type' => 'int',
                 'default' => 0,
             ),
-            'showDropDown' => array(
-                'type' => 'boolean',
-                'default' => false,
-            ),
             'hideRootTag' => array(
                 'type' => 'boolean',
                 'default' => false,
@@ -82,6 +86,10 @@ class TagsTest extends FieldTypeTest
             'maxTags' => array(
                 'type' => 'int',
                 'default' => 0,
+            ),
+            'editView' => array(
+                'type' => 'string',
+                'default' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
             ),
         );
     }
@@ -145,12 +153,12 @@ class TagsTest extends FieldTypeTest
             ),
             array(
                 array(
-                    'showDropDown' => true,
+                    'editView' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
                 ),
             ),
             array(
                 array(
-                    'showDropDown' => false,
+                    'editView' => 'Select',
                 ),
             ),
             array(
@@ -214,7 +222,7 @@ class TagsTest extends FieldTypeTest
             ),
             array(
                 array(
-                    'showDropDown' => 42,
+                    'editView' => 'Unknown',
                 ),
             ),
             array(

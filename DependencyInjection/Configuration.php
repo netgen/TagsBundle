@@ -63,6 +63,23 @@ EOT
                         ->end()
                     ->end()
                 ->end()
+            ->end()
+            ->arrayNode('edit_views')
+                ->info('List of available edit views in field edit interface')
+                ->useAttributeAsKey('key')
+                ->normalizeKeys(false)
+                ->prototype('array')
+                    ->children()
+                        ->scalarNode('identifier')
+                            ->isRequired()
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('name')
+                            ->isRequired()
+                            ->cannotBeEmpty()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         // Here you should define the parameters that are allowed to

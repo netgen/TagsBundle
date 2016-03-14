@@ -1,0 +1,9 @@
+system:
+    default:
+        edit_views:
+            default:
+                identifier: Default
+                name: field_definition.eztags.settings.edit_view.default
+            select:
+                identifier: Select
+                name: field_definition.eztags.settings.edit_view.select
