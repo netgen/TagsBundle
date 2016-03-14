@@ -52,19 +52,17 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
      */
     public function prepend(ContainerBuilder $container)
     {
-        $configFile = __DIR__ . '/../Resources/config/netgen_tags.yml';
-        $config = Yaml::parse(file_get_contents($configFile));
-        $container->prependExtensionConfig('netgen_tags', $config);
-        $container->addResource(new FileResource($configFile));
+        $configs = array(
+            'netgen_tags.yml' => 'netgen_tags',
+            'ezpublish.yml' => 'ezpublish',
+            'ezplatform_ui.yml' => 'ez_platformui'
+        );
 
-        $configFile = __DIR__ . '/../Resources/config/ezpublish.yml';
-        $config = Yaml::parse(file_get_contents($configFile));
-        $container->prependExtensionConfig('ezpublish', $config);
-        $container->addResource(new FileResource($configFile));
-
-        $configFile = __DIR__ . '/../Resources/config/ezplatform_ui.yml';
-        $config = Yaml::parse(file_get_contents($configFile));
-        $container->prependExtensionConfig('ez_platformui', $config);
-        $container->addResource(new FileResource($configFile));
+        foreach ($configs as $fileName => $extensionName) {
+            $configFile = __DIR__ . '/../Resources/config/' . $fileName;
+            $config = Yaml::parse(file_get_contents($configFile));
+            $container->prependExtensionConfig($extensionName, $config);
+            $container->addResource(new FileResource($configFile));
+        }
     }
 }
