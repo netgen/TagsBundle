@@ -23,6 +23,8 @@ YUI.add('netgen-tags-view', function (Y) {
          * @method _getFieldValue
          * @protected
          * @return {String}
+         *
+         * @todo Use current language code if possible
          */
         _getFieldValue: function () {
             var tagKeywords = this.get('field').fieldValue.map(function(a) {
