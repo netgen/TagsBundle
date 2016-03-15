@@ -1,16 +1,55 @@
-system: ~
 system:
     default:
+        css:
+            files:
+                - bundles/netgentags/css/jqmodal.css
+                - bundles/netgentags/css/tagssuggest.css
+                - bundles/netgentags/css/contentstructure-tree.css
         yui:
             modules:
                 ez-rawcontentview:
                     requires:
                         - netgen-tags-view
+                        - netgen-tags-editview
 
                 netgen-tags-view:
-                    requires: [ez-fieldview, netgen-tags-view-ez-template]
+                    requires:
+                        - ez-fieldview
+                        - netgen-tags-view-ez-template
+                        - netgen-tags-tagsedit
+                        - netgen-tags-tagsedit-select
                     path: bundles/netgentags/js/views/fields/netgen-tags-view.js
 
                 netgen-tags-view-ez-template:
                     type: template
                     path: bundles/netgentags/templates/fields/netgen-tags-view.hbt
+
+                netgen-tags-editview:
+                    requires:
+                        - ez-fieldview
+                        - netgen-tags-editview-ez-template
+                        - netgen-tags-tagsedit
+                        - netgen-tags-tagsedit-select
+                    path: bundles/netgentags/js/views/fields/netgen-tags-editview.js
+
+                netgen-tags-editview-ez-template:
+                    type: template
+                    path: bundles/netgentags/templates/fields/netgen-tags-editview.hbt
+
+                netgen-tags-jquery:
+                    path: bundles/netgentags/js/views/modules/netgen-tags-jquery.js
+
+                netgen-tags-tagstree:
+                    path: bundles/netgentags/js/views/modules/netgen-tags-tagstree.js
+
+                netgen-tags-jqmodal:
+                    requires: [netgen-tags-jquery, netgen-tags-tagstree]
+                    path: bundles/netgentags/js/views/modules/netgen-tags-jqmodal.js
+
+                netgen-tags-tagsedit:
+                    requires: [netgen-tags-jquery, netgen-tags-jqmodal]
+                    path: bundles/netgentags/js/views/modules/netgen-tags-tagsedit.js
+
+                netgen-tags-tagsedit-select:
+                    requires: [netgen-tags-tagsedit]
+                    path: bundles/netgentags/js/views/modules/netgen-tags-tagsedit-select.js

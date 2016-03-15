@@ -1,0 +1,47 @@
+<div class="pure-g ez-editfield-row">
+    <div class="pure-u ez-editfield-infos">
+        <label for="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}-tags">
+            <span class="ez-fielddefinition-name">
+                {{ fieldDefinition.names.[eng-GB] }}{{#if fieldDefinition.isRequired}} *{{/if}}:
+            </span>
+            <span class="ez-editfield-error-message">&nbsp;</span>
+        </label>
+    </div>
+
+    <div class="pure-u ez-editfield-input-area ez-default-error-style">
+        <div id="eztags{{ field.id }}" class="ez-editfield-input tagssuggest{{#if useTagsFilter}} tagsfilter{{/if}}"
+            data-eztags
+            data-builder="{{ fieldDefinition.fieldSettings.editView }}"
+            data-max-results="24"
+            data-has-add-access="true"
+            data-subtree-limit="{{ fieldDefinition.fieldSettings.subTreeLimit }}"
+            data-hide-root-tag="{{#if fieldDefinition.fieldSettings.hideRootTag}}1{{else}}0{{/if}}"
+            data-max-tags="{{ fieldDefinition.fieldSettings.maxTags }}"
+            data-locale="{{ field.languageCode }}"
+            data-icon-path="/extension/ngadminui/design/ngadminui/images/icons/flags-flat/">
+
+                <input type="hidden"
+                    value="{{ tagKeywords }}"
+                    class="tagnames"
+                    id="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}-tagnames" />
+
+                <input type="hidden"
+                    value="{{ tagParentIds }}"
+                    class="tagpids"
+                    id="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}-tagpids" />
+
+                <input type="hidden"
+                    value="{{ tagIds }}"
+                    class="tagids"
+                    id="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}-tagids" />
+
+                <input type="hidden"
+                    value="{{ tagLocales }}"
+                    class="taglocales"
+                    id="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}-taglocales" />
+
+        </div>
+
+        {{> ez_fielddescription_tooltip }}
+    </div>
+</div>
