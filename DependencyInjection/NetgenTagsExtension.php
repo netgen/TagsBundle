@@ -28,6 +28,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.yml');
+        $loader->load('rest_services.yml');
         $loader->load('fieldtypes.yml');
         $loader->load('persistence.yml');
         $loader->load('papi.yml');

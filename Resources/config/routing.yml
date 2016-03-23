@@ -1,9 +1,6 @@
-_eztagsTag:
-    path: /tags/id/{tagId}/{viewType}/{layout}
-    defaults:
-        _controller: eztags.controller.tag_view:viewAction
-        viewType: full
-        layout: true
-    methods: [GET]
-    requirements:
-        tagId: \d+
+netgen_tags_rest:
+    resource: "routing/rest.yml"
+    prefix: %ezpublish_rest.path_prefix%
+
+netgen_tags_internal:
+    resource: "routing/internal.yml"

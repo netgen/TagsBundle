@@ -1,0 +1,39 @@
+parameters:
+    eztags.rest.controller.tags.class: Netgen\TagsBundle\Core\REST\Server\Controller\Tags
+
+    eztags.rest.output.value_object_visitor.cached_value.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\CachedValue
+    eztags.rest.output.value_object_visitor.rest_tag.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\RestTag
+    eztags.rest.output.value_object_visitor.tag_list.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\TagList
+
+services:
+    # Controllers
+
+    eztags.rest.controller.tags:
+        class: %eztags.rest.controller.tags.class%
+        parent: ezpublish_rest.controller.base
+        arguments:
+            - "@ezpublish.api.service.tags"
+
+    # Value object visitors
+
+    eztags.rest.output.value_object_visitor.cached_value:
+        class: %eztags.rest.output.value_object_visitor.cached_value.class%
+        parent: ezpublish_rest.output.value_object_visitor.base
+        arguments:
+            - "@ezpublish.config.resolver"
+        calls:
+            - [setRequestStack, ["@request_stack"]]
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\CachedValue }
+
+    eztags.rest.output.value_object_visitor.rest_tag:
+        class: %eztags.rest.output.value_object_visitor.rest_tag.class%
+        parent: ezpublish_rest.output.value_object_visitor.base
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\RestTag }
+
+    eztags.rest.output.value_object_visitor.tag_list:
+        class: %eztags.rest.output.value_object_visitor.tag_list.class%
+        parent: ezpublish_rest.output.value_object_visitor.base
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\TagList }

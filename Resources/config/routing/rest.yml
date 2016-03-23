@@ -1,0 +1,15 @@
+eztags_rest_loadTag:
+    path: /tags/{tagPath}
+    defaults:
+        _controller: eztags.rest.controller.tags:loadTag
+    methods: [GET]
+    requirements:
+        tagPath: "[0-9/]+"
+
+eztags_rest_loadTagChildren:
+    path: /tags/{tagPath}/children
+    defaults:
+        _controller: eztags.rest.controller.tags:loadTagChildren
+    methods: [GET]
+    requirements:
+        tagPath: "[0-9/]+"
