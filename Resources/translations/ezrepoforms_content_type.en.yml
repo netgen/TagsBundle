@@ -6,6 +6,7 @@ field_definition.eztags.settings.subtree_limit.no_limit: 'No subtree limit'
 field_definition.eztags.settings.edit_view: 'Edit view'
 field_definition.eztags.settings.edit_view.default: 'Default view'
 field_definition.eztags.settings.edit_view.select: 'Select view'
+field_definition.eztags.settings.edit_view.tree: 'Tree view'
 
 field_definition.eztags.settings.hide_root_tag: 'Hide root subtree limit tag when editing object'
 

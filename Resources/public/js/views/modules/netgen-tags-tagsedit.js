@@ -675,6 +675,7 @@ YUI.add('netgen-tags-tagsedit', function (Y) {
     var tags = $.map(this.tags.items, function(tag){
       return self.render_template('selectedItem', {tag: tag});
     });
+    tags.length ? this.$selected_tags.parent().removeClass('no-results') : this.$selected_tags.parent().addClass('no-results');
     this.$selected_tags.html(tags);
   };
 
@@ -686,6 +687,7 @@ YUI.add('netgen-tags-tagsedit', function (Y) {
     var tags = $.map(this.suggested_tags.items, function(tag){
       return self.render_template('suggestedItem', {tag: tag});
     });
+    tags.length ? this.$suggested_tags.parent().removeClass('no-results') : this.$suggested_tags.parent().addClass('no-results');
     this.$suggested_tags.html(tags);
   };
 

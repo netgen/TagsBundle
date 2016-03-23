@@ -5,6 +5,7 @@ system:
                 - bundles/netgentags/css/jqmodal.css
                 - bundles/netgentags/css/tagssuggest.css
                 - bundles/netgentags/css/contentstructure-tree.css
+                - bundles/netgentags/css/jstree/eztags/style.css
         yui:
             modules:
                 ez-rawcontentview:
@@ -30,6 +31,7 @@ system:
                         - netgen-tags-editview-ez-template
                         - netgen-tags-tagsedit
                         - netgen-tags-tagsedit-select
+                        - netgen-tags-tagsedit-tree
                     path: bundles/netgentags/js/views/fields/netgen-tags-editview.js
 
                 netgen-tags-editview-ez-template:
@@ -39,7 +41,11 @@ system:
                 netgen-tags-jquery:
                     path: bundles/netgentags/js/views/modules/netgen-tags-jquery.js
 
+                netgen-tags-jstree:
+                    path: bundles/netgentags/js/views/modules/netgen-tags-jstree.js
+
                 netgen-tags-tagstree:
+                    requires: [netgen-tags-jquery]
                     path: bundles/netgentags/js/views/modules/netgen-tags-tagstree.js
 
                 netgen-tags-jqmodal:
@@ -53,3 +59,7 @@ system:
                 netgen-tags-tagsedit-select:
                     requires: [netgen-tags-tagsedit]
                     path: bundles/netgentags/js/views/modules/netgen-tags-tagsedit-select.js
+
+                netgen-tags-tagsedit-tree:
+                    requires: [netgen-tags-tagsedit, netgen-tags-jstree]
+                    path: bundles/netgentags/js/views/modules/netgen-tags-tagsedit-tree.js

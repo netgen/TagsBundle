@@ -50,9 +50,7 @@ YUI.add('netgen-tags-editview', function (Y) {
                 "tagKeywords": tagKeywords.length > 0 ? tagKeywords.join('|#') : '',
                 "tagParentIds": tagParentIds.length > 0 ? tagParentIds.join('|#') : '',
                 "tagIds": tagIds.length > 0 ? tagIds.join('|#') : '',
-                "tagLocales": tagLocales.length > 0 ? tagLocales.join('|#') : '',
-
-                "useTagsFilter": def.fieldSettings.editView == 'Select'
+                "tagLocales": tagLocales.length > 0 ? tagLocales.join('|#') : ''
             };
         },
 

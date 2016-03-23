@@ -70,9 +70,9 @@ position:         absolute;
 
 
 .tagssuggest ul {list-style:none; margin:10px 0 0; padding:0;}
-.tagssuggest li {margin:0 6px 10px 0; padding:3px 8px; float:left; color:white; background:#476CA3; border:1px solid #CACACA; border-radius:3px 3px 3px 3px; white-space:nowrap;}
+.tagssuggest li {margin:0 6px 10px 0; padding:3px 8px 3px 32px; float:left; color:white; background:#476CA3; border:1px solid #CACACA; border-radius:3px 3px 3px 3px; white-space:nowrap; position:relative;}
 .tagssuggest .with_sortable li{cursor: move;}
-.tagssuggest li img {float:left; padding:2px 2px 2px 0;}
+.tagssuggest li img {position:absolute; left:8px; top:50%; margin-top:-6px;}
 .tagssuggest li a {display:inline-block; vertical-align: middle; font-size:20px; margin:0 0 0 8px; cursor:pointer; color:white; text-decoration:none; outline:none; font-weight:bold;}
 .tagssuggest li.untranslated {cursor:pointer;} /*NOTE: what is this class?*/
 .tagssuggest li a:hover {color:black;}
@@ -89,12 +89,6 @@ position:         absolute;
 #ezt-translation-modal p.no-results {display:none;}
 #ezt-translation-modal .no-results p.no-results {display:block;}
 
-/* tagsfilter override */
-
-.tagsfilter .jsonSuggestResults {top:auto; position:static;}
-
-.tagsfilter .tagssuggestfieldwrap {height:auto;}
-
 /* tags children filter box */
 
 #action-filter-input {
@@ -106,4 +100,11 @@ position:         absolute;
     margin: 10px 0.25em;
     padding: 1px 20px 1px 4px;
     float: left;
+}
+
+/* tags select */
+.selects .js-tag-select {
+    display:inline-block;
+    width:auto;
+    margin:0 8px 8px 0;
 }

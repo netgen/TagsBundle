@@ -8,8 +8,8 @@
         </label>
     </div>
 
-    <div class="pure-u ez-editfield-input-area ez-default-error-style">
-        <div id="eztags{{ field.id }}" class="ez-editfield-input tagssuggest{{#if useTagsFilter}} tagsfilter{{/if}}"
+    <div class="eztags-wrapper pure-u ez-editfield-input-area ez-default-error-style">
+        <div id="eztags{{ field.id }}" class="ez-editfield-input tagssuggest"
             data-eztags
             data-builder="{{ fieldDefinition.fieldSettings.editView }}"
             data-max-results="24"
