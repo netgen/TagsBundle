@@ -1,7 +1,7 @@
 /*global $*/
 
-YUI.add('netgen-tags-tagsedit-tree', function (Y) {
-  'use strict';
+(function() {
+    'use strict';
 
   // jstree setup
   function TreeView(el){
@@ -79,4 +79,4 @@ YUI.add('netgen-tags-tagsedit-tree', function (Y) {
       }
   });
 
-});
+})();

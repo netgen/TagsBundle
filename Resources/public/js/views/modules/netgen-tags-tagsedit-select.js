@@ -1,6 +1,6 @@
 /*global $*/
 
-YUI.add('netgen-tags-tagsedit-select', function (Y) {
+(function() {
   'use strict';
 
   $.EzTags.Select = $.EzTags.Base.extend({
@@ -142,4 +142,4 @@ YUI.add('netgen-tags-tagsedit-select', function (Y) {
     }
   });
 
-});
+})();

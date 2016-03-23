@@ -1,6 +1,6 @@
 /*global $*/
 
-YUI.add('netgen-tags-tagsedit', function (Y) {
+(function() {
   'use strict';
 
   // Borrowed from backbonejs with few tweeks

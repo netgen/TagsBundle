@@ -1,19 +1,16 @@
-/*global $*/
+/*
+ * jqModal - Minimalist Modaling with jQuery
+ *
+ * Copyright (c) 2007-2015 Brice Burgess @IceburgBrice
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
+ * $Version: 1.2.0 (2015.04.01 +r23)
+ * Requires: jQuery 1.2.3+
+ */
 
-YUI.add('netgen-tags-jqmodal', function (Y) {
-  'use strict';
-
-    /*
-     * jqModal - Minimalist Modaling with jQuery
-     *
-     * Copyright (c) 2007-2015 Brice Burgess @IceburgBrice
-     * Dual licensed under the MIT and GPL licenses:
-     *   http://www.opensource.org/licenses/mit-license.php
-     *   http://www.gnu.org/licenses/gpl.html
-     *
-     * $Version: 1.2.0 (2015.04.01 +r23)
-     * Requires: jQuery 1.2.3+
-     */
+(function($) {
 
 	/**
 	 * Initialize a set of elements as "modals". Modals typically are popup dialogs,
@@ -363,4 +360,4 @@ YUI.add('netgen-tags-jqmodal', function (Y) {
 		}
 	};
 
-});
+})( jQuery );
