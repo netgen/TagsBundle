@@ -1,10 +1,10 @@
-eztags_rest_redirectTag:
+ezpublish_rest_eztags_redirectTag:
     path: /tags
     defaults:
         _controller: eztags.rest.controller.tags:redirectTag
     methods: [GET]
 
-eztags_rest_loadTag:
+ezpublish_rest_eztags_loadTag:
     path: /tags/{tagPath}
     defaults:
         _controller: eztags.rest.controller.tags:loadTag
@@ -12,13 +12,13 @@ eztags_rest_loadTag:
     requirements:
         tagPath: "[0-9/]+"
 
-eztags_rest_loadTagsByKeyword:
+ezpublish_rest_eztags_loadTagsByKeyword:
     path: /tags/keyword/{keyword}/{language}
     defaults:
         _controller: eztags.rest.controller.tags:loadTagsByKeyword
     methods: [GET]
 
-eztags_rest_loadTagChildren:
+ezpublish_rest_eztags_loadTagChildren:
     path: /tags/{tagPath}/children
     defaults:
         _controller: eztags.rest.controller.tags:loadTagChildren
@@ -26,7 +26,7 @@ eztags_rest_loadTagChildren:
     requirements:
         tagPath: "[0-9/]+"
 
-eztags_rest_loadTagSynonyms:
+ezpublish_rest_eztags_loadTagSynonyms:
     path: /tags/{tagPath}/synonyms
     defaults:
         _controller: eztags.rest.controller.tags:loadTagSynonyms
@@ -34,7 +34,7 @@ eztags_rest_loadTagSynonyms:
     requirements:
         tagPath: "[0-9/]+"
 
-eztags_rest_getRelatedContent:
+ezpublish_rest_eztags_getRelatedContent:
     path: /tags/{tagPath}/content
     defaults:
         _controller: eztags.rest.controller.tags:getRelatedContent

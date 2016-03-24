@@ -27,7 +27,7 @@ class RestTag extends ValueObjectVisitor
         $generator->startAttribute(
             'href',
             $this->router->generate(
-                'eztags_rest_loadTag',
+                'ezpublish_rest_eztags_loadTag',
                 array('tagPath' => trim($tag->pathString, '/'))
             )
         );
@@ -44,7 +44,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'eztags_rest_loadTag',
+                    'ezpublish_rest_eztags_loadTag',
                     array(
                         'tagPath' => $parentPathString,
                     )
@@ -59,7 +59,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'eztags_rest_loadTag',
+                    'ezpublish_rest_eztags_loadTag',
                     array(
                         // Main tags always have a same parent tag ID
                         'tagPath' => $parentPathString . '/' . $tag->mainTagId,
@@ -110,7 +110,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'eztags_rest_loadTagChildren',
+                    'ezpublish_rest_eztags_loadTagChildren',
                     array(
                         'tagPath' => trim($tag->pathString, '/'),
                     )
@@ -126,7 +126,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'eztags_rest_loadTagSynonyms',
+                    'ezpublish_rest_eztags_loadTagSynonyms',
                     array('tagPath' => trim($tag->pathString, '/'))
                 )
             );
@@ -138,7 +138,7 @@ class RestTag extends ValueObjectVisitor
         $generator->startAttribute(
             'href',
             $this->router->generate(
-                'eztags_rest_getRelatedContent',
+                'ezpublish_rest_eztags_getRelatedContent',
                 array(
                     'tagPath' => trim($tag->pathString, '/'),
                 )

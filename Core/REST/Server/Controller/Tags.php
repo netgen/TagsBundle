@@ -50,7 +50,7 @@ class Tags extends RestController
 
         return new BaseValues\TemporaryRedirect(
             $this->router->generate(
-                'eztags_rest_loadTag',
+                'ezpublish_rest_eztags_loadTag',
                 array(
                     'tagPath' => trim($tag->pathString, '/'),
                 )
