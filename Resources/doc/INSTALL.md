@@ -9,9 +9,11 @@ Requirements
 Optional requirements
 ---------------------
 
-* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured.
+* eZ Publish Legacy Stack with legacy eZ Tags 2.1 installed and configured.
 
 ### Notes about versions
+
+Netgen Tags Bundle 2.2 can only be used with legacy eZ Tags 2.1, due to incompatible changes in `eztags` field type
 
 Netgen Tags Bundle 2.1 can only be used with eZ Platform. Last version available for eZ Publish Community and eZ Publish Enterprise is 2.0.x
 
