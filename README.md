@@ -15,6 +15,7 @@ Implemented features
 * `TagId` and `TagKeyword` search criteria
 * Solr indexing of `eztags` field type
 * Tag router and path generator
+* REST interface
 
 License and installation instructions
 -------------------------------------
