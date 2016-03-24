@@ -23,7 +23,7 @@ class CreatedTag extends RestTag
             $this->router->generate(
                 'ezpublish_rest_eztags_loadTag',
                 array(
-                    'tagPath' => trim($data->restTag->tag->pathString, '/')
+                    'tagPath' => trim($data->restTag->tag->pathString, '/'),
                 )
             )
         );

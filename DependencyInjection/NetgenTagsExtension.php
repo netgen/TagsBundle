@@ -56,7 +56,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $configs = array(
             'netgen_tags.yml' => 'netgen_tags',
             'ezpublish.yml' => 'ezpublish',
-            'ezplatform_ui.yml' => 'ez_platformui'
+            'ezplatform_ui.yml' => 'ez_platformui',
         );
 
         foreach ($configs as $fileName => $extensionName) {

@@ -14,7 +14,7 @@ class FormMapper implements FieldTypeFormMapperInterface
     protected $availableEditViews = array();
 
     /**
-     * Sets the available edit views
+     * Sets the available edit views.
      *
      * @param array $availableEditViews
      */
@@ -36,7 +36,7 @@ class FormMapper implements FieldTypeFormMapperInterface
                     'required' => false,
                     'property_path' => 'fieldSettings[subTreeLimit]',
                     'label' => 'field_definition.eztags.settings.subtree_limit',
-                    'empty_data' => 0
+                    'empty_data' => 0,
                 )
             )
             ->add(
@@ -53,8 +53,8 @@ class FormMapper implements FieldTypeFormMapperInterface
                     'label' => 'field_definition.eztags.settings.max_tags',
                     'empty_data' => 0,
                     'attr' => array(
-                        'min' => 0
-                    )
+                        'min' => 0,
+                    ),
                 )
             )
             ->add(

@@ -21,7 +21,7 @@ use DateTime;
 class Type extends FieldType
 {
     /**
-     * Default edit view interface for content field
+     * Default edit view interface for content field.
      */
     const EDIT_VIEW_DEFAULT_VALUE = 'Default';
 
@@ -70,7 +70,7 @@ class Type extends FieldType
     }
 
     /**
-     * Sets the available edit views
+     * Sets the available edit views.
      *
      * @param array $availableEditViews
      */
