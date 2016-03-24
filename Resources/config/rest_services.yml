@@ -5,6 +5,9 @@ parameters:
     eztags.rest.output.value_object_visitor.rest_tag.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\RestTag
     eztags.rest.output.value_object_visitor.tag_list.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\TagList
     eztags.rest.output.value_object_visitor.content_list.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\ContentList
+    eztags.rest.output.value_object_visitor.created_tag.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\CreatedTag
+
+    eztags.rest.input.parser.tag_create.class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagCreate
 
 services:
     # Controllers
@@ -45,3 +48,20 @@ services:
         parent: ezpublish_rest.output.value_object_visitor.base
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\ContentList }
+
+    eztags.rest.output.value_object_visitor.created_tag:
+        class: %eztags.rest.output.value_object_visitor.created_tag.class%
+        parent: ezpublish_rest.output.value_object_visitor.base
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag }
+
+    # Input parsers
+
+    eztags.rest.input.parser.tag_create:
+        class: %eztags.rest.input.parser.tag_create.class%
+        parent: ezpublish_rest.input.parser
+        arguments:
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish_rest.parser_tools"
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagCreate }

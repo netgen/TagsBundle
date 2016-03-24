@@ -3,11 +3,14 @@
 namespace Netgen\TagsBundle\Core\REST\Server\Controller;
 
 use eZ\Publish\Core\REST\Server\Controller as RestController;
+use eZ\Publish\Core\REST\Common\Message;
 use eZ\Publish\Core\REST\Common\Exceptions;
 use eZ\Publish\Core\REST\Server\Exceptions\BadRequestException;
+use eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException;
+use eZ\Publish\Core\REST\Server\Values as BaseValues;
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Server\Values;
-use eZ\Publish\Core\REST\Server\Values as BaseValues;
 use Symfony\Component\HttpFoundation\Request;
 
 class Tags extends RestController
@@ -238,6 +241,33 @@ class Tags extends RestController
             ),
             array('tagId' => $tagId)
         );
+    }
+
+    /**
+     * Creates a new tag.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag.
+     *
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag
+     */
+    public function createTag(Request $request)
+    {
+        $tagCreateStruct = $this->inputDispatcher->parse(
+            new Message(
+                array('Content-Type' => $request->headers->get('Content-Type')),
+                $request->getContent()
+            )
+        );
+
+        try {
+            $createdTag = $this->tagsService->createTag($tagCreateStruct);
+        } catch (InvalidArgumentException $e) {
+            throw new ForbiddenException($e->getMessage());
+        }
+
+        return new Values\CreatedTag(new Values\RestTag($createdTag, 0, 0));
     }
 
     /**

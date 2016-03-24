@@ -41,3 +41,9 @@ ezpublish_rest_eztags_getRelatedContent:
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
+
+ezpublish_rest_eztags_createTag:
+    path: /tags
+    defaults:
+        _controller: eztags.rest.controller.tags:createTag
+    methods: [POST]
