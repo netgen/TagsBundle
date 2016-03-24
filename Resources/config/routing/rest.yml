@@ -19,3 +19,11 @@ eztags_rest_loadTagChildren:
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
+
+eztags_rest_loadTagSynonyms:
+    path: /tags/{tagPath}/synonyms
+    defaults:
+        _controller: eztags.rest.controller.tags:loadTagSynonyms
+    methods: [GET]
+    requirements:
+        tagPath: "[0-9/]+"

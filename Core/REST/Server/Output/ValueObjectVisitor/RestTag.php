@@ -102,21 +102,37 @@ class RestTag extends ValueObjectVisitor
         );
         $generator->endValueElement('languageCodes');
 
-        $generator->startValueElement('childCount', $data->childCount);
-        $generator->endValueElement('childCount');
+        if (empty($tag->mainTagId)) {
+            $generator->startValueElement('childrenCount', $data->childrenCount);
+            $generator->endValueElement('childrenCount');
 
-        $generator->startObjectElement('Children', 'TagList');
-        $generator->startAttribute(
-            'href',
-            $this->router->generate(
-                'eztags_rest_loadTagChildren',
-                array(
-                    'tagPath' => trim($tag->pathString, '/'),
+            $generator->startObjectElement('Children', 'TagList');
+            $generator->startAttribute(
+                'href',
+                $this->router->generate(
+                    'eztags_rest_loadTagChildren',
+                    array(
+                        'tagPath' => trim($tag->pathString, '/'),
+                    )
                 )
-            )
-        );
-        $generator->endAttribute('href');
-        $generator->endObjectElement('Children');
+            );
+            $generator->endAttribute('href');
+            $generator->endObjectElement('Children');
+
+            $generator->startValueElement('synonymsCount', $data->synonymsCount);
+            $generator->endValueElement('synonymsCount');
+
+            $generator->startObjectElement('Synonyms', 'TagList');
+            $generator->startAttribute(
+                'href',
+                $this->router->generate(
+                    'eztags_rest_loadTagSynonyms',
+                    array('tagPath' => trim($tag->pathString, '/'))
+                )
+            );
+            $generator->endAttribute('href');
+            $generator->endObjectElement('Synonyms');
+        }
 
         $generator->endObjectElement('Tag');
     }
