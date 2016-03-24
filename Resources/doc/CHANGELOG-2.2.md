@@ -1,7 +1,7 @@
 Netgen Tags Bundle 2.2 changelog
 ================================
 
-2.2 (xx.xx.xxxx)
+2.2 (24.03.2016)
 ----------------
 
 * Do not use `PHP_INT_MAX` in `TagsService` as it is unfriendly to Solr
