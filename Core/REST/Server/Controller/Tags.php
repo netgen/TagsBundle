@@ -298,6 +298,44 @@ class Tags extends RestController
     }
 
     /**
+     * Updates a tag.
+     *
+     * @param string $tagPath
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\RestTag
+     */
+    public function updateTag($tagPath, Request $request)
+    {
+        $tagUpdateStruct = $this->inputDispatcher->parse(
+            new Message(
+                array('Content-Type' => $request->headers->get('Content-Type')),
+                $request->getContent()
+            )
+        );
+
+        $tag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath($tagPath)
+        );
+
+        $updatedTag = $this->tagsService->updateTag($tag, $tagUpdateStruct);
+
+        $childrenCount = 0;
+        $synonymsCount = 0;
+
+        if (empty($updatedTag->mainTagId)) {
+            $childrenCount = $this->tagsService->getTagChildrenCount($updatedTag);
+            $synonymsCount = $this->tagsService->getTagSynonymCount($updatedTag);
+        }
+
+        return new Values\RestTag(
+            $updatedTag,
+            $childrenCount,
+            $synonymsCount
+        );
+    }
+
+    /**
      * Extracts and returns an item ID from a path, e.g. /1/2/42/ => 42.
      *
      * @param string $path

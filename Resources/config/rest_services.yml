@@ -9,6 +9,7 @@ parameters:
 
     eztags.rest.input.parser.tag_create.class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagCreate
     eztags.rest.input.parser.tag_synonym_create.class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagSynonymCreate
+    eztags.rest.input.parser.tag_update.class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagUpdate
 
 services:
     # Controllers
@@ -75,3 +76,12 @@ services:
             - "@ezpublish_rest.parser_tools"
         tags:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagSynonymCreate }
+
+    eztags.rest.input.parser.tag_update:
+        class: %eztags.rest.input.parser.tag_update.class%
+        parent: ezpublish_rest.input.parser
+        arguments:
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish_rest.parser_tools"
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagUpdate }
