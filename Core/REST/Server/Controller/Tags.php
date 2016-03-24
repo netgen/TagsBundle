@@ -68,7 +68,7 @@ class Tags extends RestController
      *
      * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path.
      *
-     * @return \Netgen\TagsBundle\Core\REST\Server\Values\RestTag
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
     public function loadTag($tagPath)
     {
@@ -109,7 +109,7 @@ class Tags extends RestController
      *
      * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path.
      *
-     * @return \Netgen\TagsBundle\Core\REST\Server\Values\TagList[]
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
     public function loadTagsByKeyword($keyword, $language, Request $request)
     {
@@ -144,7 +144,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Netgen\TagsBundle\Core\REST\Server\Values\TagList
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
     public function loadTagChildren($tagPath, Request $request)
     {
@@ -180,7 +180,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Netgen\TagsBundle\Core\REST\Server\Values\TagList
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
     public function loadTagSynonyms($tagPath, Request $request)
     {
@@ -214,7 +214,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Netgen\TagsBundle\Core\REST\Server\Values\TagList
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
     public function getRelatedContent($tagPath, Request $request)
     {
