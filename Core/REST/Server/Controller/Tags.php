@@ -336,6 +336,24 @@ class Tags extends RestController
     }
 
     /**
+     * Deletes a tag.
+     *
+     * @param string $tagPath
+     *
+     * @return \eZ\Publish\Core\REST\Server\Values\NoContent
+     */
+    public function deleteTag($tagPath)
+    {
+        $tag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath($tagPath)
+        );
+
+        $this->tagsService->deleteTag($tag);
+
+        return new BaseValues\NoContent();
+    }
+
+    /**
      * Extracts and returns an item ID from a path, e.g. /1/2/42/ => 42.
      *
      * @param string $path

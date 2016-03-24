@@ -61,3 +61,11 @@ ezpublish_rest_eztags_updateTag:
     methods: [PATCH]
     requirements:
         tagPath: "[0-9/]+"
+
+ezpublish_rest_eztags_deleteTag:
+    path: /tags/{tagPath}
+    defaults:
+        _controller: eztags.rest.controller.tags:deleteTag
+    methods: [DELETE]
+    requirements:
+        tagPath: "[0-9/]+"
