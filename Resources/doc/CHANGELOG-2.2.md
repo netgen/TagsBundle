@@ -9,5 +9,6 @@ Netgen Tags Bundle 2.2 changelog
 * Remove setting the deprecated `pager` variable into tag view template
 * Remove injecting deprecated `tagId` variable into tag view template
 * Use `UrlGeneratorInterface` constants in tag router
-* Replaced "Show dropdown instead of autocomplete" class attribute edit option with "Edit view", to select from possible edit views when editing content
+* Replaced "Show dropdown instead of autocomplete" field definition setting with "Edit view", to select from possible edit views when editing content
 * Added implementation of tree view in field edit interface
+* Added REST API for loading tags
