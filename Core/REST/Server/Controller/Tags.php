@@ -194,8 +194,9 @@ class Tags extends RestController
         }
 
         return new Values\CachedValue(
-            new BaseValues\ContentList(
-                $restContent
+            new Values\ContentList(
+                $restContent,
+                $request->getPathInfo()
             ),
             array('tagId' => $tagId)
         );
