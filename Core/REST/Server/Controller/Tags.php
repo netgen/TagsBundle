@@ -98,6 +98,44 @@ class Tags extends RestController
     }
 
     /**
+     * Loads all tags with specified keyword.
+     *
+     * @param string $keyword
+     * @param string $language
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path.
+     *
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\TagList[]
+     */
+    public function loadTagsByKeyword($keyword, $language, Request $request)
+    {
+        $offset = $request->query->has('offset') ? (int)$request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? (int)$request->query->get('limit') : 25;
+
+        $tags = $this->tagsService->loadTagsByKeyword(
+            $keyword,
+            $language,
+            true,
+            $offset >= 0 ? $offset : 0,
+            $limit >= 0 ? $limit : 25
+        );
+
+        $restTags = array();
+        foreach ($tags as $tag) {
+            $restTags[] = new Values\RestTag($tag, 0, 0);
+        }
+
+        return new Values\CachedValue(
+            new Values\TagList(
+                $restTags,
+                $request->getPathInfo()
+            ),
+            array('tagKeyword' => $keyword . '|#' . $language)
+        );
+    }
+
+    /**
      * Loads children of a tag object.
      *
      * @param string $tagPath

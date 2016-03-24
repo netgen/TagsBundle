@@ -12,6 +12,12 @@ eztags_rest_loadTag:
     requirements:
         tagPath: "[0-9/]+"
 
+eztags_rest_loadTagsByKeyword:
+    path: /tags/keyword/{keyword}/{language}
+    defaults:
+        _controller: eztags.rest.controller.tags:loadTagsByKeyword
+    methods: [GET]
+
 eztags_rest_loadTagChildren:
     path: /tags/{tagPath}/children
     defaults:

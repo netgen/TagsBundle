@@ -59,6 +59,10 @@ class CachedValue extends ValueObjectVisitor
         if (isset($data->cacheTags['tagId'])) {
             $response->headers->set('X-Tag-Id', $data->cacheTags['tagId']);
         }
+
+        if (isset($data->cacheTags['tagKeyword'])) {
+            $response->headers->set('X-Tag-Keyword', $data->cacheTags['tagKeyword']);
+        }
     }
 
     /**
