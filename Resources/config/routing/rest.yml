@@ -62,6 +62,22 @@ ezpublish_rest_eztags_updateTag:
     requirements:
         tagPath: "[0-9/]+"
 
+ezpublish_rest_eztags_copySubtree:
+    path: /tags/{tagPath}
+    defaults:
+        _controller: eztags.rest.controller.tags:copySubtree
+    methods: [COPY]
+    requirements:
+        tagPath: "[0-9/]+"
+
+ezpublish_rest_eztags_moveSubtree:
+    path: /tags/{tagPath}
+    defaults:
+        _controller: eztags.rest.controller.tags:moveSubtree
+    methods: [MOVE]
+    requirements:
+        tagPath: "[0-9/]+"
+
 ezpublish_rest_eztags_deleteTag:
     path: /tags/{tagPath}
     defaults:

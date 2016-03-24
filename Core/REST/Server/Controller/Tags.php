@@ -336,6 +336,97 @@ class Tags extends RestController
     }
 
     /**
+     * Copies a subtree to a new destination.
+     *
+     * @param string $tagPath
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     *
+     * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
+     */
+    public function copySubtree($tagPath, Request $request)
+    {
+        $tag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath($tagPath)
+        );
+
+        try {
+            $destinationHref = $request->headers->get('Destination');
+            $parsedDestinationHref = $this->requestParser->parseHref(
+                $destinationHref,
+                'tagPath'
+            );
+        } catch (Exceptions\InvalidArgumentException $e) {
+            throw new BadRequestException("{$destinationHref} is not an acceptable destination");
+        }
+
+        $destinationTag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath(
+                $parsedDestinationHref
+            )
+        );
+
+        $newTag = $this->tagsService->copySubtree($tag, $destinationTag);
+
+        return new BaseValues\ResourceCreated(
+            $this->router->generate(
+                'ezpublish_rest_eztags_loadTag',
+                array(
+                    'tagPath' => trim($newTag->pathString, '/'),
+                )
+            )
+        );
+    }
+
+    /**
+     * Moves a subtree to a new location.
+     *
+     * @param string $tagPath
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     *
+     * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
+     */
+    public function moveSubtree($tagPath, Request $request)
+    {
+        $tag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath($tagPath)
+        );
+
+        try {
+            $destinationHref = $request->headers->get('Destination');
+            $parsedDestinationHref = $this->requestParser->parseHref(
+                $destinationHref,
+                'tagPath'
+            );
+        } catch (Exceptions\InvalidArgumentException $e) {
+            throw new BadRequestException("{$destinationHref} is not an acceptable destination");
+        }
+
+        $destinationTag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath(
+                $parsedDestinationHref
+            )
+        );
+
+        $this->tagsService->moveSubtree($tag, $destinationTag);
+
+        // Reload the tag to get the new position is subtree
+        $tag = $this->tagsService->loadTag($tag->id);
+
+        return new BaseValues\ResourceCreated(
+            $this->router->generate(
+                'ezpublish_rest_eztags_loadTag',
+                array(
+                    'tagPath' => trim($tag->pathString, '/'),
+                )
+            )
+        );
+    }
+
+    /**
      * Deletes a tag.
      *
      * @param string $tagPath
