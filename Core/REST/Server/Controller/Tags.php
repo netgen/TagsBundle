@@ -427,6 +427,87 @@ class Tags extends RestController
     }
 
     /**
+     * Converts a tag to synonym.
+     *
+     * @param string $tagPath
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     *
+     * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
+     */
+    public function convertToSynonym($tagPath, Request $request)
+    {
+        $tag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath($tagPath)
+        );
+
+        try {
+            $destinationHref = $request->headers->get('Destination');
+            $parsedDestinationHref = $this->requestParser->parseHref(
+                $destinationHref,
+                'tagPath'
+            );
+        } catch (Exceptions\InvalidArgumentException $e) {
+            throw new BadRequestException("{$destinationHref} is not an acceptable destination");
+        }
+
+        $mainTag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath(
+                $parsedDestinationHref
+            )
+        );
+
+        $convertedTag = $this->tagsService->convertToSynonym($tag, $mainTag);
+
+        return new BaseValues\ResourceCreated(
+            $this->router->generate(
+                'ezpublish_rest_eztags_loadTag',
+                array(
+                    'tagPath' => trim($convertedTag->pathString, '/'),
+                )
+            )
+        );
+    }
+
+    /**
+     * Merges two tags.
+     *
+     * @param string $tagPath
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     *
+     * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
+     */
+    public function mergeTags($tagPath, Request $request)
+    {
+        $tag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath($tagPath)
+        );
+
+        try {
+            $destinationHref = $request->headers->get('Destination');
+            $parsedDestinationHref = $this->requestParser->parseHref(
+                $destinationHref,
+                'tagPath'
+            );
+        } catch (Exceptions\InvalidArgumentException $e) {
+            throw new BadRequestException("{$destinationHref} is not an acceptable destination");
+        }
+
+        $targetTag = $this->tagsService->loadTag(
+            $this->extractTagIdFromPath(
+                $parsedDestinationHref
+            )
+        );
+
+        $this->tagsService->mergeTags($tag, $targetTag);
+
+        return new BaseValues\NoContent();
+    }
+
+    /**
      * Deletes a tag.
      *
      * @param string $tagPath

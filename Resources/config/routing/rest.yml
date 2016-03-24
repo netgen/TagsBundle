@@ -78,6 +78,22 @@ ezpublish_rest_eztags_moveSubtree:
     requirements:
         tagPath: "[0-9/]+"
 
+ezpublish_rest_eztags_convertToSynonym:
+    path: /tags/{tagPath}/convert
+    defaults:
+        _controller: eztags.rest.controller.tags:convertToSynonym
+    methods: [POST]
+    requirements:
+        tagPath: "[0-9/]+"
+
+ezpublish_rest_eztags_mergeTags:
+    path: /tags/{tagPath}/merge
+    defaults:
+        _controller: eztags.rest.controller.tags:mergeTags
+    methods: [POST]
+    requirements:
+        tagPath: "[0-9/]+"
+
 ezpublish_rest_eztags_deleteTag:
     path: /tags/{tagPath}
     defaults:
