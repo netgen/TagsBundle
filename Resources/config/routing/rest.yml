@@ -1,3 +1,9 @@
+eztags_rest_redirectTag:
+    path: /tags
+    defaults:
+        _controller: eztags.rest.controller.tags:redirectTag
+    methods: [GET]
+
 eztags_rest_loadTag:
     path: /tags/{tagPath}
     defaults:

@@ -4,8 +4,10 @@ namespace Netgen\TagsBundle\Core\REST\Server\Controller;
 
 use eZ\Publish\Core\REST\Server\Controller as RestController;
 use eZ\Publish\Core\REST\Common\Exceptions;
+use eZ\Publish\Core\REST\Server\Exceptions\BadRequestException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Server\Values;
+use eZ\Publish\Core\REST\Server\Values as BaseValues;
 use Symfony\Component\HttpFoundation\Request;
 
 class Tags extends RestController
@@ -23,6 +25,37 @@ class Tags extends RestController
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
+    }
+
+    /**
+     * Loads the tag for a given ID (x)or remote ID.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID.
+     *
+     * @return \eZ\Publish\Core\REST\Server\Values\TemporaryRedirect
+     */
+    public function redirectTag(Request $request)
+    {
+        if (!$request->query->has('id') && !$request->query->has('remoteId')) {
+            throw new BadRequestException("At least one of 'id' or 'remoteId' parameters is required.");
+        }
+
+        if ($request->query->has('id')) {
+            $tag = $this->tagsService->loadTag($request->query->get('id'));
+        } else {
+            $tag = $this->tagsService->loadTagByRemoteId($request->query->get('remoteId'));
+        }
+
+        return new BaseValues\TemporaryRedirect(
+            $this->router->generate(
+                'eztags_rest_loadTag',
+                array(
+                    'tagPath' => trim($tag->pathString, '/'),
+                )
+            )
+        );
     }
 
     /**
