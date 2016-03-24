@@ -42,22 +42,12 @@ class TagSynonymCreate extends BaseParser
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {
-        if (!array_key_exists('MainTag', $data) || !is_array($data['MainTag'])) {
-            throw new Exceptions\Parser("Missing or invalid 'MainTag' element for SynonymCreate.");
-        }
-
-        if (!array_key_exists('_href', $data['MainTag'])) {
-            throw new Exceptions\Parser("Missing '_href' attribute for MainTag element in SynonymCreate.");
-        }
-
         if (!array_key_exists('mainLanguageCode', $data)) {
             throw new Exceptions\Parser("Missing 'mainLanguageCode' element for SynonymCreate.");
         }
 
-        $tagHrefParts = explode('/', $this->requestParser->parseHref($data['MainTag']['_href'], 'tagPath'));
-
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(
-            array_pop($tagHrefParts),
+            null,
             $data['mainLanguageCode']
         );
 

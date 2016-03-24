@@ -273,13 +273,14 @@ class Tags extends RestController
     /**
      * Creates a new synonym.
      *
+     * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag.
      *
      * @return \Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag
      */
-    public function createSynonym(Request $request)
+    public function createSynonym($tagPath, Request $request)
     {
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
@@ -287,6 +288,8 @@ class Tags extends RestController
                 $request->getContent()
             )
         );
+
+        $synonymCreateStruct->mainTagId = $this->extractTagIdFromPath($tagPath);
 
         try {
             $createdSynonym = $this->tagsService->addSynonym($synonymCreateStruct);

@@ -49,10 +49,12 @@ ezpublish_rest_eztags_createTag:
     methods: [POST]
 
 ezpublish_rest_eztags_createSynonym:
-    path: /tags/synonyms
+    path: /tags/{tagPath}/synonyms
     defaults:
         _controller: eztags.rest.controller.tags:createSynonym
     methods: [POST]
+    requirements:
+        tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_updateTag:
     path: /tags/{tagPath}
