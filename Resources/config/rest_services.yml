@@ -8,6 +8,7 @@ parameters:
     eztags.rest.output.value_object_visitor.created_tag.class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\CreatedTag
 
     eztags.rest.input.parser.tag_create.class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagCreate
+    eztags.rest.input.parser.tag_synonym_create.class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagSynonymCreate
 
 services:
     # Controllers
@@ -65,3 +66,12 @@ services:
             - "@ezpublish_rest.parser_tools"
         tags:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagCreate }
+
+    eztags.rest.input.parser.tag_synonym_create:
+        class: %eztags.rest.input.parser.tag_synonym_create.class%
+        parent: ezpublish_rest.input.parser
+        arguments:
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish_rest.parser_tools"
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagSynonymCreate }

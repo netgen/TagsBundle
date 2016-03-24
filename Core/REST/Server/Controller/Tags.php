@@ -254,7 +254,7 @@ class Tags extends RestController
      */
     public function createTag(Request $request)
     {
-        $tagCreateStruct = $this->inputDispatcher->parse(
+        $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
                 array('Content-Type' => $request->headers->get('Content-Type')),
                 $request->getContent()
@@ -262,12 +262,39 @@ class Tags extends RestController
         );
 
         try {
-            $createdTag = $this->tagsService->createTag($tagCreateStruct);
+            $createdTag = $this->tagsService->createTag($synonymCreateStruct);
         } catch (InvalidArgumentException $e) {
             throw new ForbiddenException($e->getMessage());
         }
 
         return new Values\CreatedTag(new Values\RestTag($createdTag, 0, 0));
+    }
+
+    /**
+     * Creates a new synonym.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag.
+     *
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag
+     */
+    public function createSynonym(Request $request)
+    {
+        $synonymCreateStruct = $this->inputDispatcher->parse(
+            new Message(
+                array('Content-Type' => $request->headers->get('Content-Type')),
+                $request->getContent()
+            )
+        );
+
+        try {
+            $createdSynonym = $this->tagsService->addSynonym($synonymCreateStruct);
+        } catch (InvalidArgumentException $e) {
+            throw new ForbiddenException($e->getMessage());
+        }
+
+        return new Values\CreatedTag(new Values\RestTag($createdSynonym, 0, 0));
     }
 
     /**

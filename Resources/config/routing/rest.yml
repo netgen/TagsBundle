@@ -47,3 +47,9 @@ ezpublish_rest_eztags_createTag:
     defaults:
         _controller: eztags.rest.controller.tags:createTag
     methods: [POST]
+
+ezpublish_rest_eztags_createSynonym:
+    path: /tags/synonyms
+    defaults:
+        _controller: eztags.rest.controller.tags:createSynonym
+    methods: [POST]
