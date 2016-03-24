@@ -351,8 +351,8 @@ class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
+        $destinationHref = $request->headers->get('Destination');
         try {
-            $destinationHref = $request->headers->get('Destination');
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
@@ -395,8 +395,8 @@ class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
+        $destinationHref = $request->headers->get('Destination');
         try {
-            $destinationHref = $request->headers->get('Destination');
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
@@ -442,8 +442,8 @@ class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
+        $destinationHref = $request->headers->get('Destination');
         try {
-            $destinationHref = $request->headers->get('Destination');
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
@@ -486,8 +486,8 @@ class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
+        $destinationHref = $request->headers->get('Destination');
         try {
-            $destinationHref = $request->headers->get('Destination');
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
