@@ -91,8 +91,7 @@ class Tags extends RestController
             new Values\RestTag(
                 $tag,
                 $childrenCount,
-                $synonymsCount,
-                $this->tagsService->getRelatedContentCount($tag)
+                $synonymsCount
             ),
             array('tagId' => $tag->id)
         );
@@ -122,7 +121,7 @@ class Tags extends RestController
 
         $restTags = array();
         foreach ($children as $tag) {
-            $restTags[] = new Values\RestTag($tag, 0, 0, 0);
+            $restTags[] = new Values\RestTag($tag, 0, 0);
         }
 
         return new Values\CachedValue(
@@ -156,7 +155,7 @@ class Tags extends RestController
 
         $restSynonyms = array();
         foreach ($synonyms as $synonym) {
-            $restSynonyms[] = new Values\RestTag($synonym, 0, 0, 0);
+            $restSynonyms[] = new Values\RestTag($synonym, 0, 0);
         }
 
         return new Values\CachedValue(

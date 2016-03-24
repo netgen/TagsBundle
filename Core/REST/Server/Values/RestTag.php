@@ -23,23 +23,16 @@ class RestTag extends Value
     public $synonymsCount;
 
     /**
-     * @var int
-     */
-    public $relatedContentCount;
-
-    /**
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $childrenCount
      * @param int $synonymsCount
-     * @param int $relatedContentCount
      */
-    public function __construct(Tag $tag, $childrenCount, $synonymsCount, $relatedContentCount)
+    public function __construct(Tag $tag, $childrenCount, $synonymsCount)
     {
         $this->tag = $tag;
         $this->childrenCount = $childrenCount;
         $this->synonymsCount = $synonymsCount;
-        $this->relatedContentCount = $relatedContentCount;
     }
 }

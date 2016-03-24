@@ -134,9 +134,6 @@ class RestTag extends ValueObjectVisitor
             $generator->endObjectElement('Synonyms');
         }
 
-        $generator->startValueElement('relatedContentCount', $data->relatedContentCount);
-        $generator->endValueElement('relatedContentCount');
-
         $generator->startObjectElement('RelatedContent', 'ContentList');
         $generator->startAttribute(
             'href',
