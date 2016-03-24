@@ -209,7 +209,7 @@ class TagsService implements TagsServiceInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo)
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = false)
     {
         return $this->service->getRelatedContent($tag, $offset, $limit, $returnContentInfo);
     }
