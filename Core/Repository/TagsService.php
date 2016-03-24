@@ -374,10 +374,11 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
+     * @param bool $returnContentInfo
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
+     * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1)
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = false)
     {
         if ($this->hasAccess('tags', 'read') !== true) {
             throw new UnauthorizedException('tags', 'read');
@@ -389,7 +390,12 @@ class TagsService implements TagsServiceInterface
             return array();
         }
 
-        $searchResult = $this->repository->getSearchService()->findContent(
+        $method = 'findContent';
+        if ($returnContentInfo) {
+            $method = 'findContentInfo';
+        }
+
+        $searchResult = $this->repository->getSearchService()->$method(
             new Query(
                 array(
                     'offset' => $offset,

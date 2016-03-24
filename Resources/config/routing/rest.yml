@@ -27,3 +27,11 @@ eztags_rest_loadTagSynonyms:
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
+
+eztags_rest_getRelatedContent:
+    path: /tags/{tagPath}/content
+    defaults:
+        _controller: eztags.rest.controller.tags:getRelatedContent
+    methods: [GET]
+    requirements:
+        tagPath: "[0-9/]+"

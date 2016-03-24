@@ -91,7 +91,8 @@ class Tags extends RestController
             new Values\RestTag(
                 $tag,
                 $childrenCount,
-                $synonymsCount
+                $synonymsCount,
+                $this->tagsService->getRelatedContentCount($tag)
             ),
             array('tagId' => $tag->id)
         );
@@ -121,11 +122,7 @@ class Tags extends RestController
 
         $restTags = array();
         foreach ($children as $tag) {
-            $restTags[] = new Values\RestTag(
-                $tag,
-                $this->tagsService->getTagChildrenCount($tag),
-                $this->tagsService->getTagSynonymCount($tag)
-            );
+            $restTags[] = new Values\RestTag($tag, 0, 0, 0);
         }
 
         return new Values\CachedValue(
@@ -159,13 +156,47 @@ class Tags extends RestController
 
         $restSynonyms = array();
         foreach ($synonyms as $synonym) {
-            $restSynonyms[] = new Values\RestTag($synonym, 0, 0);
+            $restSynonyms[] = new Values\RestTag($synonym, 0, 0, 0);
         }
 
         return new Values\CachedValue(
             new Values\TagList(
                 $restSynonyms,
                 $request->getPathInfo()
+            ),
+            array('tagId' => $tagId)
+        );
+    }
+
+    /**
+     * Returns content related to a tag.
+     *
+     * @param string $tagPath
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Netgen\TagsBundle\Core\REST\Server\Values\TagList
+     */
+    public function getRelatedContent($tagPath, Request $request)
+    {
+        $offset = $request->query->has('offset') ? (int)$request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? (int)$request->query->get('limit') : 25;
+
+        $tagId = $this->extractTagIdFromPath($tagPath);
+        $relatedContent = $this->tagsService->getRelatedContent(
+            $this->tagsService->loadTag($tagId),
+            $offset >= 0 ? $offset : 0,
+            $limit >= 0 ? $limit : 25,
+            true
+        );
+
+        $restContent = array();
+        foreach ($relatedContent as $contentInfo) {
+            $restContent[] = new BaseValues\RestContent($contentInfo);
+        }
+
+        return new Values\CachedValue(
+            new BaseValues\ContentList(
+                $restContent
             ),
             array('tagId' => $tagId)
         );

@@ -134,6 +134,22 @@ class RestTag extends ValueObjectVisitor
             $generator->endObjectElement('Synonyms');
         }
 
+        $generator->startValueElement('relatedContentCount', $data->relatedContentCount);
+        $generator->endValueElement('relatedContentCount');
+
+        $generator->startObjectElement('RelatedContent', 'ContentList');
+        $generator->startAttribute(
+            'href',
+            $this->router->generate(
+                'eztags_rest_getRelatedContent',
+                array(
+                    'tagPath' => trim($tag->pathString, '/'),
+                )
+            )
+        );
+        $generator->endAttribute('href');
+        $generator->endObjectElement('RelatedContent');
+
         $generator->endObjectElement('Tag');
     }
 }

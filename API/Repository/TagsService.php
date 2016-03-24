@@ -145,10 +145,11 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
+     * @param bool $returnContentInfo
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
+     * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1);
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo);
 
     /**
      * Returns the number of content objects related to $tag.
