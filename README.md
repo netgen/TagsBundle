@@ -26,7 +26,7 @@ License and installation instructions
 
 [Upgrade instructions](Resources/doc/UPGRADE.md)
 
-[Changelog](Resources/doc/CHANGELOG-2.2.md)
+[Changelogs](Resources/doc/)
 
 Unit tests
 ----------
