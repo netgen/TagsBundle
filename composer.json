@@ -10,7 +10,7 @@
     ],
     "require": {
         "ezsystems/ezpublish-kernel": "*",
-        "ezsystems/eztags-ls": "~2.0"
+        "ezsystems/eztags-ls": "~2.0.0"
     },
     "autoload": {
         "psr-0": {"Netgen\\TagsBundle": ""}
