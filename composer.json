@@ -14,6 +14,9 @@
     "suggest": {
         "ezsystems/eztags-ls": "For managing tags in legacy admin interface"
     },
+    "conflict": {
+        "ezsystems/eztags-ls": "<2.0 || >=2.1"
+    },
     "autoload": {
         "psr-4": {"Netgen\\TagsBundle\\": ""}
     }
