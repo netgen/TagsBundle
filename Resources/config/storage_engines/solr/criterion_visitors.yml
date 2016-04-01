@@ -9,6 +9,7 @@ services:
         class: %ezpublish.search.solr.query.content.criterion_visitor.tag_id.class%
         arguments:
             - @ezpublish.search.common.field_name_resolver
+            - @ezpublish.spi.persistence.content_type_handler
             - 'eztags'
             - 'tag_ids'
         tags:
@@ -18,6 +19,7 @@ services:
         class: %ezpublish.search.solr.query.location.criterion_visitor.tag_id.class%
         arguments:
             - @ezpublish.search.common.field_name_resolver
+            - @ezpublish.spi.persistence.content_type_handler
             - 'eztags'
             - 'tag_ids'
         tags:
@@ -27,6 +29,7 @@ services:
         class: %ezpublish.search.solr.query.content.criterion_visitor.tag_keyword.class%
         arguments:
             - @ezpublish.search.common.field_name_resolver
+            - @ezpublish.spi.persistence.content_type_handler
             - 'eztags'
             - 'tag_keywords'
         tags:
@@ -36,6 +39,7 @@ services:
         class: %ezpublish.search.solr.query.location.criterion_visitor.tag_keyword.class%
         arguments:
             - @ezpublish.search.common.field_name_resolver
+            - @ezpublish.spi.persistence.content_type_handler
             - 'eztags'
             - 'tag_keywords'
         tags:
