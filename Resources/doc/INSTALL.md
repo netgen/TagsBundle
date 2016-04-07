@@ -4,8 +4,8 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Publish 5.3+ / eZ Publish Community Project 2014.05+
-* eZ Publish Legacy Stack with legacy eZ Tags 2.0 installed and configured
+* eZ Publish 5.4.5+ / eZ Publish Community Project 2014.11+
+* eZ Publish Legacy Stack with legacy eZ Tags 2.0.x installed and configured
 
 ### Note
 
@@ -21,7 +21,7 @@ Installation steps
 Run the following from your website root folder to install Netgen Tags Bundle:
 
 ```
-$ composer require netgen/tagsbundle:~2.0
+$ composer require netgen/tagsbundle:~2.0.0
 ```
 
 ### Activate the bundle
