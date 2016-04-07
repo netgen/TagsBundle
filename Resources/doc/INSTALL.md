@@ -66,7 +66,7 @@ Clear eZ Publish 5 caches.
 $ php ezpublish/console cache:clear
 ```
 
-### Edit Varnish configuration (requires eZ Publish Enterprise 5.4+ or eZ Publish Community 2014.11+)
+### Edit Varnish configuration
 
 #### Varnish 3
 
