@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "*",
+        "ezsystems/ezpublish-kernel": "^2014.11 | ^5.4.5",
         "ezsystems/eztags-ls": "~2.0.0"
     },
     "autoload": {
