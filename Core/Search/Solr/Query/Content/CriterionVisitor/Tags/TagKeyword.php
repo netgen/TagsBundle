@@ -36,13 +36,7 @@ class TagKeyword extends Tags
     public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
     {
         $criterion->value = (array)$criterion->value;
-
-        $fieldNames = $this->fieldNameResolver->getFieldNames(
-            $criterion,
-            $criterion->target,
-            $this->fieldTypeIdentifier,
-            $this->fieldName
-        );
+        $fieldNames = $this->getTargetFieldNames($criterion);
 
         if (empty($fieldNames)) {
             throw new InvalidArgumentException(
