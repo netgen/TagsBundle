@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content;
 use eZ\Publish\SPI\Persistence\Content as ContentObject;
 use eZ\Publish\API\Repository\Values\Content\Query;

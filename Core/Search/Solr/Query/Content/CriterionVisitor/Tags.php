@@ -22,7 +22,7 @@ abstract class Tags extends CriterionVisitor
      * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
      */
     protected $contentTypeHandler;
-    
+
     /**
      * Identifier of the field type that criterion can handle.
      *
@@ -70,7 +70,7 @@ abstract class Tags extends CriterionVisitor
                 $this->fieldName
             );
         }
-        
+
         $targetFieldNames = array();
         foreach ($this->contentTypeHandler->getSearchableFieldMap() as $fieldDefinitions) {
             foreach ($fieldDefinitions as $fieldIdentifier => $fieldDefinition) {
@@ -92,7 +92,7 @@ abstract class Tags extends CriterionVisitor
                 $targetFieldNames = array_merge($targetFieldNames, $solrFieldNames);
             }
         }
-        
+
         return array_values(array_unique($targetFieldNames));
     }
 }
