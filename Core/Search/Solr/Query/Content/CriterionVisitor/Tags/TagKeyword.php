@@ -57,7 +57,7 @@ class TagKeyword extends Tags
                 if ($criterion->operator === Operator::LIKE) {
                     $queries[] = "{$name}:{$value}";
                 } else {
-                    $queries[] = "\"{$name}:{$value}\"";
+                    $queries[] = "{$name}:\"{$value}\"";
                 }
             }
         }
