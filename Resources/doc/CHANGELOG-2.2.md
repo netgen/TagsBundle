@@ -1,6 +1,12 @@
 Netgen Tags Bundle 2.2 changelog
 ================================
 
+2.2.1 (07.04.2016)
+------------------
+
+* Made Solr criteria take into account all fields in content when target is not provided (thanks @whitefire)
+* Fixed a bug with building Solr query for `TagKeyword` criterion and `EQ` operator
+
 2.2 (24.03.2016)
 ----------------
 
