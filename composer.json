@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "^6.0"
+        "ezsystems/ezpublish-kernel": "^6.0",
+        "ezsystems/ezplatform-solr-search-engine": "^1.0"
     },
     "suggest": {
         "ezsystems/eztags-ls": "For managing tags in legacy admin interface"
