@@ -18,7 +18,7 @@ abstract class Tags extends CriterionVisitor
 
     /**
      * For tag-queries which aren't field-specific.
-     * 
+     *
      * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
      */
     protected $contentTypeHandler;
@@ -78,7 +78,7 @@ abstract class Tags extends CriterionVisitor
                     continue;
                 }
 
-                if ($fieldDefinition['field_type_identifier'] != 'eztags') {
+                if ($fieldDefinition['field_type_identifier'] != $this->fieldTypeIdentifier) {
                     continue;
                 }
 
