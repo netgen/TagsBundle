@@ -51,6 +51,8 @@ class HandlerLocationTest extends LanguageAwareTestCase
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/tags_tree.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/object_attributes.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/class_attributes.php');
         } else {
             $this->handler = self::$setUp;
         }
@@ -164,6 +166,22 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
+    public function testTagIdFilterWithTarget()
+    {
+        $this->assertSearchResults(
+            array(59),
+            $this->getContentSearchHandler()->findLocations(
+                new LocationQuery(
+                    array(
+                        'filter' => new Criterion\TagId(61),
+                        'limit' => 10,
+                        'sortClauses' => array(new SortClause\Location\Id()),
+                    )
+                )
+            )
+        );
+    }
+
     public function testTagIdFilterIn()
     {
         $this->assertSearchResults(
@@ -209,6 +227,22 @@ class HandlerLocationTest extends LanguageAwareTestCase
                 new LocationQuery(
                     array(
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
+                        'limit' => 10,
+                        'sortClauses' => array(new SortClause\ContentId()),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterWithTarget()
+    {
+        $this->assertSearchResults(
+            array(59),
+            $this->getContentSearchHandler()->findLocations(
+                new LocationQuery(
+                    array(
+                        'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'template', 'tags'),
                         'limit' => 10,
                         'sortClauses' => array(new SortClause\ContentId()),
                     )

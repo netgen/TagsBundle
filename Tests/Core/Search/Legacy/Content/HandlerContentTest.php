@@ -56,6 +56,8 @@ class HandlerContentTest extends LanguageAwareTestCase
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/tags_tree.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/object_attributes.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/class_attributes.php');
         } else {
             $this->handler = self::$setUp;
         }
@@ -185,6 +187,22 @@ class HandlerContentTest extends LanguageAwareTestCase
         );
     }
 
+    public function testTagIdFilterWithTarget()
+    {
+        $this->assertSearchResults(
+            array(57),
+            $this->getContentSearchHandler()->findContent(
+                new Query(
+                    array(
+                        'filter' => new Criterion\TagId(61, 'tags'),
+                        'limit' => 10,
+                        'sortClauses' => array(new SortClause\ContentId()),
+                    )
+                )
+            )
+        );
+    }
+
     public function testTagIdFilterIn()
     {
         $this->assertSearchResults(
@@ -230,6 +248,22 @@ class HandlerContentTest extends LanguageAwareTestCase
                 new Query(
                     array(
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
+                        'limit' => 10,
+                        'sortClauses' => array(new SortClause\ContentId()),
+                    )
+                )
+            )
+        );
+    }
+
+    public function testTagKeywordFilterWithTarget()
+    {
+        $this->assertSearchResults(
+            array(57),
+            $this->getContentSearchHandler()->findContent(
+                new Query(
+                    array(
+                        'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'template', 'tags'),
                         'limit' => 10,
                         'sortClauses' => array(new SortClause\ContentId()),
                     )
