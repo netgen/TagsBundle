@@ -1,5 +1,5 @@
 .idea/
-CodeCoverage/
+coverage/
 extension/
 vendor/
 var/
