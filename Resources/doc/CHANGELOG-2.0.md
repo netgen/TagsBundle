@@ -1,7 +1,12 @@
 Netgen Tags Bundle 2.0 changelog
 ================================
 
-2.0.10 (04.03.2015)
+2.0.11 (08.04.2016)
+-------------------
+
+* Backported `TagId` and `TagKeyword` criteria for Solr search engine on eZ Publish ^5.4.5 (thanks @whitefire)
+
+2.0.10 (04.03.2016)
 -------------------
 
 * Do not use `PHP_INT_MAX` in `TagsService` as it is unfriendly to Solr
