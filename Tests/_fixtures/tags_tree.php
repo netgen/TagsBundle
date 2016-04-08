@@ -97,6 +97,7 @@ return array(
         array( "id" => 1287, "keyword_id" => 40, "objectattribute_id" => 142, "objectattribute_version" => 1, "object_id" => 57, "priority" => 1 ),
         array( "id" => 1288, "keyword_id" => 40, "objectattribute_id" => 442, "objectattribute_version" => 1, "object_id" => 60, "priority" => 0 ),
         array( "id" => 1289, "keyword_id" => 41, "objectattribute_id" => 542, "objectattribute_version" => 1, "object_id" => 61, "priority" => 0 ),
+        array( "id" => 1290, "keyword_id" => 61, "objectattribute_id" => 1856, "objectattribute_version" => 1, "object_id" => 57, "priority" => 0 ),
     ),
     "eztags_keyword" => array(
         array( "keyword_id" => 5, "language_id" => 8, "keyword" => "memcache", "locale" => "eng-GB", "status" => 1 ),
