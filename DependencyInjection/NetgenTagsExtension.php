@@ -45,19 +45,28 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         }
 
         $loader->load('storage_engines/legacy.yml');
-        
+
         if (!self::isSolrPlatformSearchActivated($container)) {
             return;
         }
+
         $loader->load('storage_engines/solr/criterion_visitors.yml');
     }
 
+    /** 
+     * Returns if Solr bundle is activated or not.
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     *
+     * @return bool
+     */
     public static function isSolrPlatformSearchActivated(ContainerBuilder $container)
     {
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
+
         return in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles);
     }
-    
+
     /**
      * Allow an extension to prepend the extension configurations.
      *

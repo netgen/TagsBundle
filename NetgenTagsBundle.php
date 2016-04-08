@@ -3,7 +3,7 @@
 namespace Netgen\TagsBundle;
 
 use eZ\Bundle\EzPublishLegacyBundle\LegacyBundles\LegacyBundleInterface;
-use Netgen\TagsBundle\DependencyInjection\SolrSearchCompilerPass;
+use Netgen\TagsBundle\DependencyInjection\CompilerPass\SolrSearchCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -15,7 +15,7 @@ class NetgenTagsBundle extends Bundle implements LegacyBundleInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function build(ContainerBuilder $container)
     {
