@@ -78,7 +78,7 @@ abstract class Tags extends CriterionVisitor
                     continue;
                 }
 
-                if ($fieldDefinition['field_type_identifier'] != 'eztags') {
+                if ($fieldDefinition['field_type_identifier'] != $this->fieldTypeIdentifier) {
                     continue;
                 }
 
