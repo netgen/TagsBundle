@@ -20,13 +20,14 @@ class TagId extends Criterion implements CriterionInterface
      * Creates a new TagId criterion.
      *
      * @param int|int[] $value One or more tag IDs that must be matched
+     * @param string $target Field definition identifier to use
      *
      * @throws \InvalidArgumentException if a non numeric id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value)
+    public function __construct($value, $target = null)
     {
-        parent::__construct(null, null, $value);
+        parent::__construct($target, null, $value);
     }
 
     public function getSpecifications()
