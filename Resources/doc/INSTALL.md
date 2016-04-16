@@ -61,10 +61,10 @@ _eztagsRoutes:
 Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Publish database:
 
 ```
-$ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/Netgen/TagsBundle/Resources/sql/mysql/schema.sql
+$ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/Resources/sql/mysql/schema.sql
 ```
 
-PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/Netgen/TagsBundle/Resources/sql/postgresql/schema.sql`
+PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/Resources/sql/postgresql/schema.sql`
 
 ### Clear the caches
 
