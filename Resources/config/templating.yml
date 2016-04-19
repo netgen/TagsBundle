@@ -4,7 +4,7 @@ parameters:
 
 services:
     eztags.templating.twig.extension:
-        class: %eztags.templating.twig.extension.class%
+        class: "%eztags.templating.twig.extension.class%"
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.translation_helper"
@@ -12,7 +12,7 @@ services:
             - { name: twig.extension }
 
     eztags.templating.converter.tag:
-        class: %eztags.templating.converter.tag.class%
+        class: "%eztags.templating.converter.tag.class%"
         arguments:
             - "@?ezpublish_legacy.kernel"
         tags:

@@ -6,7 +6,7 @@ parameters:
 
 services:
     ezpublish.fieldType.eztags:
-        class: %ezpublish.fieldType.eztags.class%
+        class: "%ezpublish.fieldType.eztags.class%"
         parent: ezpublish.fieldType
         arguments:
             - "@ezpublish.api.service.tags"
@@ -16,17 +16,17 @@ services:
             - {name: ezpublish.fieldType, alias: eztags}
 
     ezpublish.fieldType.eztags.externalStorage:
-        class: %ezpublish.fieldType.eztags.externalStorage.class%
+        class: "%ezpublish.fieldType.eztags.externalStorage.class%"
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler, alias: eztags}
 
     ezpublish.fieldType.indexable.eztags:
-        class: %ezpublish.fieldType.indexable.eztags.class%
+        class: "%ezpublish.fieldType.indexable.eztags.class%"
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
 
     ezpublish.fieldType.eztags.formMapper:
-        class: %ezpublish.fieldType.eztags.formMapper.class%
+        class: "%ezpublish.fieldType.eztags.formMapper.class%"
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:

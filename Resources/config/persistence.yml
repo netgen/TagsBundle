@@ -6,12 +6,12 @@ services:
     # Tags handler
     # We use a factory instead of alias so there's no need setting default storage engine twice
     ezpublish.api.persistence_handler.tags.factory:
-        class: %ezpublish.api.persistence_handler.tags.factory.class%
+        class: "%ezpublish.api.persistence_handler.tags.factory.class%"
         arguments:
             - "@service_container"
 
     ezpublish.api.persistence_handler.tags:
-        class: %ezpublish.api.persistence_handler.tags.class%
+        class: "%ezpublish.api.persistence_handler.tags.class%"
         factory: ["@ezpublish.api.persistence_handler.tags.factory", buildTagsHandler]
         arguments:
-            - %ezpublish.api.storage_engine.default%
+            - "%ezpublish.api.storage_engine.default%"

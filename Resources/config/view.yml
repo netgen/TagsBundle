@@ -9,12 +9,12 @@ parameters:
 
 services:
     eztags.view.builder_parameter_collector.current_page:
-        class: %eztags.view.builder_parameter_collector.current_page.class%
+        class: "%eztags.view.builder_parameter_collector.current_page.class%"
         tags:
             - {name: kernel.event_subscriber}
 
     eztags.view.view_parameters_injector.related_content_pager:
-        class: %eztags.view.view_parameters_injector.related_content_pager.class%
+        class: "%eztags.view.view_parameters_injector.related_content_pager.class%"
         arguments:
             - "@ezpublish.api.service.tags"
             - "@eztags.pagerfanta.related_content_adapter"
@@ -24,7 +24,7 @@ services:
             - {name: kernel.event_subscriber}
 
     eztags.view.cache_response_listener:
-        class: %eztags.view.cache_response_listener.class%
+        class: "%eztags.view.cache_response_listener.class%"
         arguments:
             - $tag_view.cache;eztags$
             - $tag_view.ttl_cache;eztags$
@@ -33,7 +33,7 @@ services:
             - {name: kernel.event_subscriber}
 
     eztags.view.tag_view_builder:
-        class: %eztags.view.tag_view_builder.class%
+        class: "%eztags.view.tag_view_builder.class%"
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.view.configurator"
@@ -41,7 +41,7 @@ services:
             - "@ezpublish.config.resolver"
 
     eztags.view.tag_matcher_factory:
-        class: %eztags.view.tag_matcher_factory.class%
+        class: "%eztags.view.tag_matcher_factory.class%"
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.translation_helper"
@@ -51,7 +51,7 @@ services:
             - [setMatchConfig, [$tag_view_match;eztags$]]
 
     eztags.view.tag_view_provider:
-        class: %eztags.view.tag_view_provider.class%
+        class: "%eztags.view.tag_view_provider.class%"
         arguments:
             - "@eztags.view.tag_matcher_factory"
         tags:
