@@ -15,7 +15,7 @@ services:
     # Controllers
 
     eztags.rest.controller.tags:
-        class: %eztags.rest.controller.tags.class%
+        class: "%eztags.rest.controller.tags.class%"
         parent: ezpublish_rest.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
@@ -23,7 +23,7 @@ services:
     # Value object visitors
 
     eztags.rest.output.value_object_visitor.cached_value:
-        class: %eztags.rest.output.value_object_visitor.cached_value.class%
+        class: "%eztags.rest.output.value_object_visitor.cached_value.class%"
         parent: ezpublish_rest.output.value_object_visitor.base
         arguments:
             - "@ezpublish.config.resolver"
@@ -33,26 +33,26 @@ services:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\CachedValue }
 
     eztags.rest.output.value_object_visitor.rest_tag:
-        class: %eztags.rest.output.value_object_visitor.rest_tag.class%
+        class: "%eztags.rest.output.value_object_visitor.rest_tag.class%"
         parent: ezpublish_rest.output.value_object_visitor.base
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\RestTag }
 
     eztags.rest.output.value_object_visitor.tag_list:
-        class: %eztags.rest.output.value_object_visitor.tag_list.class%
+        class: "%eztags.rest.output.value_object_visitor.tag_list.class%"
         parent: ezpublish_rest.output.value_object_visitor.base
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\TagList }
 
     # Reimplemented to allow for specifying custom href to content list in the output
     eztags.rest.output.value_object_visitor.content_list:
-        class: %eztags.rest.output.value_object_visitor.content_list.class%
+        class: "%eztags.rest.output.value_object_visitor.content_list.class%"
         parent: ezpublish_rest.output.value_object_visitor.base
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\ContentList }
 
     eztags.rest.output.value_object_visitor.created_tag:
-        class: %eztags.rest.output.value_object_visitor.created_tag.class%
+        class: "%eztags.rest.output.value_object_visitor.created_tag.class%"
         parent: ezpublish_rest.output.value_object_visitor.base
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag }
@@ -60,7 +60,7 @@ services:
     # Input parsers
 
     eztags.rest.input.parser.tag_create:
-        class: %eztags.rest.input.parser.tag_create.class%
+        class: "%eztags.rest.input.parser.tag_create.class%"
         parent: ezpublish_rest.input.parser
         arguments:
             - "@ezpublish.api.service.tags"
@@ -69,7 +69,7 @@ services:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagCreate }
 
     eztags.rest.input.parser.tag_synonym_create:
-        class: %eztags.rest.input.parser.tag_synonym_create.class%
+        class: "%eztags.rest.input.parser.tag_synonym_create.class%"
         parent: ezpublish_rest.input.parser
         arguments:
             - "@ezpublish.api.service.tags"
@@ -78,7 +78,7 @@ services:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagSynonymCreate }
 
     eztags.rest.input.parser.tag_update:
-        class: %eztags.rest.input.parser.tag_update.class%
+        class: "%eztags.rest.input.parser.tag_update.class%"
         parent: ezpublish_rest.input.parser
         arguments:
             - "@ezpublish.api.service.tags"

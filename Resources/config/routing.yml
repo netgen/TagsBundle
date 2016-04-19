@@ -1,6 +1,6 @@
 netgen_tags_rest:
     resource: "routing/rest.yml"
-    prefix: %ezpublish_rest.path_prefix%
+    prefix: "%ezpublish_rest.path_prefix%"
 
 netgen_tags_internal:
     resource: "routing/internal.yml"
