@@ -43,4 +43,4 @@ services:
     eztags.pagerfanta.related_content_adapter:
         class: "%eztags.pagerfanta.related_content_adapter.class%"
         arguments:
-            - @ezpublish.api.service.tags
+            - "@ezpublish.api.service.tags"
