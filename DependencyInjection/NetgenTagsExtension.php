@@ -35,10 +35,18 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('default_settings.yml');
         $loader->load('templating.yml');
         $loader->load('view.yml');
-        $loader->load('storage_engines/legacy/search_query_handlers.yml');
         $loader->load('limitations.yml');
         $loader->load('storage_engines/legacy.yml');
-        $loader->load('storage_engines/solr/criterion_visitors.yml');
+
+        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
+
+        if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles)) {
+            $loader->load('storage_engines/solr/criterion_visitors.yml');
+        }
+
+        if (in_array('EzPublishLegacySearchEngineBundle', $activatedBundles)) {
+            $loader->load('storage_engines/legacy/search_query_handlers.yml');
+        }
 
         $processor = new ConfigurationProcessor($container, 'eztags');
 

@@ -17,6 +17,8 @@ Netgen Tags Bundle 2.2 can only be used with legacy eZ Tags 2.1, due to incompat
 
 Netgen Tags Bundle 2.1 can only be used with eZ Platform. Last version available for eZ Publish Community and eZ Publish Enterprise is 2.0.x
 
+Netgen Tags Bundle 2.0 requires that you have `EzPublishLegacySearchEngineBundle` bundle activated in your kernel
+
 Netgen Tags Bundle 1.1 can only be used with eZ Publish Enterprise 5.3 or later or eZ Publish Community Project 2014.05 or later.
 
 Netgen Tags Bundle 1.0 can only be used with eZ Publish Enterprise 5.2 or eZ Publish Community Project 2013.07-2014.03 due to [changes in field type API](https://github.com/ezsystems/ezpublish-kernel/pull/429). If you have previous versions of eZ Publish, please use 0.9 version of Tags Bundle.
