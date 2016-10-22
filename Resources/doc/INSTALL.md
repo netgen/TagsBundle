@@ -39,6 +39,8 @@ public function registerBundles()
 }
 ```
 
+*NB:* make sure that the NetgenTagsBundle bundle is loaded *after* the eZPublish Kernel bundles, otherwise you might get an error related to bas services configuration.
+
 ### Edit configuration
 
 Put the following in your `ezpublish/config/routing.yml` file to be able to display tag view pages:
