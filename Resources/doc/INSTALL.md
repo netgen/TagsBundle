@@ -39,7 +39,7 @@ public function registerBundles()
 }
 ```
 
-*NB:* make sure that the NetgenTagsBundle bundle is loaded *after* the eZPublish Kernel bundles, otherwise you might get an error related to bas services configuration.
+*NB:* make sure that the NetgenTagsBundle bundle is loaded *after* the eZPublish Kernel bundles, otherwise you might get an error related to bad services configuration.
 
 ### Edit configuration
 
