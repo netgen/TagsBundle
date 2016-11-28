@@ -107,14 +107,14 @@ class TagIdTest extends TestCase
                     array(
                         'news' => array(
                             'tags_field' => array(
-                                'field_type_identifier' => 'eztags'
+                                'field_type_identifier' => 'eztags',
                             ),
                         ),
                         'article' => array(
                             'tags_field2' => array(
-                                'field_type_identifier' => 'eztags'
+                                'field_type_identifier' => 'eztags',
                             ),
-                        )
+                        ),
                     )
                 )
             );

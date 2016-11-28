@@ -39,7 +39,7 @@ class CachedValue extends Value
      *
      * @param array $tags
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If invalid cache tags are provided.
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If invalid cache tags are provided
      *
      * @return array
      */

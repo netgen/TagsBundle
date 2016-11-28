@@ -50,7 +50,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * Returns the number of results.
      *
-     * @return int The number of results.
+     * @return int The number of results
      */
     public function getNbResults()
     {
@@ -68,8 +68,8 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * Returns an slice of the results.
      *
-     * @param int $offset The offset.
-     * @param int $length The length.
+     * @param int $offset The offset
+     * @param int $length The length
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */

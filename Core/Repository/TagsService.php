@@ -75,7 +75,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
@@ -102,7 +102,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
@@ -196,7 +196,7 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tags from the first level will be returned
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
@@ -229,7 +229,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
@@ -305,7 +305,7 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
@@ -343,7 +343,7 @@ class TagsService implements TagsServiceInterface
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned.
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return int
@@ -1006,7 +1006,7 @@ class TagsService implements TagsServiceInterface
      * @param \Closure $callback
      * @param \Netgen\TagsBundle\API\Repository\TagsService $outerTagsService
      *
-     * @throws \RuntimeException Thrown on recursive sudo() use.
+     * @throws \RuntimeException Thrown on recursive sudo() use
      * @throws \Exception Re throws exceptions thrown inside $callback
      *
      * @return mixed

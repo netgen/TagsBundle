@@ -60,7 +60,7 @@ class LegacyStorage extends Gateway
     /**
      * Returns the active connection.
      *
-     * @throws \RuntimeException if no connection has been set, yet.
+     * @throws \RuntimeException if no connection has been set, yet
      *
      * @return \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */

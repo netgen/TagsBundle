@@ -35,7 +35,7 @@ class Tags extends RestController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID
      *
      * @return \eZ\Publish\Core\REST\Server\Values\TemporaryRedirect
      */
@@ -66,7 +66,7 @@ class Tags extends RestController
      *
      * @param string $tagPath
      *
-     * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path.
+     * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path
      *
      * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
@@ -107,7 +107,7 @@ class Tags extends RestController
      * @param string $language
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path.
+     * @throws \eZ\Publish\Core\REST\Common\Exceptions\NotFoundException If no tag is found with specified path
      *
      * @return \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue
      */
@@ -248,7 +248,7 @@ class Tags extends RestController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag
      *
      * @return \Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag
      */
@@ -276,7 +276,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException If there was an error while creating the tag
      *
      * @return \Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag
      */
@@ -344,7 +344,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
      * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
      */
@@ -388,7 +388,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
      * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
      */
@@ -435,7 +435,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
      * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
      */
@@ -479,7 +479,7 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag.
+     * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
      * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
      */

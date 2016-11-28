@@ -113,7 +113,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      * Evaluate permission against content and placement.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
+     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType
      * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
@@ -172,11 +172,11 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      * Returns info on valid $limitationValues.
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException If the limitation does not support
-     *         value schema.
+     *         value schema
      *
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_* constants.
-     *                     Note: The hash might be an instance of Traversable, and not a native php array.
+     *                     Note: The hash might be an instance of Traversable, and not a native php array
      */
     public function valueSchema()
     {

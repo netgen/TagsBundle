@@ -116,7 +116,7 @@ class Type extends FieldType
      *
      * @param mixed $inputValue
      *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value.
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value
      */
     protected function createValueFromInput($inputValue)
     {
@@ -136,7 +136,7 @@ class Type extends FieldType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure
      *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      */

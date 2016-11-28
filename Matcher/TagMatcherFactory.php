@@ -49,7 +49,7 @@ class TagMatcherFactory extends ClassNameMatcherFactory
      *
      * @param string $matcherIdentifier The matcher class.
      *        If it begins with a '\' it means it's a fully qualified class name,
-     *        otherwise it is relative to provided namespace (if available).
+     *        otherwise it is relative to provided namespace (if available)
      *
      * @throws \InvalidArgumentException If no matcher could be found
      *

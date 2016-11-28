@@ -31,7 +31,7 @@ class Configuration extends SiteAccessConfiguration
                             ->scalarNode('template')->info('Your template path, as MyBundle:subdir:my_template.html.twig')->end()
                             ->scalarNode('controller')
                                 ->info(
-<<<EOT
+<<<'EOT'
 Use custom controller instead of the default one to display a tag matching your rules.
 You can use the controller reference notation supported by Symfony.
 EOT
@@ -46,7 +46,7 @@ EOT
                             ->end()
                             ->arrayNode('params')
                                 ->info(
-<<<EOT
+<<<'EOT'
 Arbitrary params that will be passed in the TagView object, manageable by tag view provider.
 Those params will NOT be passed to the resulting view template by default.
 EOT

@@ -820,7 +820,8 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testSudo()
     {
-        $callback = function () {};
+        $callback = function () {
+        };
 
         $this->tagsService
             ->expects($this->once())
