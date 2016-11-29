@@ -1,0 +1,42 @@
+{% trans_default_domain 'eztags_admin' %}
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|replace({'_': '-'}) }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#02a6f2">
+
+    {% include 'NetgenTagsBundle:admin:head.html.twig' %}
+
+    <title>
+        {% block title %}
+            {{ 'pagelayout.title'|trans }}
+        {% endblock %}
+    </title>
+
+    {% block stylesheets %}
+        {% include 'NetgenTagsBundle:admin:stylesheets.html.twig' %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% include 'NetgenTagsBundle:admin:javascripts.html.twig' %}
+    {% endblock %}
+</head>
+<body>
+<div class="ng-tags-app">
+    <div class="ng-tags-container">
+        <div class="tags-sidebar">
+            <div class="main-menu">
+                {% include 'NetgenTagsBundle:admin:main_menu.html.twig' %}
+            </div>
+        </div>
+
+        <div class="tags-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
