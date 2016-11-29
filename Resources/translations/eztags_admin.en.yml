@@ -1,0 +1,44 @@
+pagelayout.title: 'Netgen Tags Bundle'
+
+dashboard.index.latest_tags_table_id: 'ID'
+dashboard.index.latest_tags_table_name: 'Tag name'
+dashboard.index.latest_tags_table_parent_name: 'Parent tag name'
+dashboard.index.latest_tags_table_modified: 'Modified'
+dashboard.index.no_parent: 'No parent'
+
+tag.show.title_label: 'Tag'
+tag.show.last_modified: 'Last modified'
+tag.show.tag_id: 'Tag ID'
+
+tag.show.latest_label: 'Latest content'
+tag.show.latest_table_id: 'ID'
+tag.show.latest_table_name: 'Name'
+tag.show.latest_table_modified: 'Modified'
+tag.show.latest_table_class: 'Class name'
+
+tag.show.translations_label: 'Tag translations'
+tag.show.translations_table_langunage: 'Language'
+tag.show.translations_table_translation: 'Translation'
+tag.show.translations_table_locale: 'Locale'
+
+tag.show.synonyms_label: 'Synonyms'
+tag.show.synonyms_empty: 'No synonyms'
+tag.show.synonyms_table_id: 'ID'
+tag.show.synonyms_table_name: 'Name'
+tag.show.synonyms_table_modified: 'Modified'
+
+tag.show.children_tags_label: 'Children tags'
+tag.show.children_tags_empty: 'No tags found.'
+tag.show.children_tags_table_id: 'ID'
+tag.show.children_tags_table_name: 'Tag name'
+tag.show.children_tags_table_translations: 'Tag translations'
+tag.show.children_tags_table_modified: 'Modified'
+
+tag.show.subtree_limitations_label: 'Subtree limitations'
+tag.show.subtree_limitations_empty: 'No subtree limitations'
+tag.show.subtree_limitations_table_id: 'Class ID'
+tag.show.subtree_limitations_table_name: 'Class name'
+tag.show.subtree_limitations_table_identifier: 'Attribute identifier'
+
+tag.add.form_keyword_label: 'Tag name'
+tag.add.form_always_available_label: 'Use the main language if there is no prioritized translation.'

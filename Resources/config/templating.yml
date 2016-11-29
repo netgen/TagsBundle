@@ -8,6 +8,8 @@ services:
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.translation_helper"
+            - "@ezpublish.api.service.language"
+            - "@ezpublish.api.service.content_type"
         tags:
             - { name: twig.extension }
 
