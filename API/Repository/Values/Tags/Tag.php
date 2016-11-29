@@ -171,4 +171,14 @@ class Tag extends ValueObject
 
         return parent::__isset($property);
     }
+
+    /**
+     * Returns if the current tag has a parent or not.
+     *
+     * @return bool
+     */
+    public function hasParent()
+    {
+        return $this->parentTagId !== 0;
+    }
 }
