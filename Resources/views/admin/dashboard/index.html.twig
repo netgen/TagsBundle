@@ -1,0 +1,30 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>{{ 'dashboard.index.latest_tags_table_id'|trans }}</th>
+            <th>{{ 'dashboard.index.latest_tags_table_name'|trans }}</th>
+            <th>{{ 'dashboard.index.latest_tags_table_parent_name'|trans }}</th>
+            <th>{{ 'dashboard.index.latest_tags_table_modified'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for tag in latestTags %}
+        <tr>
+            <td>{{ tag.id }}</td>
+            <td>{{ netgen_tags_tag_keyword(tag) }}</td>
+            {% if tag.hasParent %}
+                <td>{{ netgen_tags_tag_keyword(tag.parentTagId) }}</td>
+            {% else %}
+                <td>{{ 'dashboard.index.no_parent'|trans }}</td>
+            {% endif %}
+            <td>{{ tag.modificationDate|date('Y-m-d') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
