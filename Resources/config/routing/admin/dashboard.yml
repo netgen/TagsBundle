@@ -1,0 +1,4 @@
+netgen_tags_admin_dashboard_index:
+    path: /
+    defaults:
+        _controller: eztags.admin.controller.dashboard:indexAction

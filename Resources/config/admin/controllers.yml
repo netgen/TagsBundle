@@ -1,0 +1,19 @@
+parameters:
+    eztags.admin.controller.dashboard.class: Netgen\TagsBundle\Controller\Admin\DashboardController
+    eztags.admin.controller.tag.class: Netgen\TagsBundle\Controller\Admin\TagController
+
+services:
+    # Controllers
+
+    eztags.admin.controller.dashboard:
+        class: "%eztags.admin.controller.dashboard.class%"
+        parent: ezpublish.controller.base
+        arguments:
+            - "@ezpublish.api.service.tags"
+
+    eztags.admin.controller.tag:
+        class: "%eztags.admin.controller.tag.class%"
+        parent: ezpublish.controller.base
+        arguments:
+            - "@ezpublish.api.service.tags"
+            - "@ezpublish.api.service.content_type"

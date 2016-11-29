@@ -4,3 +4,7 @@ netgen_tags_rest:
 
 netgen_tags_internal:
     resource: "routing/internal.yml"
+
+netgen_tags_admin:
+    resource: "routing/admin.yml"
+    prefix: /tags/admin

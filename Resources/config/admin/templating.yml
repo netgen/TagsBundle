@@ -1,0 +1,16 @@
+parameters:
+    eztags.templating.admin_global_variable.class: Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable
+    eztags.templating.twig.extension.admin.class: Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension
+
+services:
+    eztags.templating.admin_global_variable:
+        class: "%eztags.templating.admin_global_variable.class%"
+        calls:
+            - [setPageLayoutTemplate, ["$admin.pagelayout;eztags$"]]
+
+    eztags.templating.twig.extension.admin:
+        class: "%eztags.templating.twig.extension.admin.class%"
+        arguments:
+            - "@eztags.templating.admin_global_variable"
+        tags:
+            - { name: twig.extension }

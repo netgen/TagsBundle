@@ -1,0 +1,7 @@
+netgen_tags_admin_dashboard:
+    resource: "admin/dashboard.yml"
+    prefix: /dashboard
+
+netgen_tags_admin_tag:
+    resource: "admin/tag.yml"
+    prefix: /tag
