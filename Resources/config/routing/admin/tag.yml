@@ -15,3 +15,9 @@ netgen_tags_admin_tag_update:
     defaults:
         _controller: eztags.admin.controller.tag:updateTagAction
         _method: [GET, POST]
+
+netgen_tags_admin_tag_delete:
+    path: /{tagId}/delete
+    defaults:
+        _controller: eztags.admin.controller.tag:deleteTagAction
+        _method: [GET, POST]

@@ -1,0 +1,16 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% block content %}
+    <h2>{{ 'synonym.delete.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+
+    <p>{{ 'synonym.delete.message'|trans({'%synonymName%': netgen_tags_tag_keyword(tag) }) }}</p>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <input type="submit" value="Yes"/>
+    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="button">No</a>
+    {{ form_end(form) }}
+{% endblock %}

@@ -160,6 +160,37 @@ class TagController extends Controller
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteTagAction(Request $request, Tag $tag)
+    {
+        $form = $this->createForm('Netgen\TagsBundle\Form\Type\TagDeleteType');
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->tagsService->deleteTag($tag);
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_dashboard_index'
+            );
+        }
+
+        return $this->render(
+            $tag->isSynonym() ?
+                'NetgenTagsBundle:admin/synonym:delete.html.twig' :
+                'NetgenTagsBundle:admin/tag:delete.html.twig',
+            array(
+                'form' => $form->createView(),
+                'tag' => $tag,
+            )
+        );
+    }
+
+    /**
      * Returns an array with subtree limitations for given tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
