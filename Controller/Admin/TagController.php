@@ -35,13 +35,12 @@ class TagController extends Controller
     }
 
     /**
-     * @param int|string $tagId
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showTagAction($tagId)
+    public function showTagAction(Tag $tag)
     {
-        $tag = $this->tagsService->loadTag($tagId);
         $relatedContent = $this->tagsService->getRelatedContent($tag, 0, 10);
         $synonyms = $this->tagsService->loadTagSynonyms($tag, 0, 10);
         $childrenTags = $this->tagsService->loadTagChildren($tag, 0, 10);
@@ -103,15 +102,13 @@ class TagController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param int|string $tagId
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param string $languageCode
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateTagAction(Request $request, $tagId, $languageCode)
+    public function updateTagAction(Request $request, Tag $tag, $languageCode)
     {
-        $tag = $this->tagsService->loadTag($tagId);
-
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
         $tagUpdateStruct->remoteId = $tag->remoteId;
         $tagUpdateStruct->alwaysAvailable = $tag->alwaysAvailable;
