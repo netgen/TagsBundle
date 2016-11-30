@@ -51,20 +51,24 @@ class TagController extends Controller
      */
     public function showTagAction(Tag $tag)
     {
-        $latestContent = $this->getLatestContent($tag, 10);
-        $synonyms = $this->tagsService->loadTagSynonyms($tag, 0, 10);
-        $childrenTags = $this->tagsService->loadTagChildren($tag, 0, 10);
-        $subTreeLimitations = $this->getSubtreeLimitations($tag);
+        $data = array(
+            'tag' => $tag,
+            'latestContent' => $this->getLatestContent($tag, 10),
+        );
+
+        if (!$tag->isSynonym()) {
+            $data += array(
+                'synonyms' => $this->tagsService->loadTagSynonyms($tag, 0, 10),
+                'childrenTags' => $this->tagsService->loadTagChildren($tag, 0, 10),
+                'subTreeLimitations' => $this->getSubtreeLimitations($tag),
+            );
+        }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:show.html.twig',
-            array(
-                'tag' => $tag,
-                'latestContent' => $latestContent,
-                'synonyms' => $synonyms,
-                'childrenTags' => $childrenTags,
-                'subTreeLimitations' => $subTreeLimitations,
-            )
+            $tag->isSynonym() ?
+                'NetgenTagsBundle:admin/tag:synonym.html.twig' :
+                'NetgenTagsBundle:admin/tag:tag.html.twig',
+            $data
         );
     }
 

@@ -182,4 +182,14 @@ class Tag extends ValueObject
     {
         return $this->parentTagId !== 0;
     }
+
+    /**
+     * Returns if the current tag is a synonym or not.
+     *
+     * @return bool
+     */
+    public function isSynonym()
+    {
+        return $this->mainTagId > 0;
+    }
 }

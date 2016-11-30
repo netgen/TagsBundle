@@ -68,7 +68,7 @@
         {% for synonym in synonyms %}
             <tr>
                 <td>{{ synonym.id }}</td>
-                <td>{{ netgen_tags_tag_keyword(synonym) }}</td>
+                <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">{{ netgen_tags_tag_keyword(synonym) }}</a></td>
                 <td>{{ synonym.modificationDate|date('d/m/Y h:i') }}</td>
             </tr>
         {% endfor %}
@@ -95,7 +95,7 @@
             {% for tag in childrenTags %}
                 <tr>
                     <td>{{ tag.id }}</td>
-                    <td>{{ netgen_tags_tag_keyword(tag) }}</td>
+                    <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
                     <td>{{ tag.keywords|keys|join(', ') }}</td>
                     <td>{{ tag.modificationDate|date('d/m/Y h:i') }}</td>
                 </tr>

@@ -35,4 +35,7 @@ tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
 tag.subtree_limitations.identifier: 'Attribute identifier'
 
-tag.form.always_available: 'Use the main language if there is no prioritized translation.'
+tag.form.always_available: 'Use the main language if there is no prioritized translation'
+
+synonym.title: 'Synonym'
+synonym.main_tag: 'Main tag'
