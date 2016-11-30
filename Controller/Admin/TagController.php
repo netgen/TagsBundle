@@ -66,8 +66,8 @@ class TagController extends Controller
 
         return $this->render(
             $tag->isSynonym() ?
-                'NetgenTagsBundle:admin/tag:synonym.html.twig' :
-                'NetgenTagsBundle:admin/tag:tag.html.twig',
+                'NetgenTagsBundle:admin/synonym:show.html.twig' :
+                'NetgenTagsBundle:admin/tag:show.html.twig',
             $data
         );
     }
@@ -82,8 +82,6 @@ class TagController extends Controller
     public function addTagAction(Request $request, $parentId, $languageCode)
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct($parentId, $languageCode);
-        $tagCreateStruct->parentTagId = $parentId;
-        $tagCreateStruct->mainLanguageCode = $languageCode;
 
         $form = $this->createForm(
             'Netgen\TagsBundle\Form\Type\TagCreateType',

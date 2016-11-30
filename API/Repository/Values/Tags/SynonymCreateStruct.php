@@ -12,7 +12,7 @@ class SynonymCreateStruct extends ValueObject
     /**
      * The ID of the main tag for which the new synonym should be created.
      *
-     * @required
+     * Required
      *
      * @var mixed
      */
@@ -21,7 +21,7 @@ class SynonymCreateStruct extends ValueObject
     /**
      * The main language code for the tag.
      *
-     * @required
+     * Required
      *
      * @var string
      */
@@ -31,7 +31,7 @@ class SynonymCreateStruct extends ValueObject
      * Tag keywords in the target languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
-     * @required
+     * Required
      *
      * @var string[]
      */
@@ -59,6 +59,26 @@ class SynonymCreateStruct extends ValueObject
     public function getKeywords()
     {
         return $this->keywords;
+    }
+
+    /**
+     * Gets a keyword from keyword collection.
+     *
+     * @param string $language If not given, the main language is used
+     *
+     * @return string
+     */
+    public function getKeyword($language = null)
+    {
+        if (empty($language)) {
+            $language = $this->mainLanguageCode;
+        }
+
+        if (!isset($this->keywords[$language])) {
+            return null;
+        }
+
+        return $this->keywords[$language];
     }
 
     /**

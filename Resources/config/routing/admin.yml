@@ -5,3 +5,7 @@ netgen_tags_admin_dashboard:
 netgen_tags_admin_tag:
     resource: "admin/tag.yml"
     prefix: /tag
+
+netgen_tags_admin_synonym:
+    resource: "admin/synonym.yml"
+    prefix: /synonym

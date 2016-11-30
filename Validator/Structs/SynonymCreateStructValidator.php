@@ -2,14 +2,14 @@
 
 namespace Netgen\TagsBundle\Validator\Structs;
 
-use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
-use Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct as TagCreateStructConstraint;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
+use Netgen\TagsBundle\Validator\Constraints\Structs\SynonymCreateStruct as SynonymCreateStructConstraint;
 use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class TagCreateStructValidator extends CreateStructValidator
+class SynonymCreateStructValidator extends CreateStructValidator
 {
     /**
      * Checks if the passed value is valid.
@@ -19,17 +19,17 @@ class TagCreateStructValidator extends CreateStructValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof TagCreateStructConstraint) {
+        if (!$constraint instanceof SynonymCreateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                'Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct'
+                'Netgen\TagsBundle\Validator\Constraints\Structs\SynonymCreateStruct'
             );
         }
 
-        if (!$value instanceof TagCreateStruct) {
+        if (!$value instanceof SynonymCreateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct'
+                'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct'
             );
         }
 
@@ -38,8 +38,8 @@ class TagCreateStructValidator extends CreateStructValidator
         /** @var \Symfony\Component\Validator\Validator\ContextualValidatorInterface $validator */
         $validator = $this->context->getValidator()->inContext($this->context);
 
-        $validator->atPath('parentTagId')->validate(
-            $value->parentTagId,
+        $validator->atPath('mainTagId')->validate(
+            $value->mainTagId,
             array(
                 new Constraints\Type(array('type' => 'scalar')),
                 new Constraints\NotBlank(),
