@@ -4,11 +4,14 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Symfony\Component\HttpFoundation\Request;
-use Netgen\TagsBundle\Form\Type\TagUpdateType;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
 class TagController extends Controller
 {
@@ -23,15 +26,22 @@ class TagController extends Controller
     protected $contentTypeService;
 
     /**
+     * @var \eZ\Publish\API\Repository\SearchService
+     */
+    protected $searchService;
+
+    /**
      * TagController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \eZ\Publish\API\Repository\SearchService $searchService
      */
-    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService)
+    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService, SearchService $searchService)
     {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
+        $this->searchService = $searchService;
     }
 
     /**
@@ -41,7 +51,7 @@ class TagController extends Controller
      */
     public function showTagAction(Tag $tag)
     {
-        $relatedContent = $this->tagsService->getRelatedContent($tag, 0, 10);
+        $latestContent = $this->getLatestContent($tag, 10);
         $synonyms = $this->tagsService->loadTagSynonyms($tag, 0, 10);
         $childrenTags = $this->tagsService->loadTagChildren($tag, 0, 10);
         $subTreeLimitations = $this->getSubtreeLimitations($tag);
@@ -50,7 +60,7 @@ class TagController extends Controller
             'NetgenTagsBundle:admin/tag:show.html.twig',
             array(
                 'tag' => $tag,
-                'relatedContent' => $relatedContent,
+                'latestContent' => $latestContent,
                 'synonyms' => $synonyms,
                 'childrenTags' => $childrenTags,
                 'subTreeLimitations' => $subTreeLimitations,
@@ -174,5 +184,37 @@ class TagController extends Controller
         }
 
         return $result;
+    }
+
+    /**
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param $limit
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
+     */
+    protected function getLatestContent(Tag $tag, $limit)
+    {
+        $query = new Query();
+
+        $criteria = array(
+            new Criterion\Visibility(Criterion\Visibility::VISIBLE),
+            new TagId($tag->id),
+        );
+
+        $query->filter = new Criterion\LogicalAnd($criteria);
+        $query->limit = $limit;
+
+        $query->sortClauses = array(
+            new Query\SortClause\DateModified(Query::SORT_DESC),
+        );
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return array_map(
+            function (SearchHit $searchHit) {
+                return $searchHit->valueObject;
+            },
+            $searchResult->searchHits
+        );
     }
 }

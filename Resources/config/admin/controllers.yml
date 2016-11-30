@@ -17,3 +17,4 @@ services:
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.api.service.content_type"
+            - "@ezpublish.api.service.search"
