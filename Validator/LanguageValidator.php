@@ -39,7 +39,7 @@ class LanguageValidator extends ConstraintValidator
         }
 
         if (!$constraint instanceof Language) {
-            throw new UnexpectedTypeException($constraint, Language::class);
+            throw new UnexpectedTypeException($constraint, 'Netgen\TagsBundle\Validator\Constraints\Language');
         }
 
         try {

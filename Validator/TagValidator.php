@@ -39,7 +39,10 @@ class TagValidator extends ConstraintValidator
         }
 
         if (!$constraint instanceof Tag) {
-            throw new UnexpectedTypeException($constraint, Tag::class);
+            throw new UnexpectedTypeException(
+                $constraint,
+                'Netgen\TagsBundle\Validator\Constraints\Tag'
+            );
         }
 
         try {

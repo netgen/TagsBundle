@@ -38,11 +38,17 @@ class TagUpdateStructValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof TagUpdateStructConstraint) {
-            throw new UnexpectedTypeException($constraint, TagUpdateStructConstraint::class);
+            throw new UnexpectedTypeException(
+                $constraint,
+                'Netgen\TagsBundle\Validator\Constraints\Structs\TagUpdateStruct'
+            );
         }
 
         if (!$value instanceof TagUpdateStruct) {
-            throw new UnexpectedTypeException($value, TagUpdateStruct::class);
+            throw new UnexpectedTypeException(
+                $value,
+                'Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct'
+            );
         }
 
         /** @var \Symfony\Component\Validator\Validator\ContextualValidatorInterface $validator */

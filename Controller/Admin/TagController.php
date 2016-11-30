@@ -73,7 +73,7 @@ class TagController extends Controller
         $tagCreateStruct->mainLanguageCode = $languageCode;
 
         $form = $this->createForm(
-            TagCreateType::class,
+            'Netgen\TagsBundle\Form\Type\TagCreateType',
             $tagCreateStruct,
             array(
                 'languageCode' => $languageCode,
@@ -121,7 +121,7 @@ class TagController extends Controller
         }
 
         $form = $this->createForm(
-            TagUpdateType::class,
+            'Netgen\TagsBundle\Form\Type\TagUpdateType',
             $tagUpdateStruct,
             array(
                 'languageCode' => $languageCode,

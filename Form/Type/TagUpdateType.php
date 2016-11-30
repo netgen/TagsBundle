@@ -18,7 +18,7 @@ class TagUpdateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('tag');
-        $resolver->setAllowedTypes('tag', Tag::class);
+        $resolver->setAllowedTypes('tag', 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag');
 
         $resolver
             ->setDefaults([
@@ -49,6 +49,6 @@ class TagUpdateType extends AbstractType
      */
     public function getParent()
     {
-        return TagType::class;
+        return 'Netgen\TagsBundle\Form\Type\TagType';
     }
 }

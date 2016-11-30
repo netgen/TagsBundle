@@ -30,7 +30,7 @@ class TagCreateType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('parentTagId', TextType::class);
+        $builder->add('parentTagId', 'Symfony\Component\Form\Extension\Core\Type\TextType');
     }
 
     /**
@@ -38,6 +38,6 @@ class TagCreateType extends AbstractType
      */
     public function getParent()
     {
-        return TagType::class;
+        return 'Netgen\TagsBundle\Form\Type\TagType';
     }
 }

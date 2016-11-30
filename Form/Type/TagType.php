@@ -29,8 +29,8 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('keyword', TextType::class, ['label' => 'tag.tag_name'])
-            ->add('alwaysAvailable', CheckboxType::class, ['label' => 'tag.form.always_available', 'required' => false])
-            ->add('remoteId', TextType::class, ['required' => false]);
+            ->add('keyword', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label' => 'tag.tag_name'])
+            ->add('alwaysAvailable', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', ['label' => 'tag.form.always_available', 'required' => false])
+            ->add('remoteId', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['required' => false]);
     }
 }
