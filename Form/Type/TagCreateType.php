@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\TagsBundle\Form\Type\Admin;
+namespace Netgen\TagsBundle\Form\Type;
 
 use Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct as TagCreateStructConstraint;
 use Symfony\Component\Form\AbstractType;

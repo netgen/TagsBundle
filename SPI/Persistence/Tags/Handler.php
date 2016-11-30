@@ -11,11 +11,12 @@ interface Handler
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
@@ -24,9 +25,10 @@ interface Handler
     /**
      * Loads a tag info object from its $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
@@ -39,11 +41,12 @@ interface Handler
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
@@ -52,9 +55,10 @@ interface Handler
     /**
      * Loads a tag info object from its remote ID.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $remoteId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
@@ -63,12 +67,13 @@ interface Handler
     /**
      * Loads tag by specified keyword and parent ID.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param string $keyword The keyword to fetch tag for
      * @param mixed $parentTagId The parent ID to fetch tag for
      * @param string[] $translations The languages to load
      * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
@@ -77,13 +82,14 @@ interface Handler
     /**
      * Loads children of a tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
@@ -92,11 +98,12 @@ interface Handler
     /**
      * Returns the number of children of a tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
@@ -129,13 +136,14 @@ interface Handler
     /**
      * Loads the synonyms of a tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
@@ -144,11 +152,12 @@ interface Handler
     /**
      * Returns the number of synonyms of a tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
@@ -157,11 +166,12 @@ interface Handler
     /**
      * Loads content IDs related to tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return array
      */
@@ -170,9 +180,10 @@ interface Handler
     /**
      * Returns the number of content objects related to tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param mixed $tagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
@@ -190,10 +201,11 @@ interface Handler
     /**
      * Updates tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The updated tag
      */
@@ -211,10 +223,11 @@ interface Handler
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $mainTagId are invalid
      *
      * @param mixed $tagId
      * @param mixed $mainTagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $mainTagId are invalid
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The converted synonym
      */
@@ -223,10 +236,11 @@ interface Handler
     /**
      * Merges the tag identified by $tagId into the tag identified by $targetTagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      *
      * @param mixed $tagId
      * @param mixed $targetTagId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      */
     public function merge($tagId, $targetTagId);
 
@@ -235,10 +249,11 @@ interface Handler
      *
      * Also performs a copy of all child locations of $sourceId tag
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
      * @param mixed $sourceId The subtree denoted by the tag to copy
      * @param mixed $destinationParentId The target parent tag for the copy operation
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
@@ -247,10 +262,11 @@ interface Handler
     /**
      * Moves a tag identified by $sourceId into new parent identified by $destinationParentId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
      * @param mixed $sourceId
      * @param mixed $destinationParentId
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The updated root tag of the moved subtree
      */
@@ -259,11 +275,12 @@ interface Handler
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it.
      *
+     *
+     * @param mixed $tagId
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * If $tagId is a synonym, only the synonym is deleted
-     *
-     * @param mixed $tagId
      */
     public function deleteTag($tagId);
 }

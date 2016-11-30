@@ -44,9 +44,10 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitationValue
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
     public function acceptValue(APILimitationValue $limitationValue)
     {
@@ -112,16 +113,17 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     /**
      * Evaluate permission against content and placement.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
-     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $value
      * @param \eZ\Publish\API\Repository\Values\User\UserReference $currentUser
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object
      * @param \eZ\Publish\API\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType
+     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
      * @return bool
      */
@@ -145,10 +147,11 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     /**
      * Returns Criterion for use in find() query.
      *
-     * @throws \RuntimeException If list of limitation values is empty
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $value
      * @param \eZ\Publish\API\Repository\Values\User\UserReference $currentUser
+     *
+     * @throws \RuntimeException If list of limitation values is empty
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface
      */

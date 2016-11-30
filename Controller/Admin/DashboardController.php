@@ -14,6 +14,7 @@ class DashboardController extends Controller
 
     /**
      * DashboardController constructor.
+     *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
     public function __construct(TagsService $tagsService)
@@ -23,11 +24,13 @@ class DashboardController extends Controller
 
     public function indexAction()
     {
-        $parentTag = $this->tagsService->loadTag(4);
         $tags = $this->tagsService->loadTagChildren(null, 0, 10);
 
-        return $this->render('@NetgenTags/admin/dashboard/index.html.twig', array(
-            'latestTags' => $tags,
-        ));
+        return $this->render(
+            'NetgenTagsBundle:admin/dashboard:index.html.twig',
+            array(
+                'latestTags' => $tags,
+            )
+        );
     }
 }

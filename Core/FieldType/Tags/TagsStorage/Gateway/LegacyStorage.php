@@ -39,10 +39,11 @@ class LegacyStorage extends Gateway
     /**
      * Sets the data storage connection to use.
      *
-     * @throws \RuntimeException if $connection is not an instance of
-     *         {@link \eZ\Publish\Core\Persistence\Database\DatabaseHandler}
      *
      * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $connection
+     *
+     * @throws \RuntimeException if $connection is not an instance of
+     *         {@link \eZ\Publish\Core\Persistence\Database\DatabaseHandler}
      */
     public function setConnection($connection)
     {

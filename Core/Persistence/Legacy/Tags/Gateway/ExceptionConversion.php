@@ -32,9 +32,10 @@ class ExceptionConversion extends Gateway
     /**
      * Returns an array with basic tag data.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -70,11 +71,12 @@ class ExceptionConversion extends Gateway
     /**
      * Returns an array with full tag data.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -92,11 +94,12 @@ class ExceptionConversion extends Gateway
     /**
      * Returns an array with basic tag data for the tag with $remoteId.
      *
-     * @throws \RuntimeException
      *
      * @param string $remoteId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -135,13 +138,14 @@ class ExceptionConversion extends Gateway
     /**
      * Returns data for the first level children of the tag identified by given $tagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -159,11 +163,12 @@ class ExceptionConversion extends Gateway
     /**
      * Returns how many tags exist below tag identified by $tagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return int
      */
@@ -181,13 +186,14 @@ class ExceptionConversion extends Gateway
     /**
      * Returns data for tags identified by given $keyword.
      *
-     * @throws \RuntimeException
      *
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -205,11 +211,12 @@ class ExceptionConversion extends Gateway
     /**
      * Returns how many tags exist with $keyword.
      *
-     * @throws \RuntimeException
      *
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return int
      */
@@ -227,13 +234,14 @@ class ExceptionConversion extends Gateway
     /**
      * Returns data for synonyms of the tag identified by given $tagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -251,11 +259,12 @@ class ExceptionConversion extends Gateway
     /**
      * Returns how many synonyms exist for a tag identified by $tagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
+     *
+     * @throws \RuntimeException
      *
      * @return int
      */
@@ -273,11 +282,12 @@ class ExceptionConversion extends Gateway
     /**
      * Loads content IDs related to tag identified by $tagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
+     *
+     * @throws \RuntimeException
      *
      * @return array
      */
@@ -295,9 +305,10 @@ class ExceptionConversion extends Gateway
     /**
      * Returns the number of content objects related to tag identified by $tagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
+     *
+     * @throws \RuntimeException
      *
      * @return int
      */
@@ -315,10 +326,11 @@ class ExceptionConversion extends Gateway
     /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $synonymId
      * @param array $mainTagData
+     *
+     * @throws \RuntimeException
      */
     public function moveSynonym($synonymId, $mainTagData)
     {
@@ -334,10 +346,11 @@ class ExceptionConversion extends Gateway
     /**
      * Creates a new tag using the given $createStruct below $parentTag.
      *
-     * @throws \RuntimeException
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
+     *
+     * @throws \RuntimeException
      *
      * @return int
      */
@@ -355,10 +368,11 @@ class ExceptionConversion extends Gateway
     /**
      * Updates an existing tag.
      *
-     * @throws \RuntimeException
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
+     *
+     * @throws \RuntimeException
      */
     public function update(UpdateStruct $updateStruct, $tagId)
     {
@@ -374,10 +388,11 @@ class ExceptionConversion extends Gateway
     /**
      * Creates a new synonym using the given $keyword for tag $tag.
      *
-     * @throws \RuntimeException
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      * @param array $tag
+     *
+     * @throws \RuntimeException
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
      */
@@ -395,10 +410,11 @@ class ExceptionConversion extends Gateway
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param array $mainTagData
+     *
+     * @throws \RuntimeException
      */
     public function convertToSynonym($tagId, $mainTagData)
     {
@@ -414,10 +430,11 @@ class ExceptionConversion extends Gateway
     /**
      * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId.
      *
-     * @throws \RuntimeException
      *
      * @param mixed $tagId
      * @param mixed $targetTagId
+     *
+     * @throws \RuntimeException
      */
     public function transferTagAttributeLinks($tagId, $targetTagId)
     {
@@ -433,10 +450,11 @@ class ExceptionConversion extends Gateway
     /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData.
      *
-     * @throws \RuntimeException
      *
      * @param array $sourceTagData
      * @param array $destinationParentTagData
+     *
+     * @throws \RuntimeException
      */
     public function moveSubtree(array $sourceTagData, array $destinationParentTagData)
     {
@@ -452,11 +470,12 @@ class ExceptionConversion extends Gateway
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it.
      *
+     *
+     * @param mixed $tagId
+     *
      * @throws \RuntimeException
      *
      * If $tagId is a synonym, only the synonym is deleted
-     *
-     * @param mixed $tagId
      */
     public function deleteTag($tagId)
     {
@@ -472,10 +491,11 @@ class ExceptionConversion extends Gateway
     /**
      * Updated subtree modification time for all tags in path.
      *
-     * @throws \RuntimeException
      *
      * @param string $pathString
      * @param int $timestamp
+     *
+     * @throws \RuntimeException
      */
     public function updateSubtreeModificationTime($pathString, $timestamp = null)
     {

@@ -52,9 +52,10 @@ class DoctrineDatabase extends Gateway
     /**
      * Returns an array with basic tag data.
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
      *
      * @param mixed $tagId
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
      *
      * @return array
      */
@@ -84,9 +85,10 @@ class DoctrineDatabase extends Gateway
     /**
      * Returns an array with basic tag data by remote ID.
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
      *
      * @param string $remoteId
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
      *
      * @return array
      */

@@ -88,9 +88,9 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param \Symfony\Component\HttpFoundation\Request $request The request to match
      *
-     * @return array An array of parameters
-     *
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException If no matching resource could be found
+     *
+     * @return array An array of parameters
      */
     public function matchRequest(Request $request)
     {
@@ -231,10 +231,10 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param string $pathinfo The path info to be parsed (raw format, i.e. not urldecoded)
      *
-     * @return array An array of parameters
-     *
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException If the resource could not be found
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException If the resource was found but the request method is not allowed
+     *
+     * @return array An array of parameters
      */
     public function match($pathinfo)
     {

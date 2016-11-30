@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\TagsBundle\Form\Type\Admin;
+namespace Netgen\TagsBundle\Form\Type;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Form\DataMapper\TagUpdateStructDataMapper;

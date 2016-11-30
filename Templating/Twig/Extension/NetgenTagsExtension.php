@@ -80,10 +80,6 @@ class NetgenTagsExtension extends Twig_Extension
                 'netgen_tags_content_type_name',
                 array($this, 'getContentTypeName')
             ),
-            new Twig_SimpleFunction(
-                'netgen_tags_breadcrumbs',
-                array($this, 'getTagBreadcrumbs')
-            ),
         );
     }
 

@@ -6,9 +6,9 @@ use eZ\Bundle\EzPublishCoreBundle\Controller;
 use eZ\Publish\API\Repository\ContentTypeService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Form\Type\Admin\TagCreateType;
+use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Symfony\Component\HttpFoundation\Request;
-use Netgen\TagsBundle\Form\Type\Admin\TagUpdateType;
+use Netgen\TagsBundle\Form\Type\TagUpdateType;
 
 class TagController extends Controller
 {
@@ -35,7 +35,8 @@ class TagController extends Controller
     }
 
     /**
-     * @param $tagId
+     * @param int|string $tagId
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showTagAction($tagId)
@@ -46,19 +47,23 @@ class TagController extends Controller
         $childrenTags = $this->tagsService->loadTagChildren($tag, 0, 10);
         $subTreeLimitations = $this->getSubtreeLimitations($tag);
 
-        return $this->render('@NetgenTags/admin/tag/show.html.twig', array(
-            'tag' => $tag,
-            'relatedContent' => $relatedContent,
-            'synonyms' => $synonyms,
-            'childrenTags' => $childrenTags,
-            'subTreeLimitations' => $subTreeLimitations,
-        ));
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:show.html.twig',
+            array(
+                'tag' => $tag,
+                'relatedContent' => $relatedContent,
+                'synonyms' => $synonyms,
+                'childrenTags' => $childrenTags,
+                'subTreeLimitations' => $subTreeLimitations,
+            )
+        );
     }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $parentId
-     * @param $languageCode
+     * @param int|string $parentId
+     * @param string $languageCode
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addTagAction(Request $request, $parentId, $languageCode)
@@ -67,29 +72,40 @@ class TagController extends Controller
         $tagCreateStruct->parentTagId = $parentId;
         $tagCreateStruct->mainLanguageCode = $languageCode;
 
-        $form = $this->createForm(TagCreateType::class, $tagCreateStruct, array(
-            'languageCode' => $languageCode,
-        ));
+        $form = $this->createForm(
+            TagCreateType::class,
+            $tagCreateStruct,
+            array(
+                'languageCode' => $languageCode,
+            )
+        );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newTag = $this->tagsService->createTag($form->getData());
 
-            return $this->redirectToRoute('netgen_tags_admin_tag_show', array(
-                'tagId' => $newTag->id,
-            ));
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $newTag->id,
+                )
+            );
         }
 
-        return $this->render('@NetgenTags/admin/tag/add.html.twig', array(
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:add.html.twig',
+            array(
                 'form' => $form->createView(),
-        ));
+            )
+        );
     }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $tagId
-     * @param $languageCode
+     * @param int|string $tagId
+     * @param string $languageCode
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateTagAction(Request $request, $tagId, $languageCode)
@@ -104,51 +120,56 @@ class TagController extends Controller
             $tagUpdateStruct->setKeyword($keyword, $keywordLanguageCode);
         }
 
-        $form = $this->createForm(TagUpdateType::class, $tagUpdateStruct, array(
-            'languageCode' => $languageCode,
-            'tag' => $tag,
-        ));
+        $form = $this->createForm(
+            TagUpdateType::class,
+            $tagUpdateStruct,
+            array(
+                'languageCode' => $languageCode,
+                'tag' => $tag,
+            )
+        );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $updatedTag = $this->tagsService->updateTag($tag, $form->getData());
 
-            return $this->redirectToRoute('netgen_tags_admin_tag_show', array(
-                'tagId' => $updatedTag->id,
-            ));
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $updatedTag->id,
+                )
+            );
         }
 
-        return $this->render('@NetgenTags/admin/tag/update.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:update.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
      * Returns an array with subtree limitations for given tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
      * @return array
      */
     protected function getSubtreeLimitations(Tag $tag)
     {
-        $contentTypeGroups = $this->contentTypeService->loadContentTypeGroups();
-
         $result = array();
 
-        foreach ($contentTypeGroups as $contentTypeGroup) {
-            $contentTypes = $this->contentTypeService->loadContentTypes($contentTypeGroup);
-
-            foreach ($contentTypes as $contentType) {
-                $fieldDefinitions = $contentType->getFieldDefinitions();
-
-                foreach ($fieldDefinitions as $fieldDefinition) {
+        foreach ($this->contentTypeService->loadContentTypeGroups() as $contentTypeGroup) {
+            foreach ($this->contentTypeService->loadContentTypes($contentTypeGroup) as $contentType) {
+                foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
                     if ($fieldDefinition->fieldTypeIdentifier === 'eztags') {
                         if ($fieldDefinition->getFieldSettings()['subTreeLimit'] === $tag->id) {
-                            $limitation = array();
-                            $limitation['contentTypeId'] = $contentType->id;
-                            $limitation['attributeIdentifier'] = $fieldDefinition->identifier;
-                            array_push($result, $limitation);
+                            $result[] = array(
+                                'contentTypeId' => $contentType->id,
+                                'attributeIdentifier' => $fieldDefinition->identifier,
+                            );
                         }
                     }
                 }

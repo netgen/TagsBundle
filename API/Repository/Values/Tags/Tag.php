@@ -11,7 +11,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  * @property-read mixed $parentTagId Parent tag ID
  * @property-read mixed $mainTagId Main tag ID
  * @property-read string $keyword Convenience getter for $this->getKeyword() and BC layer
- * @property-read string $keywords Tag keywords
+ * @property-read string[] $keywords Tag keywords
  * @property-read int $depth The depth tag has in tag tree
  * @property-read string $pathString The path to this tag e.g. /1/6/21/42 where 42 is the current ID
  * @property-read \DateTime $modificationDate Tag modification date
@@ -128,6 +128,7 @@ class Tag extends ValueObject
      * Function where list of properties are returned.
      *
      * Override to add dynamic properties
+     *
      * @uses parent::getProperties()
      *
      * @param array $dynamicProperties
