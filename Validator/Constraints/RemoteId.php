@@ -9,7 +9,7 @@ class RemoteId extends Constraint
     /**
      * @var string
      */
-    public $message = 'eztags.validator.remote_id';
+    public $message = 'eztags.remote_id.remote_id_exists';
 
     /**
      * Returns the name of the class that validates this constraint.

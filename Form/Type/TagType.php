@@ -29,8 +29,8 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('keyword', TextType::class, ['label' => 'tag.add.form_keyword_label'])
-            ->add('alwaysAvailable', CheckboxType::class, ['label' => 'tag.add.form_always_available_label', 'required' => false])
+            ->add('keyword', TextType::class, ['label' => 'tag.tag_name'])
+            ->add('alwaysAvailable', CheckboxType::class, ['label' => 'tag.form.always_available', 'required' => false])
             ->add('remoteId', TextType::class, ['required' => false]);
     }
 }

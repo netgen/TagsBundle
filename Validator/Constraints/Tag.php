@@ -9,7 +9,7 @@ class Tag extends Constraint
     /**
      * @var string
      */
-    public $message = 'eztags.validator.tag';
+    public $message = 'eztags.tag.no_tag';
 
     /**
      * Returns the name of the class that validates this constraint.

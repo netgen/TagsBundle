@@ -9,7 +9,7 @@ class Language extends Constraint
     /**
      * @var string
      */
-    public $message = 'eztags.validator.language';
+    public $message = 'eztags.language.no_language';
 
     /**
      * Returns the name of the class that validates this constraint.

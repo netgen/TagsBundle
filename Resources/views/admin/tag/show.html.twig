@@ -3,18 +3,18 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <h2>{{ 'tag.show.title_label'|trans }}: {{ netgen_tags_tag_keyword(tag) }}</h2>
-    <p>{{ 'tag.show.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.show.tag_id'|trans }}: {{ tag.id }})</p>
+    <h2>{{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}</h2>
+    <p>{{ 'tag.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.tag_id'|trans }}: {{ tag.id }})</p>
 
-    <h3>{{ 'tag.show.latest_label'|trans }}</h3>
+    <h3>{{ 'tag.latest.title'|trans }}</h3>
 
     <table>
         <thead>
         <tr>
-            <th>{{ 'tag.show.latest_table_id'|trans }}</th>
-            <th>{{ 'tag.show.latest_table_name'|trans }}</th>
-            <th>{{ 'tag.show.latest_table_modified'|trans }}</th>
-            <th>{{ 'tag.show.latest_table_class'|trans }}</th>
+            <th>{{ 'tag.table.tag_id'|trans }}</th>
+            <th>{{ 'tag.table.tag_name'|trans }}</th>
+            <th>{{ 'tag.table.modified'|trans }}</th>
+            <th>{{ 'tag.class.name'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -29,14 +29,14 @@
         </tbody>
     </table>
 
-    <h3>{{ 'tag.show.translations_label'|trans }} ({{ tag.keywords|length }})</h3>
+    <h3>{{ 'tag.translations.title'|trans }} ({{ tag.keywords|length }})</h3>
 
     <table>
         <thead>
             <tr>
-                <th>{{ 'tag.show.translations_table_langunage'|trans }}</th>
-                <th>{{ 'tag.show.translations_table_translation'|trans }}</th>
-                <th>{{ 'tag.show.translations_table_locale'|trans }}</th>
+                <th>{{ 'tag.translations.langunage'|trans }}</th>
+                <th>{{ 'tag.translations.translation'|trans }}</th>
+                <th>{{ 'tag.translations.locale'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -50,18 +50,18 @@
         </tbody>
     </table>
 
-    <h3>{{ 'tag.show.synonyms_label'|trans }} ({{ synonyms|length }})</h3>
+    <h3>{{ 'tag.synonyms.title'|trans }} ({{ synonyms|length }})</h3>
 
     {% if synonyms is empty %}
-        <p>{{  'tag.show.synonyms_empty'|trans }}</p>
+        <p>{{  'tag.synonyms.no_synonyms'|trans }}</p>
     {% else %}
 
     <table>
         <thead>
         <tr>
-            <th>{{ 'tag.show.synonyms_table_id'|trans }}</th>
-            <th>{{ 'tag.show.synonyms_table_name'|trans }}</th>
-            <th>{{ 'tag.show.synonyms_table_modified'|trans }}</th>
+            <th>{{ 'tag.table.tag_id'|trans }}</th>
+            <th>{{ 'tag.table.tag_name'|trans }}</th>
+            <th>{{ 'tag.table.modified'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -76,19 +76,19 @@
     </table>
     {% endif %}
 
-    <h3>{{ 'tag.show.children_tags_label'|trans }} ({{ childrenTags|length }})</h3>
+    <h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
 
     {% if childrenTags is empty %}
-        <p>{{  'tag.show.children_tags_empty'|trans }}</p>
+        <p>{{  'tag.children_tags.no_children'|trans }}</p>
     {% else %}
 
         <table>
             <thead>
             <tr>
-                <th>{{ 'tag.show.children_tags_table_id'|trans }}</th>
-                <th>{{ 'tag.show.children_tags_table_name'|trans }}</th>
-                <th>{{ 'tag.show.children_tags_table_translations'|trans }}</th>
-                <th>{{ 'tag.show.children_tags_table_modified'|trans }}</th>
+                <th>{{ 'tag.table.tag_id'|trans }}</th>
+                <th>{{ 'tag.table.tag_name'|trans }}</th>
+                <th>{{ 'tag.translations.title'|trans }}</th>
+                <th>{{ 'tag.table.modified'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -104,18 +104,18 @@
         </table>
     {% endif %}
 
-    <h3>{{ 'tag.show.subtree_limitations_label'|trans }} ({{ subTreeLimitations|length }})</h3>
+    <h3>{{ 'tag.subtree_limitations.title'|trans }} ({{ subTreeLimitations|length }})</h3>
 
     {% if subTreeLimitations is empty %}
-        <p>{{  'tag.show.subtree_limitations_empty'|trans }}</p>
+        <p>{{  'tag.subtree_limitations.no_limitations'|trans }}</p>
     {% else %}
 
         <table>
             <thead>
             <tr>
-                <th>{{ 'tag.show.subtree_limitations_table_id'|trans }}</th>
-                <th>{{ 'tag.show.subtree_limitations_table_name'|trans }}</th>
-                <th>{{ 'tag.show.subtree_limitations_table_identifier'|trans }}</th>
+                <th>{{ 'tag.class.id'|trans }}</th>
+                <th>{{ 'tag.class.name'|trans }}</th>
+                <th>{{ 'tag.subtree_limitations.identifier'|trans }}</th>
             </tr>
             </thead>
             <tbody>
