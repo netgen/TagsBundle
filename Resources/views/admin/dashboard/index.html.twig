@@ -16,9 +16,9 @@
     {% for tag in latestTags %}
         <tr>
             <td>{{ tag.id }}</td>
-            <td>{{ netgen_tags_tag_keyword(tag) }}</td>
+            <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
             {% if tag.hasParent %}
-                <td>{{ netgen_tags_tag_keyword(tag.parentTagId) }}</td>
+                <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.parentTagId}) }}">{{ netgen_tags_tag_keyword(tag.parentTagId) }}</a></td>
             {% else %}
                 <td>{{ 'dashboard.latest_tags.no_parent'|trans }}</td>
             {% endif %}
