@@ -2,9 +2,11 @@
 
 namespace Netgen\TagsBundle\Form\Type;
 
+use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints;
 
 class TagMergeType extends AbstractType
 {
@@ -14,9 +16,11 @@ class TagMergeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults([
-                'translation_domain' => 'eztags_admin',
-            ]);
+            ->setDefaults(
+                array(
+                    'translation_domain' => 'eztags_admin',
+                )
+            );
     }
 
     /**
@@ -26,6 +30,17 @@ class TagMergeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sourceTagId', 'Symfony\Component\Form\Extension\Core\Type\TextType', ['label' => 'tag.main']);
+            ->add(
+                'mainTag',
+                'Symfony\Component\Form\Extension\Core\Type\TextType',
+                array(
+                    'constraints' => array(
+                        new Constraints\Type(array('type' => 'scalar')),
+                        new Constraints\NotBlank(),
+                        new Tag(),
+                    ),
+                    'label' => 'tag.main',
+                )
+            );
     }
 }

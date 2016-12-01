@@ -21,18 +21,20 @@ class TagUpdateType extends AbstractType
         $resolver->setAllowedTypes('tag', 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag');
 
         $resolver
-            ->setDefaults([
-                'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct',
-                'constraints' => function (Options $options) {
-                    return array(
-                        new TagUpdateStructConstraint(
-                            array(
-                                'payload' => $options['tag'],
-                            )
-                        ),
-                    );
-                },
-            ]);
+            ->setDefaults(
+                array(
+                    'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct',
+                    'constraints' => function (Options $options) {
+                        return array(
+                            new TagUpdateStructConstraint(
+                                array(
+                                    'payload' => $options['tag'],
+                                )
+                            ),
+                        );
+                    },
+                )
+            );
     }
 
     /**

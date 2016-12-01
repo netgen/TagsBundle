@@ -13,8 +13,10 @@ class TagDeleteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults([
-                'translation_domain' => 'eztags_admin',
-            ]);
+            ->setDefaults(
+                array(
+                    'translation_domain' => 'eztags_admin',
+                )
+            );
     }
 }

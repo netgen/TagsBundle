@@ -14,12 +14,14 @@ class SynonymCreateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults([
-                'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct',
-                'constraints' => array(
-                    new SynonymCreateStructConstraint(),
-                ),
-            ]);
+            ->setDefaults(
+                array(
+                    'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct',
+                    'constraints' => array(
+                        new SynonymCreateStructConstraint(),
+                    ),
+                )
+            );
     }
 
     /**

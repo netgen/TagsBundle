@@ -46,11 +46,16 @@ class TagValidator extends ConstraintValidator
         }
 
         try {
-            $this->tagsService->sudo(
+            $tag = $this->tagsService->sudo(
                 function (TagsService $tagsService) use ($value) {
-                    $tagsService->loadTag($value);
+                    return $tagsService->loadTag($value);
                 }
             );
+
+            if ($tag->isSynonym()) {
+                $this->context->buildViolation($constraint->synonymMessage)
+                    ->addViolation();
+            }
         } catch (NotFoundException $e) {
             /** @var \Netgen\TagsBundle\Validator\Constraints\Tag $constraint */
             $this->context->buildViolation($constraint->message)

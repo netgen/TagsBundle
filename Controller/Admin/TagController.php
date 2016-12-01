@@ -203,7 +203,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sourceTag = $this->tagsService->loadTag($form->getData()['sourceTagId']);
+            $sourceTag = $this->tagsService->loadTag($form->getData()['mainTag']);
 
             $this->tagsService->mergeTags($tag, $sourceTag);
 
@@ -217,6 +217,40 @@ class TagController extends Controller
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:merge.html.twig',
+            array(
+                'form' => $form->createView(),
+                'tag' => $tag,
+            )
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function convertToSynonymAction(Request $request, Tag $tag)
+    {
+        $form = $this->createForm('Netgen\TagsBundle\Form\Type\TagConvertType');
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mainTag = $this->tagsService->loadTag($form->getData()['mainTag']);
+
+            $this->tagsService->convertToSynonym($tag, $mainTag);
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $mainTag->id,
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:convert.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,

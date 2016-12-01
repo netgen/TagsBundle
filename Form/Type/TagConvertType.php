@@ -2,11 +2,13 @@
 
 namespace Netgen\TagsBundle\Form\Type;
 
+use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints;
 
-class TagType extends AbstractType
+class TagConvertType extends AbstractType
 {
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
@@ -17,11 +19,6 @@ class TagType extends AbstractType
             ->setDefaults(
                 array(
                     'translation_domain' => 'eztags_admin',
-                )
-            )
-            ->setRequired(
-                array(
-                    'languageCode',
                 )
             );
     }
@@ -34,25 +31,15 @@ class TagType extends AbstractType
     {
         $builder
             ->add(
-                'keyword',
+                'mainTag',
                 'Symfony\Component\Form\Extension\Core\Type\TextType',
                 array(
-                    'label' => 'tag.tag_name',
-                )
-            )
-            ->add(
-                'alwaysAvailable',
-                'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
-                array(
-                    'label' => 'tag.form.always_available',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'remoteId',
-                'Symfony\Component\Form\Extension\Core\Type\TextType',
-                array(
-                    'required' => false,
+                    'constraints' => array(
+                        new Constraints\Type(array('type' => 'scalar')),
+                        new Constraints\NotBlank(),
+                        new Tag(),
+                    ),
+                    'label' => 'tag.main',
                 )
             );
     }

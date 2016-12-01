@@ -27,3 +27,9 @@ netgen_tags_admin_tag_merge:
     defaults:
         _controller: eztags.admin.controller.tag:mergeTagAction
         _method: [GET, POST]
+
+netgen_tags_admin_tag_convert:
+    path: /{tagId}/convert
+    defaults:
+        _controller: eztags.admin.controller.tag:convertToSynonymAction
+        _method: [GET, POST]

@@ -49,6 +49,8 @@ synonym.delete.message: 'Are you sure you want to delete the "%synonymName%" syn
 tag.merge.title: 'Merge tag'
 tag.merge.message: 'Merging this tag with another tag will delete the tag and it''s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.'
 
+tag.convert.title: 'Convert to synonym'
+
 tag.button.save: 'Save'
 tag.button.discard: 'Discard'
 tag.button.yes: 'Yes'

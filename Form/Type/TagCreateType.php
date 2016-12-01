@@ -15,12 +15,14 @@ class TagCreateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults([
-                'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct',
-                'constraints' => array(
-                    new TagCreateStructConstraint(),
-                ),
-            ]);
+            ->setDefaults(
+                array(
+                    'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct',
+                    'constraints' => array(
+                        new TagCreateStructConstraint(),
+                    ),
+                )
+            );
     }
 
     /**
@@ -29,7 +31,10 @@ class TagCreateType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('parentTagId', 'Symfony\Component\Form\Extension\Core\Type\TextType');
+        $builder->add(
+            'parentTagId',
+            'Symfony\Component\Form\Extension\Core\Type\TextType'
+        );
     }
 
     /**
