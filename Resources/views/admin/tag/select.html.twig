@@ -31,6 +31,16 @@
 {% endblock %}
 
 {% block content %}
+    {% if tag is defined %}
+        {% if tag.synonym %}
+            <h2>{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+        {% else %}
+            <h2>{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+        {% endif %}
+    {% else %}
+        <h2>{{ 'tag.add.title'|trans }}</h2>
+    {% endif %}
+
     {{ form_start(form) }}
 
     {% if tag is defined %}

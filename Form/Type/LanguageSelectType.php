@@ -33,6 +33,7 @@ class LanguageSelectType extends AbstractType
             ->setDefaults(
                 array(
                     'translation_domain' => 'eztags_admin',
+                    'tag' => null,
                 )
             )
             ->setRequired(
@@ -57,14 +58,25 @@ class LanguageSelectType extends AbstractType
             );
         }
 
-        $builder->add('languageCode', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+        $fieldOptions = array(
             'choices' => $choices,
             'choices_as_values' => true,
             'expanded' => true,
             'multiple' => false,
             'label' => false,
-            'preferred_choices' => $options['tag']->languageCodes,
-            'data' => $options['tag']->mainLanguageCode,
-        ));
+        );
+
+        if ($options['tag'] !== null) {
+            $fieldOptions += array(
+                'preferred_choices' => $options['tag']->languageCodes,
+                'data' => $options['tag']->mainLanguageCode,
+            );
+        }
+
+        $builder->add(
+            'languageCode',
+            'Symfony\Component\Form\Extension\Core\Type\ChoiceType',
+            $fieldOptions
+        );
     }
 }

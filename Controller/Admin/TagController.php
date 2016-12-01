@@ -87,6 +87,42 @@ class TagController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param $parentId
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function addTagSelectAction(Request $request, $parentId)
+    {
+        $form = $this->createForm(
+            'Netgen\TagsBundle\Form\Type\LanguageSelectType',
+            null,
+            array(
+                'languages' => $this->languages,
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_add',
+                array(
+                    'parentId' => $parentId,
+                    'languageCode' => $form->getData()['languageCode'],
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:select.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int|string $parentId
      * @param string $languageCode
      *
@@ -206,6 +242,7 @@ class TagController extends Controller
             'NetgenTagsBundle:admin/tag:update.html.twig',
             array(
                 'form' => $form->createView(),
+                'tag' => $tag,
             )
         );
     }

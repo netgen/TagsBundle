@@ -12,6 +12,8 @@ tag.tag_id: 'Tag ID'
 tag.tag_name: 'Tag name'
 tag.main: 'Main tag'
 
+tag.add.title: 'New tag'
+
 tag.class.id: 'Class ID'
 tag.class.name: 'Class name'
 
@@ -46,6 +48,7 @@ tag.edit.title: 'Edit tag'
 tag.delete.title: 'Delete tag'
 tag.delete.message: 'Are you sure you want to delete the "%tagName%" tag? All children tags and synonyms will also be deleted and removed from existing objects.'
 
+synonym.edit.title: 'Edit synonym'
 synonym.delete.title: 'Delete synonym'
 synonym.delete.message: 'Are you sure you want to delete the "%synonymName%" synonym?'
 
