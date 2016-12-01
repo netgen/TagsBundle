@@ -1,0 +1,13 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% block content %}
+    <h2>{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <input type="submit"/>
+    {{ form_end(form) }}
+{% endblock %}

@@ -191,7 +191,9 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
+            $tag->isSynonym() ?
+                'NetgenTagsBundle:admin/synonym:select_translation.html.twig' :
+                'NetgenTagsBundle:admin/tag:select_translation.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -239,7 +241,9 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:update.html.twig',
+            $tag->isSynonym() ?
+                'NetgenTagsBundle:admin/synonym:update.html.twig' :
+                'NetgenTagsBundle:admin/tag:update.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
