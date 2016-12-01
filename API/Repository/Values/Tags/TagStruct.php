@@ -23,7 +23,7 @@ abstract class TagStruct extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords = array();
+    protected $keywords;
 
     /**
      * A global unique ID of the tag.
@@ -55,7 +55,7 @@ abstract class TagStruct extends ValueObject
             $language = $this->mainLanguageCode;
         }
 
-        if (!isset($this->keywords[$language])) {
+        if (!is_array($this->keywords) || !isset($this->keywords[$language])) {
             return null;
         }
 
@@ -72,6 +72,10 @@ abstract class TagStruct extends ValueObject
     {
         if (empty($language)) {
             $language = $this->mainLanguageCode;
+        }
+
+        if (!is_array($this->keywords)) {
+            $this->keywords = array();
         }
 
         $this->keywords[$language] = $keyword;

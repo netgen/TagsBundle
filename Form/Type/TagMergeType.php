@@ -39,7 +39,7 @@ class TagMergeType extends AbstractType
                         new Constraints\NotBlank(),
                         new Tag(),
                     ),
-                    'label' => 'tag.main',
+                    'label' => 'tag.main_tag',
                 )
             );
     }

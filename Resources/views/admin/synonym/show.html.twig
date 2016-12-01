@@ -3,13 +3,17 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <h2>{{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'tag.main'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)</h2>
+    <h2>{{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)</h2>
     <p>{{ 'tag.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.tag_id'|trans }}: {{ tag.id }})</p>
 
     <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="button">{{ 'synonym.edit.title'|trans }}</a>
     <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="button">{{ 'synonym.delete.title'|trans }}</a>
 
     <h3>{{ 'tag.latest.title'|trans }}</h3>
+
+    {% if latestContent is empty %}
+    <p>{{  'tag.latest_content.no_content'|trans }}</p>
+    {% else %}
 
     <table>
         <thead>
@@ -32,24 +36,7 @@
         </tbody>
     </table>
 
-    <h3>{{ 'tag.translations.title'|trans }} ({{ tag.keywords|length }})</h3>
+    {% endif %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>{{ 'tag.translations.langunage'|trans }}</th>
-                <th>{{ 'tag.translations.translation'|trans }}</th>
-                <th>{{ 'tag.translations.locale'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for languageCode, keyword in tag.keywords %}
-            <tr>
-                <td>{{ netgen_tags_language_name(languageCode) }}</td>
-                <td>{{ keyword }}</td>
-                <td>{{ languageCode }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
 {% endblock %}

@@ -12,6 +12,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\Request;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
 {
@@ -346,6 +347,59 @@ class TagController extends Controller
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
+            )
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     */
+    public function translationAction(Request $request, Tag $tag)
+    {
+        $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
+
+        if ($request->request->has('RemoveTranslationButton')) {
+            $locales = $request->request->get('Locale');
+
+            $newKeywords = $tag->keywords;
+
+            foreach ($locales as $locale) {
+                if (!isset($newKeywords[$locale])) {
+                    //                    TODO: Display error
+                    return new Response('Translation does not exist.');
+                }
+
+                if ($locale === $tag->mainLanguageCode) {
+                    //                    TODO: Display error
+                    return new Response('You can not remove main language.');
+                }
+
+                unset($newKeywords[$locale]);
+            }
+
+            foreach ($newKeywords as $languageCode => $keyword) {
+                $tagUpdateStruct->setKeyword($keyword, $languageCode);
+            }
+        } elseif ($request->request->has('UpdateMainTranslationButton')) {
+            $newMainTranslation = $request->request->get('MainLocale');
+
+            if (!in_array($newMainTranslation, $tag->languageCodes)) {
+                //                TODO: Display error
+                return new Response('Translation doesnt exist');
+            }
+
+            $tagUpdateStruct->mainLanguageCode = $newMainTranslation;
+        } elseif ($request->request->has('UpdateAlwaysAvailableButton')) {
+            $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
+        }
+
+        $this->tagsService->updateTag($tag, $tagUpdateStruct);
+
+        return $this->redirectToRoute(
+            'netgen_tags_admin_tag_show',
+            array(
+                'tagId' => $tag->id,
             )
         );
     }

@@ -14,6 +14,10 @@
 
     <h3>{{ 'tag.latest.title'|trans }}</h3>
 
+    {% if latestContent is empty %}
+    <p>{{  'tag.latest_content.no_content'|trans }}</p>
+    {% else %}
+
     <table>
         <thead>
         <tr>
@@ -35,31 +39,14 @@
         </tbody>
     </table>
 
-    <h3>{{ 'tag.translations.title'|trans }} ({{ tag.keywords|length }})</h3>
+    {% endif %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>{{ 'tag.translations.langunage'|trans }}</th>
-                <th>{{ 'tag.translations.translation'|trans }}</th>
-                <th>{{ 'tag.translations.locale'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for languageCode, keyword in tag.keywords %}
-            <tr>
-                <td>{{ netgen_tags_language_name(languageCode) }}</td>
-                <td>{{ keyword }}</td>
-                <td>{{ languageCode }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
 
     <h3>{{ 'tag.synonyms.title'|trans }} ({{ synonyms|length }})</h3>
 
     {% if synonyms is empty %}
-        <p>{{  'tag.synonyms.no_synonyms'|trans }}</p>
+        <p>{{ 'tag.synonyms.no_synonyms'|trans }}</p>
     {% else %}
 
     <table>

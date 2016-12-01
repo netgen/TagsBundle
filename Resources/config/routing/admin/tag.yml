@@ -45,3 +45,9 @@ netgen_tags_admin_tag_convert:
     defaults:
         _controller: eztags.admin.controller.tag:convertToSynonymAction
         _method: [GET, POST]
+
+netgen_tags_admin_tag_translation:
+    path: /{tagId}/translation
+    defaults:
+        _controller: eztags.admin.controller.tag:translationAction
+        _method: POST

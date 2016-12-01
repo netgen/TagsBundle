@@ -6,11 +6,14 @@ dashboard.latest_tags.parent_tag_name: 'Parent tag name'
 dashboard.latest_tags.tag_modified: 'Modified'
 dashboard.latest_tags.no_parent: 'No parent'
 
+tag.latest_content.no_content: 'No content'
+
 tag.title: 'Tag'
 tag.last_modified: 'Last modified'
 tag.tag_id: 'Tag ID'
 tag.tag_name: 'Tag name'
-tag.main: 'Main tag'
+tag.main: 'Main'
+tag.main_tag: 'Main tag'
 
 tag.add.title: 'New tag'
 
@@ -61,3 +64,7 @@ tag.button.save: 'Save'
 tag.button.discard: 'Discard'
 tag.button.yes: 'Yes'
 tag.button.no: 'No'
+tag.button.edit: 'Edit'
+tag.button.update: 'Update'
+tag.button.remove: 'Remove selected'
+tag.button.main: 'Set main'
