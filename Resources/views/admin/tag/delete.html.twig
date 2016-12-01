@@ -10,7 +10,7 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
-    <input type="submit" value="Yes"/>
-    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="button">No</a>
+    <input type="submit" value="{{ 'tag.button.yes'|trans }}"/>
+    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="button">{{ 'tag.button.no'|trans }}</a>
     {{ form_end(form) }}
 {% endblock %}

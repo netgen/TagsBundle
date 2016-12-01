@@ -191,6 +191,40 @@ class TagController extends Controller
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function mergeTagAction(Request $request, Tag $tag)
+    {
+        $form = $this->createForm('Netgen\TagsBundle\Form\Type\TagMergeType');
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sourceTag = $this->tagsService->loadTag($form->getData()['sourceTagId']);
+
+            $this->tagsService->mergeTags($tag, $sourceTag);
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $sourceTag->id,
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:merge.html.twig',
+            array(
+                'form' => $form->createView(),
+                'tag' => $tag,
+            )
+        );
+    }
+
+    /**
      * Returns an array with subtree limitations for given tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag

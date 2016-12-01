@@ -3,7 +3,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <h2>{{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'synonym.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)</h2>
+    <h2>{{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'tag.main'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)</h2>
     <p>{{ 'tag.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.tag_id'|trans }}: {{ tag.id }})</p>
 
     <h3>{{ 'tag.latest.title'|trans }}</h3>
