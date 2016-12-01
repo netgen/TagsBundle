@@ -41,6 +41,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('admin/templating.yml');
         $loader->load('validators.yml');
         $loader->load('param_converters.yml');
+        $loader->load('forms.yml');
 
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
 

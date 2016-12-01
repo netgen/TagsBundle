@@ -1,0 +1,10 @@
+parameters:
+     eztags.forms.language_select.class: Netgen\TagsBundle\Form\Type\LanguageSelectType
+
+services:
+    eztags.forms.language_select:
+        class: "%eztags.forms.language_select.class%"
+        arguments:
+            - "@ezpublish.api.service.language"
+        tags:
+            - { name: form.type }

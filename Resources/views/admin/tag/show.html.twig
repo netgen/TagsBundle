@@ -6,6 +6,12 @@
     <h2>{{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}</h2>
     <p>{{ 'tag.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.tag_id'|trans }}: {{ tag.id }})</p>
 
+    <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="button">{{ 'tag.edit.title'|trans }}</a>
+    <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="button">{{ 'tag.delete.title'|trans }}</a>
+    <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="button">{{ 'tag.merge.title'|trans }}</a>
+    <a href="{{ path('netgen_tags_admin_synonym_add', {'mainTagId': tag.id, 'languageCode': tag.mainLanguageCode}) }}" class="button">{{ 'synonym.add.title'|trans }}</a>
+    <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="button">{{ 'tag.convert.title'|trans }}</a>
+
     <h3>{{ 'tag.latest.title'|trans }}</h3>
 
     <table>

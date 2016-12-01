@@ -39,6 +39,9 @@ tag.subtree_limitations.identifier: 'Attribute identifier'
 tag.form.always_available: 'Use the main language if there is no prioritized translation'
 
 synonym.title: 'Synonym'
+synonym.add.title: 'Add synonym'
+
+tag.edit.title: 'Edit tag'
 
 tag.delete.title: 'Delete tag'
 tag.delete.message: 'Are you sure you want to delete the "%tagName%" tag? All children tags and synonyms will also be deleted and removed from existing objects.'
@@ -55,3 +58,6 @@ tag.button.save: 'Save'
 tag.button.discard: 'Discard'
 tag.button.yes: 'Yes'
 tag.button.no: 'No'
+
+tag.translation.add: 'Add translation'
+tag.translation.edit: 'Edit translation'

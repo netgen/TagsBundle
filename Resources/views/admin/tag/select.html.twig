@@ -1,0 +1,43 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% form_theme form _self %}
+
+{% block choice_widget %}
+    <div {{ block('widget_container_attributes') }}>
+        {% if tag is defined %}
+            {% set start = true %}
+            {{ 'tag.translation.edit'|trans }}
+            <div class="edit_translation">
+        {% else %}
+            {{ 'tag.translation.add'|trans }}
+            <div class="add_translation">
+        {% endif %}
+
+        {%- for child in form %}
+            {% if tag is defined and child.vars.value not in tag.languageCodes and start == true %}
+                </div>
+                {{ 'tag.translation.add'|trans }}
+                <div class="add_translation">
+                {% set start = false %}
+            {% endif %}
+
+            {{- form_widget(child) -}}
+            {{- form_label(child, null, {}) -}}
+        {% endfor -%}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    {% if tag is defined %}
+        {{ form_row(form.languageCode, {'tag': tag}) }}
+    {% else %}
+        {{ form_row(form.languageCode) }}
+    {% endif %}
+    <input type="submit"/>
+    {{ form_end(form) }}
+{% endblock %}

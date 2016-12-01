@@ -31,6 +31,11 @@ class TagController extends Controller
     protected $searchService;
 
     /**
+     * @var array
+     */
+    protected $languages;
+
+    /**
      * TagController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -42,6 +47,14 @@ class TagController extends Controller
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
         $this->searchService = $searchService;
+    }
+
+    /**
+     * @param array|null $languages
+     */
+    public function setLanguages(array $languages = null)
+    {
+        $this->languages = $languages;
     }
 
     /**
@@ -108,6 +121,44 @@ class TagController extends Controller
             'NetgenTagsBundle:admin/tag:add.html.twig',
             array(
                 'form' => $form->createView(),
+            )
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function updateTagSelectAction(Request $request, Tag $tag)
+    {
+        $form = $this->createForm(
+            'Netgen\TagsBundle\Form\Type\LanguageSelectType',
+            null,
+            array(
+                'languages' => $this->languages,
+                'tag' => $tag,
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_update',
+                array(
+                    'tagId' => $tag->id,
+                    'languageCode' => $form->getData()['languageCode'],
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:select.html.twig',
+            array(
+                'form' => $form->createView(),
+                'tag' => $tag,
             )
         );
     }
