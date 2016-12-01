@@ -27,3 +27,5 @@ services:
         parent: ezpublish.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
+        calls:
+                    - [setLanguages, [$languages$]]

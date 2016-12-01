@@ -14,6 +14,11 @@ class SynonymController extends Controller
     protected $tagsService;
 
     /**
+     * @var array
+     */
+    protected $languages;
+
+    /**
      * TagController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -21,6 +26,50 @@ class SynonymController extends Controller
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
+    }
+
+    /**
+     * @param array|null $languages
+     */
+    public function setLanguages(array $languages = null)
+    {
+        $this->languages = $languages;
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param int|string $mainTagId
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function addSynonymSelectAction(Request $request, $mainTagId)
+    {
+        $form = $this->createForm(
+            'Netgen\TagsBundle\Form\Type\LanguageSelectType',
+            null,
+            array(
+                'languages' => $this->languages,
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_synonym_add',
+                array(
+                    'mainTagId' => $mainTagId,
+                    'languageCode' => $form->getData()['languageCode'],
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/synonym:select_translation.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**

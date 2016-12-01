@@ -114,7 +114,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:select.html.twig',
+            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -191,7 +191,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:select.html.twig',
+            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,

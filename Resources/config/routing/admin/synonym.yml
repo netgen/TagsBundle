@@ -1,3 +1,9 @@
+netgen_tags_admin_synonym_add_select:
+    path: /add/{mainTagId}
+    defaults:
+        _controller: eztags.admin.controller.synonym:addSynonymSelectAction
+        _method: [GET, POST]
+
 netgen_tags_admin_synonym_add:
     path: /add/{mainTagId}/{languageCode}
     defaults:

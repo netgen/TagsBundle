@@ -2,28 +2,12 @@
 
 namespace Netgen\TagsBundle\Form\Type;
 
-use eZ\Publish\API\Repository\LanguageService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LanguageSelectType extends AbstractType
 {
-    /**
-     * @var \eZ\Publish\API\Repository\LanguageService
-     */
-    protected $languageService;
-
-    /**
-     * LanguageSelectType constructor.
-     *
-     * @param \eZ\Publish\API\Repository\LanguageService $languageService
-     */
-    public function __construct(LanguageService $languageService)
-    {
-        $this->languageService = $languageService;
-    }
-
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
@@ -50,33 +34,13 @@ class LanguageSelectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $choices = array();
-
-        foreach ($options['languages'] as $language) {
-            $choices += array(
-                $this->languageService->loadLanguage($language)->name => $language,
-            );
-        }
-
-        $fieldOptions = array(
-            'choices' => $choices,
-            'choices_as_values' => true,
-            'expanded' => true,
-            'multiple' => false,
-            'label' => false,
-        );
-
-        if ($options['tag'] !== null) {
-            $fieldOptions += array(
-                'preferred_choices' => $options['tag']->languageCodes,
-                'data' => $options['tag']->mainLanguageCode,
-            );
-        }
-
         $builder->add(
             'languageCode',
-            'Symfony\Component\Form\Extension\Core\Type\ChoiceType',
-            $fieldOptions
+            'Netgen\TagsBundle\Form\Type\TranslationListType',
+            array(
+                'languages' => $options['languages'],
+                'tag' => $options['tag'],
+            )
         );
     }
 }

@@ -41,7 +41,7 @@ tag.subtree_limitations.identifier: 'Attribute identifier'
 tag.form.always_available: 'Use the main language if there is no prioritized translation'
 
 synonym.title: 'Synonym'
-synonym.add.title: 'Add synonym'
+synonym.add.title: 'New synonym'
 
 tag.edit.title: 'Edit tag'
 
@@ -61,6 +61,3 @@ tag.button.save: 'Save'
 tag.button.discard: 'Discard'
 tag.button.yes: 'Yes'
 tag.button.no: 'No'
-
-tag.translation.add: 'Add translation'
-tag.translation.edit: 'Edit translation'
