@@ -7,10 +7,9 @@
 
     <p>{{ 'tag.delete.message'|trans({'%tagName%': netgen_tags_tag_keyword(tag) }) }}</p>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <form method="post" action="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}">
+        <input type="submit" name="DeleteTagButton" value="{{ 'tag.button.yes'|trans }}"/>
+    </form>
 
-    <input type="submit" value="{{ 'tag.button.yes'|trans }}"/>
     <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="button">{{ 'tag.button.no'|trans }}</a>
-    {{ form_end(form) }}
 {% endblock %}

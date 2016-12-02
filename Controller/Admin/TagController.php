@@ -260,11 +260,7 @@ class TagController extends Controller
      */
     public function deleteTagAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm('Netgen\TagsBundle\Form\Type\TagDeleteType');
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->request->has('DeleteTagButton')) {
             $this->tagsService->deleteTag($tag);
 
             return $this->redirectToRoute(
@@ -277,7 +273,6 @@ class TagController extends Controller
                 'NetgenTagsBundle:admin/synonym:delete.html.twig' :
                 'NetgenTagsBundle:admin/tag:delete.html.twig',
             array(
-                'form' => $form->createView(),
                 'tag' => $tag,
             )
         );
@@ -354,6 +349,8 @@ class TagController extends Controller
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function translationAction(Request $request, Tag $tag)
     {
