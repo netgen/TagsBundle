@@ -2,6 +2,7 @@ parameters:
     eztags.admin.controller.dashboard.class: Netgen\TagsBundle\Controller\Admin\DashboardController
     eztags.admin.controller.tag.class: Netgen\TagsBundle\Controller\Admin\TagController
     eztags.admin.controller.synonym.class: Netgen\TagsBundle\Controller\Admin\SynonymController
+    eztags.admin.controller.tree.class: Netgen\TagsBundle\Controller\Admin\TreeController
 
 services:
     # Controllers
@@ -31,3 +32,9 @@ services:
             - "@translator"
         calls:
                     - [setLanguages, [$languages$]]
+
+    eztags.admin.controller.tree:
+            class: "%eztags.admin.controller.tree.class%"
+            parent: ezpublish.controller.base
+            arguments:
+                - "@ezpublish.api.service.tags"

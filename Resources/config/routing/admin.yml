@@ -9,3 +9,7 @@ netgen_tags_admin_tag:
 netgen_tags_admin_synonym:
     resource: "admin/synonym.yml"
     prefix: /synonym
+
+netgen_tags_admin_tree:
+    resource: "admin/tree.yml"
+    prefix: /tree
