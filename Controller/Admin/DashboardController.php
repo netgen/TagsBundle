@@ -30,6 +30,7 @@ class DashboardController extends Controller
             'NetgenTagsBundle:admin/dashboard:index.html.twig',
             array(
                 'latestTags' => $tags,
+                'childrenTags' => $this->tagsService->loadTagChildren(null, 0, 10),
             )
         );
     }
