@@ -19,6 +19,7 @@ services:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.api.service.content_type"
             - "@ezpublish.api.service.search"
+            - "@translator"
         calls:
             - [setLanguages, [$languages$]]
 
@@ -27,5 +28,6 @@ services:
         parent: ezpublish.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
+            - "@translator"
         calls:
                     - [setLanguages, [$languages$]]

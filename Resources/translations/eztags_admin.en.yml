@@ -16,6 +16,7 @@ tag.main: 'Main'
 tag.main_tag: 'Main tag'
 
 tag.add.title: 'New tag'
+tag.add.success: 'New tag "%tagKeyword%" has been created'
 
 tag.class.id: 'Class ID'
 tag.class.name: 'Class name'
@@ -45,20 +46,26 @@ tag.form.always_available: 'Use the main language if there is no prioritized tra
 
 synonym.title: 'Synonym'
 synonym.add.title: 'New synonym'
+synonym.add.success: 'New synonym "%tagKeyword%" has been created'
 
 tag.edit.title: 'Edit tag'
+tag.edit.success: 'Tag "%tagKeyword%" has been updated'
 
 tag.delete.title: 'Delete tag'
 tag.delete.message: 'Are you sure you want to delete the "%tagName%" tag? All children tags and synonyms will also be deleted and removed from existing objects.'
+tag.delete.success: 'Tag "%tagKeyword%" has been deleted'
 
 synonym.edit.title: 'Edit synonym'
 synonym.delete.title: 'Delete synonym'
 synonym.delete.message: 'Are you sure you want to delete the "%synonymName%" synonym?'
+synonym.delete.success: 'Synonym "%tagKeyword%" has been deleted'
 
 tag.merge.title: 'Merge tag'
 tag.merge.message: 'Merging this tag with another tag will delete the tag and it''s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.'
+tag.merge.success: 'Tag "%tagKeyword%" has been merged with tag "%sourceTagKeyword%"'
 
 tag.convert.title: 'Convert to synonym'
+tag.convert.success: 'Tag "%tagKeyword%" has been converted to synonym of tag "%mainTagKeyword%"'
 
 tag.button.save: 'Save'
 tag.button.discard: 'Discard'
@@ -68,3 +75,9 @@ tag.button.edit: 'Edit'
 tag.button.update: 'Update'
 tag.button.remove: 'Remove selected'
 tag.button.main: 'Set main'
+
+tag.translation.no_translation: 'Translation for locale "%locale%" does not exist'
+tag.translation.is_main: 'You can not remove main language'
+tag.translation.removed: 'Translation for locale "%locale%" has been successfully removed'
+tag.translation.new_main: 'Translation for locale "%locale%" has been set as new main translation'
+tag.translation.always_available: 'Always available has been successfully updated'

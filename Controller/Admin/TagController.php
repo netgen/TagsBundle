@@ -12,7 +12,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\Request;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class TagController extends Controller
 {
@@ -37,17 +37,24 @@ class TagController extends Controller
     protected $languages;
 
     /**
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * TagController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
      * @param \eZ\Publish\API\Repository\SearchService $searchService
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      */
-    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService, SearchService $searchService)
+    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService, SearchService $searchService, TranslatorInterface $translator)
     {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
         $this->searchService = $searchService;
+        $this->translator = $translator;
     }
 
     /**
@@ -146,6 +153,17 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $newTag = $this->tagsService->createTag($form->getData());
 
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.add.success',
+                    array(
+                        '%tagKeyword%' => $newTag->keyword,
+                    ),
+                    'eztags_admin'
+                )
+            );
+
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_show',
                 array(
@@ -233,6 +251,17 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $updatedTag = $this->tagsService->updateTag($tag, $form->getData());
 
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.edit.success',
+                    array(
+                        '%tagKeyword%' => $updatedTag->keyword,
+                    ),
+                    'eztags_admin'
+                )
+            );
+
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_show',
                 array(
@@ -262,6 +291,19 @@ class TagController extends Controller
     {
         if ($request->request->has('DeleteTagButton')) {
             $this->tagsService->deleteTag($tag);
+
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    $tag->isSynonym() ?
+                        'synonym.delete.success' :
+                        'tag.delete.success',
+                    array(
+                        '%tagKeyword%' => $tag->keyword,
+                    ),
+                    'eztags_admin'
+                )
+            );
 
             return $this->redirectToRoute(
                 'netgen_tags_admin_dashboard_index'
@@ -294,6 +336,18 @@ class TagController extends Controller
             $sourceTag = $this->tagsService->loadTag($form->getData()['mainTag']);
 
             $this->tagsService->mergeTags($tag, $sourceTag);
+
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.merge.success',
+                    array(
+                        '%tagKeyword%' => $tag->keyword,
+                        '%sourceTagKeyword%' => $sourceTag->keyword,
+                    ),
+                    'eztags_admin'
+                )
+            );
 
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_show',
@@ -329,6 +383,18 @@ class TagController extends Controller
 
             $this->tagsService->convertToSynonym($tag, $mainTag);
 
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.convert.success',
+                    array(
+                        '%tagKeyword%' => $tag->keyword,
+                        '%mainTagKeyword%' => $mainTag->keyword,
+                    ),
+                    'eztags_admin'
+                )
+            );
+
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_show',
                 array(
@@ -363,35 +429,88 @@ class TagController extends Controller
 
             foreach ($locales as $locale) {
                 if (!isset($newKeywords[$locale])) {
-                    //                    TODO: Display error
-                    return new Response('Translation does not exist.');
+                    $this->addFlash(
+                        'errorMessages',
+                        $this->translator->trans(
+                            'tag.translation.no_translation',
+                            array(
+                                '%locale%' => $locale,
+                            ),
+                            'eztags_admin'
+                        )
+                    );
+                } elseif ($locale === $tag->mainLanguageCode) {
+                    $this->addFlash(
+                        'errorMessages',
+                        $this->translator->trans(
+                            'tag.translation.is_main',
+                            array(),
+                            'eztags_admin'
+                        )
+                    );
+                } else {
+                    unset($newKeywords[$locale]);
+
+                    foreach ($newKeywords as $languageCode => $keyword) {
+                        $tagUpdateStruct->setKeyword($keyword, $languageCode);
+                    }
+
+                    $this->tagsService->updateTag($tag, $tagUpdateStruct);
+
+                    $this->addFlash(
+                        'successMessages',
+                        $this->translator->trans(
+                            'tag.translation.removed',
+                            array(
+                                '%locale%' => $locale,
+                            ),
+                            'eztags_admin'
+                        )
+                    );
                 }
-
-                if ($locale === $tag->mainLanguageCode) {
-                    //                    TODO: Display error
-                    return new Response('You can not remove main language.');
-                }
-
-                unset($newKeywords[$locale]);
-            }
-
-            foreach ($newKeywords as $languageCode => $keyword) {
-                $tagUpdateStruct->setKeyword($keyword, $languageCode);
             }
         } elseif ($request->request->has('UpdateMainTranslationButton')) {
             $newMainTranslation = $request->request->get('MainLocale');
 
             if (!in_array($newMainTranslation, $tag->languageCodes)) {
-                //                TODO: Display error
-                return new Response('Translation doesnt exist');
-            }
+                $this->addFlash(
+                    'errorMessages',
+                    $this->translator->trans(
+                        'tag.translation.no_translation',
+                        array(
+                            '%locale%' => $newMainTranslation,
+                        ),
+                        'eztags_admin'
+                    )
+                );
+            } else {
+                $tagUpdateStruct->mainLanguageCode = $newMainTranslation;
+                $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-            $tagUpdateStruct->mainLanguageCode = $newMainTranslation;
+                $this->addFlash(
+                    'successMessages',
+                    $this->translator->trans(
+                        'tag.translation.new_main',
+                        array(
+                            '%locale%' => $newMainTranslation,
+                        ),
+                        'eztags_admin'
+                    )
+                );
+            }
         } elseif ($request->request->has('UpdateAlwaysAvailableButton')) {
             $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
-        }
+            $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-        $this->tagsService->updateTag($tag, $tagUpdateStruct);
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.translation.always_available',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+        }
 
         return $this->redirectToRoute(
             'netgen_tags_admin_tag_show',

@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SynonymController extends Controller
 {
@@ -19,13 +20,20 @@ class SynonymController extends Controller
     protected $languages;
 
     /**
-     * TagController constructor.
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     */
+    protected $translator;
+
+    /**
+     * SynonymController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      */
-    public function __construct(TagsService $tagsService)
+    public function __construct(TagsService $tagsService, TranslatorInterface $translator)
     {
         $this->tagsService = $tagsService;
+        $this->translator = $translator;
     }
 
     /**
@@ -95,6 +103,17 @@ class SynonymController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newSynonym = $this->tagsService->addSynonym($form->getData());
+
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'synonym.add.success',
+                    array(
+                        '%tagKeyword%' => $newSynonym->keyword,
+                    ),
+                    'eztags_admin'
+                )
+            );
 
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_show',

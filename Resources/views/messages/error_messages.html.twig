@@ -1,0 +1,5 @@
+{% for message in app.session.flashBag.get('errorMessages') %}
+<div class="error_messages_container" style="background: indianred">
+    {{ message }}
+</div>
+{% endfor %}
