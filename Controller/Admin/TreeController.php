@@ -44,7 +44,9 @@ class TreeController extends Controller
                         'parent' => '#',
                         'text' => 'Top level tags',
                         'children' => true,
-                        'opened' => true,
+                        'state' => array(
+                            'opened' => true,
+                        ),
                     ),
                 );
             } else {
@@ -58,6 +60,9 @@ class TreeController extends Controller
                         'parent' => '#',
                         'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
                         'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
+                        'state' => array(
+                            'opened' => true,
+                        ),
                     ),
                 );
             }
