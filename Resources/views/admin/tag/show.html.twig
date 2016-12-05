@@ -79,10 +79,11 @@
     {% if childrenTags is empty %}
         <p>{{  'tag.children_tags.no_children'|trans }}</p>
     {% else %}
-
+    <form method="post">
         <table>
             <thead>
             <tr>
+                <th></th>
                 <th>{{ 'tag.table.tag_id'|trans }}</th>
                 <th>{{ 'tag.table.tag_name'|trans }}</th>
                 <th>{{ 'tag.translations.title'|trans }}</th>
@@ -92,20 +93,29 @@
             <tbody>
             {% for tag in childrenTags %}
                 <tr>
+                    <td><input type="checkbox" name="Tags[]" value="{{ tag.id }}"/></td>
                     <td>{{ tag.id }}</td>
                     <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
-                    <td>{{ tag.keywords|keys|join(', ') }}</td>
+                    <td>
+                    {% for languageCode in tag.keywords|keys %}
+                        <a href="{{ path('netgen_tags_admin_tag_update', {'tagId': tag.id, 'languageCode': languageCode}) }}">{{ languageCode }}</a>
+                    {% endfor %}
+                    </td>
                     <td>{{ tag.modificationDate|date('d/m/Y h:i') }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        <input type="submit" value="{{ 'tag.button.move_multiple'|trans }}" formaction="{{ path('netgen_tags_admin_tag_children_move', {'tagId': tag.id}) }}"/>
+        <input type="submit" value="{{ 'tag.button.delete_multiple'|trans }}" formaction="{{ path('netgen_tags_admin_tag_children_delete', {'tagId': tag.id}) }}"/>
+    </form>
     {% endif %}
 
     <h3>{{ 'tag.subtree_limitations.title'|trans }} ({{ subTreeLimitations|length }})</h3>
 
     {% if subTreeLimitations is empty %}
-        <p>{{  'tag.subtree_limitations.no_limitations'|trans }}</p>
+        <p>{{ 'tag.subtree_limitations.no_limitations'|trans }}</p>
     {% else %}
 
         <table>

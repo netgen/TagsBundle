@@ -75,9 +75,25 @@ tag.button.edit: 'Edit'
 tag.button.update: 'Update'
 tag.button.remove: 'Remove selected'
 tag.button.main: 'Set main'
+tag.button.move_multiple: 'Move selected tags'
+tag.button.delete_multiple: 'Remove selected tags'
 
 tag.translation.no_translation: 'Translation for locale "%locale%" does not exist'
 tag.translation.is_main: 'You can not remove main language'
 tag.translation.removed: 'Translation for locale "%locale%" has been successfully removed'
 tag.translation.new_main: 'Translation for locale "%locale%" has been set as new main translation'
 tag.translation.always_available: 'Always available has been successfully updated'
+
+tag.children.no_selected_tags: 'You have to select at least one tag'
+
+tag.move_tags.title: 'Move tags'
+tag.move_tags.message: 'Are you sure you want to move selected tags?'
+tag.move_tags.success: 'Tags have been moved successfully'
+
+tag.delete_tags.title: 'Delete tags'
+tag.delete_tags.message: 'Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.'
+tag.delete_tags.success: 'Tags have been deleted successfully'
+
+tag.related: 'Related objects count'
+tag.children: 'Children count'
+tag.parent: 'Parent tag'

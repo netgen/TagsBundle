@@ -51,3 +51,15 @@ netgen_tags_admin_tag_translation:
     defaults:
         _controller: eztags.admin.controller.tag:translationAction
         _method: POST
+
+netgen_tags_admin_tag_children_move:
+    path: /{tagId}/movetags
+    defaults:
+        _controller: eztags.admin.controller.tag:moveChildrenAction
+        _method: POST
+
+netgen_tags_admin_tag_children_delete:
+    path: /{tagId}/deletetags
+    defaults:
+        _controller: eztags.admin.controller.tag:deleteChildrenAction
+        _method: POST

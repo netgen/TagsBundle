@@ -521,6 +521,138 @@ class TagController extends Controller
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function moveChildrenAction(Request $request, Tag $tag)
+    {
+        if (!$request->request->has('Tags') || $request->request->get('Tags') === null) {
+            $this->addFlash(
+                'errorMessages',
+                $this->translator->trans(
+                    'tag.children.no_selected_tags',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        $tagIds = $request->request->get('Tags');
+
+        $tags = array();
+
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag($tagId);
+        }
+
+        if ($request->request->has('MoveTagsButton')) {
+            $newParentTag = $this->tagsService->loadTag($request->request->get('ParentTagId'));
+
+            foreach ($tags as $_tag) {
+                $this->tagsService->moveSubtree($_tag, $newParentTag);
+            }
+
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.move_tags.success',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:move_tags.html.twig',
+            array(
+                'parentTag' => $tag,
+                'tags' => $tags,
+            )
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteChildrenAction(Request $request, Tag $tag)
+    {
+        if (!$request->request->has('Tags') || $request->request->get('Tags') === null) {
+            $this->addFlash(
+                'errorMessages',
+                $this->translator->trans(
+                    'tag.children.no_selected_tags',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        $tagIds = $request->request->get('Tags');
+
+        $tags = array();
+
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag($tagId);
+        }
+
+        if ($request->request->has('DeleteTagsButton')) {
+            foreach ($tags as $_tag) {
+                $this->tagsService->deleteTag($_tag);
+            }
+
+            $this->addFlash(
+                'successMessages',
+                $this->translator->trans(
+                    'tag.delete_tags.success',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:delete_tags.html.twig',
+            array(
+                'parentTag' => $tag,
+                'tags' => $tags,
+            )
+        );
+    }
+
+    /**
      * Returns an array with subtree limitations for given tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag

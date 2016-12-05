@@ -1,0 +1,37 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% block content %}
+    <h2>{{ 'tag.move_tags.title'|trans }}</h2>
+
+    <p>{{ 'tag.move_tags.message'|trans }}</p>
+
+    <form method="post" action="{{ path('netgen_tags_admin_tag_children_move', {'tagId': parentTag.id}) }}">
+        <table>
+            <thead>
+                <tr>
+                    <th>{{ 'tag.title'|trans }}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for tag in tags %}
+                <tr>
+                    <td>
+                        <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
+                        {{ parentTag.keyword }} / {{ tag.keyword }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <label>{{ 'tag.parent'|trans }}</label>
+        <input type="text" name="ParentTagId" value="{{ parentTag.id }}"/>
+
+        <input type="submit" name="MoveTagsButton" value="{{ 'tag.button.save'|trans }}"/>
+    </form>
+
+    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}" class="button">{{ 'tag.button.discard'|trans }}</a>
+{% endblock %}
