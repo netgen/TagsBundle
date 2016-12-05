@@ -115,7 +115,7 @@ class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
                 array(
-                    'parentId' => $parentId,
+                    'tagId' => $parentId,
                     'languageCode' => $form->getData()['languageCode'],
                 )
             );
@@ -131,14 +131,18 @@ class TagController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param int|string $parentId
-     * @param string $languageCode
+     * @param $languageCode
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addTagAction(Request $request, $parentId, $languageCode)
+    public function addTagAction(Request $request, $languageCode, Tag $tag = null)
     {
-        $tagCreateStruct = $this->tagsService->newTagCreateStruct($parentId, $languageCode);
+        if ($tag === null) {
+            $tagCreateStruct = $this->tagsService->newTagCreateStruct(0, $languageCode);
+        } else {
+            $tagCreateStruct = $this->tagsService->newTagCreateStruct($tag->id, $languageCode);
+        }
 
         $form = $this->createForm(
             'Netgen\TagsBundle\Form\Type\TagCreateType',
@@ -176,6 +180,7 @@ class TagController extends Controller
             'NetgenTagsBundle:admin/tag:add.html.twig',
             array(
                 'form' => $form->createView(),
+                'parentTag' => $tag,
             )
         );
     }

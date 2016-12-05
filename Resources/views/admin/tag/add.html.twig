@@ -8,6 +8,17 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
+    {{ 'tag.parent'|trans }}:
+    <span id="parentTagId">{% if parentTag is not null %}{{ parentTag.keyword }}{% else %}({{ 'tag.parent.no'|trans }}){% endif %}</span>
+    <input type="button" class="modal-tree-button" data-modalTreeId="add" value="{{ 'tag.parent.select'|trans }}"/>
+
     <input type="submit"/>
     {{ form_end(form) }}
+
+    {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
+        'tagsTreeId': 'add',
+        'fieldId': 'tag_create_parentTagId',
+        'spanId': 'parentTagId',
+        'noValueText': '(' ~ 'tag.parent.no'|trans ~ ')',
+    } %}
 {% endblock %}

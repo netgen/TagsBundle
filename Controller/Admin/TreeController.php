@@ -47,6 +47,11 @@ class TreeController extends Controller
                         'state' => array(
                             'opened' => true,
                         ),
+                        'a_attr' => array(
+                            'href' => $this->generateUrl(
+                                'netgen_tags_admin_dashboard_index'
+                            ),
+                        ),
                     ),
                 );
             } else {
@@ -63,6 +68,14 @@ class TreeController extends Controller
                         'state' => array(
                             'opened' => true,
                         ),
+                        'a_attr' => array(
+                            'href' => $this->generateUrl(
+                                'netgen_tags_admin_tag_show',
+                                array(
+                                    'tagId' => $tag->id,
+                                )
+                            ),
+                        ),
                     ),
                 );
             }
@@ -77,6 +90,14 @@ class TreeController extends Controller
                     'parent' => $tag->parentTagId,
                     'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
                     'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
+                    'a_attr' => array(
+                        'href' => $this->generateUrl(
+                            'netgen_tags_admin_tag_show',
+                            array(
+                                'tagId' => $tag->id,
+                            )
+                        ),
+                    ),
                 );
             }
         }

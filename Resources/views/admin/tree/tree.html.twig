@@ -1,23 +1,12 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block tags_tree %}
-<div id="tags_tree"></div>
-
-<script>
-    $('document').ready(function () {
-        $('#tags_tree').jstree({
-            'core' : {
-                'data' : {
-                    'url' : function (node) {
-                        var route = "{{ path('netgen_tags_admin_tree_get_children', {'tagId': "_tagId_"}) }}";
-                        return route
-                                .replace("_tagId_", node.id)
-                                .replace("#", "{{ rootId }}/true")
-                                ;
-                    }
-                }
-            },
-        });
-    });
-</script>
+<div
+        id="tags-tree-{{ tagsTreeId }}"
+        data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
+        data-rootId="{% if rootId is defined %}{{ rootId }}{% else %}0{% endif %}"
+        {% if spanId is defined %}data-spanId="{{ spanId }}"{% endif %}
+        {% if fieldId is defined %}data-fieldId="{{ fieldId }}"{% endif %}
+        {% if noValueText is defined %}data-noValueText="{{ noValueText }}"{% endif %}
+></div>
 {% endblock %}

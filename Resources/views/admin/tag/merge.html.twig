@@ -10,7 +10,18 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
+    {{ 'tag.main_tag'|trans }}:
+    <span id="mainTag">({{ 'tag.main.no'|trans }})</span>
+    <input type="button" class="modal-tree-button" data-modalTreeId="merge" value="{{ 'tag.main.select'|trans }}"/>
+
     <input type="submit" value="{{ 'tag.button.save'|trans }}"/>
     <input type="button" value="{{ 'tag.button.discard'|trans }}"/>
     {{ form_end(form) }}
+
+    {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
+        'tagsTreeId': 'merge',
+        'fieldId': 'tag_merge_mainTag',
+        'spanId': 'mainTag',
+        'noValueText': '(' ~ 'tag.main.no'|trans ~ ')',
+    } %}
 {% endblock %}

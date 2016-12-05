@@ -11,7 +11,7 @@ netgen_tags_admin_tag_add_select:
         _method: [GET, POST]
 
 netgen_tags_admin_tag_add:
-    path: /add/{parentId}/{languageCode}
+    path: /add/{tagId}/{languageCode}
     defaults:
         _controller: eztags.admin.controller.tag:addTagAction
         _method: [GET, POST]
@@ -61,5 +61,5 @@ netgen_tags_admin_tag_children_move:
 netgen_tags_admin_tag_children_delete:
     path: /{tagId}/deletetags
     defaults:
-        _controller: eztags.admin.controller.tag:deleteChildrenAction
+        _controller: eztags.admin.controller.tag:removeChildrenAction
         _method: POST

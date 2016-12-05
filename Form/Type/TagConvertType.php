@@ -32,7 +32,7 @@ class TagConvertType extends AbstractType
         $builder
             ->add(
                 'mainTag',
-                'Symfony\Component\Form\Extension\Core\Type\TextType',
+                'Symfony\Component\Form\Extension\Core\Type\HiddenType',
                 array(
                     'constraints' => array(
                         new Constraints\Type(array('type' => 'scalar')),

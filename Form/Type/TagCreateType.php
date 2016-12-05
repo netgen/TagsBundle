@@ -33,7 +33,7 @@ class TagCreateType extends AbstractType
     {
         $builder->add(
             'parentTagId',
-            'Symfony\Component\Form\Extension\Core\Type\TextType'
+            'Symfony\Component\Form\Extension\Core\Type\HiddenType'
         );
     }
 
