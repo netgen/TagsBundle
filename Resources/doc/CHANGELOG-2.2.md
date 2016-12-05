@@ -1,6 +1,12 @@
 Netgen Tags Bundle 2.2 changelog
 ================================
 
+2.2.2 (05.12.2016)
+------------------
+
+* Only activate support for Solr and legacy search engine bundles if they are activated
+* Fix deprecations in YML files
+
 2.2.1 (07.04.2016)
 ------------------
 
