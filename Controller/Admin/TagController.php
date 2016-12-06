@@ -609,8 +609,8 @@ class TagController extends Controller
         if ($request->request->has('MoveTagsButton')) {
             $newParentTag = $this->tagsService->loadTag($request->request->get('ParentTagId'));
 
-            foreach ($tags as $_tag) {
-                $this->tagsService->moveSubtree($_tag, $newParentTag);
+            foreach ($tags as $tagObject) {
+                $this->tagsService->moveSubtree($tagObject, $newParentTag);
             }
 
             $this->addFlash(
@@ -694,8 +694,8 @@ class TagController extends Controller
         }
 
         if ($request->request->has('DeleteTagsButton')) {
-            foreach ($tags as $_tag) {
-                $this->tagsService->deleteTag($_tag);
+            foreach ($tags as $tagObject) {
+                $this->tagsService->deleteTag($tagObject);
             }
 
             $this->addFlash(

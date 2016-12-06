@@ -59,53 +59,36 @@ class TreeController extends Controller
                     ),
                 );
             } else {
-                $synonymCount = $tag === null ?
-                    0 :
-                    $this->tagsService->getTagSynonymCount($tag);
-
-                $result = array(
-                    array(
-                        'id' => $tag->id,
-                        'parent' => '#',
-                        'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
-                        'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
-                        'state' => array(
-                            'opened' => true,
-                        ),
-                        'a_attr' => array(
-                            'href' => $this->generateUrl(
-                                'netgen_tags_admin_tag_show',
-                                array(
-                                    'tagId' => $tag->id,
-                                )
-                            ),
-                        ),
-                    ),
-                );
+                $result = $this->getTagTreeData($tag, $isRoot);
             }
         } else {
             foreach ($childrenTags as $tag) {
-                $synonymCount = $tag === null ?
-                    0 :
-                    $this->tagsService->getTagSynonymCount($tag);
-
-                $result[] = array(
-                    'id' => $tag->id,
-                    'parent' => $tag->parentTagId,
-                    'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
-                    'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
-                    'a_attr' => array(
-                        'href' => $this->generateUrl(
-                            'netgen_tags_admin_tag_show',
-                            array(
-                                'tagId' => $tag->id,
-                            )
-                        ),
-                    ),
-                );
+                $result[] = $this->getTagTreeData($tag, $isRoot);
             }
         }
 
         return (new JsonResponse())->setData($result);
+    }
+
+    protected function getTagTreeData(Tag $tag, $isRoot = false)
+    {
+        $synonymCount = $tag === null ?
+            0 :
+            $this->tagsService->getTagSynonymCount($tag);
+
+        return array(
+            'id' => $tag->id,
+            'parent' => $isRoot ? '#' : $tag->parentTagId,
+            'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
+            'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
+            'a_attr' => array(
+                'href' => $this->generateUrl(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                ),
+            ),
+        );
     }
 }
