@@ -128,7 +128,7 @@ class Tag extends ValueObject
      * Function where list of properties are returned.
      *
      * Override to add dynamic properties
-     * @uses parent::getProperties()
+     * @uses \parent::getProperties()
      *
      * @param array $dynamicProperties
      *
