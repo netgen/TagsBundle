@@ -3,6 +3,10 @@ $('document').ready(function () {
      * This method creates jsTree object on all selected DIVs with appropriate ID.
      */
     $('div[id^=tags-tree-]').jstree({
+        'plugins' : [ "sort" ],
+        'sort' : function (a, b) {
+            return this.get_text(a).toLowerCase() > this.get_text(b).toLowerCase() ? 1 : -1;
+        },
         'core' : {
             'data' : {
                 'url' : function (node) {
@@ -15,7 +19,7 @@ $('document').ready(function () {
                     ;
                 }
             }
-        },
+        }
     });
 
     /**

@@ -34,7 +34,7 @@
         {% for content in latestContent %}
             <tr>
                 <td>{{ content.contentInfo.id }}</td>
-                <td>{{ ez_content_name(content) }}</td>
+                <td><a href="{{ path( "ez_urlalias", {"contentId": content.contentInfo.id} ) }}">{{ ez_content_name(content) }}</a></td>
                 <td>{{ content.contentInfo.modificationDate|date('d.m.Y H:i') }}</td>
                 <td>{{ netgen_tags_content_type_name(content.contentInfo.contentTypeId) }}</td>
             </tr>
