@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
 use eZ\Publish\Core\FieldType\FieldSettings;
+use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
@@ -106,7 +107,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getCustomHandler()
     {
-        $this->tagsService = $this->getMock('Netgen\\TagsBundle\\API\\Repository\\TagsService');
+        $this->tagsService = $this->getMock(TagsService::class);
 
         $fieldType = new TagsType($this->tagsService);
 

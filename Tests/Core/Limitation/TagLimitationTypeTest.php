@@ -8,6 +8,7 @@ use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -278,7 +279,7 @@ class TagLimitationTypeTest extends Base
         $expected = array('1', 2, '3');
         $value = $limitationType->buildValue($expected);
 
-        self::assertInstanceOf('\Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation', $value);
+        self::assertInstanceOf(TagLimitation::class, $value);
         self::assertInternalType('array', $value->limitationValues);
         self::assertEquals($expected, $value->limitationValues);
     }
@@ -384,7 +385,7 @@ class TagLimitationTypeTest extends Base
             $this->getUserMock()
         );
 
-        self::assertInstanceOf('\Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId', $criterion);
+        self::assertInstanceOf(TagId::class, $criterion);
         self::assertInternalType('array', $criterion->value);
         self::assertInternalType('string', $criterion->operator);
         self::assertEquals(Operator::EQ, $criterion->operator);
@@ -404,7 +405,7 @@ class TagLimitationTypeTest extends Base
             $this->getUserMock()
         );
 
-        self::assertInstanceOf('\Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId', $criterion);
+        self::assertInstanceOf(TagId::class, $criterion);
         self::assertInternalType('array', $criterion->value);
         self::assertInternalType('string', $criterion->operator);
         self::assertEquals(Operator::IN, $criterion->operator);

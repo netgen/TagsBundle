@@ -4,12 +4,15 @@ namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
 
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use DateTime;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 /**
  * Test case for Tags Service.
@@ -115,7 +118,7 @@ abstract class TagsBase extends BaseServiceTest
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagCreateStruct', $tagCreateStruct);
+        $this->assertInstanceOf(TagCreateStruct::class, $tagCreateStruct);
 
         $this->assertPropertiesCorrect(
             array(
@@ -136,7 +139,7 @@ abstract class TagsBase extends BaseServiceTest
     {
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\SynonymCreateStruct', $synonymCreateStruct);
+        $this->assertInstanceOf(SynonymCreateStruct::class, $synonymCreateStruct);
 
         $this->assertPropertiesCorrect(
             array(
@@ -157,7 +160,7 @@ abstract class TagsBase extends BaseServiceTest
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\TagUpdateStruct', $tagUpdateStruct);
+        $this->assertInstanceOf(TagUpdateStruct::class, $tagUpdateStruct);
 
         $this->assertPropertiesCorrect(
             array(
@@ -177,7 +180,7 @@ abstract class TagsBase extends BaseServiceTest
     {
         $tag = $this->tagsService->loadTag(40);
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
+        $this->assertInstanceOf(Tag::class, $tag);
 
         $this->assertPropertiesCorrect(
             array(
@@ -227,7 +230,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $tag = $this->tagsService->loadTagByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
+        $this->assertInstanceOf(Tag::class, $tag);
 
         $this->assertPropertiesCorrect(
             array(
@@ -275,7 +278,7 @@ abstract class TagsBase extends BaseServiceTest
     {
         $tag = $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', array('eng-GB'));
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
+        $this->assertInstanceOf(Tag::class, $tag);
 
         $this->assertPropertiesCorrect(
             array(
@@ -329,7 +332,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(6, $children);
 
         foreach ($children as $child) {
-            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $child);
+            $this->assertInstanceOf(Tag::class, $child);
             $this->assertEquals($tag->id, $child->parentTagId);
         }
     }
@@ -346,7 +349,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(9, $children);
 
         foreach ($children as $child) {
-            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $child);
+            $this->assertInstanceOf(Tag::class, $child);
             $this->assertEquals(0, $child->parentTagId);
         }
     }
@@ -417,7 +420,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(2, $tags);
 
         foreach ($tags as $tag) {
-            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $tag);
+            $this->assertInstanceOf(Tag::class, $tag);
             $this->assertEquals(array('eng-GB' => 'eztags'), $tag->keywords);
         }
     }
@@ -468,7 +471,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(2, $synonyms);
 
         foreach ($synonyms as $synonym) {
-            $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $synonym);
+            $this->assertInstanceOf(Tag::class, $synonym);
             $this->assertEquals($tag->id, $synonym->mainTagId);
         }
     }
@@ -667,7 +670,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $createdTag = $this->tagsService->createTag($createStruct);
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $createdTag);
+        $this->assertInstanceOf(Tag::class, $createdTag);
 
         $this->assertPropertiesCorrect(
             array(
@@ -702,7 +705,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $createdTag = $this->tagsService->createTag($createStruct);
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $createdTag);
+        $this->assertInstanceOf(Tag::class, $createdTag);
 
         $this->assertPropertiesCorrect(
             array(
@@ -800,7 +803,7 @@ abstract class TagsBase extends BaseServiceTest
             $updateStruct
         );
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $updatedTag);
+        $this->assertInstanceOf(Tag::class, $updatedTag);
 
         $this->assertPropertiesCorrect(
             array(
@@ -968,7 +971,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $createdSynonym = $this->tagsService->addSynonym($createStruct);
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $createdSynonym);
+        $this->assertInstanceOf(Tag::class, $createdSynonym);
 
         $this->assertPropertiesCorrect(
             array(
@@ -1058,7 +1061,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $convertedSynonym = $this->tagsService->convertToSynonym($tag, $mainTag);
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $convertedSynonym);
+        $this->assertInstanceOf(Tag::class, $convertedSynonym);
 
         $this->assertPropertiesCorrect(
             array(
@@ -1459,7 +1462,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $movedTag = $this->tagsService->moveSubtree($tag, $targetParentTag);
 
-        $this->assertInstanceOf('\\Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag', $movedTag);
+        $this->assertInstanceOf(Tag::class, $movedTag);
 
         $this->assertPropertiesCorrect(
             array(

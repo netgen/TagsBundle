@@ -141,7 +141,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertFieldDataLoadedCorrect(Field $field)
     {
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
+            Value::class,
             $field->value
         );
 
