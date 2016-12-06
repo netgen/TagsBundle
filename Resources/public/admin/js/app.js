@@ -1,55 +1,89 @@
 $('document').ready(function () {
     /**
-     * This method creates jsTree object on all selected DIVs with appropriate ID.
+     * This method creates jsTree object for each DIV element with appropriate ID prefix.
      */
-    $('div[id^=tags-tree-]').jstree({
-        'plugins' : [ "sort", "contextmenu" ],
-        'sort' : function (a, b) {
-            return this.get_text(a).toLowerCase() > this.get_text(b).toLowerCase() ? 1 : -1;
-        },
-        'contextmenu': {
-            'select_node': false,
-            'items': tagMenu
-        },
-        'core' : {
-            'data' : {
-                'url' : function (node) {
-                    var route = $('div[id^=tags-tree-]').data('path');
-                    var rootId = $('div[id^=tags-tree-]').data('rootid');
+    var tagsTreeContainers = $('div[id^=tags-tree-]');
 
-                    return route
-                        .replace("_tagId_", node.id)
-                        .replace("#", rootId + "/true")
-                    ;
+    $.each(tagsTreeContainers, function(index, value) {
+        $(value).jstree({
+            'plugins': ["sort", "contextmenu"],
+            'sort': function (a, b) {
+                return this.get_text(a).toLowerCase() > this.get_text(b).toLowerCase() ? 1 : -1;
+            },
+            'contextmenu': {
+                'select_node': false,
+                'items': $(value).attr('id').replace('tags-tree-', '') == 'main' ? tagTreeContextMenu : ''
+            },
+            'core': {
+                'data': {
+                    'url': function (node) {
+                        var route = $('div[id^=tags-tree-]').data('path');
+                        var rootId = $('div[id^=tags-tree-]').data('rootid');
+
+                        return route
+                            .replace("_tagId_", node.id)
+                            .replace("#", rootId + "/true")
+                            ;
+                    }
                 }
             }
-        }
+        });
     });
 
     /**
      * Builds context menu for right click on a tag in tags tree.
      *
      * @param node
-     * @returns array
      * */
-    function tagMenu(node) {
-        return {
-            createItem: {
+    function tagTreeContextMenu(node) {
+        var menu = {
+            addChild: {
                 "label": node.data.add_child.text,
-                "action": function() {
+                "action": function () {
                     window.location.href = node.data.add_child.url;
-                },
-                "_class": "class"
-            },
-            renameItem: {
-                "label": "Rename Branch",
-                "action": function(obj) { this.rename(obj); }
-            },
-            deleteItem: {
-                "label": "Remove Branch",
-                "action": function(obj) { this.remove(obj); }
+                }
             }
         };
+
+        if(node.parent != '#') {
+            menu.editTag = {
+                "label": node.data.update_tag.text,
+                "action": function () {
+                    window.location.href = node.data.update_tag.url;
+                }
+            };
+
+            menu.deleteTag = {
+                "label": node.data.delete_tag.text,
+                "action": function () {
+                    window.location.href = node.data.delete_tag.url;
+                }
+            };
+
+            menu.mergeTag = {
+                "label": node.data.merge_tag.text,
+                "action": function () {
+                    window.location.href = node.data.merge_tag.url;
+                }
+            };
+
+            menu.addSynonym = {
+                "separator_before": true,
+                "label": node.data.add_synonym.text,
+                "action": function () {
+                    window.location.href = node.data.add_synonym.url;
+                }
+            };
+
+            menu.convertTag = {
+                "label": node.data.convert_tag.text,
+                "action": function () {
+                    window.location.href = node.data.convert_tag.url;
+                }
+            }
+        }
+
+        return menu;
     }
 
     /**

@@ -138,15 +138,67 @@ class TreeController extends Controller
                         'eztags_admin'
                     ),
                 ),
-                'edit_tag' => array(
+                'update_tag' => array(
                     'url' => $this->generateUrl(
                         'netgen_tags_admin_tag_update_select',
                         array(
-                            'parentId' => $tag->id,
+                            'tagId' => $tag->id,
                         )
                     ),
                     'text' => $this->translator->trans(
-                        'tag.tree.edit_tag',
+                        'tag.tree.update_tag',
+                        array(),
+                        'eztags_admin'
+                    ),
+                ),
+                'delete_tag' => array(
+                    'url' => $this->generateUrl(
+                        'netgen_tags_admin_tag_delete',
+                        array(
+                            'tagId' => $tag->id,
+                        )
+                    ),
+                    'text' => $this->translator->trans(
+                        'tag.tree.delete_tag',
+                        array(),
+                        'eztags_admin'
+                    ),
+                ),
+                'merge_tag' => array(
+                    'url' => $this->generateUrl(
+                        'netgen_tags_admin_tag_merge',
+                        array(
+                            'tagId' => $tag->id,
+                        )
+                    ),
+                    'text' => $this->translator->trans(
+                        'tag.tree.merge_tag',
+                        array(),
+                        'eztags_admin'
+                    ),
+                ),
+                'add_synonym' => array(
+                    'url' => $this->generateUrl(
+                        'netgen_tags_admin_synonym_add_select',
+                        array(
+                            'mainTagId' => $tag->id,
+                        )
+                    ),
+                    'text' => $this->translator->trans(
+                        'tag.tree.add_synonym',
+                        array(),
+                        'eztags_admin'
+                    ),
+                ),
+                'convert_tag' => array(
+                    'url' => $this->generateUrl(
+                        'netgen_tags_admin_tag_convert',
+                        array(
+                            'tagId' => $tag->id,
+                        )
+                    ),
+                    'text' => $this->translator->trans(
+                        'tag.tree.convert_tag',
                         array(),
                         'eztags_admin'
                     ),
