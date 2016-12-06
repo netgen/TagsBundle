@@ -36,7 +36,7 @@
     {# Show children tags #}
     <h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
 
-    <a href="{{ path('netgen_tags_admin_tag_add_select', {'tagId': 0}) }}" class="button">{{ 'tag.add.title'|trans }}</a>
+    <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': 0}) }}" class="button">{{ 'tag.add.title'|trans }}</a>
 
     {% if childrenTags is empty %}
         <p>{{  'tag.children_tags.no_children'|trans }}</p>

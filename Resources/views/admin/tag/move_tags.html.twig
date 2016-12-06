@@ -29,10 +29,20 @@
         </table>
 
         <label>{{ 'tag.parent'|trans }}</label>
-        <input type="text" name="ParentTagId" value="{{ parentTag.id }}"/>
+        <input type="hidden" name="ParentTagId" id="ParentTagId" value="{{ parentTag.id }}"/>
+        <span id="parentTag">({{ 'tag.main.no'|trans }})</span>
+        <input type="button" class="modal-tree-button" data-modalTreeId="move" value="{{ 'tag.parent.select'|trans }}"/>
 
         <input type="submit" name="MoveTagsButton" value="{{ 'tag.button.save'|trans }}"/>
     </form>
 
     <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}" class="button">{{ 'tag.button.discard'|trans }}</a>
+
+    {# Render tags tree as a modal for selecting parent tag. #}
+    {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
+        'tagsTreeId': 'move',
+        'fieldId': 'ParentTagId',
+        'spanId': 'parentTag',
+        'noValueText': '(' ~ 'tag.main.no'|trans ~ ')',
+    } %}
 {% endblock %}
