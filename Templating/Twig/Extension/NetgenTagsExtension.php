@@ -40,7 +40,7 @@ class NetgenTagsExtension extends Twig_Extension
      */
     public function getName()
     {
-        return 'netgen_tags';
+        return self::class;
     }
 
     /**
