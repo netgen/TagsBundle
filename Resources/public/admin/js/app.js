@@ -6,7 +6,7 @@ $('document').ready(function () {
 
     $.each(tagsTreeContainers, function(index, value) {
         $(value).jstree({
-            'plugins': ["sort", "contextmenu"],
+            'plugins': ["sort", "contextmenu", "ui"],
             'sort': function (a, b) {
                 return this.get_text(a).toLowerCase() > this.get_text(b).toLowerCase() ? 1 : -1;
             },
@@ -102,17 +102,17 @@ $('document').ready(function () {
             }
 
             else {
-                $('#' + $(event.target).data('fieldid')).val(data.instance.get_node(data.selected[0]).id);
+                $('.ng-tags-app #' + $(event.target).data('fieldid')).val(data.instance.get_node(data.selected[0]).id);
 
                 if (data.instance.get_node(data.selected[0]).text == undefined || data.instance.get_node(data.selected[0]).id == '0') {
-                    $('#' + $(event.target).data('spanid')).html($(event.target).data('novaluetext'));
+                    $('.ng-tags-app #' + $(event.target).data('spanid')).html($(event.target).data('novaluetext'));
                 }
 
                 else {
-                    $('#' + $(event.target).data('spanid')).html(data.instance.get_node(data.selected[0]).text);
+                    $('.ng-tags-app #' + $(event.target).data('spanid')).html(data.instance.get_node(data.selected[0]).text);
                 }
 
-                $('#modal-tree-' + tagsTreeId).hide();
+                $('.ng-tags-app #modal-tree-' + tagsTreeId).hide();
             }
         }
     );
@@ -120,10 +120,10 @@ $('document').ready(function () {
     /**
      * Opens modal when modal open button is clicked.
      */
-    $('.modal-tree-button').click(function() {
+    $('.ng-tags-app .modal-tree-button').click(function() {
         var modalTreeId = $(this).data("modaltreeid");
 
-        $('#modal-tree-' + modalTreeId).show();
+        $('.ng-tags-app #modal-tree-' + modalTreeId).show();
     });
 
     /**
@@ -132,7 +132,7 @@ $('document').ready(function () {
     $('.modal .close').click(function() {
         var modalTreeId = $(this).data("modaltreeid");
 
-        $('#modal-tree-' + modalTreeId).hide();
+        $('.ng-tags-app #modal-tree-' + modalTreeId).hide();
     });
 
     /**
