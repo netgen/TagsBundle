@@ -33,34 +33,6 @@
         </tbody>
     </table>
 
-    {# Show children tags #}
-    <h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
-
-    <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': 0}) }}" class="button">{{ 'tag.add.title'|trans }}</a>
-
-    {% if childrenTags is empty %}
-        <p>{{  'tag.children_tags.no_children'|trans }}</p>
-    {% else %}
-
-        <table>
-            <thead>
-            <tr>
-                <th>{{ 'tag.table.tag_id'|trans }}</th>
-                <th>{{ 'tag.table.tag_name'|trans }}</th>
-                <th>{{ 'tag.translations.title'|trans }}</th>
-                <th>{{ 'tag.table.modified'|trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for tag in childrenTags %}
-                <tr>
-                    <td>{{ tag.id }}</td>
-                    <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
-                    <td>{{ tag.keywords|keys|join(', ') }}</td>
-                    <td>{{ tag.modificationDate|date('d/m/Y h:i') }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+    {# Include children table with form #}
+    {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'childrenTags': childrenTags} %}
 {% endblock %}

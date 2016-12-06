@@ -18,7 +18,7 @@
     <h3>{{ 'tag.latest.title'|trans }}</h3>
 
     {% if latestContent is empty %}
-    <p>{{  'tag.latest_content.no_content'|trans }}</p>
+        <p>{{  'tag.latest_content.no_content'|trans }}</p>
     {% else %}
 
     <table>
@@ -44,5 +44,6 @@
 
     {% endif %}
 
+    {# Include translations table with form #}
     {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
 {% endblock %}
