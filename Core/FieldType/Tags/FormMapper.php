@@ -3,10 +3,13 @@
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use EzSystems\RepositoryForms\Data\FieldDefinitionData;
-use EzSystems\RepositoryForms\FieldType\FieldTypeFormMapperInterface;
+use EzSystems\RepositoryForms\FieldType\FieldDefinitionFormMapperInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormInterface;
 
-class FormMapper implements FieldTypeFormMapperInterface
+class FormMapper implements FieldDefinitionFormMapperInterface
 {
     /**
      * @var array
@@ -27,12 +30,12 @@ class FormMapper implements FieldTypeFormMapperInterface
     {
         $editViewChoices = array();
         foreach ($this->availableEditViews as $editView) {
-            $editViewChoices[$editView['identifier']] = $editView['name'];
+            $editViewChoices[$editView['name']] = $editView['identifier'];
         }
 
         $fieldDefinitionForm
             ->add(
-                'subTreeLimit', 'integer', array(
+                'subTreeLimit', IntegerType::class, array(
                     'required' => false,
                     'property_path' => 'fieldSettings[subTreeLimit]',
                     'label' => 'field_definition.eztags.settings.subtree_limit',
@@ -40,14 +43,14 @@ class FormMapper implements FieldTypeFormMapperInterface
                 )
             )
             ->add(
-                'hideRootTag', 'checkbox', array(
+                'hideRootTag', CheckboxType::class, array(
                     'required' => false,
                     'property_path' => 'fieldSettings[hideRootTag]',
                     'label' => 'field_definition.eztags.settings.hide_root_tag',
                 )
             )
             ->add(
-                'maxTags', 'integer', array(
+                'maxTags', IntegerType::class, array(
                     'required' => false,
                     'property_path' => 'fieldSettings[maxTags]',
                     'label' => 'field_definition.eztags.settings.max_tags',
@@ -58,8 +61,9 @@ class FormMapper implements FieldTypeFormMapperInterface
                 )
             )
             ->add(
-                'editView', 'choice', array(
+                'editView', ChoiceType::class, array(
                     'choices' => $editViewChoices,
+                    'choices_as_values' => true,
                     'required' => true,
                     'property_path' => 'fieldSettings[editView]',
                     'label' => 'field_definition.eztags.settings.edit_view',

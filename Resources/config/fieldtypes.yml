@@ -30,4 +30,4 @@ services:
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:
-            - { name: ez.fieldType.formMapper, fieldType: eztags }
+            - { name: ez.fieldFormMapper.definition, fieldType: eztags }
