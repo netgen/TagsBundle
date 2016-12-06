@@ -1,6 +1,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block tags_tree %}
+    {# Renders a tree inside modal window, for selecting tag inside forms. #}
     <div id="modal-tree-{{ tagsTreeId }}" class="modal">
         <div class="content">
             <span class="close" data-modalTreeId="{{ tagsTreeId }}">x</span>

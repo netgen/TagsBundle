@@ -1,4 +1,7 @@
 $('document').ready(function () {
+    /**
+     * This method creates jsTree object on all selected DIVs with appropriate ID.
+     */
     $('div[id^=tags-tree-]').jstree({
         'core' : {
             'data' : {
@@ -15,6 +18,12 @@ $('document').ready(function () {
         },
     });
 
+    /**
+     * This method is called when user clicks on a node in tree.
+     * If it's a main tree, it redirects user to a route provided in selected node.
+     * Else, it puts selected node's ID in a form field with provided ID.
+     * And also it puts selected node's text in a span field with provided ID:
+     */
     $('div[id^=tags-tree-]').on(
         'changed.jstree',
         function (event, data) {
@@ -40,18 +49,27 @@ $('document').ready(function () {
         }
     );
 
+    /**
+     * Opens modal when modal open button is clicked.
+     */
     $('.modal-tree-button').click(function() {
         var modalTreeId = $(this).data("modaltreeid");
 
         $('#modal-tree-' + modalTreeId).show();
     });
 
+    /**
+     * It closes modal when Close span inside modal is clicked.
+     */
     $('.modal .close').click(function() {
         var modalTreeId = $(this).data("modaltreeid");
 
         $('#modal-tree-' + modalTreeId).hide();
     });
 
+    /**
+     * It closes modal when user clicks anywhere outside modal window.
+     */
     $(window).click(function(event) {
         if($(event.target).attr('class') == 'modal') {
             $(event.target).hide();

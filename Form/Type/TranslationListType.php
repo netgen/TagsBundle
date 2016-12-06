@@ -25,7 +25,7 @@ class TranslationListType extends AbstractType
     }
 
     /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -74,7 +74,7 @@ class TranslationListType extends AbstractType
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getParent()
     {

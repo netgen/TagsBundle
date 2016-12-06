@@ -6,15 +6,18 @@
     <h2>{{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}</h2>
     <p>{{ 'tag.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.tag_id'|trans }}: {{ tag.id }})</p>
 
+    {# Show success and error messages from flash messages, if there is any #}
     {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
     {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}
 
+    {# Show tag action buttons #}
     <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="button">{{ 'tag.edit.title'|trans }}</a>
     <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="button">{{ 'tag.delete.title'|trans }}</a>
     <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="button">{{ 'tag.merge.title'|trans }}</a>
     <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="button">{{ 'synonym.add.title'|trans }}</a>
     <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="button">{{ 'tag.convert.title'|trans }}</a>
 
+    {# Show latest content connected with this tag #}
     <h3>{{ 'tag.latest.title'|trans }}</h3>
 
     {% if latestContent is empty %}
@@ -46,6 +49,7 @@
 
     {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
 
+    {# Show tag synonyms #}
     <h3>{{ 'tag.synonyms.title'|trans }} ({{ synonyms|length }})</h3>
 
     {% if synonyms is empty %}
@@ -72,6 +76,7 @@
     </table>
     {% endif %}
 
+    {# Show tag children with form for moving or removing multiple children. #}
     <h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
 
     <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag.id}) }}" class="button">{{ 'tag.add.title'|trans }}</a>
@@ -112,6 +117,7 @@
     </form>
     {% endif %}
 
+    {# Show subtree limitations #}
     <h3>{{ 'tag.subtree_limitations.title'|trans }} ({{ subTreeLimitations|length }})</h3>
 
     {% if subTreeLimitations is empty %}

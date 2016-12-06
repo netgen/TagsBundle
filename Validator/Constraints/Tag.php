@@ -11,6 +11,9 @@ class Tag extends Constraint
      */
     public $message = 'eztags.tag.no_tag';
 
+    /**
+     * @var string
+     */
     public $synonymMessage = 'eztags.tag.synonym';
 
     /**

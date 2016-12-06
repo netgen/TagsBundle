@@ -3,6 +3,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
+    {# Show form for adding new synonyms. #}
     <h2>{{ 'tag.add.title'|trans }}</h2>
 
     {{ form_start(form) }}
@@ -15,6 +16,7 @@
     <input type="submit"/>
     {{ form_end(form) }}
 
+    {# Render tags tree as a modal for selecting parent tag. #}
     {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
         'tagsTreeId': 'add',
         'fieldId': 'tag_create_parentTagId',

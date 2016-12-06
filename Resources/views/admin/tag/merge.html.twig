@@ -3,6 +3,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
+    {# Show form for merging two tags. #}
     <h2>{{ 'tag.merge.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     <p>{{ 'tag.merge.message'|trans }}</p>
@@ -18,6 +19,7 @@
     <input type="button" value="{{ 'tag.button.discard'|trans }}"/>
     {{ form_end(form) }}
 
+    {# Render tags tree as a modal for selecting main tag. #}
     {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
         'tagsTreeId': 'merge',
         'fieldId': 'tag_merge_mainTag',

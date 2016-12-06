@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TagUpdateType extends AbstractType
 {
     /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -38,8 +38,7 @@ class TagUpdateType extends AbstractType
     }
 
     /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -47,7 +46,7 @@ class TagUpdateType extends AbstractType
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getParent()
     {

@@ -25,6 +25,10 @@ class TreeController extends Controller
     }
 
     /**
+     * Returns JSON string containing all children tags for given tag.
+     * It is called in AJAX request from jsTree Javascript plugin to render tree with tags.
+     * It supports lazy loading; when a tag is clicked in a tree, it calls this method to fetch it's children.
+     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null $tag
      * @param bool $isRoot
      *

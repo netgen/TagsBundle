@@ -37,6 +37,8 @@ class SynonymController extends Controller
     }
 
     /**
+     * Setter method for array with languages.
+     *
      * @param array|null $languages
      */
     public function setLanguages(array $languages = null)
@@ -45,6 +47,9 @@ class SynonymController extends Controller
     }
 
     /**
+     * This method is called for add new synonym action without selected language.
+     * It renders a form to select language for the keyword of new synonym.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int|string $mainTagId
      *
@@ -81,6 +86,9 @@ class SynonymController extends Controller
     }
 
     /**
+     * This method renders view with a form for adding new synonym.
+     * After form is being submitted, it stores new synonym and redirects to it.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int|string $mainTagId
      * @param string $languageCode

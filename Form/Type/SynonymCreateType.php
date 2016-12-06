@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SynonymCreateType extends AbstractType
 {
     /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -25,7 +25,7 @@ class SynonymCreateType extends AbstractType
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getParent()
     {

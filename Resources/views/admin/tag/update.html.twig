@@ -3,6 +3,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
+    {# Show form for updating a tag. #}
     <h2>{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     {{ form_start(form) }}

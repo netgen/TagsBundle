@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TagCreateType extends AbstractType
 {
     /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -26,8 +26,7 @@ class TagCreateType extends AbstractType
     }
 
     /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,7 +37,7 @@ class TagCreateType extends AbstractType
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getParent()
     {

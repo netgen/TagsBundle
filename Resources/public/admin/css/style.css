@@ -21,7 +21,7 @@
     width: 20%; /* Could be more or less, depending on screen size */
 }
 
-/* The Close Button */
+/* The Modal Close Button */
 .ng-tags-app .modal .close {
     color: #aaa;
     float: right;

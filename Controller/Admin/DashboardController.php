@@ -22,6 +22,11 @@ class DashboardController extends Controller
         $this->tagsService = $tagsService;
     }
 
+    /**
+     * This method renders admin dashboard.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction()
     {
         $tags = $this->tagsService->loadTagChildren(null, 0, 10);

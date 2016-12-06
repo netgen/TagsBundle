@@ -1,12 +1,13 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block tags_tree %}
-<div
-        id="tags-tree-{{ tagsTreeId }}"
-        data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
-        data-rootId="{% if rootId is defined %}{{ rootId }}{% else %}0{% endif %}"
-        {% if spanId is defined %}data-spanId="{{ spanId }}"{% endif %}
-        {% if fieldId is defined %}data-fieldId="{{ fieldId }}"{% endif %}
-        {% if noValueText is defined %}data-noValueText="{{ noValueText }}"{% endif %}
-></div>
+    {# Renders tags tree #}
+    <div
+            id="tags-tree-{{ tagsTreeId }}"
+            data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
+            data-rootId="{% if rootId is defined %}{{ rootId }}{% else %}0{% endif %}"
+            {% if spanId is defined %}data-spanId="{{ spanId }}"{% endif %}
+            {% if fieldId is defined %}data-fieldId="{{ fieldId }}"{% endif %}
+            {% if noValueText is defined %}data-noValueText="{{ noValueText }}"{% endif %}
+    ></div>
 {% endblock %}

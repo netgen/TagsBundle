@@ -9,15 +9,18 @@
     <meta name="theme-color" content="#02a6f2">
 
     <title>
+        {# Title block; it can be overriden by other templates extending this one #}
         {% block title %}
             {{ 'pagelayout.title'|trans }}
         {% endblock %}
     </title>
 
+    {# Block which includes stylesheets template, where all stylesheet files are called. #}
     {% block stylesheets %}
         {% include 'NetgenTagsBundle:admin:stylesheets.html.twig' %}
     {% endblock %}
 
+    {# Block which includes javascripts template, where all javascript files are called. #}
     {% block javascripts %}
         {% include 'NetgenTagsBundle:admin:javascripts.html.twig' %}
     {% endblock %}
@@ -27,11 +30,13 @@
     <div class="ng-tags-container">
         <div class="tags-sidebar">
             <div class="main-menu">
+                {# Rendering tags tree as main menu #}
                 {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {'tagsTreeId': 'main'} %}
             </div>
         </div>
 
         <div class="tags-content">
+            {# This is where all content goes. This block is overriden by templates extending this one. #}
             {% block content %}{% endblock %}
         </div>
     </div>

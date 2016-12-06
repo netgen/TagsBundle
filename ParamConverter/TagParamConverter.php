@@ -26,7 +26,7 @@ class TagParamConverter implements ParamConverterInterface
     }
 
     /**
-     * Stores the object in the request.
+     * For given tag ID in the request, it loads a tag and passes it as a parameter to called action mathod.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request The request
      * @param \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration Contains the name, class and options of the object

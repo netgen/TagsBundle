@@ -3,6 +3,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
+    {# Show form for converting a tag to synonym. #}
     <h2>{{ 'tag.convert.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     {{ form_start(form) }}
@@ -16,6 +17,7 @@
     <input type="button" value="{{ 'tag.button.discard'|trans }}"/>
     {{ form_end(form) }}
 
+    {# Render tags tree as a modal for selecting main tag. #}
     {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
         'tagsTreeId': 'convert',
         'fieldId': 'tag_convert_mainTag',

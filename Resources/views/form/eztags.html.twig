@@ -1,27 +1,28 @@
 {% trans_default_domain 'eztags' %}
 
 {% block translation_list_widget %}
-<div {{ block('widget_container_attributes') }}>
-    {% if tag is defined and tag %}
-        {% set start = true %}
-        {{ 'tag.translation.edit'|trans }}
-        <div class="edit_translation">
-    {% else %}
-        {{ 'tag.translation.add'|trans }}
-        <div class="add_translation">
-    {% endif %}
-
-    {%- for child in form %}
-        {% if tag is defined and tag and child.vars.value not in tag.languageCodes and start == true %}
-            </div>
+    {# Custom form for selecting language when adding or updating tags or synonyms. #}
+    <div {{ block('widget_container_attributes') }}>
+        {% if tag is defined and tag %}
+            {% set start = true %}
+            {{ 'tag.translation.edit'|trans }}
+            <div class="edit_translation">
+        {% else %}
             {{ 'tag.translation.add'|trans }}
             <div class="add_translation">
-            {% set start = false %}
         {% endif %}
 
-        {{- form_widget(child) -}}
-        {{- form_label(child, null, {}) -}}
-    {% endfor -%}
+        {%- for child in form %}
+            {% if tag is defined and tag and child.vars.value not in tag.languageCodes and start == true %}
+                </div>
+                {{ 'tag.translation.add'|trans }}
+                <div class="add_translation">
+                {% set start = false %}
+            {% endif %}
+
+            {{- form_widget(child) -}}
+            {{- form_label(child, null, {}) -}}
+        {% endfor -%}
+        </div>
     </div>
-</div>
 {% endblock %}

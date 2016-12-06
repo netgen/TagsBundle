@@ -1,5 +1,6 @@
 {% for message in app.session.flashBag.get('errorMessages') %}
-<div class="error_messages_container" style="background: indianred">
-    {{ message }}
-</div>
+    {# Show error messages from flash messages, if any #}
+    <div class="error_messages_container" style="background: indianred">
+        {{ message }}
+    </div>
 {% endfor %}

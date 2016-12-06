@@ -58,6 +58,8 @@ class TagController extends Controller
     }
 
     /**
+     * Setter method for array with languages.
+     *
      * @param array|null $languages
      */
     public function setLanguages(array $languages = null)
@@ -66,6 +68,8 @@ class TagController extends Controller
     }
 
     /**
+     * Rendering a view which shows tag or synonym details.
+     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -94,8 +98,11 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called for add new tag action without selected language.
+     * It renders a form to select language for the keyword of new tag.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $parentId
+     * @param int|string $parentId
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -130,8 +137,11 @@ class TagController extends Controller
     }
 
     /**
+     * This method renders view with a form for adding new tag.
+     * After form is being submitted, it stores new tag and redirects to it.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $languageCode
+     * @param string $languageCode
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -186,6 +196,9 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called for update tag or synonym action without selected language.
+     * It renders a form to select language for which the user wants to update keyword of the tag or synonym.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -226,6 +239,9 @@ class TagController extends Controller
     }
 
     /**
+     * This method renders view with a form for updating a tag or synonym.
+     * After form is being submitted, it updates the tag or synonym and redirects to it.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param string $languageCode
@@ -287,6 +303,10 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called for delete tag or synonym action.
+     * It shows a confirmation view.
+     * If form has been submitted, it deletes the tag or synonym and redirects to dashboard.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -326,6 +346,10 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called for merge tag action.
+     * It shows a confirmation view.
+     * If form has been submitted, it merges tags and redirects to source tag.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -372,6 +396,10 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called for convert tag to synonym action.
+     * It shows a confirmation view.
+     * If form has been submitted, it converts the tag to synonym and redirects to newly created synonym.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -418,6 +446,10 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called from a form with each tag or synonym's translations table.
+     * An action is defined with one of the three buttons in form which can be pressed.
+     * It can remove selected translation, set it as main language, or set AlwaysAvailable property of a tag.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -526,6 +558,10 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called from a form containing all children tags of a tag.
+     * It shows a confirmation view.
+     * If form has been submitted, it moves selected children and all its subchildren tags to a new parent.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -593,6 +629,10 @@ class TagController extends Controller
     }
 
     /**
+     * This method is called from a form containing all children tags of a tag.
+     * It shows a confirmation view.
+     * If form has been submitted, it deletes selected children tags.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
@@ -687,10 +727,12 @@ class TagController extends Controller
     }
 
     /**
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param $limit
+     * Return latest content using eZ search service.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param int $limit
+     *
+     * @return array
      */
     protected function getLatestContent(Tag $tag, $limit)
     {

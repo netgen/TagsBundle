@@ -5,6 +5,7 @@
 {% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
 
 {% block content %}
+    {# Show form for selecting translation when adding or updating synonym. #}
     {% if tag is defined %}
         <h2>{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
     {% else %}

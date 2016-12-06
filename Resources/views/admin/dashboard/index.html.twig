@@ -3,9 +3,11 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
+    {# Show success and error messages from flash messages, if there is any #}
     {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
     {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}
 
+    {# Show latest tags #}
     <table>
         <thead>
             <tr>
@@ -31,6 +33,7 @@
         </tbody>
     </table>
 
+    {# Show children tags #}
     <h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
 
     <a href="{{ path('netgen_tags_admin_tag_add_select', {'tagId': 0}) }}" class="button">{{ 'tag.add.title'|trans }}</a>
