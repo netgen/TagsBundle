@@ -155,7 +155,7 @@ class Type extends FieldType
             if (!$tag instanceof Tag) {
                 throw new InvalidArgumentType(
                     "$tag",
-                    'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
+                    Value::class,
                     $tag
                 );
             }

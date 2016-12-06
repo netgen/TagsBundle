@@ -3,7 +3,9 @@
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
@@ -100,7 +102,7 @@ class MapperTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo',
+            TagInfo::class,
             $tag
         );
 
@@ -132,7 +134,7 @@ class MapperTest extends TestCase
         $i = 0;
         foreach ($tags as $tag) {
             $this->assertInstanceOf(
-                'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+                Tag::class,
                 $tag
             );
 
