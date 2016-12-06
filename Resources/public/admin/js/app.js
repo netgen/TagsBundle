@@ -35,10 +35,9 @@ $('document').ready(function () {
     function tagMenu(node) {
         return {
             createItem: {
-                "label": "Add child tag",
+                "label": node.data.add_child.text,
                 "action": function() {
-                    console.log(node);
-                    alert(node.parent);
+                    window.location.href = node.data.add_child.url;
                 },
                 "_class": "class"
             },

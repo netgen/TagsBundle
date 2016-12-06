@@ -101,3 +101,7 @@ tag.children: 'Children count'
 tag.parent: 'Parent tag'
 tag.parent.no: 'no parent'
 tag.parent.select: 'Select parent'
+
+tag.tree.top_level: 'Top level tags'
+tag.tree.add_child: 'Add child tag'
+tag.tree.update_tag: 'Edit tag'

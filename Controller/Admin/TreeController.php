@@ -6,6 +6,7 @@ use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class TreeController extends Controller
 {
@@ -15,13 +16,20 @@ class TreeController extends Controller
     protected $tagsService;
 
     /**
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * TreeController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      */
-    public function __construct(TagsService $tagsService)
+    public function __construct(TagsService $tagsService, TranslatorInterface $translator)
     {
         $this->tagsService = $tagsService;
+        $this->translator = $translator;
     }
 
     /**
@@ -46,7 +54,11 @@ class TreeController extends Controller
                     array(
                         'id' => '0',
                         'parent' => '#',
-                        'text' => 'Top level tags',
+                        'text' => $this->translator->trans(
+                            'tag.tree.top_level',
+                            array(),
+                            'eztags_admin'
+                        ),
                         'children' => true,
                         'state' => array(
                             'opened' => true,
@@ -54,6 +66,21 @@ class TreeController extends Controller
                         'a_attr' => array(
                             'href' => $this->generateUrl(
                                 'netgen_tags_admin_dashboard_index'
+                            ),
+                        ),
+                        'data' => array(
+                            'add_child' => array(
+                                'url' => $this->generateUrl(
+                                    'netgen_tags_admin_tag_add_select',
+                                    array(
+                                        'parentId' => 0,
+                                    )
+                                ),
+                                'text' => $this->translator->trans(
+                                    'tag.tree.add_child',
+                                    array(),
+                                    'eztags_admin'
+                                ),
                             ),
                         ),
                     ),
@@ -70,6 +97,14 @@ class TreeController extends Controller
         return (new JsonResponse())->setData($result);
     }
 
+    /**
+     * Generates data, for given tag, which will be converted to JSON:.
+     *
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param bool $isRoot
+     *
+     * @return array
+     */
     protected function getTagTreeData(Tag $tag, $isRoot = false)
     {
         $synonymCount = $tag === null ?
@@ -87,6 +122,34 @@ class TreeController extends Controller
                     array(
                         'tagId' => $tag->id,
                     )
+                ),
+            ),
+            'data' => array(
+                'add_child' => array(
+                    'url' => $this->generateUrl(
+                        'netgen_tags_admin_tag_add_select',
+                        array(
+                            'parentId' => $tag->id,
+                        )
+                    ),
+                    'text' => $this->translator->trans(
+                        'tag.tree.add_child',
+                        array(),
+                        'eztags_admin'
+                    ),
+                ),
+                'edit_tag' => array(
+                    'url' => $this->generateUrl(
+                        'netgen_tags_admin_tag_update_select',
+                        array(
+                            'parentId' => $tag->id,
+                        )
+                    ),
+                    'text' => $this->translator->trans(
+                        'tag.tree.edit_tag',
+                        array(),
+                        'eztags_admin'
+                    ),
                 ),
             ),
         );
