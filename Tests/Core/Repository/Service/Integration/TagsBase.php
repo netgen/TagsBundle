@@ -123,7 +123,7 @@ abstract class TagsBase extends BaseServiceTest
                 'mainLanguageCode' => 'eng-GB',
                 'remoteId' => null,
                 'alwaysAvailable' => true,
-                'keywords' => array(),
+                'keywords' => null,
             ),
             $tagCreateStruct
         );
@@ -161,7 +161,7 @@ abstract class TagsBase extends BaseServiceTest
 
         $this->assertPropertiesCorrect(
             array(
-                'keywords' => array(),
+                'keywords' => null,
                 'remoteId' => null,
                 'mainLanguageCode' => null,
                 'alwaysAvailable' => null,
