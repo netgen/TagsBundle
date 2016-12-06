@@ -26,20 +26,20 @@
     {% endblock %}
 </head>
 <body>
-<div class="ng-tags-app">
-    <div class="ng-tags-container">
-        <div class="tags-sidebar">
-            <div class="main-menu">
-                {# Rendering tags tree as main menu #}
-                {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {'tagsTreeId': 'main'} %}
+    <div class="ng-tags-app">
+        <div class="ng-tags-container">
+            <div class="tags-sidebar">
+                <div class="main-menu">
+                    {# Rendering tags tree as main menu #}
+                    {% include 'NetgenTagsBundle:admin:main_menu.html.twig' %}
+                </div>
+            </div>
+
+            <div class="tags-content">
+                {# This is where all content goes. This block is overriden by templates extending this one. #}
+                {% block content %}{% endblock %}
             </div>
         </div>
-
-        <div class="tags-content">
-            {# This is where all content goes. This block is overriden by templates extending this one. #}
-            {% block content %}{% endblock %}
-        </div>
     </div>
-</div>
 </body>
 </html>
