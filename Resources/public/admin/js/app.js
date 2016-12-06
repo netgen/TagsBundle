@@ -3,9 +3,13 @@ $('document').ready(function () {
      * This method creates jsTree object on all selected DIVs with appropriate ID.
      */
     $('div[id^=tags-tree-]').jstree({
-        'plugins' : [ "sort" ],
+        'plugins' : [ "sort", "contextmenu" ],
         'sort' : function (a, b) {
             return this.get_text(a).toLowerCase() > this.get_text(b).toLowerCase() ? 1 : -1;
+        },
+        'contextmenu': {
+            'select_node': false,
+            'items': tagMenu
         },
         'core' : {
             'data' : {
@@ -21,6 +25,33 @@ $('document').ready(function () {
             }
         }
     });
+
+    /**
+     * Builds context menu for right click on a tag in tags tree.
+     *
+     * @param node
+     * @returns array
+     * */
+    function tagMenu(node) {
+        return {
+            createItem: {
+                "label": "Add child tag",
+                "action": function() {
+                    console.log(node);
+                    alert(node.parent);
+                },
+                "_class": "class"
+            },
+            renameItem: {
+                "label": "Rename Branch",
+                "action": function(obj) { this.rename(obj); }
+            },
+            deleteItem: {
+                "label": "Remove Branch",
+                "action": function(obj) { this.remove(obj); }
+            }
+        };
+    }
 
     /**
      * This method is called when user clicks on a node in tree.
