@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Form\Type;
 
 use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints;
@@ -31,7 +32,7 @@ class TagMergeType extends AbstractType
         $builder
             ->add(
                 'mainTag',
-                'Symfony\Component\Form\Extension\Core\Type\HiddenType',
+                HiddenType::class,
                 array(
                     'constraints' => array(
                         new Constraints\Type(array('type' => 'scalar')),

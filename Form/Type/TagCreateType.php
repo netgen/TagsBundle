@@ -2,8 +2,10 @@
 
 namespace Netgen\TagsBundle\Form\Type;
 
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct as TagCreateStructConstraint;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +19,7 @@ class TagCreateType extends AbstractType
         $resolver
             ->setDefaults(
                 array(
-                    'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct',
+                    'data_class' => TagCreateStruct::class,
                     'constraints' => array(
                         new TagCreateStructConstraint(),
                     ),
@@ -32,7 +34,7 @@ class TagCreateType extends AbstractType
     {
         $builder->add(
             'parentTagId',
-            'Symfony\Component\Form\Extension\Core\Type\HiddenType'
+            HiddenType::class
         );
     }
 
@@ -41,6 +43,6 @@ class TagCreateType extends AbstractType
      */
     public function getParent()
     {
-        return 'Netgen\TagsBundle\Form\Type\TagType';
+        return TagType::class;
     }
 }

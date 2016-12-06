@@ -35,7 +35,7 @@ class LanguageSelectType extends AbstractType
     {
         $builder->add(
             'languageCode',
-            'Netgen\TagsBundle\Form\Type\TranslationListType',
+            TranslationListType::class,
             array(
                 'languages' => $options['languages'],
                 'tag' => $options['tag'],

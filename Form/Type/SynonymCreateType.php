@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Form\Type;
 
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Structs\SynonymCreateStruct as SynonymCreateStructConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,7 @@ class SynonymCreateType extends AbstractType
         $resolver
             ->setDefaults(
                 array(
-                    'data_class' => 'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct',
+                    'data_class' => SynonymCreateStruct::class,
                     'constraints' => array(
                         new SynonymCreateStructConstraint(),
                     ),
@@ -29,6 +30,6 @@ class SynonymCreateType extends AbstractType
      */
     public function getParent()
     {
-        return 'Netgen\TagsBundle\Form\Type\TagType';
+        return TagType::class;
     }
 }

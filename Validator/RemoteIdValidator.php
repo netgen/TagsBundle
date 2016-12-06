@@ -42,7 +42,7 @@ class RemoteIdValidator extends ConstraintValidator
         if (!$constraint instanceof RemoteId) {
             throw new UnexpectedTypeException(
                 $constraint,
-                'Netgen\TagsBundle\Validator\Constraints\RemoteId'
+                RemoteId::class
             );
         }
 

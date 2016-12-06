@@ -22,14 +22,14 @@ class TagCreateStructValidator extends CreateStructValidator
         if (!$constraint instanceof TagCreateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                'Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct'
+                TagCreateStruct::class
             );
         }
 
         if (!$value instanceof TagCreateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                'Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct'
+                TagCreateStruct::class
             );
         }
 

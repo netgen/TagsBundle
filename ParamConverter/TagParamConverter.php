@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\ParamConverter;
 
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Exception\InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter as ParamConverterConfiguration;
@@ -66,6 +67,6 @@ class TagParamConverter implements ParamConverterInterface
      */
     public function supports(ParamConverterConfiguration $configuration)
     {
-        return is_a($configuration->getClass(), 'Netgen\TagsBundle\API\Repository\Values\Tags\Tag', true);
+        return is_a($configuration->getClass(), Tag::class, true);
     }
 }

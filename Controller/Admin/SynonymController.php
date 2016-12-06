@@ -4,6 +4,8 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\Form\Type\LanguageSelectType;
+use Netgen\TagsBundle\Form\Type\SynonymCreateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -58,7 +60,7 @@ class SynonymController extends Controller
     public function addSynonymSelectAction(Request $request, $mainTagId)
     {
         $form = $this->createForm(
-            'Netgen\TagsBundle\Form\Type\LanguageSelectType',
+            LanguageSelectType::class,
             null,
             array(
                 'languages' => $this->languages,
@@ -100,7 +102,7 @@ class SynonymController extends Controller
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct($mainTagId, $languageCode);
 
         $form = $this->createForm(
-            'Netgen\TagsBundle\Form\Type\SynonymCreateType',
+            SynonymCreateType::class,
             $synonymCreateStruct,
             array(
                 'languageCode' => $languageCode,

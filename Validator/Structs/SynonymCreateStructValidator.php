@@ -22,14 +22,14 @@ class SynonymCreateStructValidator extends CreateStructValidator
         if (!$constraint instanceof SynonymCreateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                'Netgen\TagsBundle\Validator\Constraints\Structs\SynonymCreateStruct'
+                SynonymCreateStruct::class
             );
         }
 
         if (!$value instanceof SynonymCreateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                'Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct'
+                SynonymCreateStruct::class
             );
         }
 

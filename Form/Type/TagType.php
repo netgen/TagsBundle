@@ -3,6 +3,8 @@
 namespace Netgen\TagsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -34,14 +36,14 @@ class TagType extends AbstractType
         $builder
             ->add(
                 'keyword',
-                'Symfony\Component\Form\Extension\Core\Type\TextType',
+                TextType::class,
                 array(
                     'label' => 'tag.tag_name',
                 )
             )
             ->add(
                 'alwaysAvailable',
-                'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
+                CheckboxType::class,
                 array(
                     'label' => 'tag.form.always_available',
                     'required' => false,
@@ -49,7 +51,7 @@ class TagType extends AbstractType
             )
             ->add(
                 'remoteId',
-                'Symfony\Component\Form\Extension\Core\Type\TextType',
+                TextType::class,
                 array(
                     'required' => false,
                 )

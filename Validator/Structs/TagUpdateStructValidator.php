@@ -40,14 +40,14 @@ class TagUpdateStructValidator extends ConstraintValidator
         if (!$constraint instanceof TagUpdateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                'Netgen\TagsBundle\Validator\Constraints\Structs\TagUpdateStruct'
+                TagUpdateStruct::class
             );
         }
 
         if (!$value instanceof TagUpdateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                'Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct'
+                TagUpdateStruct::class
             );
         }
 

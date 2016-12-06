@@ -9,6 +9,11 @@ use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Form\Type\LanguageSelectType;
+use Netgen\TagsBundle\Form\Type\TagConvertType;
+use Netgen\TagsBundle\Form\Type\TagCreateType;
+use Netgen\TagsBundle\Form\Type\TagMergeType;
+use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
@@ -109,7 +114,7 @@ class TagController extends Controller
     public function addTagSelectAction(Request $request, $parentId)
     {
         $form = $this->createForm(
-            'Netgen\TagsBundle\Form\Type\LanguageSelectType',
+            LanguageSelectType::class,
             null,
             array(
                 'languages' => $this->languages,
@@ -155,7 +160,7 @@ class TagController extends Controller
         }
 
         $form = $this->createForm(
-            'Netgen\TagsBundle\Form\Type\TagCreateType',
+            TagCreateType::class,
             $tagCreateStruct,
             array(
                 'languageCode' => $languageCode,
@@ -207,7 +212,7 @@ class TagController extends Controller
     public function updateTagSelectAction(Request $request, Tag $tag)
     {
         $form = $this->createForm(
-            'Netgen\TagsBundle\Form\Type\LanguageSelectType',
+            LanguageSelectType::class,
             null,
             array(
                 'languages' => $this->languages,
@@ -259,7 +264,7 @@ class TagController extends Controller
         }
 
         $form = $this->createForm(
-            'Netgen\TagsBundle\Form\Type\TagUpdateType',
+            TagUpdateType::class,
             $tagUpdateStruct,
             array(
                 'languageCode' => $languageCode,
@@ -357,7 +362,7 @@ class TagController extends Controller
      */
     public function mergeTagAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm('Netgen\TagsBundle\Form\Type\TagMergeType');
+        $form = $this->createForm(TagMergeType::class);
 
         $form->handleRequest($request);
 
@@ -407,7 +412,7 @@ class TagController extends Controller
      */
     public function convertToSynonymAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm('Netgen\TagsBundle\Form\Type\TagConvertType');
+        $form = $this->createForm(TagConvertType::class);
 
         $form->handleRequest($request);
 
