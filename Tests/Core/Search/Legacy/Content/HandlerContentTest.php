@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
+use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway;
 use eZ\Publish\Core\Search\Legacy\Content;
 use eZ\Publish\SPI\Persistence\Content as ContentObject;
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -12,6 +13,8 @@ use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
 use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\Core\Persistence\Legacy\Content\Mapper;
+use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 
@@ -124,9 +127,9 @@ class HandlerContentTest extends LanguageAwareTestCase
                 ),
                 $this->getLanguageHandler()
             ),
-            $this->getMock('eZ\\Publish\\Core\\Search\\Legacy\\Content\\Location\\Gateway'),
+            $this->getMock(Gateway::class),
             $this->getContentMapperMock(),
-            $this->getMock('eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\Location\\Mapper'),
+            $this->getMock(LocationMapper::class),
             $this->getLanguageHandler()
         );
     }
@@ -139,7 +142,7 @@ class HandlerContentTest extends LanguageAwareTestCase
     protected function getContentMapperMock()
     {
         $mapperMock = $this->getMock(
-            'eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\Mapper',
+            Mapper::class,
             array('extractContentFromRows'),
             array(
                 $this->fieldRegistry,

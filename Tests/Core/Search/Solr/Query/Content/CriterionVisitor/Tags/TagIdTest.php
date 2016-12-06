@@ -3,6 +3,8 @@
 namespace Netgen\TagsBundle\Tests\Core\Search\Solr\Query\Content\CriterionVisitor\Tags;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
+use eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler;
+use eZ\Publish\Core\Search\Common\FieldNameResolver;
 use EzSystems\EzPlatformSolrSearchEngine\Tests\Search\TestCase;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Solr\Query;
@@ -26,13 +28,11 @@ class TagIdTest extends TestCase
 
     public function setUp()
     {
-        $this->fieldNameResolver = $this
-            ->getMockBuilder('eZ\\Publish\\Core\\Search\\Common\\FieldNameResolver')
+        $this->fieldNameResolver = $this->getMockBuilder(FieldNameResolver::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->contentTypeHandler = $this
-            ->getMockBuilder('eZ\\Publish\\SPI\\Persistence\\Content\\Type\\Handler')
+        $this->contentTypeHandler = $this->getMockBuilder(Handler::class)
             ->disableOriginalConstructor()
             ->getMock();
 

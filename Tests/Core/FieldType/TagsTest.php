@@ -2,8 +2,10 @@
 
 namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
+use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -40,7 +42,7 @@ class TagsTest extends FieldTypeTest
      */
     protected function createFieldTypeUnderTest()
     {
-        $this->tagsService = $this->getMock('Netgen\\TagsBundle\\API\\Repository\\TagsService');
+        $this->tagsService = $this->getMock(TagsService::class);
 
         $this->tagsService->expects($this->any())
             ->method('loadTag')
@@ -253,21 +255,21 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 42,
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
+                InvalidArgumentException::class,
             ),
             array(
                 'invalid',
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
+                InvalidArgumentException::class,
             ),
             array(
                 array(
                     new stdClass(),
                 ),
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
+                InvalidArgumentException::class,
             ),
             array(
                 new stdClass(),
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
+                InvalidArgumentException::class,
             ),
         );
     }

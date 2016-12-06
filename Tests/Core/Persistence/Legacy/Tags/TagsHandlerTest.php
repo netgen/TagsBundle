@@ -3,6 +3,9 @@
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
@@ -35,12 +38,12 @@ class TagsHandlerTest extends TestCase
     protected function getTagsHandler(array $mockedMethods = array('updateSubtreeModificationTime'))
     {
         return $this->getMock(
-            'Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Handler',
+            Handler::class,
             $mockedMethods,
             array(
-                $this->gateway = $this->getMock('Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Gateway'),
+                $this->gateway = $this->getMock(Gateway::class),
                 $this->mapper = $this->getMock(
-                    'Netgen\\TagsBundle\\Core\\Persistence\\Legacy\\Tags\\Mapper',
+                    Mapper::class,
                     array(),
                     array(
                         new LanguageHandlerMock(),
@@ -84,7 +87,7 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->load(42);
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
     }
@@ -139,7 +142,7 @@ class TagsHandlerTest extends TestCase
         $tagInfo = $handler->loadTagInfo(42);
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo',
+            TagInfo::class,
             $tagInfo
         );
     }
@@ -174,7 +177,7 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->loadByRemoteId('abcdef');
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
     }
@@ -228,7 +231,7 @@ class TagsHandlerTest extends TestCase
         $tagInfo = $handler->loadTagInfoByRemoteId('12345');
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\TagInfo',
+            TagInfo::class,
             $tagInfo
         );
     }
@@ -265,7 +268,7 @@ class TagsHandlerTest extends TestCase
         $tag = $handler->loadTagByKeywordAndParentId('eztags', 42);
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
     }
@@ -339,7 +342,7 @@ class TagsHandlerTest extends TestCase
 
         foreach ($tags as $tag) {
             $this->assertInstanceOf(
-                'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+                Tag::class,
                 $tag
             );
         }
@@ -413,7 +416,7 @@ class TagsHandlerTest extends TestCase
 
         foreach ($tags as $tag) {
             $this->assertInstanceOf(
-                'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+                Tag::class,
                 $tag
             );
         }
@@ -490,7 +493,7 @@ class TagsHandlerTest extends TestCase
 
         foreach ($tags as $tag) {
             $this->assertInstanceOf(
-                'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+                Tag::class,
                 $tag
             );
         }
@@ -631,7 +634,7 @@ class TagsHandlerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
 
@@ -711,7 +714,7 @@ class TagsHandlerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
 
@@ -783,7 +786,7 @@ class TagsHandlerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
 
@@ -884,7 +887,7 @@ class TagsHandlerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $tag
         );
 
@@ -979,7 +982,7 @@ class TagsHandlerTest extends TestCase
         $synonym = $handler->convertToSynonym(16, 66);
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $synonym
         );
 
@@ -1133,7 +1136,7 @@ class TagsHandlerTest extends TestCase
         $movedTag = $handler->moveSubtree(42, 66);
 
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Tag',
+            Tag::class,
             $movedTag
         );
 

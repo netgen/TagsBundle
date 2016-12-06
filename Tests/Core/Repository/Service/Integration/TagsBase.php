@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
 
+use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
@@ -554,7 +555,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(3, $content);
 
         foreach ($content as $contentItem) {
-            $this->assertInstanceOf('\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content', $contentItem);
+            $this->assertInstanceOf(Content::class, $contentItem);
         }
     }
 

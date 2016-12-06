@@ -64,7 +64,7 @@ class TagMatcherFactory extends ClassNameMatcherFactory
         $matcher = parent::getMatcher($matcherIdentifier);
         if (!$matcher instanceof ViewMatcherInterface) {
             throw new InvalidArgumentException(
-                'Matcher for tags must implement eZ\\Publish\\Core\\MVC\\Symfony\\Matcher\\ViewMatcherInterface.'
+                'Matcher for tags must implement ' . ViewMatcherInterface::class . '.'
             );
         }
 

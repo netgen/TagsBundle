@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\SignalSlot;
 
+use eZ\Publish\Core\SignalSlot\SignalDispatcher;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
@@ -14,8 +15,10 @@ use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use Netgen\TagsBundle\Core\SignalSlot\TagsService;
+use Netgen\TagsBundle\Core\Repository\TagsService as CoreTagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\Content\Content as APIContent;
 use PHPUnit_Framework_TestCase;
 
 class TagsServiceTest extends PHPUnit_Framework_TestCase
@@ -37,11 +40,13 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->tagsService = $this->getMockBuilder('Netgen\TagsBundle\Core\Repository\TagsService')
+        $this->tagsService = $this->getMockBuilder(CoreTagsService::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->signalDispatcher = $this->getMock('eZ\Publish\Core\SignalSlot\SignalDispatcher');
+        $this->signalDispatcher = $this->getMockBuilder(SignalDispatcher::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -73,7 +78,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tag = $signalSlotService->loadTag(42);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+        $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals(42, $tag->id);
     }
 
@@ -95,7 +100,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tag = $signalSlotService->loadTagByRemoteId('12345');
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+        $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals('12345', $tag->remoteId);
     }
 
@@ -117,7 +122,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tag = $signalSlotService->loadTagByUrl('Netgen/TagsBundle', array('eng-GB'));
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+        $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals(array('eng-GB' => 'TagsBundle'), $tag->keywords);
     }
 
@@ -145,7 +150,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $tags);
 
         foreach ($tags as $tag) {
-            $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+            $this->assertInstanceOf(Tag::class, $tag);
             $this->assertEquals(42, $tag->parentTagId);
         }
     }
@@ -191,7 +196,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $tags);
 
         foreach ($tags as $tag) {
-            $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+            $this->assertInstanceOf(Tag::class, $tag);
             $this->assertEquals(array('eng-GB' => 'netgen'), $tag->keywords);
         }
     }
@@ -237,7 +242,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $tags);
 
         foreach ($tags as $tag) {
-            $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $tag);
+            $this->assertInstanceOf(Tag::class, $tag);
             $this->assertEquals(42, $tag->mainTagId);
         }
     }
@@ -283,7 +288,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $content);
 
         foreach ($content as $contentItem) {
-            $this->assertInstanceOf('eZ\Publish\API\Repository\Values\Content\Content', $contentItem);
+            $this->assertInstanceOf(APIContent::class, $contentItem);
         }
     }
 
@@ -353,7 +358,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $createdTag = $signalSlotService->createTag($tagCreateStruct);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $createdTag);
+        $this->assertInstanceOf(Tag::class, $createdTag);
 
         $this->assertEquals(24, $createdTag->id);
         $this->assertEquals(42, $createdTag->parentTagId);
@@ -422,7 +427,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $updatedTag = $signalSlotService->updateTag($tag, $tagUpdateStruct);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $updatedTag);
+        $this->assertInstanceOf(Tag::class, $updatedTag);
 
         $this->assertEquals(42, $updatedTag->id);
         $this->assertEquals(array('eng-GB' => 'netgen'), $updatedTag->keywords);
@@ -484,7 +489,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $synonym = $signalSlotService->addSynonym($synonymCreateStruct);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym);
+        $this->assertInstanceOf(Tag::class, $synonym);
 
         $this->assertEquals(24, $synonym->id);
         $this->assertEquals(42, $synonym->mainTagId);
@@ -545,7 +550,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $synonym = $signalSlotService->convertToSynonym($tag, $mainTag);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $synonym);
+        $this->assertInstanceOf(Tag::class, $synonym);
 
         $this->assertEquals(42, $synonym->id);
         $this->assertEquals(24, $synonym->mainTagId);
@@ -649,7 +654,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $copiedTag = $signalSlotService->copySubtree($tag, $targetTag);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $copiedTag);
+        $this->assertInstanceOf(Tag::class, $copiedTag);
 
         $this->assertEquals(42, $copiedTag->id);
         $this->assertEquals(25, $copiedTag->parentTagId);
@@ -708,7 +713,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $movedTag = $signalSlotService->moveSubtree($tag, $targetTag);
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\Tag', $movedTag);
+        $this->assertInstanceOf(Tag::class, $movedTag);
 
         $this->assertEquals(24, $movedTag->id);
         $this->assertEquals(25, $movedTag->parentTagId);
@@ -767,7 +772,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tagCreateStruct = $signalSlotService->newTagCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct', $tagCreateStruct);
+        $this->assertInstanceOf(TagCreateStruct::class, $tagCreateStruct);
         $this->assertEquals(42, $tagCreateStruct->parentTagId);
         $this->assertEquals('eng-GB', $tagCreateStruct->mainLanguageCode);
     }
@@ -790,7 +795,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $synonymCreateStruct = $signalSlotService->newSynonymCreateStruct(42, 'eng-GB');
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct', $synonymCreateStruct);
+        $this->assertInstanceOf(SynonymCreateStruct::class, $synonymCreateStruct);
         $this->assertEquals(42, $synonymCreateStruct->mainTagId);
         $this->assertEquals('eng-GB', $synonymCreateStruct->mainLanguageCode);
     }
@@ -812,7 +817,7 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tagUpdateStruct = $signalSlotService->newTagUpdateStruct();
 
-        $this->assertInstanceOf('Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct', $tagUpdateStruct);
+        $this->assertInstanceOf(TagUpdateStruct::class, $tagUpdateStruct);
     }
 
     /**
