@@ -567,7 +567,7 @@ class TagController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function moveChildrenAction(Request $request, Tag $tag)
+    public function moveChildrenAction(Request $request, Tag $tag = null)
     {
         if (!$request->request->has('Tags') || $request->request->get('Tags') === null) {
             $this->addFlash(
@@ -579,12 +579,18 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
+            if ($tag === null) {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_dashboard_index'
+                );
+            } else {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
         }
 
         $tagIds = $request->request->get('Tags');
@@ -611,20 +617,30 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
+            if ($tag === null) {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_dashboard_index'
+                );
+            } else {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
         }
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:move_tags.html.twig',
-            array(
-                'parentTag' => $tag,
-                'tags' => $tags,
-            )
+            $tag === null ?
+                array(
+                    'tags' => $tags,
+                ) :
+                array(
+                    'parentTag' => $tag,
+                    'tags' => $tags,
+                )
         );
     }
 
@@ -638,7 +654,7 @@ class TagController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteChildrenAction(Request $request, Tag $tag)
+    public function deleteChildrenAction(Request $request, Tag $tag = null)
     {
         if (!$request->request->has('Tags') || $request->request->get('Tags') === null) {
             $this->addFlash(
@@ -650,12 +666,18 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
+            if ($tag === null) {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_dashboard_index'
+                );
+            } else {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
         }
 
         $tagIds = $request->request->get('Tags');
@@ -680,20 +702,30 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
+            if ($tag === null) {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_dashboard_index'
+                );
+            } else {
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
         }
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:delete_tags.html.twig',
-            array(
-                'parentTag' => $tag,
-                'tags' => $tags,
-            )
+            $tag === null ?
+                array(
+                    'tags' => $tags,
+                ) :
+                array(
+                    'parentTag' => $tag,
+                    'tags' => $tags,
+                )
         );
     }
 

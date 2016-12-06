@@ -61,5 +61,5 @@ netgen_tags_admin_tag_children_move:
 netgen_tags_admin_tag_children_delete:
     path: /{tagId}/deletetags
     defaults:
-        _controller: eztags.admin.controller.tag:removeChildrenAction
+        _controller: eztags.admin.controller.tag:deleteChildrenAction
         _method: POST
