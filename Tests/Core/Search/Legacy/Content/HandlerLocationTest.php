@@ -2,6 +2,8 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
+use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
+use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use eZ\Publish\Core\Search\Legacy\Content;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
@@ -89,7 +91,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     protected function getContentSearchHandler()
     {
         return new Content\Handler(
-            $this->getMock('eZ\\Publish\\Core\\Search\\Legacy\\Content\\Gateway'),
+            $this->getMock(Content\Gateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $this->getDatabaseHandler(),
                 new CriteriaConverter(
@@ -109,7 +111,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
                 ),
                 $this->getLanguageHandler()
             ),
-            $this->getMockBuilder('eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\Mapper')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ContentMapper::class)->disableOriginalConstructor()->getMock(),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler()
         );
@@ -123,7 +125,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     protected function getLocationMapperMock()
     {
         $mapperMock = $this->getMock(
-            'eZ\\Publish\\Core\\Persistence\\Legacy\\Content\\Location\\Mapper',
+            LocationMapper::class,
             array('createLocationsFromRows')
         );
         $mapperMock

@@ -153,7 +153,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
             $fieldDefinition
         );
 
-        self::assertInstanceOf('eZ\\Publish\\Core\\FieldType\\FieldSettings', $fieldDefinition->fieldTypeConstraints->fieldSettings);
+        self::assertInstanceOf(FieldSettings::class, $fieldDefinition->fieldTypeConstraints->fieldSettings);
         self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->fieldSettings['subTreeLimit']);
         self::assertEquals(true, $fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
         self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->fieldSettings['maxTags']);

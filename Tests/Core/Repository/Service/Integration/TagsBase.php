@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
 
+use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
@@ -22,6 +23,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test a new class and default values on properties.
+     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct
      */
     public function testNewClass()
@@ -48,6 +50,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test retrieving missing property.
+     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
      */
     public function testMissingProperty()
@@ -62,6 +65,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test setting read only property.
+     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__set
      */
     public function testReadOnlyProperty()
@@ -76,6 +80,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test if property exists.
+     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__isset
      */
     public function testIsPropertySet()
@@ -90,6 +95,7 @@ abstract class TagsBase extends BaseServiceTest
 
     /**
      * Test unsetting a property.
+     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__unset
      */
     public function testUnsetProperty()
@@ -549,7 +555,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(3, $content);
 
         foreach ($content as $contentItem) {
-            $this->assertInstanceOf('\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content', $contentItem);
+            $this->assertInstanceOf(Content::class, $contentItem);
         }
     }
 

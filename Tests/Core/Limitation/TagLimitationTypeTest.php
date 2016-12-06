@@ -11,6 +11,7 @@ use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
 class TagLimitationTypeTest extends Base
@@ -28,7 +29,7 @@ class TagLimitationTypeTest extends Base
         parent::setUp();
 
         $this->tagsHandlerMock = $this->getMock(
-            'Netgen\\TagsBundle\\SPI\\Persistence\\Tags\\Handler',
+            Handler::class,
             array(),
             array(),
             '',

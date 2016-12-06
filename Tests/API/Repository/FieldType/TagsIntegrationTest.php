@@ -4,10 +4,12 @@ namespace Netgen\TagsBundle\Tests\API\Repository\FieldType;
 
 use eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest;
 use eZ\Publish\API\Repository\Values\Content\Field;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use DateTime;
+use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use stdClass;
 
 /**
@@ -177,21 +179,21 @@ class TagsIntegrationTest extends BaseIntegrationTest
         return array(
             array(
                 42,
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
+                InvalidArgumentType::class,
             ),
             array(
                 'invalid',
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
+                InvalidArgumentType::class,
             ),
             array(
                 array(
                     new stdClass(),
                 ),
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
+                InvalidArgumentType::class,
             ),
             array(
                 new stdClass(),
-                'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentType',
+                InvalidArgumentType::class,
             ),
         );
     }
@@ -222,7 +224,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
+            Value::class,
             $field->value
         );
 
@@ -272,7 +274,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
         $this->assertInstanceOf(
-            'Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value',
+            Value::class,
             $field->value
         );
 
