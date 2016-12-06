@@ -5,22 +5,13 @@
     <div id="modal-tree-{{ tagsTreeId }}" class="modal">
         <div class="content">
             <span class="close" data-modalTreeId="{{ tagsTreeId }}">x</span>
-            {%  if rootId is defined %}
-                {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
-                    'tagsTreeId': tagsTreeId,
-                    'spanId': spanId,
-                    'fieldId': fieldId,
-                    'noValueText': noValueText,
-                    'rootId': rootId
-                } %}
-            {% else %}
-                {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
-                    'tagsTreeId': tagsTreeId,
-                    'spanId': spanId,
-                    'fieldId': fieldId,
-                    'noValueText': noValueText,
-                } %}
-            {% endif %}
+            {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
+                'tagsTreeId': tagsTreeId,
+                'spanId': spanId,
+                'fieldId': fieldId,
+                'noValueText': noValueText,
+                'rootId': rootId is defined ? rootId : null
+            } %}
         </div>
     </div>
 {% endblock %}
