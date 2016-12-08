@@ -43,7 +43,8 @@
                 <span class="close">x</span>
                 {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
                     'rootTagId': rootTagId is defined ? rootTagId : null,
-                    'showRootTag': showRootTag is defined ? showRootTag : true
+                    'showRootTag': showRootTag is defined ? showRootTag : true,
+                    'selectedTagId': value is not empty ? value : ''
                 } %}
             </div>
         </div>

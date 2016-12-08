@@ -46,6 +46,7 @@ class TreeController extends Controller
      * It supports lazy loading; when a tag is clicked in a tree, it calls this method to fetch it's children.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null $tag
+     * @param int
      * @param bool $isRoot
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
@@ -104,6 +105,26 @@ class TreeController extends Controller
         }
 
         return (new JsonResponse())->setData($result);
+    }
+
+    /**
+     * Returns array with IDs of all parents of a given tag, including that tag ID.
+     *
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getParentsAction(Tag $tag)
+    {
+        $parents = array($tag->id);
+
+        while ($tag->parentTagId !== 0) {
+            array_unshift($parents, $tag->parentTagId);
+
+            $tag = $this->tagsService->loadTag($tag->parentTagId);
+        }
+
+        return new JsonResponse($parents);
     }
 
     /**

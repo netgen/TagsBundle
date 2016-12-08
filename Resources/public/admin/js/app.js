@@ -27,6 +27,20 @@ $('document').ready(function () {
                     }
                 }
             }
+        }).bind("ready.jstree", function (event, data) {
+            if ($(value).data('selectedtagid') !== undefined) {
+                if ($(value).data('selectedtagid') === 0) {
+                    $(value).jstree(true).select_node(0);
+                }
+
+                else {
+                    $.getJSON('/tags/admin/tree/parents/' + $(value).data('selectedtagid'), {}, function (data) {
+                        $(value).jstree(true).load_node(data, function () {
+                            this.select_node($(value).data('selectedtagid'));
+                        });
+                    });
+                }
+            }
         });
     });
 
@@ -93,23 +107,26 @@ $('document').ready(function () {
      * And also it puts selected node's text in a span field with provided ID:
      */
     $('div.ng-tags-app div.tags-tree').on(
-        'changed.jstree',
-        function (event, data) {
+        'click',
+        '.jstree-anchor',
+        function (event) {
+            var selectedNode = $(this).jstree(true).get_node($(this));
+
             if ($(event.target).parents('div.modal-tree').length == 0) {
-                document.location.href = data.instance.get_node(data.selected[0]).a_attr.href;
+                document.location.href = selectedNode.a_attr.href;
             }
 
             else {
                 var modalTreeDiv = $(event.target).parents('div.modal-tree');
 
-                $(modalTreeDiv).children('input[type=hidden]').val(data.instance.get_node(data.selected[0]).id);
+                $(modalTreeDiv).children('input[type=hidden]').val(selectedNode.id);
 
-                if (data.instance.get_node(data.selected[0]).text == undefined || data.instance.get_node(data.selected[0]).id == '0') {
+                if (selectedNode.text == undefined || selectedNode.id == '0') {
                     $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
                 }
 
                 else {
-                    $(modalTreeDiv).children('span.tag-keyword').html(data.instance.get_node(data.selected[0]).text);
+                    $(modalTreeDiv).children('span.tag-keyword').html(selectedNode.text);
                 }
 
                 $(modalTreeDiv).children('div.modal').hide();

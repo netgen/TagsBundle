@@ -7,5 +7,6 @@
             data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
             data-rootTagId="{% if rootTagId is defined and rootTagId is not null %}{{ rootTagId }}{% else %}0{% endif %}"
             data-showRootTag="{% if showRootTag is defined and showRootTag %}true{% else %}false{% endif %}"
+            {% if selectedTagId is defined %}data-selectedTagId="{{ selectedTagId }}"{% endif %}
     ></div>
 {% endblock %}
