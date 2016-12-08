@@ -28,6 +28,7 @@
             </tbody>
         </table>
 
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
         <input type="submit" name="DeleteTagsButton" value="{{ 'tag.button.yes'|trans }}"/>
     </form>
 

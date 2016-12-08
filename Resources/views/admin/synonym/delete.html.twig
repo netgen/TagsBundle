@@ -9,6 +9,7 @@
     <p>{{ 'synonym.delete.message'|trans({'%synonymName%': netgen_tags_tag_keyword(tag) }) }}</p>
 
     <form method="post" action="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
         <input type="submit" name="DeleteTagButton" value="{{ 'tag.button.yes'|trans }}"/>
     </form>
 

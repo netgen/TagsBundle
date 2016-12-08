@@ -321,7 +321,7 @@ class TagController extends Controller
      */
     public function deleteTagAction(Request $request, Tag $tag)
     {
-        if ($request->request->has('DeleteTagButton')) {
+        if ($request->request->has('DeleteTagButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             $this->tagsService->deleteTag($tag);
 
             $this->addFlash(
@@ -466,7 +466,7 @@ class TagController extends Controller
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
-        if ($request->request->has('RemoveTranslationButton')) {
+        if ($request->request->has('RemoveTranslationButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             $locales = $request->request->get('Locale');
 
             $newKeywords = $tag->keywords;
@@ -515,7 +515,7 @@ class TagController extends Controller
                     );
                 }
             }
-        } elseif ($request->request->has('UpdateMainTranslationButton')) {
+        } elseif ($request->request->has('UpdateMainTranslationButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             $newMainTranslation = $request->request->get('MainLocale');
 
             if (!in_array($newMainTranslation, $tag->languageCodes)) {
@@ -544,7 +544,7 @@ class TagController extends Controller
                     )
                 );
             }
-        } elseif ($request->request->has('UpdateAlwaysAvailableButton')) {
+        } elseif ($request->request->has('UpdateAlwaysAvailableButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
             $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
@@ -707,7 +707,7 @@ class TagController extends Controller
             $tags[] = $this->tagsService->loadTag($tagId);
         }
 
-        if ($request->request->has('DeleteTagsButton')) {
+        if ($request->request->has('DeleteTagsButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             foreach ($tags as $tagObject) {
                 $this->tagsService->deleteTag($tagObject);
             }

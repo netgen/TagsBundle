@@ -33,6 +33,7 @@
         </tbody>
     </table>
 
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
     <input type="submit" name="RemoveTranslationButton" value="{{ 'tag.button.remove'|trans }}"/>
     <input type="submit" name="UpdateMainTranslationButton" value="{{ 'tag.button.main'|trans }}"/>
     <input type="checkbox" name="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %}/> {{ 'tag.form.always_available'|trans }}.
