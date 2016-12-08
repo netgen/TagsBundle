@@ -3,11 +3,9 @@
 {% block tags_tree %}
     {# Renders tags tree #}
     <div
-            id="tags-tree-{{ tagsTreeId }}"
+            class="tags-tree"
             data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
-            data-rootId="{% if rootId is defined and rootId is not null %}{{ rootId }}{% else %}0{% endif %}"
-            {% if spanId is defined %}data-spanId="{{ spanId }}"{% endif %}
-            {% if fieldId is defined %}data-fieldId="{{ fieldId }}"{% endif %}
-            {% if noValueText is defined %}data-noValueText="{{ noValueText }}"{% endif %}
+            data-rootTagId="{% if rootTagId is defined and rootTagId is not null %}{{ rootTagId }}{% else %}0{% endif %}"
+            data-showRootTag="{% if showRootTag is defined and showRootTag %}true{% else %}false{% endif %}"
     ></div>
 {% endblock %}

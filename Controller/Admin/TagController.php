@@ -4,12 +4,14 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
+use Netgen\TagsBundle\Form\Type\MoveTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
@@ -606,8 +608,16 @@ class TagController extends Controller
             $tags[] = $this->tagsService->loadTag($tagId);
         }
 
-        if ($request->request->has('MoveTagsButton')) {
-            $newParentTag = $this->tagsService->loadTag($request->request->get('ParentTagId'));
+        $form = $this->createForm(MoveTagsType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $newParentTag = $this->tagsService->loadTag($form->getData()['parentTag']);
+            } catch (NotFoundException $exception) {
+                $newParentTag = null;
+            }
 
             foreach ($tags as $tagObject) {
                 $this->tagsService->moveSubtree($tagObject, $newParentTag);
@@ -641,10 +651,12 @@ class TagController extends Controller
             $tag === null ?
                 array(
                     'tags' => $tags,
+                    'form' => $form,
                 ) :
                 array(
                     'parentTag' => $tag,
                     'tags' => $tags,
+                    'form' => $form->createView(),
                 )
         );
     }

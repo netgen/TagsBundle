@@ -4,7 +4,6 @@ namespace Netgen\TagsBundle\Form\Type;
 
 use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints;
@@ -32,12 +31,14 @@ class TagConvertType extends AbstractType
         $builder
             ->add(
                 'mainTag',
-                HiddenType::class,
+                TagTreeType::class,
                 array(
                     'constraints' => array(
                         new Constraints\Type(array('type' => 'scalar')),
                         new Constraints\NotBlank(),
-                        new Tag(),
+                        new Tag(array(
+                            'allowRootTag' => false,
+                        )),
                     ),
                     'label' => 'tag.main_tag',
                 )

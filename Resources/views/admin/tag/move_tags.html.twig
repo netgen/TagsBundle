@@ -2,45 +2,42 @@
 
 {% trans_default_domain 'eztags_admin' %}
 
+{% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
+
 {% block content %}
     {# Show confirmation message, table with selected tags and form for moving selected multiple tags to new parent. #}
     <h2>{{ 'tag.move_tags.title'|trans }}</h2>
 
     <p>{{ 'tag.move_tags.message'|trans }}</p>
 
-    <form method="post" action="{{ path('netgen_tags_admin_tag_children_move', {'tagId': parentTag is defined ? parentTag.id : 0}) }}">
-        <table>
-            <thead>
-                <tr>
-                    <th>{{ 'tag.title'|trans }}</th>
-                </tr>
-            </thead>
+    {{ form_start(form) }}
 
-            <tbody>
-            {% for tag in tags %}
-                <tr>
-                    <td>
-                        <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
-                        {% if parentTag is defined %}{{ parentTag.keyword }} / {% endif %}{{ tag.keyword }}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'tag.title'|trans }}</th>
+            </tr>
+        </thead>
 
-        <label>{{ 'tag.parent'|trans }}</label>
-        <input type="hidden" name="ParentTagId" id="ParentTagId" value="{{ parentTag is defined ? parentTag.id : 0 }}"/>
-        <span id="parentTag">
-            {% if parentTag is defined %}
-                {{ parentTag.keyword }}
-            {% else %}
-                ({{ 'tag.main.no'|trans }})
-            {% endif %}
-        </span>
-        <input type="button" class="modal-tree-button" data-modalTreeId="move" value="{{ 'tag.parent.select'|trans }}"/>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>
+                    <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
+                    {% if parentTag is defined %}{{ parentTag.keyword }} / {% endif %}{{ tag.keyword }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-        <input type="submit" name="MoveTagsButton" value="{{ 'tag.button.save'|trans }}"/>
-    </form>
+    {{ form_errors(form) }}
+
+    {{ form_row(form.parentTag) }}
+
+    <input type="submit" value="{{ 'tag.button.save'|trans }}"/>
+
+    {{ form_end(form) }}
 
     <a href="
         {% if parentTag is defined %}
@@ -49,12 +46,4 @@
             {{ path('netgen_tags_admin_dashboard_index') }}
         {% endif %}
      " class="button">{{ 'tag.button.discard'|trans }}</a>
-
-    {# Render tags tree as a modal for selecting parent tag. #}
-    {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
-        'tagsTreeId': 'move',
-        'fieldId': 'ParentTagId',
-        'spanId': 'parentTag',
-        'noValueText': '(' ~ 'tag.main.no'|trans ~ ')',
-    } %}
 {% endblock %}

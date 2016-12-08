@@ -2,7 +2,7 @@ $('document').ready(function () {
     /**
      * This method creates jsTree object for each DIV element with appropriate ID prefix.
      */
-    var tagsTreeContainers = $('div[id^=tags-tree-]');
+    var tagsTreeContainers = $('div.ng-tags-app div.tags-tree');
 
     $.each(tagsTreeContainers, function(index, value) {
         $(value).jstree({
@@ -12,17 +12,17 @@ $('document').ready(function () {
             },
             'contextmenu': {
                 'select_node': false,
-                'items': $(value).attr('id').replace('tags-tree-', '') == 'main' ? tagTreeContextMenu : ''
+                'items': $(value).parents('div.modal-tree').length == 0 ? tagTreeContextMenu : ''
             },
             'core': {
                 'data': {
                     'url': function (node) {
-                        var route = $('div[id^=tags-tree-]').data('path');
-                        var rootId = $('div[id^=tags-tree-]').data('rootid');
+                        var route = $(value).data('path');
+                        var rootTagId = $(value).data('roottagid');
 
                         return route
                             .replace("_tagId_", node.id)
-                            .replace("#", rootId + "/true")
+                            .replace("#", rootTagId + "/true")
                             ;
                     }
                 }
@@ -92,27 +92,27 @@ $('document').ready(function () {
      * Else, it puts selected node's ID in a form field with provided ID.
      * And also it puts selected node's text in a span field with provided ID:
      */
-    $('div[id^=tags-tree-]').on(
+    $('div.ng-tags-app div.tags-tree').on(
         'changed.jstree',
         function (event, data) {
-            var tagsTreeId = $(event.target).attr('id').replace('tags-tree-', '');
-
-            if (tagsTreeId == 'main') {
+            if ($(event.target).parents('div.modal-tree').length == 0) {
                 document.location.href = data.instance.get_node(data.selected[0]).a_attr.href;
             }
 
             else {
-                $('.ng-tags-app #' + $(event.target).data('fieldid')).val(data.instance.get_node(data.selected[0]).id);
+                var modalTreeDiv = $(event.target).parents('div.modal-tree');
+
+                $(modalTreeDiv).children('input[type=hidden]').val(data.instance.get_node(data.selected[0]).id);
 
                 if (data.instance.get_node(data.selected[0]).text == undefined || data.instance.get_node(data.selected[0]).id == '0') {
-                    $('.ng-tags-app #' + $(event.target).data('spanid')).html($(event.target).data('novaluetext'));
+                    $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
                 }
 
                 else {
-                    $('.ng-tags-app #' + $(event.target).data('spanid')).html(data.instance.get_node(data.selected[0]).text);
+                    $(modalTreeDiv).children('span.tag-keyword').html(data.instance.get_node(data.selected[0]).text);
                 }
 
-                $('.ng-tags-app #modal-tree-' + tagsTreeId).hide();
+                $(modalTreeDiv).children('div.modal').hide();
             }
         }
     );
@@ -120,19 +120,15 @@ $('document').ready(function () {
     /**
      * Opens modal when modal open button is clicked.
      */
-    $('.ng-tags-app .modal-tree-button').click(function() {
-        var modalTreeId = $(this).data("modaltreeid");
-
-        $('.ng-tags-app #modal-tree-' + modalTreeId).show();
+    $('div.ng-tags-app div.modal-tree input.modal-tree-button').click(function() {
+        $(this).parent('div.modal-tree').children('div.modal').show();
     });
 
     /**
      * It closes modal when Close span inside modal is clicked.
      */
-    $('.modal .close').click(function() {
-        var modalTreeId = $(this).data("modaltreeid");
-
-        $('.ng-tags-app #modal-tree-' + modalTreeId).hide();
+    $('div.ng-tags-app div.modal-tree span.close').click(function() {
+        $(this).parents('div.modal-tree').children('div.modal').hide();
     });
 
     /**

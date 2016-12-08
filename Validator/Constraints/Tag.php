@@ -17,6 +17,16 @@ class Tag extends Constraint
     public $synonymMessage = 'eztags.tag.synonym';
 
     /**
+     * @var string
+     */
+    public $invalidMessage = 'eztags.tag.invalid';
+
+    /**
+     * @var bool
+     */
+    public $allowRootTag = true;
+
+    /**
      * Returns the name of the class that validates this constraint.
      *
      * @return string

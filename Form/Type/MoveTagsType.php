@@ -6,9 +6,8 @@ use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints;
 
-class TagMergeType extends AbstractType
+class MoveTagsType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,17 +29,13 @@ class TagMergeType extends AbstractType
     {
         $builder
             ->add(
-                'mainTag',
+                'parentTag',
                 TagTreeType::class,
                 array(
                     'constraints' => array(
-                        new Constraints\Type(array('type' => 'scalar')),
-                        new Constraints\NotBlank(),
-                        new Tag(array(
-                            'allowRootTag' => false,
-                        )),
+                        new Tag(),
                     ),
-                    'label' => 'tag.main_tag',
+                    'label' => 'tag.parent',
                 )
             );
     }

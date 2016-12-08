@@ -34,7 +34,7 @@ class TagValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (empty($value)) {
+        if ($value === null) {
             return;
         }
 
@@ -43,6 +43,15 @@ class TagValidator extends ConstraintValidator
                 $constraint,
                 Tag::class
             );
+        }
+
+        if ($value === 0 || $value === '0') {
+            if (!$constraint->allowRootTag) {
+                $this->context->buildViolation($constraint->invalidMessage)
+                    ->addViolation();
+            }
+
+            return;
         }
 
         try {

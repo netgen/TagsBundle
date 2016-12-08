@@ -26,3 +26,26 @@
         </div>
     </div>
 {% endblock %}
+
+{% block tag_tree_widget %}
+    <div
+            class="modal-tree"
+            data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}"
+    >
+        {{- form_label(form, null, {}) -}}
+        <input type="hidden" class="tag-id-value" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
+        <span class="tag-keyword">({{ 'tag.tree.no_tag_selected'|trans }})</span>
+        <input type="button" class="modal-tree-button" value="{{ 'tag.tree.select'|trans }}" />
+
+        {# Renders a tree inside modal window, for selecting tag inside forms. #}
+        <div class="modal">
+            <div class="content">
+                <span class="close">x</span>
+                {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
+                    'rootTagId': rootTagId is defined ? rootTagId : null,
+                    'showRootTag': showRootTag is defined ? showRootTag : true
+                } %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

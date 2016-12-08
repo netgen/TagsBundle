@@ -124,6 +124,9 @@ class TreeController extends Controller
                     )
                 ),
             ),
+            'state' => array(
+                'opened' => $isRoot,
+            ),
             'data' => array(
                 'add_child' => array(
                     'url' => $this->generateUrl(

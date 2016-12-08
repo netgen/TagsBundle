@@ -2,25 +2,21 @@
 
 {% trans_default_domain 'eztags_admin' %}
 
+{% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
+
 {% block content %}
     {# Show form for adding new synonyms. #}
     <h2>{{ 'tag.add.title'|trans }}</h2>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
 
-    {{ 'tag.parent'|trans }}:
-    <span id="parentTagId">{% if parentTag is not null %}{{ parentTag.keyword }}{% else %}({{ 'tag.parent.no'|trans }}){% endif %}</span>
-    <input type="button" class="modal-tree-button" data-modalTreeId="add" value="{{ 'tag.parent.select'|trans }}"/>
+    {{ form_errors(form) }}
+
+    {{ form_row(form.keyword) }}
+    {{ form_row(form.alwaysAvailable) }}
+    {{ form_row(form.remoteId) }}
+    {{ form_row(form.parentTagId) }}
 
     <input type="submit"/>
     {{ form_end(form) }}
-
-    {# Render tags tree as a modal for selecting parent tag. #}
-    {% include 'NetgenTagsBundle:admin/tree:modal_tree.html.twig' with {
-        'tagsTreeId': 'add',
-        'fieldId': 'tag_create_parentTagId',
-        'spanId': 'parentTagId',
-        'noValueText': '(' ~ 'tag.parent.no'|trans ~ ')',
-    } %}
 {% endblock %}
