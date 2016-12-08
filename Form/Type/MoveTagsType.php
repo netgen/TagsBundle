@@ -18,6 +18,12 @@ class MoveTagsType extends AbstractType
             ->setDefaults(
                 array(
                     'translation_domain' => 'eztags_admin',
+                    'parentTag' => 0,
+                )
+            )
+            ->setRequired(
+                array(
+                    'parentTag',
                 )
             );
     }
@@ -36,6 +42,7 @@ class MoveTagsType extends AbstractType
                         new Tag(),
                     ),
                     'label' => 'tag.parent',
+                    'data' => $options['parentTag'],
                 )
             );
     }

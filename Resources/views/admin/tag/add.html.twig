@@ -15,7 +15,7 @@
     {{ form_row(form.keyword) }}
     {{ form_row(form.alwaysAvailable) }}
     {{ form_row(form.remoteId) }}
-    {{ form_row(form.parentTagId) }}
+    {{ form_row(form.parentTagId, {'tag': parentTag is defined ? parentTag : null}) }}
 
     <input type="submit"/>
     {{ form_end(form) }}

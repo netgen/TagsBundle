@@ -610,7 +610,13 @@ class TagController extends Controller
             $tags[] = $this->tagsService->loadTag($tagId);
         }
 
-        $form = $this->createForm(MoveTagsType::class);
+        $form = $this->createForm(
+            MoveTagsType::class,
+            null,
+            array(
+                'parentTag' => $tag !== null ? $tag->id : 0,
+            )
+        );
 
         $form->handleRequest($request);
 

@@ -33,7 +33,7 @@
 
     {{ form_errors(form) }}
 
-    {{ form_row(form.parentTag) }}
+    {{ form_row(form.parentTag, {'tag': parentTag is defined ? parentTag : null}) }}
 
     <input type="submit" value="{{ 'tag.button.save'|trans }}"/>
 
