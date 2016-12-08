@@ -38,4 +38,5 @@ services:
             parent: ezpublish.controller.base
             arguments:
                 - "@ezpublish.api.service.tags"
+                - "@ezpublish.api.service.content_type"
                 - "@translator"

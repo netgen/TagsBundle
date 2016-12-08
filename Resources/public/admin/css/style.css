@@ -1,3 +1,8 @@
+/* Tags tree */
+.ng-tags-app .tags-tree a.has-limitations {
+    color: gray;
+}
+
 /* The Modal (background) */
 .ng-tags-app .modal {
     display: none; /* Hidden by default */

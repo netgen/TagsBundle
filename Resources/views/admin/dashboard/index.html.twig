@@ -3,6 +3,8 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
+    <h2>{{ 'dashboard.title'|trans }}</h2>
+
     {# Show success and error messages from flash messages, if there is any #}
     {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
     {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}

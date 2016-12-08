@@ -495,6 +495,8 @@ class TagController extends Controller
                 } else {
                     unset($newKeywords[$locale]);
 
+                    $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
+
                     foreach ($newKeywords as $languageCode => $keyword) {
                         $tagUpdateStruct->setKeyword($keyword, $languageCode);
                     }
@@ -651,7 +653,7 @@ class TagController extends Controller
             $tag === null ?
                 array(
                     'tags' => $tags,
-                    'form' => $form,
+                    'form' => $form->createView(),
                 ) :
                 array(
                     'parentTag' => $tag,

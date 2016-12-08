@@ -1,5 +1,6 @@
 pagelayout.title: 'Netgen Tags Bundle'
 
+dashboard.title: 'Tags dashboard'
 dashboard.latest_tags.tag_id: 'ID'
 dashboard.latest_tags.tag_name: 'Tag name'
 dashboard.latest_tags.parent_tag_name: 'Parent tag name'
