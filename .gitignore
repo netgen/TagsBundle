@@ -1,7 +1,9 @@
 .idea/
+.tmp/
 coverage/
 extension/
-vendor/
+node_modules/
+/vendor/
 var/
 composer.phar
 composer.lock

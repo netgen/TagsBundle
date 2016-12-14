@@ -1,42 +1,49 @@
-/* Tags tree */
-.ng-tags-app .tags-tree a.has-limitations {
-    color: gray;
-}
+html,
+body {
+  height: 100%; }
 
-/* The Modal (background) */
-.ng-tags-app .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+.ng-tags-app {
+  /* Tags tree */
+  /* The Modal (background) */
+  /* Modal Content/Box */
+  /* The Modal Close Button */ }
+  .ng-tags-app .tags-tree a.has-limitations {
+    color: gray; }
+  .ng-tags-app .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.ng-tags-app .modal .content {
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: black;
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */ }
+  .ng-tags-app .modal .content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;
+    /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 20%; /* Could be more or less, depending on screen size */
-}
-
-/* The Modal Close Button */
-.ng-tags-app .modal .close {
+    width: 20%;
+    /* Could be more or less, depending on screen size */ }
+  .ng-tags-app .modal .close {
     color: #aaa;
     float: right;
     font-size: 28px;
-    font-weight: bold;
-}
-
-.ng-tags-app .modal .close:hover,
-.ng-tags-app .modal .close:focus {
+    font-weight: bold; }
+  .ng-tags-app .modal .close:hover,
+  .ng-tags-app .modal .close:focus {
     color: black;
     text-decoration: none;
-    cursor: pointer;
-}
+    cursor: pointer; }
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL1Jlc291cmNlcy9zYXNzL2FkbWluL19iYXNlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0VBRUksYUFBWSxFQUNmOztBQUVEO0VBQ0ksZUFBZTtFQUtmLDRCQUE0QjtFQWM1Qix1QkFBdUI7RUFTdkIsNEJBQTRCLEVBYy9CO0VBM0NEO0lBR1EsWUFBWSxFQUNmO0VBSkw7SUFRUSxjQUFjO0lBQUUsdUJBQXVCO0lBQ3ZDLGdCQUFnQjtJQUFFLG1CQUFtQjtJQUNyQyxXQUFXO0lBQUUsZ0JBQWdCO0lBQzdCLFFBQVE7SUFDUixPQUFPO0lBQ1AsWUFBWTtJQUFFLGdCQUFnQjtJQUM5QixhQUFhO0lBQUUsaUJBQWlCO0lBQ2hDLGVBQWU7SUFBRSw2QkFBNkI7SUFDOUMsd0JBQXFCO0lBQVMsb0JBQW9CO0lBQ2xELHFDQUFzQjtJQUFhLHNCQUFzQixFQUM1RDtFQWxCTDtJQXNCUSwwQkFBMEI7SUFDMUIsaUJBQWlCO0lBQUUsbUNBQW1DO0lBQ3RELGNBQWM7SUFDZCx1QkFBdUI7SUFDdkIsV0FBVztJQUFFLHFEQUFxRCxFQUNyRTtFQTNCTDtJQStCUSxZQUFZO0lBQ1osYUFBYTtJQUNiLGdCQUFnQjtJQUNoQixrQkFBa0IsRUFDckI7RUFuQ0w7O0lBdUNRLGFBQWE7SUFDYixzQkFBc0I7SUFDdEIsZ0JBQWdCLEVBQ25CIiwiZmlsZSI6InN0eWxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbImh0bWwsXG5ib2R5IHtcbiAgICBoZWlnaHQ6MTAwJTtcbn1cblxuLm5nLXRhZ3MtYXBwIHtcbiAgICAvKiBUYWdzIHRyZWUgKi9cbiAgICAudGFncy10cmVlIGEuaGFzLWxpbWl0YXRpb25zIHtcbiAgICAgICAgY29sb3I6IGdyYXk7XG4gICAgfVxuXG4gICAgLyogVGhlIE1vZGFsIChiYWNrZ3JvdW5kKSAqL1xuICAgIC5tb2RhbCB7XG4gICAgICAgIGRpc3BsYXk6IG5vbmU7IC8qIEhpZGRlbiBieSBkZWZhdWx0ICovXG4gICAgICAgIHBvc2l0aW9uOiBmaXhlZDsgLyogU3RheSBpbiBwbGFjZSAqL1xuICAgICAgICB6LWluZGV4OiAxOyAvKiBTaXQgb24gdG9wICovXG4gICAgICAgIGxlZnQ6IDA7XG4gICAgICAgIHRvcDogMDtcbiAgICAgICAgd2lkdGg6IDEwMCU7IC8qIEZ1bGwgd2lkdGggKi9cbiAgICAgICAgaGVpZ2h0OiAxMDAlOyAvKiBGdWxsIGhlaWdodCAqL1xuICAgICAgICBvdmVyZmxvdzogYXV0bzsgLyogRW5hYmxlIHNjcm9sbCBpZiBuZWVkZWQgKi9cbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDAsMCwwKTsgLyogRmFsbGJhY2sgY29sb3IgKi9cbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgwLDAsMCwwLjQpOyAvKiBCbGFjayB3LyBvcGFjaXR5ICovXG4gICAgfVxuXG4gICAgLyogTW9kYWwgQ29udGVudC9Cb3ggKi9cbiAgICAubW9kYWwgLmNvbnRlbnQge1xuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmVmZWZlO1xuICAgICAgICBtYXJnaW46IDE1JSBhdXRvOyAvKiAxNSUgZnJvbSB0aGUgdG9wIGFuZCBjZW50ZXJlZCAqL1xuICAgICAgICBwYWRkaW5nOiAyMHB4O1xuICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjODg4O1xuICAgICAgICB3aWR0aDogMjAlOyAvKiBDb3VsZCBiZSBtb3JlIG9yIGxlc3MsIGRlcGVuZGluZyBvbiBzY3JlZW4gc2l6ZSAqL1xuICAgIH1cblxuICAgIC8qIFRoZSBNb2RhbCBDbG9zZSBCdXR0b24gKi9cbiAgICAubW9kYWwgLmNsb3NlIHtcbiAgICAgICAgY29sb3I6ICNhYWE7XG4gICAgICAgIGZsb2F0OiByaWdodDtcbiAgICAgICAgZm9udC1zaXplOiAyOHB4O1xuICAgICAgICBmb250LXdlaWdodDogYm9sZDtcbiAgICB9XG5cbiAgICAubW9kYWwgLmNsb3NlOmhvdmVyLFxuICAgIC5tb2RhbCAuY2xvc2U6Zm9jdXMge1xuICAgICAgICBjb2xvcjogYmxhY2s7XG4gICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIH1cbn1cbiJdfQ== */
