@@ -7,5 +7,6 @@ node_modules/
 var/
 composer.phar
 composer.lock
+grunt.lock
 phpunit.phar
 .php_cs.cache
