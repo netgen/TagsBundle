@@ -25,6 +25,9 @@ $('document').ready(function () {
                             .replace("#", rootTagId + "/true")
                             ;
                     }
+                },
+                'themes': {
+                    'name': 'ng-tags'
                 }
             }
         }).bind("ready.jstree", function (event, data) {

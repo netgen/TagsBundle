@@ -6,7 +6,7 @@
 
 {% block content %}
     {# Show confirmation message, table with selected tags and form for moving selected multiple tags to new parent. #}
-    <h2>{{ 'tag.move_tags.title'|trans }}</h2>
+    <h2 class="tag-title">{{ 'tag.move_tags.title'|trans }}</h2>
 
     <p>{{ 'tag.move_tags.message'|trans }}</p>
 
@@ -35,15 +35,17 @@
 
     {{ form_row(form.parentTag, {'tag': parentTag is defined ? parentTag : null}) }}
 
-    <input type="submit" value="{{ 'tag.button.save'|trans }}"/>
+    <div class="tags-actions">
+        <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.button.save'|trans }}"/>
+        <a href="
+            {% if parentTag is defined %}
+                {{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}
+            {% else %}
+                {{ path('netgen_tags_admin_dashboard_index') }}
+            {% endif %}
+         " class="tags-btn">{{ 'tag.button.discard'|trans }}</a>
+    </div>
 
     {{ form_end(form) }}
 
-    <a href="
-        {% if parentTag is defined %}
-            {{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}
-        {% else %}
-            {{ path('netgen_tags_admin_dashboard_index') }}
-        {% endif %}
-     " class="button">{{ 'tag.button.discard'|trans }}</a>
 {% endblock %}

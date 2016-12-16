@@ -1,0 +1,75 @@
+#{$namespace} {
+    .tags-btn {
+        display:inline-block;
+        font-weight:normal;
+        text-align:center;
+        vertical-align:middle;
+        touch-action:manipulation;
+        cursor:pointer;
+        border:none;
+        white-space:nowrap;
+        overflow:hidden;
+        padding:6px 12px;
+        font-size:14px;
+        line-height:1.7142857143;
+        user-select:none;
+        border-radius:$borderRadius;
+        background:$btnDefault;
+        color:$btnDefaultColor;
+        text-decoration:none;
+        transition:all 0.2s;
+        position:relative;
+        &:hover,
+        &:focus {
+            background:darken($btnDefault, 10%);
+            text-decoration:none;
+        }
+        &.tags-btn-primary {
+            background:$btnPrimary;
+            color:$btnPrimaryColor;
+            &:hover,
+            &:focus {
+                background:desaturate(darken($btnPrimary, 14%), 18%);
+            }
+        }
+        &.tags-btn-link {
+            color:$linkColor;
+            background:transparent;
+        }
+        .md-icon {
+            display:inline-block;
+            vertical-align:middle;
+            margin:0 0.25em 0 0;
+            float:left;
+            &.right {
+                float:right;
+                margin:0 0 0 0.25em;
+            }
+        }
+    }
+    .tags-btn-group {
+        @extend %clearfix;
+        margin:1em 0;
+        > .tags-btn {
+            float:left;
+            margin-left:1px;
+            border-radius:0;
+            &:first-child {
+                border-top-left-radius:$borderRadius;
+                border-bottom-left-radius:$borderRadius;
+                margin-left:0;
+                border-left:none;
+            }
+            &:last-child {
+                border-top-right-radius:$borderRadius;
+                border-bottom-right-radius:$borderRadius;
+            }
+        }
+    }
+    .tags-actions {
+        margin:1em 0;
+        .tags-btn {
+            margin-right:0.5em;
+        }
+    }
+}

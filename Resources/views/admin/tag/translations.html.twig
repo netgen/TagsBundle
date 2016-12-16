@@ -18,7 +18,7 @@
         <tbody>
         {% for languageCode, keyword in tag.keywords %}
             <tr>
-                <td><input type="checkbox" name="Locale[]" {% if languageCode == tag.mainLanguageCode %}disabled="disabled"{% endif %} value="{{ languageCode }}"/></td>
+                <td><input type="checkbox" name="Locale[]" {% if languageCode == tag.mainLanguageCode %}disabled="disabled"{% endif %} id="{{ languageCode }}" value="{{ languageCode }}"/><label for="{{ languageCode }}"></label></td>
                 {% if languageCode == tag.mainLanguageCode %}
                     <td><strong>{{ netgen_tags_language_name(languageCode) }}</strong></td>
                 {% else %}
@@ -26,7 +26,7 @@
                 {% endif %}
                 <td>{{ keyword }}</td>
                 <td>{{ languageCode }}</td>
-                <td><input type="radio" name="MainLocale" value="{{ languageCode }}" {% if languageCode == tag.mainLanguageCode %}checked="checked"{% endif %}/></td>
+                <td><input type="radio" name="MainLocale" id="{{ languageCode }}" value="{{ languageCode }}" {% if languageCode == tag.mainLanguageCode %}checked="checked"{% endif %}/><label for="{{ languageCode }}"></label></td>
                 <td><a href="{{ path('netgen_tags_admin_tag_update', {'tagId': tag.id, 'languageCode': languageCode}) }}">{{ 'tag.button.edit'|trans }}</a></td>
             </tr>
         {% endfor %}
@@ -34,8 +34,10 @@
     </table>
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
-    <input type="submit" name="RemoveTranslationButton" value="{{ 'tag.button.remove'|trans }}"/>
-    <input type="submit" name="UpdateMainTranslationButton" value="{{ 'tag.button.main'|trans }}"/>
-    <input type="checkbox" name="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %}/> {{ 'tag.form.always_available'|trans }}.
-    <input type="submit" name="UpdateAlwaysAvailableButton" value="{{ 'tag.button.update'|trans }}"/>
+    <div class="tags-btn-group">
+        <input type="submit" class="tags-btn" name="RemoveTranslationButton" value="{{ 'tag.button.remove'|trans }}"/>
+        <input type="submit" class="tags-btn" name="UpdateMainTranslationButton" value="{{ 'tag.button.main'|trans }}"/>
+    </div>
+    <input type="checkbox" name="AlwaysAvailable" id="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %}/><label for="AlwaysAvailable">{{ 'tag.form.always_available'|trans }}.</label>
+    <input type="submit" class="tags-btn tags-btn-primary" name="UpdateAlwaysAvailableButton" value="{{ 'tag.button.update'|trans }}"/>
 </form>

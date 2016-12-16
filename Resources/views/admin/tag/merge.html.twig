@@ -6,7 +6,7 @@
 
 {% block content %}
     {# Show form for merging two tags. #}
-    <h2>{{ 'tag.merge.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+    <h2 class="tag-title">{{ 'tag.merge.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     <p>{{ 'tag.merge.message'|trans }}</p>
 
@@ -15,7 +15,9 @@
     {{ form_errors(form) }}
     {{ form_row(form.mainTag) }}
 
-    <input type="submit" value="{{ 'tag.button.save'|trans }}"/>
-    <input type="button" value="{{ 'tag.button.discard'|trans }}"/>
+    <div class="tags-actions">
+        <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.button.save'|trans }}"/>
+        <input type="button" class="tags-btn" value="{{ 'tag.button.discard'|trans }}"/>
+    </div>
     {{ form_end(form) }}
 {% endblock %}

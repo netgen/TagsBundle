@@ -3,7 +3,9 @@
 {# Show tag children with form for moving or removing multiple children. #}
 <h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
 
-<a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="button">{{ 'tag.add.title'|trans }}</a>
+<div class="tags-btn-group">
+    <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
+</div>
 
 {% if childrenTags is empty %}
     <p>{{  'tag.children_tags.no_children'|trans }}</p>
@@ -22,7 +24,7 @@
             <tbody>
             {% for tag in childrenTags %}
                 <tr>
-                    <td><input type="checkbox" name="Tags[]" value="{{ tag.id }}"/></td>
+                    <td><input type="checkbox" name="Tags[]" id="{{ tag.id }}" value="{{ tag.id }}"/><label for="{{ tag.id }}"></label></td>
                     <td>{{ tag.id }}</td>
                     <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
                     <td>
@@ -36,7 +38,9 @@
             </tbody>
         </table>
 
-        <input type="submit" value="{{ 'tag.button.move_multiple'|trans }}" formaction="{{ path('netgen_tags_admin_tag_children_move', {'tagId': tag is defined ? tag.id : 0}) }}"/>
-        <input type="submit" value="{{ 'tag.button.delete_multiple'|trans }}" formaction="{{ path('netgen_tags_admin_tag_children_delete', {'tagId': tag is defined ? tag.id : 0}) }}"/>
+        <div class="tags-btn-group">
+            <input type="submit" class="tags-btn" value="{{ 'tag.button.move_multiple'|trans }}" formaction="{{ path('netgen_tags_admin_tag_children_move', {'tagId': tag is defined ? tag.id : 0}) }}"/>
+            <input type="submit" class="tags-btn" value="{{ 'tag.button.delete_multiple'|trans }}" formaction="{{ path('netgen_tags_admin_tag_children_delete', {'tagId': tag is defined ? tag.id : 0}) }}"/>
+        </div>
     </form>
 {% endif %}

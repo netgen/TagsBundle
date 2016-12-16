@@ -4,7 +4,7 @@
 
 {% block content %}
     {# Show confirmation message, table with selected tags and form for deleting selected multiple tags. #}
-    <h2>{{ 'tag.delete_tags.title'|trans }}</h2>
+    <h2 class="tag-title">{{ 'tag.delete_tags.title'|trans }}</h2>
 
     <p>{{ 'tag.delete_tags.message'|trans }}</p>
 
@@ -28,15 +28,17 @@
             </tbody>
         </table>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
-        <input type="submit" name="DeleteTagsButton" value="{{ 'tag.button.yes'|trans }}"/>
+        <div class="tags-actions">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
+            <input type="submit" class="tags-btn tags-btn-primary" name="DeleteTagsButton" value="{{ 'tag.button.yes'|trans }}"/>
+            <a href="
+                {% if parentTag is defined %}
+                    {{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}
+                {% else %}
+                    {{ path('netgen_tags_admin_dashboard_index') }}
+                {% endif %}
+             " class="tags-btn">{{ 'tag.button.no'|trans }}</a>
+        </div>
     </form>
 
-    <a href="
-        {% if parentTag is defined %}
-            {{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}
-        {% else %}
-            {{ path('netgen_tags_admin_dashboard_index') }}
-        {% endif %}
-     " class="button">{{ 'tag.button.no'|trans }}</a>
 {% endblock %}

@@ -1,5 +1,19 @@
 {% trans_default_domain 'eztags' %}
 
+{%- block form_row -%}
+    <div class="tags-input {% if errors|length > 0 %} error-input{% endif %}">
+        {%- if 'checkbox' in block_prefixes or 'radio' in block_prefixes -%}
+            {{- form_widget(form) -}}
+            {{- form_label(form) -}}
+            {{- form_errors(form) -}}
+        {%- else -%}
+            {{- form_label(form) -}}
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        {%- endif -%}
+    </div>
+{%- endblock form_row -%}
+
 {% block translation_list_widget %}
     {# Custom form for selecting language when adding or updating tags or synonyms. #}
     <div {{ block('widget_container_attributes') }}>
@@ -28,24 +42,23 @@
 {% endblock %}
 
 {% block tag_tree_widget %}
-    <div
-            class="modal-tree"
-            data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}"
-    >
-        {{- form_label(form, null, {}) -}}
-        <input type="hidden" class="tag-id-value" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
-        <span class="tag-keyword">{% if tag is defined and tag is not null %}{{ tag.keyword }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
-        <input type="button" class="modal-tree-button" value="{{ 'tag.tree.select'|trans }}" />
+    <div class="tags-input">
+        <div class="modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
+            {{- form_label(form, null, {}) -}}
+            <input type="hidden" class="tag-id-value" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
+            <span class="tag-keyword">{% if tag is defined and tag is not null %}{{ tag.keyword }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
+            <input type="button" class="tags-btn modal-tree-button" value="{{ 'tag.tree.select'|trans }}" />
 
-        {# Renders a tree inside modal window, for selecting tag inside forms. #}
-        <div class="modal">
-            <div class="content">
-                <span class="close">x</span>
-                {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
-                    'rootTagId': rootTagId is defined ? rootTagId : null,
-                    'showRootTag': showRootTag is defined ? showRootTag : true,
-                    'selectedTagId': value is not empty ? value : ''
-                } %}
+            {# Renders a tree inside modal window, for selecting tag inside forms. #}
+            <div class="modal">
+                <div class="content">
+                    <span class="close">x</span>
+                    {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
+                        'rootTagId': rootTagId is defined ? rootTagId : null,
+                        'showRootTag': showRootTag is defined ? showRootTag : true,
+                        'selectedTagId': value is not empty ? value : ''
+                    } %}
+                </div>
             </div>
         </div>
     </div>

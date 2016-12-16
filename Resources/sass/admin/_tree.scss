@@ -1,0 +1,99 @@
+/* ng-tags theme for jstree */
+$nodeHeight: 24px;
+
+.jstree-ng-tags {
+    padding:$gutter;
+    font-size:13px;
+    .jstree-icon {
+        @extend %material-icons;
+        position:relative;
+        z-index:1;
+        &:empty {
+            width:$nodeHeight;
+            height:$nodeHeight;
+            line-height:$nodeHeight;
+        }
+    }
+    .jstree-node {
+        line-height:$nodeHeight;
+        position:relative;
+        .jstree-node {
+            margin-left:$nodeHeight;
+        }
+        &::before {
+            position:absolute;
+            left:$nodeHeight/2;
+            top:0;
+            content:"";
+            height:100%;
+            width:0;
+            border-left:1px solid #d5d5d5;
+            z-index:0;
+        }
+        &::after {
+            position:absolute;
+            left:$nodeHeight/2;
+            top:$nodeHeight/2;
+            content:"";
+            height:0;
+            width:$nodeHeight/2;
+            border-top:1px solid #d5d5d5;
+            z-index:0;
+        }
+        &.jstree-last {
+            &::before {
+                height:$nodeHeight/2;
+            }
+        }
+    }
+    .jstree-themeicon {
+        font-size:17px;
+        color:hsl(0, 0, 74);
+        &::before {
+            content:"folder";
+        }
+    }
+    .jstree-ocl {
+        font-size:17px;
+    }
+    .jstree-closed,
+    .jstree-open,
+    .jstree-loading {
+        > .jstree-ocl {
+            background:$sidebarBg;
+            .modal & {
+                background-color:#fff;
+            }
+        }
+    }
+    .jstree-closed {
+        > .jstree-ocl {
+            &::before {
+                content:"add_circle";
+            }
+        }
+    }
+    .jstree-open {
+        > .jstree-ocl {
+            &::before {
+                content:"remove_circle_outline";
+            }
+        }
+    }
+    .jstree-loading {
+        > .jstree-ocl {
+            background:$sidebarBg url(../images/loader.svg) no-repeat center center;
+            background-size:20px;
+            &::before {
+                content:"";
+            }
+            .modal & {
+                background-color:#fff;
+            }
+        }
+    }
+}
+
+.tags-tree a.has-limitations {
+    color: gray;
+}

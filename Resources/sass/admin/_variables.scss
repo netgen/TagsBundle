@@ -1,0 +1,53 @@
+$namespace: '.ng-tags-app';
+
+/* Colors */
+$sidebarBg: hsl(0, 0, 90);
+$contentBg: hsl(0, 0, 96);
+$textColor: hsl(0, 0, 25);
+$linkColor: hsl(199, 98, 48);
+$borderColor: hsl(0, 0, 90);
+
+$btnDefault: #fff;
+$btnDefaultColor: hsl(0, 0, 35);
+$btnPrimary: hsl(212, 72, 59);
+$btnPrimaryColor: #fff;
+
+$tableBorder: hsl(0, 0, 90);
+
+/* Dimensions */
+$gutter: 15px;
+$sidebarWidth: 240px;
+$borderRadius: 2px;
+$btnHeight: 36px;
+
+$baseFont: 'Roboto', Helvetica, Arial, sans-serif;
+
+%clearfix {
+    &::after {
+        display:table;
+        clear:both;
+        content:"";
+    }
+}
+
+%material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+//responsive breakpoints
+$break-lg:1200px;
+$break-md:992px;
+$break-sm:768px;
+$break-xs:480px;
