@@ -52,7 +52,7 @@
             {# Renders a tree inside modal window, for selecting tag inside forms. #}
             <div class="modal">
                 <div class="content">
-                    <span class="close">x</span>
+                    <span class="close"><i class="md-icon">close</i></span>
                     {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
                         'rootTagId': rootTagId is defined ? rootTagId : null,
                         'showRootTag': showRootTag is defined ? showRootTag : true,
