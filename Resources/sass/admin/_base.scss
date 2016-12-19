@@ -35,4 +35,17 @@ body {
         flex:1;
         padding:$gutter;
     }
+
+    /* messages */
+    .tags-message {
+        margin:2em 0 3em;
+        padding:$gutter;
+        background:hsl(205, 30, 92);
+        &.tags-message-success {
+            background:hsl(160, 80, 80);
+        }
+        &.tags-message-error {
+            background:hsl(0, 100, 90);
+        }
+    }
 }

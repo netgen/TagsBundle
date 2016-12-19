@@ -1,6 +1,6 @@
 {% for message in app.session.flashBag.get('successMessages') %}
     {# Show success messages from flash messages, if any #}
-    <div class="success_messages_container" style="background: palegreen">
+    <div class="tags-message tags-message-success">
         {{ message }}
     </div>
 {% endfor %}
