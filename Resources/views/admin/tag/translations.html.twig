@@ -1,8 +1,6 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {# Show translations of a tag or synonym with form for deleting translation, seting as main and updating AlwaysAvailable property of a tag or synonym. #}
-<h3>{{ 'tag.translations.title'|trans }} ({{ tag.keywords|length }})</h3>
-
 <form method="post" action="{{ path('netgen_tags_admin_tag_translation', {'tagId': tag.id}) }}">
     <table>
         <thead>

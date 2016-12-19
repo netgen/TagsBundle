@@ -7,7 +7,7 @@ body {
 #{$namespace} {
     min-height:100%;
     font-family:$baseFont;
-    font-size:14px;
+    font-size:$baseFontSize;
     line-height:1.6;
     color:$textColor;
     background:$contentBg;

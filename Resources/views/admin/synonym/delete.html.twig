@@ -4,14 +4,14 @@
 
 {% block content %}
     {# Show confirmation message and form for deleting a synonym. #}
-    <h2>{{ 'synonym.delete.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+    <h2 class="tag-title">{{ 'synonym.delete.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     <p>{{ 'synonym.delete.message'|trans({'%synonymName%': netgen_tags_tag_keyword(tag) }) }}</p>
 
-    <form method="post" action="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}">
+    <form method="post" action="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-actions">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
-        <input type="submit" name="DeleteTagButton" value="{{ 'tag.button.yes'|trans }}"/>
+        <input type="submit" class="tags-btn tags-btn-primary" name="DeleteTagButton" value="{{ 'tag.button.yes'|trans }}"/>
+        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.button.no'|trans }}</a>
     </form>
 
-    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="button">{{ 'tag.button.no'|trans }}</a>
 {% endblock %}

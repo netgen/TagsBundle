@@ -94,6 +94,62 @@ $nodeHeight: 24px;
     }
 }
 
+.jstree-ng-tags-contextmenu.vakata-context {
+    border:none;
+    background:#fff;
+    box-shadow:rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+    border-radius:$borderRadius;
+    padding:8px 0;
+    z-index:100;
+    font-family:$baseFont;
+    font-size:$baseFontSize;
+    color:$textColor;
+    text-shadow:none;
+    list-style-type:none;
+    transition:transform 250ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 250ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    transform-origin:left top 0px;
+    animation:contextIn 0.18s ease-out;
+
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    a {
+        color:inherit;
+        text-shadow:none;
+        border-radius:0;
+        padding:0 $gutter;
+        line-height:$btnHeight;
+        transition:background 0.2s;
+        .vakata-contextmenu-sep {
+            display:none;
+        }
+        i {
+            display:none;
+        }
+    }
+    a:hover,
+    .vakata-context-hover a {
+        box-shadow:none;
+        background:hsla(0, 0, 0, 0.1);
+    }
+    .vakata-context-separator {
+        border-top:1px solid $borderColor;
+        a {
+            display:none;
+        }
+    }
+}
+
+@keyframes contextIn {
+    0% {
+        transform:scale(1, 0);
+        opacity:0;
+    }
+    100% {
+        transform:scale(1, 1);
+        opacity:1;
+    }
+}
+
 .tags-tree a.has-limitations {
     color: gray;
 }

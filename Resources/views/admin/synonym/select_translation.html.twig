@@ -7,15 +7,15 @@
 {% block content %}
     {# Show form for selecting translation when adding or updating synonym. #}
     {% if tag is defined %}
-        <h2>{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+        <h2 class="tag-title">{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
     {% else %}
-        <h2>{{ 'synonym.add.title'|trans }}</h2>
+        <h2 class="tag-title">{{ 'synonym.add.title'|trans }}</h2>
     {% endif %}
 
     {{ form_start(form) }}
 
     {{ form_row(form.languageCode, {'tag': tag is defined ? tag : null}) }}
 
-    <input type="submit"/>
+    <input class="tags-btn tags-btn-primary" type="submit"/>
     {{ form_end(form) }}
 {% endblock %}

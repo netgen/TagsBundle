@@ -21,93 +21,103 @@
         <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
     </div>
 
-    {# Show latest content connected with this tag #}
-    <h3>{{ 'tag.latest.title'|trans }}</h3>
+    <div class="tags-tabs">
+        <ul class="tags-tab-controls">
+            <li><a class="tags-tab-control" data-target="latest" href="#latest">{{ 'tag.latest.title'|trans }}</a></li>
+            <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
+            <li><a class="tags-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="tags-badge">{{ synonyms|length }}</span></a></li>
+            <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
+        </ul>
+        <div class="tags-tab" data-tab="latest">
+            {# Show latest content connected with this tag #}
+            {% if latestContent is empty %}
+                <p>{{  'tag.latest_content.no_content'|trans }}</p>
+            {% else %}
 
-    {% if latestContent is empty %}
-        <p>{{  'tag.latest_content.no_content'|trans }}</p>
-    {% else %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{ 'tag.table.tag_id'|trans }}</th>
+                            <th>{{ 'tag.table.tag_name'|trans }}</th>
+                            <th>{{ 'tag.table.modified'|trans }}</th>
+                            <th>{{ 'tag.class.name'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for content in latestContent %}
+                            <tr>
+                                <td>{{ content.contentInfo.id }}</td>
+                                <td><a href="{{ path( "ez_urlalias", {"contentId": content.contentInfo.id} ) }}">{{ ez_content_name(content) }}</a></td>
+                                <td>{{ content.contentInfo.modificationDate|date('d.m.Y H:i') }}</td>
+                                <td>{{ netgen_tags_content_type_name(content.contentInfo.contentTypeId) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-    <table>
-        <thead>
-            <tr>
-                <th>{{ 'tag.table.tag_id'|trans }}</th>
-                <th>{{ 'tag.table.tag_name'|trans }}</th>
-                <th>{{ 'tag.table.modified'|trans }}</th>
-                <th>{{ 'tag.class.name'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for content in latestContent %}
-                <tr>
-                    <td>{{ content.contentInfo.id }}</td>
-                    <td><a href="{{ path( "ez_urlalias", {"contentId": content.contentInfo.id} ) }}">{{ ez_content_name(content) }}</a></td>
-                    <td>{{ content.contentInfo.modificationDate|date('d.m.Y H:i') }}</td>
-                    <td>{{ netgen_tags_content_type_name(content.contentInfo.contentTypeId) }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            {% endif %}
+        </div>
 
-    {% endif %}
+        <div class="tags-tab" data-tab="translations">
+            {# Include translations table with form #}
+            {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
+        </div>
 
-    {# Include translations table with form #}
-    {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
 
-    {# Show tag synonyms #}
-    <h3>{{ 'tag.synonyms.title'|trans }} ({{ synonyms|length }})</h3>
+        <div class="tags-tab" data-tab="synonyms">
+            {% if synonyms is empty %}
+                <p>{{ 'tag.synonyms.no_synonyms'|trans }}</p>
+            {% else %}
 
-    {% if synonyms is empty %}
-        <p>{{ 'tag.synonyms.no_synonyms'|trans }}</p>
-    {% else %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>{{ 'tag.table.tag_id'|trans }}</th>
+                        <th>{{ 'tag.table.tag_name'|trans }}</th>
+                        <th>{{ 'tag.table.modified'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for synonym in synonyms %}
+                        <tr>
+                            <td>{{ synonym.id }}</td>
+                            <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">{{ netgen_tags_tag_keyword(synonym) }}</a></td>
+                            <td>{{ synonym.modificationDate|date('d/m/Y h:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>{{ 'tag.table.tag_id'|trans }}</th>
-            <th>{{ 'tag.table.tag_name'|trans }}</th>
-            <th>{{ 'tag.table.modified'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for synonym in synonyms %}
-            <tr>
-                <td>{{ synonym.id }}</td>
-                <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">{{ netgen_tags_tag_keyword(synonym) }}</a></td>
-                <td>{{ synonym.modificationDate|date('d/m/Y h:i') }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+        <div class="tags-tab" data-tab="limitations">
+            {% if subTreeLimitations is empty %}
+                <p>{{ 'tag.subtree_limitations.no_limitations'|trans }}</p>
+            {% else %}
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>{{ 'tag.class.id'|trans }}</th>
+                        <th>{{ 'tag.class.name'|trans }}</th>
+                        <th>{{ 'tag.subtree_limitations.identifier'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for subTreeLimitation in subTreeLimitations %}
+                        <tr>
+                            <td>{{ subTreeLimitation.contentTypeId }}</td>
+                            <td>{{ netgen_tags_content_type_name(subTreeLimitation.contentTypeId) }}</td>
+                            <td>{{ subTreeLimitation.attributeIdentifier }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
 
     {# Include children table with form #}
     {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'tag': tag, 'childrenTags': childrenTags} %}
 
-    {# Show subtree limitations #}
-    <h3>{{ 'tag.subtree_limitations.title'|trans }} ({{ subTreeLimitations|length }})</h3>
-
-    {% if subTreeLimitations is empty %}
-        <p>{{ 'tag.subtree_limitations.no_limitations'|trans }}</p>
-    {% else %}
-
-        <table>
-            <thead>
-            <tr>
-                <th>{{ 'tag.class.id'|trans }}</th>
-                <th>{{ 'tag.class.name'|trans }}</th>
-                <th>{{ 'tag.subtree_limitations.identifier'|trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for subTreeLimitation in subTreeLimitations %}
-                <tr>
-                    <td>{{ subTreeLimitation.contentTypeId }}</td>
-                    <td>{{ netgen_tags_content_type_name(subTreeLimitation.contentTypeId) }}</td>
-                    <td>{{ subTreeLimitation.attributeIdentifier }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
 {% endblock %}

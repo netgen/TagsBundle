@@ -3,47 +3,58 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <h2>{{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)</h2>
-    <p>{{ 'tag.last_modified'|trans }}: {{ tag.modificationDate|date('d/m/Y g:i a') }} ({{ 'tag.tag_id'|trans }}: {{ tag.id }})</p>
+    <h2 class="tag-title">
+        {{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)
+        <span class="tag-title-note">{{ 'tag.last_modified'|trans }}: <strong>{{ tag.modificationDate|date('d/m/Y g:i a') }}</strong> ({{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong>)</span>
+    </h2>
 
     {# Show success and error messages from flash messages, if there is any #}
     {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
     {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}
 
     {# Show synonym action buttons #}
-    <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="button">{{ 'synonym.edit.title'|trans }}</a>
-    <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="button">{{ 'synonym.delete.title'|trans }}</a>
+    <div class="tags-btn-group">
+        <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'synonym.edit.title'|trans }}</a>
+        <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'synonym.delete.title'|trans }}</a>
+    </div>
 
-    {# Show latest content connected with this synonym #}
-    <h3>{{ 'tag.latest.title'|trans }}</h3>
+    <div class="tags-tabs">
+        <ul class="tags-tab-controls">
+            <li><a class="tags-tab-control" data-target="latest" href="#latest">{{ 'tag.latest.title'|trans }}</a></li>
+            <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
+        </ul>
+        <div class="tags-tab" data-tab="latest">
+            {# Show latest content connected with this synonym #}
+            {% if latestContent is empty %}
+                <p>{{  'tag.latest_content.no_content'|trans }}</p>
+            {% else %}
 
-    {% if latestContent is empty %}
-        <p>{{  'tag.latest_content.no_content'|trans }}</p>
-    {% else %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>{{ 'tag.table.tag_id'|trans }}</th>
+                        <th>{{ 'tag.table.tag_name'|trans }}</th>
+                        <th>{{ 'tag.table.modified'|trans }}</th>
+                        <th>{{ 'tag.class.name'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for content in latestContent %}
+                        <tr>
+                            <td>{{ content.contentInfo.id }}</td>
+                            <td><a href="{{ path( "ez_urlalias", {"contentId": content.contentInfo.id} ) }}">{{ ez_content_name(content) }}</a></td>
+                            <td>{{ content.contentInfo.modificationDate|date('d.m.Y H:i') }}</td>
+                            <td>{{ netgen_tags_content_type_name(content.contentInfo.contentTypeId) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-    <table>
-        <thead>
-        <tr>
-            <th>{{ 'tag.table.tag_id'|trans }}</th>
-            <th>{{ 'tag.table.tag_name'|trans }}</th>
-            <th>{{ 'tag.table.modified'|trans }}</th>
-            <th>{{ 'tag.class.name'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for content in latestContent %}
-            <tr>
-                <td>{{ content.contentInfo.id }}</td>
-                <td><a href="{{ path( "ez_urlalias", {"contentId": content.contentInfo.id} ) }}">{{ ez_content_name(content) }}</a></td>
-                <td>{{ content.contentInfo.modificationDate|date('d.m.Y H:i') }}</td>
-                <td>{{ netgen_tags_content_type_name(content.contentInfo.contentTypeId) }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    {% endif %}
-
-    {# Include translations table with form #}
-    {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
+            {% endif %}
+        </div>
+        <div class="tags-tab" data-tab="translations">
+            {# Include translations table with form #}
+            {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
+        </div>
+    </div>
 {% endblock %}

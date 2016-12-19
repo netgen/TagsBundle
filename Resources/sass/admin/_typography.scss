@@ -22,4 +22,19 @@
     h4 {
         font-size:1em;
     }
+    .tags-badge {
+        display:inline-block;
+        margin-left:4px;
+        vertical-align:middle;
+        padding:0 2px;
+        font-size:12px;
+        font-weight:400;
+        line-height:20px;
+        height:20px;
+        min-width:20px;
+        text-align:center;
+        background:hsl(210, 20, 45);
+        color:#fff;
+        border-radius:500px;
+    }
 }

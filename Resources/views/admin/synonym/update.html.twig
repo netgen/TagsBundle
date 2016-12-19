@@ -2,13 +2,15 @@
 
 {% trans_default_domain 'eztags_admin' %}
 
+{% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
+
 {% block content %}
     {# Show form for updating a synonym. #}
-    <h2>{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+    <h2 class="tag-title">{{ 'synonym.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
-    <input type="submit"/>
+    <input class="tags-btn tags-btn-primary" type="submit"/>
     {{ form_end(form) }}
 {% endblock %}
