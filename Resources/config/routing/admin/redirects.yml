@@ -1,0 +1,15 @@
+netgen_tags_admin_root:
+    path: /tags/admin
+    methods: [GET]
+    defaults:
+        _controller: "FrameworkBundle:Redirect:redirect"
+        route: netgen_tags_admin_dashboard_index
+        permanent: true
+
+netgen_tags_admin_dashboard_no_slash:
+    path: /tags/admin/dashboard
+    methods: [GET]
+    defaults:
+        _controller: "FrameworkBundle:Redirect:redirect"
+        route: netgen_tags_admin_dashboard_index
+        permanent: true
