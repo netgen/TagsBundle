@@ -80,6 +80,7 @@ tag.button.remove: 'Remove selected'
 tag.button.main: 'Set main'
 tag.button.move_multiple: 'Move selected tags'
 tag.button.delete_multiple: 'Remove selected tags'
+tag.button.continue: 'Continue'
 
 tag.translation.no_translation: 'Translation for locale "%locale%" does not exist'
 tag.translation.is_main: 'You can not remove main language'

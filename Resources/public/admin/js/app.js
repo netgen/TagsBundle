@@ -140,14 +140,14 @@ $('document').ready(function () {
     /**
      * Opens modal when modal open button is clicked.
      */
-    $('div.ng-tags-app div.modal-tree input.modal-tree-button').click(function() {
+    $('.modal-tree-button').on('click', function(){
         $(this).parent('div.modal-tree').children('div.modal').show();
     });
 
     /**
      * It closes modal when Close span inside modal is clicked.
      */
-    $('div.ng-tags-app div.modal-tree span.close').click(function() {
+    $('.modal').on('click', '.close', function(){
         $(this).parents('div.modal-tree').children('div.modal').hide();
     });
 

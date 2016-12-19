@@ -16,8 +16,8 @@
     {{ form_row(form.mainTag) }}
 
     <div class="tags-actions">
-        <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.button.save'|trans }}"/>
-        <input type="button" class="tags-btn" value="{{ 'tag.button.discard'|trans }}"/>
+        <button type="submit" class="tags-btn tags-btn-primary">{{ 'tag.button.save'|trans }}</button>
+        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.button.discard'|trans }}</a>
     </div>
     {{ form_end(form) }}
 {% endblock %}

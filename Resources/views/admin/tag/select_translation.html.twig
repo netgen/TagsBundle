@@ -16,6 +16,6 @@
 
     {{ form_row(form.languageCode, {'tag': tag is defined ? tag : null}) }}
 
-    <input type="submit" class="tags-btn tags-btn-primary" />
+    <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.continue'|trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

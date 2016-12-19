@@ -47,7 +47,7 @@
             {{- form_label(form, null, {}) -}}
             <input type="hidden" class="tag-id-value" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
             <span class="tag-keyword">{% if tag is defined and tag is not null %}{{ tag.keyword }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
-            <input type="button" class="tags-btn modal-tree-button" value="{{ 'tag.tree.select'|trans }}" />
+            <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select'|trans }}</button>
 
             {# Renders a tree inside modal window, for selecting tag inside forms. #}
             <div class="modal">

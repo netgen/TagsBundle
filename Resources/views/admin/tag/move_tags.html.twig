@@ -36,7 +36,7 @@
     {{ form_row(form.parentTag, {'tag': parentTag is defined ? parentTag : null}) }}
 
     <div class="tags-actions">
-        <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.button.save'|trans }}"/>
+        <button type="submit" class="tags-btn tags-btn-primary">{{ 'tag.button.save'|trans }}</button>
         <a href="
             {% if parentTag is defined %}
                 {{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}

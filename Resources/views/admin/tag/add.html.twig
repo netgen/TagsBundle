@@ -17,6 +17,6 @@
     {{ form_row(form.remoteId) }}
     {{ form_row(form.parentTagId, {'tag': parentTag is defined ? parentTag : null}) }}
 
-    <input class="tags-btn tags-btn-primary" type="submit"/>
+    <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.save'|trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

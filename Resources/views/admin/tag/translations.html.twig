@@ -33,9 +33,9 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
     <div class="tags-btn-group">
-        <input type="submit" class="tags-btn" name="RemoveTranslationButton" value="{{ 'tag.button.remove'|trans }}"/>
-        <input type="submit" class="tags-btn" name="UpdateMainTranslationButton" value="{{ 'tag.button.main'|trans }}"/>
+        <button type="submit" class="tags-btn" name="RemoveTranslationButton">{{ 'tag.button.remove'|trans }}</button>
+        <button type="submit" class="tags-btn" name="UpdateMainTranslationButton">{{ 'tag.button.main'|trans }}</button>
     </div>
     <input type="checkbox" name="AlwaysAvailable" id="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %}/><label for="AlwaysAvailable">{{ 'tag.form.always_available'|trans }}.</label>
-    <input type="submit" class="tags-btn tags-btn-primary" name="UpdateAlwaysAvailableButton" value="{{ 'tag.button.update'|trans }}"/>
+    <button type="submit" class="tags-btn tags-btn-primary" name="UpdateAlwaysAvailableButton">{{ 'tag.button.update'|trans }}</button>
 </form>
