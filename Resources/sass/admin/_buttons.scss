@@ -31,6 +31,9 @@
             &:focus {
                 background:desaturate(darken($btnPrimary, 14%), 18%);
             }
+            .tags-btn-effect {
+                background:hsla(0, 0, 100, 0.25);
+            }
         }
         &.tags-btn-link {
             color:$linkColor;
@@ -45,6 +48,17 @@
                 float:right;
                 margin:0 0 0 0.25em;
             }
+        }
+        .tags-btn-effect {
+            position:absolute;
+            display:block;
+            left:50%;
+            top:50%;
+            transform:translate(-50%, -50%);
+            opacity:0;
+            background:hsla(0, 0, 0, 0.1);
+            border-radius:50%;
+            animation:effectSize 0.5s cubic-bezier(0.39, 0.76, 0.6, 0.98), effectFade 0.5s cubic-bezier(0.34, 0.29, 0.87, 0.57);
         }
     }
     .tags-btn-group {
@@ -71,5 +85,19 @@
         .tags-btn {
             margin-right:0.5em;
         }
+    }
+}
+@keyframes effectSize {
+    0% {
+        width:0;
+        height:0;
+    }
+}
+@keyframes effectFade {
+    0% {
+        opacity:1;
+    }
+    100% {
+        opacity:0;
     }
 }

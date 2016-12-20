@@ -12,7 +12,7 @@ $('document').ready(function () {
             },
             'contextmenu': {
                 'select_node': false,
-                'items': $(value).parents('div.modal-tree').length == 0 ? tagTreeContextMenu : ''
+                'items': $(value).parents('div.modal-tree').length === 0 ? tagTreeContextMenu : ''
             },
             'core': {
                 'data': {
@@ -97,7 +97,7 @@ $('document').ready(function () {
                 "action": function () {
                     window.location.href = node.data.convert_tag.url;
                 }
-            }
+            };
         }
 
         return menu;
@@ -115,7 +115,7 @@ $('document').ready(function () {
         function (event) {
             var selectedNode = $(this).jstree(true).get_node($(this));
 
-            if ($(event.target).parents('div.modal-tree').length == 0) {
+            if ($(event.target).parents('div.modal-tree').length === 0) {
                 document.location.href = selectedNode.a_attr.href;
             }
 
@@ -124,7 +124,7 @@ $('document').ready(function () {
 
                 $(modalTreeDiv).children('input[type=hidden]').val(selectedNode.id);
 
-                if (selectedNode.text == undefined || selectedNode.id == '0') {
+                if (selectedNode.text === undefined || selectedNode.id == '0') {
                     $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
                 }
 
@@ -154,11 +154,62 @@ $('document').ready(function () {
     /**
      * It closes modal when user clicks anywhere outside modal window.
      */
-    $(window).click(function(event) {
+    $(window).on('click', function(event) {
         if($(event.target).attr('class') == 'modal') {
             $(event.target).hide();
         }
     });
+
+    /* button click effect */
+    function TagsBtn(el){
+        this.$el = $(el);
+        this.$effect = $('<span class="tags-btn-effect">');
+        this.init();
+    }
+    TagsBtn.prototype.init = function(){
+        this.setupEvents();
+    };
+    TagsBtn.prototype.setupEvents = function(){
+        this.$el.on('mousedown', function(e){
+            this.$effect.detach();
+            this.addEffect(e);
+        }.bind(this));
+        this.$effect.on('animationend', function(){
+            $(this).detach();
+        });
+    };
+    TagsBtn.prototype.addEffect = function(e){
+        this.$effect.css(this.calcPos(e));
+        this.$el.append(this.$effect);
+    };
+    TagsBtn.prototype.calcPos = function(e){
+        var btnOffset = this.$el.offset(),
+            elWidth = this.$el.outerWidth(),
+            rel = {
+                x: e.pageX - btnOffset.left,
+                y: e.pageY - btnOffset.top
+            },
+            effectWidth = rel.x <= (elWidth/2) ? (elWidth - rel.x) * 2.4 : rel.x * 2.4;
+        this.effectCss = {
+            'left': rel.x,
+            'top': rel.y,
+            'width': effectWidth,
+            'height': effectWidth
+        };
+        return this.effectCss;
+    };
+    $.fn.tagsBtn = function () {
+        return $(this).each(function(){
+            var $this = $(this);
+            if ($this.data('tagsbtn')){
+                return;
+            }
+            var instance = new TagsBtn(this);
+            $this.data('tagsbtn', instance);
+        });
+    };
+
+    $('.tags-btn').tagsBtn();
 
     /* tabs */
     $.fn.tagsTabs = function(){
