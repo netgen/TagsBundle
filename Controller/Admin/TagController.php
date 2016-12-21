@@ -321,25 +321,25 @@ class TagController extends Controller
      */
     public function deleteTagAction(Request $request, Tag $tag)
     {
-        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
-            $this->addFlash(
-                'errorMessages',
-                $this->translator->trans(
-                    'general.invalid_csrf_token',
-                    array(),
-                    'eztags_admin'
-                )
-            );
-
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
-        }
-
         if ($request->request->has('DeleteTagButton')) {
+            if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+                $this->addFlash(
+                    'errorMessages',
+                    $this->translator->trans(
+                        'general.invalid_csrf_token',
+                        array(),
+                        'eztags_admin'
+                    )
+                );
+
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
+
             $this->tagsService->deleteTag($tag);
 
             $this->addFlash(
@@ -735,24 +735,6 @@ class TagController extends Controller
      */
     public function deleteChildrenAction(Request $request, Tag $tag = null)
     {
-        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
-            $this->addFlash(
-                'errorMessages',
-                $this->translator->trans(
-                    'general.invalid_csrf_token',
-                    array(),
-                    'eztags_admin'
-                )
-            );
-
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
-        }
-
         if (empty($request->request->get('Tags'))) {
             $this->addFlash(
                 'errorMessages',
@@ -786,6 +768,24 @@ class TagController extends Controller
         }
 
         if ($request->request->has('DeleteTagsButton')) {
+            if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+                $this->addFlash(
+                    'errorMessages',
+                    $this->translator->trans(
+                        'general.invalid_csrf_token',
+                        array(),
+                        'eztags_admin'
+                    )
+                );
+
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
+
             foreach ($tags as $tagObject) {
                 $this->tagsService->deleteTag($tagObject);
             }
