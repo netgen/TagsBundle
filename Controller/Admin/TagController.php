@@ -321,7 +321,25 @@ class TagController extends Controller
      */
     public function deleteTagAction(Request $request, Tag $tag)
     {
-        if ($request->request->has('DeleteTagButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+            $this->addFlash(
+                'errorMessages',
+                $this->translator->trans(
+                    'general.invalid_csrf_token',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        if ($request->request->has('DeleteTagButton')) {
             $this->tagsService->deleteTag($tag);
 
             $this->addFlash(
@@ -464,9 +482,45 @@ class TagController extends Controller
      */
     public function translationAction(Request $request, Tag $tag)
     {
+        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+            $this->addFlash(
+                'errorMessages',
+                $this->translator->trans(
+                    'general.invalid_csrf_token',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
-        if ($request->request->has('RemoveTranslationButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+        if ($request->request->has('RemoveTranslationButton')) {
+            if (empty($request->request->get('Locale'))) {
+                $this->addFlash(
+                    'errorMessages',
+                    $this->translator->trans(
+                        'tag.translation.no_translation_selected',
+                        array(),
+                        'eztags_admin'
+                    )
+                );
+
+                return $this->redirectToRoute(
+                    'netgen_tags_admin_tag_show',
+                    array(
+                        'tagId' => $tag->id,
+                    )
+                );
+            }
+
             $locales = $request->request->get('Locale');
 
             $newKeywords = $tag->keywords;
@@ -515,7 +569,7 @@ class TagController extends Controller
                     );
                 }
             }
-        } elseif ($request->request->has('UpdateMainTranslationButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+        } elseif ($request->request->has('UpdateMainTranslationButton')) {
             $newMainTranslation = $request->request->get('MainLocale');
 
             if (!in_array($newMainTranslation, $tag->languageCodes)) {
@@ -544,7 +598,7 @@ class TagController extends Controller
                     )
                 );
             }
-        } elseif ($request->request->has('UpdateAlwaysAvailableButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+        } elseif ($request->request->has('UpdateAlwaysAvailableButton')) {
             $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
             $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
@@ -569,16 +623,34 @@ class TagController extends Controller
     /**
      * This method is called from a form containing all children tags of a tag.
      * It shows a confirmation view.
-     * If form has been submitted, it moves selected children and all its subchildren tags to a new parent.
+     * If form has been submitted, it moves selected children and all its children tags to a new parent.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function moveChildrenAction(Request $request, Tag $tag = null)
     {
-        if (!$request->request->has('Tags') || $request->request->get('Tags') === null) {
+        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+            $this->addFlash(
+                'errorMessages',
+                $this->translator->trans(
+                    'general.invalid_csrf_token',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        if (empty($request->request->get('Tags'))) {
             $this->addFlash(
                 'errorMessages',
                 $this->translator->trans(
@@ -677,11 +749,29 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteChildrenAction(Request $request, Tag $tag = null)
     {
-        if (!$request->request->has('Tags') || $request->request->get('Tags') === null) {
+        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+            $this->addFlash(
+                'errorMessages',
+                $this->translator->trans(
+                    'general.invalid_csrf_token',
+                    array(),
+                    'eztags_admin'
+                )
+            );
+
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_show',
+                array(
+                    'tagId' => $tag->id,
+                )
+            );
+        }
+
+        if (empty($request->request->get('Tags'))) {
             $this->addFlash(
                 'errorMessages',
                 $this->translator->trans(
@@ -713,7 +803,7 @@ class TagController extends Controller
             $tags[] = $this->tagsService->loadTag($tagId);
         }
 
-        if ($request->request->has('DeleteTagsButton') && $this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+        if ($request->request->has('DeleteTagsButton')) {
             foreach ($tags as $tagObject) {
                 $this->tagsService->deleteTag($tagObject);
             }

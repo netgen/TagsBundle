@@ -1,3 +1,5 @@
+general.invalid_csrf_token: 'Invalid CSRF token'
+
 pagelayout.title: 'Netgen Tags Bundle'
 
 dashboard.title: 'Tags dashboard'
@@ -83,6 +85,7 @@ tag.button.delete_multiple: 'Remove selected tags'
 tag.button.continue: 'Continue'
 
 tag.translation.no_translation: 'Translation for locale "%locale%" does not exist'
+tag.translation.no_translation_selected: 'You have to select at least one translation'
 tag.translation.is_main: 'You can not remove main language'
 tag.translation.removed: 'Translation for locale "%locale%" has been successfully removed'
 tag.translation.new_main: 'Translation for locale "%locale%" has been set as new main translation'
