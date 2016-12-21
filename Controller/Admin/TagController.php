@@ -632,24 +632,6 @@ class TagController extends Controller
      */
     public function moveChildrenAction(Request $request, Tag $tag = null)
     {
-        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
-            $this->addFlash(
-                'errorMessages',
-                $this->translator->trans(
-                    'general.invalid_csrf_token',
-                    array(),
-                    'eztags_admin'
-                )
-            );
-
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
-        }
-
         if (empty($request->request->get('Tags'))) {
             $this->addFlash(
                 'errorMessages',
