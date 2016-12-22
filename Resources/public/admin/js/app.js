@@ -172,19 +172,20 @@ jQuery(document).ready(function($) {
             if(!$(this).data('tagsTabs')){
                 var $el = $(this),
                     controls = $el.find('.tags-tab-control'),
-                    startTab = window.location.hash,
                     toggleActive = function(el){
                         el.addClass('active').siblings().removeClass('active');
                     };
                 $(this).data('tagsTabs', 'true');
                 $(this).on('click', '.tags-tab-control', function(e){
-                    var target = this.getAttribute('href').replace('#', '');
+                    var target = this.getAttribute('href');
                     toggleActive($(this).parents('li'));
                     toggleActive($('[data-tab="' + target + '"]'));
+                    localStorage.tagsTabActive = target;
                 });
-                if(startTab){
+                if(localStorage.tagsTabActive){
+                    console.log(localStorage.tagsTabActive);
                     controls.each(function(i, control){
-                        if (control.getAttribute('href') == startTab){
+                        if (control.getAttribute('href') == localStorage.tagsTabActive){
                             $(control).click();
                         }
                     });

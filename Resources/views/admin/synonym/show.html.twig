@@ -23,7 +23,7 @@
             <li><a class="tags-tab-control" data-target="latest" href="#latest">{{ 'tag.latest.title'|trans }}</a></li>
             <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
         </ul>
-        <div class="tags-tab" data-tab="latest">
+        <div class="tags-tab" data-tab="#latest">
             {# Show latest content connected with this synonym #}
             {% if latestContent is empty %}
                 <p>{{  'tag.latest_content.no_content'|trans }}</p>
@@ -52,7 +52,7 @@
 
             {% endif %}
         </div>
-        <div class="tags-tab" data-tab="translations">
+        <div class="tags-tab" data-tab="#translations">
             {# Include translations table with form #}
             {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
         </div>
