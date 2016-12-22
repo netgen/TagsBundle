@@ -14,6 +14,7 @@
             align-items:stretch;
             justify-content:center;
             background:hsl(185, 60, 48);
+            margin:0;
             &.active {
                 .tags-tab-control {
                     &::after {
@@ -54,7 +55,7 @@
         display:none;
         &.active {
             display:block;
-            animation:tabFadeIn 0.2s ease-out;
+            animation:tabFadeIn 0.35s ease-out;
         }
     }
 }

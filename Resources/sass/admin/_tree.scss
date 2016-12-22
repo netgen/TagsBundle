@@ -2,8 +2,8 @@
 $nodeHeight: 24px;
 
 .jstree-ng-tags {
-    padding:$gutter;
     font-size:13px;
+    margin:0 0 1.5em;
     .jstree-icon {
         @extend %material-icons;
         position:relative;

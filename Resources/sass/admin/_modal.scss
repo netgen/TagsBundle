@@ -14,7 +14,7 @@
         .content {
             background-color:#fff;
             margin:0;
-            padding:$gutter;
+            padding:$gutter*2 $gutter $gutter;
             position:absolute;
             top:50%;
             left:50%;
@@ -41,6 +41,7 @@
             line-height:24px;
             text-align:center;
             transition:color 0.2s;
+            z-index:2;
             &:hover,
             &:focus {
                 color:$textColor;

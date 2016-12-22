@@ -30,6 +30,7 @@ body {
     .tags-sidebar {
         width:$sidebarWidth;
         background:$sidebarBg;
+        padding:$gutter;
     }
     .tags-content {
         flex:1;
