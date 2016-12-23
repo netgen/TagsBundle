@@ -1,5 +1,7 @@
 $.noConflict();
-jQuery(document).ready(function($) {
+
+function ngTagsInit(){
+    'use strict';
     /**
      * This method creates jsTree object for each DIV element with appropriate ID prefix.
      */
@@ -10,7 +12,7 @@ jQuery(document).ready(function($) {
             'plugins': ["sort", "contextmenu", "ui"],
             'contextmenu': {
                 'select_node': false,
-                'items': $(value).parents('div.modal-tree').length ? '' : tagTreeContextMenu
+                'items': $(value).closest('div.modal-tree').length ? '' : tagTreeContextMenu
             },
             'core': {
                 'data': {
@@ -75,7 +77,7 @@ jQuery(document).ready(function($) {
      */
     tagsTreeContainers.on('click', '.jstree-anchor', function (event) {
         var selectedNode = $(this).jstree(true).get_node($(this)),
-            modalTreeDiv = $(event.target).parents('div.modal-tree');
+            modalTreeDiv = $(event.target).closest('div.modal-tree');
 
         if (!modalTreeDiv.length) {
             document.location.href = selectedNode.a_attr.href;
@@ -103,7 +105,7 @@ jQuery(document).ready(function($) {
      * It closes modal when Close span inside modal is clicked.
      */
     $('.modal').on('click', '.close', function(){
-        $(this).parents('div.modal').hide();
+        $(this).closest('div.modal').hide();
     });
 
     /**
@@ -125,6 +127,9 @@ jQuery(document).ready(function($) {
         this.setupEvents();
     };
     TagsBtn.prototype.setupEvents = function(){
+        this.$el.on('click', function(e){
+            if(e.currentTarget.attributes.disabled) e.preventDefault();
+        });
         this.$el.on('mousedown', function(e){
             this.$effect.detach();
             this.addEffect(e);
@@ -172,29 +177,50 @@ jQuery(document).ready(function($) {
             if(!$(this).data('tagsTabs')){
                 var $el = $(this),
                     controls = $el.find('.tags-tab-control'),
-                    toggleActive = function(el){
-                        el.addClass('active').siblings().removeClass('active');
+                    $initialTab = $el.find('.tags-tab-control[href="' + localStorage.tagsTabActive + '"]'),
+                    toggleActive = function(trigger, tab){
+                        trigger.addClass('active').siblings().removeClass('active');
+                        tab.addClass('active').siblings().removeClass('active');
                     };
                 $(this).data('tagsTabs', 'true');
                 $(this).on('click', '.tags-tab-control', function(e){
-                    var target = this.getAttribute('href');
-                    toggleActive($(this).parents('li'));
-                    toggleActive($('[data-tab="' + target + '"]'));
-                    localStorage.tagsTabActive = target;
+                    e.preventDefault();
                 });
-                if(localStorage.tagsTabActive){
-                    console.log(localStorage.tagsTabActive);
-                    controls.each(function(i, control){
-                        if (control.getAttribute('href') == localStorage.tagsTabActive){
-                            $(control).click();
-                        }
-                    });
+                $(this).on('mousedown', '.tags-tab-control', function(e){
+                    var target = this.getAttribute('href');
+                    localStorage.tagsTabActive = target;
+                    toggleActive($(this).closest('li'), $('[data-tab="' + target + '"]'));
+                });
+                if($initialTab.length){
+                    toggleActive($initialTab.closest('li'), $('[data-tab="' + localStorage.tagsTabActive + '"]'));
                 } else {
-                    $(controls[0]).click();
+                    toggleActive($(controls[0]).closest('li'), $('[data-tab="' + $(controls[0]).attr('href') + '"]'));
                 }
             }
         });
     };
 
     $('.tags-tabs').tagsTabs();
+
+
+    /* input enabled/disabled buttons */
+    var $enabledInputs = $('input[data-enable]'),
+        enabledInputsGroups = Array.from($enabledInputs).reduce(function(arr, item) {
+        var name = item.dataset.enable;
+        if (arr.indexOf(name) == -1) arr.push(name);
+        return arr;
+    }, []);
+    enabledInputsGroups.forEach(function(name){
+        if($('input[type="checkbox"][data-enable="' + name + '"]:checked').length) return;
+        $('[data-enabler="' + name + '"]').attr('disabled', 'disabled');
+    });
+    $enabledInputs.on('change', function(e){
+        var name = e.currentTarget.dataset.enable;
+        $('input[data-enable="' + name + '"]:checked').length ? $('[data-enabler="' + name + '"]').removeAttr('disabled') : $('[data-enabler="' + name + '"]').attr('disabled', 'disabled');
+    });
+
+}
+
+jQuery(document).ready(function($) {
+    ngTagsInit();
 });

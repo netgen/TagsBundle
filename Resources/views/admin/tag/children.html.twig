@@ -24,7 +24,7 @@
             <tbody>
             {% for tag in childrenTags %}
                 <tr>
-                    <td><input type="checkbox" name="Tags[]" id="{{ tag.id }}" value="{{ tag.id }}"/><label for="{{ tag.id }}"></label></td>
+                    <td><input type="checkbox" data-enable="Tags" name="Tags[]" id="childTag{{ tag.id }}" value="{{ tag.id }}"/><label for="childTag{{ tag.id }}"></label></td>
                     <td>{{ tag.id }}</td>
                     <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
                     <td>
@@ -39,8 +39,8 @@
         </table>
 
         <div class="tags-btn-group">
-            <button type="submit" class="tags-btn" formaction="{{ path('netgen_tags_admin_tag_children_move', {'tagId': tag is defined ? tag.id : 0}) }}">{{ 'tag.button.move_multiple'|trans }}</button>
-            <button type="submit" class="tags-btn" formaction="{{ path('netgen_tags_admin_tag_children_delete', {'tagId': tag is defined ? tag.id : 0}) }}">{{ 'tag.button.delete_multiple'|trans }}</button>
+            <button type="submit" class="tags-btn" data-enabler="Tags" formaction="{{ path('netgen_tags_admin_tag_children_move', {'tagId': tag is defined ? tag.id : 0}) }}">{{ 'tag.button.move_multiple'|trans }}</button>
+            <button type="submit" class="tags-btn" data-enabler="Tags" formaction="{{ path('netgen_tags_admin_tag_children_delete', {'tagId': tag is defined ? tag.id : 0}) }}">{{ 'tag.button.delete_multiple'|trans }}</button>
         </div>
     </form>
 {% endif %}

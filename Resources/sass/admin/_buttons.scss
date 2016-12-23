@@ -19,6 +19,19 @@
         text-decoration:none;
         transition:all 0.2s;
         position:relative;
+        &[disabled] {
+            opacity:0.5;
+            .tags-btn-effect {
+                display:none;
+            }
+            &:hover,
+            &:focus {
+                background:$btnDefault;
+            }
+        }
+        &:focus {
+            outline:0;
+        }
         &:hover,
         &:focus {
             background:darken($btnDefault, 10%);
@@ -27,6 +40,12 @@
         &.tags-btn-primary {
             background:$btnPrimary;
             color:$btnPrimaryColor;
+            &[disabled] {
+                &:hover,
+                &:focus {
+                    background:$btnPrimary;
+                }
+            }
             &:hover,
             &:focus {
                 background:desaturate(darken($btnPrimary, 14%), 18%);
