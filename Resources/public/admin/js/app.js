@@ -5,6 +5,7 @@ function ngTagsInit(){
     /**
      * This method creates jsTree object for each DIV element with appropriate ID prefix.
      */
+    var $ = jQuery;
     var tagsTreeContainers = $('div.tags-tree');
 
     $.each(tagsTreeContainers, function(index, value) {
