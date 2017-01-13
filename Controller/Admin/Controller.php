@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use eZ\Bundle\EzPublishCoreBundle\Controller as BaseController;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-class Controller extends BaseController
+abstract class Controller extends BaseController
 {
     /**
      * Redirects to tag page or dashboard if tag is not provided.
