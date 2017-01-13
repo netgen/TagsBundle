@@ -5,6 +5,8 @@ parameters:
 services:
     eztags.templating.admin_global_variable:
         class: "%eztags.templating.admin_global_variable.class%"
+        # We need the lazy flag due to usage of dynamic parameters
+        lazy: true
         calls:
             - [setPageLayoutTemplate, ["$admin.pagelayout;eztags$"]]
 
