@@ -1,12 +1,10 @@
 {% for message in app.session.flashBag.get('successMessages') %}
-    {# Show success messages from flash messages, if any #}
     <div class="tags-message tags-message-success">
         {{ message }}
     </div>
 {% endfor %}
 
 {% for message in app.session.flashBag.get('errorMessages') %}
-    {# Show error messages from flash messages, if any #}
     <div class="tags-message tags-message-error">
         {{ message }}
     </div>
