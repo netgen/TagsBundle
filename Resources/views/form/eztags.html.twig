@@ -53,7 +53,7 @@
             <div class="modal">
                 <div class="content">
                     <span class="close"><i class="md-icon">close</i></span>
-                    {% include 'NetgenTagsBundle:admin/tree:tree.html.twig' with {
+                    {% include 'NetgenTagsBundle:admin:tree.html.twig' with {
                         'rootTagId': rootTagId is defined ? rootTagId : null,
                         'showRootTag': showRootTag is defined ? showRootTag : true,
                         'selectedTagId': value is not empty ? value : ''
