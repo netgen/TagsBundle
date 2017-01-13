@@ -9,8 +9,7 @@
     </h2>
 
     {# Show success and error messages from flash messages, if there is any #}
-    {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
-    {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}
+    {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
 
     {# Show tag action buttons #}
     <div class="tags-btn-group">
@@ -28,7 +27,7 @@
             <li><a class="tags-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="tags-badge">{{ synonyms|length }}</span></a></li>
             <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
         </ul>
-        <div class="tags-tab" data-tab="#latest">
+        <div class="tags-tab" data-tab="latest">
             {# Show latest content connected with this tag #}
             {% if latestContent is empty %}
                 <p>{{  'tag.latest_content.no_content'|trans }}</p>
@@ -58,13 +57,13 @@
             {% endif %}
         </div>
 
-        <div class="tags-tab" data-tab="#translations">
+        <div class="tags-tab" data-tab="translations">
             {# Include translations table with form #}
             {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
         </div>
 
 
-        <div class="tags-tab" data-tab="#synonyms">
+        <div class="tags-tab" data-tab="synonyms">
             {% if synonyms is empty %}
                 <p>{{ 'tag.synonyms.no_synonyms'|trans }}</p>
             {% else %}
@@ -90,7 +89,7 @@
             {% endif %}
         </div>
 
-        <div class="tags-tab" data-tab="#limitations">
+        <div class="tags-tab" data-tab="limitations">
             {% if subTreeLimitations is empty %}
                 <p>{{ 'tag.subtree_limitations.no_limitations'|trans }}</p>
             {% else %}

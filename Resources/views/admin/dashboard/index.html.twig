@@ -6,8 +6,7 @@
     <h2 class="tag-title">{{ 'dashboard.title'|trans }}</h2>
 
     {# Show success and error messages from flash messages, if there is any #}
-    {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
-    {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}
+    {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
 
     {# Include children table with form #}
     {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'childrenTags': childrenTags} %}
