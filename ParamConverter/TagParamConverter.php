@@ -36,24 +36,33 @@ class TagParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverterConfiguration $configuration)
     {
-        if (!$request->attributes->has('tagId')) {
-            return false;
-        }
+        $supportedParameters = array(
+            'tagId' => 'tag',
+            'parentId' => 'parentTag',
+        );
 
-        if (empty($request->attributes->get('tagId'))) {
-            if ($configuration->isOptional()) {
-                return false;
+        foreach ($supportedParameters as $source => $destination) {
+            if (!$request->attributes->has($source)) {
+                continue;
             }
 
-            throw new InvalidArgumentException(
-                'Required request attribute "tagId" is empty.'
+            if (empty($request->attributes->get($source))) {
+                if ($configuration->isOptional()) {
+                    continue;
+                }
+
+                throw new InvalidArgumentException(
+                    sprintf('Required request attribute "%s" is empty.', $source)
+                );
+            }
+
+            $request->attributes->set(
+                $destination,
+                $this->tagsService->loadTag(
+                    $request->attributes->get($source)
+                )
             );
         }
-
-        $request->attributes->set(
-            'tag',
-            $this->tagsService->loadTag($request->attributes->get('tagId'))
-        );
 
         return true;
     }
