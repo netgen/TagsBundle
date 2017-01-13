@@ -16,6 +16,18 @@ netgen_tags_admin_tag_add:
         _controller: eztags.admin.controller.tag:addTagAction
         _method: [GET, POST]
 
+netgen_tags_admin_tag_move_tags:
+    path: /move/{parentId}
+    defaults:
+        _controller: eztags.admin.controller.tag:moveTagsAction
+        _method: POST
+
+netgen_tags_admin_tag_delete_tags:
+    path: /delete/{parentId}
+    defaults:
+        _controller: eztags.admin.controller.tag:deleteTagsAction
+        _method: POST
+
 netgen_tags_admin_tag_update_select:
     path: /{tagId}/update
     defaults:
@@ -52,14 +64,8 @@ netgen_tags_admin_tag_translation:
         _controller: eztags.admin.controller.tag:translationAction
         _method: POST
 
-netgen_tags_admin_tag_children_move:
-    path: /{tagId}/movetags
+netgen_tags_admin_tag_children:
+    path: /{tagId}/children
     defaults:
-        _controller: eztags.admin.controller.tag:moveChildrenAction
-        _method: POST
-
-netgen_tags_admin_tag_children_delete:
-    path: /{tagId}/deletetags
-    defaults:
-        _controller: eztags.admin.controller.tag:deleteChildrenAction
+        _controller: eztags.admin.controller.tag:childrenAction
         _method: POST

@@ -8,7 +8,7 @@
 
     <p>{{ 'tag.delete_tags.message'|trans }}</p>
 
-    <form method="post" action="{{ path('netgen_tags_admin_tag_children_delete', {'tagId': parentTag is defined ? parentTag.id : 0}) }}">
+    <form method="post" action="{{ path('netgen_tags_admin_tag_delete_tags', {'parentId': parentTag is defined ? parentTag.id : 0}) }}">
         <table>
             <thead>
                 <tr>
@@ -21,7 +21,7 @@
                 <tr>
                     <td>
                         <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
-                        {% if parentTag is defined %}{{ parentTag.keyword }} / {% endif %}{{ tag.keyword }}
+                        {% if parentTag is defined %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
                     </td>
                 </tr>
             {% endfor %}

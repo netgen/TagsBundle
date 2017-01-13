@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
 
 class DashboardController extends Controller

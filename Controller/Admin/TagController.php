@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\SearchService;
@@ -187,12 +186,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $newTag->id,
-                )
-            );
+            return $this->redirectToTagOrDashboard($newTag);
         }
 
         return $this->render(
@@ -294,12 +288,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $updatedTag->id,
-                )
-            );
+            return $this->redirectToTagOrDashboard($updatedTag);
         }
 
         return $this->render(
@@ -336,12 +325,7 @@ class TagController extends Controller
                     )
                 );
 
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
+                return $this->redirectToTagOrDashboard($tag);
             }
 
             $this->tagsService->deleteTag($tag);
@@ -359,9 +343,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_dashboard_index'
-            );
+            return $this->redirectToTagOrDashboard();
         }
 
         return $this->render(
@@ -413,12 +395,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $sourceTag->id,
-                )
-            );
+            return $this->redirectToTagOrDashboard($sourceTag);
         }
 
         return $this->render(
@@ -469,12 +446,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $mainTag->id,
-                )
-            );
+            return $this->redirectToTagOrDashboard($mainTag);
         }
 
         return $this->render(
@@ -508,12 +480,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $tag->id,
-                )
-            );
+            return $this->redirectToTagOrDashboard($tag);
         }
 
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
@@ -529,12 +496,7 @@ class TagController extends Controller
                     )
                 );
 
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
+                return $this->redirectToTagOrDashboard($tag);
             }
 
             $locales = $request->request->get('Locale');
@@ -628,25 +590,18 @@ class TagController extends Controller
             );
         }
 
-        return $this->redirectToRoute(
-            'netgen_tags_admin_tag_show',
-            array(
-                'tagId' => $tag->id,
-            )
-        );
+        return $this->redirectToTagOrDashboard($tag);
     }
 
     /**
-     * This method is called from a form containing all children tags of a tag.
-     * It shows a confirmation view.
-     * If form has been submitted, it moves selected children and all its children tags to a new parent.
+     * Action that handles redirection for actions on multiple tags children.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function moveChildrenAction(Request $request, Tag $tag = null)
+    public function childrenAction(Request $request, Tag $tag = null)
     {
         if (empty($request->request->get('Tags'))) {
             $this->addFlash(
@@ -658,36 +613,68 @@ class TagController extends Controller
                 )
             );
 
-            if ($tag === null) {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_dashboard_index'
-                );
-            } else {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
-            }
+            return $this->redirectToTagOrDashboard($tag);
         }
 
-        $tagIds = $request->request->get('Tags');
+        $this->get('session')->set(
+            'ngtags_tag_ids',
+            $request->request->get('Tags')
+        );
 
-        $tags = array();
-
-        foreach ($tagIds as $tagId) {
-            $tags[] = $this->tagsService->loadTag($tagId);
+        if ($request->request->has('MoveTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_move_tags',
+                array(
+                    'parentId' => $tag !== null ? $tag->id : 0,
+                )
+            );
         }
 
+        if ($request->request->has('DeleteTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_delete_tags',
+                array(
+                    'parentId' => $tag !== null ? $tag->id : 0,
+                )
+            );
+        }
+
+        return $this->redirect($request->getPathInfo());
+    }
+
+    /**
+     * This method is called from a form containing all children tags of a tag.
+     * It shows a confirmation view.
+     * If form has been submitted, it moves selected children and all its children tags to a new parent.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function moveTagsAction(Request $request, Tag $parentTag = null)
+    {
         $form = $this->createForm(
             MoveTagsType::class,
             null,
             array(
                 'action' => $request->getPathInfo(),
-                'parentTag' => $tag !== null ? $tag->id : 0,
+                'parentTag' => $parentTag !== null ? $parentTag->id : 0,
             )
         );
+
+        $tagIds = $form->isSubmitted() ?
+            $request->request->get('Tags') :
+            $this->get('session')->get('ngtags_tag_ids');
+
+        if (empty($tagIds)) {
+            return $this->redirectToTagOrDashboard($parentTag);
+        }
+
+        $tags = array();
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag($tagId);
+        }
 
         $form->handleRequest($request);
 
@@ -711,29 +698,18 @@ class TagController extends Controller
                 )
             );
 
-            if ($tag === null) {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_dashboard_index'
-                );
-            } else {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
-            }
+            return $this->redirectToTagOrDashboard($parentTag);
         }
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:move_tags.html.twig',
-            $tag === null ?
+            $parentTag === null ?
                 array(
                     'tags' => $tags,
                     'form' => $form->createView(),
                 ) :
                 array(
-                    'parentTag' => $tag,
+                    'parentTag' => $parentTag,
                     'tags' => $tags,
                     'form' => $form->createView(),
                 )
@@ -746,40 +722,21 @@ class TagController extends Controller
      * If form has been submitted, it deletes selected children tags.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteChildrenAction(Request $request, Tag $tag = null)
+    public function deleteTagsAction(Request $request, Tag $parentTag = null)
     {
-        if (empty($request->request->get('Tags'))) {
-            $this->addFlash(
-                'errorMessages',
-                $this->translator->trans(
-                    'tag.children.no_selected_tags',
-                    array(),
-                    'eztags_admin'
-                )
-            );
+        $tagIds = $request->request->has('DeleteTagsButton') ?
+            $request->request->get('Tags') :
+            $this->get('session')->get('ngtags_tag_ids');
 
-            if ($tag === null) {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_dashboard_index'
-                );
-            } else {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
-            }
+        if (empty($tagIds)) {
+            return $this->redirectToTagOrDashboard($parentTag);
         }
 
-        $tagIds = $request->request->get('Tags');
-
         $tags = array();
-
         foreach ($tagIds as $tagId) {
             $tags[] = $this->tagsService->loadTag($tagId);
         }
@@ -795,12 +752,7 @@ class TagController extends Controller
                     )
                 );
 
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
+                return $this->redirectToTagOrDashboard($parentTag);
             }
 
             foreach ($tags as $tagObject) {
@@ -816,28 +768,17 @@ class TagController extends Controller
                 )
             );
 
-            if ($tag === null) {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_dashboard_index'
-                );
-            } else {
-                return $this->redirectToRoute(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                );
-            }
+            return $this->redirectToTagOrDashboard($parentTag);
         }
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:delete_tags.html.twig',
-            $tag === null ?
+            $parentTag === null ?
                 array(
                     'tags' => $tags,
                 ) :
                 array(
-                    'parentTag' => $tag,
+                    'parentTag' => $parentTag,
                     'tags' => $tags,
                 )
         );

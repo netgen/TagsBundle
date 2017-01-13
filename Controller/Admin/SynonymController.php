@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\SynonymCreateType;
@@ -127,12 +126,7 @@ class SynonymController extends Controller
                 )
             );
 
-            return $this->redirectToRoute(
-                'netgen_tags_admin_tag_show',
-                array(
-                    'tagId' => $newSynonym->id,
-                )
-            );
+            return $this->redirectToTagOrDashboard($newSynonym);
         }
 
         return $this->render(
