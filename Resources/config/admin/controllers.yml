@@ -1,4 +1,5 @@
 parameters:
+    eztags.admin.controller.base.class: Netgen\TagsBundle\Controller\Admin\Controller
     eztags.admin.controller.dashboard.class: Netgen\TagsBundle\Controller\Admin\DashboardController
     eztags.admin.controller.tag.class: Netgen\TagsBundle\Controller\Admin\TagController
     eztags.admin.controller.synonym.class: Netgen\TagsBundle\Controller\Admin\SynonymController
@@ -7,15 +8,22 @@ parameters:
 services:
     # Controllers
 
+    eztags.admin.controller.base:
+        class: "%eztags.admin.controller.base.class%"
+        parent: ezpublish.controller.base
+        abstract: true
+        calls:
+            - [performAccessChecks, []]
+
     eztags.admin.controller.dashboard:
         class: "%eztags.admin.controller.dashboard.class%"
-        parent: ezpublish.controller.base
+        parent: eztags.admin.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
 
     eztags.admin.controller.tag:
         class: "%eztags.admin.controller.tag.class%"
-        parent: ezpublish.controller.base
+        parent: eztags.admin.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.api.service.content_type"
@@ -26,7 +34,7 @@ services:
 
     eztags.admin.controller.synonym:
         class: "%eztags.admin.controller.synonym.class%"
-        parent: ezpublish.controller.base
+        parent: eztags.admin.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
             - "@translator"
@@ -35,7 +43,7 @@ services:
 
     eztags.admin.controller.tree:
             class: "%eztags.admin.controller.tree.class%"
-            parent: ezpublish.controller.base
+            parent: eztags.admin.controller.base
             arguments:
                 - "@ezpublish.api.service.tags"
                 - "@ezpublish.api.service.content_type"
