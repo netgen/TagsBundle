@@ -12,7 +12,7 @@ abstract class Controller extends BaseController
      * It is not needed to call this method from actions
      * as it's already called from base controller service.
      *
-     * @see eztags.admin.controller.base service definition.
+     * @see eztags.admin.controller.base service definition
      */
     public function performAccessChecks()
     {
