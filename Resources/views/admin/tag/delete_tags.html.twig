@@ -31,13 +31,14 @@
         <div class="tags-actions">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
             <button type="submit" class="tags-btn tags-btn-primary" name="DeleteTagsButton">{{ 'tag.button.yes'|trans }}</button>
-            <a href="
-                {% if parentTag is defined %}
-                    {{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}
-                {% else %}
-                    {{ path('netgen_tags_admin_dashboard_index') }}
-                {% endif %}
-             " class="tags-btn">{{ 'tag.button.no'|trans }}</a>
+
+            {% if parentTag is defined %}
+                {% set discardLink = path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) %}
+            {% else %}
+                {% set discardLink = path('netgen_tags_admin_dashboard_index') %}
+            {% endif %}
+
+            <a href="{{ discardLink }}" class="tags-btn">{{ 'tag.button.no'|trans }}</a>
         </div>
     </form>
 
