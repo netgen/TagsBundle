@@ -1,0 +1,24 @@
+{% trans_default_domain 'eztags_admin' %}
+
+<div data-name="title">
+    {% block title %}
+        {{ 'pagelayout.title'|trans }}
+    {% endblock %}
+</div>
+
+<div data-name="html">
+    <div class="ng-tags-app">
+        <section class="ng-tags-container">
+            <div class="tags-sidebar">
+                <div class="main-menu">
+                    {# Rendering tags tree as main menu #}
+                    {% include 'NetgenTagsBundle:admin:main_menu.html.twig' %}
+                </div>
+            </div>
+
+            <div class="tags-content">
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+    </div>
+</div>

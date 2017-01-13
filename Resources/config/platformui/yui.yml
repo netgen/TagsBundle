@@ -1,0 +1,26 @@
+system:
+    default:
+        yui:
+            modules:
+                netgen-tags-app-plugin:
+                    requires: ['ez-pluginregistry', 'plugin', 'base', 'netgen-tags-serverside-view', 'netgen-tags-serverside-view-service']
+                    dependencyOf: ['ez-platformuiapp']
+                    path: bundles/netgentags/platformui/js/apps/plugins/netgen-tags-app-plugin.js
+
+                netgen-tags-serverside-view:
+                    requires: ['ez-serversideview']
+                    path: bundles/netgentags/platformui/js/views/netgen-tags-serverside-view.js
+
+                netgen-tags-serverside-view-service:
+                    requires: ['ez-serversideviewservice']
+                    path: bundles/netgentags/platformui/js/views/services/netgen-tags-serverside-view-service.js
+
+                netgen-tags-navigation-view-plugin:
+                    requires: ['ez-pluginregistry', 'plugin', 'base']
+                    dependencyOf: ['ez-navigationhubview']
+                    path: bundles/netgentags/platformui/js/views/plugins/netgen-tags-navigation-view-plugin.js
+
+                netgen-tags-navigation-view-service-plugin:
+                    requires: ['ez-pluginregistry', 'ez-viewservicebaseplugin', 'ez-navigationitemview']
+                    dependencyOf: ['ez-navigationhubviewservice']
+                    path: bundles/netgentags/platformui/js/views/services/plugins/netgen-tags-navigation-view-service-plugin.js

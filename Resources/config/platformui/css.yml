@@ -1,0 +1,7 @@
+system:
+    default:
+        css:
+            files:
+                - bundles/netgentags/admin/jstree/themes/default/style.min.css
+                - bundles/netgentags/admin/css/style.css
+                - bundles/netgentags/platformui/css/style.css

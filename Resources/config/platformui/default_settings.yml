@@ -1,0 +1,2 @@
+parameters:
+    eztags.platformui.admin.pagelayout: 'NetgenTagsBundle:platformui:pagelayout.html.twig'

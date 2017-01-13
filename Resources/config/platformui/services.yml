@@ -1,0 +1,17 @@
+parameters:
+    eztags.platformui.event_listener.set_admin_pagelayout.class: Netgen\TagsBundle\PlatformUI\EventListener\SetAdminPageLayoutRequestListener
+    eztags.platformui.event_listener.redirect_response.class: Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener
+
+services:
+    eztags.platformui.event_listener.set_admin_pagelayout:
+        class: "%eztags.platformui.event_listener.set_admin_pagelayout.class%"
+        arguments:
+            - "@eztags.templating.admin_global_variable"
+            - "%eztags.platformui.admin.pagelayout%"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    eztags.platformui.event_listener.redirect_response:
+        class: "%eztags.platformui.event_listener.redirect_response.class%"
+        tags:
+            - { name: kernel.event_subscriber }

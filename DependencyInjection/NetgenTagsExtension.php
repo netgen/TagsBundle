@@ -43,6 +43,9 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('validators.yml');
         $loader->load('param_converters.yml');
 
+        $loader->load('platformui/default_settings.yml');
+        $loader->load('platformui/services.yml');
+
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
 
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles)) {
@@ -69,6 +72,9 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $configs = array(
             'netgen_tags.yml' => 'netgen_tags',
             'ezpublish.yml' => 'ezpublish',
+            'platformui/yui.yml' => 'ez_platformui',
+            'platformui/css.yml' => 'ez_platformui',
+            'platformui/javascript.yml' => 'ez_platformui',
         );
 
         foreach ($configs as $fileName => $extensionName) {

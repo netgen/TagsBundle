@@ -1,0 +1,13 @@
+.ez-view-navigationhubview .ez-navigation-ngtags {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ez-view-navigationhubview .ez-ngtags-zone:before {
+    content: "\E620";
+}
+
+.ng-tags-app .ng-tags-container {
+    width:100%;
+}
