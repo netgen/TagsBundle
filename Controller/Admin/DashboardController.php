@@ -28,12 +28,9 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
-        $tags = $this->tagsService->loadTagChildren(null, 0, 10);
-
         return $this->render(
             'NetgenTagsBundle:admin/dashboard:index.html.twig',
             array(
-                'latestTags' => $tags,
                 'childrenTags' => $this->tagsService->loadTagChildren(null, 0, 10),
             )
         );

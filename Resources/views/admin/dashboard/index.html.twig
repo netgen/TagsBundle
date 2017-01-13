@@ -9,32 +9,6 @@
     {% include 'NetgenTagsBundle:messages:success_messages.html.twig' %}
     {% include 'NetgenTagsBundle:messages:error_messages.html.twig' %}
 
-    {# Show latest tags #}
-    <table>
-        <thead>
-            <tr>
-                <th>{{ 'dashboard.latest_tags.tag_id'|trans }}</th>
-                <th>{{ 'dashboard.latest_tags.tag_name'|trans }}</th>
-                <th>{{ 'dashboard.latest_tags.parent_tag_name'|trans }}</th>
-                <th>{{ 'dashboard.latest_tags.tag_modified'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tag in latestTags %}
-            <tr>
-                <td>{{ tag.id }}</td>
-                <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword(tag) }}</a></td>
-                {% if tag.hasParent %}
-                    <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.parentTagId}) }}">{{ netgen_tags_tag_keyword(tag.parentTagId) }}</a></td>
-                {% else %}
-                    <td>{{ 'dashboard.latest_tags.no_parent'|trans }}</td>
-                {% endif %}
-                <td>{{ tag.modificationDate|date('Y-m-d') }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
     {# Include children table with form #}
     {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'childrenTags': childrenTags} %}
 {% endblock %}
