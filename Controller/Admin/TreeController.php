@@ -75,7 +75,6 @@ class TreeController extends Controller
                             'href' => $this->generateUrl(
                                 'netgen_tags_admin_dashboard_index'
                             ),
-                            'class' => $tag !== null && $this->hasSubtreeLimitations($tag) ? 'has-limitations' : '',
                         ),
                         'data' => array(
                             'add_child' => array(
@@ -152,7 +151,6 @@ class TreeController extends Controller
                         'tagId' => $tag->id,
                     )
                 ),
-                'class' => $tag !== null && $this->hasSubtreeLimitations($tag) ? 'has-limitations' : '',
             ),
             'state' => array(
                 'opened' => $isRoot,
@@ -238,29 +236,5 @@ class TreeController extends Controller
                 ),
             ),
         );
-    }
-
-    /**
-     * Returns if given tag has subtree limitations.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return bool
-     */
-    protected function hasSubtreeLimitations(Tag $tag)
-    {
-        foreach ($this->contentTypeService->loadContentTypeGroups() as $contentTypeGroup) {
-            foreach ($this->contentTypeService->loadContentTypes($contentTypeGroup) as $contentType) {
-                foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
-                    if ($fieldDefinition->fieldTypeIdentifier === 'eztags') {
-                        if ($fieldDefinition->getFieldSettings()['subTreeLimit'] === $tag->id) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 }
