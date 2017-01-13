@@ -108,11 +108,11 @@ class TagController extends Controller
      * It renders a form to select language for the keyword of new tag.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param int|string $parentId
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addTagSelectAction(Request $request, $parentId)
+    public function addTagSelectAction(Request $request, Tag $parentTag = null)
     {
         $form = $this->createForm(
             LanguageSelectType::class,
@@ -129,7 +129,7 @@ class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
                 array(
-                    'tagId' => $parentId,
+                    'tagId' => $parentTag !== null ? $parentTag->id : 0,
                     'languageCode' => $form->getData()['languageCode'],
                 )
             );
