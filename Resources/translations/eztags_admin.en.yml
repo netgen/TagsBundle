@@ -1,6 +1,6 @@
 general.invalid_csrf_token: 'Invalid CSRF token'
 
-pagelayout.title: 'Netgen Tags Bundle'
+pagelayout.title: 'Netgen Tags'
 
 dashboard.title: 'Tags dashboard'
 dashboard.latest_tags.tag_id: 'ID'
