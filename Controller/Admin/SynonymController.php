@@ -63,6 +63,7 @@ class SynonymController extends Controller
             LanguageSelectType::class,
             null,
             array(
+                'action' => $request->getPathInfo(),
                 'languages' => $this->languages,
             )
         );
@@ -105,6 +106,7 @@ class SynonymController extends Controller
             SynonymCreateType::class,
             $synonymCreateStruct,
             array(
+                'action' => $request->getPathInfo(),
                 'languageCode' => $languageCode,
             )
         );

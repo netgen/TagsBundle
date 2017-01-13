@@ -119,6 +119,7 @@ class TagController extends Controller
             LanguageSelectType::class,
             null,
             array(
+                'action' => $request->getPathInfo(),
                 'languages' => $this->languages,
             )
         );
@@ -165,6 +166,7 @@ class TagController extends Controller
             TagCreateType::class,
             $tagCreateStruct,
             array(
+                'action' => $request->getPathInfo(),
                 'languageCode' => $languageCode,
             )
         );
@@ -217,6 +219,7 @@ class TagController extends Controller
             LanguageSelectType::class,
             null,
             array(
+                'action' => $request->getPathInfo(),
                 'languages' => $this->languages,
                 'tag' => $tag,
             )
@@ -269,6 +272,7 @@ class TagController extends Controller
             TagUpdateType::class,
             $tagUpdateStruct,
             array(
+                'action' => $request->getPathInfo(),
                 'languageCode' => $languageCode,
                 'tag' => $tag,
             )
@@ -382,7 +386,13 @@ class TagController extends Controller
      */
     public function mergeTagAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm(TagMergeType::class);
+        $form = $this->createForm(
+            TagMergeType::class,
+            null,
+            array(
+                'action' => $request->getPathInfo(),
+            )
+        );
 
         $form->handleRequest($request);
 
@@ -432,7 +442,13 @@ class TagController extends Controller
      */
     public function convertToSynonymAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm(TagConvertType::class);
+        $form = $this->createForm(
+            TagConvertType::class,
+            null,
+            array(
+                'action' => $request->getPathInfo(),
+            )
+        );
 
         $form->handleRequest($request);
 
@@ -668,6 +684,7 @@ class TagController extends Controller
             MoveTagsType::class,
             null,
             array(
+                'action' => $request->getPathInfo(),
                 'parentTag' => $tag !== null ? $tag->id : 0,
             )
         );
