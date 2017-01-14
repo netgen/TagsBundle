@@ -67,7 +67,7 @@ class TranslationListType extends AbstractType
                     'label' => false,
                     'data' => function (Options $options) {
                         if ($options['tag'] instanceof Tag) {
-                            return $options['tag']->languageCodes[0];
+                            return $options['tag']->mainLanguageCode;
                         }
 
                         return isset($this->languages[0]) ? $this->languages[0] : null;
