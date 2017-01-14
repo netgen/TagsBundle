@@ -17,11 +17,6 @@ class TreeController extends Controller
     protected $tagsService;
 
     /**
-     * @var \eZ\Publish\API\Repository\ContentTypeService
-     */
-    protected $contentTypeService;
-
-    /**
      * @var \Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
@@ -45,18 +40,15 @@ class TreeController extends Controller
      * TreeController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
      * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * @param \Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(
         TagsService $tagsService,
-        ContentTypeService $contentTypeService,
         TranslatorInterface $translator,
         RouterInterface $router
     ) {
         $this->tagsService = $tagsService;
-        $this->contentTypeService = $contentTypeService;
         $this->translator = $translator;
         $this->router = $router;
 
