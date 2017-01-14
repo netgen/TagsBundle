@@ -16,14 +16,14 @@
             </thead>
 
             <tbody>
-            {% for tag in tags %}
-                <tr>
-                    <td>
-                        <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
-                        {% if parentTag is defined %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
-                    </td>
-                </tr>
-            {% endfor %}
+                {% for tag in tags %}
+                    <tr>
+                        <td>
+                            <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
+                            {% if parentTag is defined %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
 

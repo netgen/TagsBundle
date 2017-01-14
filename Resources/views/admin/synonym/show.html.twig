@@ -20,36 +20,13 @@
             <li><a class="tags-tab-control" data-target="latest" href="#latest">{{ 'tag.latest.title'|trans }}</a></li>
             <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
         </ul>
+
         <div class="tags-tab" data-tab="#latest">
-            {% if latestContent is empty %}
-                <p>{{  'tag.latest_content.no_content'|trans }}</p>
-            {% else %}
-
-                <table>
-                    <thead>
-                    <tr>
-                        <th>{{ 'tag.table.tag_id'|trans }}</th>
-                        <th>{{ 'tag.table.tag_name'|trans }}</th>
-                        <th>{{ 'tag.table.modified'|trans }}</th>
-                        <th>{{ 'tag.class.name'|trans }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for content in latestContent %}
-                        <tr>
-                            <td>{{ content.contentInfo.id }}</td>
-                            <td><a href="{{ path( "ez_urlalias", {"contentId": content.contentInfo.id} ) }}">{{ ez_content_name(content) }}</a></td>
-                            <td>{{ content.contentInfo.modificationDate|date('d.m.Y H:i') }}</td>
-                            <td>{{ netgen_tags_content_type_name(content.contentInfo.contentTypeId) }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
-            {% endif %}
+            {% include 'NetgenTagsBundle:admin/tag/tabs:latest_content.html.twig' %}
         </div>
+
         <div class="tags-tab" data-tab="#translations">
-            {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
+            {% include 'NetgenTagsBundle:admin/tag/tabs:translations.html.twig' %}
         </div>
     </div>
 {% endblock %}

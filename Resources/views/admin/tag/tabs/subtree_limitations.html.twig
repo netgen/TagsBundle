@@ -1,0 +1,24 @@
+{% trans_default_domain 'eztags_admin' %}
+
+{% if subTreeLimitations is not empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'tag.class.id'|trans }}</th>
+                <th>{{ 'tag.class.name'|trans }}</th>
+                <th>{{ 'tag.subtree_limitations.identifier'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subTreeLimitation in subTreeLimitations %}
+                <tr>
+                    <td>{{ subTreeLimitation.contentTypeId }}</td>
+                    <td>{{ netgen_tags_content_type_name(subTreeLimitation.contentTypeId) }}</td>
+                    <td>{{ subTreeLimitation.attributeIdentifier }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>{{ 'tag.subtree_limitations.no_limitations'|trans }}</p>
+{% endif %}

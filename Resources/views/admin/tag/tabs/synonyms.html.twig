@@ -1,0 +1,24 @@
+{% trans_default_domain 'eztags_admin' %}
+
+{% if synonyms is not empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'tag.table.tag_id'|trans }}</th>
+                <th>{{ 'tag.table.tag_name'|trans }}</th>
+                <th>{{ 'tag.table.modified'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for synonym in synonyms %}
+                <tr>
+                    <td>{{ synonym.id }}</td>
+                    <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">{{ netgen_tags_tag_keyword(synonym) }}</a></td>
+                    <td>{{ synonym.modificationDate|date('d/m/Y h:i') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>{{ 'tag.synonyms.no_synonyms'|trans }}</p>
+{% endif %}
