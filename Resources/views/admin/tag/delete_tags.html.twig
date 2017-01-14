@@ -7,7 +7,7 @@
 
     <p>{{ 'tag.delete_tags.message'|trans }}</p>
 
-    <form method="post" action="{{ path('netgen_tags_admin_tag_delete_tags', {'parentId': parentTag is defined ? parentTag.id : 0}) }}">
+    <form method="post" action="{{ path('netgen_tags_admin_tag_delete_tags', {'parentId': parentTag is not null ? parentTag.id : 0}) }}">
         <table>
             <thead>
                 <tr>
@@ -20,7 +20,7 @@
                     <tr>
                         <td>
                             <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
-                            {% if parentTag is defined %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
+                            {% if parentTag is not null %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
                         </td>
                     </tr>
                 {% endfor %}
@@ -31,7 +31,7 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
             <button type="submit" class="tags-btn tags-btn-primary" name="DeleteTagsButton">{{ 'tag.button.yes'|trans }}</button>
 
-            {% if parentTag is defined %}
+            {% if parentTag is not null %}
                 {% set discardLink = path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) %}
             {% else %}
                 {% set discardLink = path('netgen_tags_admin_dashboard_index') %}

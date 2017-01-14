@@ -702,16 +702,11 @@ class TagController extends Controller
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:move_tags.html.twig',
-            $parentTag === null ?
-                array(
-                    'tags' => $tags,
-                    'form' => $form->createView(),
-                ) :
-                array(
-                    'parentTag' => $parentTag,
-                    'tags' => $tags,
-                    'form' => $form->createView(),
-                )
+            array(
+                'parentTag' => $parentTag ?: null,
+                'tags' => $tags,
+                'form' => $form->createView(),
+            )
         );
     }
 
@@ -772,14 +767,10 @@ class TagController extends Controller
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:delete_tags.html.twig',
-            $parentTag === null ?
-                array(
-                    'tags' => $tags,
-                ) :
-                array(
-                    'parentTag' => $parentTag,
-                    'tags' => $tags,
-                )
+            array(
+                'parentTag' => $parentTag ?: null,
+                'tags' => $tags,
+            )
         );
     }
 

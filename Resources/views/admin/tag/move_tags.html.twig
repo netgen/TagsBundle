@@ -22,7 +22,7 @@
                     <tr>
                         <td>
                             <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
-                            {% if parentTag is defined %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
+                            {% if parentTag is not null %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
                         </td>
                     </tr>
                 {% endfor %}
@@ -34,7 +34,7 @@
         <div class="tags-actions">
             <button type="submit" class="tags-btn tags-btn-primary">{{ 'tag.button.save'|trans }}</button>
 
-            {% if parentTag is defined %}
+            {% if parentTag is not null %}
                 {% set discardLink = path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) %}
             {% else %}
                 {% set discardLink = path('netgen_tags_admin_dashboard_index') %}
