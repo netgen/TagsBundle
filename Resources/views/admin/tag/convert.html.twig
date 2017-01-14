@@ -5,17 +5,14 @@
 {% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
 
 {% block content %}
-    {# Show form for converting a tag to synonym. #}
     <h2 class="tag-title">{{ 'tag.convert.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
 
     {{ form_start(form) }}
+        {{ form_widget(form) }}
 
-    {{ form_errors(form) }}
-    {{ form_row(form.mainTag) }}
-
-    <div class="tags-actions">
-        <button type="submit" class="tags-btn tags-btn-primary">{{ 'tag.button.save'|trans }}</button>
-        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.button.discard'|trans }}</a>
-    </div>
+        <div class="tags-actions">
+            <button type="submit" class="tags-btn tags-btn-primary">{{ 'tag.button.save'|trans }}</button>
+            <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.button.discard'|trans }}</a>
+        </div>
     {{ form_end(form) }}
 {% endblock %}

@@ -5,12 +5,11 @@
 {% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
 
 {% block content %}
-    {# Show form for adding new synonyms. #}
     <h2 class="tag-title">{{ 'synonym.add.title'|trans }}</h2>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+        {{ form_widget(form) }}
 
-    <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.save'|trans }}</button>
+        <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.save'|trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

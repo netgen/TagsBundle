@@ -5,7 +5,6 @@
 {% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
 
 {% block content %}
-    {# Show form for selecting translation when adding or updating synonym. #}
     {% if tag is defined %}
         <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
     {% else %}
@@ -13,9 +12,8 @@
     {% endif %}
 
     {{ form_start(form) }}
+        {{ form_widget(form) }}
 
-    {{ form_row(form.languageCode, {'tag': tag is defined ? tag : null}) }}
-
-    <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.continue'|trans }}</button>
+        <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.continue'|trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

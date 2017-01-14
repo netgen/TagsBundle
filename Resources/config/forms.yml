@@ -1,7 +1,15 @@
 parameters:
+     eztags.forms.tree.class: Netgen\TagsBundle\Form\Type\TagTreeType
      eztags.forms.translation_list.class: Netgen\TagsBundle\Form\Type\TranslationListType
 
 services:
+    eztags.forms.tree:
+        class: "%eztags.forms.tree.class%"
+        arguments:
+            - "@ezpublish.api.service.tags"
+        tags:
+            - { name: form.type }
+
     eztags.forms.translation_list:
         class: "%eztags.forms.translation_list.class%"
         arguments:

@@ -17,7 +17,7 @@
 {% block translation_list_widget %}
     {# Custom form for selecting language when adding or updating tags or synonyms. #}
     <div {{ block('widget_container_attributes') }}>
-        {% if tag is defined and tag %}
+        {% if tag is not null %}
             {% set start = true %}
             {{ 'tag.translation.edit'|trans }}
             <div class="edit_translation">
@@ -27,7 +27,7 @@
         {% endif %}
 
         {%- for child in form %}
-            {% if tag is defined and tag and child.vars.value not in tag.languageCodes and start == true %}
+            {% if tag is not null and child.vars.value not in tag.languageCodes and start == true %}
                 </div>
                 {{ 'tag.translation.add'|trans }}
                 <div class="add_translation">
@@ -46,7 +46,7 @@
         <div class="modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
             {{- form_label(form, null, {}) -}}
             <input type="hidden" class="tag-id-value" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
-            <span class="tag-keyword">{% if tag is defined and tag is not null %}{{ tag.keyword }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
+            <span class="tag-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
             <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select'|trans }}</button>
 
             {# Renders a tree inside modal window, for selecting tag inside forms. #}

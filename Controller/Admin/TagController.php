@@ -155,11 +155,10 @@ class TagController extends Controller
      */
     public function addTagAction(Request $request, $languageCode, Tag $tag = null)
     {
-        if ($tag === null) {
-            $tagCreateStruct = $this->tagsService->newTagCreateStruct(0, $languageCode);
-        } else {
-            $tagCreateStruct = $this->tagsService->newTagCreateStruct($tag->id, $languageCode);
-        }
+        $tagCreateStruct = $this->tagsService->newTagCreateStruct(
+            $tag ? $tag->id : 0,
+            $languageCode
+        );
 
         $form = $this->createForm(
             TagCreateType::class,
