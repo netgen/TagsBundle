@@ -8,10 +8,8 @@
         <span class="tag-title-note">{{ 'tag.last_modified'|trans }}: <strong>{{ tag.modificationDate|date('d/m/Y g:i a') }}</strong> ({{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong>)</span>
     </h2>
 
-    {# Show success and error messages from flash messages, if there is any #}
     {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
 
-    {# Show synonym action buttons #}
     <div class="tags-btn-group">
         <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'synonym.edit.title'|trans }}</a>
         <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'synonym.delete.title'|trans }}</a>
@@ -23,7 +21,6 @@
             <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
         </ul>
         <div class="tags-tab" data-tab="#latest">
-            {# Show latest content connected with this synonym #}
             {% if latestContent is empty %}
                 <p>{{  'tag.latest_content.no_content'|trans }}</p>
             {% else %}
@@ -52,7 +49,6 @@
             {% endif %}
         </div>
         <div class="tags-tab" data-tab="#translations">
-            {# Include translations table with form #}
             {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
         </div>
     </div>

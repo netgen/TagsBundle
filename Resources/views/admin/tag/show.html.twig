@@ -8,10 +8,8 @@
         <span class="tag-title-note">{{ 'tag.last_modified'|trans }}: <strong>{{ tag.modificationDate|date('d/m/Y g:i a') }}</strong> ({{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong>)</span>
     </h2>
 
-    {# Show success and error messages from flash messages, if there is any #}
     {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
 
-    {# Show tag action buttons #}
     <div class="tags-btn-group">
         <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'tag.edit.title'|trans }}</a>
         <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.delete.title'|trans }}</a>
@@ -28,7 +26,6 @@
             <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
         </ul>
         <div class="tags-tab" data-tab="latest">
-            {# Show latest content connected with this tag #}
             {% if latestContent is empty %}
                 <p>{{  'tag.latest_content.no_content'|trans }}</p>
             {% else %}
@@ -58,7 +55,6 @@
         </div>
 
         <div class="tags-tab" data-tab="translations">
-            {# Include translations table with form #}
             {% include 'NetgenTagsBundle:admin/tag:translations.html.twig' %}
         </div>
 
@@ -116,7 +112,6 @@
         </div>
     </div>
 
-    {# Include children table with form #}
     {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'tag': tag, 'childrenTags': childrenTags} %}
 
 {% endblock %}
