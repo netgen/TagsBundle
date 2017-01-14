@@ -44,3 +44,4 @@ services:
                 - "@ezpublish.api.service.tags"
                 - "@ezpublish.api.service.content_type"
                 - "@translator"
+                - "@router"

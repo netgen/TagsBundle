@@ -23,8 +23,7 @@ function ngTagsInit(){
 
                         return route
                             .replace("_tagId_", node.id)
-                            .replace("#", rootTagId + "/true")
-                            ;
+                            .replace("#", rootTagId + "/true");
                     }
                 },
                 'themes': {
@@ -32,15 +31,14 @@ function ngTagsInit(){
                 }
             }
         }).bind("ready.jstree", function (event, data) {
-            if ($(value).data('selectedtagid') !== undefined) {
-                if ($(value).data('selectedtagid') === 0) {
+            var selectedTagId = $(value).data('selectedtagid');
+            if (selectedTagId !== undefined) {
+                if (selectedTagId === 0 || selectedTagId === '') {
                     $(value).jstree(true).select_node(0);
-                }
-
-                else {
-                    $.getJSON('/tags/admin/tree/parents/' + $(value).data('selectedtagid'), {}, function (data) {
+                } else {
+                    $.getJSON('/tags/admin/tree/parents/' + selectedTagId, {}, function (data) {
                         $(value).jstree(true).load_node(data, function () {
-                            this.select_node($(value).data('selectedtagid'));
+                            this.select_node(selectedTagId);
                         });
                     });
                 }
@@ -57,7 +55,7 @@ function ngTagsInit(){
         var actions = ['add_child'],
             menu = {};
         if(node.parent != '#') {
-            actions = actions.concat(['update_tag', 'delete_tag', 'merge_tag', 'add_synonym']);
+            actions = actions.concat(['update_tag', 'delete_tag', 'merge_tag', 'add_synonym', 'convert_tag']);
         }
         actions.forEach(function(action){
             menu[action] = {

@@ -6,6 +6,7 @@ use eZ\Publish\API\Repository\ContentTypeService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TreeController extends Controller
@@ -26,17 +27,59 @@ class TreeController extends Controller
     protected $translator;
 
     /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    protected $router;
+
+    /**
+     * @var array
+     */
+    protected $treeLabels;
+
+    /**
+     * @var array
+     */
+    protected $treeLinks;
+
+    /**
      * TreeController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param \Symfony\Component\Routing\RouterInterface $router
      */
-    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService, TranslatorInterface $translator)
-    {
+    public function __construct(
+        TagsService $tagsService,
+        ContentTypeService $contentTypeService,
+        TranslatorInterface $translator,
+        RouterInterface $router
+    ) {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
         $this->translator = $translator;
+        $this->router = $router;
+
+        $this->treeLabels = array(
+            'tag.tree.top_level' => $this->translator->trans('tag.tree.top_level', array(), 'eztags_admin'),
+            'tag.tree.add_child' => $this->translator->trans('tag.tree.add_child', array(), 'eztags_admin'),
+            'tag.tree.update_tag' => $this->translator->trans('tag.tree.update_tag', array(), 'eztags_admin'),
+            'tag.tree.delete_tag' => $this->translator->trans('tag.tree.delete_tag', array(), 'eztags_admin'),
+            'tag.tree.merge_tag' => $this->translator->trans('tag.tree.merge_tag', array(), 'eztags_admin'),
+            'tag.tree.convert_tag' => $this->translator->trans('tag.tree.convert_tag', array(), 'eztags_admin'),
+            'tag.tree.add_synonym' => $this->translator->trans('tag.tree.add_synonym', array(), 'eztags_admin'),
+        );
+
+        $this->treeLinks = array(
+            'tag.tree.top_level' => $this->router->generate('netgen_tags_admin_dashboard_index'),
+            'tag.tree.show_tag' => $this->router->generate('netgen_tags_admin_tag_show', array('tagId' => ':tagId')),
+            'tag.tree.add_child' => $this->router->generate('netgen_tags_admin_tag_add_select', array('parentId' => ':parentId')),
+            'tag.tree.update_tag' => $this->router->generate('netgen_tags_admin_tag_update_select', array('tagId' => ':tagId')),
+            'tag.tree.delete_tag' => $this->router->generate('netgen_tags_admin_tag_delete', array('tagId' => ':tagId')),
+            'tag.tree.merge_tag' => $this->router->generate('netgen_tags_admin_tag_merge', array('tagId' => ':tagId')),
+            'tag.tree.convert_tag' => $this->router->generate('netgen_tags_admin_tag_convert', array('tagId' => ':tagId')),
+            'tag.tree.add_synonym' => $this->router->generate('netgen_tags_admin_synonym_add_select', array('mainTagId' => ':mainTagId')),
+        );
     }
 
     /**
@@ -52,51 +95,14 @@ class TreeController extends Controller
      */
     public function getChildrenAction(Tag $tag = null, $isRoot = false)
     {
-        $childrenTags = $this->tagsService->loadTagChildren($tag);
-
         $result = array();
 
         if ((bool) $isRoot) {
-            if ($tag === null) {
-                $result = array(
-                    array(
-                        'id' => '0',
-                        'parent' => '#',
-                        'text' => $this->translator->trans(
-                            'tag.tree.top_level',
-                            array(),
-                            'eztags_admin'
-                        ),
-                        'children' => true,
-                        'state' => array(
-                            'opened' => true,
-                        ),
-                        'a_attr' => array(
-                            'href' => $this->generateUrl(
-                                'netgen_tags_admin_dashboard_index'
-                            ),
-                        ),
-                        'data' => array(
-                            'add_child' => array(
-                                'url' => $this->generateUrl(
-                                    'netgen_tags_admin_tag_add_select',
-                                    array(
-                                        'parentId' => 0,
-                                    )
-                                ),
-                                'text' => $this->translator->trans(
-                                    'tag.tree.add_child',
-                                    array(),
-                                    'eztags_admin'
-                                ),
-                            ),
-                        ),
-                    ),
-                );
-            } else {
-                $result = $this->getTagTreeData($tag, $isRoot);
-            }
+            $result[] = $tag instanceof Tag ?
+                $this->getTagTreeData($tag, $isRoot) :
+                $this->getRootTreeData();
         } else {
+            $childrenTags = $this->tagsService->loadTagChildren($tag);
             foreach ($childrenTags as $tag) {
                 $result[] = $this->getTagTreeData($tag, $isRoot);
             }
@@ -114,15 +120,41 @@ class TreeController extends Controller
      */
     public function getParentsAction(Tag $tag)
     {
-        $parents = array($tag->id);
+        $parentTagIds = array_map(
+            function ($tagId) {
+                return (int) $tagId;
+            },
+            explode('/', trim($tag->pathString, '/'))
+        );
 
-        while ($tag->parentTagId !== 0) {
-            array_unshift($parents, $tag->parentTagId);
+        return new JsonResponse($parentTagIds);
+    }
 
-            $tag = $this->tagsService->loadTag($tag->parentTagId);
-        }
-
-        return new JsonResponse($parents);
+    /**
+     * Generates data for root of the tree.
+     *
+     * @return array
+     */
+    protected function getRootTreeData()
+    {
+        return array(
+            'id' => '0',
+            'parent' => '#',
+            'text' => $this->treeLabels['tag.tree.top_level'],
+            'children' => true,
+            'state' => array(
+                'opened' => true,
+            ),
+            'a_attr' => array(
+                'href' => $this->treeLinks['tag.tree.top_level'],
+            ),
+            'data' => array(
+                'add_child' => array(
+                    'url' => str_replace(':parentId', 0, $this->treeLinks['tag.tree.add_child']),
+                    'text' => $this->treeLabels['tag.tree.add_child'],
+                ),
+            ),
+        );
     }
 
     /**
@@ -145,94 +177,35 @@ class TreeController extends Controller
             'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'a_attr' => array(
-                'href' => $this->generateUrl(
-                    'netgen_tags_admin_tag_show',
-                    array(
-                        'tagId' => $tag->id,
-                    )
-                ),
+                'href' => str_replace(':tagId', $tag->id, $this->treeLinks['tag.tree.show_tag']),
             ),
             'state' => array(
                 'opened' => $isRoot,
             ),
             'data' => array(
                 'add_child' => array(
-                    'url' => $this->generateUrl(
-                        'netgen_tags_admin_tag_add_select',
-                        array(
-                            'parentId' => $tag->id,
-                        )
-                    ),
-                    'text' => $this->translator->trans(
-                        'tag.tree.add_child',
-                        array(),
-                        'eztags_admin'
-                    ),
+                    'url' => str_replace(':parentId', $tag->id, $this->treeLinks['tag.tree.add_child']),
+                    'text' => $this->treeLabels['tag.tree.add_child'],
                 ),
                 'update_tag' => array(
-                    'url' => $this->generateUrl(
-                        'netgen_tags_admin_tag_update_select',
-                        array(
-                            'tagId' => $tag->id,
-                        )
-                    ),
-                    'text' => $this->translator->trans(
-                        'tag.tree.update_tag',
-                        array(),
-                        'eztags_admin'
-                    ),
+                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['tag.tree.update_tag']),
+                    'text' => $this->treeLabels['tag.tree.update_tag'],
                 ),
                 'delete_tag' => array(
-                    'url' => $this->generateUrl(
-                        'netgen_tags_admin_tag_delete',
-                        array(
-                            'tagId' => $tag->id,
-                        )
-                    ),
-                    'text' => $this->translator->trans(
-                        'tag.tree.delete_tag',
-                        array(),
-                        'eztags_admin'
-                    ),
+                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['tag.tree.delete_tag']),
+                    'text' => $this->treeLabels['tag.tree.delete_tag'],
                 ),
                 'merge_tag' => array(
-                    'url' => $this->generateUrl(
-                        'netgen_tags_admin_tag_merge',
-                        array(
-                            'tagId' => $tag->id,
-                        )
-                    ),
-                    'text' => $this->translator->trans(
-                        'tag.tree.merge_tag',
-                        array(),
-                        'eztags_admin'
-                    ),
+                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['tag.tree.merge_tag']),
+                    'text' => $this->treeLabels['tag.tree.merge_tag'],
                 ),
                 'add_synonym' => array(
-                    'url' => $this->generateUrl(
-                        'netgen_tags_admin_synonym_add_select',
-                        array(
-                            'mainTagId' => $tag->id,
-                        )
-                    ),
-                    'text' => $this->translator->trans(
-                        'tag.tree.add_synonym',
-                        array(),
-                        'eztags_admin'
-                    ),
+                    'url' => str_replace(':mainTagId', $tag->id, $this->treeLinks['tag.tree.add_synonym']),
+                    'text' => $this->treeLabels['tag.tree.add_synonym'],
                 ),
                 'convert_tag' => array(
-                    'url' => $this->generateUrl(
-                        'netgen_tags_admin_tag_convert',
-                        array(
-                            'tagId' => $tag->id,
-                        )
-                    ),
-                    'text' => $this->translator->trans(
-                        'tag.tree.convert_tag',
-                        array(),
-                        'eztags_admin'
-                    ),
+                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['tag.tree.convert_tag']),
+                    'text' => $this->treeLabels['tag.tree.convert_tag'],
                 ),
             ),
         );
