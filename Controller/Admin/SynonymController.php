@@ -16,11 +16,6 @@ class SynonymController extends Controller
     protected $tagsService;
 
     /**
-     * @var array
-     */
-    protected $languages;
-
-    /**
      * @var \Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
@@ -35,16 +30,6 @@ class SynonymController extends Controller
     {
         $this->tagsService = $tagsService;
         $this->translator = $translator;
-    }
-
-    /**
-     * Setter method for array with languages.
-     *
-     * @param array|null $languages
-     */
-    public function setLanguages(array $languages = null)
-    {
-        $this->languages = $languages;
     }
 
     /**
@@ -63,7 +48,6 @@ class SynonymController extends Controller
             null,
             array(
                 'action' => $request->getPathInfo(),
-                'languages' => $this->languages,
             )
         );
 

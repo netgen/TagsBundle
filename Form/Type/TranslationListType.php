@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Form\Type;
 
 use eZ\Publish\API\Repository\LanguageService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
@@ -18,6 +19,11 @@ class TranslationListType extends AbstractType
     protected $languageService;
 
     /**
+     * @var array
+     */
+    protected $languages;
+
+    /**
      * LanguageSelectType constructor.
      *
      * @param \eZ\Publish\API\Repository\LanguageService $languageService
@@ -28,39 +34,40 @@ class TranslationListType extends AbstractType
     }
 
     /**
+     * Setter method for array with languages.
+     *
+     * @param array|null $languages
+     */
+    public function setLanguages(array $languages = null)
+    {
+        $this->languages = $languages;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $choices = array();
+        foreach ($this->languages as $language) {
+            $choices += array(
+                $this->languageService->loadLanguage($language)->name => $language,
+            );
+        }
+
         $resolver
             ->setDefaults(
                 array(
                     'translation_domain' => 'eztags_admin',
                     'tag' => null,
-                    'choices' => function (Options $options) {
-                        $choices = array();
-
-                        foreach ($options['languages'] as $language) {
-                            $choices += array(
-                                $this->languageService->loadLanguage($language)->name => $language,
-                            );
-                        }
-
-                        return $choices;
-                    },
+                    'choices' => $choices,
                     'choices_as_values' => true,
                     'expanded' => true,
                     'multiple' => false,
                     'label' => false,
-                    'data' => function (Options $options) {
-                        if (!isset($options['languages'][0])) {
-                            return null;
-                        }
-
-                        return $options['languages'][0];
-                    },
+                    'data' => isset($this->languages[0]) ? $this->languages[0] : null,
                     'preferred_choices' => function (Options $options) {
-                        if ($options['tag'] !== null) {
+                        if ($options['tag'] instanceof Tag) {
                             return $options['tag']->languageCodes;
                         }
 
@@ -70,7 +77,6 @@ class TranslationListType extends AbstractType
             )
             ->setRequired(
                 array(
-                    'languages',
                     'tag',
                 )
             );

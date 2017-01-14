@@ -27,6 +27,7 @@
                         <td>
                             {% for languageCode in child.keywords|keys %}
                                 <a href="{{ path('netgen_tags_admin_tag_update', {'tagId': child.id, 'languageCode': languageCode}) }}">{{ languageCode }}</a>
+                                {% if not loop.last %}, {% endif %}
                             {% endfor %}
                         </td>
                         <td>{{ child.modificationDate|date('d/m/Y h:i') }}</td>

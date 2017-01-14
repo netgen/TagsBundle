@@ -38,11 +38,6 @@ class TagController extends Controller
     protected $searchService;
 
     /**
-     * @var array
-     */
-    protected $languages;
-
-    /**
      * @var \Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
@@ -61,16 +56,6 @@ class TagController extends Controller
         $this->contentTypeService = $contentTypeService;
         $this->searchService = $searchService;
         $this->translator = $translator;
-    }
-
-    /**
-     * Setter method for array with languages.
-     *
-     * @param array|null $languages
-     */
-    public function setLanguages(array $languages = null)
-    {
-        $this->languages = $languages;
     }
 
     /**
@@ -119,7 +104,6 @@ class TagController extends Controller
             null,
             array(
                 'action' => $request->getPathInfo(),
-                'languages' => $this->languages,
             )
         );
 
@@ -213,7 +197,6 @@ class TagController extends Controller
             null,
             array(
                 'action' => $request->getPathInfo(),
-                'languages' => $this->languages,
                 'tag' => $tag,
             )
         );

@@ -1,5 +1,6 @@
 parameters:
      eztags.forms.tree.class: Netgen\TagsBundle\Form\Type\TagTreeType
+     eztags.forms.language_select.class: Netgen\TagsBundle\Form\Type\LanguageSelectType
      eztags.forms.translation_list.class: Netgen\TagsBundle\Form\Type\TranslationListType
 
 services:
@@ -14,5 +15,7 @@ services:
         class: "%eztags.forms.translation_list.class%"
         arguments:
             - "@ezpublish.api.service.language"
+        calls:
+            - [setLanguages, [$languages$]]
         tags:
             - { name: form.type }

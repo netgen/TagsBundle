@@ -29,8 +29,6 @@ services:
             - "@ezpublish.api.service.content_type"
             - "@ezpublish.api.service.search"
             - "@translator"
-        calls:
-            - [setLanguages, [$languages$]]
 
     eztags.admin.controller.synonym:
         class: "%eztags.admin.controller.synonym.class%"
@@ -38,8 +36,6 @@ services:
         arguments:
             - "@ezpublish.api.service.tags"
             - "@translator"
-        calls:
-            - [setLanguages, [$languages$]]
 
     eztags.admin.controller.tree:
             class: "%eztags.admin.controller.tree.class%"

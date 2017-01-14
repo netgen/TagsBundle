@@ -22,7 +22,6 @@ class LanguageSelectType extends AbstractType
             )
             ->setRequired(
                 array(
-                    'languages',
                     'tag',
                 )
             );
@@ -37,7 +36,6 @@ class LanguageSelectType extends AbstractType
             'languageCode',
             TranslationListType::class,
             array(
-                'languages' => $options['languages'],
                 'tag' => $options['tag'],
             )
         );
