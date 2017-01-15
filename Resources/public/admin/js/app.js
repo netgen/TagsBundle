@@ -52,19 +52,17 @@ function ngTagsInit(){
      * @param node
      * */
     function tagTreeContextMenu(node) {
-        var actions = ['add_child'],
-            menu = {};
-        if(node.parent != '#') {
-            actions = actions.concat(['update_tag', 'delete_tag', 'merge_tag', 'add_synonym', 'convert_tag']);
-        }
-        actions.forEach(function(action){
-            menu[action] = {
-                "label": node.data[action].text,
+        var menu = {};
+
+        node.data.context_menu.forEach(function(item){
+            menu[item.name] = {
+                "label": item.text,
                 "action": function () {
-                    window.location.href = node.data[action].url;
+                    window.location.href = item.url;
                 }
             };
         });
+
         return menu;
     }
 

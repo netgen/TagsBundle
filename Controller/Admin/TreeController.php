@@ -141,9 +141,12 @@ class TreeController extends Controller
                 'href' => $this->treeLinks['top_level'],
             ),
             'data' => array(
-                'add_child' => array(
-                    'url' => str_replace(':parentId', 0, $this->treeLinks['add_child']),
-                    'text' => $this->treeLabels['add_child'],
+                'context_menu' => array(
+                    array(
+                        'name' => 'add_child',
+                        'url' => str_replace(':parentId', 0, $this->treeLinks['add_child']),
+                        'text' => $this->treeLabels['add_child'],
+                    ),
                 ),
             ),
         );
@@ -173,29 +176,37 @@ class TreeController extends Controller
                 'opened' => $isRoot,
             ),
             'data' => array(
-                'add_child' => array(
-                    'url' => str_replace(':parentId', $tag->id, $this->treeLinks['add_child']),
-                    'text' => $this->treeLabels['add_child'],
-                ),
-                'update_tag' => array(
-                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['update_tag']),
-                    'text' => $this->treeLabels['update_tag'],
-                ),
-                'delete_tag' => array(
-                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['delete_tag']),
-                    'text' => $this->treeLabels['delete_tag'],
-                ),
-                'merge_tag' => array(
-                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['merge_tag']),
-                    'text' => $this->treeLabels['merge_tag'],
-                ),
-                'add_synonym' => array(
-                    'url' => str_replace(':mainTagId', $tag->id, $this->treeLinks['add_synonym']),
-                    'text' => $this->treeLabels['add_synonym'],
-                ),
-                'convert_tag' => array(
-                    'url' => str_replace(':tagId', $tag->id, $this->treeLinks['convert_tag']),
-                    'text' => $this->treeLabels['convert_tag'],
+                'context_menu' => array(
+                    array(
+                        'name' => 'add_child',
+                        'url' => str_replace(':parentId', $tag->id, $this->treeLinks['add_child']),
+                        'text' => $this->treeLabels['add_child'],
+                    ),
+                    array(
+                        'name' => 'update_tag',
+                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['update_tag']),
+                        'text' => $this->treeLabels['update_tag'],
+                    ),
+                    array(
+                        'name' => 'delete_tag',
+                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['delete_tag']),
+                        'text' => $this->treeLabels['delete_tag'],
+                    ),
+                    array(
+                        'name' => 'merge_tag',
+                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['merge_tag']),
+                        'text' => $this->treeLabels['merge_tag'],
+                    ),
+                    array(
+                        'name' => 'add_synonym',
+                        'url' => str_replace(':mainTagId', $tag->id, $this->treeLinks['add_synonym']),
+                        'text' => $this->treeLabels['add_synonym'],
+                    ),
+                    array(
+                        'name' => 'convert_tag',
+                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['convert_tag']),
+                        'text' => $this->treeLabels['convert_tag'],
+                    ),
                 ),
             ),
         );
