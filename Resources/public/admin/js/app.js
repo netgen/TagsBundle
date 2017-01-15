@@ -79,7 +79,7 @@ function ngTagsInit(){
         if (!modalTreeDiv.length) {
             document.location.href = selectedNode.a_attr.href;
         } else {
-            $(modalTreeDiv).children('input[type=hidden]').val(selectedNode.id);
+            $(modalTreeDiv).children('input.tag-id').val(selectedNode.id);
 
             if (selectedNode.text === undefined || selectedNode.id == '0') {
                 $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
