@@ -10,7 +10,7 @@ YUI.add('netgen-tags-serverside-view-service', function (Y) {
             var head = Y.one('head');
 
             var metaTag = head.create('<meta />').appendTo(head);
-            metaTag.setAttribute("name", 'ngtags-app-base-path');
+            metaTag.setAttribute("name", 'ng-tags-app-base-path');
             metaTag.setAttribute("content", this._getAdminRouteUri('/'));
         },
 
