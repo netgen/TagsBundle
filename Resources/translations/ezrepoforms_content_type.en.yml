@@ -1,6 +1,4 @@
 field_definition.eztags.settings.subtree_limit: 'Limit by tags subtree'
-field_definition.eztags.settings.subtree_limit.current_tag: 'Current tag'
-field_definition.eztags.settings.subtree_limit.no_tag_selected: 'No tag selected'
 field_definition.eztags.settings.subtree_limit.no_limit: 'No subtree limit'
 
 field_definition.eztags.settings.edit_view: 'Edit view'

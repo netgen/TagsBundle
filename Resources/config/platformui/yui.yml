@@ -15,6 +15,11 @@ system:
                     requires: ['ez-serversideviewservice']
                     path: bundles/netgentags/platformui/js/views/services/netgen-tags-serverside-view-service.js
 
+                netgen-tags-content-type-edit-serverside-view-plugin:
+                    requires: ['ez-pluginregistry', 'plugin', 'base']
+                    dependencyOf: ['ez-contenttypeeditserversideview']
+                    path: bundles/netgentags/platformui/js/views/plugins/netgen-tags-content-type-edit-serverside-view-plugin.js
+
                 netgen-tags-navigation-view-plugin:
                     requires: ['ez-pluginregistry', 'plugin', 'base']
                     dependencyOf: ['ez-navigationhubview']

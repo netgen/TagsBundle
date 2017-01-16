@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
+use Netgen\TagsBundle\Form\Type\TagTreeType;
 use EzSystems\RepositoryForms\Data\FieldDefinitionData;
 use EzSystems\RepositoryForms\FieldType\FieldDefinitionFormMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -35,11 +36,9 @@ class FormMapper implements FieldDefinitionFormMapperInterface
 
         $fieldDefinitionForm
             ->add(
-                'subTreeLimit', IntegerType::class, array(
-                    'required' => false,
+                'subTreeLimit', TagTreeType::class, array(
                     'property_path' => 'fieldSettings[subTreeLimit]',
                     'label' => 'field_definition.eztags.settings.subtree_limit',
-                    'empty_data' => 0,
                 )
             )
             ->add(
