@@ -37,7 +37,7 @@
             {% if parentTag is not null %}
                 {% set discardLink = path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) %}
             {% else %}
-                {% set discardLink = path('netgen_tags_admin_dashboard_index') %}
+                {% set discardLink = path('netgen_tags_admin_dashboard') %}
             {% endif %}
 
             <a href="{{ discardLink }}" class="tags-btn">{{ 'tag.button.discard'|trans }}</a>

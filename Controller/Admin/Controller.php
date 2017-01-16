@@ -29,7 +29,7 @@ abstract class Controller extends BaseController
     protected function redirectToTagOrDashboard(Tag $tag = null)
     {
         if (!$tag instanceof Tag) {
-            return $this->redirectToRoute('netgen_tags_admin_dashboard_index');
+            return $this->redirectToRoute('netgen_tags_admin_dashboard');
         }
 
         return $this->redirectToRoute(

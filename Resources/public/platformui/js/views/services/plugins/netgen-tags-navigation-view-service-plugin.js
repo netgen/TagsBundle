@@ -16,7 +16,7 @@ YUI.add('netgen-tags-navigation-view-service-plugin', function (Y) {
                     val = [
                         host._getParameterItem(
                             "Dashboard", "netgen-tags-dashboard",
-                            "NetgenTagsGenericRoute", {uri: "tags/admin/dashboard/"}, "uri"
+                            "NetgenTagsGenericRoute", {uri: "tags/admin/"}, "uri"
                         ),
                     ];
 
