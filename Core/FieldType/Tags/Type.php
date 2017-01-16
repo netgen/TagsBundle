@@ -320,9 +320,9 @@ class Type extends FieldType
 
             switch ($name) {
                 case 'subTreeLimit':
-                    if (!is_integer($value)) {
+                    if (!is_numeric($value)) {
                         $validationErrors[] = new ValidationError(
-                            "Setting '%setting%' value must be of integer type",
+                            "Setting '%setting%' value must be of numeric type",
                             null,
                             array(
                                 'setting' => $name,
