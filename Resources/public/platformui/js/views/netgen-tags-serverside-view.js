@@ -7,7 +7,30 @@ YUI.add('netgen-tags-serverside-view', function (Y) {
         initializer: function () {
             this.after('activeChange', function() {
                 if (this.get('active')) {
+                    var $ = jQuery;
+                    var tagsTreeContainers = $('div.tags-tree');
+
+                    $.jstree.defaults.core.data = {};
+                    $.jstree.defaults.core.data.dataFilter = function (data, type) {
+                        data = JSON.parse(data);
+                        var prefix = $('meta[name="ng-tags-app-base-path"]').attr('content');
+
+                        data.forEach(function(node) {
+                            node.a_attr.href = generateTagTreeUrl(prefix, node.a_attr.href);
+
+                            node.data.context_menu.forEach(function(item) {
+                                item.url = generateTagTreeUrl(prefix, item.url);
+                            });
+                        });
+
+                        return JSON.stringify(data);
+                    };
+
                     ngTagsInit();
+                }
+
+                function generateTagTreeUrl(prefix, uri) {
+                    return prefix + encodeURIComponent(uri.replace(/^\//, ''));
                 }
             });
         },
