@@ -1,7 +1,7 @@
 {% trans_default_domain 'eztags' %}
 
 {%- block form_row -%}
-    <div class="tags-input {% if errors|length > 0 %} error-input{% endif %}">
+    <div class="ng-tags-input {% if errors|length > 0 %} error-input{% endif %}">
         {%- if 'checkbox' in block_prefixes or 'radio' in block_prefixes -%}
             {{- form_widget(form) -}}
             {{- form_label(form) -}}
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block tag_tree_widget %}
-    <div class="tags-input">
+    <div class="ng-tags-input">
         <div class="modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
             {{- form_label(form) -}}
             <input type="hidden" class="tag-id" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
@@ -54,7 +54,7 @@
             <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select'|trans }}</button>
 
             {# Renders a tree inside modal window, for selecting tag inside forms. #}
-            <div class="modal">
+            <div class="ng-modal">
                 <div class="content">
                     <span class="close"><i class="md-icon">close</i></span>
                     {% include 'NetgenTagsBundle:admin:tree.html.twig' with {

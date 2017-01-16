@@ -61,7 +61,7 @@ $nodeHeight: 24px;
     .jstree-loading {
         > .jstree-ocl {
             background:$sidebarBg;
-            .modal & {
+            .ng-modal & {
                 background-color:#fff;
             }
         }
@@ -87,7 +87,7 @@ $nodeHeight: 24px;
             &::before {
                 content:"";
             }
-            .modal & {
+            .ng-modal & {
                 background-color:#fff;
             }
         }

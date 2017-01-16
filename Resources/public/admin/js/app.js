@@ -87,7 +87,7 @@ function ngTagsInit(){
                 $(modalTreeDiv).children('span.tag-keyword').html(selectedNode.text);
             }
 
-            $(modalTreeDiv).children('div.modal').hide();
+            $(modalTreeDiv).children('div.ng-modal').hide();
         }
     });
 
@@ -95,14 +95,14 @@ function ngTagsInit(){
      * Opens modal when modal open button is clicked.
      */
     $('.modal-tree-button').on('click', function(){
-        $(this).parent('div.modal-tree').children('div.modal').show();
+        $(this).parent('div.modal-tree').children('div.ng-modal').show();
     });
 
     /**
      * It closes modal when Close span inside modal is clicked.
      */
-    $('.modal').on('click', '.close', function(){
-        $(this).closest('div.modal').hide();
+    $('.ng-modal').on('click', '.close', function(){
+        $(this).closest('div.ng-modal').hide();
     });
 
     /**
