@@ -16,6 +16,17 @@ YUI.add('netgen-tags-app-plugin', function (Y) {
 
         addRoutes: function (app) {
             app.route({
+                name: "NetgenTagsAdmin",
+                regex: /\/tags\/(tags%2Fadmin%2F.*)/,
+                keys: ['uri'],
+                path: "/tags/:uri",
+                sideViews: {'navigationHub': true, 'discoveryBar': false},
+                service: Y.Netgen.Tags.Service.ServerSideViewService,
+                view: "NetgenTagsServerSideView",
+                callbacks: ['open', 'checkUser', 'handleSideViews', 'handleMainView']
+            });
+
+            app.route({
                 name: "NetgenTagsGenericRoute",
                 path: "/tags/:uri",
                 sideViews: {'navigationHub': true, 'discoveryBar': false},
