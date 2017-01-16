@@ -312,7 +312,7 @@ class Type extends FieldType
                     "Setting '%setting%' is unknown",
                     null,
                     array(
-                        'setting' => $name,
+                        '%setting%' => $name,
                     )
                 );
                 continue;
@@ -325,7 +325,7 @@ class Type extends FieldType
                             "Setting '%setting%' value must be of numeric type",
                             null,
                             array(
-                                'setting' => $name,
+                                '%setting%' => $name,
                             )
                         );
                     }
@@ -335,7 +335,7 @@ class Type extends FieldType
                             "Setting '%setting%' value must be equal or larger than 0",
                             null,
                             array(
-                                'setting' => $name,
+                                '%setting%' => $name,
                             )
                         );
                     }
@@ -348,7 +348,7 @@ class Type extends FieldType
                                 "Setting '%setting%' value must be an existing tag ID",
                                 null,
                                 array(
-                                    'setting' => $name,
+                                    '%setting%' => $name,
                                 )
                             );
                         }
@@ -360,7 +360,7 @@ class Type extends FieldType
                             "Setting '%setting%' value must be of boolean type",
                             null,
                             array(
-                                'setting' => $name,
+                                '%setting%' => $name,
                             )
                         );
                     }
@@ -371,7 +371,7 @@ class Type extends FieldType
                             "Setting '%setting%' value must be of integer type",
                             null,
                             array(
-                                'setting' => $name,
+                                '%setting%' => $name,
                             )
                         );
                     }
@@ -381,7 +381,7 @@ class Type extends FieldType
                             "Setting '%setting%' value must be equal or larger than 0",
                             null,
                             array(
-                                'setting' => $name,
+                                '%setting%' => $name,
                             )
                         );
                     }
@@ -392,7 +392,7 @@ class Type extends FieldType
                             "Setting '%setting%' value must be of string type",
                             null,
                             array(
-                                'setting' => $name,
+                                '%setting%' => $name,
                             )
                         );
                     }
@@ -410,7 +410,7 @@ class Type extends FieldType
                             "Edit view '%editView%' does not exist",
                             null,
                             array(
-                                'editView' => $value,
+                                '%editView%' => $value,
                             )
                         );
                     }
