@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Publish\API\Repository\ContentTypeService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
