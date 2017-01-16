@@ -11,3 +11,7 @@
 .ng-tags-app .ng-tags-container {
     width:100%;
 }
+
+.ng-tags-input .tag-keyword {
+    float:none;
+}
