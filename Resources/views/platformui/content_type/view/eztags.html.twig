@@ -8,7 +8,7 @@
     <li class="subtree-limit">
         <span>{{ 'field_definition.eztags.settings.subtree_limit'|trans }}:</span>
         {% if settings.subTreeLimit > 0 %}
-            <a href="{{ url( 'eztags_tag_url', { 'tagId': settings.subTreeLimit } ) }}">{{ netgen_tags_tag_keyword( settings.subTreeLimit ) }}</a>
+            <a href="{{ path( 'netgen_tags_admin_tag_show', { 'tagId': settings.subTreeLimit } ) }}">{{ netgen_tags_tag_keyword( settings.subTreeLimit ) }}</a>
         {% else %}
             {{ 'field_definition.eztags.settings.subtree_limit.no_limit'|trans }}
         {% endif %}
