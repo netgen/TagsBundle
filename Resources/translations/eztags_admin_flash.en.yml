@@ -4,7 +4,7 @@ errors.no_translation: 'Translation for locale "%locale%" does not exist'
 errors.no_translation_selected: 'You have to select at least one translation'
 errors.main_translation: 'You cannot remove the main translation'
 
-success.tag_added': 'New tag "%tagKeyword%" has been created'
+success.tag_added: 'New tag "%tagKeyword%" has been created'
 success.tag_updated: 'Tag "%tagKeyword%" has been updated'
 success.tag_deleted: 'Tag "%tagKeyword%" has been deleted'
 success.tag_merged: 'Tag "%tagKeyword%" has been merged with tag "%sourceTagKeyword%"'
