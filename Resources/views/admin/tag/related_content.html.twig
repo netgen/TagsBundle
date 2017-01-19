@@ -1,0 +1,36 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% set tag_keyword = netgen_tags_tag_keyword( tag ) %}
+
+{% block content %}
+    <h2 class="tag-title">
+        {{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}
+    </h2>
+
+    {% if related_content|length > 0 %}
+        <div class="children">
+            <div class="item">
+                {% for related_content_item in related_content %}
+                    {{ render(
+                        controller(
+                            "ez_content:viewAction", {
+                                "contentId": related_content_item.id,
+                                "locationId": related_content_item.contentInfo.mainLocationId,
+                                "viewType": "line",
+                                "layout": false,
+                            }
+                        )
+                    ) }}
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if related_content.haveToPaginate() %}
+            <div class="pagination-centered">
+                {{ pagerfanta( related_content ) }}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

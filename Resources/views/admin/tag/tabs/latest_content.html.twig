@@ -21,6 +21,8 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('netgen_tags_admin_tag_related_content', {'tagId': tag.id}) }}">{{ 'tag.latest_content.all_content'|trans }}</a>
 {% else %}
     <p>{{ 'tag.latest_content.no_content'|trans }}</p>
 {% endif %}

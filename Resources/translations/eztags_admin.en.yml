@@ -10,6 +10,7 @@ dashboard.latest_tags.tag_modified: 'Modified'
 dashboard.latest_tags.no_parent: 'No parent'
 
 tag.latest_content.no_content: 'No content'
+tag.latest_content.all_content: 'See all content related to tag'
 
 tag.title: 'Tag'
 tag.last_modified: 'Last modified'

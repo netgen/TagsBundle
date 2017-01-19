@@ -2,6 +2,7 @@ parameters:
     eztags.admin.controller.base.class: Netgen\TagsBundle\Controller\Admin\Controller
     eztags.admin.controller.dashboard.class: Netgen\TagsBundle\Controller\Admin\DashboardController
     eztags.admin.controller.tag.class: Netgen\TagsBundle\Controller\Admin\TagController
+    eztags.admin.controller.related_content.class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
     eztags.admin.controller.synonym.class: Netgen\TagsBundle\Controller\Admin\SynonymController
     eztags.admin.controller.tree.class: Netgen\TagsBundle\Controller\Admin\TreeController
 
@@ -30,6 +31,12 @@ services:
             - "@ezpublish.api.service.search"
             - "@translator"
             - "@eztags.pagerfanta.children_tags_adapter"
+
+    eztags.admin.controller.related_content:
+        class: "%eztags.admin.controller.related_content.class%"
+        parent: eztags.admin.controller.base
+        arguments:
+            - "@eztags.pagerfanta.related_content_adapter"
 
     eztags.admin.controller.synonym:
         class: "%eztags.admin.controller.synonym.class%"

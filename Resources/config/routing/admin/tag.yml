@@ -4,6 +4,12 @@ netgen_tags_admin_tag_show:
         _controller: eztags.admin.controller.tag:showTagAction
         _method: GET
 
+netgen_tags_admin_tag_related_content:
+    path: /{tagId}/content
+    defaults:
+        _controller: eztags.admin.controller.related_content:relatedContentAction
+        _method: GET
+
 netgen_tags_admin_tag_add_select:
     path: /add/{parentId}
     defaults:
