@@ -1,5 +1,3 @@
-error.invalid_csrf_token: 'Invalid CSRF token'
-
 pagelayout.title: 'Netgen Tags'
 
 dashboard.title: 'Tags dashboard'
@@ -28,21 +26,13 @@ tag.translations.langunage: 'Language'
 tag.translations.translation: 'Translation'
 tag.translations.locale: 'Locale'
 tag.translations.main: 'Main'
-
 tag.translations.always_available: 'Use the main language if there is no prioritized translation'
-tag.translations.no_translation: 'Translation for locale "%locale%" does not exist'
-tag.translations.no_translation_selected: 'You have to select at least one translation'
-tag.translations.is_main: 'You cannot remove the main translation'
-tag.translations.removed: 'Translation for locale "%locale%" has been successfully removed'
-tag.translations.new_main: 'Translation for locale "%locale%" has been set as new main translation'
-tag.translations.always_available: 'Always available flag has been successfully updated'
 
 tag.synonyms.title: 'Synonyms'
 tag.synonyms.no_synonyms: 'No synonyms'
 
 tag.children.title: 'Children tags'
 tag.children.no_children: 'No tags found'
-tag.children.no_selected_tags: 'You have to select at least one tag'
 
 tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
@@ -50,31 +40,24 @@ tag.subtree_limitations.no_limitations: 'No subtree limitations'
 tag.related_content.title: 'List of content related to tag'
 
 tag.add.title: 'New tag'
-tag.add.success: 'New tag "%tagKeyword%" has been created'
 
 tag.edit.title: 'Edit tag'
-tag.edit.success: 'Tag "%tagKeyword%" has been updated'
 
 tag.delete.title: 'Delete tag'
 tag.delete.message: 'Are you sure you want to delete the "%tagKeyword%" tag? All children tags and synonyms will also be deleted and removed from existing objects.'
-tag.delete.success: 'Tag "%tagKeyword%" has been deleted'
 
 tag.merge.title: 'Merge tag'
 tag.merge.message: 'Merging this tag with another tag will delete the tag and it''s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.'
-tag.merge.success: 'Tag "%tagKeyword%" has been merged with tag "%sourceTagKeyword%"'
 
 tag.add_synonym.title: 'Add synonym'
 
 tag.convert.title: 'Convert to synonym'
-tag.convert.success: 'Tag "%tagKeyword%" has been converted to synonym of tag "%mainTagKeyword%"'
 
 tag.move_tags.title: 'Move tags'
 tag.move_tags.message: 'Are you sure you want to move the selected tags?'
-tag.move_tags.success: 'Tags have been moved successfully'
 
 tag.delete_tags.title: 'Delete tags'
 tag.delete_tags.message: 'Are you sure you want to delete the selected tags? All children tags and synonyms will also be deleted and removed from existing objects.'
-tag.delete_tags.success: 'Tags have been deleted successfully'
 
 tag.button.save: 'Save'
 tag.button.discard: 'Discard'

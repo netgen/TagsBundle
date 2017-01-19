@@ -99,16 +99,7 @@ class SynonymController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $newSynonym = $this->tagsService->addSynonym($form->getData());
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.add.success',
-                    array(
-                        '%tagKeyword%' => $newSynonym->keyword,
-                    ),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('success', 'tag_added', array('%tagKeyword%' => $newSynonym->keyword));
 
             return $this->redirectToTagOrDashboard($newSynonym);
         }

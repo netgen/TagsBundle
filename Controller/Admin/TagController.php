@@ -187,16 +187,7 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $newTag = $this->tagsService->createTag($form->getData());
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.add.success',
-                    array(
-                        '%tagKeyword%' => $newTag->keyword,
-                    ),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('success', 'tag_added', array('%tagKeyword%' => $newTag->keyword));
 
             return $this->redirectToTagOrDashboard($newTag);
         }
@@ -286,16 +277,7 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $updatedTag = $this->tagsService->updateTag($tag, $form->getData());
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.edit.success',
-                    array(
-                        '%tagKeyword%' => $updatedTag->keyword,
-                    ),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('success', 'tag_updated', array('%tagKeyword%' => $updatedTag->keyword));
 
             return $this->redirectToTagOrDashboard($updatedTag);
         }
@@ -323,30 +305,14 @@ class TagController extends Controller
     {
         if ($request->request->has('DeleteTagButton')) {
             if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
-                $this->addFlash(
-                    'errorMessages',
-                    $this->translator->trans(
-                        'error.invalid_csrf_token',
-                        array(),
-                        'eztags_admin'
-                    )
-                );
+                $this->addFlashMessage('errors', 'invalid_csrf_token');
 
                 return $this->redirectToTagOrDashboard($tag);
             }
 
             $this->tagsService->deleteTag($tag);
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.delete.success',
-                    array(
-                        '%tagKeyword%' => $tag->keyword,
-                    ),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('success', 'tag_deleted', array('%tagKeyword%' => $tag->keyword));
 
             return $this->redirectToTagOrDashboard();
         }
@@ -386,15 +352,12 @@ class TagController extends Controller
 
             $this->tagsService->mergeTags($tag, $sourceTag);
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.merge.success',
-                    array(
-                        '%tagKeyword%' => $tag->keyword,
-                        '%sourceTagKeyword%' => $sourceTag->keyword,
-                    ),
-                    'eztags_admin'
+            $this->addFlashMessage(
+                'success',
+                'tag_merged',
+                array(
+                    '%tagKeyword%' => $tag->keyword,
+                    '%sourceTagKeyword%' => $sourceTag->keyword
                 )
             );
 
@@ -437,15 +400,12 @@ class TagController extends Controller
 
             $this->tagsService->convertToSynonym($tag, $mainTag);
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.convert.success',
-                    array(
-                        '%tagKeyword%' => $tag->keyword,
-                        '%mainTagKeyword%' => $mainTag->keyword,
-                    ),
-                    'eztags_admin'
+            $this->addFlashMessage(
+                'success',
+                'tag_converted',
+                array(
+                    '%tagKeyword%' => $tag->keyword,
+                    '%mainTagKeyword%' => $mainTag->keyword,
                 )
             );
 
@@ -474,14 +434,7 @@ class TagController extends Controller
     public function translationAction(Request $request, Tag $tag)
     {
         if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
-            $this->addFlash(
-                'errorMessages',
-                $this->translator->trans(
-                    'error.invalid_csrf_token',
-                    array(),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('errors', 'invalid_csrf_token');
 
             return $this->redirectToTagOrDashboard($tag);
         }
@@ -490,14 +443,7 @@ class TagController extends Controller
 
         if ($request->request->has('RemoveTranslationButton')) {
             if (empty($request->request->get('Locale'))) {
-                $this->addFlash(
-                    'errorMessages',
-                    $this->translator->trans(
-                        'tag.translations.no_translation_selected',
-                        array(),
-                        'eztags_admin'
-                    )
-                );
+                $this->addFlashMessage('errors', 'no_translation_selected');
 
                 return $this->redirectToTagOrDashboard($tag);
             }
@@ -508,25 +454,9 @@ class TagController extends Controller
 
             foreach ($locales as $locale) {
                 if (!isset($newKeywords[$locale])) {
-                    $this->addFlash(
-                        'errorMessages',
-                        $this->translator->trans(
-                            'tag.translations.no_translation',
-                            array(
-                                '%locale%' => $locale,
-                            ),
-                            'eztags_admin'
-                        )
-                    );
+                    $this->addFlashMessage('errors', 'no_translation', array('%locale%' => $locale));
                 } elseif ($locale === $tag->mainLanguageCode) {
-                    $this->addFlash(
-                        'errorMessages',
-                        $this->translator->trans(
-                            'tag.translations.is_main',
-                            array(),
-                            'eztags_admin'
-                        )
-                    );
+                    $this->addFlashMessage('errors', 'main_translation');
                 } else {
                     unset($newKeywords[$locale]);
 
@@ -538,59 +468,25 @@ class TagController extends Controller
 
                     $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-                    $this->addFlash(
-                        'successMessages',
-                        $this->translator->trans(
-                            'tag.translations.removed',
-                            array(
-                                '%locale%' => $locale,
-                            ),
-                            'eztags_admin'
-                        )
-                    );
+                    $this->addFlashMessage('success', 'translation_removed');
                 }
             }
         } elseif ($request->request->has('UpdateMainTranslationButton')) {
             $newMainTranslation = $request->request->get('MainLocale');
 
             if (!in_array($newMainTranslation, $tag->languageCodes)) {
-                $this->addFlash(
-                    'errorMessages',
-                    $this->translator->trans(
-                        'tag.translations.no_translation',
-                        array(
-                            '%locale%' => $newMainTranslation,
-                        ),
-                        'eztags_admin'
-                    )
-                );
+                $this->addFlashMessage('errors', 'no_translation', array('%locale%', $newMainTranslation));
             } else {
                 $tagUpdateStruct->mainLanguageCode = $newMainTranslation;
                 $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-                $this->addFlash(
-                    'successMessages',
-                    $this->translator->trans(
-                        'tag.translations.new_main',
-                        array(
-                            '%locale%' => $newMainTranslation,
-                        ),
-                        'eztags_admin'
-                    )
-                );
+                $this->addFlashMessage('success', 'main_translation_set', array('%locale%' => $newMainTranslation));
             }
         } elseif ($request->request->has('UpdateAlwaysAvailableButton')) {
             $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
             $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.translations.always_available',
-                    array(),
-                    'eztags_admin'
-                )
-            );
+                $this->addFlashMessage('success', 'always_available_set');
         }
 
         return $this->redirectToTagOrDashboard($tag);
@@ -607,14 +503,7 @@ class TagController extends Controller
     public function childrenAction(Request $request, Tag $tag = null)
     {
         if (empty($request->request->get('Tags'))) {
-            $this->addFlash(
-                'errorMessages',
-                $this->translator->trans(
-                    'tag.children.no_selected_tags',
-                    array(),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('errors', 'no_selected_tags');
 
             return $this->redirectToTagOrDashboard($tag);
         }
@@ -692,14 +581,7 @@ class TagController extends Controller
                 $this->tagsService->moveSubtree($tagObject, $newParentTag);
             }
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.move_tags.success',
-                    array(),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('success', 'tags_moved');
 
             return $this->redirectToTagOrDashboard($parentTag);
         }
@@ -741,14 +623,7 @@ class TagController extends Controller
 
         if ($request->request->has('DeleteTagsButton')) {
             if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
-                $this->addFlash(
-                    'errorMessages',
-                    $this->translator->trans(
-                        'error.invalid_csrf_token',
-                        array(),
-                        'eztags_admin'
-                    )
-                );
+                $this->addFlashMessage('errors', 'invalid_csrf_token');
 
                 return $this->redirectToTagOrDashboard($parentTag);
             }
@@ -757,14 +632,7 @@ class TagController extends Controller
                 $this->tagsService->deleteTag($tagObject);
             }
 
-            $this->addFlash(
-                'successMessages',
-                $this->translator->trans(
-                    'tag.delete_tags.success',
-                    array(),
-                    'eztags_admin'
-                )
-            );
+            $this->addFlashMessage('success', 'tags_deleted');
 
             return $this->redirectToTagOrDashboard($parentTag);
         }

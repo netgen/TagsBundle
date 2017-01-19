@@ -44,6 +44,25 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * Adds a flash message with specified parameters.
+     *
+     * @param string $messageType
+     * @param string $message
+     * @param array $parameters
+     */
+    protected function addFlashMessage($messageType, $message, array $parameters = array())
+    {
+        $this->addFlash(
+            'tags.' . $messageType,
+            $this->get('translator')->trans(
+                $messageType . '.' . $message,
+                $parameters,
+                'eztags_admin_flash'
+            )
+        );
+    }
+
+    /**
      * Creates a pager for use with various pages.
      *
      * @param \Pagerfanta\Adapter\AdapterInterface $adapter
