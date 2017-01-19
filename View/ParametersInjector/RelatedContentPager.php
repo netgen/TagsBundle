@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\View\ParametersInjector;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewParametersEvent;
 use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
-use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Netgen\TagsBundle\View\TagView;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -13,11 +12,6 @@ use Pagerfanta\Pagerfanta;
 
 class RelatedContentPager implements EventSubscriberInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    protected $tagsService;
-
     /**
      * @var \Pagerfanta\Adapter\AdapterInterface
      */
@@ -31,12 +25,10 @@ class RelatedContentPager implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      * @param \Pagerfanta\Adapter\AdapterInterface $adapter
      */
-    public function __construct(TagsService $tagsService, AdapterInterface $adapter)
+    public function __construct(AdapterInterface $adapter)
     {
-        $this->tagsService = $tagsService;
         $this->adapter = $adapter;
     }
 
