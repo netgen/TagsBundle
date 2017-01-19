@@ -24,8 +24,8 @@ tag.main.no: 'no main'
 tag.add.title: 'New tag'
 tag.add.success: 'New tag "%tagKeyword%" has been created'
 
-tag.class.id: 'Class ID'
-tag.class.name: 'Class name'
+tag.content_type.id: 'Content type ID'
+tag.content_type.name: 'Content type'
 
 tag.table.tag_id: 'ID'
 tag.table.tag_name: 'Name'
