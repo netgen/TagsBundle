@@ -1,5 +1,7 @@
 {% set selectedTagId = 0 %}
-{% if app.request.attributes.get('_route') == 'netgen_tags_admin_tag_show' %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+{% if currentRoute == 'netgen_tags_admin_tag_show' and app.request.attributes.has('tag') %}
     {% set selectedTagId = app.request.attributes.get('tag').id %}
 {% endif %}
 

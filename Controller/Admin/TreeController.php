@@ -62,7 +62,7 @@ class TreeController extends Controller
         );
 
         $this->treeLinks = array(
-            'top_level' => $this->router->generate('netgen_tags_admin_dashboard'),
+            'top_level' => $this->router->generate('netgen_tags_admin_root'),
             'show_tag' => $this->router->generate('netgen_tags_admin_tag_show', array('tagId' => ':tagId')),
             'add_child' => $this->router->generate('netgen_tags_admin_tag_add_select', array('parentId' => ':parentId')),
             'update_tag' => $this->router->generate('netgen_tags_admin_tag_update_select', array('tagId' => ':tagId')),

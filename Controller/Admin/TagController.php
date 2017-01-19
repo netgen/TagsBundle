@@ -9,7 +9,6 @@ use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\MoveTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
@@ -17,7 +16,6 @@ use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
 use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
-use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
@@ -78,32 +76,37 @@ class TagController extends Controller
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showTagAction(Request $request, Tag $tag)
+    public function showTagAction(Request $request, Tag $tag = null)
     {
-        $data = array(
+        $data = array();
+
+        if (!$tag instanceof Tag || !$tag->isSynonym()) {
+            $currentPage = (int)$request->query->get('page');
+            $pager = $this->createPager($this->tagChildrenAdapter, $currentPage, 25, $tag);
+
+            $data += array(
+                'childrenTags' => $pager,
+            );
+        }
+
+        if (!$tag instanceof Tag) {
+            return $this->render(
+                'NetgenTagsBundle:admin/tag:dashboard.html.twig',
+                $data
+            );
+        }
+
+        $data += array(
             'tag' => $tag,
             'latestContent' => $this->getLatestContent($tag, 10),
         );
 
         if (!$tag->isSynonym()) {
-            if ($this->tagChildrenAdapter instanceof TagAdapterInterface) {
-                $this->tagChildrenAdapter->setTag($tag);
-            }
-
-            $pager = new Pagerfanta($this->tagChildrenAdapter);
-
-            $pager->setNormalizeOutOfRangePages(true);
-
-            $page = (int)$request->query->get('page');
-
-            $pager->setMaxPerPage(25);
-            $pager->setCurrentPage($page > 0 ? $page : 1);
-
             $data += array(
                 'synonyms' => $this->tagsService->loadTagSynonyms($tag, 0, 10),
-                'childrenTags' => $pager,
                 'subTreeLimitations' => $this->getSubtreeLimitations($tag),
             );
         }

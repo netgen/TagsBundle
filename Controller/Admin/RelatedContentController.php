@@ -3,9 +3,7 @@
 namespace Netgen\TagsBundle\Controller\Admin;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Pagerfanta\Adapter\AdapterInterface;
-use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 
 class RelatedContentController extends Controller
@@ -50,17 +48,8 @@ class RelatedContentController extends Controller
      */
     public function relatedContentAction(Request $request, Tag $tag)
     {
-        if ($this->adapter instanceof TagAdapterInterface) {
-            $this->adapter->setTag($tag);
-        }
-
-        $pager = new Pagerfanta($this->adapter);
-
-        $pager->setNormalizeOutOfRangePages(true);
-
-        $page = (int)$request->query->get('page');
-        $pager->setMaxPerPage($this->pagerLimit > 0 ? $this->pagerLimit : 10);
-        $pager->setCurrentPage($page > 0 ? $page : 1);
+        $currentPage = (int)$request->query->get('page');
+        $pager = $this->createPager($this->adapter, $currentPage, $this->pagerLimit, $tag);
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:related_content.html.twig',

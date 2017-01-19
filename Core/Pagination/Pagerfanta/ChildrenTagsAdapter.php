@@ -8,7 +8,6 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 /**
  * Pagerfanta adapter for children tags of a tag.
- * Will return results as content objects.
  */
 class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 {
@@ -54,10 +53,6 @@ class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
      */
     public function getNbResults()
     {
-        if (!$this->tag instanceof Tag) {
-            return 0;
-        }
-
         if (!isset($this->nbResults)) {
             $this->nbResults = $this->tagsService->getTagChildrenCount($this->tag);
         }
@@ -71,14 +66,10 @@ class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
      * @param int $offset The offset
      * @param int $length The length
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
     public function getSlice($offset, $length)
     {
-        if (!$this->tag instanceof Tag) {
-            return array();
-        }
-
         $childrenTags = $this->tagsService->loadTagChildren($this->tag, $offset, $length);
 
         if (!isset($this->nbResults)) {

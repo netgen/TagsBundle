@@ -1,6 +1,5 @@
 parameters:
     eztags.admin.controller.base.class: Netgen\TagsBundle\Controller\Admin\Controller
-    eztags.admin.controller.dashboard.class: Netgen\TagsBundle\Controller\Admin\DashboardController
     eztags.admin.controller.tag.class: Netgen\TagsBundle\Controller\Admin\TagController
     eztags.admin.controller.related_content.class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
     eztags.admin.controller.synonym.class: Netgen\TagsBundle\Controller\Admin\SynonymController
@@ -15,12 +14,6 @@ services:
         abstract: true
         calls:
             - [performAccessChecks, []]
-
-    eztags.admin.controller.dashboard:
-        class: "%eztags.admin.controller.dashboard.class%"
-        parent: eztags.admin.controller.base
-        arguments:
-            - "@ezpublish.api.service.tags"
 
     eztags.admin.controller.tag:
         class: "%eztags.admin.controller.tag.class%"

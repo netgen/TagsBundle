@@ -4,6 +4,9 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller as BaseController;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
+use Pagerfanta\Adapter\AdapterInterface;
+use Pagerfanta\Pagerfanta;
 
 abstract class Controller extends BaseController
 {
@@ -29,7 +32,7 @@ abstract class Controller extends BaseController
     protected function redirectToTagOrDashboard(Tag $tag = null)
     {
         if (!$tag instanceof Tag) {
-            return $this->redirectToRoute('netgen_tags_admin_dashboard');
+            return $this->redirectToRoute('netgen_tags_admin_root');
         }
 
         return $this->redirectToRoute(
@@ -38,5 +41,30 @@ abstract class Controller extends BaseController
                 'tagId' => $tag->id,
             )
         );
+    }
+
+    /**
+     * Creates a pager for use with various pages.
+     *
+     * @param \Pagerfanta\Adapter\AdapterInterface $adapter
+     * @param int $currentPage
+     * @param int $maxPerPage
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \Pagerfanta\Pagerfanta
+     */
+    protected function createPager(AdapterInterface $adapter, $currentPage, $maxPerPage, Tag $tag = null)
+    {
+        if ($adapter instanceof TagAdapterInterface && $tag instanceof Tag) {
+            $adapter->setTag($tag);
+        }
+
+        $pager = new Pagerfanta($adapter);
+
+        $pager->setNormalizeOutOfRangePages(true);
+        $pager->setMaxPerPage($maxPerPage);
+        $pager->setCurrentPage($currentPage > 0 ? $currentPage : 1);
+
+        return $pager;
     }
 }
