@@ -14,7 +14,7 @@
                 <tr>
                     <td>{{ synonym.id }}</td>
                     <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">{{ netgen_tags_tag_keyword(synonym) }}</a></td>
-                    <td>{{ synonym.modificationDate|date('d/m/Y h:i') }}</td>
+                    <td>{{ synonym.modificationDate|date }}</td>
                 </tr>
             {% endfor %}
         </tbody>

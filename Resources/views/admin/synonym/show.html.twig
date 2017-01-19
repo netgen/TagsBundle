@@ -5,7 +5,7 @@
 {% block content %}
     <h2 class="tag-title">
         {{ 'synonym.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)
-        <span class="tag-title-note">{{ 'tag.last_modified'|trans }}: <strong>{{ tag.modificationDate|date('d/m/Y g:i a') }}</strong> ({{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong>)</span>
+        <span class="tag-title-note">{{ 'tag.last_modified'|trans }}: <strong>{{ tag.modificationDate|date }}</strong> ({{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong>)</span>
     </h2>
 
     {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
