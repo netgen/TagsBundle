@@ -19,7 +19,7 @@ class Tag extends Constraint
     /**
      * @var string
      */
-    public $invalidMessage = 'eztags.tag.invalid';
+    public $invalidMessage = 'eztags.tag.invalid_tag';
 
     /**
      * @var bool

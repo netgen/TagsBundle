@@ -53,6 +53,7 @@ class TagType extends AbstractType
                 'remoteId',
                 TextType::class,
                 array(
+                    'label' => 'tag.remote_id',
                     'required' => false,
                 )
             );

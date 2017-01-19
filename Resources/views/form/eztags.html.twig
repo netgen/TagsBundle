@@ -1,4 +1,4 @@
-{% trans_default_domain 'eztags' %}
+{% trans_default_domain 'eztags_admin' %}
 
 {%- block form_row -%}
     <div class="ng-tags-input {% if errors|length > 0 %} error-input{% endif %}">
@@ -19,11 +19,11 @@
 
     <div {{ block('widget_container_attributes') }}>
         {% if tag is not null %}
-            <p>{{ 'tag.translation.edit'|trans }}</p>
+            <p>{{ 'tag.translations.edit_translation'|trans }}</p>
 
             <div class="edit_translation">
         {% else %}
-            <p>{{ 'tag.translation.add'|trans }}</p>
+            <p>{{ 'tag.translations.add_translation'|trans }}</p>
 
             <div class="add_translation">
         {% endif %}
@@ -32,7 +32,7 @@
             {% if tag is not null and child.vars.value not in tag.languageCodes and add_translation_closed == false %}
                 </div>
 
-                <p>{{ 'tag.translation.add'|trans }}</p>
+                <p>{{ 'tag.translations.add_translation'|trans }}</p>
 
                 <div class="add_translation">
 
@@ -51,7 +51,7 @@
             {{- form_label(form) -}}
             <input type="hidden" class="tag-id" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %} />
             <span class="tag-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
-            <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select'|trans }}</button>
+            <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select_tag'|trans }}</button>
 
             {# Renders a tree inside modal window, for selecting tag inside forms. #}
             <div class="ng-modal">
