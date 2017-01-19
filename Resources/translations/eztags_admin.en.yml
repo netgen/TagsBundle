@@ -48,6 +48,8 @@ tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
 tag.subtree_limitations.identifier: 'Attribute identifier'
 
+tag.related_content.title: 'List of content related to tag'
+
 tag.form.always_available: 'Use the main language if there is no prioritized translation'
 
 synonym.add.success: 'New synonym "%tagKeyword%" has been created'
