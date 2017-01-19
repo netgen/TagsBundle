@@ -33,7 +33,10 @@ class TagCreateType extends AbstractType
     {
         $builder->add(
             'parentTagId',
-            TagTreeType::class
+            TagTreeType::class,
+            array(
+                'label' => 'tag.parent_tag',
+            )
         );
     }
 
