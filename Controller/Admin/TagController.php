@@ -688,7 +688,6 @@ class TagController extends Controller
         $query = new Query();
 
         $criteria = array(
-            new Criterion\Visibility(Criterion\Visibility::VISIBLE),
             new TagId($tag->id),
         );
 
@@ -696,7 +695,7 @@ class TagController extends Controller
         $query->limit = $limit;
 
         $query->sortClauses = array(
-            new Query\SortClause\DateModified(Query::SORT_DESC),
+            new Query\SortClause\DatePublished(Query::SORT_DESC),
         );
 
         $searchResult = $this->searchService->findContent($query);
