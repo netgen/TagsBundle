@@ -4,6 +4,7 @@ parameters:
     eztags.routing.tag_router.class: Netgen\TagsBundle\Routing\TagRouter
     eztags.event_listener.routing_listener.class: Netgen\TagsBundle\EventListener\RouterListener
     eztags.pagerfanta.related_content_adapter.class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
+    eztags.pagerfanta.children_tags_adapter.class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter
 
 services:
     eztags.controller.tag_view:
@@ -42,5 +43,10 @@ services:
 
     eztags.pagerfanta.related_content_adapter:
         class: "%eztags.pagerfanta.related_content_adapter.class%"
+        arguments:
+            - "@ezpublish.api.service.tags"
+
+    eztags.pagerfanta.children_tags_adapter:
+        class: "%eztags.pagerfanta.children_tags_adapter.class%"
         arguments:
             - "@ezpublish.api.service.tags"
