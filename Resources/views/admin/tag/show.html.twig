@@ -5,6 +5,11 @@
 {% block content %}
     <h2 class="tag-title">
         {{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}
+
+        {% if tag.isSynonym %}
+            ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)
+        {% endif %}
+
         <span class="tag-title-note">{{ 'tag.last_modified'|trans }}: <strong>{{ tag.modificationDate|date('d/m/Y g:i a') }}</strong> ({{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong>)</span>
     </h2>
 
@@ -13,17 +18,23 @@
     <div class="tags-btn-group">
         <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'tag.edit.title'|trans }}</a>
         <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.delete.title'|trans }}</a>
-        <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.merge.title'|trans }}</a>
-        <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="tags-btn">{{ 'synonym.add.title'|trans }}</a>
-        <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
+
+        {% if not tag.isSynonym %}
+            <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.merge.title'|trans }}</a>
+            <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="tags-btn">{{ 'tag.add_synonym.title'|trans }}</a>
+            <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
+        {% endif %}
     </div>
 
     <div class="tags-tabs">
         <ul class="tags-tab-controls">
             <li><a class="tags-tab-control" data-target="latest" href="#latest">{{ 'tag.latest.title'|trans }}</a></li>
             <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
-            <li><a class="tags-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="tags-badge">{{ synonyms|length }}</span></a></li>
-            <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
+
+            {% if not tag.isSynonym %}
+                <li><a class="tags-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="tags-badge">{{ synonyms|length }}</span></a></li>
+                <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
+            {% endif %}
         </ul>
 
         <div class="tags-tab" data-tab="#latest">
@@ -34,15 +45,19 @@
             {% include 'NetgenTagsBundle:admin/tag/tabs:translations.html.twig' %}
         </div>
 
-        <div class="tags-tab" data-tab="#synonyms">
-            {% include 'NetgenTagsBundle:admin/tag/tabs:synonyms.html.twig' %}
-        </div>
+        {% if not tag.isSynonym %}
+            <div class="tags-tab" data-tab="#synonyms">
+                {% include 'NetgenTagsBundle:admin/tag/tabs:synonyms.html.twig' %}
+            </div>
 
-        <div class="tags-tab" data-tab="#limitations">
-            {% include '@NetgenTags/admin/tag/tabs/subtree_limitations.html.twig' %}
-        </div>
+            <div class="tags-tab" data-tab="#limitations">
+                {% include '@NetgenTags/admin/tag/tabs/subtree_limitations.html.twig' %}
+            </div>
+        {% endif %}
     </div>
 
-    {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'tag': tag, 'childrenTags': childrenTags} %}
+    {% if not tag.isSynonym %}
+        {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'tag': tag, 'childrenTags': childrenTags} %}
+    {% endif %}
 
 {% endblock %}

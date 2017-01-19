@@ -112,9 +112,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            $tag->isSynonym() ?
-                'NetgenTagsBundle:admin/synonym:show.html.twig' :
-                'NetgenTagsBundle:admin/tag:show.html.twig',
+            'NetgenTagsBundle:admin/tag:show.html.twig',
             $data
         );
     }
@@ -245,9 +243,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            $tag->isSynonym() ?
-                'NetgenTagsBundle:admin/synonym:select_translation.html.twig' :
-                'NetgenTagsBundle:admin/tag:select_translation.html.twig',
+            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -305,9 +301,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            $tag->isSynonym() ?
-                'NetgenTagsBundle:admin/synonym:update.html.twig' :
-                'NetgenTagsBundle:admin/tag:update.html.twig',
+            'NetgenTagsBundle:admin/tag:update.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -346,9 +340,7 @@ class TagController extends Controller
             $this->addFlash(
                 'successMessages',
                 $this->translator->trans(
-                    $tag->isSynonym() ?
-                        'synonym.delete.success' :
-                        'tag.delete.success',
+                    'tag.delete.success',
                     array(
                         '%tagKeyword%' => $tag->keyword,
                     ),
@@ -360,9 +352,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            $tag->isSynonym() ?
-                'NetgenTagsBundle:admin/synonym:delete.html.twig' :
-                'NetgenTagsBundle:admin/tag:delete.html.twig',
+            'NetgenTagsBundle:admin/tag:delete.html.twig',
             array(
                 'tag' => $tag,
             )
