@@ -102,7 +102,7 @@ class SynonymController extends Controller
             $this->addFlash(
                 'successMessages',
                 $this->translator->trans(
-                    'synonym.add.success',
+                    'tag.add.success',
                     array(
                         '%tagKeyword%' => $newSynonym->keyword,
                     ),

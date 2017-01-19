@@ -1,6 +1,6 @@
 {% trans_default_domain 'eztags_admin' %}
 
-<h3>{{ 'tag.children_tags.title'|trans }} ({{ childrenTags|length }})</h3>
+<h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
 <div class="tags-btn-group">
     <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
@@ -12,10 +12,10 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>{{ 'tag.table.tag_id'|trans }}</th>
-                    <th>{{ 'tag.table.tag_name'|trans }}</th>
-                    <th>{{ 'tag.translations.title'|trans }}</th>
-                    <th>{{ 'tag.table.modified'|trans }}</th>
+                    <th>{{ 'tag.tag_id'|trans }}</th>
+                    <th>{{ 'tag.tag_name'|trans }}</th>
+                    <th>{{ 'tag.translations'|trans }}</th>
+                    <th>{{ 'tag.modified'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,10 +43,10 @@
         {% endif %}
 
         <div class="tags-btn-group">
-            <button type="submit" name="MoveTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.move_multiple'|trans }}</button>
-            <button type="submit" name="DeleteTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.delete_multiple'|trans }}</button>
+            <button type="submit" name="MoveTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.move_selected'|trans }}</button>
+            <button type="submit" name="DeleteTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.delete_selected'|trans }}</button>
         </div>
     </form>
 {% else %}
-    <p>{{ 'tag.children_tags.no_children'|trans }}</p>
+    <p>{{ 'tag.children.no_children'|trans }}</p>
 {% endif %}

@@ -52,7 +52,7 @@ class TreeController extends Controller
         $this->router = $router;
 
         $this->treeLabels = array(
-            'top_level' => $this->translator->trans('tag.tree.top_level', array(), 'eztags_admin'),
+            'top_level_tags' => $this->translator->trans('tag.tree.top_level_tags', array(), 'eztags_admin'),
             'add_child' => $this->translator->trans('tag.tree.add_child', array(), 'eztags_admin'),
             'update_tag' => $this->translator->trans('tag.tree.update_tag', array(), 'eztags_admin'),
             'delete_tag' => $this->translator->trans('tag.tree.delete_tag', array(), 'eztags_admin'),
@@ -62,7 +62,7 @@ class TreeController extends Controller
         );
 
         $this->treeLinks = array(
-            'top_level' => $this->router->generate('netgen_tags_admin_root'),
+            'top_level_tags' => $this->router->generate('netgen_tags_admin_root'),
             'show_tag' => $this->router->generate('netgen_tags_admin_tag_show', array('tagId' => ':tagId')),
             'add_child' => $this->router->generate('netgen_tags_admin_tag_add_select', array('parentId' => ':parentId')),
             'update_tag' => $this->router->generate('netgen_tags_admin_tag_update_select', array('tagId' => ':tagId')),
@@ -131,13 +131,13 @@ class TreeController extends Controller
         return array(
             'id' => '0',
             'parent' => '#',
-            'text' => $this->treeLabels['top_level'],
+            'text' => $this->treeLabels['top_level_tags'],
             'children' => true,
             'state' => array(
                 'opened' => true,
             ),
             'a_attr' => array(
-                'href' => $this->treeLinks['top_level'],
+                'href' => $this->treeLinks['top_level_tags'],
             ),
             'data' => array(
                 'context_menu' => array(

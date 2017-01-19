@@ -41,7 +41,7 @@ class MoveTagsType extends AbstractType
                     'constraints' => array(
                         new Tag(),
                     ),
-                    'label' => 'tag.parent',
+                    'label' => 'tag.parent_tag',
                     'data' => $options['parentTag'],
                 )
             );

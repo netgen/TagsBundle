@@ -8,7 +8,7 @@
                 <th>{{ 'tag.translations.langunage'|trans }}</th>
                 <th>{{ 'tag.translations.translation'|trans }}</th>
                 <th>{{ 'tag.translations.locale'|trans }}</th>
-                <th>{{ 'tag.main'|trans }}</th>
+                <th>{{ 'tag.translations.main'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -33,10 +33,10 @@
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
 
     <div class="tags-btn-group">
-        <button type="submit" class="tags-btn" data-enabler="Locale" name="RemoveTranslationButton">{{ 'tag.button.remove'|trans }}</button>
-        <button type="submit" class="tags-btn" data-enabler="MainLocale" name="UpdateMainTranslationButton">{{ 'tag.button.main'|trans }}</button>
+        <button type="submit" class="tags-btn" data-enabler="Locale" name="RemoveTranslationButton">{{ 'tag.button.remove_selected'|trans }}</button>
+        <button type="submit" class="tags-btn" data-enabler="MainLocale" name="UpdateMainTranslationButton">{{ 'tag.button.set_main'|trans }}</button>
     </div>
 
-    <input type="checkbox" name="AlwaysAvailable" id="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %}/><label for="AlwaysAvailable">{{ 'tag.form.always_available'|trans }}.</label>
+    <input type="checkbox" name="AlwaysAvailable" id="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %}/><label for="AlwaysAvailable">{{ 'tag.translations.always_available'|trans }}.</label>
     <button type="submit" class="tags-btn" name="UpdateAlwaysAvailableButton">{{ 'tag.button.update'|trans }}</button>
 </form>

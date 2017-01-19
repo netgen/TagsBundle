@@ -326,7 +326,7 @@ class TagController extends Controller
                 $this->addFlash(
                     'errorMessages',
                     $this->translator->trans(
-                        'general.invalid_csrf_token',
+                        'error.invalid_csrf_token',
                         array(),
                         'eztags_admin'
                     )
@@ -477,7 +477,7 @@ class TagController extends Controller
             $this->addFlash(
                 'errorMessages',
                 $this->translator->trans(
-                    'general.invalid_csrf_token',
+                    'error.invalid_csrf_token',
                     array(),
                     'eztags_admin'
                 )
@@ -493,7 +493,7 @@ class TagController extends Controller
                 $this->addFlash(
                     'errorMessages',
                     $this->translator->trans(
-                        'tag.translation.no_translation_selected',
+                        'tag.translations.no_translation_selected',
                         array(),
                         'eztags_admin'
                     )
@@ -511,7 +511,7 @@ class TagController extends Controller
                     $this->addFlash(
                         'errorMessages',
                         $this->translator->trans(
-                            'tag.translation.no_translation',
+                            'tag.translations.no_translation',
                             array(
                                 '%locale%' => $locale,
                             ),
@@ -522,7 +522,7 @@ class TagController extends Controller
                     $this->addFlash(
                         'errorMessages',
                         $this->translator->trans(
-                            'tag.translation.is_main',
+                            'tag.translations.is_main',
                             array(),
                             'eztags_admin'
                         )
@@ -541,7 +541,7 @@ class TagController extends Controller
                     $this->addFlash(
                         'successMessages',
                         $this->translator->trans(
-                            'tag.translation.removed',
+                            'tag.translations.removed',
                             array(
                                 '%locale%' => $locale,
                             ),
@@ -557,7 +557,7 @@ class TagController extends Controller
                 $this->addFlash(
                     'errorMessages',
                     $this->translator->trans(
-                        'tag.translation.no_translation',
+                        'tag.translations.no_translation',
                         array(
                             '%locale%' => $newMainTranslation,
                         ),
@@ -571,7 +571,7 @@ class TagController extends Controller
                 $this->addFlash(
                     'successMessages',
                     $this->translator->trans(
-                        'tag.translation.new_main',
+                        'tag.translations.new_main',
                         array(
                             '%locale%' => $newMainTranslation,
                         ),
@@ -586,7 +586,7 @@ class TagController extends Controller
             $this->addFlash(
                 'successMessages',
                 $this->translator->trans(
-                    'tag.translation.always_available',
+                    'tag.translations.always_available',
                     array(),
                     'eztags_admin'
                 )
@@ -744,7 +744,7 @@ class TagController extends Controller
                 $this->addFlash(
                     'errorMessages',
                     $this->translator->trans(
-                        'general.invalid_csrf_token',
+                        'error.invalid_csrf_token',
                         array(),
                         'eztags_admin'
                     )

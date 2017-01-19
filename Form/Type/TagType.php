@@ -45,7 +45,7 @@ class TagType extends AbstractType
                 'alwaysAvailable',
                 CheckboxType::class,
                 array(
-                    'label' => 'tag.form.always_available',
+                    'label' => 'tag.translations.always_available',
                     'required' => false,
                 )
             )
