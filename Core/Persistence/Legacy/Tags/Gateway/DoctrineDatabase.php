@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
+use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
@@ -221,6 +222,10 @@ class DoctrineDatabase extends Gateway
                 ),
                 $query->expr->eq($this->handler->quoteColumn('main_tag_id', 'eztags'), 0)
             )
+        )
+        ->orderBy(
+            $this->handler->quoteColumn('keyword', 'eztags_keyword'),
+            $query::ASC
         )
         ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
 
