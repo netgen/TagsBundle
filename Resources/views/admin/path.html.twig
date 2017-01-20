@@ -1,0 +1,37 @@
+{% trans_default_domain 'eztags_admin' %}
+
+{% set current_tag = null %}
+{% set tag_path = [] %}
+{% set path_array = [] %}
+
+{% if app.request.attributes.has('tag') %}
+    {% set current_tag = app.request.attributes.get('tag') %}
+    {% set tag_path = current_tag.pathString|trim('/')|split('/') %}
+{% endif %}
+
+{% if current_tag is not null %}
+    {% for tag_id in tag_path %}
+        {% set path_array = path_array|merge([{
+            url: tag_id != current_tag.id ?
+                path('netgen_tags_admin_tag_show', {tagId: tag_id}) :
+                false,
+            text: netgen_tags_tag_keyword(tag_id)
+        }]) %}
+    {% endfor %}
+
+    <p class="path">
+        <span class="path-here-text">{{ 'pagelayout.you_are_here'|trans }}:</span>
+
+        {% for path_item in path_array %}
+            {% if path_item.url is not same as(false) %}
+                <a class="path" href="{{ path_item.url }}">{{ path_item.text }}</a>
+            {% else %}
+                <span class="path">{{ path_item.text }}</span>
+            {% endif %}
+
+            {% if not loop.last %}
+                <span class="slash"> / </span>
+            {% endif %}
+        {% endfor %}
+    </p>
+{% endif %}
