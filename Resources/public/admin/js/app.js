@@ -40,7 +40,9 @@ function ngTagsInit(){
                     var selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
 
                     this.select_node(selectedNodeId);
-                    $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
+                    if (!$(value).closest('div.modal-tree').length) {
+                        $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
+                    }
                 });
             }
         }).on("ready.jstree", function (event, data) {
