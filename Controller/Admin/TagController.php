@@ -155,7 +155,7 @@ class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
                 array(
-                    'tagId' => $parentTag !== null ? $parentTag->id : 0,
+                    'parentId' => $parentTag !== null ? $parentTag->id : 0,
                     'languageCode' => $form->getData()['languageCode'],
                 )
             );
