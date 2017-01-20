@@ -40,16 +40,32 @@ function ngTagsInit(){
                     this.select_node(selectedTagPath[selectedTagPath.length - 1]);
                 });
             }
-        }).on("ready.jstree before_open.jstree", function (event, data) {
+        }).on("ready.jstree", function (event, data) {
             var disableSubtree = $(value).data('disablesubtree');
-
             if (disableSubtree !== '') {
                 $.each(disableSubtree.split(','), function (index, element) {
-                    $(value).find('li#' + element + '.jstree-node').addClass('disabled');
+                    disableNode(value, element);
                 });
+            }
+        }).on("load_node.jstree", function (event, data) {
+            var disableSubtree = $(value).data('disablesubtree');
+            if (disableSubtree !== '') {
+                if (disableSubtree.split(',').indexOf(data.node.id) !== -1) {
+                    disableNode(value, data.node.id);
+                }
             }
         });
     });
+
+    /**
+     * Disables the provided node.
+     *
+     * @param tree
+     * @param nodeId
+     */
+    function disableNode(tree, nodeId) {
+        $(tree).find('li#' + nodeId).addClass('disabled');
+    }
 
     /**
      * Builds context menu for right click on a tag in tags tree.
@@ -83,22 +99,20 @@ function ngTagsInit(){
             treeDiv = $(event.target).closest('div.tags-tree');
 
         var disableSubtree = treeDiv.data('disablesubtree');
-
         if (disableSubtree !== '') {
-            var disabled = false;
+            disableSubtree = disableSubtree.split(',');
 
-            $.each(disableSubtree.split(','), function (index, value) {
-                if (selectedNode.id == value) {
-                    disabled = true;
-                    return;
-                }
+            if (disableSubtree.indexOf(selectedNode.id) !== -1) {
+                return;
+            }
 
-                if ($.inArray(value.toString(), selectedNode.parents) !== -1) {
-                    disabled = true;
-                }
+            var filteredDisableSubtree = disableSubtree.filter(function(el) {
+                return selectedNode.parents.indexOf(el) !== -1
             });
 
-            if (disabled) return;
+            if (filteredDisableSubtree.length > 0) {
+                return;
+            }
         }
 
         if (!modalTreeDiv.length) {
