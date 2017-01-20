@@ -3,6 +3,7 @@
 {% set rootTagId = rootTagId|default(0) %}
 {% set showRootTag = showRootTag|default(true) %}
 {% set selectedTag = selectedTag|default(null) %}
+{% set disableSubtree = disableSubtree|default([]) %}
 
 {% block tags_tree %}
     <div
@@ -11,5 +12,6 @@
         data-rootTagId="{{ rootTagId }}"
         data-showRootTag="{{ showRootTag ? 'true' : 'false' }}"
         data-selectedTagPath="{{ selectedTag ? selectedTag.pathString : '' }}"
+        data-disableSubtree="{{ disableSubtree|join(',') }}"
     ></div>
 {% endblock %}

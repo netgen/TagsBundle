@@ -30,7 +30,7 @@ function ngTagsInit(){
                     'name': 'ng-tags'
                 }
             }
-        }).bind("ready.jstree", function (event, data) {
+        }).on("ready.jstree", function (event, data) {
             var selectedTagPath = $(value).data('selectedtagpath');
             if (selectedTagPath === 0 || selectedTagPath === '') {
                 $(value).jstree(true).select_node(0);
@@ -38,6 +38,14 @@ function ngTagsInit(){
                 selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
                 $(value).jstree(true).load_node(selectedTagPath, function () {
                     this.select_node(selectedTagPath[selectedTagPath.length - 1]);
+                });
+            }
+        }).on("ready.jstree before_open.jstree", function (event, data) {
+            var disableSubtree = $(value).data('disablesubtree');
+
+            if (disableSubtree !== '') {
+                $.each(disableSubtree.split(','), function (index, element) {
+                    $(value).find('li#' + element + '.jstree-node').addClass('disabled');
                 });
             }
         });
@@ -71,7 +79,27 @@ function ngTagsInit(){
      */
     tagsTreeContainers.on('click', '.jstree-anchor', function (event) {
         var selectedNode = $(this).jstree(true).get_node($(this)),
-            modalTreeDiv = $(event.target).closest('div.modal-tree');
+            modalTreeDiv = $(event.target).closest('div.modal-tree'),
+            treeDiv = $(event.target).closest('div.tags-tree');
+
+        var disableSubtree = treeDiv.data('disablesubtree');
+
+        if (disableSubtree !== '') {
+            var disabled = false;
+
+            $.each(disableSubtree.split(','), function (index, value) {
+                if (selectedNode.id == value) {
+                    disabled = true;
+                    return;
+                }
+
+                if ($.inArray(value.toString(), selectedNode.parents) !== -1) {
+                    disabled = true;
+                }
+            });
+
+            if (disabled) return;
+        }
 
         if (!modalTreeDiv.length) {
             document.location.href = selectedNode.a_attr.href;
