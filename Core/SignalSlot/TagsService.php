@@ -397,14 +397,16 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree(Tag $tag, Tag $targetParentTag)
+    public function copySubtree(Tag $tag, Tag $targetParentTag = null)
     {
         $returnValue = $this->service->copySubtree($tag, $targetParentTag);
         $this->signalDispatcher->emit(
             new CopySubtreeSignal(
                 array(
                     'sourceTagId' => $tag->id,
-                    'targetParentTagId' => $targetParentTag->id,
+                    'targetParentTagId' => $targetParentTag ?
+                        $targetParentTag->id :
+                        0,
                     'newTagId' => $returnValue->id,
                 )
             )
@@ -428,14 +430,16 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree(Tag $tag, Tag $targetParentTag)
+    public function moveSubtree(Tag $tag, Tag $targetParentTag = null)
     {
         $returnValue = $this->service->moveSubtree($tag, $targetParentTag);
         $this->signalDispatcher->emit(
             new MoveSubtreeSignal(
                 array(
                     'sourceTagId' => $tag->id,
-                    'targetParentTagId' => $targetParentTag->id,
+                    'targetParentTagId' => $targetParentTag ?
+                        $targetParentTag->id :
+                        0,
                 )
             )
         );

@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
@@ -881,7 +880,7 @@ class DoctrineDatabase extends Gateway
      * @param array $sourceTagData
      * @param array $destinationParentTagData
      */
-    public function moveSubtree(array $sourceTagData, array $destinationParentTagData)
+    public function moveSubtree(array $sourceTagData, array $destinationParentTagData = null)
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -915,7 +914,9 @@ class DoctrineDatabase extends Gateway
             // Prefixing ensures correct replacement when there is no parent
             $newPathString = str_replace(
                 'prefix' . $oldParentPathString,
-                $destinationParentTagData['path_string'],
+                $destinationParentTagData ?
+                    $destinationParentTagData['path_string'] :
+                    '/',
                 'prefix' . $row['path_string']
             );
 

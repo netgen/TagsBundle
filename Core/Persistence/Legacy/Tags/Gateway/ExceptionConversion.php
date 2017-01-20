@@ -456,7 +456,7 @@ class ExceptionConversion extends Gateway
      *
      * @throws \RuntimeException
      */
-    public function moveSubtree(array $sourceTagData, array $destinationParentTagData)
+    public function moveSubtree(array $sourceTagData, array $destinationParentTagData = null)
     {
         try {
             $this->innerGateway->moveSubtree($sourceTagData, $destinationParentTagData);

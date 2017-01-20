@@ -814,34 +814,43 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree(Tag $tag, Tag $targetParentTag)
+    public function copySubtree(Tag $tag, Tag $targetParentTag = null)
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
         $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
-        $spiParentTagInfo = $this->tagsHandler->loadTagInfo($targetParentTag->id);
 
         if ($spiTagInfo->mainTagId > 0) {
             throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if ($spiParentTagInfo->mainTagId > 0) {
-            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
-        }
-
-        if ($tag->parentTagId == $targetParentTag->id) {
+        if (!$targetParentTag instanceof Tag && $tag->parentTagId == 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Tag is already located at the root of the tree');
+        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId == $targetParentTag->id) {
             throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
-        if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
-            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
+        $spiParentTagInfo = null;
+        if ($targetParentTag instanceof Tag) {
+            $spiParentTagInfo = $this->tagsHandler->loadTagInfo($targetParentTag->id);
+
+            if ($spiParentTagInfo->mainTagId > 0) {
+                throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
+            }
+
+            if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+                throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
+            }
         }
 
         $this->repository->beginTransaction();
         try {
-            $copiedTag = $this->tagsHandler->copySubtree($spiTagInfo->id, $spiParentTagInfo->id);
+            $copiedTag = $this->tagsHandler->copySubtree(
+                $spiTagInfo->id,
+                $spiParentTagInfo ? $spiParentTagInfo->id : 0
+            );
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
@@ -866,34 +875,43 @@ class TagsService implements TagsServiceInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree(Tag $tag, Tag $targetParentTag)
+    public function moveSubtree(Tag $tag, Tag $targetParentTag = null)
     {
         if ($this->hasAccess('tags', 'edit') === false) {
             throw new UnauthorizedException('tags', 'edit');
         }
 
         $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
-        $spiParentTagInfo = $this->tagsHandler->loadTagInfo($targetParentTag->id);
 
         if ($spiTagInfo->mainTagId > 0) {
             throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if ($spiParentTagInfo->mainTagId > 0) {
-            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
-        }
-
-        if ($tag->parentTagId == $targetParentTag->id) {
+        if (!$targetParentTag instanceof Tag && $tag->parentTagId == 0) {
+            throw new InvalidArgumentException('targetParentTag', 'Tag is already located at the root of the tree');
+        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId == $targetParentTag->id) {
             throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
-        if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
-            throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
+        $spiParentTagInfo = null;
+        if ($targetParentTag instanceof Tag) {
+            $spiParentTagInfo = $this->tagsHandler->loadTagInfo($targetParentTag->id);
+
+            if ($spiParentTagInfo->mainTagId > 0) {
+                throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
+            }
+
+            if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+                throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
+            }
         }
 
         $this->repository->beginTransaction();
         try {
-            $movedTag = $this->tagsHandler->moveSubtree($spiTagInfo->id, $spiParentTagInfo->id);
+            $movedTag = $this->tagsHandler->moveSubtree(
+                $spiTagInfo->id,
+                $spiParentTagInfo ? $spiParentTagInfo->id : 0
+            );
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();

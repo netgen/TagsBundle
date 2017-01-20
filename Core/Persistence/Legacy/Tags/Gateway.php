@@ -210,7 +210,7 @@ abstract class Gateway
      * @param array $sourceTagData
      * @param array $destinationParentTagData
      */
-    abstract public function moveSubtree(array $sourceTagData, array $destinationParentTagData);
+    abstract public function moveSubtree(array $sourceTagData, array $destinationParentTagData = null);
 
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it.

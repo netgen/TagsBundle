@@ -416,9 +416,8 @@ class Handler implements BaseTagsHandler
     public function copySubtree($sourceId, $destinationParentId)
     {
         $sourceTag = $this->load($sourceId);
-        $destinationParentTag = $this->load($destinationParentId);
 
-        $copiedTagId = $this->recursiveCopySubtree($sourceTag, $destinationParentTag->id);
+        $copiedTagId = $this->recursiveCopySubtree($sourceTag, $destinationParentId);
 
         $this->updateSubtreeModificationTime($copiedTagId);
 
@@ -484,7 +483,11 @@ class Handler implements BaseTagsHandler
     public function moveSubtree($sourceId, $destinationParentId)
     {
         $sourceTagData = $this->gateway->getBasicTagData($sourceId);
-        $destinationParentTagData = $this->gateway->getBasicTagData($destinationParentId);
+
+        $destinationParentTagData = null;
+        if ($destinationParentId > 0) {
+            $destinationParentTagData = $this->gateway->getBasicTagData($destinationParentId);
+        }
 
         $this->gateway->moveSubtree($sourceTagData, $destinationParentTagData);
 

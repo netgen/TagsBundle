@@ -259,7 +259,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree(Tag $tag, Tag $targetParentTag);
+    public function copySubtree(Tag $tag, Tag $targetParentTag = null);
 
     /**
      * Moves the subtree to $targetParentTag.
@@ -276,7 +276,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree(Tag $tag, Tag $targetParentTag);
+    public function moveSubtree(Tag $tag, Tag $targetParentTag = null);
 
     /**
      * Deletes $tag and all its descendants and synonyms.
