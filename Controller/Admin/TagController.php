@@ -9,6 +9,7 @@ use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\MoveTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
@@ -578,6 +579,15 @@ class TagController extends Controller
             );
         }
 
+        if ($request->request->has('CopyTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_copy_tags',
+                array(
+                    'parentId' => $tag !== null ? $tag->id : 0,
+                )
+            );
+        }
+
         if ($request->request->has('DeleteTagsAction')) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_delete_tags',
@@ -652,6 +662,76 @@ class TagController extends Controller
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:move_tags.html.twig',
+            array(
+                'parentTag' => $parentTag ?: null,
+                'tags' => $tags,
+                'form' => $form->createView(),
+            )
+        );
+    }
+
+    /**
+     * This method is called from a form containing all children tags of a tag.
+     * It shows a confirmation view.
+     * If form has been submitted, it copies selected children and all its children tags to a new parent.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function copyTagsAction(Request $request, Tag $parentTag = null)
+    {
+        if (!$this->isGranted('ez:tags:read')) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $tagIds = $request->request->has('Tags') ?
+            $request->request->get('Tags') :
+            $this->get('session')->get('ngtags_tag_ids');
+
+        if (empty($tagIds)) {
+            return $this->redirectToTag($parentTag);
+        }
+
+        $tags = array();
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag($tagId);
+        }
+
+        $form = $this->createForm(
+            CopyTagsType::class,
+            array(
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ),
+            array(
+                'tags' => $tags,
+                'action' => $request->getPathInfo(),
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $newParentTag = $this->tagsService->loadTag($form->getData()['parentTag']);
+            } catch (NotFoundException $exception) {
+                $newParentTag = null;
+            }
+
+            foreach ($tags as $tagObject) {
+                $this->tagsService->copySubtree($tagObject, $newParentTag);
+            }
+
+            $this->addFlashMessage('success', 'tags_copied');
+
+            return $this->redirectToTag($parentTag);
+        }
+
+        return $this->render(
+            'NetgenTagsBundle:admin/tag:copy_tags.html.twig',
             array(
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,

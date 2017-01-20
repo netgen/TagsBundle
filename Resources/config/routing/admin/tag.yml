@@ -28,6 +28,12 @@ netgen_tags_admin_tag_move_tags:
         _controller: eztags.admin.controller.tag:moveTagsAction
         _method: POST
 
+netgen_tags_admin_tag_copy_tags:
+    path: /copy/{parentId}
+    defaults:
+        _controller: eztags.admin.controller.tag:copyTagsAction
+        _method: POST
+
 netgen_tags_admin_tag_delete_tags:
     path: /delete/{parentId}
     defaults:

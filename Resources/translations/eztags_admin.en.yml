@@ -59,6 +59,8 @@ tag.convert.title: 'Convert to synonym'
 tag.move_tags.title: 'Move tags'
 tag.move_tags.message: 'Are you sure you want to move the selected tags?'
 
+tag.copy_tags.title: 'Copy tags'
+
 tag.delete_tags.title: 'Delete tags'
 tag.delete_tags.message: 'Are you sure you want to delete the selected tags? All children tags and synonyms will also be deleted and removed from existing objects.'
 
@@ -71,6 +73,7 @@ tag.button.update: 'Update'
 tag.button.remove_selected: 'Remove selected'
 tag.button.set_main: 'Set main'
 tag.button.move_selected: 'Move selected tags'
+tag.button.copy_selected: 'Copy selected tags'
 tag.button.delete_selected: 'Remove selected tags'
 tag.button.continue: 'Continue'
 

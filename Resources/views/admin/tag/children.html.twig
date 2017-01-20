@@ -1,6 +1,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% set can_manipulate_children = is_granted('ez:tags:edit') or is_granted('ez:tags:delete') %}
+{% set can_read = is_granted('ez:tags:read') %}
 {% set can_add = is_granted('ez:tags:add', tag is defined ? tag : null) %}
 {% set can_edit = is_granted('ez:tags:edit') %}
 {% set can_delete = is_granted('ez:tags:delete') %}
@@ -59,6 +60,10 @@
         <div class="tags-btn-group">
             {% if can_edit %}
                 <button type="submit" name="MoveTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.move_selected'|trans }}</button>
+            {% endif %}
+
+            {% if can_read %}
+                <button type="submit" name="CopyTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.copy_selected'|trans }}</button>
             {% endif %}
 
             {% if can_delete %}
