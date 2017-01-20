@@ -1,10 +1,17 @@
 {% trans_default_domain 'eztags_admin' %}
 
+{% set can_manipulate_children = is_granted('ez:tags:edit') or is_granted('ez:tags:delete') %}
+{% set can_add = is_granted('ez:tags:add', tag is defined ? tag : null) %}
+{% set can_edit = is_granted('ez:tags:edit') %}
+{% set can_delete = is_granted('ez:tags:delete') %}
+
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
-<div class="tags-btn-group">
-    <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
-</div>
+{% if can_add %}
+    <div class="tags-btn-group">
+        <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
+    </div>
+{% endif %}
 
 {% if childrenTags is not empty %}
     <form method="post" action="{{ path('netgen_tags_admin_tag_children', {'tagId': tag is defined ? tag.id : 0}) }}">
@@ -21,12 +28,19 @@
             <tbody>
                 {% for child in childrenTags %}
                     <tr>
-                        <td><input type="checkbox" data-enable="Tags" name="Tags[]" id="childTag{{ child.id }}" value="{{ child.id }}"/><label for="childTag{{ child.id }}"></label></td>
+                        <td>
+                            {% if can_manipulate_children %}
+                                <input type="checkbox" data-enable="Tags" name="Tags[]" id="childTag{{ child.id }}" value="{{ child.id }}"/><label for="childTag{{ child.id }}"></label>
+                            {% endif %}
+                        </td>
                         <td>{{ child.id }}</td>
                         <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': child.id}) }}">{{ netgen_tags_tag_keyword(child) }}</a></td>
                         <td>
                             {% for languageCode in child.keywords|keys %}
-                                <a href="{{ path('netgen_tags_admin_tag_update', {'tagId': child.id, 'languageCode': languageCode}) }}">{{ languageCode }}</a>
+                                {% if can_edit %}<a href="{{ path('netgen_tags_admin_tag_update', {'tagId': child.id, 'languageCode': languageCode}) }}">{% endif %}
+                                    {{ languageCode }}
+                                {% if can_edit %}</a>{% endif %}
+
                                 {% if not loop.last %}, {% endif %}
                             {% endfor %}
                         </td>
@@ -43,8 +57,13 @@
         {% endif %}
 
         <div class="tags-btn-group">
-            <button type="submit" name="MoveTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.move_selected'|trans }}</button>
-            <button type="submit" name="DeleteTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.delete_selected'|trans }}</button>
+            {% if can_edit %}
+                <button type="submit" name="MoveTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.move_selected'|trans }}</button>
+            {% endif %}
+
+            {% if can_delete %}
+                <button type="submit" name="DeleteTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.delete_selected'|trans }}</button>
+            {% endif %}
         </div>
     </form>
 {% else %}

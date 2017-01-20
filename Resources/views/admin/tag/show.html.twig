@@ -17,13 +17,26 @@
     {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
 
     <div class="tags-btn-group">
-        <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'tag.edit.title'|trans }}</a>
-        <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.delete.title'|trans }}</a>
+        {% if is_granted('ez:tags:edit' ~ (tag.isSynonym ? 'synonym' : '')) %}
+            <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'tag.edit.title'|trans }}</a>
+        {% endif %}
+
+        {% if is_granted('ez:tags:delete' ~ (tag.isSynonym ? 'synonym' : '')) %}
+            <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.delete.title'|trans }}</a>
+        {% endif %}
 
         {% if not tag.isSynonym %}
-            <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.merge.title'|trans }}</a>
-            <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="tags-btn">{{ 'tag.add_synonym.title'|trans }}</a>
-            <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
+            {% if is_granted('ez:tags:merge') %}
+                <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.merge.title'|trans }}</a>
+            {% endif %}
+
+            {% if is_granted('ez:tags:addsynonym') %}
+                <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="tags-btn">{{ 'tag.add_synonym.title'|trans }}</a>
+            {% endif %}
+
+            {% if is_granted('ez:tags:makesynonym') %}
+                <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
+            {% endif %}
         {% endif %}
     </div>
 

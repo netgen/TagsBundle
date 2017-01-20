@@ -6,6 +6,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\SynonymCreateType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class SynonymController extends Controller
@@ -39,10 +40,16 @@ class SynonymController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int|string $mainTagId
      *
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addSynonymSelectAction(Request $request, $mainTagId)
     {
+        if (!$this->isGranted('ez:tags:addsynonym')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $form = $this->createForm(
             LanguageSelectType::class,
             null,
@@ -79,10 +86,16 @@ class SynonymController extends Controller
      * @param int|string $mainTagId
      * @param string $languageCode
      *
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addSynonymAction(Request $request, $mainTagId, $languageCode)
     {
+        if (!$this->isGranted('ez:tags:addsynonym')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct($mainTagId, $languageCode);
 
         $form = $this->createForm(

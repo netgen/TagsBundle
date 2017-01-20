@@ -83,7 +83,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -111,7 +111,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -139,7 +139,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagByUrl($url, array $languages)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -206,7 +206,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -240,7 +240,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -267,7 +267,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -294,7 +294,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -318,7 +318,7 @@ class TagsService implements TagsServiceInterface
      */
     public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -357,7 +357,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -388,7 +388,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = false)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -434,7 +434,7 @@ class TagsService implements TagsServiceInterface
      */
     public function getRelatedContentCount(Tag $tag)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -475,7 +475,7 @@ class TagsService implements TagsServiceInterface
             if ($this->canUser('tags', 'add', $this->loadTag($tagCreateStruct->parentTagId)) !== true) {
                 throw new UnauthorizedException('tags', 'add');
             }
-        } elseif ($this->hasAccess('tags', 'add') !== true) {
+        } elseif ($this->hasAccess('tags', 'add') === false) {
             throw new UnauthorizedException('tags', 'add');
         }
 
@@ -548,11 +548,11 @@ class TagsService implements TagsServiceInterface
         $keywords = $tagUpdateStruct->getKeywords();
 
         if ($tag->mainTagId > 0) {
-            if ($this->hasAccess('tags', 'edit') !== true) {
+            if ($this->hasAccess('tags', 'edit') === false) {
                 throw new UnauthorizedException('tags', 'edit');
             }
         } else {
-            if ($this->hasAccess('tags', 'editsynonym') !== true) {
+            if ($this->hasAccess('tags', 'editsynonym') === false) {
                 throw new UnauthorizedException('tags', 'editsynonym');
             }
         }
@@ -641,7 +641,7 @@ class TagsService implements TagsServiceInterface
     {
         $keywords = $synonymCreateStruct->getKeywords();
 
-        if ($this->hasAccess('tags', 'addsynonym') !== true) {
+        if ($this->hasAccess('tags', 'addsynonym') === false) {
             throw new UnauthorizedException('tags', 'addsynonym');
         }
 
@@ -717,7 +717,7 @@ class TagsService implements TagsServiceInterface
      */
     public function convertToSynonym(Tag $tag, Tag $mainTag)
     {
-        if ($this->hasAccess('tags', 'makesynonym') !== true) {
+        if ($this->hasAccess('tags', 'makesynonym') === false) {
             throw new UnauthorizedException('tags', 'makesynonym');
         }
 
@@ -766,7 +766,7 @@ class TagsService implements TagsServiceInterface
      */
     public function mergeTags(Tag $tag, Tag $targetTag)
     {
-        if ($this->hasAccess('tags', 'merge') !== true) {
+        if ($this->hasAccess('tags', 'merge') === false) {
             throw new UnauthorizedException('tags', 'merge');
         }
 
@@ -816,7 +816,7 @@ class TagsService implements TagsServiceInterface
      */
     public function copySubtree(Tag $tag, Tag $targetParentTag)
     {
-        if ($this->hasAccess('tags', 'read') !== true) {
+        if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
@@ -868,7 +868,7 @@ class TagsService implements TagsServiceInterface
      */
     public function moveSubtree(Tag $tag, Tag $targetParentTag)
     {
-        if ($this->hasAccess('tags', 'edit') !== true) {
+        if ($this->hasAccess('tags', 'edit') === false) {
             throw new UnauthorizedException('tags', 'edit');
         }
 
@@ -917,11 +917,11 @@ class TagsService implements TagsServiceInterface
     public function deleteTag(Tag $tag)
     {
         if ($tag->mainTagId > 0) {
-            if ($this->hasAccess('tags', 'deletesynonym') !== true) {
+            if ($this->hasAccess('tags', 'deletesynonym') === false) {
                 throw new UnauthorizedException('tags', 'deletesynonym');
             }
         } else {
-            if ($this->hasAccess('tags', 'delete') !== true) {
+            if ($this->hasAccess('tags', 'delete') === false) {
                 throw new UnauthorizedException('tags', 'delete');
             }
         }
