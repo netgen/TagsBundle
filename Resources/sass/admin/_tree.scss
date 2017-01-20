@@ -153,3 +153,7 @@ $nodeHeight: 24px;
 .tags-tree li.disabled {
     color: gray;
 }
+
+.tags-tree a.selected {
+    color: $linkColor;
+}

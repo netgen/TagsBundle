@@ -37,7 +37,10 @@ function ngTagsInit(){
             } else {
                 selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
                 $(value).jstree(true).load_node(selectedTagPath, function () {
-                    this.select_node(selectedTagPath[selectedTagPath.length - 1]);
+                    var selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
+
+                    this.select_node(selectedNodeId);
+                    $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
                 });
             }
         }).on("ready.jstree", function (event, data) {
