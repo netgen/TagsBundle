@@ -189,7 +189,7 @@ class TagController extends Controller
 
             $this->addFlashMessage('success', 'tag_added', array('%tagKeyword%' => $newTag->keyword));
 
-            return $this->redirectToTagOrDashboard($newTag);
+            return $this->redirectToTag($newTag);
         }
 
         return $this->render(
@@ -279,7 +279,7 @@ class TagController extends Controller
 
             $this->addFlashMessage('success', 'tag_updated', array('%tagKeyword%' => $updatedTag->keyword));
 
-            return $this->redirectToTagOrDashboard($updatedTag);
+            return $this->redirectToTag($updatedTag);
         }
 
         return $this->render(
@@ -307,14 +307,14 @@ class TagController extends Controller
             if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
                 $this->addFlashMessage('errors', 'invalid_csrf_token');
 
-                return $this->redirectToTagOrDashboard($tag);
+                return $this->redirectToTag($tag);
             }
 
             $this->tagsService->deleteTag($tag);
 
             $this->addFlashMessage('success', 'tag_deleted', array('%tagKeyword%' => $tag->keyword));
 
-            return $this->redirectToTagOrDashboard();
+            return $this->redirectToTag();
         }
 
         return $this->render(
@@ -361,7 +361,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToTagOrDashboard($sourceTag);
+            return $this->redirectToTag($sourceTag);
         }
 
         return $this->render(
@@ -409,7 +409,7 @@ class TagController extends Controller
                 )
             );
 
-            return $this->redirectToTagOrDashboard($mainTag);
+            return $this->redirectToTag($mainTag);
         }
 
         return $this->render(
@@ -436,7 +436,7 @@ class TagController extends Controller
         if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             $this->addFlashMessage('errors', 'invalid_csrf_token');
 
-            return $this->redirectToTagOrDashboard($tag);
+            return $this->redirectToTag($tag);
         }
 
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
@@ -445,7 +445,7 @@ class TagController extends Controller
             if (empty($request->request->get('Locale'))) {
                 $this->addFlashMessage('errors', 'no_translation_selected');
 
-                return $this->redirectToTagOrDashboard($tag);
+                return $this->redirectToTag($tag);
             }
 
             $locales = $request->request->get('Locale');
@@ -489,7 +489,7 @@ class TagController extends Controller
                 $this->addFlashMessage('success', 'always_available_set');
         }
 
-        return $this->redirectToTagOrDashboard($tag);
+        return $this->redirectToTag($tag);
     }
 
     /**
@@ -505,7 +505,7 @@ class TagController extends Controller
         if (empty($request->request->get('Tags'))) {
             $this->addFlashMessage('errors', 'no_selected_tags');
 
-            return $this->redirectToTagOrDashboard($tag);
+            return $this->redirectToTag($tag);
         }
 
         $this->get('session')->set(
@@ -560,7 +560,7 @@ class TagController extends Controller
             $this->get('session')->get('ngtags_tag_ids');
 
         if (empty($tagIds)) {
-            return $this->redirectToTagOrDashboard($parentTag);
+            return $this->redirectToTag($parentTag);
         }
 
         $tags = array();
@@ -583,7 +583,7 @@ class TagController extends Controller
 
             $this->addFlashMessage('success', 'tags_moved');
 
-            return $this->redirectToTagOrDashboard($parentTag);
+            return $this->redirectToTag($parentTag);
         }
 
         return $this->render(
@@ -613,7 +613,7 @@ class TagController extends Controller
             $this->get('session')->get('ngtags_tag_ids');
 
         if (empty($tagIds)) {
-            return $this->redirectToTagOrDashboard($parentTag);
+            return $this->redirectToTag($parentTag);
         }
 
         $tags = array();
@@ -625,7 +625,7 @@ class TagController extends Controller
             if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
                 $this->addFlashMessage('errors', 'invalid_csrf_token');
 
-                return $this->redirectToTagOrDashboard($parentTag);
+                return $this->redirectToTag($parentTag);
             }
 
             foreach ($tags as $tagObject) {
@@ -634,7 +634,7 @@ class TagController extends Controller
 
             $this->addFlashMessage('success', 'tags_deleted');
 
-            return $this->redirectToTagOrDashboard($parentTag);
+            return $this->redirectToTag($parentTag);
         }
 
         return $this->render(

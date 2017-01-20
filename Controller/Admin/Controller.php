@@ -29,7 +29,7 @@ abstract class Controller extends BaseController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    protected function redirectToTagOrDashboard(Tag $tag = null)
+    protected function redirectToTag(Tag $tag = null)
     {
         if (!$tag instanceof Tag) {
             return $this->redirectToRoute('netgen_tags_admin_root');

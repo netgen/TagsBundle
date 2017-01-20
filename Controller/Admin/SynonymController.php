@@ -101,7 +101,7 @@ class SynonymController extends Controller
 
             $this->addFlashMessage('success', 'tag_added', array('%tagKeyword%' => $newSynonym->keyword));
 
-            return $this->redirectToTagOrDashboard($newSynonym);
+            return $this->redirectToTag($newSynonym);
         }
 
         return $this->render(
