@@ -400,7 +400,7 @@ class TagController extends Controller
                 'tag_merged',
                 array(
                     '%tagKeyword%' => $tag->keyword,
-                    '%sourceTagKeyword%' => $sourceTag->keyword
+                    '%sourceTagKeyword%' => $sourceTag->keyword,
                 )
             );
 
@@ -541,7 +541,7 @@ class TagController extends Controller
             $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
             $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-                $this->addFlashMessage('success', 'always_available_set');
+            $this->addFlashMessage('success', 'always_available_set');
         }
 
         return $this->redirectToTag($tag);
