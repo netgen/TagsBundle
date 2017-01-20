@@ -383,12 +383,12 @@ class DoctrineDatabaseTest extends TestCase
         $data = $handler->getChildren(16);
 
         $this->assertCount(6, $data);
-        $this->assertEquals(15, $data[0]['eztags_id']);
-        $this->assertEquals(18, $data[1]['eztags_id']);
-        $this->assertEquals(19, $data[2]['eztags_id']);
-        $this->assertEquals(20, $data[3]['eztags_id']);
-        $this->assertEquals(71, $data[4]['eztags_id']);
-        $this->assertEquals(72, $data[5]['eztags_id']);
+        $this->assertEquals(20, $data[0]['eztags_id']);
+        $this->assertEquals(15, $data[1]['eztags_id']);
+        $this->assertEquals(72, $data[2]['eztags_id']);
+        $this->assertEquals(71, $data[3]['eztags_id']);
+        $this->assertEquals(18, $data[4]['eztags_id']);
+        $this->assertEquals(19, $data[5]['eztags_id']);
     }
 
     /**
@@ -415,12 +415,12 @@ class DoctrineDatabaseTest extends TestCase
         $data = $handler->getChildren(16, 0, -1, array('eng-GB'), false);
 
         $this->assertCount(6, $data);
-        $this->assertEquals(15, $data[0]['eztags_id']);
-        $this->assertEquals(18, $data[1]['eztags_id']);
-        $this->assertEquals(19, $data[2]['eztags_id']);
-        $this->assertEquals(20, $data[3]['eztags_id']);
-        $this->assertEquals(71, $data[4]['eztags_id']);
-        $this->assertEquals(72, $data[5]['eztags_id']);
+        $this->assertEquals(20, $data[0]['eztags_id']);
+        $this->assertEquals(15, $data[1]['eztags_id']);
+        $this->assertEquals(72, $data[2]['eztags_id']);
+        $this->assertEquals(71, $data[3]['eztags_id']);
+        $this->assertEquals(18, $data[4]['eztags_id']);
+        $this->assertEquals(19, $data[5]['eztags_id']);
     }
 
     /**
