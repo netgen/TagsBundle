@@ -103,25 +103,6 @@ class TreeController extends Controller
     }
 
     /**
-     * Returns array with IDs of all parents of a given tag, including that tag ID.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function getParentsAction(Tag $tag)
-    {
-        $parentTagIds = array_map(
-            function ($tagId) {
-                return (int) $tagId;
-            },
-            explode('/', trim($tag->pathString, '/'))
-        );
-
-        return new JsonResponse($parentTagIds);
-    }
-
-    /**
      * Generates data for root of the tree.
      *
      * @return array

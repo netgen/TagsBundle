@@ -58,9 +58,9 @@
                 <div class="content">
                     <span class="close"><i class="md-icon">close</i></span>
                     {% include 'NetgenTagsBundle:admin:tree.html.twig' with {
-                        'rootTagId': rootTagId is defined ? rootTagId : null,
+                        'rootTagId': rootTagId is defined ? rootTagId : 0,
                         'showRootTag': showRootTag is defined ? showRootTag : true,
-                        'selectedTagId': value is not empty ? value : ''
+                        'selectedTag': tag
                     } %}
                 </div>
             </div>

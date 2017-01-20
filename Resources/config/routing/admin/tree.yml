@@ -4,9 +4,3 @@ netgen_tags_admin_tree_get_children:
         _controller: eztags.admin.controller.tree:getChildrenAction
         _method: GET
         isRoot: false
-
-netgen_tags_admin_tree_get_parents:
-    path: /parents/{tagId}
-    defaults:
-        _controller: eztags.admin.controller.tree:getParentsAction
-        _method: GET

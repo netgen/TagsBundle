@@ -1,11 +1,15 @@
 {% trans_default_domain 'eztags_admin' %}
 
+{% set rootTagId = rootTagId|default(0) %}
+{% set showRootTag = showRootTag|default(true) %}
+{% set selectedTag = selectedTag|default(null) %}
+
 {% block tags_tree %}
     <div
         class="tags-tree"
         data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
-        data-rootTagId="{% if rootTagId is defined and rootTagId is not null %}{{ rootTagId }}{% else %}0{% endif %}"
-        data-showRootTag="{% if showRootTag is defined and showRootTag %}true{% else %}false{% endif %}"
-        {% if selectedTagId is defined %}data-selectedTagId="{{ selectedTagId }}"{% endif %}
+        data-rootTagId="{{ rootTagId }}"
+        data-showRootTag="{{ showRootTag ? 'true' : 'false' }}"
+        data-selectedTagPath="{{ selectedTag ? selectedTag.pathString : '' }}"
     ></div>
 {% endblock %}

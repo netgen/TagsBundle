@@ -1,8 +1,8 @@
-{% set selectedTagId = 0 %}
+{% set selectedTag = null %}
 {% set currentRoute = app.request.attributes.get('_route') %}
 
 {% if currentRoute == 'netgen_tags_admin_tag_show' and app.request.attributes.has('tag') %}
-    {% set selectedTagId = app.request.attributes.get('tag').id %}
+    {% set selectedTag = app.request.attributes.get('tag') %}
 {% endif %}
 
-{% include 'NetgenTagsBundle:admin:tree.html.twig' with {selectedTagId: selectedTagId} %}
+{% include 'NetgenTagsBundle:admin:tree.html.twig' with {selectedTag: selectedTag} %}

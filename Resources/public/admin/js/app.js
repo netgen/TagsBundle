@@ -31,17 +31,14 @@ function ngTagsInit(){
                 }
             }
         }).bind("ready.jstree", function (event, data) {
-            var selectedTagId = $(value).data('selectedtagid');
-            if (selectedTagId !== undefined) {
-                if (selectedTagId === 0 || selectedTagId === '') {
-                    $(value).jstree(true).select_node(0);
-                } else {
-                    $.getJSON('/tags/admin/tree/parents/' + selectedTagId, {}, function (data) {
-                        $(value).jstree(true).load_node(data, function () {
-                            this.select_node(selectedTagId);
-                        });
-                    });
-                }
+            var selectedTagPath = $(value).data('selectedtagpath');
+            if (selectedTagPath === 0 || selectedTagPath === '') {
+                $(value).jstree(true).select_node(0);
+            } else {
+                selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
+                $(value).jstree(true).load_node(selectedTagPath, function () {
+                    this.select_node(selectedTagPath[selectedTagPath.length - 1]);
+                });
             }
         });
     });
