@@ -43,14 +43,16 @@ function ngTagsInit(){
         }).on("ready.jstree", function (event, data) {
             var disableSubtree = $(value).data('disablesubtree');
             if (disableSubtree !== '') {
-                $.each(disableSubtree.split(','), function (index, element) {
+                $.each(disableSubtree.toString().split(','), function (index, element) {
                     disableNode(value, element);
                 });
             }
         }).on("load_node.jstree", function (event, data) {
             var disableSubtree = $(value).data('disablesubtree');
             if (disableSubtree !== '') {
-                if (disableSubtree.split(',').indexOf(data.node.id) !== -1) {
+                console.log(disableSubtree);
+
+                if (disableSubtree.toString().split(',').indexOf(data.node.id) !== -1) {
                     disableNode(value, data.node.id);
                 }
             }
@@ -100,7 +102,7 @@ function ngTagsInit(){
 
         var disableSubtree = treeDiv.data('disablesubtree');
         if (disableSubtree !== '') {
-            disableSubtree = disableSubtree.split(',');
+            disableSubtree = disableSubtree.toString().split(',');
 
             if (disableSubtree.indexOf(selectedNode.id) !== -1) {
                 return;

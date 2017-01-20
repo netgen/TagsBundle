@@ -39,9 +39,12 @@ class TagTreeType extends AbstractType
         $resolver
             ->setRequired('allowRootTag')
             ->setAllowedTypes('allowRootTag', 'bool')
+            ->setRequired('disableSubtree')
+            ->setAllowedTypes('disableSubtree', 'array')
             ->setDefaults(
                 array(
                     'allowRootTag' => true,
+                    'disableSubtree' => array(),
                     'constraints' => function (Options $options) {
                         return array(
                             new Constraints\Type(array('type' => 'numeric')),
@@ -69,6 +72,8 @@ class TagTreeType extends AbstractType
 
         $view->vars += array(
             'tag' => $tag,
+            'allowRootTag' => $options['allowRootTag'],
+            'disableSubtree' => $options['disableSubtree'],
         );
     }
 

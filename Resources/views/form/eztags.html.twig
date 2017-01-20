@@ -49,6 +49,7 @@
     <div class="ng-tags-input">
         <div class="modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
             {{- form_label(form) -}}
+
             <input type="hidden" class="tag-id" {{ block('widget_attributes') }} value="{% if tag is not null %}{{ tag.id }}{% else %}0{% endif %}" />
             <span class="tag-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
             <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select_tag'|trans }}</button>
@@ -58,9 +59,8 @@
                 <div class="content">
                     <span class="close"><i class="md-icon">close</i></span>
                     {% include 'NetgenTagsBundle:admin:tree.html.twig' with {
-                        'rootTagId': rootTagId is defined ? rootTagId : 0,
-                        'showRootTag': showRootTag is defined ? showRootTag : true,
-                        'selectedTag': tag
+                        'selectedTag': tag,
+                        'disableSubtree': disableSubtree
                     } %}
                 </div>
             </div>

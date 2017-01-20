@@ -383,6 +383,7 @@ class TagController extends Controller
             TagMergeType::class,
             null,
             array(
+                'tag' => $tag,
                 'action' => $request->getPathInfo(),
             )
         );
@@ -437,6 +438,7 @@ class TagController extends Controller
             TagConvertType::class,
             null,
             array(
+                'tag' => $tag,
                 'action' => $request->getPathInfo(),
             )
         );
@@ -606,17 +608,7 @@ class TagController extends Controller
             throw new AccessDeniedHttpException();
         }
 
-        $form = $this->createForm(
-            MoveTagsType::class,
-            array(
-                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
-            ),
-            array(
-                'action' => $request->getPathInfo(),
-            )
-        );
-
-        $tagIds = $form->isSubmitted() ?
+        $tagIds = $request->request->has('Tags') ?
             $request->request->get('Tags') :
             $this->get('session')->get('ngtags_tag_ids');
 
@@ -628,6 +620,17 @@ class TagController extends Controller
         foreach ($tagIds as $tagId) {
             $tags[] = $this->tagsService->loadTag($tagId);
         }
+
+        $form = $this->createForm(
+            MoveTagsType::class,
+            array(
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ),
+            array(
+                'tags' => $tags,
+                'action' => $request->getPathInfo(),
+            )
+        );
 
         $form->handleRequest($request);
 
@@ -675,7 +678,7 @@ class TagController extends Controller
             throw new AccessDeniedHttpException();
         }
 
-        $tagIds = $request->request->has('DeleteTagsButton') ?
+        $tagIds = $request->request->has('Tags') ?
             $request->request->get('Tags') :
             $this->get('session')->get('ngtags_tag_ids');
 
