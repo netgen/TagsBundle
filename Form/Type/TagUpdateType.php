@@ -6,7 +6,6 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Form\DataMapper\TagUpdateStructDataMapper;
 use Netgen\TagsBundle\Validator\Constraints\Structs\TagUpdateStruct as TagUpdateStructConstraint;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,10 +17,12 @@ class TagUpdateType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('tag');
-        $resolver->setAllowedTypes('tag', Tag::class);
+        parent::configureOptions($resolver);
 
         $resolver
+            ->setRequired(array('tag', 'languageCode'))
+            ->setAllowedTypes('tag', Tag::class)
+            ->setAllowedTypes('languageCode', 'string')
             ->setDefaults(
                 array(
                     'data_class' => TagUpdateStruct::class,

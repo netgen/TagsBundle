@@ -4,7 +4,10 @@ namespace Netgen\TagsBundle\Form\Type;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
-use Symfony\Component\Form\AbstractType;
+use Netgen\TagsBundle\Validator\Constraints\Tag as TagConstraint;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -24,6 +27,30 @@ class TagTreeType extends AbstractType
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+
+        $resolver
+            ->setRequired('allowRootTag')
+            ->setAllowedTypes('allowRootTag', 'bool')
+            ->setDefaults(
+                array(
+                    'allowRootTag' => true,
+                    'constraints' => function (Options $options) {
+                        return array(
+                            new Constraints\Type(array('type' => 'numeric')),
+                            new Constraints\NotBlank(),
+                            new TagConstraint(array('allowRootTag' => $options['allowRootTag'])),
+                        );
+                    },
+                )
+            );
     }
 
     /**

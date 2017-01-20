@@ -197,7 +197,6 @@ class TagController extends Controller
             $tagCreateStruct,
             array(
                 'action' => $request->getPathInfo(),
-                'languageCode' => $languageCode,
             )
         );
 
@@ -609,10 +608,11 @@ class TagController extends Controller
 
         $form = $this->createForm(
             MoveTagsType::class,
-            null,
+            array(
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ),
             array(
                 'action' => $request->getPathInfo(),
-                'parentTag' => $parentTag !== null ? $parentTag->id : 0,
             )
         );
 

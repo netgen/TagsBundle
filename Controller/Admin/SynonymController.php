@@ -103,7 +103,6 @@ class SynonymController extends Controller
             $synonymCreateStruct,
             array(
                 'action' => $request->getPathInfo(),
-                'languageCode' => $languageCode,
             )
         );
 

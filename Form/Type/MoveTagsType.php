@@ -2,32 +2,10 @@
 
 namespace Netgen\TagsBundle\Form\Type;
 
-use Netgen\TagsBundle\Validator\Constraints\Tag;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MoveTagsType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefaults(
-                array(
-                    'translation_domain' => 'eztags_admin',
-                    'parentTag' => 0,
-                )
-            )
-            ->setRequired(
-                array(
-                    'parentTag',
-                )
-            );
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -38,11 +16,7 @@ class MoveTagsType extends AbstractType
                 'parentTag',
                 TagTreeType::class,
                 array(
-                    'constraints' => array(
-                        new Tag(),
-                    ),
                     'label' => 'tag.parent_tag',
-                    'data' => $options['parentTag'],
                 )
             );
     }

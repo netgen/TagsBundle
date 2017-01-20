@@ -4,7 +4,6 @@ namespace Netgen\TagsBundle\Form\Type;
 
 use eZ\Publish\API\Repository\LanguageService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -48,6 +47,8 @@ class TranslationListType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $choices = array();
         foreach ($this->languages as $language) {
             $choices += array(
@@ -56,9 +57,10 @@ class TranslationListType extends AbstractType
         }
 
         $resolver
+            ->setRequired('tag')
+            ->setAllowedTypes('tag', array(Tag::class, 'null'))
             ->setDefaults(
                 array(
-                    'translation_domain' => 'eztags_admin',
                     'tag' => null,
                     'choices' => $choices,
                     'choices_as_values' => true,
@@ -79,11 +81,6 @@ class TranslationListType extends AbstractType
 
                         return array();
                     },
-                )
-            )
-            ->setRequired(
-                array(
-                    'tag',
                 )
             );
     }
