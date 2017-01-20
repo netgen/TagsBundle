@@ -233,7 +233,7 @@ class TagController extends Controller
      */
     public function updateTagSelectAction(Request $request, Tag $tag)
     {
-        if ($this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
+        if (!$this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
             throw new AccessDeniedHttpException();
         }
 
@@ -281,7 +281,7 @@ class TagController extends Controller
      */
     public function updateTagAction(Request $request, Tag $tag, $languageCode)
     {
-        if ($this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
+        if (!$this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
             throw new AccessDeniedHttpException();
         }
 
@@ -336,7 +336,7 @@ class TagController extends Controller
      */
     public function deleteTagAction(Request $request, Tag $tag)
     {
-        if ($this->isGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''))) {
+        if (!$this->isGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''))) {
             throw new AccessDeniedHttpException();
         }
 
@@ -486,7 +486,7 @@ class TagController extends Controller
      */
     public function translationAction(Request $request, Tag $tag)
     {
-        if ($this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
+        if (!$this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
             throw new AccessDeniedHttpException();
         }
 
