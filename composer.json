@@ -23,7 +23,7 @@
         "ezsystems/ezpublish-kernel": "~6.4.0"
     },
     "suggest": {
-        "ezsystems/eztags-ls": "For managing tags in legacy admin interface"
+        "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
     },
     "conflict": {
         "ezsystems/eztags-ls": "<2.1"
