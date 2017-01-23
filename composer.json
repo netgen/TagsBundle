@@ -14,7 +14,7 @@
         "ezsystems/repository-forms": "^1.3",
         "ezsystems/platform-ui-bundle": "^1.4",
         "ezsystems/ezplatform-solr-search-engine": "^1.0",
-        "lolautruche/ez-core-extra-bundle": "^0.5"
+        "lolautruche/ez-core-extra-bundle": "^0.6"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.2.0",
