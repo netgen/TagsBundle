@@ -147,7 +147,7 @@ abstract class TagsBase extends BaseServiceTest
                 'mainLanguageCode' => 'eng-GB',
                 'remoteId' => null,
                 'alwaysAvailable' => true,
-                'keywords' => array(),
+                'keywords' => null,
             ),
             $synonymCreateStruct
         );
