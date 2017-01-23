@@ -9,6 +9,7 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
 * Minimum supported version of PHP is now PHP 5.6
 * Minimum supported version of eZ Platform is 1.4 (with eZ Publish kernel 6.4 and Platform UI 1.4)
 * Minimum supported version of Repository Forms is 1.3
+* Support for eZ Publish Legacy is completely removed (meaning, tag object converter is removed)
 * Bundle now requires [`EzCoreExtraBundle`](https://github.com/lolautruche/EzCoreExtraBundle) to be activated to work properly
 
 Upgrade from 2.1 to 2.2
