@@ -1,5 +1,5 @@
-Netgen Tags Bundle 2.3 changelog
+Netgen Tags Bundle 3.0 changelog
 ================================
 
-2.3 (xx.xx.xxxx)
+3.0 (xx.xx.xxxx)
 ----------------
