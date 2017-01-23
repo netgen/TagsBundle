@@ -1,12 +1,12 @@
 services:
-    ezpublish.search.legacy.gateway.criterion_handler.common.tag_id:
+    eztags.search.legacy.gateway.criterion_handler.common.tag_id:
         parent: ezpublish.search.legacy.gateway.criterion_handler.base
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.common.tag_keyword:
+    eztags.search.legacy.gateway.criterion_handler.common.tag_keyword:
         parent: ezpublish.search.legacy.gateway.criterion_handler.base
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword
         tags:

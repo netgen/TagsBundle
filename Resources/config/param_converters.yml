@@ -2,6 +2,6 @@ services:
     eztags.param_converter.tag:
         class: Netgen\TagsBundle\ParamConverter\TagParamConverter
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         tags:
             - { name: request.param_converter, priority: 0 }

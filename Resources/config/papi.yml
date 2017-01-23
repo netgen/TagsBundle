@@ -1,17 +1,22 @@
 services:
-    ezpublish.api.service.tags:
-        alias: ezpublish.signalslot.service.tags
+    eztags.api.service.tags:
+        alias: eztags.signalslot.service.tags
 
-    ezpublish.signalslot.service.tags:
+    eztags.signalslot.service.tags:
         class: Netgen\TagsBundle\Core\SignalSlot\TagsService
         lazy: true
         arguments:
-            - "@ezpublish.api.service.tags.inner"
+            - "@eztags.api.service.tags.inner"
             - "@ezpublish.signalslot.signal_dispatcher"
 
-    ezpublish.api.service.tags.inner:
+    eztags.api.service.tags.inner:
         class: Netgen\TagsBundle\Core\Repository\TagsService
         arguments:
             - "@ezpublish.api.repository"
-            - "@ezpublish.api.persistence_handler.tags"
+            - "@eztags.api.persistence_handler.tags"
             - "@ezpublish.spi.persistence.legacy.language.handler"
+
+    # Kept for BC with Tags Bundle 2.x
+
+    ezpublish.api.service.tags:
+        alias: eztags.api.service.tags

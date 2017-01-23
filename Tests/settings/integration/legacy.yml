@@ -1,9 +1,9 @@
 services:
-    ezpublish.fieldType.eztags:
+    eztags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         calls:
             - [setEditViews, [{ default: { identifier: Default } }]]
         tags:

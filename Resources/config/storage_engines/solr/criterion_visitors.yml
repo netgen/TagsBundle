@@ -1,5 +1,5 @@
 services:
-    ezpublish.search.solr.query.content.criterion_visitor.tag_id:
+    eztags.search.solr.query.content.criterion_visitor.tag_id:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagId
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
@@ -9,7 +9,7 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
 
-    ezpublish.search.solr.query.location.criterion_visitor.tag_id:
+    eztags.search.solr.query.location.criterion_visitor.tag_id:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagId
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
@@ -19,7 +19,7 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
 
-    ezpublish.search.solr.query.content.criterion_visitor.tag_keyword:
+    eztags.search.solr.query.content.criterion_visitor.tag_keyword:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagKeyword
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
@@ -29,7 +29,7 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
 
-    ezpublish.search.solr.query.location.criterion_visitor.tag_keyword:
+    eztags.search.solr.query.location.criterion_visitor.tag_keyword:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagKeyword
         arguments:
             - "@ezpublish.search.common.field_name_resolver"

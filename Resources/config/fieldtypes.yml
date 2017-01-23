@@ -1,25 +1,25 @@
 services:
-    ezpublish.fieldType.eztags:
+    eztags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:
             - {name: ezpublish.fieldType, alias: eztags}
 
-    ezpublish.fieldType.eztags.externalStorage:
+    eztags.field_type.eztags.external_storage:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler, alias: eztags}
 
-    ezpublish.fieldType.indexable.eztags:
+    eztags.field_type.indexable.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
 
-    ezpublish.fieldType.eztags.formMapper:
+    eztags.field_type.eztags.form_mapper:
         class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
         calls:
             - [setEditViews, [$edit_views;eztags$]]

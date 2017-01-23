@@ -2,7 +2,7 @@ services:
     eztags.forms.tree:
         class: Netgen\TagsBundle\Form\Type\TagTreeType
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         tags:
             - { name: form.type }
 

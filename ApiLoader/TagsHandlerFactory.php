@@ -30,6 +30,6 @@ class TagsHandlerFactory
      */
     public function buildTagsHandler($storageEngineIdentifier)
     {
-        return $this->container->get("ezpublish.api.storage_engine.$storageEngineIdentifier.handler.tags");
+        return $this->container->get("eztags.api.storage_engine.$storageEngineIdentifier.handler.tags");
     }
 }

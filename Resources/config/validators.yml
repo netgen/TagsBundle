@@ -7,21 +7,21 @@ services:
     eztags.validator.tag_update_struct:
         class: Netgen\TagsBundle\Validator\Structs\TagUpdateStructValidator
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_tag_update_struct }
 
     eztags.validator.synonym_create_struct:
         class: Netgen\TagsBundle\Validator\Structs\SynonymCreateStructValidator
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_synonym_create_struct }
 
     eztags.validator.tag:
         class: Netgen\TagsBundle\Validator\TagValidator
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_tag }
 
@@ -35,6 +35,6 @@ services:
     eztags.validator.remote_id:
             class: Netgen\TagsBundle\Validator\RemoteIdValidator
             arguments:
-                - "@ezpublish.api.service.tags"
+                - "@eztags.api.service.tags"
             tags:
                 - { name: validator.constraint_validator, alias: eztags_remote_id }

@@ -7,14 +7,14 @@ services:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
         parent: ezpublish.url_generator.base
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@router.default"
             - "@ezpublish.config.resolver"
 
     eztags.routing.tag_router:
         class: Netgen\TagsBundle\Routing\TagRouter
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@eztags.routing.tag_url_generator"
             - "@?router.request_context"
             - "@?logger"
@@ -36,9 +36,9 @@ services:
     eztags.pagerfanta.related_content_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
 
     eztags.pagerfanta.children_tags_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"

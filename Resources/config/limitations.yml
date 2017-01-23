@@ -3,6 +3,6 @@ services:
         class: Netgen\TagsBundle\Core\Limitation\TagLimitationType
         arguments:
             - "@ezpublish.api.persistence_handler"
-            - "@ezpublish.api.persistence_handler.tags"
+            - "@eztags.api.persistence_handler.tags"
         tags:
             - {name: ezpublish.limitationType, alias: Tag}

@@ -12,7 +12,7 @@ services:
         class: Netgen\TagsBundle\Controller\Admin\TagController
         parent: eztags.admin.controller.base
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@ezpublish.api.service.content_type"
             - "@ezpublish.api.service.search"
             - "@translator"
@@ -28,13 +28,13 @@ services:
         class: Netgen\TagsBundle\Controller\Admin\SynonymController
         parent: eztags.admin.controller.base
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@translator"
 
     eztags.admin.controller.tree:
             class: Netgen\TagsBundle\Controller\Admin\TreeController
             parent: eztags.admin.controller.base
             arguments:
-                - "@ezpublish.api.service.tags"
+                - "@eztags.api.service.tags"
                 - "@translator"
                 - "@router"

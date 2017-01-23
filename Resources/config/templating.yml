@@ -2,7 +2,7 @@ services:
     eztags.templating.twig.extension:
         class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@ezpublish.translation_helper"
             - "@ezpublish.api.service.language"
             - "@ezpublish.api.service.content_type"

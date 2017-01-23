@@ -12,6 +12,28 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
 * All `*.class` parameters have been removed from Symfony DIC. Override the whole service if needed, as recommended by Symfony
 * Support for eZ Publish Legacy is completely removed (meaning, tag object converter is removed)
 * Bundle now requires [`EzCoreExtraBundle`](https://github.com/lolautruche/EzCoreExtraBundle) to be activated to work properly
+* Number of Symfony services had their name changed to use TagsBundle (`eztags`) prefix. The following table lists the old names and the new names. Backwards compatibility for old names is kept only for the main `TagsService`:
+
+  | Old name | New name
+  | -------- | --------
+  | `ezpublish.api.persistence_handler.tags.factory` | `eztags.api.persistence_handler.tags.factory`
+  | `ezpublish.api.persistence_handler.tags` | `eztags.api.persistence_handler.tags`
+  | `ezpublish.api.service.tags` | `eztags.api.service.tags` (Old name is kept for BC)
+  | `ezpublish.signalslot.service.tags` | `eztags.signalslot.service.tags`
+  | `ezpublish.fieldType.eztags` | `eztags.field_type.eztags`
+  | `ezpublish.fieldType.eztags.externalStorage` | `eztags.field_type.eztags.external_storage`
+  | `ezpublish.fieldType.indexable.eztags` | `eztags.field_type.indexable.eztags`
+  | `ezpublish.fieldType.eztags.formMapper` | `eztags.field_type.eztags.form_mapper`
+  | `ezpublish.fieldType.eztags.converter` | `eztags.field_type.eztags.converter`
+  | `ezpublish.fieldType.eztags.storage_gateway` | `eztags.field_type.eztags.storage_gateway`
+  | `ezpublish.api.storage_engine.legacy.handler.tags.factory` | `eztags.api.storage_engine.legacy.handler.tags.factory`
+  | `ezpublish.api.storage_engine.legacy.handler.tags` | `eztags.api.storage_engine.legacy.handler.tags`
+  | `ezpublish.search.solr.query.content.criterion_visitor.tag_id` | `eztags.search.solr.query.content.criterion_visitor.tag_id`
+  | `ezpublish.search.solr.query.location.criterion_visitor.tag_id` | `eztags.search.solr.query.location.criterion_visitor.tag_id`
+  | `ezpublish.search.solr.query.content.criterion_visitor.tag_keyword` | `eztags.search.solr.query.content.criterion_visitor.tag_keyword`
+  | `ezpublish.search.solr.query.location.criterion_visitor.tag_keyword` | `eztags.search.solr.query.location.criterion_visitor.tag_keyword`
+  | `ezpublish.search.legacy.gateway.criterion_handler.common.tag_id` | `eztags.search.legacy.gateway.criterion_handler.common.tag_id`
+  | `ezpublish.search.legacy.gateway.criterion_handler.common.tag_keyword` | `eztags.search.legacy.gateway.criterion_handler.common.tag_keyword`
 
 Upgrade from 2.1 to 2.2
 -----------------------

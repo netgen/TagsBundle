@@ -5,7 +5,7 @@ services:
         class: Netgen\TagsBundle\Core\REST\Server\Controller\Tags
         parent: ezpublish_rest.controller.base
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
 
     # Value object visitors
 
@@ -50,7 +50,7 @@ services:
         class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagCreate
         parent: ezpublish_rest.input.parser
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@ezpublish_rest.parser_tools"
         tags:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagCreate }
@@ -59,7 +59,7 @@ services:
         class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagSynonymCreate
         parent: ezpublish_rest.input.parser
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@ezpublish_rest.parser_tools"
         tags:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagSynonymCreate }
@@ -68,7 +68,7 @@ services:
         class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagUpdate
         parent: ezpublish_rest.input.parser
         arguments:
-            - "@ezpublish.api.service.tags"
+            - "@eztags.api.service.tags"
             - "@ezpublish_rest.parser_tools"
         tags:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagUpdate }
