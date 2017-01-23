@@ -1,6 +1,6 @@
 services:
     ezpublish.fieldType.eztags:
-        class: "%ezpublish.fieldType.eztags.class%"
+        class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
         arguments:
             - "@ezpublish.api.service.tags"

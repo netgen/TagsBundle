@@ -1,22 +1,15 @@
-parameters:
-    eztags.admin.controller.base.class: Netgen\TagsBundle\Controller\Admin\Controller
-    eztags.admin.controller.tag.class: Netgen\TagsBundle\Controller\Admin\TagController
-    eztags.admin.controller.related_content.class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
-    eztags.admin.controller.synonym.class: Netgen\TagsBundle\Controller\Admin\SynonymController
-    eztags.admin.controller.tree.class: Netgen\TagsBundle\Controller\Admin\TreeController
-
 services:
     # Controllers
 
     eztags.admin.controller.base:
-        class: "%eztags.admin.controller.base.class%"
+        class: Netgen\TagsBundle\Controller\Admin\Controller
         parent: ezpublish.controller.base
         abstract: true
         calls:
             - [performAccessChecks, []]
 
     eztags.admin.controller.tag:
-        class: "%eztags.admin.controller.tag.class%"
+        class: Netgen\TagsBundle\Controller\Admin\TagController
         parent: eztags.admin.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
@@ -26,20 +19,20 @@ services:
             - "@eztags.pagerfanta.children_tags_adapter"
 
     eztags.admin.controller.related_content:
-        class: "%eztags.admin.controller.related_content.class%"
+        class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
         parent: eztags.admin.controller.base
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
 
     eztags.admin.controller.synonym:
-        class: "%eztags.admin.controller.synonym.class%"
+        class: Netgen\TagsBundle\Controller\Admin\SynonymController
         parent: eztags.admin.controller.base
         arguments:
             - "@ezpublish.api.service.tags"
             - "@translator"
 
     eztags.admin.controller.tree:
-            class: "%eztags.admin.controller.tree.class%"
+            class: Netgen\TagsBundle\Controller\Admin\TreeController
             parent: eztags.admin.controller.base
             arguments:
                 - "@ezpublish.api.service.tags"

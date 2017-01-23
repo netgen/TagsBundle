@@ -1,47 +1,39 @@
-parameters:
-    eztags.validator.tag_create_struct.class: Netgen\TagsBundle\Validator\Structs\TagCreateStructValidator
-    eztags.validator.tag_update_struct.class: Netgen\TagsBundle\Validator\Structs\TagUpdateStructValidator
-    eztags.validator.synonym_create_struct.class: Netgen\TagsBundle\Validator\Structs\SynonymCreateStructValidator
-    eztags.validator.tag.class: Netgen\TagsBundle\Validator\TagValidator
-    eztags.validator.language.class: Netgen\TagsBundle\Validator\LanguageValidator
-    eztags.validator.remote_id.class: Netgen\TagsBundle\Validator\RemoteIdValidator
-
 services:
     eztags.validator.tag_create_struct:
-        class: "%eztags.validator.tag_create_struct.class%"
+        class: Netgen\TagsBundle\Validator\Structs\TagCreateStructValidator
         tags:
             - { name: validator.constraint_validator, alias: eztags_tag_create_struct }
 
     eztags.validator.tag_update_struct:
-        class: "%eztags.validator.tag_update_struct.class%"
+        class: Netgen\TagsBundle\Validator\Structs\TagUpdateStructValidator
         arguments:
             - "@ezpublish.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_tag_update_struct }
 
     eztags.validator.synonym_create_struct:
-        class: "%eztags.validator.synonym_create_struct.class%"
+        class: Netgen\TagsBundle\Validator\Structs\SynonymCreateStructValidator
         arguments:
             - "@ezpublish.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_synonym_create_struct }
 
     eztags.validator.tag:
-        class: "%eztags.validator.tag.class%"
+        class: Netgen\TagsBundle\Validator\TagValidator
         arguments:
             - "@ezpublish.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_tag }
 
     eztags.validator.language:
-        class: "%eztags.validator.language.class%"
+        class: Netgen\TagsBundle\Validator\LanguageValidator
         arguments:
             - "@ezpublish.api.service.language"
         tags:
             - { name: validator.constraint_validator, alias: eztags_language }
 
     eztags.validator.remote_id:
-            class: "%eztags.validator.remote_id.class%"
+            class: Netgen\TagsBundle\Validator\RemoteIdValidator
             arguments:
                 - "@ezpublish.api.service.tags"
             tags:

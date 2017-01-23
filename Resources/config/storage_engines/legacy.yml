@@ -1,19 +1,12 @@
-parameters:
-    ezpublish.fieldType.eztags.converter.class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
-    ezpublish.fieldType.eztags.storage_gateway.class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
-
-    ezpublish.api.storage_engine.legacy.handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
-    ezpublish.api.storage_engine.legacy.handler.tags.class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
-
 services:
     # eZ Tags field type
     ezpublish.fieldType.eztags.converter:
-        class: "%ezpublish.fieldType.eztags.converter.class%"
+        class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
         tags:
             - {name: ezpublish.storageEngine.legacy.converter, alias: eztags, lazy: true, callback: "::create"}
 
     ezpublish.fieldType.eztags.storage_gateway:
-        class: "%ezpublish.fieldType.eztags.storage_gateway.class%"
+        class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
         arguments:
             - "@ezpublish.spi.persistence.legacy.language.handler"
         tags:
@@ -21,12 +14,12 @@ services:
 
     # Legacy Tags handler
     ezpublish.api.storage_engine.legacy.handler.tags.factory:
-        class: "%ezpublish.api.storage_engine.legacy.handler.tags.factory.class%"
+        class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
         arguments:
             - "@service_container"
 
     ezpublish.api.storage_engine.legacy.handler.tags:
-        class: "%ezpublish.api.storage_engine.legacy.handler.tags.class%"
+        class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
         factory: ["@ezpublish.api.storage_engine.legacy.handler.tags.factory", buildLegacyTagsHandler]
         arguments:
             - "@ezpublish.api.storage_engine.legacy.dbhandler"

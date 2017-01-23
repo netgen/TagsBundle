@@ -1,12 +1,6 @@
-parameters:
-    ezpublish.search.solr.query.content.criterion_visitor.tag_id.class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagId
-    ezpublish.search.solr.query.location.criterion_visitor.tag_id.class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagId
-    ezpublish.search.solr.query.content.criterion_visitor.tag_keyword.class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagKeyword
-    ezpublish.search.solr.query.location.criterion_visitor.tag_keyword.class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagKeyword
-
 services:
     ezpublish.search.solr.query.content.criterion_visitor.tag_id:
-        class: "%ezpublish.search.solr.query.content.criterion_visitor.tag_id.class%"
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagId
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
             - "@ezpublish.spi.persistence.content_type_handler"
@@ -16,7 +10,7 @@ services:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
 
     ezpublish.search.solr.query.location.criterion_visitor.tag_id:
-        class: "%ezpublish.search.solr.query.location.criterion_visitor.tag_id.class%"
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagId
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
             - "@ezpublish.spi.persistence.content_type_handler"
@@ -26,7 +20,7 @@ services:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
 
     ezpublish.search.solr.query.content.criterion_visitor.tag_keyword:
-        class: "%ezpublish.search.solr.query.content.criterion_visitor.tag_keyword.class%"
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagKeyword
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
             - "@ezpublish.spi.persistence.content_type_handler"
@@ -36,7 +30,7 @@ services:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
 
     ezpublish.search.solr.query.location.criterion_visitor.tag_keyword:
-        class: "%ezpublish.search.solr.query.location.criterion_visitor.tag_keyword.class%"
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagKeyword
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
             - "@ezpublish.spi.persistence.content_type_handler"

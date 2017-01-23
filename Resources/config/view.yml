@@ -1,20 +1,11 @@
-parameters:
-    eztags.view.cache_response_listener.class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
-    eztags.view.builder_parameter_collector.current_page.class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
-    eztags.view.view_parameters_injector.related_content_pager.class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
-
-    eztags.view.tag_view_builder.class: Netgen\TagsBundle\View\Builder\TagViewBuilder
-    eztags.view.tag_matcher_factory.class: Netgen\TagsBundle\Matcher\TagMatcherFactory
-    eztags.view.tag_view_provider.class: Netgen\TagsBundle\View\Provider\TagViewProvider
-
 services:
     eztags.view.builder_parameter_collector.current_page:
-        class: "%eztags.view.builder_parameter_collector.current_page.class%"
+        class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
         tags:
             - {name: kernel.event_subscriber}
 
     eztags.view.view_parameters_injector.related_content_pager:
-        class: "%eztags.view.view_parameters_injector.related_content_pager.class%"
+        class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
         calls:
@@ -23,7 +14,7 @@ services:
             - {name: kernel.event_subscriber}
 
     eztags.view.cache_response_listener:
-        class: "%eztags.view.cache_response_listener.class%"
+        class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
         arguments:
             - $tag_view.cache;eztags$
             - $tag_view.ttl_cache;eztags$
@@ -32,7 +23,7 @@ services:
             - {name: kernel.event_subscriber}
 
     eztags.view.tag_view_builder:
-        class: "%eztags.view.tag_view_builder.class%"
+        class: Netgen\TagsBundle\View\Builder\TagViewBuilder
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.view.configurator"
@@ -40,7 +31,7 @@ services:
             - "@ezpublish.config.resolver"
 
     eztags.view.tag_matcher_factory:
-        class: "%eztags.view.tag_matcher_factory.class%"
+        class: Netgen\TagsBundle\Matcher\TagMatcherFactory
         arguments:
             - "@ezpublish.api.service.tags"
             - "@ezpublish.translation_helper"
@@ -50,7 +41,7 @@ services:
             - [setMatchConfig, [$tag_view_match;eztags$]]
 
     eztags.view.tag_view_provider:
-        class: "%eztags.view.tag_view_provider.class%"
+        class: Netgen\TagsBundle\View\Provider\TagViewProvider
         arguments:
             - "@eztags.view.tag_matcher_factory"
         tags:

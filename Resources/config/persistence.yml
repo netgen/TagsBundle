@@ -1,17 +1,13 @@
-parameters:
-    ezpublish.api.persistence_handler.tags.factory.class: Netgen\TagsBundle\ApiLoader\TagsHandlerFactory
-    ezpublish.api.persistence_handler.tags.class: Netgen\TagsBundle\SPI\Persistence\Tags\Handler
-
 services:
     # Tags handler
     # We use a factory instead of alias so there's no need setting default storage engine twice
     ezpublish.api.persistence_handler.tags.factory:
-        class: "%ezpublish.api.persistence_handler.tags.factory.class%"
+        class: Netgen\TagsBundle\ApiLoader\TagsHandlerFactory
         arguments:
             - "@service_container"
 
     ezpublish.api.persistence_handler.tags:
-        class: "%ezpublish.api.persistence_handler.tags.class%"
+        class: Netgen\TagsBundle\SPI\Persistence\Tags\Handler
         factory: ["@ezpublish.api.persistence_handler.tags.factory", buildTagsHandler]
         arguments:
             - "%ezpublish.api.storage_engine.default%"
