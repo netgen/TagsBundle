@@ -4,7 +4,7 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Platform 1.0+
+* eZ Platform 1.4+
 
 Optional requirements
 ---------------------
@@ -36,13 +36,14 @@ $ composer require netgen/tagsbundle:^2.2
 
 ### Activate the bundle
 
-Activate the bundle in `app/AppKernel.php` file by adding it to the `$bundles` array in `registerBundles` method:
+Activate the bundle in `app/AppKernel.php` file by adding it to the `$bundles` array in `registerBundles` method, together with other required bundles:
 
 ```php
 public function registerBundles()
 {
     ...
 
+    $bundles[] = new Lolautruche\EzCoreExtraBundle\EzCoreExtraBundle();
     $bundles[] = new Netgen\TagsBundle\NetgenTagsBundle();
 
     return $bundles;
