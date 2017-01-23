@@ -32,18 +32,18 @@ function ngTagsInit(){
             }
         }).on("ready.jstree", function (event, data) {
             var selectedTagPath = $(value).data('selectedtagpath');
-            if (selectedTagPath === 0 || selectedTagPath === '') {
-                $(value).jstree(true).select_node(0);
-            } else {
+            var selectedNodeId = 0;
+
+            if (selectedTagPath !== '') {
                 selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
                 $(value).jstree(true).load_node(selectedTagPath, function () {
-                    var selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
-
-                    this.select_node(selectedNodeId);
-                    if (!$(value).closest('div.modal-tree').length) {
-                        $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
-                    }
+                    selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
                 });
+            }
+
+            $(value).jstree(true).select_node(selectedNodeId);
+            if (!$(value).closest('div.modal-tree').length) {
+                $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
             }
         }).on("ready.jstree", function (event, data) {
             var disableSubtree = $(value).data('disablesubtree');
@@ -55,8 +55,6 @@ function ngTagsInit(){
         }).on("load_node.jstree", function (event, data) {
             var disableSubtree = $(value).data('disablesubtree');
             if (disableSubtree !== '') {
-                console.log(disableSubtree);
-
                 if (disableSubtree.toString().split(',').indexOf(data.node.id) !== -1) {
                     disableNode(value, data.node.id);
                 }
