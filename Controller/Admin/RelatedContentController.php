@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class RelatedContentController extends Controller
 {
@@ -44,10 +45,16 @@ class RelatedContentController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function relatedContentAction(Request $request, Tag $tag)
     {
+        if (!$this->isGranted('ez:tags:read')) {
+            throw new AccessDeniedException();
+        }
+
         $currentPage = (int)$request->query->get('page');
         $pager = $this->createPager($this->adapter, $currentPage, $this->pagerLimit, $tag);
 

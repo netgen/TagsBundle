@@ -62,7 +62,7 @@ abstract class Tags extends CriterionVisitor
      */
     protected function getTargetFieldNames(Criterion $criterion)
     {
-        if ($criterion->target != null) {
+        if ($criterion->target !== null) {
             return $this->fieldNameResolver->getFieldNames(
                 $criterion,
                 $criterion->target,

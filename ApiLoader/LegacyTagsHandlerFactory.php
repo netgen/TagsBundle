@@ -3,28 +3,16 @@
 namespace Netgen\TagsBundle\ApiLoader;
 
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
 
-class LegacyTagsHandlerFactory
+class LegacyTagsHandlerFactory implements ContainerAwareInterface
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * Constructor.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    use ContainerAwareTrait;
 
     /**
      * Builds the legacy tags handler.

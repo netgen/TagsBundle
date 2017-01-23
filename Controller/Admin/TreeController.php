@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -83,14 +83,14 @@ class TreeController extends Controller
      * @param int
      * @param bool $isRoot
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getChildrenAction(Tag $tag = null, $isRoot = false)
     {
         if (!$this->isGranted('ez:tags:read')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $result = array();

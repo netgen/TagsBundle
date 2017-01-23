@@ -15,8 +15,8 @@ services:
     # Legacy Tags handler
     eztags.api.storage_engine.legacy.handler.tags.factory:
         class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
-        arguments:
-            - "@service_container"
+        calls:
+            - [setContainer, ["@service_container"]]
 
     eztags.api.storage_engine.legacy.handler.tags:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
