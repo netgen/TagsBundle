@@ -77,6 +77,15 @@ Clear the eZ Publish caches with the following command:
 $ php app/console cache:clear
 ```
 
+### Install and dump assets
+
+Run the following to correctly install and dump assets for admin UI:
+
+```bash
+$ php app/console assets:install --symlink --relative
+$ php app/console assetic:dump
+```
+
 ### Edit Varnish configuration (optional but recommended)
 
 #### Varnish 3
