@@ -22,7 +22,7 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
   | `ezpublish.signalslot.service.tags` | `eztags.signalslot.service.tags`
   | `ezpublish.fieldType.eztags` | `eztags.field_type.eztags`
   | `ezpublish.fieldType.eztags.externalStorage` | `eztags.field_type.eztags.external_storage`
-  | `ezpublish.fieldType.indexable.eztags` | `eztags.field_type.indexable.eztags`
+  | `ezpublish.fieldType.indexable.eztags` | `eztags.field_type.eztags.indexable`
   | `ezpublish.fieldType.eztags.formMapper` | `eztags.field_type.eztags.form_mapper`
   | `ezpublish.fieldType.eztags.converter` | `eztags.field_type.eztags.converter`
   | `ezpublish.fieldType.eztags.storage_gateway` | `eztags.field_type.eztags.storage_gateway`

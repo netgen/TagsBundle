@@ -14,7 +14,7 @@ services:
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler, alias: eztags}
 
-    eztags.field_type.indexable.eztags:
+    eztags.field_type.eztags.indexable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
