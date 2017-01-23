@@ -32,19 +32,18 @@ function ngTagsInit(){
             }
         }).on("ready.jstree", function (event, data) {
             var selectedTagPath = $(value).data('selectedtagpath');
-            var selectedNodeId = 0;
-
-            if (selectedTagPath !== '') {
-                selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
-                $(value).jstree(true).load_node(selectedTagPath, function () {
-                    selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
-                });
+            if (selectedTagPath === '') {
+                selectedTagPath = '/0/';
             }
 
-            $(value).jstree(true).select_node(selectedNodeId);
-            if (!$(value).closest('div.modal-tree').length) {
-                $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
-            }
+            selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
+            $(value).jstree(true).load_node(selectedTagPath, function () {
+                var selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
+                this.select_node(selectedNodeId);
+                if (!$(value).closest('div.modal-tree').length) {
+                    $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
+                }
+            });
         }).on("ready.jstree", function (event, data) {
             var disableSubtree = $(value).data('disablesubtree');
             if (disableSubtree !== '') {
