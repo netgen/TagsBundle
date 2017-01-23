@@ -59,7 +59,12 @@ class TagUpdateStructDataMapper implements DataMapperInterface
 
         $forms = iterator_to_array($forms);
 
-        $data->setKeyword($forms['keyword']->getData(), $this->languageCode);
+        $keyword = $forms['keyword']->getData();
+
+        $keyword !== null ?
+            $data->setKeyword($keyword, $this->languageCode) :
+            $data->removeKeyword($this->languageCode);
+
         $data->alwaysAvailable = $forms['alwaysAvailable']->getData();
         $data->remoteId = $forms['remoteId']->getData();
     }

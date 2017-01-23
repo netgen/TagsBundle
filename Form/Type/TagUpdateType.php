@@ -31,6 +31,7 @@ class TagUpdateType extends AbstractType
                             new TagUpdateStructConstraint(
                                 array(
                                     'payload' => $options['tag'],
+                                    'languageCode' => $options['languageCode'],
                                 )
                             ),
                         );

@@ -43,6 +43,7 @@ class TagTreeType extends AbstractType
             ->setAllowedTypes('disableSubtree', 'array')
             ->setDefaults(
                 array(
+                    'error_bubbling' => false,
                     'allowRootTag' => true,
                     'disableSubtree' => array(),
                     'constraints' => function (Options $options) {

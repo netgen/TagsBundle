@@ -55,7 +55,7 @@ abstract class TagStruct extends ValueObject
             $language = $this->mainLanguageCode;
         }
 
-        if (!is_array($this->keywords) || !isset($this->keywords[$language])) {
+        if (!is_array($this->keywords) || !array_key_exists($language, $this->keywords)) {
             return null;
         }
 
@@ -79,5 +79,19 @@ abstract class TagStruct extends ValueObject
         }
 
         $this->keywords[$language] = $keyword;
+    }
+
+    /**
+     * Removes the keyword from keyword collection.
+     *
+     * @param string $language Language to remove the keyword for
+     */
+    public function removeKeyword($language)
+    {
+        if (!array_key_exists($language, $this->keywords)) {
+            return;
+        }
+
+        unset($this->keywords[$language]);
     }
 }

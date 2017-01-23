@@ -7,6 +7,11 @@ use Symfony\Component\Validator\Constraint;
 class TagUpdateStruct extends Constraint
 {
     /**
+     * @var string
+     */
+    public $languageCode;
+
+    /**
      * Returns the name of the class that validates this constraint.
      *
      * @return string

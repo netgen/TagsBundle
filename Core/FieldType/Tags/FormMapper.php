@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Validator\Constraints;
 
 class FormMapper implements FieldDefinitionFormMapperInterface
 {
@@ -46,6 +47,10 @@ class FormMapper implements FieldDefinitionFormMapperInterface
                     'required' => false,
                     'property_path' => 'fieldSettings[hideRootTag]',
                     'label' => 'field_definition.eztags.settings.hide_root_tag',
+                    'constraints' => array(
+                        new Constraints\Type(array('type' => 'bool')),
+                        new Constraints\NotNull(),
+                    ),
                 )
             )
             ->add(
@@ -53,6 +58,15 @@ class FormMapper implements FieldDefinitionFormMapperInterface
                     'required' => false,
                     'property_path' => 'fieldSettings[maxTags]',
                     'label' => 'field_definition.eztags.settings.max_tags',
+                    'constraints' => array(
+                        new Constraints\Type(array('type' => 'int')),
+                        new Constraints\NotBlank(),
+                        new Constraints\GreaterThanOrEqual(
+                            array(
+                                'value' => 0,
+                            )
+                        ),
+                    ),
                     'empty_data' => 0,
                     'attr' => array(
                         'min' => 0,
@@ -66,6 +80,16 @@ class FormMapper implements FieldDefinitionFormMapperInterface
                     'required' => true,
                     'property_path' => 'fieldSettings[editView]',
                     'label' => 'field_definition.eztags.settings.edit_view',
+                    'constraints' => array(
+                        new Constraints\Type(array('type' => 'string')),
+                        new Constraints\NotBlank(),
+                        new Constraints\Choice(
+                            array(
+                                'choices' => array_values($editViewChoices),
+                                'strict' => true,
+                            )
+                        ),
+                    ),
                 )
             );
     }

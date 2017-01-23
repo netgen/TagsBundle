@@ -24,21 +24,12 @@ abstract class CreateStructValidator extends ConstraintValidator
         $validator->atPath('alwaysAvailable')->validate(
             $value->alwaysAvailable,
             array(
-                new Constraints\Type(array('type' => 'boolean')),
+                new Constraints\Type(array('type' => 'bool')),
                 new Constraints\NotNull(),
             )
         );
 
-        $validator->atPath('mainLanguageCode')->validate(
-            $value->mainLanguageCode,
-            array(
-                new Constraints\Type(array('type' => 'string')),
-                new Constraints\NotBlank(),
-                new Language(),
-            )
-        );
-
-        $validator->atPath('getKeyword')->validate(
+        $validator->atPath('keyword')->validate(
             $value->getKeyword(),
             array(
                 new Constraints\Type(array('type' => 'string')),
@@ -51,6 +42,15 @@ abstract class CreateStructValidator extends ConstraintValidator
             array(
                 new Constraints\Type(array('type' => 'string')),
                 new RemoteId(),
+            )
+        );
+
+        $validator->atPath('mainLanguageCode')->validate(
+            $value->mainLanguageCode,
+            array(
+                new Constraints\Type(array('type' => 'string')),
+                new Constraints\NotBlank(),
+                new Language(),
             )
         );
     }

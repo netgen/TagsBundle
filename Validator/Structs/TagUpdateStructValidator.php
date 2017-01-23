@@ -54,14 +54,34 @@ class TagUpdateStructValidator extends ConstraintValidator
         /** @var \Symfony\Component\Validator\Validator\ContextualValidatorInterface $validator */
         $validator = $this->context->getValidator()->inContext($this->context);
 
-        if ($value->alwaysAvailable !== null) {
-            $validator->atPath('alwaysAvailable')->validate(
-                $value->alwaysAvailable,
-                array(
-                    new Constraints\Type(array('type' => 'boolean')),
-                )
-            );
-        }
+        $validator->atPath('alwaysAvailable')->validate(
+            $value->alwaysAvailable,
+            array(
+                new Constraints\Type(array('type' => 'bool')),
+                new Constraints\NotNull(),
+            )
+        );
+
+        $validator->atPath('keyword')->validate(
+            $value->getKeyword($constraint->languageCode),
+            array(
+                new Constraints\Type(array('type' => 'string')),
+                new Constraints\NotBlank(),
+            )
+        );
+
+        $validator->atPath('remoteId')->validate(
+            $value->remoteId,
+            array(
+                new Constraints\Type(array('type' => 'string')),
+                new Constraints\NotBlank(),
+                new RemoteId(
+                    array(
+                        'payload' => $constraint->payload,
+                    )
+                ),
+            )
+        );
 
         if ($value->mainLanguageCode !== null) {
             $validator->atPath('mainLanguageCode')->validate(
@@ -70,29 +90,6 @@ class TagUpdateStructValidator extends ConstraintValidator
                     new Constraints\Type(array('type' => 'string')),
                     new Constraints\NotBlank(),
                     new Language(),
-                )
-            );
-        }
-
-        if ($value->getKeyword() !== null) {
-            $validator->atPath('getKeyword')->validate(
-                $value->getKeyword(),
-                array(
-                    new Constraints\Type(array('type' => 'string')),
-                    new Constraints\NotBlank(),
-                )
-            );
-        }
-
-        if ($value->remoteId !== null) {
-            $validator->atPath('remoteId')->validate(
-                $value->remoteId,
-                array(
-                    new Constraints\Type(array('type' => 'string')),
-                    new Constraints\NotBlank(),
-                    new RemoteId(array(
-                        'payload' => $constraint->payload,
-                    )),
                 )
             );
         }

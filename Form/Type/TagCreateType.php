@@ -37,6 +37,9 @@ class TagCreateType extends AbstractType
             TagTreeType::class,
             array(
                 'label' => 'tag.parent_tag',
+                // Disable constraints specified in TagTreeType, since
+                // they are validated in TagCreateStructConstraint
+                'constraints' => null,
             )
         );
     }
