@@ -31,7 +31,9 @@
                     </section>
 
                     {% if related_content.haveToPaginate() %}
-                        {{ pagerfanta( related_content, 'twitter_bootstrap_translated' ) }}
+                        <div class="pagination-centered">
+                            {{ pagerfanta( related_content, 'twitter_bootstrap_translated' ) }}
+                        </div>
                     {% endif %}
                 {% endif %}
             </div>
