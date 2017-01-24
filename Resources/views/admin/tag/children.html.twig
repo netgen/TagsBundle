@@ -52,9 +52,7 @@
         </table>
 
         {% if childrenTags.haveToPaginate() %}
-            <div class="pagination-centered">
-                {{ pagerfanta( childrenTags, 'eztags_admin' ) }}
-            </div>
+            {{ pagerfanta( childrenTags, 'eztags_admin' ) }}
         {% endif %}
 
         <div class="tags-btn-group">

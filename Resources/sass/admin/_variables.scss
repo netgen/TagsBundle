@@ -4,12 +4,13 @@ $namespace: '.ng-tags-app';
 $sidebarBg: hsl(0, 0, 90);
 $contentBg: hsl(0, 0, 96);
 $textColor: hsl(0, 0, 25);
-$linkColor: hsl(199, 98, 48);
+$linkColor: hsl(194, 100, 39);
 $borderColor: hsl(0, 0, 90);
+$errorColor: hsl(0, 100, 60);
 
 $btnDefault: #fff;
 $btnDefaultColor: hsl(0, 0, 35);
-$btnPrimary: hsl(212, 72, 59);
+$btnPrimary: $linkColor;
 $btnPrimaryColor: #fff;
 
 $tableBorder: hsl(0, 0, 90);

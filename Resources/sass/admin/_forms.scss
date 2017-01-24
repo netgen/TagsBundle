@@ -105,6 +105,20 @@
         border-radius:$borderRadius;
         font-size:1em;
     }
+    &.error-input {
+        input[type=text] {
+            border-color:$errorColor;
+        }
+        ul {
+            list-style-type:none;
+            margin:0;
+            li {
+                color:$errorColor;
+                padding:0.25em 0;
+                font-style:italic;
+            }
+        }
+    }
     .tag-keyword {
         display:inline-block;
         height:$btnHeight;

@@ -19,8 +19,10 @@
         text-decoration:none;
         transition:all 0.2s;
         position:relative;
-        &[disabled] {
+        &[disabled],
+        &.disabled {
             opacity:0.5;
+            cursor:not-allowed;
             .tags-btn-effect {
                 display:none;
             }
@@ -40,7 +42,8 @@
         &.tags-btn-primary {
             background:$btnPrimary;
             color:$btnPrimaryColor;
-            &[disabled] {
+            &[disabled]
+            &.disabled {
                 &:hover,
                 &:focus {
                     background:$btnPrimary;
@@ -48,7 +51,7 @@
             }
             &:hover,
             &:focus {
-                background:desaturate(darken($btnPrimary, 14%), 18%);
+                background:desaturate(darken($btnPrimary, 8%), 10%);
             }
             .tags-btn-effect {
                 background:hsla(0, 0, 100, 0.25);
