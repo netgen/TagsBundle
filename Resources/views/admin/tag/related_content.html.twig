@@ -33,7 +33,7 @@
 
         {% if related_content.haveToPaginate() %}
             <div class="pagination-centered">
-                {{ pagerfanta( related_content ) }}
+                {{ pagerfanta( related_content, 'eztags_admin' ) }}
             </div>
         {% endif %}
     {% endif %}

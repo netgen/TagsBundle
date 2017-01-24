@@ -53,7 +53,7 @@
 
         {% if childrenTags.haveToPaginate() %}
             <div class="pagination-centered">
-                {{ pagerfanta( childrenTags ) }}
+                {{ pagerfanta( childrenTags, 'eztags_admin' ) }}
             </div>
         {% endif %}
 

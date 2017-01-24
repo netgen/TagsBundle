@@ -1,0 +1,64 @@
+<div class="text-center">
+    <ul class="pagination">
+
+        {# First page link (for mobile) #}
+        {% if pages.mobile_first_page %}
+            <li class="visible-xs-inline"><a href="{{ pages.mobile_first_page }}"><i class="fa fa-angle-double-left"></i></a></li>
+        {% endif %}
+
+        {# Previous page link #}
+        {% if pages.previous_page %}
+            <li><a href="{{ pages.previous_page }}"><i class="fa fa-angle-left"></i></a></li>
+        {% endif %}
+
+        {# First page link #}
+        {% if pages.first_page %}
+            <li class="hidden-xs"><a href="{{ pages.first_page }}">1</a></li>
+        {% endif %}
+
+        {# Second page link #}
+        {% if pages.second_page %}
+            <li class="hidden-xs"><a href="{{ pages.second_page }}">2</a></li>
+        {% endif %}
+
+        {# Dots if start is over 3 #}
+        {% if pages.separator_before %}
+            <li class="disabled hidden-xs"><a>...</a></li>
+        {% endif %}
+
+        {# Middle pages #}
+        {% for page, page_url in pages.middle_pages %}
+            {% if page == pager.currentPage %}
+                <li class="active"><a>{{ page }}<span class="visible-xs-inline"> of {{ pager.nbPages }}</span></a></li>
+            {% else %}
+                <li class="hidden-xs"><a href="{{ page_url }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {# Dots if end is under 3 to last #}
+        {% if pages.separator_after %}
+            <li class="disabled hidden-xs"><a>...</a></li>
+        {% endif %}
+
+        {# Second to last page link #}
+        {% if pages.second_to_last_page %}
+            <li class="hidden-xs"><a href="{{ pages.second_to_last_page }}">{{ pager.nbPages - 1 }}</a></li>
+        {% endif %}
+
+        {# Last page link #}
+        {% if pages.last_page %}
+            <li class="hidden-xs"><a href="{{ pages.last_page }}">{{ pager.nbPages }}</a></li>
+        {% endif %}
+
+        {# Next page link #}
+        {% if pages.next_page %}
+            <li><a href="{{ pages.next_page }}"><i class="fa fa-angle-right"></i></a></li>
+        {% endif %}
+
+        {# Last page link (for mobile) #}
+        {% if pages.mobile_last_page %}
+            <li class="visible-xs-inline"><a href="{{ pages.mobile_last_page }}"><i class="fa fa-angle-double-right"></i></a></li>
+        {% endif %}
+
+    </ul>
+</div>

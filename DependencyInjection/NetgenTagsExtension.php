@@ -33,6 +33,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('persistence.yml');
         $loader->load('papi.yml');
         $loader->load('default_settings.yml');
+        $loader->load('pagerfanta.yml');
         $loader->load('templating.yml');
         $loader->load('view.yml');
         $loader->load('limitations.yml');

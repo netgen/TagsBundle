@@ -1,0 +1,9 @@
+services:
+    eztags.pagerfanta.view.eztags_admin:
+        class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\View\TagsAdminView
+        arguments:
+            - "@twig"
+        calls:
+            - [setDefaultTemplate, ['NetgenTagsBundle:admin:pagerfanta.html.twig']]
+        tags:
+            - {name: pagerfanta.view, alias: eztags_admin}
