@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block tag_tree_widget %}
-    <div class="ng-tags-input">
+    <div class="ng-tags-input {% if errors|length > 0 %} error-input{% endif %}">
         <div class="modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
             {{- form_label(form) -}}
 
