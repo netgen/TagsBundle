@@ -5,7 +5,15 @@
 }
 
 .ez-view-navigationhubview .ez-ngtags-zone:before {
-    content: "\E620";
+    background:#528036 url(../images/tags-logo.svg) no-repeat 50% 50% !important;
+    background-size:70% auto !important;
+    width:32px;
+    height:32px;
+    content:"";
+    display:inline-block;
+    float:left;
+    box-sizing:border-box;
+    margin-right:4px;
 }
 
 .ng-tags-app .ng-tags-container {
