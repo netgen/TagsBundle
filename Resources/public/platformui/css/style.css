@@ -4,6 +4,7 @@
     padding: 0;
 }
 
+/* logo icon in top navigation */
 .ez-view-navigationhubview .ez-ngtags-zone:before {
     background:#528036 url(../images/tags-logo.svg) no-repeat 50% 50% !important;
     background-size:70% auto !important;
@@ -28,5 +29,13 @@
 }
 .ng-tags-input .tag-keyword {
     float:none;
-    padding-left:0;
+}
+
+/* 100% height fix for app */
+.ng-tags-app {
+    position:absolute;
+    top:0;
+    width:100%;
+    padding-top:66px;
+    box-sizing:border-box;
 }
