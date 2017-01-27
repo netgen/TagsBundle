@@ -1,6 +1,11 @@
 Netgen Tags Bundle 2.2 changelog
 ================================
 
+2.2.3 (26.01.2017)
+------------------
+
+* Removed obsolete Platform UI integration code since it was causing issues (thanks @chicgeek)
+
 2.2.2 (05.12.2016)
 ------------------
 
