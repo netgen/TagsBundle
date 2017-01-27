@@ -6,7 +6,7 @@
 
 /* logo icon in top navigation */
 .ez-view-navigationhubview .ez-ngtags-zone:before {
-    background:#528036 url(../images/tags-logo.svg) no-repeat 50% 50% !important;
+    background:#528036 url(../images/tags-logo-silhouette.svg) no-repeat 50% 50% !important;
     background-size:70% auto !important;
     width:32px;
     height:32px;

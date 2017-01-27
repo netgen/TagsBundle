@@ -49,6 +49,17 @@ body {
             background:hsl(0, 100, 90);
         }
     }
+
+    /* header */
+    .ng-tags-header {
+        background:hsl(0, 0, 30);
+        .ng-tags-logo {
+            height:50px;
+            width:$sidebarWidth;
+            background:hsl(0, 0, 20) url(../images/tags-logo-full.svg) no-repeat center center;
+            background-size:auto 60%;
+        }
+    }
 }
 .layout-column.main-column {
     background:#f5f5f5;
