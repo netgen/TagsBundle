@@ -19,6 +19,7 @@ branches:
 
 # make sure to update composer to latest available version
 before_install:
+    - phpenv config-add travis.php.ini
     - phpenv config-rm xdebug.ini
     - composer self-update
 
@@ -27,7 +28,6 @@ install: composer install --prefer-source
 
 # setup requirements for running unit tests
 before_script:
-  - phpenv config-add travis.php.ini
   - cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
 
 # execute phpunit as the script command
