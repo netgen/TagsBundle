@@ -1,21 +1,15 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor;
+namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor;
 
 use eZ\Publish\SPI\Persistence\Content\Type\Handler;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
+use EzSystems\EzPlatformSolrSearchEngine\Query\Content\CriterionVisitor\Field;
 use eZ\Publish\Core\Search\Common\FieldNameResolver;
+use eZ\Publish\Core\Search\Common\FieldValueMapper;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
-abstract class Tags extends CriterionVisitor
+abstract class Tags extends Field
 {
-    /**
-     * Field map.
-     *
-     * @var \eZ\Publish\Core\Search\Common\FieldNameResolver
-     */
-    protected $fieldNameResolver;
-
     /**
      * For tag-queries which aren't field-specific.
      *
@@ -41,29 +35,36 @@ abstract class Tags extends CriterionVisitor
      * Create from FieldNameResolver, FieldType identifier and field name.
      *
      * @param \eZ\Publish\Core\Search\Common\FieldNameResolver $fieldNameResolver
+     * @param \eZ\Publish\Core\Search\Common\FieldValueMapper $fieldValueMapper
      * @param \eZ\Publish\SPI\Persistence\Content\Type\Handler $contentTypeHandler
      * @param string $fieldTypeIdentifier
      * @param string $fieldName
      */
-    public function __construct(FieldNameResolver $fieldNameResolver, Handler $contentTypeHandler, $fieldTypeIdentifier, $fieldName)
-    {
-        $this->fieldNameResolver = $fieldNameResolver;
+    public function __construct(
+        FieldNameResolver $fieldNameResolver,
+        FieldValueMapper $fieldValueMapper,
+        Handler $contentTypeHandler,
+        $fieldTypeIdentifier,
+        $fieldName
+    ) {
+        parent::__construct($fieldNameResolver, $fieldValueMapper);
+
         $this->contentTypeHandler = $contentTypeHandler;
         $this->fieldTypeIdentifier = $fieldTypeIdentifier;
         $this->fieldName = $fieldName;
     }
 
     /**
-     * Resolves the targeted fields for this criterion.
+     * Get array of search fields.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
      *
-     * @return array
+     * @return \eZ\Publish\SPI\Search\FieldType[] Array of field types indexed by name
      */
-    protected function getTargetFieldNames(Criterion $criterion)
+    protected function getSearchFields(Criterion $criterion)
     {
         if ($criterion->target !== null) {
-            return $this->fieldNameResolver->getFieldNames(
+            return $this->fieldNameResolver->getFieldTypes(
                 $criterion,
                 $criterion->target,
                 $this->fieldTypeIdentifier,
@@ -71,28 +72,28 @@ abstract class Tags extends CriterionVisitor
             );
         }
 
-        $targetFieldNames = array();
+        $targetFieldTypes = array();
         foreach ($this->contentTypeHandler->getSearchableFieldMap() as $fieldDefinitions) {
             foreach ($fieldDefinitions as $fieldIdentifier => $fieldDefinition) {
                 if (!isset($fieldDefinition['field_type_identifier'])) {
                     continue;
                 }
 
-                if ($fieldDefinition['field_type_identifier'] != $this->fieldTypeIdentifier) {
+                if ($fieldDefinition['field_type_identifier'] !== $this->fieldTypeIdentifier) {
                     continue;
                 }
 
-                $solrFieldNames = $this->fieldNameResolver->getFieldNames(
+                $fieldTypes = $this->fieldNameResolver->getFieldTypes(
                     $criterion,
                     $fieldIdentifier,
                     $this->fieldTypeIdentifier,
                     $this->fieldName
                 );
 
-                $targetFieldNames = array_merge($targetFieldNames, $solrFieldNames);
+                $targetFieldTypes = array_merge($targetFieldTypes, $fieldTypes);
             }
         }
 
-        return array_values(array_unique($targetFieldNames));
+        return $targetFieldTypes;
     }
 }

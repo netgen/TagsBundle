@@ -128,9 +128,11 @@ class HandlerContentTest extends LanguageAwareTestCase
                 $this->getLanguageHandler()
             ),
             $this->getMock(Gateway::class),
+            $this->getMock(Content\WordIndexer\Gateway::class),
             $this->getContentMapperMock(),
             $this->getMock(LocationMapper::class),
-            $this->getLanguageHandler()
+            $this->getLanguageHandler(),
+            $this->getMockBuilder(Content\Mapper\FullTextMapper::class)->disableOriginalConstructor()->getMock()
         );
     }
 

@@ -16,7 +16,7 @@ class SetupFactory extends APILegacySetupFactory
      *
      * @return \eZ\Publish\Core\Base\ServiceContainer
      */
-    protected function getServiceContainer()
+    public function getServiceContainer()
     {
         if (!isset(static::$serviceContainer)) {
             $config = include __DIR__ . '/../../../../../../vendor/ezsystems/ezpublish-kernel/config.php';
@@ -26,6 +26,7 @@ class SetupFactory extends APILegacySetupFactory
             $containerBuilder = include $config['container_builder_path'];
 
             /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
+            $loader->load('search_engines/legacy.yml');
             $loader->load('tests/integration_legacy_core.yml');
             $loader->load(__DIR__ . '/../../../../../../Tests/settings/settings.yml');
 

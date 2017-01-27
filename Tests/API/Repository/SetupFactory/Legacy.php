@@ -86,7 +86,7 @@ class Legacy extends BaseLegacy
      *
      * @return \eZ\Publish\Core\Base\ServiceContainer
      */
-    protected function getServiceContainer()
+    public function getServiceContainer()
     {
         if (!isset(self::$serviceContainer)) {
             $config = include __DIR__ . '/../../../../vendor/ezsystems/ezpublish-kernel/config.php';
@@ -96,6 +96,7 @@ class Legacy extends BaseLegacy
             $containerBuilder = include $config['container_builder_path'];
 
             /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
+            $loader->load('search_engines/legacy.yml');
             $loader->load('tests/integration_legacy.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/papi.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/limitations.yml');

@@ -1,15 +1,14 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags;
+namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
 use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags;
-use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as APITagKeyword;
+use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
+use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as APITagId;
 
-class TagKeyword extends Tags
+class TagId extends Tags
 {
     /**
      * Check if visitor is applicable to current criterion.
@@ -20,7 +19,7 @@ class TagKeyword extends Tags
      */
     public function canVisit(Criterion $criterion)
     {
-        return $criterion instanceof APITagKeyword;
+        return $criterion instanceof APITagId;
     }
 
     /**
@@ -37,9 +36,9 @@ class TagKeyword extends Tags
     public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
     {
         $criterion->value = (array)$criterion->value;
-        $fieldNames = $this->getTargetFieldNames($criterion);
+        $searchFields = $this->getSearchFields($criterion);
 
-        if (empty($fieldNames)) {
+        if (empty($searchFields)) {
             throw new InvalidArgumentException(
                 '$criterion->target',
                 "No searchable fields found for the given criterion target '{$criterion->target}'."
@@ -47,13 +46,16 @@ class TagKeyword extends Tags
         }
 
         $queries = array();
-        foreach ($criterion->value as $value) {
-            foreach ($fieldNames as $name) {
-                if ($criterion->operator === Operator::LIKE) {
-                    $queries[] = "{$name}:{$value}";
-                } else {
-                    $queries[] = "{$name}:\"{$value}\"";
-                }
+        foreach ($searchFields as $name => $fieldType) {
+            foreach ($criterion->value as $value) {
+                $preparedValue = $this->escapeQuote(
+                    $this->toString(
+                        $this->mapSearchFieldValue($value, $fieldType)
+                    ),
+                    true
+                );
+
+                $queries[] = $name . ':"' . $preparedValue . '"';
             }
         }
 

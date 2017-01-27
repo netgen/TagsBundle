@@ -111,9 +111,11 @@ class HandlerLocationTest extends LanguageAwareTestCase
                 ),
                 $this->getLanguageHandler()
             ),
+            $this->getMock(Content\WordIndexer\Gateway::class),
             $this->getMockBuilder(ContentMapper::class)->disableOriginalConstructor()->getMock(),
             $this->getLocationMapperMock(),
-            $this->getLanguageHandler()
+            $this->getLanguageHandler(),
+            $this->getMockBuilder(Content\Mapper\FullTextMapper::class)->disableOriginalConstructor()->getMock()
         );
     }
 

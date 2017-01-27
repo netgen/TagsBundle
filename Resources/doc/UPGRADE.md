@@ -7,11 +7,13 @@ Upgrade from 2.2 to 3.0
 Tags Bundle 3.0 is a major release, with a number of breaking changes:
 
 * Minimum supported version of PHP is now PHP 5.6
-* Minimum supported version of eZ Platform is 1.4 (with eZ Publish kernel 6.4 and Platform UI 1.4)
-* Minimum supported version of Repository Forms is 1.3
+* Minimum supported version of eZ Platform is 1.5 (with eZ Publish kernel 6.5.2 and Platform UI 1.5)
+* Minimum supported version of Repository Forms is 1.4
+* Minimum supported version of eZ Platform Solr Search Engine is 1.1.3
 * All `*.class` parameters have been removed from Symfony DIC. Override the whole service if needed, as recommended by Symfony
 * Support for eZ Publish Legacy is completely removed (meaning, tag object converter is removed)
 * Bundle now requires [`EzCoreExtraBundle`](https://github.com/lolautruche/EzCoreExtraBundle) to be activated to work properly
+* Content and Location `TagId` and `TagKeyword` Solr criterion visitors are removed and replaced with a single query visitor, one for `TagId` and one for `TagKeyword` criterion, which is used both for Content and Location search
 * Number of Symfony services had their name changed to use TagsBundle (`eztags`) prefix. The following table lists the old names and the new names. Backwards compatibility for old names is kept only for the main `TagsService`:
 
   | Old name | New name
@@ -28,10 +30,6 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
   | `ezpublish.fieldType.eztags.storage_gateway` | `eztags.field_type.eztags.storage_gateway`
   | `ezpublish.api.storage_engine.legacy.handler.tags.factory` | `eztags.api.storage_engine.legacy.handler.tags.factory`
   | `ezpublish.api.storage_engine.legacy.handler.tags` | `eztags.api.storage_engine.legacy.handler.tags`
-  | `ezpublish.search.solr.query.content.criterion_visitor.tag_id` | `eztags.search.solr.query.content.criterion_visitor.tag_id`
-  | `ezpublish.search.solr.query.location.criterion_visitor.tag_id` | `eztags.search.solr.query.location.criterion_visitor.tag_id`
-  | `ezpublish.search.solr.query.content.criterion_visitor.tag_keyword` | `eztags.search.solr.query.content.criterion_visitor.tag_keyword`
-  | `ezpublish.search.solr.query.location.criterion_visitor.tag_keyword` | `eztags.search.solr.query.location.criterion_visitor.tag_keyword`
   | `ezpublish.search.legacy.gateway.criterion_handler.common.tag_id` | `eztags.search.legacy.gateway.criterion_handler.common.tag_id`
   | `ezpublish.search.legacy.gateway.criterion_handler.common.tag_keyword` | `eztags.search.legacy.gateway.criterion_handler.common.tag_keyword`
 

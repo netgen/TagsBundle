@@ -1,40 +1,24 @@
 services:
-    eztags.search.solr.query.content.criterion_visitor.tag_id:
-        class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagId
+    eztags.search.solr.query.common.criterion_visitor.tag_id:
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
+            - "@ezpublish.search.common.field_value_mapper.aggregate"
             - "@ezpublish.spi.persistence.content_type_handler"
             - "eztags"
             - "tag_ids"
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
-
-    eztags.search.solr.query.location.criterion_visitor.tag_id:
-        class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagId
-        arguments:
-            - "@ezpublish.search.common.field_name_resolver"
-            - "@ezpublish.spi.persistence.content_type_handler"
-            - "eztags"
-            - "tag_ids"
-        tags:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
 
-    eztags.search.solr.query.content.criterion_visitor.tag_keyword:
-        class: Netgen\TagsBundle\Core\Search\Solr\Query\Content\CriterionVisitor\Tags\TagKeyword
+    eztags.search.solr.query.common.criterion_visitor.tag_keyword:
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
+            - "@ezpublish.search.common.field_value_mapper.aggregate"
             - "@ezpublish.spi.persistence.content_type_handler"
             - "eztags"
             - "tag_keywords"
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
-
-    eztags.search.solr.query.location.criterion_visitor.tag_keyword:
-        class: Netgen\TagsBundle\Core\Search\Solr\Query\Location\CriterionVisitor\Tags\TagKeyword
-        arguments:
-            - "@ezpublish.search.common.field_name_resolver"
-            - "@ezpublish.spi.persistence.content_type_handler"
-            - "eztags"
-            - "tag_keywords"
-        tags:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
