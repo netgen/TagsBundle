@@ -4,7 +4,7 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Platform 1.4+
+* eZ Platform 1.5+
 
 Optional requirements
 ---------------------
