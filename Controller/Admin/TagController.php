@@ -20,7 +20,6 @@ use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TagController extends Controller
@@ -79,15 +78,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showTagAction(Request $request, Tag $tag = null)
     {
-        if (!$this->isGranted('ez:tags:read')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:read');
 
         $data = array();
 
@@ -132,15 +127,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addTagSelectAction(Request $request, Tag $parentTag = null)
     {
-        if (!$this->isGranted('ez:tags:add', $parentTag)) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
 
         $form = $this->createForm(
             LanguageSelectType::class,
@@ -178,15 +169,11 @@ class TagController extends Controller
      * @param string $languageCode
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addTagAction(Request $request, $languageCode, Tag $parentTag = null)
     {
-        if (!$this->isGranted('ez:tags:add', $parentTag)) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
 
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             $parentTag ? $parentTag->id : 0,
@@ -227,15 +214,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function updateTagSelectAction(Request $request, Tag $tag)
     {
-        if (!$this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
         $form = $this->createForm(
             LanguageSelectType::class,
@@ -275,15 +258,11 @@ class TagController extends Controller
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param string $languageCode
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateTagAction(Request $request, Tag $tag, $languageCode)
     {
-        if (!$this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
         $tagUpdateStruct->remoteId = $tag->remoteId;
@@ -330,15 +309,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function deleteTagAction(Request $request, Tag $tag)
     {
-        if (!$this->isGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''))) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''));
 
         if ($request->request->has('DeleteTagButton')) {
             if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
@@ -370,15 +345,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function mergeTagAction(Request $request, Tag $tag)
     {
-        if (!$this->isGranted('ez:tags:merge')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:merge');
 
         $form = $this->createForm(
             TagMergeType::class,
@@ -425,15 +396,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function convertToSynonymAction(Request $request, Tag $tag)
     {
-        if (!$this->isGranted('ez:tags:makesynonym')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:makesynonym');
 
         $form = $this->createForm(
             TagConvertType::class,
@@ -480,15 +447,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function translationAction(Request $request, Tag $tag)
     {
-        if (!$this->isGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''))) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
         if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
             $this->addFlashMessage('errors', 'invalid_csrf_token');
@@ -608,15 +571,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function moveTagsAction(Request $request, Tag $parentTag = null)
     {
-        if (!$this->isGranted('ez:tags:edit')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:edit');
 
         $tagIds = $request->request->has('Tags') ?
             $request->request->get('Tags') :
@@ -678,15 +637,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function copyTagsAction(Request $request, Tag $parentTag = null)
     {
-        if (!$this->isGranted('ez:tags:read')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:read');
 
         $tagIds = $request->request->has('Tags') ?
             $request->request->get('Tags') :
@@ -748,15 +703,11 @@ class TagController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteTagsAction(Request $request, Tag $parentTag = null)
     {
-        if (!$this->isGranted('ez:tags:delete')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ez:tags:delete');
 
         $tagIds = $request->request->has('Tags') ?
             $request->request->get('Tags') :
