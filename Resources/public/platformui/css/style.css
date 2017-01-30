@@ -25,12 +25,12 @@
     width:100%;
 }
 
-.ng-tags-input {
+.pure-form .ng-tags-input {
     display:inline-block;
     margin:0;
     position:relative;
     top:2px;
 }
-.ng-tags-input .tag-keyword {
+.pure-form .ng-tags-input .tag-keyword {
     float:none;
 }
