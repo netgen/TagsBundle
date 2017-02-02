@@ -1,0 +1,14 @@
+<div class="ez-fieldview-row pure-g">
+    <div class="ez-fieldview-label pure-u">
+        <p class="ez-fieldview-name"><strong>{{ translate_property fieldDefinition.names }}</strong></p>
+    </div>
+    <div class="ez-fieldview-value pure-u"><div class="ez-fieldview-value-content">
+        {{#if isEmpty }}
+            {{translate 'fieldview.field.empty' 'fieldview'}}
+        {{else}}
+            {{#each value}}
+                {{lookup keywords main_language_code}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+        {{/if}}
+    </div></div>
+</div>

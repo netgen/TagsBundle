@@ -29,3 +29,12 @@ system:
                     requires: ['ez-pluginregistry', 'ez-viewservicebaseplugin', 'ez-navigationitemview']
                     dependencyOf: ['ez-navigationhubviewservice']
                     path: bundles/netgentags/platformui/js/views/services/plugins/netgen-tags-navigation-view-service-plugin.js
+
+                netgen-tags-field-view:
+                    requires: ['ez-fieldview', 'netgentagsfieldview-ez-template']
+                    path: bundles/netgentags/platformui/js/views/fields/netgen-tags-field-view.js
+                netgentagsfieldview-ez-template:
+                    type: template
+                    path: bundles/netgentags/platformui/js/views/fields/templates/netgen-tags-field-view.hbt
+                ez-rawcontentview:
+                    requires: ['netgen-tags-field-view']
