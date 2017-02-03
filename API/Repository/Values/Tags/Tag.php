@@ -14,6 +14,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  * @property-read string[] $keywords Tag keywords
  * @property-read int $depth The depth tag has in tag tree
  * @property-read string $pathString The path to this tag e.g. /1/6/21/42 where 42 is the current ID
+ * @property-read array $path The IDs of all parents and tag itself
  * @property-read \DateTime $modificationDate Tag modification date
  * @property-read string $remoteId A global unique ID of the tag
  * @property-read bool $alwaysAvailable Indicates if the Tag object is shown in the main language if it is not present in an other requested language
@@ -68,6 +69,11 @@ class Tag extends ValueObject
     protected $pathString;
 
     /**
+     * @var array
+     */
+    protected $path;
+
+    /**
      * Tag modification date.
      *
      * @var \DateTime
@@ -101,6 +107,26 @@ class Tag extends ValueObject
      * @var string[]
      */
     protected $languageCodes = array();
+
+    /**
+     * Construct object optionally with a set of properties.
+     *
+     * Readonly properties values must be set using $properties as they are not writable anymore
+     * after object has been created.
+     *
+     * @param array $properties
+     */
+    public function __construct(array $properties = array())
+    {
+        parent::__construct($properties);
+
+        $this->path = array_map(
+            function ($id) {
+                return (int) $id;
+            },
+            explode('/', trim($this->pathString, '/'))
+        );
+    }
 
     /**
      * Magic getter for retrieving convenience properties.
@@ -155,6 +181,32 @@ class Tag extends ValueObject
         }
 
         return null;
+    }
+
+    /**
+     * Returns tag translations sorted and filtered by provided list of language codes.
+     *
+     * @param array $languageCodes
+     *
+     * @return array
+     */
+    public function getKeywords(array $languageCodes)
+    {
+        $keywords = array();
+
+        foreach ($languageCodes as $languageCode) {
+            if (isset($this->keywords[$languageCode])) {
+                $keywords[$languageCode] = $this->keywords[$languageCode];
+            }
+        }
+
+        if (empty($keywords)) {
+            return array(
+                $this->mainLanguageCode => $this->getKeyword($this->mainLanguageCode),
+            );
+        }
+
+        return $keywords;
     }
 
     /**
