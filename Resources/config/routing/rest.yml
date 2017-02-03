@@ -103,3 +103,9 @@ ezpublish_rest_eztags_deleteTag:
     methods: [DELETE]
     requirements:
         tagPath: "[0-9/]+"
+
+ezpublish_rest_eztags_loadAllTags:
+    path: /tags-all/{subTreeLimit}
+    defaults:
+        _controller: eztags.rest.controller.tags:loadAllTags
+    methods: [GET]

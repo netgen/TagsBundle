@@ -1,0 +1,26 @@
+<div class="pure-g ez-editfield-row">
+    <div class="pure-u ez-editfield-infos">
+        <label for="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}">
+            <p class="ez-fielddefinition-name">
+                {{ translate_property fieldDefinition.names }}{{#if isRequired}}*{{/if}}:
+            </p>
+            <p class="ez-editfield-error-message">&nbsp;</p>
+        </label>
+    </div>
+    <div class="pure-u ez-editfield-input-area ez-default-error-style">
+        <div class="ez-editfield-input">
+            <div class="ez-selection-input-ui" id="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}">
+                <ul class="ez-selection-values">
+                    {{#each selected}}
+                        <li class="ez-selection-value" data-text="{{text}}" >{{text}}</li>
+                    {{/each}}
+                </ul>
+                <div class="ez-selection-list">
+                    <input type="text" class="ez-selection-filter-input" placeholder="Filter the option list">
+                    <ul class="ez-selection-options"></ul>
+                </div>
+            </div>
+        </div>
+        {{> ez_fielddescription_tooltip }}
+    </div>
+</div>
