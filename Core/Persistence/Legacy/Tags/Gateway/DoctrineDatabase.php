@@ -270,21 +270,29 @@ class DoctrineDatabase extends Gateway
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     * @param bool $exactMatch
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
      * @return array
      */
-    public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
     {
         $query = $this->createTagFindQuery(array($translation), $useAlwaysAvailable);
+
         $query->where(
-            $query->expr->eq(
-                $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                $query->bindValue($keyword, null, PDO::PARAM_STR)
-            )
-        )
-        ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+            $exactMatch ?
+                $query->expr->eq(
+                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
+                    $query->bindValue($keyword, null, PDO::PARAM_STR)
+                ) :
+                $query->expr->like(
+                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
+                    $query->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                )
+        );
+
+        $query->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
 
         $statement = $query->prepare();
         $statement->execute();
@@ -298,17 +306,24 @@ class DoctrineDatabase extends Gateway
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     * @param bool $exactMatch
      *
      * @return int
      */
-    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true)
+    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
     {
         $query = $this->createTagCountQuery(array($translation, $useAlwaysAvailable));
+
         $query->where(
-            $query->expr->eq(
-                $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                $query->bindValue($keyword, null, PDO::PARAM_STR)
-            )
+            $exactMatch ?
+                $query->expr->eq(
+                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
+                    $query->bindValue($keyword, null, PDO::PARAM_STR)
+                ) :
+                $query->expr->like(
+                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
+                    $query->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                )
         );
 
         $statement = $query->prepare();

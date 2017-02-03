@@ -134,7 +134,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads tags by specified keyword.
      *
-     *
      * @param string $keyword The keyword to fetch tags for
      * @param string $language The language to check for
      * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
@@ -164,6 +163,24 @@ class TagsService implements TagsServiceInterface
     public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true)
     {
         return $this->service->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable);
+    }
+
+    /**
+     * Search for tags.
+     *
+     * @param string $searchString Search string
+     * @param string $language The language to search for
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all found tags starting at $offset are returned
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult
+     */
+    public function searchTags($searchString, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    {
+        return $this->service->searchTags($searchString, $language, $useAlwaysAvailable, $offset, $limit);
     }
 
     /**

@@ -190,6 +190,7 @@ class ExceptionConversion extends Gateway
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     * @param bool $exactMatch
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
@@ -197,10 +198,10 @@ class ExceptionConversion extends Gateway
      *
      * @return array
      */
-    public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
     {
         try {
-            return $this->innerGateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $offset, $limit);
+            return $this->innerGateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $exactMatch, $offset, $limit);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -215,15 +216,16 @@ class ExceptionConversion extends Gateway
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     * @param bool $exactMatch
      *
      * @throws \RuntimeException
      *
      * @return int
      */
-    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true)
+    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
     {
         try {
-            return $this->innerGateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable);
+            return $this->innerGateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, $exactMatch);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
