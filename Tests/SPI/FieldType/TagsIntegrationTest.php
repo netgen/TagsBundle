@@ -128,7 +128,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
                     'LegacyStorage' => new TagsLegacyStorage(
                         new LanguageHandlerMock()
                     ),
-                )
+                ),
+                $this->getMock(TagsService::class)
             )
         );
     }

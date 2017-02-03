@@ -2,10 +2,12 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use DateTime;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use eZ\Publish\Core\FieldType\FieldType;
+use eZ\Publish\Core\FieldType\ValidationError;
 use eZ\Publish\Core\FieldType\ValidationError;
 use eZ\Publish\Core\FieldType\Value as BaseValue;
 use eZ\Publish\SPI\FieldType\Value as SPIValue;
@@ -131,24 +133,23 @@ class Type extends FieldType
                 continue;
             }
 
-            $modificationDate = new DateTime();
-            $modificationDate->setTimestamp($hashItem['modified']);
-
-            $tags[] = new Tag(
-                array(
-                    'id' => $hashItem['id'],
-                    'parentTagId' => $hashItem['parent_id'],
-                    'mainTagId' => $hashItem['main_tag_id'],
-                    'keywords' => $hashItem['keywords'],
-                    'depth' => $hashItem['depth'],
-                    'pathString' => $hashItem['path_string'],
-                    'modificationDate' => $modificationDate,
-                    'remoteId' => $hashItem['remote_id'],
-                    'alwaysAvailable' => $hashItem['always_available'],
-                    'mainLanguageCode' => $hashItem['main_language_code'],
-                    'languageCodes' => $hashItem['language_codes'],
-                )
-            );
+            if (!isset($hashItem['id'])) {
+                $tags[] = new Tag(
+                    array(
+                        'parentTagId' => $hashItem['parent_id'],
+                        'keywords' => $hashItem['keywords'],
+                        'mainLanguageCode' => $hashItem['main_language_code'],
+                        'remoteId' => isset($hashItem['remote_id']) ?
+                            $hashItem['remote_id'] :
+                            null,
+                        'alwaysAvailable' => isset($hashItem['always_available']) ?
+                            $hashItem['always_available'] :
+                            true,
+                    )
+                );
+            } else {
+                $tags[] = $this->tagsService->loadTag($hashItem['id']);
+            }
         }
 
         return new Value($tags);
@@ -166,19 +167,29 @@ class Type extends FieldType
         $hash = array();
 
         foreach ($value->tags as $tag) {
-            $hash[] = array(
-                'id' => $tag->id,
-                'parent_id' => $tag->parentTagId,
-                'main_tag_id' => $tag->mainTagId,
-                'keywords' => $tag->keywords,
-                'depth' => $tag->depth,
-                'path_string' => $tag->pathString,
-                'modified' => $tag->modificationDate->getTimestamp(),
-                'remote_id' => $tag->remoteId,
-                'always_available' => $tag->alwaysAvailable,
-                'main_language_code' => $tag->mainLanguageCode,
-                'language_codes' => $tag->languageCodes,
-            );
+            if (empty($tag->id)) {
+                $hash[] = array(
+                    'parent_id' => $tag->parentTagId,
+                    'keywords' => $tag->keywords,
+                    'remote_id' => $tag->remoteId,
+                    'always_available' => $tag->alwaysAvailable,
+                    'main_language_code' => $tag->mainLanguageCode,
+                );
+            } else {
+                $hash[] = array(
+                    'id' => $tag->id,
+                    'parent_id' => $tag->parentTagId,
+                    'main_tag_id' => $tag->mainTagId,
+                    'keywords' => $tag->keywords,
+                    'depth' => $tag->depth,
+                    'path_string' => $tag->pathString,
+                    'modified' => $tag->modificationDate->getTimestamp(),
+                    'remote_id' => $tag->remoteId,
+                    'always_available' => $tag->alwaysAvailable,
+                    'main_language_code' => $tag->mainLanguageCode,
+                    'language_codes' => $tag->languageCodes,
+                );
+            }
         }
 
         return $hash;

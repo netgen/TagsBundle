@@ -5,12 +5,31 @@ namespace Netgen\TagsBundle\Core\FieldType\Tags;
 use eZ\Publish\Core\FieldType\GatewayBasedStorage;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Netgen\TagsBundle\API\Repository\TagsService;
 
 /**
  * Converter for Tags field type external storage.
  */
 class TagsStorage extends GatewayBasedStorage
 {
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\TagsService
+     */
+    protected $tagsService;
+
+    /**
+     * Construct from gateways.
+     *
+     * @param \eZ\Publish\Core\FieldType\StorageGateway[] $gateways
+     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     */
+    public function __construct(array $gateways, TagsService $tagsService)
+    {
+        parent::__construct($gateways);
+
+        $this->tagsService = $tagsService;
+    }
+
     /**
      * Stores value for $field in an external data source.
      *
@@ -27,6 +46,13 @@ class TagsStorage extends GatewayBasedStorage
 
         $gateway->deleteFieldData($versionInfo, array($field->id));
         if (!empty($field->value->externalData)) {
+            foreach ($field->value->externalData as $key => $tag) {
+                if (!isset($tag['id'])) {
+                    $createdTag = $this->createTag($tag);
+                    $field->value->externalData[$key]['id'] = $createdTag->id;
+                }
+            }
+
             $gateway->storeFieldData($versionInfo, $field);
         }
     }
@@ -84,5 +110,34 @@ class TagsStorage extends GatewayBasedStorage
     public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
     {
         return false;
+    }
+
+    /**
+     * Creates a tag from provided data.
+     *
+     * @param array $tagData
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    protected function createTag(array $tagData)
+    {
+        $tagCreateStruct = $this->tagsService->newTagCreateStruct(
+            $tagData['parent_id'],
+            $tagData['main_language_code']
+        );
+
+        foreach ($tagData['keywords'] as $languageCode => $keyword) {
+            $tagCreateStruct->setKeyword($keyword, $languageCode);
+        }
+
+        if (isset($tagData['remote_id'])) {
+            $tagCreateStruct->remoteId = $tagData['remote_id'];
+        }
+
+        if (isset($tagData['always_available'])) {
+            $tagCreateStruct->alwaysAvailable = $tagData['always_available'];
+        }
+
+        return $this->tagsService->createTag($tagCreateStruct);
     }
 }
