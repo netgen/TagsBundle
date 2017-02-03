@@ -121,6 +121,7 @@ class TreeController extends Controller
             ),
             'a_attr' => array(
                 'href' => $this->treeLinks['top_level_tags'],
+                'rel' => '0',
             ),
             'data' => array(
                 'context_menu' => array(
@@ -153,6 +154,7 @@ class TreeController extends Controller
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'a_attr' => array(
                 'href' => str_replace(':tagId', $tag->id, $this->treeLinks['show_tag']),
+                'rel' => $tag->id,
             ),
             'state' => array(
                 'opened' => $isRoot,
