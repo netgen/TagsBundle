@@ -239,8 +239,8 @@
     maxTags: 0, // ++
     isFilter: false,
     hasAddAccess: false, //++
-    autocompleteUrl: '/tags/admin/search/autocomplete', //++
-    suggestUrl: '/tags/admin/search/suggest', //++
+    autocompleteUrl: '/tags/admin/field/autocomplete', //++
+    suggestUrl: '/tags/admin/field/suggest', //++
     locale: null, //++
     iconPath: null, //++
     sortable: true,
@@ -380,12 +380,11 @@
     this.last_search_string = search_string;
 
     $.get(this.opts.autocompleteUrl, {
-      search_string: search_string,
-      subtree_limit: this.opts.subtreeLimit,
-      hide_root_tag: this.opts.hideRootTag,
+      searchString: search_string,
+      subTreeLimit: this.opts.subtreeLimit,
+      hideRootTag: this.opts.hideRootTag,
       locale: this.opts.locale
     }, $.proxy(this.after_fetch_autocomplete, this));
-
 
     //$.get('autocomplete.json', $.proxy(this.after_fetch_autocomplete, this));
   };
@@ -396,7 +395,7 @@
    * @param  {object} data Object containing fetch tags.
    */
   Base.prototype.after_fetch_autocomplete = function(data) {
-    var tags = data.content.tags, self = this, tag;
+    var tags = data, self = this, tag;
     tags = tags.slice(0, this.opts.maxResults); //TODO: shouldn't administration take care of this?
     this.$autocomplete_tags.empty().parent().hide();
 

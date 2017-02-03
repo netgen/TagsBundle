@@ -1,0 +1,5 @@
+netgen_tags_admin_field_autocomplete:
+    path: /autocomplete
+    defaults:
+        _controller: eztags.admin.controller.field:autoCompleteAction
+        _method: GET
