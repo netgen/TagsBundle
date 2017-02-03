@@ -3,5 +3,8 @@ system:
         javascript:
             files:
                 - bundles/netgentags/vendor/jquery/dist/jquery.min.js
+                - bundles/netgentags/admin/js/field/jquery-ui.min.js
                 - bundles/netgentags/admin/jstree/js/jstree.min.js
+                - bundles/netgentags/admin/js/field/jqmodal.js
+                - bundles/netgentags/admin/js/field/jquery.eztags.js
                 - bundles/netgentags/admin/js/app.js

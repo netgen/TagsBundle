@@ -1,0 +1,19 @@
+div.whiteOverlay {background:white;}
+
+.ng-tags-input-ui div.jqmDialog {display:none; position:fixed; top:17%; left:50%; width:400px;}
+.ng-tags-input-ui div.jqmdIn {position:relative; left:-200px; padding:10px;}
+
+.ng-tags-input-ui div.jqmdTC {height:23px; font-size:11px; color:white; font-weight:bold; margin:0 6px; position:relative;
+  background:url(../../images/jqmodal/horizontal.gif) repeat-x left -23px;}
+.ng-tags-input-ui span.jqmdTCLeft {display:block; height:23px; width:6px; position:absolute; top:0; left:-6px; background:url(../../images/jqmodal/corners.gif) no-repeat -6px top;}
+.ng-tags-input-ui span.jqmdTCRight {display:block; height:23px; width:6px; position:absolute; top:0; right:-6px; background:url(../../images/jqmodal/corners.gif) no-repeat -18px top;}
+.ng-tags-input-ui span.jqDrag {cursor:move; display:block; height:23px; line-height:23px; margin:0 35px 0 0; padding:0 0 0 35px; text-align:center;}
+
+.ng-tags-input-ui div.jqmdBL {border:1px solid black; border-top:none; padding:0 1px 1px 1px; background:white;}
+.ng-tags-input-ui div.jqmdBR {border:2px solid #efebe7; border-top:none;}
+.ng-tags-input-ui div.jqmdBC {border:1px solid #b5a69c; border-top:none; background:#f0f0ee; padding:8px; overflow:auto; max-height:350px;}
+.ng-tags-input-ui div.jqmdBCIn {border:1px solid #919b9c; padding:13px; background:#e6e6e6;}
+
+.ng-tags-input-ui a.jqmdX {display:block; height:16px; width:29px; position: absolute; right:16px; top:14px; cursor:pointer; outline:none;
+    background:url(../../images/jqmodal/buttons.gif) no-repeat -87px -16px;}
+.ng-tags-input-ui a.jqmdX:hover {background-position:-87px -32px;}

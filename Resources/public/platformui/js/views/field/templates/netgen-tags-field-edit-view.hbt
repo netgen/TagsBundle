@@ -1,0 +1,55 @@
+<div class="pure-g ez-editfield-row ez-asynchronousview">
+    <div class="pure-u ez-editfield-infos">
+        <label for="ez-field-{{ content.contentId }}-{{ fieldDefinition.identifier }}">
+            <p class="ez-fielddefinition-name">
+                {{ translate_property fieldDefinition.names }}{{#if isRequired}}*{{/if}}:
+            </p>
+            <p class="ez-editfield-error-message">&nbsp;</p>
+            <p class="ez-field-description is-showing-description">
+                {{ translate_property fieldDefinition.descriptions }}
+            </p>
+        </label>
+    </div>
+
+    <div class="pure-u ez-editfield-input-area ez-default-error-style">
+        <div class="ez-editfield-input"><div class="ng-tags-input-ui">
+            <div class="eztags-wrapper">
+                <div id="eztags{{field.id}}" class="tagssuggest"
+                    data-eztags
+                    data-builder="{{editView}}"
+                    data-max-results="24"
+                    data-has-add-access="1"
+                    data-subtree-limit="0"
+                    data-hide-root-tag="{{#if hideRootTag}}1{{else}}0{{/if}}"
+                    data-max-tags="{{maxTags}}"
+                    data-locale="{{field.languageCode}}"
+                    data-icon-path=""
+                    >
+                    <input class="tagnames" type="hidden" value="{{tagNames}}" />
+                    <input class="tagpids" type="hidden" value="{{tagPids}}" />
+                    <input class="tagids" type="hidden" value="{{tagIds}}" />
+                    <input class="taglocales" type="hidden" value="{{tagLocales}}" />
+                </div>
+            </div>
+
+            <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{{field.id}}">
+                <div class="jqmdIn">
+                    <div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">Select tag</span><span class="jqmdTCRight"></span></div>
+                    <div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
+                        <div class="modal-tree">
+                            <div
+                                class="tags-tree"
+                                data-path="/tags/admin/tree/get/_tagId_"
+                                data-rootTagId="{{subTreeLimit}}"
+                                data-showRootTag="true"
+                                data-selectedTagPath=""
+                                data-disableSubtree=""
+                            ></div>
+                        </div>
+                    </div></div></div></div>
+                    <a href="#" class="jqmdX jqmClose"></a>
+                </div>
+            </div>
+        </div></div>
+    </div>
+</div>

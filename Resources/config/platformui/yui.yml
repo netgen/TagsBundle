@@ -38,3 +38,12 @@ system:
                     path: bundles/netgentags/platformui/js/views/field/templates/netgen-tags-field-view.hbt
                 ez-rawcontentview:
                     requires: ['netgen-tags-field-view']
+
+                netgen-tags-field-edit-view:
+                    requires: ['ez-fieldeditview', 'netgentagsfieldeditview-ez-template']
+                    path: bundles/netgentags/platformui/js/views/field/netgen-tags-field-edit-view.js
+                netgentagsfieldeditview-ez-template:
+                    type: template
+                    path: bundles/netgentags/platformui/js/views/field/templates/netgen-tags-field-edit-view.hbt
+                ez-contenteditformview:
+                    requires: ['netgen-tags-field-edit-view']
