@@ -647,11 +647,12 @@
       modal:true,
       overlay:60,
       overlayClass: 'whiteOverlay',
-      onShow: function(){
+      onShow: function(hash){
         self.tree_picker_open = true;
         $.jqm.params.onShow.apply(this, arguments);
+        hash.o.insertAfter(self.$tree_picker_element);
       },
-      onHide: function(){
+      onHide: function(hash){
         self.tree_picker_open = false;
         $.jqm.params.onHide.apply(this, arguments);
       }
