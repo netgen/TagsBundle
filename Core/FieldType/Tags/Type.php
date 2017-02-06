@@ -148,7 +148,11 @@ class Type extends FieldType
                     )
                 );
             } else {
-                $tags[] = $this->tagsService->loadTag($hashItem['id']);
+                try {
+                    $tags[] = $this->tagsService->loadTag($hashItem['id']);
+                } catch (NotFoundException $e) {
+                    // We ignore and do not load tags which do not exist
+                }
             }
         }
 
