@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
+use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use eZ\Publish\Core\FieldType\GatewayBasedStorage;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
@@ -46,10 +47,17 @@ class TagsStorage extends GatewayBasedStorage
 
         $gateway->deleteFieldData($versionInfo, array($field->id));
         if (!empty($field->value->externalData)) {
-            foreach ($field->value->externalData as $key => $tag) {
+            $externalData = $field->value->externalData;
+            foreach ($externalData as $key => $tag) {
                 if (!isset($tag['id'])) {
-                    $createdTag = $this->createTag($tag);
-                    $field->value->externalData[$key]['id'] = $createdTag->id;
+                    try {
+                        $createdTag = $this->createTag($tag);
+                        $field->value->externalData[$key]['id'] = $createdTag->id;
+                    } catch (UnauthorizedException $e) {
+                        // If users cannot create tags, just remove it from
+                        // the list of tags to be created
+                        unset($field->value->externalData[$key]);
+                    }
                 }
             }
 
