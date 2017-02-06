@@ -104,12 +104,12 @@ class TagController extends Controller
 
         $data += array(
             'tag' => $tag,
-            'latestContent' => $this->getLatestContent($tag, 10),
+            'latestContent' => $this->getLatestContent($tag),
         );
 
         if (!$tag->isSynonym()) {
             $data += array(
-                'synonyms' => $this->tagsService->loadTagSynonyms($tag, 0, 10),
+                'synonyms' => $this->tagsService->loadTagSynonyms($tag),
                 'subTreeLimitations' => $this->getSubtreeLimitations($tag),
             );
         }
@@ -780,11 +780,10 @@ class TagController extends Controller
      * Return latest content using eZ search service.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param int $limit
      *
      * @return array
      */
-    protected function getLatestContent(Tag $tag, $limit)
+    protected function getLatestContent(Tag $tag)
     {
         $query = new Query();
 
@@ -793,7 +792,7 @@ class TagController extends Controller
         );
 
         $query->filter = new Criterion\LogicalAnd($criteria);
-        $query->limit = $limit;
+        $query->limit = 10;
 
         $query->sortClauses = array(
             new Query\SortClause\DatePublished(Query::SORT_DESC),
