@@ -24,6 +24,11 @@ Implemented features
 * Admin interface (standalone, as well integrated into Platform UI)
 * REST interface
 
+Credits
+-------
+
+Release 3.0 of this bundle was backed in [crowdfunding campaign](https://www.indiegogo.com/projects/netgen-tags-bundle-support-for-ez-platform-ui--3) by [Netmaking AS](https://netmaking.no), [Greater Stavanger](http://www.greaterstavanger.com) and others.
+
 License and installation instructions
 -------------------------------------
 
