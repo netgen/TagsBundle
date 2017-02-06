@@ -14,7 +14,7 @@
     <div class="pure-u ez-editfield-input-area ez-default-error-style">
         <div class="ez-editfield-input"><div class="ng-tags-input-ui">
             <div class="eztags-wrapper">
-                <div id="eztags{{field.id}}" class="tagssuggest"
+                <div id="eztags{{fieldDefinition.id}}" class="tagssuggest"
                     data-eztags
                     data-builder="{{editView}}"
                     data-max-results="24"
@@ -22,7 +22,7 @@
                     data-subtree-limit="0"
                     data-hide-root-tag="{{#if hideRootTag}}1{{else}}0{{/if}}"
                     data-max-tags="{{maxTags}}"
-                    data-locale="{{field.languageCode}}"
+                    data-locale="{{languageCode}}"
                     data-icon-path=""
                     >
                     <input class="tagnames" type="hidden" value="{{tagNames}}" />
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{{field.id}}">
+            <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{{fieldDefinition.id}}">
                 <div class="jqmdIn">
                     <div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">Select tag</span><span class="jqmdTCRight"></span></div>
                     <div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">

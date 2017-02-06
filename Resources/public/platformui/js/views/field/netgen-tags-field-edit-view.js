@@ -8,7 +8,7 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
             this.after('activeChange', function (e) {
                 if (this.get('active')) {
                     this.initTagsTranslations();
-                    jQuery('#eztags' + this.get('field').id).EzTags();
+                    jQuery('#eztags' + this.get('fieldDefinition').id).EzTags();
                     ngTagsInit();
                 }
             });
@@ -44,6 +44,8 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
                 maxTags: fieldSettings.maxTags,
                 subTreeLimit: fieldSettings.subTreeLimit,
 
+                languageCode: this.get('languageCode'),
+
                 tagNames: this.get('tagNames'),
                 tagPids: this.get('tagPids'),
                 tagIds: this.get('tagIds'),
@@ -52,7 +54,7 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
         },
 
         _getFieldValue: function () {
-            var container = Y.one('#eztags' + this.get('field').id);
+            var container = Y.one('#eztags' + this.get('fieldDefinition').id);
 
             var tagIds = container.one('.tagids').get('value').split('|#');
             var tagPids = container.one('.tagpids').get('value').split('|#');
@@ -87,9 +89,10 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
             tagNames: {
                 valueFn: function () {
                     var field = this.get('field');
+                    var languageCode = this.get('languageCode');
                     return field.fieldValue.map(function(elem) {
-                        if (elem.keywords.hasOwnProperty(field.languageCode)) {
-                            return elem.keywords[field.languageCode];
+                        if (elem.keywords.hasOwnProperty(languageCode)) {
+                            return elem.keywords[languageCode];
                         }
 
                         return elem.keywords[elem.main_language_code];
@@ -116,9 +119,10 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
             tagLocales: {
                 valueFn: function () {
                     var field = this.get('field');
+                    var languageCode = this.get('languageCode');
                     return field.fieldValue.map(function(elem) {
-                        if (elem.keywords.hasOwnProperty(field.languageCode)) {
-                            return field.languageCode;
+                        if (elem.keywords.hasOwnProperty(languageCode)) {
+                            return languageCode;
                         }
 
                         return elem.main_language_code;
