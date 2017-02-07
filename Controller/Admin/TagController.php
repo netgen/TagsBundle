@@ -87,8 +87,15 @@ class TagController extends Controller
         $data = array();
 
         if (!$tag instanceof Tag || !$tag->isSynonym()) {
+            $configResolver = $this->getConfigResolver();
+
             $currentPage = (int)$request->query->get('page');
-            $pager = $this->createPager($this->tagChildrenAdapter, $currentPage, 25, $tag);
+            $pager = $this->createPager(
+                $this->tagChildrenAdapter,
+                $currentPage,
+                $configResolver->getParameter('admin.children_limit', 'eztags'),
+                $tag
+            );
 
             $data += array(
                 'childrenTags' => $pager,

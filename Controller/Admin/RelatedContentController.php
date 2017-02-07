@@ -14,11 +14,6 @@ class RelatedContentController extends Controller
     protected $adapter;
 
     /**
-     * @var int
-     */
-    protected $pagerLimit = 25;
-
-    /**
      * Constructor.
      *
      * @param \Pagerfanta\Adapter\AdapterInterface $adapter
@@ -26,16 +21,6 @@ class RelatedContentController extends Controller
     public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
-    }
-
-    /**
-     * Sets the pager limit.
-     *
-     * @param int $pagerLimit
-     */
-    public function setPagerLimit($pagerLimit)
-    {
-        $this->pagerLimit = (int)$pagerLimit;
     }
 
     /**
@@ -51,7 +36,14 @@ class RelatedContentController extends Controller
         $this->denyAccessUnlessGranted('ez:tags:read');
 
         $currentPage = (int)$request->query->get('page');
-        $pager = $this->createPager($this->adapter, $currentPage, $this->pagerLimit, $tag);
+        $configResolver = $this->getConfigResolver();
+
+        $pager = $this->createPager(
+            $this->adapter,
+            $currentPage,
+            $configResolver->getParameter('admin.related_content_limit', 'eztags'),
+            $tag
+        );
 
         return $this->render(
             'NetgenTagsBundle:admin/tag:related_content.html.twig',

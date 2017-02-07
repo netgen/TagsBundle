@@ -34,3 +34,9 @@ parameters:
 
     # Default pagelayout template for admin interface
     eztags.default.admin.pagelayout: 'NetgenTagsBundle:admin:pagelayout.html.twig'
+
+    # Limit to tag children list in admin interface
+    eztags.default.admin.children_limit: 25
+
+    # Limit to tag related content list in admin interface
+    eztags.default.admin.related_content_limit: 25
