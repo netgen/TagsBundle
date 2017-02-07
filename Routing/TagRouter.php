@@ -153,7 +153,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param string|\Netgen\TagsBundle\API\Repository\Values\Tags\Tag $name The name of the route or a Tag instance
      * @param mixed $parameters An array of parameters
-     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
+     * @param int $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \LogicException
      * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
