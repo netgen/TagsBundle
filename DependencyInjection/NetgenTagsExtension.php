@@ -85,7 +85,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
                 $c->setContextualParameter('admin.pagelayout', $scope, $config['admin']['pagelayout']);
                 $c->setContextualParameter('admin.children_limit', $scope, $config['admin']['children_limit']);
                 $c->setContextualParameter('admin.related_content_limit', $scope, $config['admin']['related_content_limit']);
-                $c->setContextualParameter('admin.field.autocomplete_limit', $scope, $config['admin']['field']['autocomplete_limit']);
+                $c->setContextualParameter('field.autocomplete_limit', $scope, $config['field']['autocomplete_limit']);
             }
         );
 
