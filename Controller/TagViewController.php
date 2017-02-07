@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\Controller;
 
 use Netgen\TagsBundle\View\TagView;
-use eZ\Bundle\EzPublishCoreBundle\Controller;
 
 class TagViewController extends Controller
 {
