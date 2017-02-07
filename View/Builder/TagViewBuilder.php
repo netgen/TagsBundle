@@ -11,6 +11,8 @@ use eZ\Publish\Core\MVC\Symfony\View\ParametersInjector;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\View\TagView;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TagViewBuilder implements ViewBuilder
 {
@@ -35,23 +37,31 @@ class TagViewBuilder implements ViewBuilder
     protected $configResolver;
 
     /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
+    /**
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      * @param \eZ\Publish\Core\MVC\Symfony\View\Configurator $viewConfigurator
      * @param \eZ\Publish\Core\MVC\Symfony\View\ParametersInjector $viewParametersInjector
      * @param \eZ\Publish\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         TagsService $tagsService,
         Configurator $viewConfigurator,
         ParametersInjector $viewParametersInjector,
-        ConfigResolverInterface $configResolver
+        ConfigResolverInterface $configResolver,
+        AuthorizationCheckerInterface $authorizationChecker
     ) {
         $this->tagsService = $tagsService;
         $this->viewConfigurator = $viewConfigurator;
         $this->viewParametersInjector = $viewParametersInjector;
         $this->configResolver = $configResolver;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -72,11 +82,16 @@ class TagViewBuilder implements ViewBuilder
      * @param array $parameters
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the tag cannot be loaded
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException If user does not have access to tags/view policy
      *
      * @return \eZ\Publish\Core\MVC\Symfony\View\View An implementation of the View interface
      */
     public function buildView(array $parameters)
     {
+        if (!$this->authorizationChecker->isGranted('ez:tags:view')) {
+            throw new AccessDeniedException();
+        }
+
         $view = new TagView();
         if (!empty($parameters['viewType'])) {
             $view->setViewType($parameters['viewType']);

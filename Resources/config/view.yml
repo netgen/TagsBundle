@@ -29,6 +29,7 @@ services:
             - "@ezpublish.view.configurator"
             - "@ezpublish.view.view_parameters.injector.dispatcher"
             - "@ezpublish.config.resolver"
+            - "@security.authorization_checker"
 
     eztags.view.tag_matcher_factory:
         class: Netgen\TagsBundle\Matcher\TagMatcherFactory
