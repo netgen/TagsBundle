@@ -75,10 +75,6 @@ class CachedViewResponseListener implements EventSubscriberInterface
             $response->setSharedMaxAge($this->defaultTtl);
         }
 
-        if (!$response->headers->has('Last-Modified')) {
-            $response->setLastModified($tag->modificationDate);
-        }
-
         // We stop the propagation here so default cache view listener wouldn't mess with our view object.
         // All listeners that modify the cache for tag view object should run before this event
         $event->stopPropagation();
