@@ -1,7 +1,5 @@
 tags:
     read: ~
-    dashboard: ~
-    id: ~
     view: ~
     add: [Tag]
     addsynonym: ~
@@ -11,4 +9,3 @@ tags:
     deletesynonym: ~
     makesynonym: ~
     merge: ~
-    search: ~
