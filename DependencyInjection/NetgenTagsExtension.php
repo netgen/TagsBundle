@@ -57,7 +57,35 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
             $loader->load('storage_engines/legacy/search_query_handlers.yml');
         }
 
+        $this->processSemanticConfig($container, $config);
+    }
+
+    /**
+     * Processes semantic config and translates it to container parameters.
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     */
+    protected function processSemanticConfig(ContainerBuilder $container, $config)
+    {
         $processor = new ConfigurationProcessor($container, 'eztags');
+        $processor->mapConfig(
+            $config,
+            function ($config, $scope, ContextualizerInterface $c) {
+                $c->setContextualParameter('tag_view.cache', $scope, $config['tag_view']['cache']);
+                $c->setContextualParameter('tag_view.ttl_cache', $scope, $config['tag_view']['ttl_cache']);
+                $c->setContextualParameter('tag_view.default_ttl', $scope, $config['tag_view']['default_ttl']);
+                $c->setContextualParameter('tag_view.template', $scope, $config['tag_view']['template']);
+                $c->setContextualParameter('tag_view.pagelayout', $scope, $config['tag_view']['pagelayout']);
+                $c->setContextualParameter('tag_view.path_prefix', $scope, $config['tag_view']['path_prefix']);
+                $c->setContextualParameter('tag_view.related_content_list.limit', $scope, $config['tag_view']['related_content_list']['limit']);
+
+                $c->setContextualParameter('routing.enable_tag_router', $scope, $config['routing']['enable_tag_router']);
+
+                $c->setContextualParameter('admin.pagelayout', $scope, $config['admin']['pagelayout']);
+                $c->setContextualParameter('admin.field.autocomplete_limit', $scope, $config['admin']['field']['autocomplete_limit']);
+            }
+        );
 
         $processor->mapConfigArray('tag_view_match', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
         $processor->mapConfigArray('edit_views', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
