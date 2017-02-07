@@ -163,7 +163,7 @@ EOT
                     ->integerNode('autocomplete_limit')
                         ->info('Limit to autocomplete list in field edit interface')
                         ->min(0)
-                        ->defaultValue(24)
+                        ->defaultValue(25)
                     ->end()
                 ->end()
             ->end();

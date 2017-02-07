@@ -49,4 +49,4 @@ parameters:
     eztags.default.admin.related_content_limit: 25
 
     # Limit to autocomplete list in field edit interface
-    eztags.default.field.autocomplete_limit: 24
+    eztags.default.field.autocomplete_limit: 25
