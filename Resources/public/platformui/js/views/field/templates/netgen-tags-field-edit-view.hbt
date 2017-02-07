@@ -16,9 +16,10 @@
             <div class="eztags-wrapper">
                 <div id="eztags{{fieldDefinition.id}}" class="tagssuggest"
                     data-eztags
+                    data-autocomplete-url="{{tagsConfig.field.urls.autoComplete}}"
                     data-builder="{{editView}}"
-                    data-max-results="24"
-                    data-has-add-access="1"
+                    data-max-results="{{tagsConfig.field.autoCompleteLimit}}"
+                    data-has-add-access="{{#if tagsConfig.field.hasAddAccess}}1{{else}}0{{/if}}"
                     data-subtree-limit="0"
                     data-hide-root-tag="{{#if hideRootTag}}1{{else}}0{{/if}}"
                     data-max-tags="{{maxTags}}"
@@ -39,7 +40,7 @@
                         <div class="modal-tree">
                             <div
                                 class="tags-tree"
-                                data-path="/tags/admin/tree/get/_tagId_"
+                                data-path="{{tagsConfig.field.urls.treeChildren}}"
                                 data-rootTagId="{{subTreeLimit}}"
                                 data-showRootTag="true"
                                 data-selectedTagPath=""

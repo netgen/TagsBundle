@@ -35,17 +35,15 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
 
         _variables: function () {
             var fieldSettings = this.get('fieldDefinition').fieldSettings;
+            var tagsConfig = this.get('config').netgenTags;
 
             return {
-                editView: fieldSettings.editView !== '' ?
-                    fieldSettings.editView :
-                    'Default',
+                tagsConfig: tagsConfig,
+                editView: fieldSettings.editView || 'Default',
                 hideRootTag: fieldSettings.hideRootTag,
                 maxTags: fieldSettings.maxTags,
                 subTreeLimit: fieldSettings.subTreeLimit,
-
                 languageCode: this.get('languageCode'),
-
                 tagNames: this.get('tagNames'),
                 tagPids: this.get('tagPids'),
                 tagIds: this.get('tagIds'),

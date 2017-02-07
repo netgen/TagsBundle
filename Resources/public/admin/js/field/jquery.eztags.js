@@ -239,8 +239,8 @@
     maxTags: 0, // ++
     isFilter: false,
     hasAddAccess: false, //++
-    autocompleteUrl: '/tags/admin/field/autocomplete', //++
-    suggestUrl: '/tags/admin/field/suggest', //++
+    autocompleteUrl: null, //++
+    suggestUrl: null, //++
     locale: null, //++
     iconPath: null, //++
     sortable: true,
