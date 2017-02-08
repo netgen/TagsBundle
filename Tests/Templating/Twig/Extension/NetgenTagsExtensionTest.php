@@ -56,22 +56,22 @@ class NetgenTagsExtensionTest extends PHPUnit_Framework_TestCase
     {
         $this->tagsService = $this->getMockBuilder(TagsService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadTag'])
+            ->setMethods(array('loadTag'))
             ->getMock();
 
         $this->translationHelper = $this->getMockBuilder(TranslationHelper::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getTranslatedByMethod'])
+            ->setMethods(array('getTranslatedByMethod'))
             ->getMock();
 
         $this->languageService = $this->getMockBuilder(LanguageService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadLanguage'])
+            ->setMethods(array('loadLanguage'))
             ->getMock();
 
         $this->contentTypeService = $this->getMockBuilder(ContentTypeService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadContentType'])
+            ->setMethods(array('loadContentType'))
             ->getMock();
 
         $this->extension = new NetgenTagsExtension(

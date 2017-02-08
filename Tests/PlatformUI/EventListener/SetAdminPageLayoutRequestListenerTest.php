@@ -52,7 +52,14 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
             ->setMethods(array('isMasterRequest', 'getRequest'))
             ->getMock();
 
-        $this->request = new Request(array(), array(), array('_route' => 'netgen_tags_admin'), array(), array(), array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest'));
+        $this->request = new Request(
+            array(),
+            array(),
+            array('_route' => 'netgen_tags_admin'),
+            array(),
+            array(),
+            array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest')
+        );
 
         $this->listener = new SetAdminPageLayoutRequestListener($this->globalVariable, $this->pageLayoutTemplate);
     }

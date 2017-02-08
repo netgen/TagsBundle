@@ -54,7 +54,14 @@ class RedirectResponseListenerTest extends TestCase
             ->setMethods(array('isRedirect', 'setStatusCode'))
             ->getMock();
 
-        $this->platformUiRequest = new Request(array(), array(), array('_route' => 'netgen_tags_admin'), array(), array(), array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest'));
+        $this->platformUiRequest = new Request(
+            array(),
+            array(),
+            array('_route' => 'netgen_tags_admin'),
+            array(),
+            array(),
+            array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest')
+        );
 
         $this->event = $this->getMockBuilder(FilterResponseEvent::class)
             ->disableOriginalConstructor()
