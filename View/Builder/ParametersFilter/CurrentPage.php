@@ -3,10 +3,10 @@
 namespace Netgen\TagsBundle\View\Builder\ParametersFilter;
 
 use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
+use eZ\Publish\Core\MVC\Symfony\View\ViewEvents as ViewEvents;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Netgen\TagsBundle\Routing\TagRouter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use eZ\Publish\Core\MVC\Symfony\View\ViewEvents as ViewEvents;
 
 class CurrentPage implements EventSubscriberInterface
 {
@@ -36,6 +36,6 @@ class CurrentPage implements EventSubscriberInterface
             return;
         }
 
-        $parameterBag->set('page', (int)$event->getRequest()->get('page', 1));
+        $parameterBag->set('page', (int) $event->getRequest()->get('page', 1));
     }
 }

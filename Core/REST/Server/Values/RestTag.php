@@ -2,8 +2,8 @@
 
 namespace Netgen\TagsBundle\Core\REST\Server\Values;
 
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use eZ\Publish\Core\REST\Common\Value;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 class RestTag extends Value
 {

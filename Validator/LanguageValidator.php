@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Validator;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LanguageService;
 use Netgen\TagsBundle\Validator\Constraints\Language;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use Symfony\Component\Validator\ConstraintValidator;
 
 class LanguageValidator extends ConstraintValidator
 {
@@ -48,7 +48,7 @@ class LanguageValidator extends ConstraintValidator
         try {
             $this->languageService->loadLanguage($value);
         } catch (NotFoundException $e) {
-            /** @var \Netgen\TagsBundle\Validator\Constraints\Language $constraint */
+            /* @var \Netgen\TagsBundle\Validator\Constraints\Language $constraint */
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%languageCode%', $value)
                 ->addViolation();

@@ -2,13 +2,13 @@
 
 namespace Netgen\TagsBundle\Core\REST\Server\Controller;
 
-use eZ\Publish\Core\REST\Server\Controller as RestController;
-use eZ\Publish\Core\REST\Common\Message;
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\REST\Common\Exceptions;
+use eZ\Publish\Core\REST\Common\Message;
+use eZ\Publish\Core\REST\Server\Controller as RestController;
 use eZ\Publish\Core\REST\Server\Exceptions\BadRequestException;
 use eZ\Publish\Core\REST\Server\Exceptions\ForbiddenException;
 use eZ\Publish\Core\REST\Server\Values as BaseValues;
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Server\Values;
 use Symfony\Component\HttpFoundation\Request;
@@ -113,8 +113,8 @@ class Tags extends RestController
      */
     public function loadTagsByKeyword($keyword, $language, Request $request)
     {
-        $offset = $request->query->has('offset') ? (int)$request->query->get('offset') : 0;
-        $limit = $request->query->has('limit') ? (int)$request->query->get('limit') : 25;
+        $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
 
         $tags = $this->tagsService->loadTagsByKeyword(
             $keyword,
@@ -148,8 +148,8 @@ class Tags extends RestController
      */
     public function loadTagChildren($tagPath, Request $request)
     {
-        $offset = $request->query->has('offset') ? (int)$request->query->get('offset') : 0;
-        $limit = $request->query->has('limit') ? (int)$request->query->get('limit') : 25;
+        $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
 
         $tagId = $this->extractTagIdFromPath($tagPath);
         $children = $this->tagsService->loadTagChildren(
@@ -184,8 +184,8 @@ class Tags extends RestController
      */
     public function loadTagSynonyms($tagPath, Request $request)
     {
-        $offset = $request->query->has('offset') ? (int)$request->query->get('offset') : 0;
-        $limit = $request->query->has('limit') ? (int)$request->query->get('limit') : 25;
+        $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
 
         $tagId = $this->extractTagIdFromPath($tagPath);
         $synonyms = $this->tagsService->loadTagSynonyms(
@@ -218,8 +218,8 @@ class Tags extends RestController
      */
     public function getRelatedContent($tagPath, Request $request)
     {
-        $offset = $request->query->has('offset') ? (int)$request->query->get('offset') : 0;
-        $limit = $request->query->has('limit') ? (int)$request->query->get('limit') : 25;
+        $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
 
         $tagId = $this->extractTagIdFromPath($tagPath);
         $relatedContent = $this->tagsService->getRelatedContent(

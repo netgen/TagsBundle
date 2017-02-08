@@ -2,13 +2,13 @@
 
 namespace Netgen\TagsBundle\View\Provider;
 
-use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\MVC\Symfony\View\ViewProvider;
 use Netgen\TagsBundle\View\TagView;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
 class TagViewProvider implements ViewProvider, SiteAccessAware
 {
@@ -44,6 +44,18 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
     }
 
     /**
+     * Changes the site access.
+     *
+     * @param \eZ\Publish\Core\MVC\Symfony\SiteAccess $siteAccess
+     */
+    public function setSiteAccess(SiteAccess $siteAccess = null)
+    {
+        if ($this->matcherFactory instanceof SiteAccessAware) {
+            $this->matcherFactory->setSiteAccess($siteAccess);
+        }
+    }
+
+    /**
      * Builds a TagView object from $viewConfig.
      *
      * @param array $viewConfig
@@ -64,17 +76,5 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
         }
 
         return $view;
-    }
-
-    /**
-     * Changes the site access.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\SiteAccess $siteAccess
-     */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
-    {
-        if ($this->matcherFactory instanceof SiteAccessAware) {
-            $this->matcherFactory->setSiteAccess($siteAccess);
-        }
     }
 }

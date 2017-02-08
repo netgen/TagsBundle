@@ -5,8 +5,8 @@ namespace Netgen\TagsBundle\Validator\Structs;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct as TagCreateStructConstraint;
 use Netgen\TagsBundle\Validator\Constraints\Tag;
-use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class TagCreateStructValidator extends CreateStructValidator

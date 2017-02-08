@@ -3,12 +3,12 @@
 namespace Netgen\TagsBundle\ApiLoader;
 
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class LegacyTagsHandlerFactory implements ContainerAwareInterface
 {

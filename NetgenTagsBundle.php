@@ -2,10 +2,10 @@
 
 namespace Netgen\TagsBundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Netgen\TagsBundle\DependencyInjection\Compiler\TagViewBuilderPass;
 use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProvider;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class NetgenTagsBundle extends Bundle
 {

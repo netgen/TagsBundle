@@ -2,9 +2,9 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content;
 
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use eZ\Publish\SPI\Persistence\Content\Language;
 use eZ\Publish\SPI\Persistence\Content\Language\CreateStruct;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 
 /**
  * Simple mock for a Language\Handler.

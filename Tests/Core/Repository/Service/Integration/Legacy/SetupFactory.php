@@ -25,7 +25,7 @@ class SetupFactory extends APILegacySetupFactory
             /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
             $containerBuilder = include $config['container_builder_path'];
 
-            /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
+            /* @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
             $loader->load('search_engines/legacy.yml');
             $loader->load('tests/integration_legacy_core.yml');
             $loader->load(__DIR__ . '/../../../../../../Tests/settings/settings.yml');

@@ -2,16 +2,16 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\API\Repository\TagsService;
-use eZ\Publish\Core\FieldType\FieldType;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use DateTime;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use eZ\Publish\Core\FieldType\FieldType;
+use eZ\Publish\Core\FieldType\ValidationError;
+use eZ\Publish\Core\FieldType\Value as BaseValue;
+use eZ\Publish\SPI\FieldType\Value as SPIValue;
+use eZ\Publish\SPI\Persistence\Content\FieldValue;
+use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 /**
  * Tags field type.
@@ -98,7 +98,7 @@ class Type extends FieldType
      */
     public function getName(SPIValue $value)
     {
-        return (string)$value;
+        return (string) $value;
     }
 
     /**
@@ -109,57 +109,6 @@ class Type extends FieldType
     public function getEmptyValue()
     {
         return new Value();
-    }
-
-    /**
-     * Inspects given $inputValue and potentially converts it into a dedicated value object.
-     *
-     * @param mixed $inputValue
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value
-     */
-    protected function createValueFromInput($inputValue)
-    {
-        if (is_array($inputValue)) {
-            foreach ($inputValue as $inputValueItem) {
-                if (!$inputValueItem instanceof Tag) {
-                    return $inputValue;
-                }
-            }
-
-            $inputValue = new Value($inputValue);
-        }
-
-        return $inputValue;
-    }
-
-    /**
-     * Throws an exception if value structure is not of expected format.
-     *
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure
-     */
-    protected function checkValueStructure(BaseValue $value)
-    {
-        if (!is_array($value->tags)) {
-            throw new InvalidArgumentType(
-                '$value->tags',
-                'array',
-                $value->tags
-            );
-        }
-
-        foreach ($value->tags as $tag) {
-            if (!$tag instanceof Tag) {
-                throw new InvalidArgumentType(
-                    "$tag",
-                    Value::class,
-                    $tag
-                );
-            }
-        }
     }
 
     /**
@@ -233,18 +182,6 @@ class Type extends FieldType
         }
 
         return $hash;
-    }
-
-    /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return bool
-     */
-    protected function getSortInfo(BaseValue $value)
-    {
-        return false;
     }
 
     /**
@@ -366,7 +303,7 @@ class Type extends FieldType
                     }
                     break;
                 case 'maxTags':
-                    if (!is_integer($value)) {
+                    if (!is_int($value)) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of integer type",
                             null,
@@ -429,5 +366,68 @@ class Type extends FieldType
     public function isSearchable()
     {
         return true;
+    }
+
+    /**
+     * Inspects given $inputValue and potentially converts it into a dedicated value object.
+     *
+     * @param mixed $inputValue
+     *
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value
+     */
+    protected function createValueFromInput($inputValue)
+    {
+        if (is_array($inputValue)) {
+            foreach ($inputValue as $inputValueItem) {
+                if (!$inputValueItem instanceof Tag) {
+                    return $inputValue;
+                }
+            }
+
+            $inputValue = new Value($inputValue);
+        }
+
+        return $inputValue;
+    }
+
+    /**
+     * Throws an exception if value structure is not of expected format.
+     *
+     *
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure
+     */
+    protected function checkValueStructure(BaseValue $value)
+    {
+        if (!is_array($value->tags)) {
+            throw new InvalidArgumentType(
+                '$value->tags',
+                'array',
+                $value->tags
+            );
+        }
+
+        foreach ($value->tags as $tag) {
+            if (!$tag instanceof Tag) {
+                throw new InvalidArgumentType(
+                    "$tag",
+                    Value::class,
+                    $tag
+                );
+            }
+        }
+    }
+
+    /**
+     * Returns information for FieldValue->$sortKey relevant to the field type.
+     *
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     *
+     * @return bool
+     */
+    protected function getSortInfo(BaseValue $value)
+    {
+        return false;
     }
 }

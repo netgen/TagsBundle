@@ -4,9 +4,9 @@ namespace Netgen\TagsBundle\Validator\Structs;
 
 use Netgen\TagsBundle\Validator\Constraints\Language;
 use Netgen\TagsBundle\Validator\Constraints\RemoteId;
-use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\ConstraintValidator;
 
 abstract class CreateStructValidator extends ConstraintValidator
 {

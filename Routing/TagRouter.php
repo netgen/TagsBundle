@@ -3,23 +3,23 @@
 namespace Netgen\TagsBundle\Routing;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use InvalidArgumentException;
+use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Route as SymfonyRoute;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Psr\Log\LoggerInterface;
-use InvalidArgumentException;
-use RuntimeException;
-use LogicException;
+use Symfony\Component\Routing\RouteCollection;
 
 class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {

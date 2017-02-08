@@ -2,11 +2,11 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
-use Doctrine\DBAL\DBALException;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use PDOException;
 use RuntimeException;
 

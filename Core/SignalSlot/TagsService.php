@@ -2,21 +2,21 @@
 
 namespace Netgen\TagsBundle\Core\SignalSlot;
 
+use Closure;
 use eZ\Publish\Core\SignalSlot\SignalDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
-use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
-use Closure;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
+use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 
 class TagsService implements TagsServiceInterface
 {

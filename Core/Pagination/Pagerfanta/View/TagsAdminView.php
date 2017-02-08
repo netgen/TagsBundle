@@ -111,7 +111,7 @@ class TagsAdminView implements ViewInterface
     protected function initializeProximity($options)
     {
         $this->proximity = isset($options['proximity']) ?
-            (int)$options['proximity'] :
+            (int) $options['proximity'] :
             2;
     }
 

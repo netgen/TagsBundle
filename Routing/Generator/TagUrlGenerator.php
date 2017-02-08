@@ -5,9 +5,9 @@ namespace Netgen\TagsBundle\Routing\Generator;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Routing\Generator;
+use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Symfony\Component\Routing\RouterInterface;
-use LogicException;
 
 /**
  * URL generator for Tag based links.

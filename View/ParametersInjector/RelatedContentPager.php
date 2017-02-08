@@ -2,13 +2,13 @@
 
 namespace Netgen\TagsBundle\View\ParametersInjector;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewParametersEvent;
 use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Netgen\TagsBundle\View\TagView;
 use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RelatedContentPager implements EventSubscriberInterface
 {
@@ -39,7 +39,7 @@ class RelatedContentPager implements EventSubscriberInterface
      */
     public function setPagerLimit($pagerLimit)
     {
-        $this->pagerLimit = (int)$pagerLimit;
+        $this->pagerLimit = (int) $pagerLimit;
     }
 
     /**

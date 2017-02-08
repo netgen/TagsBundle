@@ -2,16 +2,16 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Limitation;
 
-use eZ\Publish\Core\Limitation\Tests\Base;
-use eZ\Publish\API\Repository\Values\ValueObject;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
+use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use eZ\Publish\Core\Limitation\Tests\Base;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
@@ -314,6 +314,7 @@ class TagLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      * @dataProvider providerForTestEvaluate
+     * @param mixed $expected
      */
     public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected, TagLimitationType $limitationType)
     {

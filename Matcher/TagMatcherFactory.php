@@ -6,11 +6,11 @@ use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
+use InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use InvalidArgumentException;
 
 class TagMatcherFactory extends ClassNameMatcherFactory
 {

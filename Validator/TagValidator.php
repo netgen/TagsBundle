@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Validator;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use Symfony\Component\Validator\ConstraintValidator;
 
 class TagValidator extends ConstraintValidator
 {
@@ -66,7 +66,7 @@ class TagValidator extends ConstraintValidator
                     ->addViolation();
             }
         } catch (NotFoundException $e) {
-            /** @var \Netgen\TagsBundle\Validator\Constraints\Tag $constraint */
+            /* @var \Netgen\TagsBundle\Validator\Constraints\Tag $constraint */
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%tagId%', $value)
                 ->addViolation();

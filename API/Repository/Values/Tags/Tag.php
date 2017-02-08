@@ -103,44 +103,6 @@ class Tag extends ValueObject
     protected $languageCodes = array();
 
     /**
-     * Returns the keyword in the given language.
-     *
-     * If no language is given, the keyword in main language of the tag if present, otherwise null
-     *
-     * @param string $languageCode
-     *
-     * @return string
-     */
-    public function getKeyword($languageCode = null)
-    {
-        if ($languageCode === null) {
-            $languageCode = $this->mainLanguageCode;
-        }
-
-        if (isset($this->keywords[$languageCode])) {
-            return $this->keywords[$languageCode];
-        }
-
-        return null;
-    }
-
-    /**
-     * Function where list of properties are returned.
-     *
-     * Override to add dynamic properties
-     *
-     * @uses \parent::getProperties()
-     *
-     * @param array $dynamicProperties
-     *
-     * @return array
-     */
-    protected function getProperties($dynamicProperties = array('keyword'))
-    {
-        return parent::getProperties($dynamicProperties);
-    }
-
-    /**
      * Magic getter for retrieving convenience properties.
      *
      * @param string $property The name of the property to retrieve
@@ -174,6 +136,28 @@ class Tag extends ValueObject
     }
 
     /**
+     * Returns the keyword in the given language.
+     *
+     * If no language is given, the keyword in main language of the tag if present, otherwise null
+     *
+     * @param string $languageCode
+     *
+     * @return string
+     */
+    public function getKeyword($languageCode = null)
+    {
+        if ($languageCode === null) {
+            $languageCode = $this->mainLanguageCode;
+        }
+
+        if (isset($this->keywords[$languageCode])) {
+            return $this->keywords[$languageCode];
+        }
+
+        return null;
+    }
+
+    /**
      * Returns if the current tag has a parent or not.
      *
      * @return bool
@@ -191,5 +175,21 @@ class Tag extends ValueObject
     public function isSynonym()
     {
         return $this->mainTagId > 0;
+    }
+
+    /**
+     * Function where list of properties are returned.
+     *
+     * Override to add dynamic properties
+     *
+     * @uses \parent::getProperties()
+     *
+     * @param array $dynamicProperties
+     *
+     * @return array
+     */
+    protected function getProperties($dynamicProperties = array('keyword'))
+    {
+        return parent::getProperties($dynamicProperties);
     }
 }

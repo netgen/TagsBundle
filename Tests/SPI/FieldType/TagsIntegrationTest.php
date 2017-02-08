@@ -3,16 +3,16 @@
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
 use eZ\Publish\Core\FieldType\FieldSettings;
-use Netgen\TagsBundle\API\Repository\TagsService;
-use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
-use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
-use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
-use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
-use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage as TagsLegacyStorage;
+use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\Content\Field;
+use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
+use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage as TagsLegacyStorage;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
+use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
 /**
  * Integration test for legacy storage field types.

@@ -2,10 +2,10 @@
 
 namespace Netgen\TagsBundle\API\Repository;
 
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
-use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 
 interface TagsService
 {

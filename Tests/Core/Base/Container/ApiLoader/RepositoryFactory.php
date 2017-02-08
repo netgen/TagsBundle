@@ -2,25 +2,24 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 
+use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeNameableCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
-use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
 use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
 use eZ\Publish\SPI\Search\Handler as SearchHandler;
 
 class RepositoryFactory extends BaseRepositoryFactory
 {
     /**
-     * @var string
-     */
-    private $repositoryClass;
-
-    /**
      * Collection of fieldTypes, lazy loaded via a closure.
      *
      * @var \eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeNameableCollectionFactory
      */
     protected $fieldTypeNameableCollectionFactory;
+    /**
+     * @var string
+     */
+    private $repositoryClass;
 
     public function __construct(
         $repositoryClass,

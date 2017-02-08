@@ -3,8 +3,8 @@
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 abstract class Gateway
 {

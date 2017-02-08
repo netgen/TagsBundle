@@ -35,7 +35,7 @@ class RelatedContentController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $currentPage = (int)$request->query->get('page');
+        $currentPage = (int) $request->query->get('page');
         $configResolver = $this->getConfigResolver();
 
         $pager = $this->createPager(

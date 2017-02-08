@@ -2,15 +2,15 @@
 
 namespace Netgen\TagsBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\Yaml\Yaml;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * This is the class that loads and manages the bundle configuration.
@@ -61,6 +61,29 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
+     * Allow an extension to prepend the extension configurations.
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $configs = array(
+            'netgen_tags.yml' => 'netgen_tags',
+            'ezpublish.yml' => 'ezpublish',
+            'platformui/yui.yml' => 'ez_platformui',
+            'platformui/css.yml' => 'ez_platformui',
+            'platformui/javascript.yml' => 'ez_platformui',
+        );
+
+        foreach ($configs as $fileName => $extensionName) {
+            $configFile = __DIR__ . '/../Resources/config/' . $fileName;
+            $config = Yaml::parse(file_get_contents($configFile));
+            $container->prependExtensionConfig($extensionName, $config);
+            $container->addResource(new FileResource($configFile));
+        }
+    }
+
+    /**
      * Processes semantic config and translates it to container parameters.
      *
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -91,28 +114,5 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 
         $processor->mapConfigArray('tag_view_match', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
         $processor->mapConfigArray('edit_views', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
-    }
-
-    /**
-     * Allow an extension to prepend the extension configurations.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function prepend(ContainerBuilder $container)
-    {
-        $configs = array(
-            'netgen_tags.yml' => 'netgen_tags',
-            'ezpublish.yml' => 'ezpublish',
-            'platformui/yui.yml' => 'ez_platformui',
-            'platformui/css.yml' => 'ez_platformui',
-            'platformui/javascript.yml' => 'ez_platformui',
-        );
-
-        foreach ($configs as $fileName => $extensionName) {
-            $configFile = __DIR__ . '/../Resources/config/' . $fileName;
-            $config = Yaml::parse(file_get_contents($configFile));
-            $container->prependExtensionConfig($extensionName, $config);
-            $container->addResource(new FileResource($configFile));
-        }
     }
 }

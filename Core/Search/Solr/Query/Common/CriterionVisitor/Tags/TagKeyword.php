@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
+use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as APITagKeyword;
+use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
 class TagKeyword extends Tags
 {
@@ -36,7 +36,7 @@ class TagKeyword extends Tags
      */
     public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
     {
-        $criterion->value = (array)$criterion->value;
+        $criterion->value = (array) $criterion->value;
         $searchFields = $this->getSearchFields($criterion);
         $isLikeOperator = $criterion->operator === Operator::LIKE;
 

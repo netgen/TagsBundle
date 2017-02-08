@@ -7,9 +7,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Language;
 use Netgen\TagsBundle\Validator\Constraints\RemoteId;
 use Netgen\TagsBundle\Validator\Constraints\Structs\TagUpdateStruct as TagUpdateStructConstraint;
-use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class TagUpdateStructValidator extends ConstraintValidator

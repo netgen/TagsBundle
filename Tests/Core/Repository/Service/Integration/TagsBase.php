@@ -2,15 +2,15 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
 
+use DateTime;
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
+use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
-use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use DateTime;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
@@ -1726,6 +1726,6 @@ abstract class TagsBase extends BaseServiceTest
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
 
-        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int)$synonymId . '/';
+        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
     }
 }

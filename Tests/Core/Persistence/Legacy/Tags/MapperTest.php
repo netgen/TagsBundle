@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
  * Test case for Tags mapper.

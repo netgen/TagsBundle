@@ -2,14 +2,14 @@
 
 namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
+use DateTime;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use DateTime;
 use stdClass;
 
 /**
@@ -24,87 +24,6 @@ class TagsTest extends FieldTypeTest
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $tagsService;
-
-    /**
-     * Returns the identifier of the field type under test.
-     *
-     * @return string
-     */
-    protected function provideFieldTypeIdentifier()
-    {
-        return 'eztags';
-    }
-
-    /**
-     * Returns the field type under test.
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Type
-     */
-    protected function createFieldTypeUnderTest()
-    {
-        $this->tagsService = $this->getMock(TagsService::class);
-
-        $this->tagsService->expects($this->any())
-            ->method('loadTag')
-            ->will($this->returnCallback(array($this, 'getTagsServiceLoadTagValues')));
-
-        $tagsType = new TagsType($this->tagsService);
-        $tagsType->setEditViews(
-            array(
-                'default' => array('identifier' => 'Default'),
-                'select' => array('identifier' => 'Select'),
-            )
-        );
-
-        return $tagsType;
-    }
-
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
-    {
-        return array();
-    }
-
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
-    {
-        return array(
-            'subTreeLimit' => array(
-                'type' => 'int',
-                'default' => 0,
-            ),
-            'hideRootTag' => array(
-                'type' => 'boolean',
-                'default' => false,
-            ),
-            'maxTags' => array(
-                'type' => 'int',
-                'default' => 0,
-            ),
-            'editView' => array(
-                'type' => 'string',
-                'default' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
-            ),
-        );
-    }
-
-    /**
-     * Returns the empty value expected from the field type.
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
-    protected function getEmptyValueExpectation()
-    {
-        return new TagsValue();
-    }
 
     /**
      * Returns values for TagsService::loadTag based on input value.
@@ -413,6 +332,87 @@ class TagsTest extends FieldTypeTest
                 'eztags, eztags',
             ),
         );
+    }
+
+    /**
+     * Returns the identifier of the field type under test.
+     *
+     * @return string
+     */
+    protected function provideFieldTypeIdentifier()
+    {
+        return 'eztags';
+    }
+
+    /**
+     * Returns the field type under test.
+     *
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Type
+     */
+    protected function createFieldTypeUnderTest()
+    {
+        $this->tagsService = $this->getMock(TagsService::class);
+
+        $this->tagsService->expects($this->any())
+            ->method('loadTag')
+            ->will($this->returnCallback(array($this, 'getTagsServiceLoadTagValues')));
+
+        $tagsType = new TagsType($this->tagsService);
+        $tagsType->setEditViews(
+            array(
+                'default' => array('identifier' => 'Default'),
+                'select' => array('identifier' => 'Select'),
+            )
+        );
+
+        return $tagsType;
+    }
+
+    /**
+     * Returns the validator configuration schema expected from the field type.
+     *
+     * @return array
+     */
+    protected function getValidatorConfigurationSchemaExpectation()
+    {
+        return array();
+    }
+
+    /**
+     * Returns the settings schema expected from the field type.
+     *
+     * @return array
+     */
+    protected function getSettingsSchemaExpectation()
+    {
+        return array(
+            'subTreeLimit' => array(
+                'type' => 'int',
+                'default' => 0,
+            ),
+            'hideRootTag' => array(
+                'type' => 'boolean',
+                'default' => false,
+            ),
+            'maxTags' => array(
+                'type' => 'int',
+                'default' => 0,
+            ),
+            'editView' => array(
+                'type' => 'string',
+                'default' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
+            ),
+        );
+    }
+
+    /**
+     * Returns the empty value expected from the field type.
+     *
+     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
+     */
+    protected function getEmptyValueExpectation()
+    {
+        return new TagsValue();
     }
 
     /**

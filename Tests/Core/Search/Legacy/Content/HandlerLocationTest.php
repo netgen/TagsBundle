@@ -2,19 +2,19 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
+use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
+use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
 use eZ\Publish\Core\Search\Legacy\Content;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
-use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCriterionHandler;
-use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
+use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
@@ -58,100 +58,6 @@ class HandlerLocationTest extends LanguageAwareTestCase
         } else {
             $this->handler = self::$setUp;
         }
-    }
-
-    /**
-     * Assert search results.
-     *
-     * @param int[] $expectedIds
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
-     */
-    protected function assertSearchResults($expectedIds, $searchResult)
-    {
-        $ids = array_map(
-            function ($hit) {
-                return $hit->valueObject->id;
-            },
-            $searchResult->searchHits
-        );
-
-        sort($ids);
-
-        $this->assertEquals($expectedIds, $ids);
-    }
-
-    /**
-     * Returns the content search handler to test.
-     *
-     * This method returns a fully functional search handler to perform tests
-     * on.
-     *
-     * @return \eZ\Publish\Core\Search\Legacy\Content\Handler
-     */
-    protected function getContentSearchHandler()
-    {
-        return new Content\Handler(
-            $this->getMock(Content\Gateway::class),
-            new Content\Location\Gateway\DoctrineDatabase(
-                $this->getDatabaseHandler(),
-                new CriteriaConverter(
-                    array(
-                        new TagIdCriterionHandler($this->getDatabaseHandler()),
-                        new TagKeywordCriterionHandler($this->getDatabaseHandler()),
-                        new CommonCriterionHandler\ContentId($this->getDatabaseHandler()),
-                        new CommonCriterionHandler\LogicalAnd($this->getDatabaseHandler()),
-                        new CommonCriterionHandler\MatchAll($this->getDatabaseHandler()),
-                    )
-                ),
-                new SortClauseConverter(
-                    array(
-                        new LocationSortClauseHandler\Location\Id($this->getDatabaseHandler()),
-                        new CommonSortClauseHandler\ContentId($this->getDatabaseHandler()),
-                    )
-                ),
-                $this->getLanguageHandler()
-            ),
-            $this->getMock(Content\WordIndexer\Gateway::class),
-            $this->getMockBuilder(ContentMapper::class)->disableOriginalConstructor()->getMock(),
-            $this->getLocationMapperMock(),
-            $this->getLanguageHandler(),
-            $this->getMockBuilder(Content\Mapper\FullTextMapper::class)->disableOriginalConstructor()->getMock()
-        );
-    }
-
-    /**
-     * Returns a location mapper mock.
-     *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper
-     */
-    protected function getLocationMapperMock()
-    {
-        $mapperMock = $this->getMock(
-            LocationMapper::class,
-            array('createLocationsFromRows')
-        );
-        $mapperMock
-            ->expects($this->any())
-            ->method('createLocationsFromRows')
-            ->with($this->isType('array'))
-            ->will(
-                $this->returnCallback(
-                    function ($rows) {
-                        $locations = array();
-                        foreach ($rows as $row) {
-                            $locationId = (int)$row['node_id'];
-                            if (!isset($locations[$locationId])) {
-                                $locations[$locationId] = new SPILocation();
-                                $locations[$locationId]->id = $locationId;
-                            }
-                        }
-
-                        return array_values($locations);
-                    }
-                )
-            );
-
-        return $mapperMock;
     }
 
     public function testTagIdFilter()
@@ -306,5 +212,99 @@ class HandlerLocationTest extends LanguageAwareTestCase
                 )
             )
         );
+    }
+
+    /**
+     * Assert search results.
+     *
+     * @param int[] $expectedIds
+     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
+     */
+    protected function assertSearchResults($expectedIds, $searchResult)
+    {
+        $ids = array_map(
+            function ($hit) {
+                return $hit->valueObject->id;
+            },
+            $searchResult->searchHits
+        );
+
+        sort($ids);
+
+        $this->assertEquals($expectedIds, $ids);
+    }
+
+    /**
+     * Returns the content search handler to test.
+     *
+     * This method returns a fully functional search handler to perform tests
+     * on.
+     *
+     * @return \eZ\Publish\Core\Search\Legacy\Content\Handler
+     */
+    protected function getContentSearchHandler()
+    {
+        return new Content\Handler(
+            $this->getMock(Content\Gateway::class),
+            new Content\Location\Gateway\DoctrineDatabase(
+                $this->getDatabaseHandler(),
+                new CriteriaConverter(
+                    array(
+                        new TagIdCriterionHandler($this->getDatabaseHandler()),
+                        new TagKeywordCriterionHandler($this->getDatabaseHandler()),
+                        new CommonCriterionHandler\ContentId($this->getDatabaseHandler()),
+                        new CommonCriterionHandler\LogicalAnd($this->getDatabaseHandler()),
+                        new CommonCriterionHandler\MatchAll($this->getDatabaseHandler()),
+                    )
+                ),
+                new SortClauseConverter(
+                    array(
+                        new LocationSortClauseHandler\Location\Id($this->getDatabaseHandler()),
+                        new CommonSortClauseHandler\ContentId($this->getDatabaseHandler()),
+                    )
+                ),
+                $this->getLanguageHandler()
+            ),
+            $this->getMock(Content\WordIndexer\Gateway::class),
+            $this->getMockBuilder(ContentMapper::class)->disableOriginalConstructor()->getMock(),
+            $this->getLocationMapperMock(),
+            $this->getLanguageHandler(),
+            $this->getMockBuilder(Content\Mapper\FullTextMapper::class)->disableOriginalConstructor()->getMock()
+        );
+    }
+
+    /**
+     * Returns a location mapper mock.
+     *
+     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper
+     */
+    protected function getLocationMapperMock()
+    {
+        $mapperMock = $this->getMock(
+            LocationMapper::class,
+            array('createLocationsFromRows')
+        );
+        $mapperMock
+            ->expects($this->any())
+            ->method('createLocationsFromRows')
+            ->with($this->isType('array'))
+            ->will(
+                $this->returnCallback(
+                    function ($rows) {
+                        $locations = array();
+                        foreach ($rows as $row) {
+                            $locationId = (int) $row['node_id'];
+                            if (!isset($locations[$locationId])) {
+                                $locations[$locationId] = new SPILocation();
+                                $locations[$locationId]->id = $locationId;
+                            }
+                        }
+
+                        return array_values($locations);
+                    }
+                )
+            );
+
+        return $mapperMock;
     }
 }

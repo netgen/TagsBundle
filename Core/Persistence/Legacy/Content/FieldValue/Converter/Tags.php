@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
+use eZ\Publish\Core\FieldType\FieldSettings;
 use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
+use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
-use eZ\Publish\Core\FieldType\FieldSettings;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 
 /**
@@ -56,15 +56,15 @@ class Tags implements Converter
     public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
     {
         $storageDef->dataInt1 = isset($fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit']) ?
-            (int)$fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] :
+            (int) $fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] :
             0;
 
         $storageDef->dataInt3 = isset($fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag']) ?
-            (int)$fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
+            (int) $fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
             0;
 
         $storageDef->dataInt4 = isset($fieldDef->fieldTypeConstraints->fieldSettings['maxTags']) ?
-            (int)$fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] :
+            (int) $fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] :
             0;
 
         $storageDef->dataText1 = isset($fieldDef->fieldTypeConstraints->fieldSettings['editView']) ?
@@ -82,9 +82,9 @@ class Tags implements Converter
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
-                'subTreeLimit' => (int)$storageDef->dataInt1,
-                'hideRootTag' => (bool)$storageDef->dataInt3,
-                'maxTags' => (int)$storageDef->dataInt4,
+                'subTreeLimit' => (int) $storageDef->dataInt1,
+                'hideRootTag' => (bool) $storageDef->dataInt3,
+                'maxTags' => (int) $storageDef->dataInt4,
                 'editView' => $storageDef->dataText1,
             )
         );

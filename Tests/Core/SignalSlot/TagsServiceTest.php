@@ -2,10 +2,14 @@
 
 namespace Netgen\TagsBundle\Tests\Core\SignalSlot;
 
+use eZ\Publish\API\Repository\Values\Content\Content as APIContent;
+use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\SignalSlot\SignalDispatcher;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Netgen\TagsBundle\Core\Repository\TagsService as CoreTagsService;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
@@ -15,10 +19,6 @@ use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use Netgen\TagsBundle\Core\SignalSlot\TagsService;
-use Netgen\TagsBundle\Core\Repository\TagsService as CoreTagsService;
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Content as APIContent;
 use PHPUnit_Framework_TestCase;
 
 class TagsServiceTest extends PHPUnit_Framework_TestCase
@@ -47,16 +47,6 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $this->signalDispatcher = $this->getMockBuilder(SignalDispatcher::class)
             ->disableOriginalConstructor()
             ->getMock();
-    }
-
-    /**
-     * Returns signal slot service under test.
-     *
-     * @return \Netgen\TagsBundle\Core\SignalSlot\TagsService
-     */
-    protected function getSignalSlotService()
-    {
-        return new TagsService($this->tagsService, $this->signalDispatcher);
     }
 
     /**
@@ -837,5 +827,15 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
         $value = $signalSlotService->sudo($callback);
 
         $this->assertEquals('some_value', $value);
+    }
+
+    /**
+     * Returns signal slot service under test.
+     *
+     * @return \Netgen\TagsBundle\Core\SignalSlot\TagsService
+     */
+    protected function getSignalSlotService()
+    {
+        return new TagsService($this->tagsService, $this->signalDispatcher);
     }
 }

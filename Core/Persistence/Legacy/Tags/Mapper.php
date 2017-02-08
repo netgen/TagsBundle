@@ -2,10 +2,10 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 
 class Mapper
 {
@@ -46,16 +46,16 @@ class Mapper
     {
         $tagInfo = new TagInfo();
 
-        $tagInfo->id = (int)$row['id'];
-        $tagInfo->parentTagId = (int)$row['parent_id'];
-        $tagInfo->mainTagId = (int)$row['main_tag_id'];
-        $tagInfo->depth = (int)$row['depth'];
+        $tagInfo->id = (int) $row['id'];
+        $tagInfo->parentTagId = (int) $row['parent_id'];
+        $tagInfo->mainTagId = (int) $row['main_tag_id'];
+        $tagInfo->depth = (int) $row['depth'];
         $tagInfo->pathString = $row['path_string'];
-        $tagInfo->modificationDate = (int)$row['modified'];
+        $tagInfo->modificationDate = (int) $row['modified'];
         $tagInfo->remoteId = $row['remote_id'];
-        $tagInfo->alwaysAvailable = ((int)$row['language_mask'] & 1) ? true : false;
+        $tagInfo->alwaysAvailable = ((int) $row['language_mask'] & 1) ? true : false;
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
-        $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int)$row['language_mask']);
+        $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
 
         return $tagInfo;
     }
@@ -71,20 +71,20 @@ class Mapper
     {
         $tagList = array();
         foreach ($rows as $row) {
-            $tagId = (int)$row['eztags_id'];
+            $tagId = (int) $row['eztags_id'];
             if (!isset($tagList[$tagId])) {
                 $tag = new Tag();
-                $tag->id = (int)$row['eztags_id'];
-                $tag->parentTagId = (int)$row['eztags_parent_id'];
-                $tag->mainTagId = (int)$row['eztags_main_tag_id'];
+                $tag->id = (int) $row['eztags_id'];
+                $tag->parentTagId = (int) $row['eztags_parent_id'];
+                $tag->mainTagId = (int) $row['eztags_main_tag_id'];
                 $tag->keywords = array();
-                $tag->depth = (int)$row['eztags_depth'];
+                $tag->depth = (int) $row['eztags_depth'];
                 $tag->pathString = $row['eztags_path_string'];
-                $tag->modificationDate = (int)$row['eztags_modified'];
+                $tag->modificationDate = (int) $row['eztags_modified'];
                 $tag->remoteId = $row['eztags_remote_id'];
-                $tag->alwaysAvailable = ((int)$row['eztags_language_mask'] & 1) ? true : false;
+                $tag->alwaysAvailable = ((int) $row['eztags_language_mask'] & 1) ? true : false;
                 $tag->mainLanguageCode = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
-                $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int)$row['eztags_language_mask']);
+                $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['eztags_language_mask']);
                 $tagList[$tagId] = $tag;
             }
 

@@ -5,8 +5,8 @@ namespace Netgen\TagsBundle\Validator\Structs;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Structs\SynonymCreateStruct as SynonymCreateStructConstraint;
 use Netgen\TagsBundle\Validator\Constraints\Tag;
-use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class SynonymCreateStructValidator extends CreateStructValidator

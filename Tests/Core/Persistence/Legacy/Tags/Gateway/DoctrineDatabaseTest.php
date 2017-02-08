@@ -2,13 +2,13 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
  * Test case for Tags Legacy gateway.
@@ -51,24 +51,6 @@ class DoctrineDatabaseTest extends TestCase
 
                 break;
         }
-    }
-
-    /**
-     * Returns gateway implementation for legacy storage.
-     *
-     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
-     */
-    protected function getTagsGateway()
-    {
-        $dbHandler = $this->getDatabaseHandler();
-
-        return new DoctrineDatabase(
-            $dbHandler,
-            new LanguageHandlerMock(),
-            new MaskGenerator(
-                new LanguageHandlerMock()
-            )
-        );
     }
 
     /**
@@ -946,6 +928,24 @@ class DoctrineDatabaseTest extends TestCase
                 ->select('modified')
                 ->from('eztags')
                 ->where($query->expr->in('id', array(8, 7, 40)))
+        );
+    }
+
+    /**
+     * Returns gateway implementation for legacy storage.
+     *
+     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
+     */
+    protected function getTagsGateway()
+    {
+        $dbHandler = $this->getDatabaseHandler();
+
+        return new DoctrineDatabase(
+            $dbHandler,
+            new LanguageHandlerMock(),
+            new MaskGenerator(
+                new LanguageHandlerMock()
+            )
         );
     }
 }

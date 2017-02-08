@@ -2,8 +2,8 @@
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**

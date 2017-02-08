@@ -2,10 +2,10 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Pagination\Pagerfanta;
 
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\API\Repository\TagsService;
-use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
 use eZ\Publish\Core\Repository\Values\Content\Content;
+use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
 use PHPUnit_Framework_TestCase;
 
 class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
@@ -22,22 +22,6 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->tagsService = $this->getMock(TagsService::class);
-    }
-
-    /**
-     * Returns the adapter to test.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     *
-     * @return \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
-     */
-    protected function getAdapter(Tag $tag, TagsService $tagsService)
-    {
-        $adapter = new RelatedContentAdapter($tagsService);
-        $adapter->setTag($tag);
-
-        return $adapter;
     }
 
     /**
@@ -157,5 +141,21 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
         $adapter = new RelatedContentAdapter($this->tagsService);
 
         $this->assertSame(array(), $adapter->getSlice(2, 2));
+    }
+
+    /**
+     * Returns the adapter to test.
+     *
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     *
+     * @return \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
+     */
+    protected function getAdapter(Tag $tag, TagsService $tagsService)
+    {
+        $adapter = new RelatedContentAdapter($tagsService);
+        $adapter->setTag($tag);
+
+        return $adapter;
     }
 }

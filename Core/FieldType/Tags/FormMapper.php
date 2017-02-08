@@ -2,9 +2,9 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use Netgen\TagsBundle\Form\Type\TagTreeType;
 use EzSystems\RepositoryForms\Data\FieldDefinitionData;
 use EzSystems\RepositoryForms\FieldType\FieldDefinitionFormMapperInterface;
+use Netgen\TagsBundle\Form\Type\TagTreeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;

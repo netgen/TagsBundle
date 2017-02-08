@@ -2,11 +2,11 @@
 
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor;
 
-use eZ\Publish\SPI\Persistence\Content\Type\Handler;
-use EzSystems\EzPlatformSolrSearchEngine\Query\Content\CriterionVisitor\Field;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Search\Common\FieldNameResolver;
 use eZ\Publish\Core\Search\Common\FieldValueMapper;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\SPI\Persistence\Content\Type\Handler;
+use EzSystems\EzPlatformSolrSearchEngine\Query\Content\CriterionVisitor\Field;
 
 abstract class Tags extends Field
 {

@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
-use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
-use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 class Handler implements BaseTagsHandler
 {
@@ -425,51 +425,6 @@ class Handler implements BaseTagsHandler
     }
 
     /**
-     * Copies tag object identified by $sourceData into destination identified by $destinationParentData.
-     *
-     * Also performs a copy of all child locations of $sourceData tag
-     *
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $sourceTag The subtree denoted by the tag to copy
-     * @param int $destinationParentTagId The target parent tag ID for the copy operation
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
-     */
-    protected function recursiveCopySubtree(Tag $sourceTag, $destinationParentTagId)
-    {
-        // First copy the root node
-
-        $createStruct = new CreateStruct();
-        $createStruct->parentTagId = $destinationParentTagId;
-        $createStruct->keywords = $sourceTag->keywords;
-        $createStruct->remoteId = md5(uniqid(get_class($this), true));
-        $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
-        $createStruct->mainLanguageCode = $sourceTag->mainLanguageCode;
-
-        $createdTag = $this->create($createStruct);
-        foreach ($this->loadSynonyms($sourceTag->id) as $synonym) {
-            $synonymCreateStruct = new SynonymCreateStruct();
-            $synonymCreateStruct->keywords = $synonym->keywords;
-            $synonymCreateStruct->remoteId = md5(uniqid(get_class($this), true));
-            $synonymCreateStruct->mainTagId = $createdTag->id;
-            $synonymCreateStruct->alwaysAvailable = $synonym->alwaysAvailable;
-            $synonymCreateStruct->mainLanguageCode = $synonym->mainLanguageCode;
-
-            $this->addSynonym($synonymCreateStruct);
-        }
-
-        // Then copy the children
-        $children = $this->loadChildren($sourceTag->id);
-        foreach ($children as $child) {
-            $this->recursiveCopySubtree(
-                $child,
-                $createdTag->id
-            );
-        }
-
-        return $createdTag->id;
-    }
-
-    /**
      * Moves a tag identified by $sourceId into new parent identified by $destinationParentId.
      *
      *
@@ -517,6 +472,51 @@ class Handler implements BaseTagsHandler
     }
 
     /**
+     * Copies tag object identified by $sourceData into destination identified by $destinationParentData.
+     *
+     * Also performs a copy of all child locations of $sourceData tag
+     *
+     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $sourceTag The subtree denoted by the tag to copy
+     * @param int $destinationParentTagId The target parent tag ID for the copy operation
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
+     */
+    protected function recursiveCopySubtree(Tag $sourceTag, $destinationParentTagId)
+    {
+        // First copy the root node
+
+        $createStruct = new CreateStruct();
+        $createStruct->parentTagId = $destinationParentTagId;
+        $createStruct->keywords = $sourceTag->keywords;
+        $createStruct->remoteId = md5(uniqid(get_class($this), true));
+        $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
+        $createStruct->mainLanguageCode = $sourceTag->mainLanguageCode;
+
+        $createdTag = $this->create($createStruct);
+        foreach ($this->loadSynonyms($sourceTag->id) as $synonym) {
+            $synonymCreateStruct = new SynonymCreateStruct();
+            $synonymCreateStruct->keywords = $synonym->keywords;
+            $synonymCreateStruct->remoteId = md5(uniqid(get_class($this), true));
+            $synonymCreateStruct->mainTagId = $createdTag->id;
+            $synonymCreateStruct->alwaysAvailable = $synonym->alwaysAvailable;
+            $synonymCreateStruct->mainLanguageCode = $synonym->mainLanguageCode;
+
+            $this->addSynonym($synonymCreateStruct);
+        }
+
+        // Then copy the children
+        $children = $this->loadChildren($sourceTag->id);
+        foreach ($children as $child) {
+            $this->recursiveCopySubtree(
+                $child,
+                $createdTag->id
+            );
+        }
+
+        return $createdTag->id;
+    }
+
+    /**
      * Updated subtree modification time for tag and all its parents.
      *
      * If tag is a synonym, subtree modification time of its main tag is updated
@@ -533,7 +533,7 @@ class Handler implements BaseTagsHandler
             $this->gateway->updateSubtreeModificationTime($tagInfo->pathString, $timestamp);
 
             if ($tagInfo->mainTagId > 0) {
-                $this->gateway->updateSubtreeModificationTime((string)$tagInfo->mainTagId, $timestamp);
+                $this->gateway->updateSubtreeModificationTime((string) $tagInfo->mainTagId, $timestamp);
             }
         }
     }

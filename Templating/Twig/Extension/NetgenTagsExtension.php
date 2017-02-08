@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\Templating\Twig\Extension;
 
+use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LanguageService;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\Core\Helper\TranslationHelper;
 use Netgen\TagsBundle\API\Repository\TagsService;
-use eZ\Publish\API\Repository\ContentTypeService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Twig_Extension;
 use Twig_SimpleFunction;

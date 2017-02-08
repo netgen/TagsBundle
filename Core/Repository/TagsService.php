@@ -2,30 +2,30 @@
 
 namespace Netgen\TagsBundle\Core\Repository;
 
+use Closure;
+use DateTime;
+use Exception;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Values\User\User;
 use eZ\Publish\API\Repository\Values\ValueObject;
-use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
-use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandler;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
+use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
-use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
-use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use DateTime;
-use Exception;
-use Closure;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 class TagsService implements TagsServiceInterface
 {
@@ -998,33 +998,6 @@ class TagsService implements TagsServiceInterface
         return new TagUpdateStruct();
     }
 
-    protected function buildTagDomainObject(SPITag $spiTag)
-    {
-        $languageCodes = array();
-        foreach ($spiTag->languageIds as $languageId) {
-            $languageCodes[] = $this->languageHandler->load($languageId)->languageCode;
-        }
-
-        $modificationDate = new DateTime();
-        $modificationDate->setTimestamp($spiTag->modificationDate);
-
-        return new Tag(
-            array(
-                'id' => $spiTag->id,
-                'parentTagId' => $spiTag->parentTagId,
-                'mainTagId' => $spiTag->mainTagId,
-                'keywords' => $spiTag->keywords,
-                'depth' => $spiTag->depth,
-                'pathString' => $spiTag->pathString,
-                'modificationDate' => $modificationDate,
-                'remoteId' => $spiTag->remoteId,
-                'alwaysAvailable' => $spiTag->alwaysAvailable,
-                'mainLanguageCode' => $spiTag->mainLanguageCode,
-                'languageCodes' => $languageCodes,
-            )
-        );
-    }
-
     /**
      * Allows tags API execution to be performed with full access sand-boxed.
      *
@@ -1099,5 +1072,32 @@ class TagsService implements TagsServiceInterface
         }
 
         return $this->repository->canUser($module, $function, $object, $targets);
+    }
+
+    protected function buildTagDomainObject(SPITag $spiTag)
+    {
+        $languageCodes = array();
+        foreach ($spiTag->languageIds as $languageId) {
+            $languageCodes[] = $this->languageHandler->load($languageId)->languageCode;
+        }
+
+        $modificationDate = new DateTime();
+        $modificationDate->setTimestamp($spiTag->modificationDate);
+
+        return new Tag(
+            array(
+                'id' => $spiTag->id,
+                'parentTagId' => $spiTag->parentTagId,
+                'mainTagId' => $spiTag->mainTagId,
+                'keywords' => $spiTag->keywords,
+                'depth' => $spiTag->depth,
+                'pathString' => $spiTag->pathString,
+                'modificationDate' => $modificationDate,
+                'remoteId' => $spiTag->remoteId,
+                'alwaysAvailable' => $spiTag->alwaysAvailable,
+                'mainLanguageCode' => $spiTag->mainLanguageCode,
+                'languageCodes' => $languageCodes,
+            )
+        );
     }
 }

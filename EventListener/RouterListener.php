@@ -2,12 +2,12 @@
 
 namespace Netgen\TagsBundle\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use eZ\Bundle\EzPublishLegacyBundle\Routing\FallbackRouter;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class RouterListener implements EventSubscriberInterface
 {
@@ -38,7 +38,7 @@ class RouterListener implements EventSubscriberInterface
      */
     public function setEnableTagRouter($enableTagRouter = true)
     {
-        $this->enableTagRouter = (bool)$enableTagRouter;
+        $this->enableTagRouter = (bool) $enableTagRouter;
     }
 
     /**

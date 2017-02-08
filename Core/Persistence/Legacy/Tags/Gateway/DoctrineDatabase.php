@@ -2,14 +2,14 @@
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
-use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
-use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use PDO;
 
 class DoctrineDatabase extends Gateway
@@ -261,7 +261,7 @@ class DoctrineDatabase extends Gateway
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        return (int)$rows[0]['count'];
+        return (int) $rows[0]['count'];
     }
 
     /**
@@ -316,7 +316,7 @@ class DoctrineDatabase extends Gateway
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        return (int)$rows[0]['count'];
+        return (int) $rows[0]['count'];
     }
 
     /**
@@ -371,7 +371,7 @@ class DoctrineDatabase extends Gateway
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        return (int)$rows[0]['count'];
+        return (int) $rows[0]['count'];
     }
 
     /**
@@ -421,7 +421,7 @@ class DoctrineDatabase extends Gateway
 
         $contentIds = array();
         foreach ($rows as $row) {
-            $contentIds[] = (int)$row['object_id'];
+            $contentIds[] = (int) $row['object_id'];
         }
 
         return $contentIds;
@@ -475,7 +475,7 @@ class DoctrineDatabase extends Gateway
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        return (int)$rows[0]['count'];
+        return (int) $rows[0]['count'];
     }
 
     /**
@@ -529,7 +529,7 @@ class DoctrineDatabase extends Gateway
                 $this->handler->getAutoIncrementValue('eztags', 'id')
             )->set(
                 $this->handler->quoteColumn('parent_id'),
-                $query->bindValue($parentTag !== null ? (int)$parentTag['id'] : 0, null, PDO::PARAM_INT)
+                $query->bindValue($parentTag !== null ? (int) $parentTag['id'] : 0, null, PDO::PARAM_INT)
             )->set(
                 $this->handler->quoteColumn('main_tag_id'),
                 $query->bindValue(0, null, PDO::PARAM_INT)
@@ -538,7 +538,7 @@ class DoctrineDatabase extends Gateway
                 $query->bindValue($createStruct->keywords[$createStruct->mainLanguageCode], null, PDO::PARAM_STR)
             )->set(
                 $this->handler->quoteColumn('depth'),
-                $query->bindValue($parentTag !== null ? (int)$parentTag['depth'] + 1 : 1, null, PDO::PARAM_INT)
+                $query->bindValue($parentTag !== null ? (int) $parentTag['depth'] + 1 : 1, null, PDO::PARAM_INT)
             )->set(
                 $this->handler->quoteColumn('path_string'),
                 $query->bindValue('dummy') // Set later
@@ -922,7 +922,7 @@ class DoctrineDatabase extends Gateway
 
             $newParentId = $row['parent_id'];
             if ($row['path_string'] === $sourceTagData['path_string'] || $row['main_tag_id'] == $sourceTagData['id']) {
-                $newParentId = (int)implode('', array_slice(explode('/', $newPathString), -3, 1));
+                $newParentId = (int) implode('', array_slice(explode('/', $newPathString), -3, 1));
             }
 
             $newDepth = substr_count($newPathString, '/') - 1;
@@ -967,7 +967,7 @@ class DoctrineDatabase extends Gateway
                 $query->expr->lOr(
                     $query->expr->like(
                         $this->handler->quoteColumn('path_string'),
-                        $query->bindValue('%/' . (int)$tagId . '/%', null, PDO::PARAM_STR)
+                        $query->bindValue('%/' . (int) $tagId . '/%', null, PDO::PARAM_STR)
                     ),
                     $query->expr->eq(
                         $this->handler->quoteColumn('main_tag_id'),
@@ -981,7 +981,7 @@ class DoctrineDatabase extends Gateway
 
         $tagIds = array();
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $tagIds[] = (int)$row['id'];
+            $tagIds[] = (int) $row['id'];
         }
 
         if (empty($tagIds)) {
@@ -1227,7 +1227,7 @@ class DoctrineDatabase extends Gateway
                     $query->bindValue(
                         $this->languageHandler->loadByLanguageCode(
                             $languageCode
-                        )->id + (int)($languageCode === $mainLanguageCode && $alwaysAvailable),
+                        )->id + (int) ($languageCode === $mainLanguageCode && $alwaysAvailable),
                         null,
                         PDO::PARAM_INT
                     )
@@ -1259,7 +1259,7 @@ class DoctrineDatabase extends Gateway
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
 
-        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int)$synonymId . '/';
+        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
     }
 
     /**

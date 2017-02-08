@@ -2,11 +2,11 @@
 
 namespace Netgen\TagsBundle\View\Response;
 
+use eZ\Publish\Core\MVC\Symfony\View\CachableView;
+use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use eZ\Publish\Core\MVC\Symfony\View\CachableView;
-use Netgen\TagsBundle\View\TagView;
 
 class CachedViewResponseListener implements EventSubscriberInterface
 {

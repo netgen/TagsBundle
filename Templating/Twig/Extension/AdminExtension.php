@@ -3,8 +3,8 @@
 namespace Netgen\TagsBundle\Templating\Twig\Extension;
 
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
-use Twig_Extension_GlobalsInterface;
 use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
 
 class AdminExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {

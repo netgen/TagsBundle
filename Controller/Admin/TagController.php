@@ -5,6 +5,8 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
@@ -18,8 +20,6 @@ use Netgen\TagsBundle\Form\Type\TagMergeType;
 use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TagController extends Controller
@@ -89,7 +89,7 @@ class TagController extends Controller
         if (!$tag instanceof Tag || !$tag->isSynonym()) {
             $configResolver = $this->getConfigResolver();
 
-            $currentPage = (int)$request->query->get('page');
+            $currentPage = (int) $request->query->get('page');
             $pager = $this->createPager(
                 $this->tagChildrenAdapter,
                 $currentPage,

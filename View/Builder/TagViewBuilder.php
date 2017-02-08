@@ -2,15 +2,15 @@
 
 namespace Netgen\TagsBundle\View\Builder;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilder;
 use eZ\Publish\Core\MVC\Symfony\View\Configurator;
 use eZ\Publish\Core\MVC\Symfony\View\ParametersInjector;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\View\TagView;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 

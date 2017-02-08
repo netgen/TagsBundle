@@ -2,8 +2,8 @@
 
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 /**
  * Tag keyword criterion handler.

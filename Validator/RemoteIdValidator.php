@@ -2,13 +2,13 @@
 
 namespace Netgen\TagsBundle\Validator;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Validator\Constraints\RemoteId;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use Symfony\Component\Validator\ConstraintValidator;
 
 class RemoteIdValidator extends ConstraintValidator
 {
@@ -50,7 +50,7 @@ class RemoteIdValidator extends ConstraintValidator
             $tag = $this->tagsService->loadTagByRemoteId($value);
 
             if (!$constraint->payload instanceof Tag || $tag->id !== $constraint->payload->id) {
-                /** @var \Netgen\TagsBundle\Validator\Constraints\RemoteId $constraint */
+                /* @var \Netgen\TagsBundle\Validator\Constraints\RemoteId $constraint */
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('%remoteId%', $value)
                     ->addViolation();

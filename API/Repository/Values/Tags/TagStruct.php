@@ -16,6 +16,13 @@ abstract class TagStruct extends ValueObject
     public $mainLanguageCode;
 
     /**
+     * A global unique ID of the tag.
+     *
+     * @var string
+     */
+    public $remoteId;
+
+    /**
      * Tag keywords in the target languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
@@ -24,13 +31,6 @@ abstract class TagStruct extends ValueObject
      * @var string[]
      */
     protected $keywords;
-
-    /**
-     * A global unique ID of the tag.
-     *
-     * @var string
-     */
-    public $remoteId;
 
     /**
      * Returns keywords available in the struct.

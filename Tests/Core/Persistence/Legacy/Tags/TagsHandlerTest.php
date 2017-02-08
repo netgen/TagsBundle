@@ -2,17 +2,17 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
+use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
-use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 
 /**
  * Test case for Tags Handler.
@@ -34,27 +34,6 @@ class TagsHandlerTest extends TestCase
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
     protected $mapper;
-
-    protected function getTagsHandler(array $mockedMethods = array('updateSubtreeModificationTime'))
-    {
-        return $this->getMock(
-            Handler::class,
-            $mockedMethods,
-            array(
-                $this->gateway = $this->getMock(Gateway::class),
-                $this->mapper = $this->getMock(
-                    Mapper::class,
-                    array(),
-                    array(
-                        new LanguageHandlerMock(),
-                        new MaskGenerator(
-                            new LanguageHandlerMock()
-                        ),
-                    )
-                ),
-            )
-        );
-    }
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::__construct
@@ -1180,5 +1159,26 @@ class TagsHandlerTest extends TestCase
             ->with(40);
 
         $handler->deleteTag(40);
+    }
+
+    protected function getTagsHandler(array $mockedMethods = array('updateSubtreeModificationTime'))
+    {
+        return $this->getMock(
+            Handler::class,
+            $mockedMethods,
+            array(
+                $this->gateway = $this->getMock(Gateway::class),
+                $this->mapper = $this->getMock(
+                    Mapper::class,
+                    array(),
+                    array(
+                        new LanguageHandlerMock(),
+                        new MaskGenerator(
+                            new LanguageHandlerMock()
+                        ),
+                    )
+                ),
+            )
+        );
     }
 }

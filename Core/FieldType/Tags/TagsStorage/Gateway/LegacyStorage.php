@@ -2,13 +2,13 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 
-use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
+use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use RuntimeException;
+use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use PDO;
+use RuntimeException;
 
 class LegacyStorage extends Gateway
 {
@@ -56,22 +56,6 @@ class LegacyStorage extends Gateway
         }
 
         $this->connection = $connection;
-    }
-
-    /**
-     * Returns the active connection.
-     *
-     * @throws \RuntimeException if no connection has been set, yet
-     *
-     * @return \eZ\Publish\Core\Persistence\Database\DatabaseHandler
-     */
-    protected function getConnection()
-    {
-        if ($this->connection === null) {
-            throw new RuntimeException('Missing database connection.');
-        }
-
-        return $this->connection;
     }
 
     /**
@@ -151,6 +135,22 @@ class LegacyStorage extends Gateway
     }
 
     /**
+     * Returns the active connection.
+     *
+     * @throws \RuntimeException if no connection has been set, yet
+     *
+     * @return \eZ\Publish\Core\Persistence\Database\DatabaseHandler
+     */
+    protected function getConnection()
+    {
+        if ($this->connection === null) {
+            throw new RuntimeException('Missing database connection.');
+        }
+
+        return $this->connection;
+    }
+
+    /**
      * Returns the data for the given $fieldId and $versionNo.
      *
      * @param mixed $fieldId
@@ -217,18 +217,18 @@ class LegacyStorage extends Gateway
 
         $tagList = array();
         foreach ($rows as $row) {
-            $tagId = (int)$row['eztags_id'];
+            $tagId = (int) $row['eztags_id'];
             if (!isset($tagList[$tagId])) {
                 $tagList[$tagId] = array();
-                $tagList[$tagId]['id'] = (int)$row['eztags_id'];
-                $tagList[$tagId]['parent_id'] = (int)$row['eztags_parent_id'];
-                $tagList[$tagId]['main_tag_id'] = (int)$row['eztags_main_tag_id'];
+                $tagList[$tagId]['id'] = (int) $row['eztags_id'];
+                $tagList[$tagId]['parent_id'] = (int) $row['eztags_parent_id'];
+                $tagList[$tagId]['main_tag_id'] = (int) $row['eztags_main_tag_id'];
                 $tagList[$tagId]['keywords'] = array();
-                $tagList[$tagId]['depth'] = (int)$row['eztags_depth'];
+                $tagList[$tagId]['depth'] = (int) $row['eztags_depth'];
                 $tagList[$tagId]['path_string'] = $row['eztags_path_string'];
-                $tagList[$tagId]['modified'] = (int)$row['eztags_modified'];
+                $tagList[$tagId]['modified'] = (int) $row['eztags_modified'];
                 $tagList[$tagId]['remote_id'] = $row['eztags_remote_id'];
-                $tagList[$tagId]['always_available'] = ((int)$row['eztags_language_mask'] & 1) ? true : false;
+                $tagList[$tagId]['always_available'] = ((int) $row['eztags_language_mask'] & 1) ? true : false;
                 $tagList[$tagId]['main_language_code'] = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
                 $tagList[$tagId]['language_codes'] = array();
             }
