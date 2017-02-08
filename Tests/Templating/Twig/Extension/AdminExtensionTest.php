@@ -4,11 +4,11 @@ namespace Netgen\TagsBundle\Tests\Templating\Twig\Extension;
 
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Twig_Extension;
 use Twig_Extension_GlobalsInterface;
 
-class AdminExtensionTest extends PHPUnit_Framework_TestCase
+class AdminExtensionTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension

@@ -3,9 +3,9 @@
 namespace Netgen\TagsBundle\Tests\Templating\Twig;
 
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class AdminGlobalVariableTest extends PHPUnit_Framework_TestCase
+class AdminGlobalVariableTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable

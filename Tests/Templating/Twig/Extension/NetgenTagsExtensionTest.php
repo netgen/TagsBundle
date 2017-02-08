@@ -11,11 +11,11 @@ use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
-class NetgenTagsExtensionTest extends PHPUnit_Framework_TestCase
+class NetgenTagsExtensionTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
