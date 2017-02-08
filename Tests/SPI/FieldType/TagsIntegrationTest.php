@@ -107,7 +107,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getCustomHandler()
     {
-        $this->tagsService = $this->getMock(TagsService::class);
+        $this->tagsService = $this->createMock(TagsService::class);
 
         $fieldType = new TagsType($this->tagsService);
 

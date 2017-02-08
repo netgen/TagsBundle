@@ -245,7 +245,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     protected function getContentSearchHandler()
     {
         return new Content\Handler(
-            $this->getMock(Content\Gateway::class),
+            $this->createMock(Content\Gateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $this->getDatabaseHandler(),
                 new CriteriaConverter(
@@ -265,11 +265,11 @@ class HandlerLocationTest extends LanguageAwareTestCase
                 ),
                 $this->getLanguageHandler()
             ),
-            $this->getMock(Content\WordIndexer\Gateway::class),
-            $this->getMockBuilder(ContentMapper::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(Content\WordIndexer\Gateway::class),
+            $this->createMock(ContentMapper::class),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler(),
-            $this->getMockBuilder(Content\Mapper\FullTextMapper::class)->disableOriginalConstructor()->getMock()
+            $this->createMock(Content\Mapper\FullTextMapper::class)
         );
     }
 
@@ -280,7 +280,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
      */
     protected function getLocationMapperMock()
     {
-        $mapperMock = $this->getMock(
+        $mapperMock = $this->createMock(
             LocationMapper::class,
             array('createLocationsFromRows')
         );

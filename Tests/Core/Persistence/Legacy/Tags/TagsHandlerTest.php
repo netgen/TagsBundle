@@ -1163,22 +1163,23 @@ class TagsHandlerTest extends TestCase
 
     protected function getTagsHandler(array $mockedMethods = array('updateSubtreeModificationTime'))
     {
-        return $this->getMock(
-            Handler::class,
-            $mockedMethods,
-            array(
-                $this->gateway = $this->getMock(Gateway::class),
-                $this->mapper = $this->getMock(
-                    Mapper::class,
-                    array(),
-                    array(
-                        new LanguageHandlerMock(),
-                        new MaskGenerator(
-                            new LanguageHandlerMock()
-                        ),
-                    )
-                ),
+        return $this->getMockBuilder(Handler::class)
+            ->setMethods($mockedMethods)
+            ->setConstructorArgs(
+                array(
+                    $this->gateway = $this->createMock(Gateway::class),
+                    $this->mapper = $this->createMock(
+                        Mapper::class,
+                        array(),
+                        array(
+                            new LanguageHandlerMock(),
+                            new MaskGenerator(
+                                new LanguageHandlerMock()
+                            ),
+                        )
+                    ),
+                )
             )
-        );
+            ->getMock();
     }
 }

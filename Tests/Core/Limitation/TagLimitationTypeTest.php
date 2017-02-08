@@ -5,9 +5,11 @@ namespace Netgen\TagsBundle\Tests\Core\Limitation;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
+use eZ\Publish\API\Repository\Values\User\User;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\Limitation\Tests\Base;
+use eZ\Publish\SPI\Persistence\Handler as SPIHandler;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
@@ -21,6 +23,15 @@ class TagLimitationTypeTest extends Base
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $tagsHandlerMock;
+    /**
+     * @var \eZ\Publish\SPI\Persistence\Handler|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $persistenceHandlerMock;
+
+    /**
+     * @var \eZ\Publish\API\Repository\Values\User\User|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $userMock;
 
     /**
      * Setup Tags Handler mock.
@@ -29,13 +40,9 @@ class TagLimitationTypeTest extends Base
     {
         parent::setUp();
 
-        $this->tagsHandlerMock = $this->getMock(
-            Handler::class,
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->persistenceHandlerMock = $this->createMock(SPIHandler::class);
+        $this->userMock = $this->createMock(User::class);
+        $this->tagsHandlerMock = $this->createMock(Handler::class);
     }
 
     /**
@@ -53,7 +60,7 @@ class TagLimitationTypeTest extends Base
     public function testConstruct()
     {
         return new TagLimitationType(
-            $this->getPersistenceMock(),
+            $this->persistenceHandlerMock,
             $this->tagsHandlerMock
         );
     }
@@ -319,10 +326,9 @@ class TagLimitationTypeTest extends Base
      */
     public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected, TagLimitationType $limitationType)
     {
-        $userMock = $this->getUserMock();
-        $userMock->expects($this->never())->method($this->anything());
+        $this->userMock->expects($this->never())->method($this->anything());
 
-        $value = $limitationType->evaluate($limitation, $userMock, $object);
+        $value = $limitationType->evaluate($limitation, $this->userMock, $object);
 
         self::assertInternalType('boolean', $value);
         self::assertEquals($expected, $value);
@@ -354,10 +360,9 @@ class TagLimitationTypeTest extends Base
      */
     public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, TagLimitationType $limitationType)
     {
-        $userMock = $this->getUserMock();
-        $userMock->expects($this->never())->method($this->anything());
+        $this->userMock->expects($this->never())->method($this->anything());
 
-        $limitationType->evaluate($limitation, $userMock, $object);
+        $limitationType->evaluate($limitation, $this->userMock, $object);
     }
 
     /**
@@ -370,7 +375,7 @@ class TagLimitationTypeTest extends Base
     {
         $limitationType->getCriterion(
             new TagLimitation(array()),
-            $this->getUserMock()
+            $this->userMock
         );
     }
 
@@ -384,7 +389,7 @@ class TagLimitationTypeTest extends Base
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId $criterion */
         $criterion = $limitationType->getCriterion(
             new TagLimitation(array('limitationValues' => array(1))),
-            $this->getUserMock()
+            $this->userMock
         );
 
         self::assertInstanceOf(TagId::class, $criterion);
@@ -404,7 +409,7 @@ class TagLimitationTypeTest extends Base
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId $criterion */
         $criterion = $limitationType->getCriterion(
             new TagLimitation(array('limitationValues' => array(1, 2))),
-            $this->getUserMock()
+            $this->userMock
         );
 
         self::assertInstanceOf(TagId::class, $criterion);

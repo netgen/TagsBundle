@@ -423,7 +423,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     protected function getTag1()
     {
-        $modificationDate = new Datetime();
+        $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1308153110);
 
         return new Tag(
@@ -450,7 +450,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     protected function getTag2()
     {
-        $modificationDate = new Datetime();
+        $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1343169159);
 
         return new Tag(
@@ -477,7 +477,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     protected function getTag3()
     {
-        $modificationDate = new Datetime();
+        $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1343169159);
 
         return new Tag(

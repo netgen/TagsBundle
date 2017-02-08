@@ -351,7 +351,7 @@ class TagsTest extends FieldTypeTest
      */
     protected function createFieldTypeUnderTest()
     {
-        $this->tagsService = $this->getMock(TagsService::class);
+        $this->tagsService = $this->createMock(TagsService::class);
 
         $this->tagsService->expects($this->any())
             ->method('loadTag')
@@ -422,7 +422,7 @@ class TagsTest extends FieldTypeTest
      */
     protected function getTag()
     {
-        $modificationDate = new Datetime();
+        $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1308153110);
 
         return new Tag(

@@ -281,12 +281,12 @@ class HandlerContentTest extends LanguageAwareTestCase
                 ),
                 $this->getLanguageHandler()
             ),
-            $this->getMock(Gateway::class),
-            $this->getMock(Content\WordIndexer\Gateway::class),
+            $this->createMock(Gateway::class),
+            $this->createMock(Content\WordIndexer\Gateway::class),
             $this->getContentMapperMock(),
-            $this->getMock(LocationMapper::class),
+            $this->createMock(LocationMapper::class),
             $this->getLanguageHandler(),
-            $this->getMockBuilder(Content\Mapper\FullTextMapper::class)->disableOriginalConstructor()->getMock()
+            $this->createMock(Content\Mapper\FullTextMapper::class)
         );
     }
 
@@ -297,14 +297,16 @@ class HandlerContentTest extends LanguageAwareTestCase
      */
     protected function getContentMapperMock()
     {
-        $mapperMock = $this->getMock(
-            Mapper::class,
-            array('extractContentFromRows'),
-            array(
-                $this->fieldRegistry,
-                $this->getLanguageHandler(),
+        $mapperMock = $this->getMockBuilder(Mapper::class)
+            ->setMethods(array('extractContentFromRows'))
+            ->setConstructorArgs(
+                array(
+                    $this->fieldRegistry,
+                    $this->getLanguageHandler(),
+                )
             )
-        );
+            ->getMock();
+
         $mapperMock->expects($this->any())
             ->method('extractContentFromRows')
             ->with($this->isType('array'))

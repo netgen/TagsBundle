@@ -31,13 +31,9 @@ class TagKeywordTest extends TestCase
 
     public function setUp()
     {
-        $this->fieldNameResolver = $this->getMockBuilder(FieldNameResolver::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fieldNameResolver = $this->createMock(FieldNameResolver::class);
 
-        $this->contentTypeHandler = $this->getMockBuilder(Handler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->contentTypeHandler = $this->createMock(Handler::class);
 
         $this->visitor = new Query\Common\CriterionVisitor\Tags\TagKeyword(
             $this->fieldNameResolver,

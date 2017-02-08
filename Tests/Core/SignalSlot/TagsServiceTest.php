@@ -40,13 +40,9 @@ class TagsServiceTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->tagsService = $this->getMockBuilder(CoreTagsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tagsService = $this->createMock(CoreTagsService::class);
 
-        $this->signalDispatcher = $this->getMockBuilder(SignalDispatcher::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->signalDispatcher = $this->createMock(SignalDispatcher::class);
     }
 
     /**

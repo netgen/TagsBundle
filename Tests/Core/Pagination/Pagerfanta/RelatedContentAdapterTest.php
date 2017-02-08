@@ -21,7 +21,7 @@ class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->tagsService = $this->getMock(TagsService::class);
+        $this->tagsService = $this->createMock(TagsService::class);
     }
 
     /**
