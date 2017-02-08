@@ -16,6 +16,9 @@
         <testsuite name="Netgen\TagsBundle\Tests\PlatformUI">
             <directory>Tests/PlatformUI</directory>
         </testsuite>
+        <testsuite name="Netgen\TagsBundle\Tests\Templating">
+            <directory>Tests/Templating</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>
