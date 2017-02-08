@@ -7,6 +7,8 @@ return Symfony\CS\Config\Config::create()
     ->fixers([
         'concat_with_spaces',
         'phpdoc_order',
+        'long_array_syntax',
+        '-short_array_syntax',
         '-psr0',
         '-concat_without_spaces',
         '-phpdoc_params',

@@ -6,7 +6,6 @@ use Netgen\TagsBundle\PlatformUI\EventListener\PlatformUIListener;
 use Netgen\TagsBundle\PlatformUI\EventListener\SetAdminPageLayoutRequestListener;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use PHPUnit_Framework_TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -15,22 +14,22 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class SetAdminPageLayoutRequestListenerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var SetAdminPageLayoutRequestListener
+     * @var \Netgen\TagsBundle\PlatformUI\EventListener\SetAdminPageLayoutRequestListener
      */
     protected $listener;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $globalVariable;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $event;
 
     /**
-     * @var Request
+     * @var \Symfony\Component\HttpFoundation\Request
      */
     protected $request;
 
@@ -43,17 +42,17 @@ class SetAdminPageLayoutRequestListenerTest extends PHPUnit_Framework_TestCase
     {
         $this->globalVariable = $this->getMockBuilder(AdminGlobalVariable::class)
             ->disableOriginalConstructor()
-            ->setMethods(['setPageLayoutTemplate'])
+            ->setMethods(array('setPageLayoutTemplate'))
             ->getMock();
 
         $this->pageLayoutTemplate = 'AcmeBundle::pagelayout.html.twig';
 
         $this->event = $this->getMockBuilder(GetResponseEvent::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isMasterRequest', 'getRequest'])
+            ->setMethods(array('isMasterRequest', 'getRequest'))
             ->getMock();
 
-        $this->request = new Request([], [], ['_route' => 'netgen_tags_admin'], [], [], ['HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest']);
+        $this->request = new Request(array(), array(), array('_route' => 'netgen_tags_admin'), array(), array(), array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest'));
 
         $this->listener = new SetAdminPageLayoutRequestListener($this->globalVariable, $this->pageLayoutTemplate);
     }
@@ -70,7 +69,7 @@ class SetAdminPageLayoutRequestListenerTest extends PHPUnit_Framework_TestCase
 
     public function testGetSubscribedEventShouldReturnValidConfiguration()
     {
-        $this->assertEquals([KernelEvents::REQUEST => 'onKernelRequest'], SetAdminPageLayoutRequestListener::getSubscribedEvents());
+        $this->assertEquals(array(KernelEvents::REQUEST => 'onKernelRequest'), SetAdminPageLayoutRequestListener::getSubscribedEvents());
     }
 
     public function testIsMasterRequestFalse()

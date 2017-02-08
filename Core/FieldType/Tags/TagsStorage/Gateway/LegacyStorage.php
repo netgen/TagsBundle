@@ -237,7 +237,7 @@ class LegacyStorage extends Gateway
                 $tagList[$tagId]['keywords'][$row['eztags_keyword_locale']] = $row['eztags_keyword_keyword'];
             }
 
-            if (!in_array([$row['eztags_keyword_locale']], $tagList[$tagId]['language_codes'])) {
+            if (!in_array(array($row['eztags_keyword_locale']), $tagList[$tagId]['language_codes'])) {
                 $tagList[$tagId]['language_codes'][] = $row['eztags_keyword_locale'];
             }
         }

@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\Tests\PlatformUI\EventListener;
 use Netgen\TagsBundle\PlatformUI\EventListener\PlatformUIListener;
 use Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener;
 use PHPUnit_Framework_TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,27 +16,27 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class RedirectResponseListenerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var RedirectResponseListener
+     * @var \Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener
      */
     protected $listener;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $kernel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $platformUiRequest;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $response;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $event;
 
@@ -47,19 +46,19 @@ class RedirectResponseListenerTest extends PHPUnit_Framework_TestCase
 
         $this->kernel = $this->getMockBuilder(HttpKernelInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods([])
+            ->setMethods(array())
             ->getMock();
 
         $this->response = $this->getMockBuilder(Response::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isRedirect', 'setStatusCode'])
+            ->setMethods(array('isRedirect', 'setStatusCode'))
             ->getMock();
 
-        $this->platformUiRequest = new Request([], [], ['_route' => 'netgen_tags_admin'], [], [], ['HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest']);
+        $this->platformUiRequest = new Request(array(), array(), array('_route' => 'netgen_tags_admin'), array(), array(), array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest'));
 
         $this->event = $this->getMockBuilder(FilterResponseEvent::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getResponse', 'isMasterRequest', 'getRequest'])
+            ->setMethods(array('getResponse', 'isMasterRequest', 'getRequest'))
             ->getMock();
     }
 
@@ -75,7 +74,7 @@ class RedirectResponseListenerTest extends PHPUnit_Framework_TestCase
 
     public function testGetSubscribedEventShouldReturnValidConfiguration()
     {
-        $this->assertEquals([KernelEvents::RESPONSE => 'onKernelResponse'], RedirectResponseListener::getSubscribedEvents());
+        $this->assertEquals(array(KernelEvents::RESPONSE => 'onKernelResponse'), RedirectResponseListener::getSubscribedEvents());
     }
 
     public function testIfNotMasterRequestThenReturn()
@@ -152,7 +151,7 @@ class RedirectResponseListenerTest extends PHPUnit_Framework_TestCase
 
         $this->event->expects($this->once())
             ->method('getRequest')
-            ->willReturn(new Request([], [], ['_route' => 'something']));
+            ->willReturn(new Request(array(), array(), array('_route' => 'something')));
 
         $this->response->expects($this->never())
             ->method('setStatusCode');
@@ -176,7 +175,7 @@ class RedirectResponseListenerTest extends PHPUnit_Framework_TestCase
 
         $this->event->expects($this->once())
             ->method('getRequest')
-            ->willReturn(new Request([], [], ['_route' => 'netgen_tags_admin']));
+            ->willReturn(new Request(array(), array(), array('_route' => 'netgen_tags_admin')));
 
         $this->response->expects($this->never())
             ->method('setStatusCode');
