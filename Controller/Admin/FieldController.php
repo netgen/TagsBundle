@@ -49,8 +49,8 @@ class FieldController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $subTreeLimit = (int)$request->query->get('subTreeLimit');
-        $hideRootTag = (bool)$request->query->get('hideRootTag');
+        $subTreeLimit = (int) $request->query->get('subTreeLimit');
+        $hideRootTag = (bool) $request->query->get('hideRootTag');
 
         $searchResult = $this->tagsService->searchTags(
             $request->query->get('searchString'),
@@ -59,7 +59,7 @@ class FieldController extends Controller
 
         $data = array();
         foreach ($searchResult->tags as $tag) {
-            if ($subTreeLimit > 0 && !in_array($subTreeLimit, $tag->path)) {
+            if ($subTreeLimit > 0 && !in_array($subTreeLimit, $tag->path, true)) {
                 continue;
             }
 

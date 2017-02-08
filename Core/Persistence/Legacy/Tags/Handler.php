@@ -9,7 +9,6 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SearchResult;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 class Handler implements BaseTagsHandler
 {

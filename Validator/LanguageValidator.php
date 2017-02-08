@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\Validator;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LanguageService;
 use Netgen\TagsBundle\Validator\Constraints\Language;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -31,6 +31,8 @@ class LanguageValidator extends ConstraintValidator
      *
      * @param mixed $value The value that should be validated
      * @param \Symfony\Component\Validator\Constraint $constraint The constraint for the validation
+     *
+     * @throws \Symfony\Component\Validator\Exception\UnexpectedTypeException If the type is unexpected
      */
     public function validate($value, Constraint $constraint)
     {

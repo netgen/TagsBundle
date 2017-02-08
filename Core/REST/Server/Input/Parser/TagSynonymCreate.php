@@ -38,6 +38,8 @@ class TagSynonymCreate extends BaseParser
      * @param array $data
      * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
      *
+     * @throws \eZ\Publish\Core\REST\Common\Exceptions\Parser If the parsing failed
+     *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
