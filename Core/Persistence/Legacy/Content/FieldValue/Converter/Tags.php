@@ -86,7 +86,8 @@ class Tags implements Converter
                 'hideRootTag' => (bool) $storageDef->dataInt3,
                 'maxTags' => (int) $storageDef->dataInt4,
                 'editView' => $storageDef->dataText1,
-            )
+            ),
+            FieldSettings::ARRAY_AS_PROPS
         );
     }
 
