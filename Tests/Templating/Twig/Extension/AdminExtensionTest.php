@@ -2,8 +2,8 @@
 
 namespace Netgen\TagsBundle\Tests\Templating\Twig\Extension;
 
-use Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
+use Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension;
 use PHPUnit_Framework_TestCase;
 use Twig_Extension;
 use Twig_Extension_GlobalsInterface;

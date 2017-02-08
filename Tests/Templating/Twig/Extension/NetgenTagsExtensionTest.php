@@ -2,15 +2,15 @@
 
 namespace Netgen\TagsBundle\Tests\Templating\Twig\Extension;
 
+use eZ\Publish\API\Repository\Values\Content\Language;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\Repository\ContentTypeService;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\Repository\LanguageService;
-use eZ\Publish\API\Repository\Values\Content\Language;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension;
-use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use PHPUnit_Framework_TestCase;
 use Twig_Extension;
 use Twig_SimpleFunction;
@@ -161,7 +161,7 @@ class NetgenTagsExtensionTest extends PHPUnit_Framework_TestCase
             array(
                 'id' => 123,
                 'languageCode' => 'eng-EU',
-                'name' => 'English'
+                'name' => 'English',
             )
         );
 
