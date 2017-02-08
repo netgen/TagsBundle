@@ -5,13 +5,13 @@ namespace Netgen\TagsBundle\Tests\PlatformUI\EventListener;
 use Netgen\TagsBundle\PlatformUI\EventListener\PlatformUIListener;
 use Netgen\TagsBundle\PlatformUI\EventListener\SetAdminPageLayoutRequestListener;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class SetAdminPageLayoutRequestListenerTest extends PHPUnit_Framework_TestCase
+class SetAdminPageLayoutRequestListenerTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\PlatformUI\EventListener\SetAdminPageLayoutRequestListener

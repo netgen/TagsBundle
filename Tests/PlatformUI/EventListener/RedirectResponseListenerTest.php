@@ -4,7 +4,7 @@ namespace Netgen\TagsBundle\Tests\PlatformUI\EventListener;
 
 use Netgen\TagsBundle\PlatformUI\EventListener\PlatformUIListener;
 use Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class RedirectResponseListenerTest extends PHPUnit_Framework_TestCase
+class RedirectResponseListenerTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener

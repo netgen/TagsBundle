@@ -10,12 +10,12 @@ use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition as PersistenceFieldDefinition;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for Tags converter in Legacy storage.
  */
-class TagsTest extends PHPUnit_Framework_TestCase
+class TagsTest extends TestCase
 {
     /**
      * Tags converter.

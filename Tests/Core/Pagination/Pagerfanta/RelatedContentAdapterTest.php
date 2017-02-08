@@ -6,9 +6,9 @@ use eZ\Publish\Core\Repository\Values\Content\Content;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class RelatedContentAdapterTest extends PHPUnit_Framework_TestCase
+class RelatedContentAdapterTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
