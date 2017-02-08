@@ -71,8 +71,9 @@ class LanguageHandlerMock implements LanguageHandler
      */
     public function load($id)
     {
+        $id = (int) $id;
         foreach ($this->languages as $language) {
-            if ($language->id == $id) {
+            if ($language->id === $id) {
                 return $language;
             }
         }
@@ -91,7 +92,7 @@ class LanguageHandlerMock implements LanguageHandler
     public function loadByLanguageCode($languageCode)
     {
         foreach ($this->languages as $language) {
-            if ($language->languageCode == $languageCode) {
+            if ($language->languageCode === $languageCode) {
                 return $language;
             }
         }

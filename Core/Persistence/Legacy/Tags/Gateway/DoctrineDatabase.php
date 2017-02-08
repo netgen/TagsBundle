@@ -921,7 +921,7 @@ class DoctrineDatabase extends Gateway
             );
 
             $newParentId = $row['parent_id'];
-            if ($row['path_string'] === $sourceTagData['path_string'] || $row['main_tag_id'] == $sourceTagData['id']) {
+            if ($row['path_string'] === $sourceTagData['path_string'] || (int) $row['main_tag_id'] === (int) $sourceTagData['id']) {
                 $newParentId = (int) implode('', array_slice(explode('/', $newPathString), -3, 1));
             }
 

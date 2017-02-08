@@ -1,10 +1,10 @@
 <?php
 
 return PhpCsFixer\Config::create()
-    ->setRiskyAllowed(false)
+    ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
-        // '@Symfony:risky' => true,
+        '@Symfony:risky' => true,
         'array_syntax' => array('syntax' => 'long'),
         'combine_consecutive_unsets' => true,
         'concat_space' => ['spacing' => 'one'],
@@ -16,10 +16,10 @@ return PhpCsFixer\Config::create()
         'phpdoc_align' => false,
         'phpdoc_order' => true,
         'phpdoc_no_alias_tag' => false,
-        // 'psr4' => true,
+        'psr4' => true,
         'semicolon_after_instruction' => true,
-        // 'strict_comparison' => true,
-        // 'strict_param' => true,
+        'strict_comparison' => true,
+        'strict_param' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

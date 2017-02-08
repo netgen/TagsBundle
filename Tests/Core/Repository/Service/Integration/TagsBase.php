@@ -90,10 +90,10 @@ abstract class TagsBase extends BaseServiceTest
     {
         $tag = new Tag();
         $value = isset($tag->notDefined);
-        $this->assertEquals(false, $value);
+        $this->assertFalse($value);
 
         $value = isset($tag->id);
-        $this->assertEquals(true, $value);
+        $this->assertTrue($value);
     }
 
     /**

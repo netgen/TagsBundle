@@ -314,6 +314,7 @@ class TagLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      * @dataProvider providerForTestEvaluate
+     *
      * @param mixed $expected
      */
     public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected, TagLimitationType $limitationType)

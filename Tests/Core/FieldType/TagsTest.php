@@ -36,7 +36,7 @@ class TagsTest extends FieldTypeTest
      */
     public function getTagsServiceLoadTagValues($tagId)
     {
-        if ($tagId < 0 || $tagId == PHP_INT_MAX) {
+        if ($tagId < 0 || $tagId === PHP_INT_MAX) {
             throw new NotFoundException('tag', $tagId);
         }
 

@@ -223,7 +223,7 @@ class Type extends FieldType
      */
     public function isEmptyValue(SPIValue $value)
     {
-        return $value === null || $value->tags == $this->getEmptyValue()->tags;
+        return $value === null || $value->tags === $this->getEmptyValue()->tags;
     }
 
     /**

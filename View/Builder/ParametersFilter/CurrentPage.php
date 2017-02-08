@@ -32,7 +32,7 @@ class CurrentPage implements EventSubscriberInterface
         $parameterBag = $event->getParameters();
 
         $route = $parameterBag->get('_route');
-        if (!in_array($route, array(TagRouter::TAG_URL_ROUTE_NAME, TagUrlGenerator::INTERNAL_TAG_ROUTE))) {
+        if (!in_array($route, array(TagRouter::TAG_URL_ROUTE_NAME, TagUrlGenerator::INTERNAL_TAG_ROUTE), true)) {
             return;
         }
 

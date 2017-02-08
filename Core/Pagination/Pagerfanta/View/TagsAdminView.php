@@ -136,8 +136,8 @@ class TagsAdminView implements ViewInterface
             $endPage = $nbPages;
         }
 
-        $this->startPage = $startPage;
-        $this->endPage = $endPage;
+        $this->startPage = (int) $startPage;
+        $this->endPage = (int) $endPage;
     }
 
     /**
@@ -184,7 +184,7 @@ class TagsAdminView implements ViewInterface
         $pages['first_page'] = $this->startPage > 1 ? $this->generateUrl(1) : false;
         $pages['mobile_first_page'] = $this->pagerfanta->getCurrentPage() > 2 ? $this->generateUrl(1) : false;
 
-        $pages['second_page'] = $this->startPage == 3 ? $this->generateUrl(2) : false;
+        $pages['second_page'] = $this->startPage === 3 ? $this->generateUrl(2) : false;
 
         $pages['separator_before'] = $this->startPage > 3 ? true : false;
 
@@ -197,7 +197,7 @@ class TagsAdminView implements ViewInterface
 
         $pages['separator_after'] = $this->endPage < $this->pagerfanta->getNbPages() - 2 ? true : false;
 
-        $pages['second_to_last_page'] = $this->endPage == $this->pagerfanta->getNbPages() - 2 ?
+        $pages['second_to_last_page'] = $this->endPage === $this->pagerfanta->getNbPages() - 2 ?
             $this->generateUrl($this->pagerfanta->getNbPages() - 1) :
             false;
 

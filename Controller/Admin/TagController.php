@@ -501,7 +501,7 @@ class TagController extends Controller
         } elseif ($request->request->has('UpdateMainTranslationButton')) {
             $newMainTranslation = $request->request->get('MainLocale');
 
-            if (!in_array($newMainTranslation, $tag->languageCodes)) {
+            if (!in_array($newMainTranslation, $tag->languageCodes, true)) {
                 $this->addFlashMessage('errors', 'no_translation', array('%locale%', $newMainTranslation));
             } else {
                 $tagUpdateStruct->mainLanguageCode = $newMainTranslation;

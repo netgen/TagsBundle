@@ -107,7 +107,7 @@ class TagKeyword extends Tags
             }
         }
 
-        if ($criterion->operator == Criterion\Operator::LIKE) {
+        if ($criterion->operator === Criterion\Operator::LIKE) {
             $subSelect->where(
                 $subSelect->expr->like(
                     $this->dbHandler->quoteColumn('keyword', 'eztags_keyword'),

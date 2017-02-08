@@ -141,7 +141,14 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
             return false;
         }
 
-        return in_array($object->id, $value->limitationValues);
+        $limitationValues = array_map(
+            function ($value) {
+                return (int) $value;
+            },
+            $value->limitationValues
+        );
+
+        return in_array($object->id, $limitationValues, true);
     }
 
     /**

@@ -826,9 +826,9 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if (!$targetParentTag instanceof Tag && $tag->parentTagId == 0) {
+        if (!$targetParentTag instanceof Tag && $tag->parentTagId === 0) {
             throw new InvalidArgumentException('targetParentTag', 'Tag is already located at the root of the tree');
-        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId == $targetParentTag->id) {
+        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId === $targetParentTag->id) {
             throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
@@ -887,9 +887,9 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException('tag', 'Source tag is a synonym');
         }
 
-        if (!$targetParentTag instanceof Tag && $tag->parentTagId == 0) {
+        if (!$targetParentTag instanceof Tag && $tag->parentTagId === 0) {
             throw new InvalidArgumentException('targetParentTag', 'Tag is already located at the root of the tree');
-        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId == $targetParentTag->id) {
+        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId === $targetParentTag->id) {
             throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
