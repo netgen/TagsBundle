@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\DependencyInjection;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use RuntimeException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,6 +23,12 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
+
+        if (!in_array('EzCoreExtraBundle', $activatedBundles, true)) {
+            throw new RuntimeException('Netgen Tags Bundle requires EzCoreExtraBundle (lolautruche/ez-core-extra-bundle) to be activated to work properly.');
+        }
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
@@ -46,8 +53,6 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 
         $loader->load('platformui/default_settings.yml');
         $loader->load('platformui/services.yml');
-
-        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
 
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
             $loader->load('storage_engines/solr/criterion_visitors.yml');
