@@ -64,7 +64,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     public function __construct(
         TagsService $tagsService,
         TagUrlGenerator $generator,
-        RequestContext $requestContext,
+        RequestContext $requestContext = null,
         LoggerInterface $logger = null
     ) {
         $this->tagsService = $tagsService;
