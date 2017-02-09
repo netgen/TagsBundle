@@ -1,4 +1,8 @@
+# It is not recommended to change these settings directly
+# Use eZ Platform semantic config instead
+
 parameters:
+
     # Number of related content displayed per page in the tag view
     eztags.default.tag_view.related_content_list.limit: 10
 
