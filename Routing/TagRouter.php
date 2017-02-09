@@ -9,6 +9,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use RuntimeException;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
@@ -68,8 +69,8 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     ) {
         $this->tagsService = $tagsService;
         $this->generator = $generator;
-        $this->requestContext = $requestContext !== null ? $requestContext : new RequestContext();
-        $this->logger = $logger;
+        $this->requestContext = $requestContext ?: new RequestContext();
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
@@ -132,11 +133,9 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
         $request->attributes->set('tagId', $tag->id);
 
-        if ($this->logger !== null) {
-            $this->logger->info(
-                "TagRouter matched tag #{$tag->id}. Forwarding to tag view controller"
-            );
-        }
+        $this->logger->info(
+            "TagRouter matched tag #{$tag->id}. Forwarding to tag view controller"
+        );
 
         return $params;
     }

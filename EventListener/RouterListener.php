@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\EventListener;
 use eZ\Bundle\EzPublishLegacyBundle\Routing\FallbackRouter;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -28,7 +29,7 @@ class RouterListener implements EventSubscriberInterface
      */
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = $logger;
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
@@ -71,9 +72,7 @@ class RouterListener implements EventSubscriberInterface
             return;
         }
 
-        if ($this->logger instanceof LoggerInterface) {
-            $this->logger->info('Falling back to tag legacy route as specified in config.');
-        }
+        $this->logger->info('Falling back to tag legacy route as specified in config.');
 
         $request->attributes->set('_route', FallbackRouter::ROUTE_NAME);
         $request->attributes->set('_controller', 'ezpublish_legacy.controller:indexAction');
