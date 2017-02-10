@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\View\Response;
 
-use eZ\Publish\Core\MVC\Symfony\View\CachableView;
+use Netgen\TagsBundle\View\CachableView;
 use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -74,9 +74,5 @@ class CachedViewResponseListener implements EventSubscriberInterface
         if ($this->enableTtlCache && !$response->headers->hasCacheControlDirective('s-maxage')) {
             $response->setSharedMaxAge($this->defaultTtl);
         }
-
-        // We stop the propagation here so default cache view listener wouldn't mess with our view object.
-        // All listeners that modify the cache for tag view object should run before this event
-        $event->stopPropagation();
     }
 }

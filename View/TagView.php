@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\View;
 
 use eZ\Publish\Core\MVC\Symfony\View\BaseView;
-use eZ\Publish\Core\MVC\Symfony\View\CachableView;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
