@@ -5,9 +5,9 @@ namespace Netgen\TagsBundle\Validator;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LanguageService;
 use Netgen\TagsBundle\Validator\Constraints\Language;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class LanguageValidator extends ConstraintValidator
 {

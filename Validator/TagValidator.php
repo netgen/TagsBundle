@@ -5,9 +5,9 @@ namespace Netgen\TagsBundle\Validator;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Validator\Constraints\Tag;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class TagValidator extends ConstraintValidator
 {
