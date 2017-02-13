@@ -38,3 +38,12 @@ services:
                 - "@eztags.api.service.tags"
                 - "@translator"
                 - "@router"
+
+    eztags.admin.controller.field:
+        class: Netgen\TagsBundle\Controller\Admin\FieldController
+        parent: eztags.admin.controller.base
+        lazy: true
+        arguments:
+            - "@eztags.api.service.tags"
+        calls:
+            - [setLanguages, ["$languages$"]]

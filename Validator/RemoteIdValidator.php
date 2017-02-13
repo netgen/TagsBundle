@@ -6,9 +6,9 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Validator\Constraints\RemoteId;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class RemoteIdValidator extends ConstraintValidator
 {
@@ -32,6 +32,8 @@ class RemoteIdValidator extends ConstraintValidator
      *
      * @param mixed $value The value that should be validated
      * @param \Symfony\Component\Validator\Constraint $constraint The constraint for the validation
+     *
+     * @throws \Symfony\Component\Validator\Exception\UnexpectedTypeException If the type is unexpected
      */
     public function validate($value, Constraint $constraint)
     {

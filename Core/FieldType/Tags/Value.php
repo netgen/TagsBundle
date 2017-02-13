@@ -20,11 +20,9 @@ class Value extends BaseValue
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
-    public function __construct($tags = null)
+    public function __construct(array $tags = array())
     {
-        if (is_array($tags)) {
-            $this->tags = $tags;
-        }
+        $this->tags = $tags;
     }
 
     /**

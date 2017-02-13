@@ -218,10 +218,6 @@ class TagsTest extends FieldTypeTest
                 new TagsValue(),
             ),
             array(
-                new TagsValue(null),
-                new TagsValue(),
-            ),
-            array(
                 new TagsValue(array()),
                 new TagsValue(),
             ),
@@ -242,10 +238,6 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 new TagsValue(),
-                array(),
-            ),
-            array(
-                new TagsValue(null),
                 array(),
             ),
             array(
@@ -287,7 +279,11 @@ class TagsTest extends FieldTypeTest
                 ),
                 new TagsValue(
                     array(
-                        $this->getTag(),
+                        new Tag(
+                            array(
+                                'id' => 40,
+                            )
+                        ),
                     )
                 ),
             ),
@@ -304,10 +300,6 @@ class TagsTest extends FieldTypeTest
         return array(
             array(
                 new TagsValue(),
-                '',
-            ),
-            array(
-                new TagsValue(null),
                 '',
             ),
             array(

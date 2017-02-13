@@ -47,3 +47,6 @@ parameters:
 
     # Limit to tag related content list in admin interface
     eztags.default.admin.related_content_limit: 25
+
+    # Limit to autocomplete list in field edit interface
+    eztags.default.field.autocomplete_limit: 25

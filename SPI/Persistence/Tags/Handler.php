@@ -134,6 +134,19 @@ interface Handler
     public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true);
 
     /**
+     * Searches for tags.
+     *
+     * @param string $searchString
+     * @param string $translation
+     * @param bool $useAlwaysAvailable
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\SearchResult
+     */
+    public function searchTags($searchString, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1);
+
+    /**
      * Loads the synonyms of a tag identified by $tagId.
      *
      *

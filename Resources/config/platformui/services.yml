@@ -11,3 +11,13 @@ services:
         class: Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener
         tags:
             - { name: kernel.event_subscriber }
+
+    eztags.platformui.application_config.provider:
+        class: Netgen\TagsBundle\PlatformUI\ConfigProvider
+        lazy: true
+        arguments:
+            - "@security.authorization_checker"
+            - "@router"
+            - "@ezpublish.config.resolver"
+        tags:
+            - {name: ezsystems.platformui.application_config_provider, key: 'netgenTags'}

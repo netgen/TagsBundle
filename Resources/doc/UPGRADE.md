@@ -19,6 +19,7 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
 * Tag full view page does not set `Last-Modified` header any more. If you relied on it, implement a listener which sets the header based on tag last modification time
 * TagView object does not implement `CachableView` from eZ kernel any more, instead, it now implements own implementation `Netgen\TagsBundle\View\CachableView` which has the same signature as eZ one
 * `TagsService::getRelatedContent` and matching Pagerfanta adapter now return `ContentInfo` objects by default instead of `Content`. You can change the configuration of the adapter to get the old behavior back
+* Tag Value object constructor only allows receiving array of tags, thus `null` is not supported any more
 * Number of Symfony services had their name changed to use TagsBundle (`eztags`) prefix. The following table lists the old names and the new names. Backwards compatibility for old names is kept only for the main `TagsService`
 
   | Old name | New name

@@ -90,12 +90,13 @@ abstract class Gateway
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     * @param bool $exactMatch
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
      *
      * @return array
      */
-    abstract public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1);
+    abstract public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1);
 
     /**
      * Returns how many tags exist with $keyword.
@@ -103,10 +104,11 @@ abstract class Gateway
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
+     * @param bool $exactMatch
      *
      * @return int
      */
-    abstract public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true);
+    abstract public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true);
 
     /**
      * Returns data for synonyms of the tag identified by given $tagId.

@@ -17,6 +17,7 @@ use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
 use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
@@ -254,7 +255,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads tags by specified keyword.
      *
-     *
      * @param string $keyword The keyword to fetch tags for
      * @param string $language The language to check for
      * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
@@ -299,6 +299,46 @@ class TagsService implements TagsServiceInterface
         }
 
         return $this->tagsHandler->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable);
+    }
+
+    /**
+     * Search for tags.
+     *
+     * @param string $searchString Search string
+     * @param string $language The language to search for
+     * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all found tags starting at $offset are returned
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult
+     */
+    public function searchTags($searchString, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    {
+        if ($this->hasAccess('tags', 'read') === false) {
+            throw new UnauthorizedException('tags', 'read');
+        }
+
+        $spiSearchResult = $this->tagsHandler->searchTags(
+            $searchString,
+            $language,
+            $useAlwaysAvailable,
+            $offset,
+            $limit
+        );
+
+        $tags = array();
+        foreach ($spiSearchResult->tags as $spiTag) {
+            $tags[] = $this->buildTagDomainObject($spiTag);
+        }
+
+        return new SearchResult(
+            array(
+                'tags' => $tags,
+                'totalCount' => $spiSearchResult->totalCount,
+            )
+        );
     }
 
     /**

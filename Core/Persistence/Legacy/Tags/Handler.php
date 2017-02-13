@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as BaseTagsHandler;
+use Netgen\TagsBundle\SPI\Persistence\Tags\SearchResult;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
@@ -197,7 +198,7 @@ class Handler implements BaseTagsHandler
      */
     public function loadTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        $tags = $this->gateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $offset, $limit);
+        $tags = $this->gateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, true, $offset, $limit);
 
         return $this->mapper->extractTagListFromRows($tags);
     }
@@ -213,7 +214,31 @@ class Handler implements BaseTagsHandler
      */
     public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true)
     {
-        return $this->gateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable);
+        return $this->gateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, true);
+    }
+
+    /**
+     * Searches for tags.
+     *
+     * @param string $searchString
+     * @param string $translation
+     * @param bool $useAlwaysAvailable
+     * @param int $offset The start offset for paging
+     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\SearchResult
+     */
+    public function searchTags($searchString, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    {
+        $tags = $this->gateway->getTagsByKeyword($searchString, $translation, $useAlwaysAvailable, false, $offset, $limit);
+        $totalCount = $this->gateway->getTagsByKeywordCount($searchString, $translation, $useAlwaysAvailable, false);
+
+        return new SearchResult(
+            array(
+                'tags' => $this->mapper->extractTagListFromRows($tags),
+                'totalCount' => $totalCount,
+            )
+        );
     }
 
     /**

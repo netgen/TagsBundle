@@ -15,3 +15,7 @@ netgen_tags_admin_synonym:
 netgen_tags_admin_tree:
     resource: "admin/tree.yml"
     prefix: /tree
+
+netgen_tags_admin_field:
+    resource: "admin/field.yml"
+    prefix: /field

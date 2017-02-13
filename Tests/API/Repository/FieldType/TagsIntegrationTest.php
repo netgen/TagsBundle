@@ -314,10 +314,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 array(),
             ),
             array(
-                new TagsValue(null),
-                array(),
-            ),
-            array(
                 new TagsValue(array()),
                 array(),
             ),
@@ -387,7 +383,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         return array(
             array(new TagsValue()),
-            array(new TagsValue(null)),
             array(new TagsValue(array())),
         );
     }

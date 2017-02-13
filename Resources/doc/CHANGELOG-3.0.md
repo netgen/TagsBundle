@@ -13,6 +13,7 @@ The following lists only the most important changes from version 2.2 to version 
 * Admin UI is added, which can work standalone at `/tags/admin/`, or integrated into Platform UI
 * Tags field edit interface and field definition interfaces are implemented for Platform UI
 * You can now move and copy tags to the root of the tree
+* You can now search for tags starting with a provided string
 * You can now use semantic configuration to configure the bundle
 * Content related to a tag is now sorted by modified date, descending
 * Removed the legacy template converter for tag object

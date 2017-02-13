@@ -27,10 +27,12 @@ class TagParamConverter implements ParamConverterInterface
     }
 
     /**
-     * For given tag ID in the request, it loads a tag and passes it as a parameter to called action mathod.
+     * For given tag ID in the request, it loads a tag and passes it as a parameter to called action method.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request The request
      * @param \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration Contains the name, class and options of the object
+     *
+     * @throws \Netgen\TagsBundle\Exception\InvalidArgumentException If the required argument is empty
      *
      * @return bool True if the object has been successfully set, else false
      */

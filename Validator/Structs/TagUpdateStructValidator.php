@@ -34,6 +34,8 @@ class TagUpdateStructValidator extends ConstraintValidator
      *
      * @param mixed $value The value that should be validated
      * @param \Symfony\Component\Validator\Constraint $constraint The constraint for the validation
+     *
+     * @throws \Symfony\Component\Validator\Exception\UnexpectedTypeException If the type is unexpected
      */
     public function validate($value, Constraint $constraint)
     {
