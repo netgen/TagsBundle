@@ -409,6 +409,9 @@ class TagsService implements TagsServiceInterface
                     'offset' => $offset,
                     'limit' => $limit > 0 ? $limit : 10000,
                     'filter' => new ContentId($relatedContentIds),
+                    'sortClauses' => array(
+                        new Query\SortClause\DateModified(Query::SORT_DESC),
+                    ),
                 )
             )
         );
