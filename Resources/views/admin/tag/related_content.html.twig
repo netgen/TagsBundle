@@ -6,7 +6,7 @@
 
 {% block content %}
     <h2 class="tag-title">
-        {{ 'tag.related_content.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}
+        {{ 'tag.related_content.title'|trans }}: <a href="{{ path( 'netgen_tags_admin_tag_show', {tagId: tag.id} ) }}">{{ netgen_tags_tag_keyword( tag ) }}</a>
     </h2>
 
     {% if related_content|length > 0 %}
