@@ -6,6 +6,9 @@ parameters:
     # Number of related content displayed per page in the tag view
     eztags.default.tag_view.related_content_list.limit: 10
 
+    # Setting to control if ContentInfo objects will be returned instead of Content
+    eztags.default.tag_view.related_content_list.return_content_info: true
+
     # Whether to use tag view page cache or not (Last-Modified based)
     eztags.default.tag_view.cache: true
 

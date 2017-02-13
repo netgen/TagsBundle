@@ -23,6 +23,11 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     protected $tagsService;
 
     /**
+     * @var bool
+     */
+    protected $returnContentInfo;
+
+    /**
      * @var int
      */
     protected $nbResults;
@@ -31,10 +36,12 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     * @param bool $returnContentInfo
      */
-    public function __construct(TagsService $tagsService)
+    public function __construct(TagsService $tagsService, $returnContentInfo = true)
     {
         $this->tagsService = $tagsService;
+        $this->returnContentInfo = (bool) $returnContentInfo;
     }
 
     /**
@@ -79,7 +86,12 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             return array();
         }
 
-        $relatedContent = $this->tagsService->getRelatedContent($this->tag, $offset, $length);
+        $relatedContent = $this->tagsService->getRelatedContent(
+            $this->tag,
+            $offset,
+            $length,
+            $this->returnContentInfo
+        );
 
         if (!isset($this->nbResults)) {
             $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);

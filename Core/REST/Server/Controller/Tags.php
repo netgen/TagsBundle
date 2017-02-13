@@ -225,8 +225,7 @@ class Tags extends RestController
         $relatedContent = $this->tagsService->getRelatedContent(
             $this->tagsService->loadTag($tagId),
             $offset >= 0 ? $offset : 0,
-            $limit >= 0 ? $limit : 25,
-            true
+            $limit >= 0 ? $limit : 25
         );
 
         $restContent = array();
