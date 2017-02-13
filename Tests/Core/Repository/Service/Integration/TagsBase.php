@@ -7,7 +7,7 @@ use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
-use eZ\Publish\API\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -558,7 +558,7 @@ abstract class TagsBase extends BaseServiceTest
         $this->assertCount(3, $content);
 
         foreach ($content as $contentItem) {
-            $this->assertInstanceOf(Content::class, $contentItem);
+            $this->assertInstanceOf(ContentInfo::class, $contentItem);
         }
     }
 
