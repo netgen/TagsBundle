@@ -3,6 +3,8 @@ $.noConflict();
 function ngTagsTreeInit(){
     'use strict';
 
+    // @TODO Refactor into a separate jQuery plugin
+
     var $ = jQuery;
     $.each($('div.tags-tree'), function(index, value) {
         if ($(value).hasClass('jstree')) {
