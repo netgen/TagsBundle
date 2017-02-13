@@ -12,6 +12,7 @@ use eZ\Publish\Core\REST\Server\Values as BaseValues;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Server\Values;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Tags extends RestController
 {
@@ -539,5 +540,111 @@ class Tags extends RestController
         $pathParts = explode('/', trim($path, '/'));
 
         return array_pop($pathParts);
+    }
+
+
+    /**
+     * Function that returns a JSON Object including all available Tags in a list
+     *
+     * @param $hideRootTag - boolean: if true, all Tags of the root will be returned as well
+     *                       false: tags in root level will be hidden
+     * @param $subTreeLimit - Id of the root tag - if given all subtags of this tag will be returned,
+     *                       otherwise all Tags are returned
+     * @return JsonResponse - JSON formed arrey containing all selected tags
+     */
+    public function loadAllTags(Request $request, $subTreeLimit)
+    {
+        $tags = array();
+
+        $hideRootTag = $request->get('hideRootTag');
+
+        // get tag list of first level if parent tag is given ..
+        if (!empty($subTreeLimit)){
+
+            $rootTag = $this->tagsService->loadTag($subTreeLimit);
+
+            // show parent tag if needed
+            if ($hideRootTag === 'false'){
+                $mainLanguageCode = $rootTag->mainLanguageCode;
+                $tags[$rootTag->keywords[$mainLanguageCode]] =  $this->tagObjToArray($rootTag);
+            }
+            $rootTags = [$rootTag];
+
+        } else {
+            // no parent tag given.. get all tags..
+            $rootTags = $this->tagsService->loadTagChildren(null);
+
+            // show first level tags if needed
+            if ($hideRootTag === 'false'){
+
+                foreach($rootTags as $rootTag){
+                    $mainLanguageCode = $rootTag->mainLanguageCode;
+                    $tags[$rootTag->keywords[$mainLanguageCode]] =  $this->tagObjToArray($rootTag);
+                }
+            }
+        }
+
+        // get child tags
+        $res = array_merge($tags, $this->getChildTags($rootTags));
+
+        // create a JSON- list and return it.
+        return new JsonResponse(array('tagTree' => $res));
+    }
+
+
+    /**
+     *  Function that gets all childs of the next level of each tag passed as parameter
+     *  The childtags are returned in a same list, nevermind of the parent tag.
+     *
+     * @param $tags - array of (parent-) tagsobjects
+     * @return array of child objects
+     */
+    private function getChildTags($tags)
+    {
+        $results = array();
+
+        foreach($tags as $tag){
+
+            // get child tags of current tag
+            $tagAttrs = $this->tagsService->loadTagChildren($tag);
+
+            foreach($tagAttrs as $tagAttr){
+                $mainLanguageCode = $tagAttr->mainLanguageCode;
+
+                // 'translate' tagObject
+                $results[$tagAttr->keywords[$mainLanguageCode]] = $this->tagObjToArray($tagAttr);
+
+                // get the childtags and merge the results...
+                $results = array_merge($results, $this->getChildTags([$tagAttr]));
+            }
+        }
+        return $results;
+    }
+
+
+    /**
+     * function that transforms a tag object into an associative array. Indeed, the attributes of the
+     * tag object are protected and inaccessible for the JSON- converter
+     *
+     * @param $tag
+     * @return array
+     */
+    private function tagObjToArray($tag)
+    {
+        $result = array(
+            'id' => $tag->id,
+            'parent_id'   => $tag->parentTagId,
+            'main_tag_id' => $tag->mainTagId,
+            'keywords'    => $tag->keywords,
+            'depth'       => $tag->depth,
+            'path_string' => $tag->pathString,
+            'modified'    => date_format($tag->modificationDate, 'U'),
+            'remote_id'   => $tag->remoteId,
+            'always_available'   =>$tag->alwaysAvailable,
+            'main_language_code' => $tag->mainLanguageCode,
+            'language_codes' =>$tag->languageCodes
+        );
+
+        return $result;
     }
 }
