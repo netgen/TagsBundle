@@ -136,6 +136,17 @@ class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
 
+        $availableLanguages = $this->getConfigResolver()->getParameter('languages');
+        if (count($availableLanguages) === 1) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_add',
+                array(
+                    'parentId' => $parentTag !== null ? $parentTag->id : 0,
+                    'languageCode' => $availableLanguages[0],
+                )
+            );
+        }
+
         $form = $this->createForm(
             LanguageSelectType::class,
             null,
@@ -222,6 +233,17 @@ class TagController extends Controller
     public function updateTagSelectAction(Request $request, Tag $tag)
     {
         $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
+
+        $availableLanguages = $this->getConfigResolver()->getParameter('languages');
+        if (count($availableLanguages) === 1) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_update',
+                array(
+                    'tagId' => $tag->id,
+                    'languageCode' => $availableLanguages[0],
+                )
+            );
+        }
 
         $form = $this->createForm(
             LanguageSelectType::class,

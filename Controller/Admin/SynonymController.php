@@ -45,6 +45,17 @@ class SynonymController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:addsynonym');
 
+        $availableLanguages = $this->getConfigResolver()->getParameter('languages');
+        if (count($availableLanguages) === 1) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_synonym_add',
+                array(
+                    'mainTagId' => $mainTagId,
+                    'languageCode' => $availableLanguages[0],
+                )
+            );
+        }
+
         $form = $this->createForm(
             LanguageSelectType::class,
             null,
