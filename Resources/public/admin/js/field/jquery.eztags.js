@@ -290,7 +290,7 @@
       ],
       suggestedItem: ['<li class="js-suggested-item" data-cid="<%= tag.cid %>" title="<%=tr.clickAddThisTag%>"><!--<img src="<%=tag.flagSrc %>"/>--><%=tag.name%></li>'],
       selectedItem: ['<li data-cid="<%= tag.cid %>"><!--<img src="<%=tag.flagSrc %>" />--><%=tag.name%><a href="#" class="js-tags-remove" title="<%=tr.removeTag%>">&times;</a></li>'],
-      autocompleteItem: ['<div data-cid="<%= tag.cid %>" class="js-autocomplete-item resultItem"><a href="#"><!--<img src="<%=tag.flagSrc %>"/>--><%=tag.name%><span><%= tag.parent_name %></span></a></div>'],
+      autocompleteItem: ['<div data-cid="<%= tag.cid %>" class="js-autocomplete-item resultItem <%= tag.main_tag_id !== "0" ? "itemSynonym" : "" %>"><a href="#"><!--<img src="<%=tag.flagSrc %>"/>--><%=tag.name%><span><%= tag.parent_name %></span></a></div>'],
     }
   };
 

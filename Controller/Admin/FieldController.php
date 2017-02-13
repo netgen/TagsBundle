@@ -80,6 +80,7 @@ class FieldController extends Controller
                 'parent_name' => !empty($parentTagKeywords) ? array_values($parentTagKeywords)[0] : '',
                 'name' => array_values($tagKeywords)[0],
                 'id' => $tag->id,
+                'main_tag_id' => $tag->mainTagId,
                 'locale' => array_keys($tagKeywords)[0],
             );
         }

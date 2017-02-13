@@ -50,6 +50,7 @@ position:         absolute;
     height:auto;
     cursor:pointer;
 }
+.ng-tags-input-ui .jsonSuggestResults .resultItem.itemSynonym {font-style: italic;}
 .ng-tags-input-ui .jsonSuggestResults .resultItem a {padding:5px;}
 .ng-tags-input-ui .jsonSuggestResults .resultItem a img{margin-right:5px;}
 
