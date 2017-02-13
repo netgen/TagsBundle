@@ -129,7 +129,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                         new LanguageHandlerMock()
                     ),
                 ),
-                $this->getMock(TagsService::class)
+                $this->createMock(TagsService::class)
             )
         );
     }
