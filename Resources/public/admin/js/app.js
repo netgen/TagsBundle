@@ -1,14 +1,14 @@
 $.noConflict();
 
-function ngTagsInit(){
+function ngTagsTreeInit(){
     'use strict';
-    /**
-     * This method creates jsTree object for each DIV element with appropriate ID prefix.
-     */
-    var $ = jQuery;
-    var tagsTreeContainers = $('div.tags-tree');
 
-    $.each(tagsTreeContainers, function(index, value) {
+    var $ = jQuery;
+    $.each($('div.tags-tree'), function(index, value) {
+        if ($(value).hasClass('jstree')) {
+            return;
+        }
+
         $(value).jstree({
             'plugins': ["sort", "contextmenu", "ui"],
             'contextmenu': {
@@ -58,6 +58,41 @@ function ngTagsInit(){
                     disableNode(value, data.node.id);
                 }
             }
+        }).on('click', '.jstree-anchor', function (event) {
+            var selectedNode = $(this).jstree(true).get_node($(this)),
+                modalTreeDiv = $(event.target).closest('div.modal-tree'),
+                treeDiv = $(event.target).closest('div.tags-tree');
+
+            var disableSubtree = treeDiv.data('disablesubtree');
+            if (disableSubtree !== '') {
+                disableSubtree = disableSubtree.toString().split(',');
+
+                if (disableSubtree.indexOf(selectedNode.id) !== -1) {
+                    return;
+                }
+
+                var filteredDisableSubtree = disableSubtree.filter(function(el) {
+                    return selectedNode.parents.indexOf(el) !== -1
+                });
+
+                if (filteredDisableSubtree.length > 0) {
+                    return;
+                }
+            }
+
+            if (!modalTreeDiv.length) {
+                document.location.href = selectedNode.a_attr.href;
+            } else {
+                $(modalTreeDiv).children('input.tag-id').val(selectedNode.id);
+
+                if (selectedNode.text === undefined || selectedNode.id == '0') {
+                    $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
+                } else {
+                    $(modalTreeDiv).children('span.tag-keyword').html(selectedNode.text);
+                }
+
+                $(modalTreeDiv).children('div.ng-modal').hide();
+            }
         });
     });
 
@@ -92,49 +127,6 @@ function ngTagsInit(){
     }
 
     /**
-     * This method is called when user clicks on a node in tree.
-     * If it's a main tree, it redirects user to a route provided in selected node.
-     * Else, it puts selected node's ID in a form field with provided ID.
-     * And also it puts selected node's text in a span field with provided ID:
-     */
-    tagsTreeContainers.on('click', '.jstree-anchor', function (event) {
-        var selectedNode = $(this).jstree(true).get_node($(this)),
-            modalTreeDiv = $(event.target).closest('div.modal-tree'),
-            treeDiv = $(event.target).closest('div.tags-tree');
-
-        var disableSubtree = treeDiv.data('disablesubtree');
-        if (disableSubtree !== '') {
-            disableSubtree = disableSubtree.toString().split(',');
-
-            if (disableSubtree.indexOf(selectedNode.id) !== -1) {
-                return;
-            }
-
-            var filteredDisableSubtree = disableSubtree.filter(function(el) {
-                return selectedNode.parents.indexOf(el) !== -1
-            });
-
-            if (filteredDisableSubtree.length > 0) {
-                return;
-            }
-        }
-
-        if (!modalTreeDiv.length) {
-            document.location.href = selectedNode.a_attr.href;
-        } else {
-            $(modalTreeDiv).children('input.tag-id').val(selectedNode.id);
-
-            if (selectedNode.text === undefined || selectedNode.id == '0') {
-                $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
-            } else {
-                $(modalTreeDiv).children('span.tag-keyword').html(selectedNode.text);
-            }
-
-            $(modalTreeDiv).children('div.ng-modal').hide();
-        }
-    });
-
-    /**
      * Opens modal when modal open button is clicked.
      */
     $('.modal-tree-button').on('click', function(){
@@ -156,6 +148,12 @@ function ngTagsInit(){
             $(e.target).hide();
         }
     });
+}
+
+function ngTagsInit(){
+    'use strict';
+
+    var $ = jQuery;
 
     /* button click effect */
     function TagsBtn(el){
@@ -262,5 +260,6 @@ function ngTagsInit(){
 }
 
 jQuery(document).ready(function($) {
+    ngTagsTreeInit();
     ngTagsInit();
 });

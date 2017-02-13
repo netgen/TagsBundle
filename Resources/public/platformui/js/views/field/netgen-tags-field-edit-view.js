@@ -9,7 +9,7 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
                 if (this.get('active')) {
                     this.initTagsTranslations();
                     jQuery('#eztags' + this.get('fieldDefinition').id).EzTags();
-                    ngTagsInit();
+                    ngTagsTreeInit();
                 }
             });
         },
