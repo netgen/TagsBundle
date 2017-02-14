@@ -28,7 +28,7 @@ YUI.add('netgen-tags-navigation-view-plugin', function (Y) {
             for (var zone in zones) {
                 if (zones.hasOwnProperty(zone)) {
                     if (zone === 'admin') {
-                        newZones['ngtags'] = 'Netgen Tags';
+                        newZones['ngtags'] = 'Tags';
                     }
 
                     newZones[zone] = zones[zone];
