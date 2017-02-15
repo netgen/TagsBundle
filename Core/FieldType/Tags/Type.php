@@ -405,7 +405,6 @@ class Type extends FieldType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     *
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure
