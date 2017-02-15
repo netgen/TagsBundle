@@ -6,6 +6,7 @@ use DateTime;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
+use eZ\Publish\Core\FieldType\ValidationError;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
@@ -64,16 +65,6 @@ class TagsTest extends FieldTypeTest
             ),
             array(
                 array(
-                    'subTreeLimit' => 0,
-                ),
-            ),
-            array(
-                array(
-                    'subTreeLimit' => 5,
-                ),
-            ),
-            array(
-                array(
                     'editView' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
                 ),
             ),
@@ -92,14 +83,52 @@ class TagsTest extends FieldTypeTest
                     'hideRootTag' => false,
                 ),
             ),
+        );
+    }
+
+    /**
+     * Provide data sets with validator configurations which are considered
+     * valid by the {@link validateValidatorConfiguration()} method.
+     *
+     * @return array
+     */
+    public function provideValidValidatorConfiguration()
+    {
+        return array(
+            array(
+                array(),
+            ),
             array(
                 array(
-                    'maxTags' => 0,
+                    'TagsValueValidator' => array(),
                 ),
             ),
             array(
                 array(
-                    'maxTags' => 10,
+                    'TagsValueValidator' => array(
+                        'subTreeLimit' => 0,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'subTreeLimit' => 5,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'maxTags' => 0,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'maxTags' => 10,
+                    ),
                 ),
             ),
         );
@@ -128,21 +157,6 @@ class TagsTest extends FieldTypeTest
             ),
             array(
                 array(
-                    'subTreeLimit' => true,
-                ),
-            ),
-            array(
-                array(
-                    'subTreeLimit' => -5,
-                ),
-            ),
-            array(
-                array(
-                    'subTreeLimit' => PHP_INT_MAX,
-                ),
-            ),
-            array(
-                array(
                     'editView' => 'Unknown',
                 ),
             ),
@@ -151,14 +165,73 @@ class TagsTest extends FieldTypeTest
                     'hideRootTag' => 42,
                 ),
             ),
+        );
+    }
+
+    /**
+     * Provide data sets with validator configurations which are considered
+     * invalid by the {@link validateValidatorConfiguration()} method. The
+     * method must return a non-empty array of validation errors when receiving
+     * one of the provided values.
+     *
+     * @return array
+     */
+    public function provideInvalidValidatorConfiguration()
+    {
+        return array(
+            array(
+                true,
+            ),
             array(
                 array(
-                    'maxTags' => true,
+                    'NonExistentValidator' => array(),
                 ),
             ),
             array(
                 array(
-                    'maxTags' => -5,
+                    'TagsValueValidator' => true,
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'nonExistentParameter' => 42,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'subTreeLimit' => true,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'subTreeLimit' => -5,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'subTreeLimit' => PHP_INT_MAX,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'maxTags' => true,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'TagsValueValidator' => array(
+                        'maxTags' => -5,
+                    ),
                 ),
             ),
         );
@@ -224,6 +297,162 @@ class TagsTest extends FieldTypeTest
             array(
                 new TagsValue(array(new Tag())),
                 new TagsValue(array(new Tag())),
+            ),
+        );
+    }
+
+    /**
+     * Provides data sets with validator configuration and/or field settings and
+     * field value which are considered valid by the {@link validate()} method.
+     *
+     * @return array
+     */
+    public function provideValidDataForValidate()
+    {
+        return array(
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'subTreeLimit' => 0,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag(array('pathString' => '/2/42/102/')))),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'subTreeLimit' => 42,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag(array('pathString' => '/2/42/')))),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'subTreeLimit' => 42,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag(array('pathString' => '/2/42/102/')))),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'maxTags' => 0,
+                        ),
+                    ),
+                ),
+                new TagsValue(),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'maxTags' => 0,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag(), new Tag())),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'maxTags' => 2,
+                        ),
+                    ),
+                ),
+                new TagsValue(),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'maxTags' => 2,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag())),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'maxTags' => 2,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag(), new Tag())),
+            ),
+        );
+    }
+
+    /**
+     * Provides data sets with validator configuration and/or field settings,
+     * field value and corresponding validation errors returned by
+     * the {@link validate()} method.
+     *
+     * @return array
+     */
+    public function provideInvalidDataForValidate()
+    {
+        return array(
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'subTreeLimit' => 42,
+                        ),
+                    ),
+                ),
+                new TagsValue(
+                    array(
+                        new Tag(
+                            array(
+                                'pathString' => '/2/43/102/',
+                                'keywords' => array('eng-GB' => 'test'),
+                                'mainLanguageCode' => 'eng-GB',
+                            )
+                        ),
+                    )
+                ),
+                array(
+                    new ValidationError(
+                        'Tag "%keyword%" is not below tag with ID %subTreeLimit% as specified by field definition',
+                        null,
+                        array(
+                            '%keyword%' => 'test',
+                            '%subTreeLimit%' => 42,
+                        ),
+                        'value'
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'validatorConfiguration' => array(
+                        'TagsValueValidator' => array(
+                            'maxTags' => 2,
+                        ),
+                    ),
+                ),
+                new TagsValue(array(new Tag(), new Tag(), new Tag())),
+                array(
+                    new ValidationError(
+                        'Number of tags must be lower or equal to %maxTags%',
+                        null,
+                        array(
+                            '%maxTags%' => 2,
+                        ),
+                        'value'
+                    ),
+                ),
             ),
         );
     }
@@ -361,16 +590,6 @@ class TagsTest extends FieldTypeTest
     }
 
     /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
-    {
-        return array();
-    }
-
-    /**
      * Returns the settings schema expected from the field type.
      *
      * @return array
@@ -378,21 +597,34 @@ class TagsTest extends FieldTypeTest
     protected function getSettingsSchemaExpectation()
     {
         return array(
-            'subTreeLimit' => array(
-                'type' => 'int',
-                'default' => 0,
-            ),
             'hideRootTag' => array(
                 'type' => 'boolean',
                 'default' => false,
             ),
-            'maxTags' => array(
-                'type' => 'int',
-                'default' => 0,
-            ),
             'editView' => array(
                 'type' => 'string',
                 'default' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
+            ),
+        );
+    }
+
+    /**
+     * Returns the validator configuration schema expected from the field type.
+     *
+     * @return array
+     */
+    protected function getValidatorConfigurationSchemaExpectation()
+    {
+        return array(
+            'TagsValueValidator' => array(
+                'subTreeLimit' => array(
+                    'type' => 'int',
+                    'default' => 0,
+                ),
+                'maxTags' => array(
+                    'type' => 'int',
+                    'default' => 0,
+                ),
             ),
         );
     }

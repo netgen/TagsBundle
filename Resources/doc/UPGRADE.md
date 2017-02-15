@@ -13,6 +13,7 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
 * All `*.class` parameters have been removed from Symfony DIC. Override the whole service if needed, as recommended by Symfony
 * Support for eZ Publish Legacy is completely removed (meaning, tag object converter is removed)
 * Bundle now requires [`EzCoreExtraBundle`](https://github.com/lolautruche/EzCoreExtraBundle) to be activated to work properly
+* `subTreeLimit` and `maxTags` field settings are now part of `TagsValueValidator` validator schema. You will have to modify your code working with `subTreeLimit` and `maxTags` field settings to specify them as validators.
 * Content and Location `TagId` and `TagKeyword` Solr criterion visitors are removed and replaced with universal criterion visitors, one for `TagId` and one for `TagKeyword` criterion, which are used both for Content and Location search
 * `tags/id`, `tags/dashboard` and `tags/search` policies have been removed. They have been used for legacy admin interface and are unused in the new one
 * `tags/view` policy is now required to use `tags/view` route (that is, full view of the tag). Be sure to add the policy to all users that need access to the route

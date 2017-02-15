@@ -158,11 +158,16 @@ class TagsIntegrationTest extends BaseIntegrationTest
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
-                'subTreeLimit' => 0,
                 'hideRootTag' => false,
-                'maxTags' => 0,
                 'editView' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
             )
+        );
+
+        $fieldTypeConstraints->validators = array(
+            'TagsValueValidator' => array(
+                'subTreeLimit' => 0,
+                'maxTags' => 0,
+            ),
         );
 
         return array(

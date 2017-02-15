@@ -720,7 +720,7 @@
    */
   Base.prototype.add = function(attributes, opts) {
     opts || (opts = {});
-    if(this.max_tags_limit_reached()){return;}
+    //if(this.max_tags_limit_reached()){return;}
     var tag = new this.TagKlass(attributes);
     this.trigger('add:before', {tag: tag}, opts);
     this.tags.add(tag);

@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\Core\FieldType\ValidationError;
@@ -12,11 +13,6 @@ use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-/**
- * Tags field type.
- *
- * Represents tags.
- */
 class Type extends FieldType
 {
     /**
@@ -25,28 +21,39 @@ class Type extends FieldType
     const EDIT_VIEW_DEFAULT_VALUE = 'Default';
 
     /**
-     * List of settings available for this FieldType.
+     * The setting keys which are available on this field type.
      *
-     * The key is the setting name, and the value is the default value for this setting
+     * The key is the setting name, and the value is the default value for given
+     * setting, set to null if no particular default should be set.
      *
      * @var array
      */
     protected $settingsSchema = array(
-        'subTreeLimit' => array(
-            'type' => 'int',
-            'default' => 0,
-        ),
         'hideRootTag' => array(
             'type' => 'boolean',
             'default' => false,
         ),
-        'maxTags' => array(
-            'type' => 'int',
-            'default' => 0,
-        ),
         'editView' => array(
             'type' => 'string',
             'default' => self::EDIT_VIEW_DEFAULT_VALUE,
+        ),
+    );
+
+    /**
+     * The validator configuration schema.
+     *
+     * @var array
+     */
+    protected $validatorConfigurationSchema = array(
+        'TagsValueValidator' => array(
+            'subTreeLimit' => array(
+                'type' => 'int',
+                'default' => 0,
+            ),
+            'maxTags' => array(
+                'type' => 'int',
+                'default' => 0,
+            ),
         ),
     );
 
@@ -239,6 +246,182 @@ class Type extends FieldType
     }
 
     /**
+     * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
+     *
+     * @param mixed $validatorConfiguration
+     *
+     * @return \eZ\Publish\SPI\FieldType\ValidationError[]
+     */
+    public function validateValidatorConfiguration($validatorConfiguration)
+    {
+        $validationErrors = array();
+
+        if (!is_array($validatorConfiguration)) {
+            $validationErrors[] = new ValidationError('Validator configuration must be in form of an array');
+
+            return $validationErrors;
+        }
+
+        foreach ($validatorConfiguration as $validatorIdentifier => $constraints) {
+            if ($validatorIdentifier !== 'TagsValueValidator') {
+                $validationErrors[] = new ValidationError(
+                    "Validator '%validator%' is unknown",
+                    null,
+                    array(
+                        '%validator%' => $validatorIdentifier,
+                    ),
+                    "[$validatorIdentifier]"
+                );
+
+                continue;
+            }
+
+            if (!is_array($constraints)) {
+                $validationErrors[] = new ValidationError('TagsValueValidator constraints must be in form of an array');
+
+                return $validationErrors;
+            }
+
+            foreach ($constraints as $name => $value) {
+                switch ($name) {
+                    case 'subTreeLimit':
+                        if (!is_numeric($value)) {
+                            $validationErrors[] = new ValidationError(
+                                "Validator parameter '%parameter%' value must be of numeric type",
+                                null,
+                                array(
+                                    '%parameter%' => $name,
+                                ),
+                                "[$validatorIdentifier][$name]"
+                            );
+                        }
+
+                        if ($value < 0) {
+                            $validationErrors[] = new ValidationError(
+                                "Validator parameter '%parameter%' value must be equal or larger than 0",
+                                null,
+                                array(
+                                    '%parameter%' => $name,
+                                ),
+                                "[$validatorIdentifier][$name]"
+                            );
+                        }
+
+                        if ($value > 0) {
+                            try {
+                                $this->tagsService->loadTag($value);
+                            } catch (NotFoundException $e) {
+                                $validationErrors[] = new ValidationError(
+                                    "Validator parameter '%parameter%' value must be an existing tag ID",
+                                    null,
+                                    array(
+                                        '%parameter%' => $name,
+                                    ),
+                                    "[$validatorIdentifier][$name]"
+                                );
+                            }
+                        }
+                        break;
+                    case 'maxTags':
+                        if (!is_int($value)) {
+                            $validationErrors[] = new ValidationError(
+                                "Validator parameter '%parameter%' value must be of integer type",
+                                null,
+                                array(
+                                    '%parameter%' => $name,
+                                ),
+                                "[$validatorIdentifier][$name]"
+                            );
+                        }
+
+                        if ($value < 0) {
+                            $validationErrors[] = new ValidationError(
+                                "Validator parameter '%parameter%' value must be equal or larger than 0",
+                                null,
+                                array(
+                                    '%parameter%' => $name,
+                                ),
+                                "[$validatorIdentifier][$name]"
+                            );
+                        }
+                        break;
+                    default:
+                        $validationErrors[] = new ValidationError(
+                            "Validator parameter '%parameter%' is unknown",
+                            null,
+                            array(
+                                '%parameter%' => $name,
+                            ),
+                            "[$validatorIdentifier][$name]"
+                        );
+                }
+            }
+        }
+
+        return $validationErrors;
+    }
+
+    /**
+     * Validates a field based on the validators in the field definition.
+     *
+     *
+     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $fieldValue The field value for which an action is performed
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     *
+     * @return \eZ\Publish\SPI\FieldType\ValidationError[]
+     */
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    {
+        $validationErrors = array();
+
+        if ($this->isEmptyValue($fieldValue)) {
+            return $validationErrors;
+        }
+
+        $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
+        $constraints = isset($validatorConfiguration['TagsValueValidator']) ?
+            $validatorConfiguration['TagsValueValidator'] :
+            array();
+
+        $validationErrors = array();
+
+        if (isset($constraints['subTreeLimit']) && $constraints['subTreeLimit'] > 0) {
+            foreach ($fieldValue->tags as $tag) {
+                if (!in_array($constraints['subTreeLimit'], $tag->path, true)) {
+                    $validationErrors[] = new ValidationError(
+                        'Tag "%keyword%" is not below tag with ID %subTreeLimit% as specified by field definition',
+                        null,
+                        array(
+                            '%keyword%' => $tag->getKeyword(),
+                            '%subTreeLimit%' => $constraints['subTreeLimit'],
+                        ),
+                        'value'
+                    );
+
+                    break;
+                }
+            }
+        }
+
+        if (isset($constraints['maxTags']) && $constraints['maxTags'] > 0) {
+            if (count($fieldValue->tags) > $constraints['maxTags']) {
+                $validationErrors[] = new ValidationError(
+                    'Number of tags must be lower or equal to %maxTags%',
+                    null,
+                    array(
+                        '%maxTags%' => $constraints['maxTags'],
+                    ),
+                    'value'
+                );
+            }
+        }
+
+        return $validationErrors;
+    }
+
+    /**
      * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
      * @param mixed $fieldSettings
@@ -258,51 +441,17 @@ class Type extends FieldType
         foreach ($fieldSettings as $name => $value) {
             if (!isset($this->settingsSchema[$name])) {
                 $validationErrors[] = new ValidationError(
-                    "Setting '%setting%' is unknown",
+                    'Setting "%setting%" is unknown',
                     null,
                     array(
                         '%setting%' => $name,
-                    )
+                    ),
+                    "[$name]"
                 );
                 continue;
             }
 
             switch ($name) {
-                case 'subTreeLimit':
-                    if (!is_numeric($value)) {
-                        $validationErrors[] = new ValidationError(
-                            "Setting '%setting%' value must be of numeric type",
-                            null,
-                            array(
-                                '%setting%' => $name,
-                            )
-                        );
-                    }
-
-                    if ($value < 0) {
-                        $validationErrors[] = new ValidationError(
-                            "Setting '%setting%' value must be equal or larger than 0",
-                            null,
-                            array(
-                                '%setting%' => $name,
-                            )
-                        );
-                    }
-
-                    if ($value > 0) {
-                        try {
-                            $this->tagsService->loadTag($value);
-                        } catch (NotFoundException $e) {
-                            $validationErrors[] = new ValidationError(
-                                "Setting '%setting%' value must be an existing tag ID",
-                                null,
-                                array(
-                                    '%setting%' => $name,
-                                )
-                            );
-                        }
-                    }
-                    break;
                 case 'hideRootTag':
                     if (!is_bool($value)) {
                         $validationErrors[] = new ValidationError(
@@ -310,28 +459,8 @@ class Type extends FieldType
                             null,
                             array(
                                 '%setting%' => $name,
-                            )
-                        );
-                    }
-                    break;
-                case 'maxTags':
-                    if (!is_int($value)) {
-                        $validationErrors[] = new ValidationError(
-                            "Setting '%setting%' value must be of integer type",
-                            null,
-                            array(
-                                '%setting%' => $name,
-                            )
-                        );
-                    }
-
-                    if ($value < 0) {
-                        $validationErrors[] = new ValidationError(
-                            "Setting '%setting%' value must be equal or larger than 0",
-                            null,
-                            array(
-                                '%setting%' => $name,
-                            )
+                            ),
+                            "[$name]"
                         );
                     }
                     break;
@@ -342,7 +471,8 @@ class Type extends FieldType
                             null,
                             array(
                                 '%setting%' => $name,
-                            )
+                            ),
+                            "[$name]"
                         );
                     }
 
@@ -360,7 +490,8 @@ class Type extends FieldType
                             null,
                             array(
                                 '%editView%' => $value,
-                            )
+                            ),
+                            "[$name]"
                         );
                     }
                     break;
@@ -371,7 +502,7 @@ class Type extends FieldType
     }
 
     /**
-     * Returns whether the field type is searchable.
+     * Indicates if the field type supports indexing and sort keys for searching.
      *
      * @return bool
      */

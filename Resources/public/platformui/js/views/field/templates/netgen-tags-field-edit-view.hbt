@@ -20,7 +20,7 @@
                     data-builder="{{editView}}"
                     data-max-results="{{tagsConfig.field.autoCompleteLimit}}"
                     data-has-add-access="{{#if tagsConfig.field.hasAddAccess}}1{{else}}0{{/if}}"
-                    data-subtree-limit="0"
+                    data-subtree-limit="{{subTreeLimit}}"
                     data-hide-root-tag="{{#if hideRootTag}}1{{else}}0{{/if}}"
                     data-max-tags="{{maxTags}}"
                     data-locale="{{languageCode}}"

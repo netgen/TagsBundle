@@ -33,16 +33,26 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
             };
         },
 
+        validate: function () {
+            // Validation is done on backend
+            this.set('errorStatus', false);
+        },
+
         _variables: function () {
             var fieldSettings = this.get('fieldDefinition').fieldSettings;
+            var validatorConfig = this.get('fieldDefinition').validatorConfiguration;
             var tagsConfig = this.get('config').netgenTags;
 
             return {
                 tagsConfig: tagsConfig,
                 editView: fieldSettings.editView || 'Default',
                 hideRootTag: fieldSettings.hideRootTag,
-                maxTags: fieldSettings.maxTags,
-                subTreeLimit: fieldSettings.subTreeLimit,
+                maxTags: validatorConfig.TagsValueValidator.maxTags ?
+                    validatorConfig.TagsValueValidator.maxTags :
+                    0,
+                subTreeLimit: validatorConfig.TagsValueValidator.subTreeLimit ?
+                    validatorConfig.TagsValueValidator.subTreeLimit :
+                    0,
                 languageCode: this.get('languageCode'),
                 tagNames: this.get('tagNames'),
                 tagPids: this.get('tagPids'),

@@ -15,6 +15,8 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Type;
  */
 class Tags implements Converter
 {
+    const TAGS_VALIDATOR_IDENTIFIER = 'TagsValueValidator';
+
     /**
      * Factory for current class.
      *
@@ -55,16 +57,16 @@ class Tags implements Converter
      */
     public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
     {
-        $storageDef->dataInt1 = isset($fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit']) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['subTreeLimit'] :
+        $storageDef->dataInt1 = isset($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit']) ?
+            (int) $fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit'] :
             0;
 
         $storageDef->dataInt3 = isset($fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag']) ?
             (int) $fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
             0;
 
-        $storageDef->dataInt4 = isset($fieldDef->fieldTypeConstraints->fieldSettings['maxTags']) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['maxTags'] :
+        $storageDef->dataInt4 = isset($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags']) ?
+            (int) $fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags'] :
             0;
 
         $storageDef->dataText1 = isset($fieldDef->fieldTypeConstraints->fieldSettings['editView']) ?
@@ -82,12 +84,17 @@ class Tags implements Converter
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
-                'subTreeLimit' => (int) $storageDef->dataInt1,
                 'hideRootTag' => (bool) $storageDef->dataInt3,
-                'maxTags' => (int) $storageDef->dataInt4,
                 'editView' => $storageDef->dataText1,
             ),
             FieldSettings::ARRAY_AS_PROPS
+        );
+
+        $fieldDef->fieldTypeConstraints->validators = array(
+            static::TAGS_VALIDATOR_IDENTIFIER => array(
+                'subTreeLimit' => (int) $storageDef->dataInt1,
+                'maxTags' => (int) $storageDef->dataInt4,
+            ),
         );
     }
 

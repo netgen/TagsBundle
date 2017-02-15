@@ -3,24 +3,24 @@
 {% block eztags_field_definition_edit %}
     {% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
 
-    <div class="eztags-settings subtree-limit {{ group_class }}">
+    <div class="eztags-validator subtree-limit{% if group_class is not empty %} {{ group_class }}{% endif %}">
         {{- form_label(form.subTreeLimit, null, {translation_domain: 'ezrepoforms_content_type'}) -}}
         {{- form_widget(form.subTreeLimit, {label: false}) -}}
     </div>
 
-    <div class="eztags-settings hide-root-tag {{ group_class }}">
-        {{- form_label(form.hideRootTag) -}}
-        {{- form_errors(form.hideRootTag) -}}
-        {{- form_widget(form.hideRootTag) -}}
-    </div>
-
-    <div class="eztags-settings max-tags {{ group_class }}">
+    <div class="eztags-validator max-tags{% if group_class is not empty %} {{ group_class }}{% endif %}">
         {{- form_label(form.maxTags) -}}
         {{- form_errors(form.maxTags) -}}
         {{- form_widget(form.maxTags) -}}
     </div>
 
-    <div class="eztags-settings edit-view {{ group_class }}">
+    <div class="eztags-settings hide-root-tag{% if group_class is not empty %} {{ group_class }}{% endif %}">
+        {{- form_label(form.hideRootTag) -}}
+        {{- form_errors(form.hideRootTag) -}}
+        {{- form_widget(form.hideRootTag) -}}
+    </div>
+
+    <div class="eztags-settings edit-view{% if group_class is not empty %} {{ group_class }}{% endif %}">
         {{- form_label(form.editView) -}}
         {{- form_errors(form.editView) -}}
         {{- form_widget(form.editView) -}}

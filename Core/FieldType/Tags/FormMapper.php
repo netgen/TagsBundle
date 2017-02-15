@@ -38,26 +38,15 @@ class FormMapper implements FieldDefinitionFormMapperInterface
         $fieldDefinitionForm
             ->add(
                 'subTreeLimit', TagTreeType::class, array(
-                    'property_path' => 'fieldSettings[subTreeLimit]',
-                    'label' => 'field_definition.eztags.settings.subtree_limit',
-                )
-            )
-            ->add(
-                'hideRootTag', CheckboxType::class, array(
-                    'required' => false,
-                    'property_path' => 'fieldSettings[hideRootTag]',
-                    'label' => 'field_definition.eztags.settings.hide_root_tag',
-                    'constraints' => array(
-                        new Constraints\Type(array('type' => 'bool')),
-                        new Constraints\NotNull(),
-                    ),
+                    'property_path' => 'validatorConfiguration[TagsValueValidator][subTreeLimit]',
+                    'label' => 'field_definition.eztags.validator.subtree_limit',
                 )
             )
             ->add(
                 'maxTags', IntegerType::class, array(
                     'required' => false,
-                    'property_path' => 'fieldSettings[maxTags]',
-                    'label' => 'field_definition.eztags.settings.max_tags',
+                    'property_path' => 'validatorConfiguration[TagsValueValidator][maxTags]',
+                    'label' => 'field_definition.eztags.validator.max_tags',
                     'constraints' => array(
                         new Constraints\Type(array('type' => 'int')),
                         new Constraints\NotBlank(),
@@ -70,6 +59,17 @@ class FormMapper implements FieldDefinitionFormMapperInterface
                     'empty_data' => 0,
                     'attr' => array(
                         'min' => 0,
+                    ),
+                )
+            )
+            ->add(
+                'hideRootTag', CheckboxType::class, array(
+                    'required' => false,
+                    'property_path' => 'fieldSettings[hideRootTag]',
+                    'label' => 'field_definition.eztags.settings.hide_root_tag',
+                    'constraints' => array(
+                        new Constraints\Type(array('type' => 'bool')),
+                        new Constraints\NotNull(),
                     ),
                 )
             )

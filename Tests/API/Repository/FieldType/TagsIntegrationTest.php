@@ -38,21 +38,34 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getSettingsSchema()
     {
         return array(
-            'subTreeLimit' => array(
-                'type' => 'int',
-                'default' => 0,
-            ),
             'hideRootTag' => array(
                 'type' => 'boolean',
                 'default' => false,
             ),
-            'maxTags' => array(
-                'type' => 'int',
-                'default' => 0,
-            ),
             'editView' => array(
                 'type' => 'string',
                 'default' => Type::EDIT_VIEW_DEFAULT_VALUE,
+            ),
+        );
+    }
+
+    /**
+     * Get expected validator schema.
+     *
+     * @return array
+     */
+    public function getValidatorSchema()
+    {
+        return array(
+            'TagsValueValidator' => array(
+                'subTreeLimit' => array(
+                    'type' => 'int',
+                    'default' => 0,
+                ),
+                'maxTags' => array(
+                    'type' => 'int',
+                    'default' => 0,
+                ),
             ),
         );
     }
@@ -65,9 +78,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getValidFieldSettings()
     {
         return array(
-            'subTreeLimit' => 0,
             'hideRootTag' => true,
-            'maxTags' => 10,
             'editView' => Type::EDIT_VIEW_DEFAULT_VALUE,
         );
     }
@@ -85,23 +96,18 @@ class TagsIntegrationTest extends BaseIntegrationTest
     }
 
     /**
-     * Get expected validator schema.
-     *
-     * @return array
-     */
-    public function getValidatorSchema()
-    {
-        return array();
-    }
-
-    /**
      * Get a valid $validatorConfiguration.
      *
      * @return array
      */
     public function getValidValidatorConfiguration()
     {
-        return array();
+        return array(
+            'TagsValueValidator' => array(
+                'subTreeLimit' => 0,
+                'maxTags' => 10,
+            ),
+        );
     }
 
     /**

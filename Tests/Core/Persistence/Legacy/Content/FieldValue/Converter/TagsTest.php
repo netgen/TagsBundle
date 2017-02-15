@@ -90,11 +90,16 @@ class TagsTest extends TestCase
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
             array(
-                'subTreeLimit' => 0,
                 'hideRootTag' => true,
-                'maxTags' => 10,
                 'editView' => 'Select',
             )
+        );
+
+        $fieldTypeConstraints->validators = array(
+            'TagsValueValidator' => array(
+                'subTreeLimit' => 0,
+                'maxTags' => 10,
+            ),
         );
 
         $storageFieldDefinition = new StorageFieldDefinition();
@@ -118,7 +123,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
      */
-    public function testToStorageFieldDefinitionWithNoSettings()
+    public function testToStorageFieldDefinitionWithNoSettingsAndValidators()
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $this->converter->toStorageFieldDefinition(
@@ -154,9 +159,9 @@ class TagsTest extends TestCase
         );
 
         self::assertInstanceOf(FieldSettings::class, $fieldDefinition->fieldTypeConstraints->fieldSettings);
-        self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->fieldSettings['subTreeLimit']);
+        self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['subTreeLimit']);
+        self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['maxTags']);
         self::assertEquals(true, $fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
-        self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->fieldSettings['maxTags']);
         self::assertEquals('Select', $fieldDefinition->fieldTypeConstraints->fieldSettings['editView']);
         self::assertNull($fieldDefinition->defaultValue->data);
     }
