@@ -1,24 +1,29 @@
 <?php
 
-namespace Netgen\TagsBundle\Tests\Core\Repository\Service\Integration;
+namespace Netgen\TagsBundle\Tests\API\Repository;
 
 use DateTime;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
+use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\Repository\Tests\Service\Integration\Base as BaseServiceTest;
+use eZ\Publish\Core\Repository\Values\Content\Content;
+use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
+use eZ\Publish\Core\Repository\Values\User\User;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
-/**
- * Test case for Tags Service.
- */
-abstract class TagsBase extends BaseServiceTest
+abstract class BaseTagsServiceTest extends BaseTest
 {
+    /**
+     * @var \eZ\Publish\API\Repository\Repository
+     */
+    protected $repository;
+
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
@@ -1727,5 +1732,30 @@ abstract class TagsBase extends BaseServiceTest
         array_pop($pathStringElements);
 
         return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
+    }
+
+    /**
+     * Returns User stub with $id as User/Content id.
+     *
+     * @param int $id
+     *
+     * @return \eZ\Publish\API\Repository\Values\User\User
+     */
+    protected function getStubbedUser($id)
+    {
+        return new User(
+            array(
+                'content' => new Content(
+                    array(
+                        'versionInfo' => new VersionInfo(
+                            array(
+                                'contentInfo' => new ContentInfo(array('id' => $id)),
+                            )
+                        ),
+                        'internalFields' => array(),
+                    )
+                ),
+            )
+        );
     }
 }
