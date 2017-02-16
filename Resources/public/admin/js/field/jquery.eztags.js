@@ -597,8 +597,7 @@
   /**
    * Handles adding a new tag on add button click.
    * Fetches tag name from input field and selected locale, calls validation
-   * on these attributes and if subtreeLimit is > 0, adds tag to this tags property.
-   * Else, calls function that shows parent tree picker.
+   * on these attributes and calls function that shows parent tree picker.
    * At the end, closes autocomplete field.
    */
   Base.prototype.handler_add_buton = function() {
@@ -609,12 +608,7 @@
     };
 
     if(!this._validate(this.new_tag_attributes)){ return; }
-    if(this.opts.subtreeLimit){
-      this.new_tag_attributes.parent_id = this.opts.subtreeLimit;
-      this.add(this.new_tag_attributes);
-    }else{
-      this.show_tree_picker();
-    }
+    this.show_tree_picker();
     this.close_autocomplete();
 
   };
