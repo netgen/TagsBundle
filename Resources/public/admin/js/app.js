@@ -16,6 +16,7 @@ $.noConflict();
 
         this.$el = $(el);
         this.$tree = this.$el.find('.' + this.settings.treeClassName);
+        this.disableSubtree = this.$tree.data('disablesubtree');
 
         if (this.settings.modal){
             this.$modal = this.$el.find('.' + this.settings.modalClassName);
@@ -63,31 +64,32 @@ $.noConflict();
                 }
             });
         }).on("ready.jstree", function (event, data) {
-            var disableSubtree = self.$tree.data('disablesubtree');
-            if (disableSubtree !== '') {
-                $.each(disableSubtree.toString().split(','), function (index, element) {
+            if (self.disableSubtree !== '') {
+                $.each(self.disableSubtree.toString().split(','), function (index, element) {
                     self.disableNode(element);
                 });
             }
         }).on("load_node.jstree", function (event, data) {
-            var disableSubtree = self.$tree.data('disablesubtree');
-            if (disableSubtree !== '') {
-                if (disableSubtree.toString().split(',').indexOf(data.node.id) !== -1) {
+            if (self.disableSubtree !== '') {
+                if (self.disableSubtree.toString().split(',').indexOf(data.node.id) !== -1) {
                     self.disableNode(data.node.id);
                 }
+            }
+        }).on("open_node.jstree", function (event, data) {
+            if (self.disableSubtree !== '') {
+                self.disableNode(self.disableSubtree);
             }
         }).on('click', '.jstree-anchor', function (event) {
             var selectedNode = $(this).jstree(true).get_node($(this));
 
-            var disableSubtree = self.$tree.data('disablesubtree');
-            if (disableSubtree !== '') {
-                disableSubtree = disableSubtree.toString().split(',');
+            if (self.disableSubtree !== '') {
+                self.disableSubtree = self.disableSubtree.toString().split(',');
 
-                if (disableSubtree.indexOf(selectedNode.id) !== -1) {
+                if (self.disableSubtree.indexOf(selectedNode.id) !== -1) {
                     return;
                 }
 
-                var filteredDisableSubtree = disableSubtree.filter(function(el) {
+                var filteredDisableSubtree = self.disableSubtree.filter(function(el) {
                     return selectedNode.parents.indexOf(el) !== -1
                 });
 
@@ -115,6 +117,7 @@ $.noConflict();
     /** Disables the provided node.
         * @param nodeId */
     TagsTree.prototype.disableNode = function(nodeId) {
+        console.log(nodeId, this.$tree.find('li#' + nodeId));
         this.$tree.find('li#' + nodeId).addClass('disabled');
     };
 
