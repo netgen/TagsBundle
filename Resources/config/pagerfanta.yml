@@ -1,4 +1,16 @@
 services:
+    eztags.pagerfanta.related_content_adapter:
+        class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
+        lazy: true
+        arguments:
+            - "@eztags.api.service.tags"
+            - $tag_view.related_content_list.return_content_info;eztags$
+
+    eztags.pagerfanta.children_tags_adapter:
+        class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter
+        arguments:
+            - "@eztags.api.service.tags"
+
     eztags.pagerfanta.view.eztags_admin:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\View\TagsAdminView
         arguments:

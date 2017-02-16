@@ -32,15 +32,3 @@ services:
             - [setEnableTagRouter, [$routing.enable_tag_router;eztags$]]
         tags:
             - {name: kernel.event_subscriber}
-
-    eztags.pagerfanta.related_content_adapter:
-        class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
-        lazy: true
-        arguments:
-            - "@eztags.api.service.tags"
-            - $tag_view.related_content_list.return_content_info;eztags$
-
-    eztags.pagerfanta.children_tags_adapter:
-        class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter
-        arguments:
-            - "@eztags.api.service.tags"
