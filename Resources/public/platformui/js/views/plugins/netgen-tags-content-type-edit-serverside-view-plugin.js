@@ -13,7 +13,7 @@ YUI.add('netgen-tags-content-type-edit-serverside-view-plugin', function (Y) {
         },
 
         initTags: function () {
-            $('.tags-modal-tree').tagsTree({'modal': true});
+            jQuery('.tags-modal-tree').tagsTree({'modal': true});
         }
     }, {
         NS: 'NetgenTagsContentTypeEditServerSideView'

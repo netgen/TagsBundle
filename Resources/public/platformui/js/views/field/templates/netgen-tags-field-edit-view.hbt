@@ -37,7 +37,7 @@
                 <div class="jqmdIn">
                     <div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">Select tag</span><span class="jqmdTCRight"></span></div>
                     <div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
-                        <div class="modal-tree">
+                        <div class="tags-modal-tree">
                             <div
                                 class="tags-tree"
                                 data-path="{{tagsConfig.field.urls.treeChildren}}"

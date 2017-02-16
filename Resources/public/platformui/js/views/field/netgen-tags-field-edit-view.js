@@ -7,10 +7,11 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
         initializer: function () {
             this.after('activeChange', function (e) {
                 if (this.get('active')) {
+                    var fieldDefinitionId = this.get('fieldDefinition').id;
+
                     this.initTagsTranslations();
-                    var $tagsFieldWrapper = jQuery('#eztags' + this.get('fieldDefinition').id);
-                    $tagsFieldWrapper.EzTags();
-                    $tagsFieldWrapper.find('.tags-modal-tree').tagsTree({'modal': true});
+                    jQuery('#eztags' + fieldDefinitionId).EzTags();
+                    jQuery('#parent-selector-tree-' + fieldDefinitionId).find('.tags-modal-tree').tagsTree({'modal': true});
                 }
             });
         },
