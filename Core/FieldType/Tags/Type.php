@@ -389,6 +389,10 @@ class Type extends FieldType
 
         if (isset($constraints['subTreeLimit']) && $constraints['subTreeLimit'] > 0) {
             foreach ($fieldValue->tags as $tag) {
+                if (empty($tag->id)) {
+                    $tag = $this->tagsService->loadTag($tag->parentTagId);
+                }
+
                 if (!in_array($constraints['subTreeLimit'], $tag->path, true)) {
                     $validationErrors[] = new ValidationError(
                         'Tag "%keyword%" is not below tag with ID %subTreeLimit% as specified by field definition',
