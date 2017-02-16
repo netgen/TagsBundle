@@ -8,7 +8,6 @@ YUI.add('netgen-tags-serverside-view', function (Y) {
             this.after('activeChange', function() {
                 if (this.get('active')) {
                     this._initializeTagTree();
-                    ngTagsTreeInit();
                     ngTagsInit();
                 }
             });
@@ -17,7 +16,6 @@ YUI.add('netgen-tags-serverside-view', function (Y) {
         _initializeTagTree: function () {
             var view = this;
             var $ = jQuery;
-            var tagsTreeContainers = $('div.tags-tree');
 
             $.jstree.defaults.core.data = {};
             $.jstree.defaults.core.data.dataFilter = function (data, type) {

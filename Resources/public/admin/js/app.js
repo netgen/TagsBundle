@@ -1,27 +1,43 @@
 $.noConflict();
 
-function ngTagsTreeInit(){
+(function($){
     'use strict';
+    /* options for tagsTree plugin
+        'modal' - boolean - is the tagsTree opened in modal window (default false)
+        'treeClassName' - string - class name for div on which jstree is initialized (default 'tags-tree')
+        'modalClassName' - string - class name for modal div in which tagsTree are opened (default 'ng-modal')
+    */
+    var TagsTree = function(el, options){
+        this.settings = $.extend({
+            'modal': false,
+            'treeClassName': 'tags-tree',
+            'modalClassName': 'ng-modal'
+        }, options);
 
-    // @TODO Refactor into a separate jQuery plugin
+        this.$el = $(el);
+        this.$tree = this.$el.find('.' + this.settings.treeClassName);
 
-    var $ = jQuery;
-    $.each($('div.tags-tree'), function(index, value) {
-        if ($(value).hasClass('jstree')) {
-            return;
+        if (this.settings.modal){
+            this.$modal = this.$el.find('.' + this.settings.modalClassName);
+            this.modalInit();
         }
 
-        $(value).jstree({
+        this.treeInit();
+    };
+
+    TagsTree.prototype.treeInit = function(){
+        var self = this;
+        this.$tree.jstree({
             'plugins': ["sort", "contextmenu", "ui"],
             'contextmenu': {
                 'select_node': false,
-                'items': $(value).closest('div.modal-tree').length ? '' : tagTreeContextMenu
+                'items': self.settings.modal ? '' : self.tagTreeContextMenu
             },
             'core': {
                 'data': {
                     'url': function (node) {
-                        var route = $(value).data('path');
-                        var rootTagId = $(value).data('roottagid');
+                        var route = self.$tree.data('path');
+                        var rootTagId = self.$tree.data('roottagid');
 
                         return route
                             .replace("_tagId_", node.id)
@@ -33,39 +49,37 @@ function ngTagsTreeInit(){
                 }
             }
         }).on("ready.jstree", function (event, data) {
-            var selectedTagPath = $(value).data('selectedtagpath');
+            var selectedTagPath = self.$tree.data('selectedtagpath');
             if (selectedTagPath === '') {
                 selectedTagPath = '/0/';
             }
 
             selectedTagPath = selectedTagPath.replace(/^\//, '').replace(/\/$/, '').split('/');
-            $(value).jstree(true).load_node(selectedTagPath, function () {
+            self.$tree.jstree(true).load_node(selectedTagPath, function () {
                 var selectedNodeId = selectedTagPath[selectedTagPath.length - 1];
                 this.select_node(selectedNodeId);
-                if (!$(value).closest('div.modal-tree').length) {
-                    $(value).find('a#' + selectedNodeId + '_anchor').addClass('selected');
+                if (!self.settings.modal) {
+                    self.$tree.find('a#' + selectedNodeId + '_anchor').addClass('selected');
                 }
             });
         }).on("ready.jstree", function (event, data) {
-            var disableSubtree = $(value).data('disablesubtree');
+            var disableSubtree = self.$tree.data('disablesubtree');
             if (disableSubtree !== '') {
                 $.each(disableSubtree.toString().split(','), function (index, element) {
-                    disableNode(value, element);
+                    self.disableNode(element);
                 });
             }
         }).on("load_node.jstree", function (event, data) {
-            var disableSubtree = $(value).data('disablesubtree');
+            var disableSubtree = self.$tree.data('disablesubtree');
             if (disableSubtree !== '') {
                 if (disableSubtree.toString().split(',').indexOf(data.node.id) !== -1) {
-                    disableNode(value, data.node.id);
+                    self.disableNode(data.node.id);
                 }
             }
         }).on('click', '.jstree-anchor', function (event) {
-            var selectedNode = $(this).jstree(true).get_node($(this)),
-                modalTreeDiv = $(event.target).closest('div.modal-tree'),
-                treeDiv = $(event.target).closest('div.tags-tree');
+            var selectedNode = $(this).jstree(true).get_node($(this));
 
-            var disableSubtree = treeDiv.data('disablesubtree');
+            var disableSubtree = self.$tree.data('disablesubtree');
             if (disableSubtree !== '') {
                 disableSubtree = disableSubtree.toString().split(',');
 
@@ -82,38 +96,31 @@ function ngTagsTreeInit(){
                 }
             }
 
-            if (!modalTreeDiv.length) {
+            if (!self.settings.modal) {
                 document.location.href = selectedNode.a_attr.href;
             } else {
-                $(modalTreeDiv).children('input.tag-id').val(selectedNode.id);
+                self.$el.find('input.tag-id').val(selectedNode.id);
 
                 if (selectedNode.text === undefined || selectedNode.id == '0') {
-                    $(modalTreeDiv).children('span.tag-keyword').html($(modalTreeDiv).data('novaluetext'));
+                    self.$el.find('span.tag-keyword').html(self.$el.data('novaluetext'));
                 } else {
-                    $(modalTreeDiv).children('span.tag-keyword').html(selectedNode.text);
+                    self.$el.find('span.tag-keyword').html(selectedNode.text);
                 }
 
-                $(modalTreeDiv).children('div.ng-modal').hide();
+                self.closeModal();
             }
         });
-    });
-
-    /**
-     * Disables the provided node.
-     *
-     * @param tree
-     * @param nodeId
-     */
-    function disableNode(tree, nodeId) {
-        $(tree).find('li#' + nodeId).addClass('disabled');
     }
 
-    /**
-     * Builds context menu for right click on a tag in tags tree.
-     *
-     * @param node
-     * */
-    function tagTreeContextMenu(node) {
+    /** Disables the provided node.
+        * @param nodeId */
+    TagsTree.prototype.disableNode = function(nodeId) {
+        this.$tree.find('li#' + nodeId).addClass('disabled');
+    };
+
+    /** Builds context menu for right click on a tag in tags tree.
+        * @param node */
+    TagsTree.prototype.tagTreeContextMenu = function(node) {
         var menu = {};
 
         node.data.context_menu.forEach(function(item){
@@ -126,31 +133,45 @@ function ngTagsTreeInit(){
         });
 
         return menu;
-    }
+    };
 
-    /**
-     * Opens modal when modal open button is clicked.
-     */
-    $('.modal-tree-button').on('click', function(){
-        $(this).parent('div.modal-tree').children('div.ng-modal').show();
-    });
+    TagsTree.prototype.modalInit = function(){
+        /** Opens modal when modal open button is clicked. */
+        var self = this;
+        this.$el.on('click', '.modal-tree-button', function(){
+            self.openModal();
+        });
 
-    /**
-     * It closes modal when Close span inside modal is clicked.
-     */
-    $('.ng-modal').on('click', '.close', function(){
-        $(this).closest('div.ng-modal').hide();
-    });
+        /** It closes modal when Close span inside modal is clicked. */
+        this.$modal.on('click', '.close', function(){
+            self.closeModal();
+        });
 
-    /**
-     * It closes modal when user clicks anywhere outside modal window.
-     */
-    $(window).on('click', function(e) {
-        if(e.target.className == 'modal') {
-            $(e.target).hide();
-        }
-    });
-}
+        /** It closes modal when user clicks anywhere outside modal window. */
+        $(window).on('click', function(e) {
+            if(e.target.className === self.settings.modalClassName) {
+                self.closeModal();
+            }
+        });
+    };
+    TagsTree.prototype.openModal = function(){
+        if (!this.settings.modal) return;
+        this.$modal.show();
+    };
+    TagsTree.prototype.closeModal = function(){
+        if (!this.settings.modal) return;
+        this.$modal.hide();
+    };
+
+    /* register tagsTree jQuery plugin */
+    $.fn.tagsTree = function (options) {
+        return this.each(function(){
+            if ($(this).data('tagsTree')) return;
+            var instance = new TagsTree(this, options);
+            $(this).data('tagsTree', instance);
+        });
+    };
+})(jQuery);
 
 function ngTagsInit(){
     'use strict';
@@ -241,7 +262,8 @@ function ngTagsInit(){
     };
 
     $('.tags-tabs').tagsTabs();
-
+    $('.tags-modal-tree').tagsTree({'modal': true});
+    $('.tags-tree-wrapper').tagsTree();
 
     /* input enabled/disabled buttons */
     var $enabledInputs = $('input[data-enable]'),
@@ -262,6 +284,5 @@ function ngTagsInit(){
 }
 
 jQuery(document).ready(function($) {
-    ngTagsTreeInit();
     ngTagsInit();
 });

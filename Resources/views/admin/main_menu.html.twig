@@ -3,4 +3,6 @@
     {% set selectedTag = app.request.attributes.get('tag') %}
 {% endif %}
 
-{% include 'NetgenTagsBundle:admin:tree.html.twig' with {selectedTag: selectedTag} %}
+<div class="tags-tree-wrapper">
+    {% include 'NetgenTagsBundle:admin:tree.html.twig' with {selectedTag: selectedTag} %}
+</div>

@@ -8,8 +8,9 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
             this.after('activeChange', function (e) {
                 if (this.get('active')) {
                     this.initTagsTranslations();
-                    jQuery('#eztags' + this.get('fieldDefinition').id).EzTags();
-                    ngTagsTreeInit();
+                    var $tagsFieldWrapper = jQuery('#eztags' + this.get('fieldDefinition').id);
+                    $tagsFieldWrapper.EzTags();
+                    $tagsFieldWrapper.find('.tags-modal-tree').tagsTree({'modal': true});
                 }
             });
         },

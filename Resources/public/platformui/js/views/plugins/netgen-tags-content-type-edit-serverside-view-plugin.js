@@ -13,7 +13,7 @@ YUI.add('netgen-tags-content-type-edit-serverside-view-plugin', function (Y) {
         },
 
         initTags: function () {
-            ngTagsTreeInit();
+            $('.tags-modal-tree').tagsTree({'modal': true});
         }
     }, {
         NS: 'NetgenTagsContentTypeEditServerSideView'
