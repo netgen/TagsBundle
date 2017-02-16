@@ -17,6 +17,7 @@ use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
 use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
+use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -432,12 +433,6 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds($spiTagInfo->id);
-        if (empty($relatedContentIds)) {
-            return array();
-        }
-
         $method = 'findContent';
         if ($returnContentInfo) {
             $method = 'findContentInfo';
@@ -447,8 +442,8 @@ class TagsService implements TagsServiceInterface
             new Query(
                 array(
                     'offset' => $offset,
-                    'limit' => $limit > 0 ? $limit : 10000,
-                    'filter' => new ContentId($relatedContentIds),
+                    'limit' => $limit > 0 ? $limit : 1000000,
+                    'filter' => new TagId($tag->id),
                     'sortClauses' => array(
                         new Query\SortClause\DateModified(Query::SORT_DESC),
                     ),
@@ -481,17 +476,11 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTagInfo = $this->tagsHandler->loadTagInfo($tag->id);
-        $relatedContentIds = $this->tagsHandler->loadRelatedContentIds($spiTagInfo->id);
-        if (empty($relatedContentIds)) {
-            return 0;
-        }
-
-        $searchResult = $this->repository->getSearchService()->findContent(
+        $searchResult = $this->repository->getSearchService()->findContentInfo(
             new Query(
                 array(
                     'limit' => 0,
-                    'filter' => new ContentId($relatedContentIds),
+                    'filter' => new TagId($tag->id),
                 )
             )
         );
