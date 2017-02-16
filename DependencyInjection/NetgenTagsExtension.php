@@ -44,7 +44,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('templating.yml');
         $loader->load('view.yml');
         $loader->load('limitations.yml');
-        $loader->load('storage_engines/legacy.yml');
+        $loader->load('storage/legacy.yml');
         $loader->load('admin/controllers.yml');
         $loader->load('admin/templating.yml');
         $loader->load('forms.yml');
@@ -55,11 +55,11 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('platformui/services.yml');
 
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
-            $loader->load('storage_engines/solr/criterion_visitors.yml');
+            $loader->load('search/solr.yml');
         }
 
         if (in_array('EzPublishLegacySearchEngineBundle', $activatedBundles, true)) {
-            $loader->load('storage_engines/legacy/search_query_handlers.yml');
+            $loader->load('search/legacy.yml');
         }
 
         $this->processSemanticConfig($container, $config);
