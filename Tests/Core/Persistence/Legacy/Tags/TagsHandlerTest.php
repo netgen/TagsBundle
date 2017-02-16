@@ -497,42 +497,6 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadRelatedContentIds
-     */
-    public function testLoadRelatedContentIds()
-    {
-        $handler = $this->getTagsHandler();
-
-        $this->gateway
-            ->expects($this->once())
-            ->method('getRelatedContentIds')
-            ->with(42)
-            ->will($this->returnValue(array(43, 44, 45)));
-
-        $contentIds = $handler->loadRelatedContentIds(42);
-
-        $this->assertEquals(array(43, 44, 45), $contentIds);
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getRelatedContentCount
-     */
-    public function testGetRelatedContentCount()
-    {
-        $handler = $this->getTagsHandler();
-
-        $this->gateway
-            ->expects($this->once())
-            ->method('getRelatedContentCount')
-            ->with(42)
-            ->will($this->returnValue(3));
-
-        $tagsCount = $handler->getRelatedContentCount(42);
-
-        $this->assertEquals(3, $tagsCount);
-    }
-
-    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
      */
     public function testCreate()

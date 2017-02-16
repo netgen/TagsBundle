@@ -583,33 +583,6 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getRelatedContentIds
-     */
-    public function testGetRelatedContentIds()
-    {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/content_objects.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getRelatedContentIds(16);
-
-        $this->assertCount(3, $data);
-        $this->assertEquals(array(57, 58, 59), $data);
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getRelatedContentCount
-     */
-    public function testGetRelatedContentCount()
-    {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/content_objects.php');
-        $handler = $this->getTagsGateway();
-        $contentCount = $handler->getRelatedContentCount(16);
-
-        $this->assertEquals(3, $contentCount);
-    }
-
-    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::moveSynonym
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
      */

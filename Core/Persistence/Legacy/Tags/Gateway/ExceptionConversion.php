@@ -282,50 +282,6 @@ class ExceptionConversion extends Gateway
     }
 
     /**
-     * Loads content IDs related to tag identified by $tagId.
-     *
-     *
-     * @param mixed $tagId
-     * @param int $offset The start offset for paging
-     * @param int $limit The number of content IDs returned. If $limit = -1 all content IDs starting at $offset are returned
-     *
-     * @throws \RuntimeException
-     *
-     * @return array
-     */
-    public function getRelatedContentIds($tagId, $offset = 0, $limit = -1)
-    {
-        try {
-            return $this->innerGateway->getRelatedContentIds($tagId, $offset, $limit);
-        } catch (DBALException $e) {
-            throw new RuntimeException('Database error', 0, $e);
-        } catch (PDOException $e) {
-            throw new RuntimeException('Database error', 0, $e);
-        }
-    }
-
-    /**
-     * Returns the number of content objects related to tag identified by $tagId.
-     *
-     *
-     * @param mixed $tagId
-     *
-     * @throws \RuntimeException
-     *
-     * @return int
-     */
-    public function getRelatedContentCount($tagId)
-    {
-        try {
-            return $this->innerGateway->getRelatedContentCount($tagId);
-        } catch (DBALException $e) {
-            throw new RuntimeException('Database error', 0, $e);
-        } catch (PDOException $e) {
-            throw new RuntimeException('Database error', 0, $e);
-        }
-    }
-
-    /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData.
      *
      *
