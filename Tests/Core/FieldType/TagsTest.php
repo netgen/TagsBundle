@@ -318,7 +318,7 @@ class TagsTest extends FieldTypeTest
                         ),
                     ),
                 ),
-                new TagsValue(array(new Tag(array('pathString' => '/2/42/102/')))),
+                new TagsValue(array(new Tag(array('id' => 102, 'pathString' => '/2/42/102/')))),
             ),
             array(
                 array(
@@ -328,7 +328,7 @@ class TagsTest extends FieldTypeTest
                         ),
                     ),
                 ),
-                new TagsValue(array(new Tag(array('pathString' => '/2/42/')))),
+                new TagsValue(array(new Tag(array('id' => 42, 'pathString' => '/2/42/')))),
             ),
             array(
                 array(
@@ -338,7 +338,7 @@ class TagsTest extends FieldTypeTest
                         ),
                     ),
                 ),
-                new TagsValue(array(new Tag(array('pathString' => '/2/42/102/')))),
+                new TagsValue(array(new Tag(array('id' => 102, 'pathString' => '/2/42/102/')))),
             ),
             array(
                 array(
@@ -415,6 +415,7 @@ class TagsTest extends FieldTypeTest
                     array(
                         new Tag(
                             array(
+                                'id' => 102,
                                 'pathString' => '/2/43/102/',
                                 'keywords' => array('eng-GB' => 'test'),
                                 'mainLanguageCode' => 'eng-GB',
