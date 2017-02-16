@@ -117,7 +117,6 @@ $.noConflict();
     /** Disables the provided node.
         * @param nodeId */
     TagsTree.prototype.disableNode = function(nodeId) {
-        console.log(nodeId, this.$tree.find('li#' + nodeId));
         this.$tree.find('li#' + nodeId).addClass('disabled');
     };
 
