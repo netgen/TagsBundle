@@ -20,7 +20,7 @@ class TagsHandlerFactory implements ContainerAwareInterface
     {
         return $this->container->get(
             sprintf(
-                "eztags.api.storage_engine.%s.handler.tags",
+                'eztags.api.storage_engine.%s.handler.tags',
                 $storageEngineIdentifier
             )
         );

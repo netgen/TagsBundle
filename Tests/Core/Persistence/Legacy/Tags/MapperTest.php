@@ -19,11 +19,6 @@ class MapperTest extends TestCase
      */
     protected $tagsMapper;
 
-    public function setUp()
-    {
-        $this->tagsMapper = $this->getMapper();
-    }
-
     /**
      * Tags data from the database.
      *
@@ -98,6 +93,11 @@ class MapperTest extends TestCase
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => array(8),
     );
+
+    public function setUp()
+    {
+        $this->tagsMapper = $this->getMapper();
+    }
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::__construct
