@@ -56,8 +56,8 @@ After that, copy (or symlink) `config.php-DEVELOPMENT` file from TagsBundle to `
 
 ### Running unit tests
 
-    $ phpunit -c phpunit.xml
+    $ composer test
 
 ### Running legacy integration tests
 
-    $ phpunit -c phpunit-integration-legacy.xml
+    $ composer test-integration

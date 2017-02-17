@@ -20,8 +20,14 @@
         "phpunit/phpunit": "^5.7"
     },
     "scripts": {
-        "test": "@php vendor/bin/phpunit --colors=always",
-        "test-integration": "@php vendor/bin/phpunit -c phpunit-integration-legacy.xml --colors=always"
+        "test": [
+            "cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php",
+            "@php vendor/bin/phpunit --colors=always"
+        ],
+        "test-integration": [
+            "cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php",
+            "@php vendor/bin/phpunit -c phpunit-integration-legacy.xml --colors=always"
+        ]
     },
     "suggest": {
         "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
