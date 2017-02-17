@@ -110,8 +110,6 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
                 $c->setContextualParameter('tag_view.related_content_list.limit', $scope, $config['tag_view']['related_content_list']['limit']);
                 $c->setContextualParameter('tag_view.related_content_list.return_content_info', $scope, $config['tag_view']['related_content_list']['return_content_info']);
 
-                $c->setContextualParameter('routing.enable_tag_router', $scope, $config['routing']['enable_tag_router']);
-
                 $c->setContextualParameter('admin.pagelayout', $scope, $config['admin']['pagelayout']);
                 $c->setContextualParameter('admin.children_limit', $scope, $config['admin']['children_limit']);
                 $c->setContextualParameter('admin.related_content_limit', $scope, $config['admin']['related_content_limit']);

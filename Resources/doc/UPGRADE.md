@@ -12,6 +12,7 @@ Tags Bundle 3.0 is a major release, with a number of breaking changes:
 * Minimum supported version of eZ Platform Solr Search Engine is 1.1.3
 * All `*.class` parameters have been removed from Symfony DIC. Override the whole service if needed, as recommended by Symfony
 * Support for eZ Publish Legacy is completely removed (meaning, tag object converter is removed)
+* `enable_tag_router` config was removed, as it was used for legacy tags admin interface
 * Bundle now requires [`EzCoreExtraBundle`](https://github.com/lolautruche/EzCoreExtraBundle) to be activated to work properly
 * `subTreeLimit` and `maxTags` field settings are now part of `TagsValueValidator` validator schema. You will have to modify your code working with `subTreeLimit` and `maxTags` field settings to specify them as validators.
 * Content and Location `TagId` and `TagKeyword` Solr criterion visitors are removed and replaced with universal criterion visitors, one for `TagId` and one for `TagKeyword` criterion, which are used both for Content and Location search

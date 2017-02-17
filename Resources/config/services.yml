@@ -13,22 +13,13 @@ services:
 
     eztags.routing.tag_router:
         class: Netgen\TagsBundle\Routing\TagRouter
+        lazy: true
         arguments:
             - "@eztags.api.service.tags"
             - "@eztags.routing.tag_url_generator"
             - "@?router.request_context"
             - "@?logger"
         calls:
-            - [setConfigResolver, ["@ezpublish.config.resolver"]]
+            - [setLanguages, [$languages$]]
         tags:
             - {name: router, priority: 200}
-
-    eztags.event_listener.routing_listener:
-        class: Netgen\TagsBundle\EventListener\RouterListener
-        lazy: true
-        arguments:
-            - "@?logger"
-        calls:
-            - [setEnableTagRouter, [$routing.enable_tag_router;eztags$]]
-        tags:
-            - {name: kernel.event_subscriber}

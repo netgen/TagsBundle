@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Routing;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use InvalidArgumentException;
 use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -49,9 +48,9 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     protected $logger;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var array
      */
-    protected $configResolver;
+    protected $languages;
 
     /**
      * Constructor.
@@ -74,11 +73,13 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     }
 
     /**
-     * @param \eZ\Publish\Core\MVC\ConfigResolverInterface $configResolver
+     * Sets the currently available languages to the router.
+     *
+     * @param array $languages
      */
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setLanguages(array $languages = null)
     {
-        $this->configResolver = $configResolver;
+        $this->languages = $languages !== null ? $languages : array();
     }
 
     /**
@@ -95,10 +96,6 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     public function matchRequest(Request $request)
     {
-        if ($this->configResolver->getParameter('routing.enable_tag_router', 'eztags') === false) {
-            throw new ResourceNotFoundException('Config says to bypass TagRouter');
-        }
-
         $requestedPath = rawurldecode($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
         $pathPrefix = $this->generator->getPathPrefix();
 
@@ -113,12 +110,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             throw new ResourceNotFoundException();
         }
 
-        $languages = $this->configResolver->getParameter('languages');
         $tag = $this->tagsService->sudo(
-            function (TagsService $tagsService) use ($requestedPath, $languages) {
+            function (TagsService $tagsService) use ($requestedPath) {
                 return $tagsService->loadTagByUrl(
                     $requestedPath,
-                    $languages
+                    $this->languages
                 );
             }
         );
