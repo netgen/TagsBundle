@@ -34,10 +34,6 @@ before_install:
 # install dependencies
 install: travis_wait composer install --prefer-source
 
-# setup requirements for running unit tests
-before_script:
-  - cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
-
 # execute phpunit as the script command
 script:
   - ./vendor/bin/phpunit -d memory_limit=-1 --colors -c $CONFIG --coverage-clover=coverage.xml

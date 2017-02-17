@@ -45,19 +45,12 @@ Unit tests
 
 There are two sets of tests available, unit tests and legacy integration tests.
 
-To run the tests, first you need to install dependencies with Composer:
-
-    $ curl -sS https://getcomposer.org/installer | php
-    $ php composer.phar install
-
-After that, copy (or symlink) `config.php-DEVELOPMENT` file from TagsBundle to `config.php` in eZ Publish kernel:
-
-    $ cp config.php-DEVELOPMENT vendor/ezsystems/ezpublish-kernel/config.php
-
 ### Running unit tests
 
+    $ composer install
     $ composer test
 
 ### Running legacy integration tests
 
+    $ composer install
     $ composer test-integration
