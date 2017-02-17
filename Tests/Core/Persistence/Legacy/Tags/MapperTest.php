@@ -15,6 +15,16 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 class MapperTest extends TestCase
 {
     /**
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+     */
+    protected $tagsMapper;
+
+    public function setUp()
+    {
+        $this->tagsMapper = $this->getMapper();
+    }
+
+    /**
      * Tags data from the database.
      *
      * @var array
@@ -95,9 +105,7 @@ class MapperTest extends TestCase
      */
     public function testCreateTagInfoFromRow()
     {
-        $mapper = $this->getMapper();
-
-        $tag = $mapper->createTagInfoFromRow(
+        $tag = $this->tagsMapper->createTagInfoFromRow(
             $this->tagRow
         );
 
@@ -125,9 +133,7 @@ class MapperTest extends TestCase
             $inputRows[] = $row;
         }
 
-        $mapper = $this->getMapper();
-
-        $tags = $mapper->extractTagListFromRows($inputRows);
+        $tags = $this->tagsMapper->extractTagListFromRows($inputRows);
 
         $this->assertCount(3, $tags);
 

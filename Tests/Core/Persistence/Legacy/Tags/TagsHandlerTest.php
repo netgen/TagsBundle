@@ -36,13 +36,21 @@ class TagsHandlerTest extends TestCase
     protected $mapper;
 
     /**
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
+     */
+    protected $tagsHandler;
+
+    public function setUp()
+    {
+        $this->tagsHandler = $this->getTagsHandler();
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
      */
     public function testLoad()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getFullTagData')
@@ -63,7 +71,7 @@ class TagsHandlerTest extends TestCase
             ->with(array(array('eztags_id' => 42)))
             ->will($this->returnValue(array(new Tag(array('id' => 42)))));
 
-        $tag = $handler->load(42);
+        $tag = $this->tagsHandler->load(42);
 
         $this->assertInstanceOf(
             Tag::class,
@@ -78,8 +86,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadThrowsNotFoundException()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getFullTagData')
@@ -90,7 +96,7 @@ class TagsHandlerTest extends TestCase
             ->expects($this->never())
             ->method('extractTagListFromRows');
 
-        $handler->load(42);
+        $this->tagsHandler->load(42);
     }
 
     /**
@@ -98,8 +104,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadTagInfo()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getBasicTagData')
@@ -118,7 +122,7 @@ class TagsHandlerTest extends TestCase
             ->with(array('id' => 42))
             ->will($this->returnValue(new TagInfo(array('id' => 42))));
 
-        $tagInfo = $handler->loadTagInfo(42);
+        $tagInfo = $this->tagsHandler->loadTagInfo(42);
 
         $this->assertInstanceOf(
             TagInfo::class,
@@ -131,8 +135,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadByRemoteId()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getFullTagDataByRemoteId')
@@ -153,7 +155,7 @@ class TagsHandlerTest extends TestCase
             ->with(array(array('eztags_remote_id' => 'abcdef')))
             ->will($this->returnValue(array(new Tag(array('remoteId' => 'abcdef')))));
 
-        $tag = $handler->loadByRemoteId('abcdef');
+        $tag = $this->tagsHandler->loadByRemoteId('abcdef');
 
         $this->assertInstanceOf(
             Tag::class,
@@ -167,8 +169,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadByRemoteIdThrowsNotFoundException()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getFullTagDataByRemoteId')
@@ -179,7 +179,7 @@ class TagsHandlerTest extends TestCase
             ->expects($this->never())
             ->method('extractTagListFromRows');
 
-        $handler->loadByRemoteId('abcdef');
+        $this->tagsHandler->loadByRemoteId('abcdef');
     }
 
     /**
@@ -187,8 +187,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadTagInfoByRemoteId()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getBasicTagDataByRemoteId')
@@ -207,7 +205,7 @@ class TagsHandlerTest extends TestCase
             ->with(array('remote_id' => '12345'))
             ->will($this->returnValue(new TagInfo(array('remoteId' => '12345'))));
 
-        $tagInfo = $handler->loadTagInfoByRemoteId('12345');
+        $tagInfo = $this->tagsHandler->loadTagInfoByRemoteId('12345');
 
         $this->assertInstanceOf(
             TagInfo::class,
@@ -220,8 +218,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadTagByKeywordAndParentId()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getFullTagDataByKeywordAndParentId')
@@ -244,7 +240,7 @@ class TagsHandlerTest extends TestCase
             ->with(array(array('eztags_id' => 42, 'eztags_keyword' => 'eztags', 'eztags_keyword_keyword' => 'eztags')))
             ->will($this->returnValue(array(new Tag(array('id' => 42, 'keywords' => array('eng-GB' => 'eztags'))))));
 
-        $tag = $handler->loadTagByKeywordAndParentId('eztags', 42);
+        $tag = $this->tagsHandler->loadTagByKeywordAndParentId('eztags', 42);
 
         $this->assertInstanceOf(
             Tag::class,
@@ -258,14 +254,12 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadTagByKeywordAndParentIdThrowsNotFoundException()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getFullTagDataByKeywordAndParentId')
             ->with('unknown', 999);
 
-        $handler->loadTagByKeywordAndParentId('unknown', 999);
+        $this->tagsHandler->loadTagByKeywordAndParentId('unknown', 999);
     }
 
     /**
@@ -273,8 +267,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadChildren()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getChildren')
@@ -315,7 +307,7 @@ class TagsHandlerTest extends TestCase
                 )
             );
 
-        $tags = $handler->loadChildren(42);
+        $tags = $this->tagsHandler->loadChildren(42);
 
         $this->assertCount(3, $tags);
 
@@ -332,15 +324,13 @@ class TagsHandlerTest extends TestCase
      */
     public function testGetChildrenCount()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getChildrenCount')
             ->with(42)
             ->will($this->returnValue(3));
 
-        $tagsCount = $handler->getChildrenCount(42);
+        $tagsCount = $this->tagsHandler->getChildrenCount(42);
 
         $this->assertEquals(3, $tagsCount);
     }
@@ -350,8 +340,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadTagsByKeyword()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getTagsByKeyword')
@@ -389,7 +377,7 @@ class TagsHandlerTest extends TestCase
                 )
             );
 
-        $tags = $handler->loadTagsByKeyword('eztags', 'eng-GB');
+        $tags = $this->tagsHandler->loadTagsByKeyword('eztags', 'eng-GB');
 
         $this->assertCount(2, $tags);
 
@@ -406,15 +394,13 @@ class TagsHandlerTest extends TestCase
      */
     public function testGetTagsByKeywordCount()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getTagsByKeywordCount')
             ->with('eztags', 'eng-GB')
             ->will($this->returnValue(2));
 
-        $tagsCount = $handler->getTagsByKeywordCount('eztags', 'eng-GB');
+        $tagsCount = $this->tagsHandler->getTagsByKeywordCount('eztags', 'eng-GB');
 
         $this->assertEquals(2, $tagsCount);
     }
@@ -424,8 +410,6 @@ class TagsHandlerTest extends TestCase
      */
     public function testLoadSynonyms()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getSynonyms')
@@ -466,7 +450,7 @@ class TagsHandlerTest extends TestCase
                 )
             );
 
-        $tags = $handler->loadSynonyms(42);
+        $tags = $this->tagsHandler->loadSynonyms(42);
 
         $this->assertCount(3, $tags);
 
@@ -483,15 +467,13 @@ class TagsHandlerTest extends TestCase
      */
     public function testGetSynonymCount()
     {
-        $handler = $this->getTagsHandler();
-
         $this->gateway
             ->expects($this->once())
             ->method('getSynonymCount')
             ->with(42)
             ->will($this->returnValue(3));
 
-        $tagsCount = $handler->getSynonymCount(42);
+        $tagsCount = $this->tagsHandler->getSynonymCount(42);
 
         $this->assertEquals(3, $tagsCount);
     }

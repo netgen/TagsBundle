@@ -16,6 +16,11 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 class DoctrineDatabaseTest extends TestCase
 {
     /**
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
+     */
+    protected $tagsGateway;
+
+    /**
      * Sets up the test suite.
      */
     public function setUp()
@@ -30,6 +35,10 @@ class DoctrineDatabaseTest extends TestCase
         foreach ($queries as $query) {
             $handler->exec($query);
         }
+
+        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+
+        $this->tagsGateway = $this->getTagsGateway();
     }
 
     /**
@@ -103,9 +112,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetBasicTagData($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getBasicTagData(40);
+        $data = $this->tagsGateway->getBasicTagData(40);
 
         $this->assertEquals(
             $value,
@@ -120,9 +127,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetBasicTagDataThrowsNotFoundException()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->getBasicTagData(999);
+        $this->tagsGateway->getBasicTagData(999);
     }
 
     /**
@@ -134,9 +139,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetBasicTagDataByRemoteId($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
+        $data = $this->tagsGateway->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
         $this->assertEquals(
             $value,
@@ -151,9 +154,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetBasicTagDataByRemoteIdThrowsNotFoundException()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->getBasicTagDataByRemoteId('unknown');
+        $this->tagsGateway->getBasicTagDataByRemoteId('unknown');
     }
 
     /**
@@ -166,9 +167,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetFullTagData($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagData(40);
+        $data = $this->tagsGateway->getFullTagData(40);
 
         $this->assertEquals(
             $value,
@@ -182,9 +181,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetNonExistentFullTagData()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagData(999);
+        $data = $this->tagsGateway->getFullTagData(999);
 
         $this->assertEquals(array(), $data);
     }
@@ -199,9 +196,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetFullTagDataWithoutAlwaysAvailable($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagData(40, array('eng-GB'), false);
+        $data = $this->tagsGateway->getFullTagData(40, array('eng-GB'), false);
 
         $this->assertEquals(
             $value,
@@ -215,9 +210,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetNonExistentFullTagDataWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagData(40, array('cro-HR'), false);
+        $data = $this->tagsGateway->getFullTagData(40, array('cro-HR'), false);
 
         $this->assertEquals(array(), $data);
     }
@@ -232,9 +225,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetFullTagDataByRemoteId($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
+        $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
         $this->assertEquals(
             $value,
@@ -248,9 +239,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetNonExistentFullTagDataByRemoteId()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByRemoteId('unknown');
+        $data = $this->tagsGateway->getFullTagDataByRemoteId('unknown');
 
         $this->assertEquals(array(), $data);
     }
@@ -265,9 +254,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', array('eng-GB'), false);
+        $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', array('eng-GB'), false);
 
         $this->assertEquals(
             $value,
@@ -281,9 +268,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetNonExistentFullTagDataByRemoteIdWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', array('cro-HR'), false);
+        $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', array('cro-HR'), false);
 
         $this->assertEquals(array(), $data);
     }
@@ -298,9 +283,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetFullTagDataByKeywordIdAndParentId($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByKeywordAndParentId('eztags', 7);
+        $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7);
 
         $this->assertEquals(
             $value,
@@ -314,9 +297,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetNonExistentFullTagDataByKeywordIdAndParentId()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByKeywordAndParentId('unknown', 999);
+        $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('unknown', 999);
 
         $this->assertEquals(array(), $data);
     }
@@ -331,9 +312,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable($field, $value)
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByKeywordAndParentId('eztags', 7, array('eng-GB'), false);
+        $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, array('eng-GB'), false);
 
         $this->assertEquals(
             $value,
@@ -347,9 +326,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetNonExistentFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getFullTagDataByKeywordAndParentId('eztags', 7, array('cro-HR'), false);
+        $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, array('cro-HR'), false);
 
         $this->assertEquals(array(), $data);
     }
@@ -360,9 +337,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetChildren()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getChildren(16);
+        $data = $this->tagsGateway->getChildren(16);
 
         $this->assertCount(6, $data);
         $this->assertEquals(20, $data[0]['eztags_id']);
@@ -379,9 +354,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetChildrenCount()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getChildrenCount(16);
+        $tagsCount = $this->tagsGateway->getChildrenCount(16);
 
         $this->assertEquals(6, $tagsCount);
     }
@@ -392,9 +365,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetChildrenWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getChildren(16, 0, -1, array('eng-GB'), false);
+        $data = $this->tagsGateway->getChildren(16, 0, -1, array('eng-GB'), false);
 
         $this->assertCount(6, $data);
         $this->assertEquals(20, $data[0]['eztags_id']);
@@ -411,9 +382,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetChildrenCountWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getChildrenCount(16, array('eng-GB'), false);
+        $tagsCount = $this->tagsGateway->getChildrenCount(16, array('eng-GB'), false);
 
         $this->assertEquals(6, $tagsCount);
     }
@@ -424,9 +393,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetChildrenWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getChildren(16, 0, -1, array('cro-HR'), false);
+        $data = $this->tagsGateway->getChildren(16, 0, -1, array('cro-HR'), false);
 
         $this->assertCount(0, $data);
     }
@@ -437,9 +404,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetChildrenCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getChildrenCount(16, array('cro-HR'), false);
+        $tagsCount = $this->tagsGateway->getChildrenCount(16, array('cro-HR'), false);
 
         $this->assertEquals(0, $tagsCount);
     }
@@ -450,9 +415,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetTagsByKeyword()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getTagsByKeyword('eztags', 'eng-GB');
+        $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB');
 
         $this->assertCount(2, $data);
         $this->assertEquals('eztags', $data[0]['eztags_keyword_keyword']);
@@ -465,9 +428,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetTagsByKeywordCount()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getTagsByKeywordCount('eztags', 'eng-GB');
+        $tagsCount = $this->tagsGateway->getTagsByKeywordCount('eztags', 'eng-GB');
 
         $this->assertEquals(2, $tagsCount);
     }
@@ -478,9 +439,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetTagsByKeywordWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getTagsByKeyword('eztags', 'eng-GB', false);
+        $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB', false);
 
         $this->assertCount(2, $data);
         $this->assertEquals('eztags', $data[0]['eztags_keyword_keyword']);
@@ -493,9 +452,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetTagsByKeywordCountWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getTagsByKeywordCount('eztags', 'eng-GB', false);
+        $tagsCount = $this->tagsGateway->getTagsByKeywordCount('eztags', 'eng-GB', false);
 
         $this->assertEquals(2, $tagsCount);
     }
@@ -506,9 +463,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetSynonyms()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getSynonyms(16);
+        $data = $this->tagsGateway->getSynonyms(16);
 
         $this->assertCount(2, $data);
         $this->assertEquals(95, $data[0]['eztags_id']);
@@ -521,9 +476,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetSynonymCount()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getSynonymCount(16);
+        $tagsCount = $this->tagsGateway->getSynonymCount(16);
 
         $this->assertEquals(2, $tagsCount);
     }
@@ -534,9 +487,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetSynonymsWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getSynonyms(16, 0, -1, array('eng-GB'), false);
+        $data = $this->tagsGateway->getSynonyms(16, 0, -1, array('eng-GB'), false);
 
         $this->assertCount(2, $data);
         $this->assertEquals(95, $data[0]['eztags_id']);
@@ -549,9 +500,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetSynonymCountWithoutAlwaysAvailable()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getSynonymCount(16, array('eng-GB'), false);
+        $tagsCount = $this->tagsGateway->getSynonymCount(16, array('eng-GB'), false);
 
         $this->assertEquals(2, $tagsCount);
     }
@@ -562,9 +511,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetSynonymsWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $data = $handler->getSynonyms(16, 0, -1, array('cro-HR'), false);
+        $data = $this->tagsGateway->getSynonyms(16, 0, -1, array('cro-HR'), false);
 
         $this->assertCount(0, $data);
     }
@@ -575,9 +522,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testGetSynonymCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $tagsCount = $handler->getSynonymCount(16, array('cro-HR'), false);
+        $tagsCount = $this->tagsGateway->getSynonymCount(16, array('cro-HR'), false);
 
         $this->assertEquals(0, $tagsCount);
     }
@@ -588,9 +533,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testMoveSynonym()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->moveSynonym(
+        $this->tagsGateway->moveSynonym(
             95,
             array(
                 'id' => 40,
@@ -619,9 +562,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testCreate()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->create(
+        $this->tagsGateway->create(
             new CreateStruct(
                 array(
                     'parentTagId' => 40,
@@ -658,9 +599,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testCreateWithNoParent()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->create(
+        $this->tagsGateway->create(
             new CreateStruct(
                 array(
                     'parentTagId' => 0,
@@ -692,9 +631,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testUpdate()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->update(
+        $this->tagsGateway->update(
             new UpdateStruct(
                 array(
                     'keywords' => array('eng-GB' => 'Updated tag US', 'eng-US' => 'Updated tag'),
@@ -726,9 +663,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testCreateSynonym()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->createSynonym(
+        $this->tagsGateway->createSynonym(
             new SynonymCreateStruct(
                 array(
                     'mainTagId' => 40,
@@ -764,9 +699,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testConvertToSynonym()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->convertToSynonym(
+        $this->tagsGateway->convertToSynonym(
             80,
             array(
                 'id' => 40,
@@ -793,10 +726,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testTransferTagAttributeLinks()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-
-        $handler->transferTagAttributeLinks(16, 40);
+        $this->tagsGateway->transferTagAttributeLinks(16, 40);
 
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
@@ -817,9 +747,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testMoveSubtree()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->moveSubtree(
+        $this->tagsGateway->moveSubtree(
             array(
                 'id' => 7,
                 'path_string' => '/8/7/',
@@ -854,9 +782,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testDeleteTag()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->deleteTag(7);
+        $this->tagsGateway->deleteTag(7);
 
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
@@ -886,9 +812,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testUpdateSubtreeModificationTime()
     {
-        $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
-        $handler = $this->getTagsGateway();
-        $handler->updateSubtreeModificationTime('/8/7/40/', 123);
+        $this->tagsGateway->updateSubtreeModificationTime('/8/7/40/', 123);
 
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
