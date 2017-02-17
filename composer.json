@@ -42,6 +42,11 @@
             "Tests/"
         ]
     },
+    "autoload-dev": {
+        "files": [
+            "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+        ]
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0.x-dev"
