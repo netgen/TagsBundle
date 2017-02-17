@@ -30,7 +30,7 @@ class AdminExtension extends Twig_Extension implements Twig_Extension_GlobalsInt
      */
     public function getName()
     {
-        return 'Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension';
+        return self::class;
     }
 
     /**
