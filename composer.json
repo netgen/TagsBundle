@@ -37,7 +37,10 @@
         "ezsystems/ezplatform-solr-search-engine": "1.2.0"
     },
     "autoload": {
-        "psr-4": {"Netgen\\TagsBundle\\": ""}
+        "psr-4": {"Netgen\\TagsBundle\\": ""},
+        "exclude-from-classmap": [
+            "Tests/"
+        ]
     },
     "extra": {
         "branch-alias": {
