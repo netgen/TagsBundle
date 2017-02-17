@@ -12,14 +12,26 @@ services:
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: eztags, identifier: LegacyStorage}
 
-    # Legacy Tags handler
-    eztags.api.storage_engine.legacy.handler.tags.factory:
-        class: Netgen\TagsBundle\ApiLoader\LegacyTagsHandlerFactory
-        calls:
-            - [setContainer, ["@service_container"]]
+    eztags.api.storage_engine.legacy.handler.tags.mapper:
+        class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+        arguments:
+            - "@ezpublish.spi.persistence.legacy.language.handler"
+            - "@ezpublish.persistence.legacy.language.mask_generator"
+
+    eztags.api.storage_engine.legacy.handler.tags.gateway.inner:
+        class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
+        arguments:
+            - "@ezpublish.api.storage_engine.legacy.dbhandler"
+            - "@ezpublish.spi.persistence.legacy.language.handler"
+            - "@ezpublish.persistence.legacy.language.mask_generator"
+
+    eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion:
+        class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion
+        arguments:
+            - "@eztags.api.storage_engine.legacy.handler.tags.gateway.inner"
 
     eztags.api.storage_engine.legacy.handler.tags:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
-        factory: ["@eztags.api.storage_engine.legacy.handler.tags.factory", buildLegacyTagsHandler]
         arguments:
-            - "@ezpublish.api.storage_engine.legacy.dbhandler"
+            - "@eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion"
+            - "@eztags.api.storage_engine.legacy.handler.tags.mapper"

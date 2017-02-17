@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\TagsBundle\ApiLoader;
+namespace Netgen\TagsBundle\DependencyInjection\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

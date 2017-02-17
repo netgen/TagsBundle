@@ -2,7 +2,7 @@ services:
     # Tags handler
     # We use a factory instead of alias so there's no need setting default storage engine twice
     eztags.api.persistence_handler.tags.factory:
-        class: Netgen\TagsBundle\ApiLoader\TagsHandlerFactory
+        class: Netgen\TagsBundle\DependencyInjection\Factory\TagsHandlerFactory
         arguments:
             - "@service_container"
 

@@ -36,7 +36,6 @@
                 <directory>Core/Repository</directory>
                 <directory>Core/SignalSlot</directory>
                 <directory>SPI</directory>
-                <directory>ApiLoader</directory>
                 <directory>Controller</directory>
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>

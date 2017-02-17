@@ -37,7 +37,6 @@
                 <directory>API</directory>
                 <directory>SPI</directory>
                 <directory>Controller</directory>
-                <directory>ApiLoader</directory>
                 <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
