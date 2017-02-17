@@ -2,24 +2,12 @@
 
 namespace Netgen\TagsBundle\DependencyInjection\Factory;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class TagsHandlerFactory
+class TagsHandlerFactory implements ContainerAwareInterface
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * Constructor.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    use ContainerAwareTrait;
 
     /**
      * Builds the tags handler.
@@ -30,6 +18,11 @@ class TagsHandlerFactory
      */
     public function buildTagsHandler($storageEngineIdentifier)
     {
-        return $this->container->get("eztags.api.storage_engine.$storageEngineIdentifier.handler.tags");
+        return $this->container->get(
+            sprintf(
+                "eztags.api.storage_engine.%s.handler.tags",
+                $storageEngineIdentifier
+            )
+        );
     }
 }
