@@ -1,7 +1,7 @@
 Netgen Tags Bundle 2.2 changelog
 ================================
 
-2.2.4
+2.2.4 (23.02.2017)
 ------------------
 
 * Allow synonyms to be displayed in `/tags/view` page (thanks @supasteevo)
