@@ -184,10 +184,6 @@ class DoctrineDatabase extends Gateway
             $query->expr->eq(
                 $this->handler->quoteColumn('parent_id', 'eztags'),
                 $query->bindValue($parentId, null, PDO::PARAM_INT)
-            ),
-            $query->expr->eq(
-                $this->handler->quoteColumn('main_tag_id', 'eztags'),
-                $query->bindValue(0, null, PDO::PARAM_INT)
             )
         );
 
