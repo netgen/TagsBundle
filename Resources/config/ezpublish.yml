@@ -1,8 +1,8 @@
 system:
     default:
         field_templates:
-            - {template: "NetgenTagsBundle::eztags_content_field.html.twig", priority: 10}
+            - {template: "NetgenTagsBundle::eztags_content_field.html.twig", priority: 0}
         fielddefinition_edit_templates:
-            - {template: "NetgenTagsBundle:platformui/content_type/edit:eztags.html.twig", priority: 10}
+            - {template: "NetgenTagsBundle:platformui/content_type/edit:eztags.html.twig", priority: 0}
         fielddefinition_settings_templates:
-            - {template: "NetgenTagsBundle:platformui/content_type/view:eztags.html.twig", priority: 10}
+            - {template: "NetgenTagsBundle:platformui/content_type/view:eztags.html.twig", priority: 0}
