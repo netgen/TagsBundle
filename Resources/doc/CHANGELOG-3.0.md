@@ -16,6 +16,6 @@ The following lists only the most important changes from version 2.2 to version 
 * You can now search for tags starting with a provided string
 * You can now use semantic configuration to configure the bundle
 * Content related to a tag is now sorted by modified date, descending
-* Allow synonyms to be displayed in `/tags/view` page (thanks @supasteevo)
+* Allow synonyms to be displayed in `/tags/view` page (thanks @supasteev0)
 * Removed support for eZ Publish Legacy
 * Fixed user policies without limitations not working with roles applied to subtrees
