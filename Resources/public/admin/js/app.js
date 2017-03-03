@@ -173,6 +173,67 @@ $.noConflict();
             $(this).data('tagsTree', instance);
         });
     };
+
+
+    /* resizable plugin */
+    function TagsResize(el, options){
+        this.el = el;
+        this.$el = $(el);
+        this.settings = $.extend({
+            'connectWith': 0,
+            'minWidth': 140
+        }, options);
+        this.$handle = $('<div class="tags-resizable-handle" />');
+
+        this.init();
+    }
+    TagsResize.prototype.init = function(){
+        if(this.settings.connectWith){
+            this.$connected = $(this.settings.connectWith);
+        }
+        this.initialResize();
+        this.$el.addClass('tags-resizable').append(this.$handle);
+        this.setupEvents();
+    };
+    TagsResize.prototype.setupEvents = function(){
+        this.$handle.on('mousedown', function(e){
+            e.preventDefault();
+            $('body').addClass('tags-resizing');
+            $(window).on('mousemove.resize', function(e){
+                this.resizeEl(e.pageX - this.el.offsetLeft);
+            }.bind(this));
+            $(window).one('mouseup', function(e){
+                if(!$('body').hasClass('tags-resizing')) return;
+                $(window).off('mousemove.resize');
+                $('body').removeClass('tags-resizing');
+                window.sessionStorage.tagsResize = this.el.offsetWidth;
+            }.bind(this));
+        }.bind(this));
+    };
+    TagsResize.prototype.initialResize = function(){
+        var startWidth = window.sessionStorage.tagsResize || this.el.offsetWidth;
+        if(startWidth < this.settings.minWidth) {
+            this.resizeEl(this.settings.minWidth);
+        } else if (window.sessionStorage.tagsResize){
+            this.resizeEl(window.sessionStorage.tagsResize);
+        }
+    };
+    TagsResize.prototype.resizeEl = function(newWidth){
+        if(newWidth < this.settings.minWidth) return;
+        this.$el.css('flex', '0 0 ' + newWidth + 'px');
+        if(this.settings.connectWith && this.$connected.length){
+            this.$connected.outerWidth(newWidth);
+        }
+    };
+    /* register tagsResize jQuery plugin */
+    $.fn.tagsResize = function (options) {
+        return this.each(function(){
+            if ($(this).data('tagsResize')) return;
+            var instance = new TagsResize(this, options);
+            $(this).data('tagsResize', instance);
+        });
+    };
+
 })(jQuery);
 
 function ngTagsInit(){
@@ -266,6 +327,7 @@ function ngTagsInit(){
     $('.tags-tabs').tagsTabs();
     $('.tags-modal-tree').tagsTree({'modal': true});
     $('.tags-tree-wrapper').tagsTree();
+    $('.tags-sidebar-resizable').tagsResize({connectWith: '.ng-tags-logo'});
 
     /* input enabled/disabled buttons */
     var $enabledInputs = $('input[data-enable]'),

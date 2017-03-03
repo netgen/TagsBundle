@@ -45,6 +45,16 @@ $nodeHeight: 24px;
                 height:$nodeHeight/2;
             }
         }
+        .jstree-anchor {
+            white-space:normal;
+            word-break:break-word;
+            padding-left:26px;
+            position:relative;
+            .jstree-icon {
+                position:absolute;
+                left:0;
+            }
+        }
     }
     .jstree-themeicon {
         font-size:17px;
