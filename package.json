@@ -1,7 +1,7 @@
 {
     "private": true,
     "devDependencies": {
-        "autoprefixer-core": "^6.0.1",
+        "autoprefixer": "^6.7.6",
         "grunt": "^1.0.1",
         "grunt-contrib-watch": "^1.0.0",
         "grunt-lock": "^0.1.3",
