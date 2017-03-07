@@ -24,6 +24,7 @@ return PhpCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->exclude(['vendor', 'node_modules'])
+            ->notPath('bootstrap.php')
             ->in(__DIR__)
     )
 ;
