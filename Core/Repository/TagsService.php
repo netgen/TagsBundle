@@ -72,7 +72,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its $tagId.
      *
-     *
      * @param mixed $tagId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
@@ -100,7 +99,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads a tag object from its $remoteId.
      *
-     *
      * @param string $remoteId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
@@ -127,8 +125,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Loads a tag object from its URL.
-     *
-     * @todo Make possible to load synonyms
      *
      * @param string $url
      * @param string[] $languages
@@ -194,7 +190,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads children of a tag object.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tags from the first level will be returned
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
@@ -229,7 +224,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Returns the number of children of a tag object.
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
@@ -344,7 +338,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Loads synonyms of a tag object.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
@@ -385,7 +378,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of synonyms of a tag object.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
@@ -414,7 +406,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Loads content related to $tag.
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
@@ -461,7 +452,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Returns the number of content objects related to $tag.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -489,7 +479,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Creates the new tag.
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct
      *
@@ -563,7 +552,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Updates $tag.
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct $tagUpdateStruct
@@ -660,7 +648,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Creates a synonym for $tag.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct $synonymCreateStruct
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
@@ -735,7 +722,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Converts $tag to a synonym of $mainTag.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $mainTag
      *
@@ -786,7 +772,6 @@ class TagsService implements TagsServiceInterface
     /**
      * Merges the $tag into the $targetTag.
      *
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetTag
      *
@@ -832,7 +817,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Copies the subtree starting from $tag as a new subtree of $targetParentTag.
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag The target parent tag for the copy operation
@@ -893,7 +877,6 @@ class TagsService implements TagsServiceInterface
 
     /**
      * Moves the subtree to $targetParentTag.
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
@@ -956,7 +939,6 @@ class TagsService implements TagsServiceInterface
      * Deletes $tag and all its descendants and synonyms.
      *
      * If $tag is a synonym, only the synonym is deleted
-     *
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
