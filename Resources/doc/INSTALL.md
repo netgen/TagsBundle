@@ -9,7 +9,7 @@ Requirements
 Optional requirements
 ---------------------
 
-* eZ Publish Legacy Stack with legacy eZ Tags 2.1 installed and configured.
+* eZ Publish Legacy Stack with legacy eZ Tags 2.1 installed and configured, to enable editing `eztags` attributes in legacy admin interface
 
 Installation steps
 ------------------
@@ -19,7 +19,7 @@ Installation steps
 Run the following from your website root folder to install Netgen Tags Bundle:
 
 ```
-$ composer require netgen/tagsbundle:^3.0@beta
+$ composer require netgen/tagsbundle:^3.0
 ```
 
 ### Activate the bundle
