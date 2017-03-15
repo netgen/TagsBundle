@@ -11,6 +11,11 @@ Optional requirements
 
 * eZ Publish Legacy Stack with legacy eZ Tags 2.1 installed and configured, to enable editing `eztags` attributes in legacy admin interface
 
+Limitations
+-----------
+
+Currently, only `Default` edit view is implemented in Platform UI field edit interface, so make sure that you do not change edit view used in your field definitions. Hopefully, all other edit views will be available in coming versions.
+
 Installation steps
 ------------------
 
