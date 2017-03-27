@@ -80,6 +80,7 @@
             opacity:0;
             background:hsla(0, 0, 0, 0.1);
             border-radius:50%;
+            pointer-events:none;
             animation:effectSize 0.5s cubic-bezier(0.39, 0.76, 0.6, 0.98), effectFade 0.5s cubic-bezier(0.34, 0.29, 0.87, 0.57);
         }
     }
