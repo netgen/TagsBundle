@@ -1,8 +1,13 @@
 Netgen Tags Bundle 3.0 changelog
 ================================
 
-3.0 (09.03.2017)
-----------------
+3.0.1 (28.03.2017)
+------------------
+
+* Fixed admin interface buttons not working in Firefox or Safari
+
+3.0.0 (09.03.2017)
+------------------
 
 Since 3.0 is a new major release, there were a number of breaking changes, so be sure to read [upgrade instructions](UPGRADE.md#upgrade-from-22-to-30).
 
