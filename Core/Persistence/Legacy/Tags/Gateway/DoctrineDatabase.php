@@ -1103,11 +1103,20 @@ class DoctrineDatabase extends Gateway
                             $this->handler->quoteColumn('locale', 'eztags_keyword'),
                             $translations
                         ),
-                        $query->expr->eq(
-                            $this->handler->quoteColumn('main_language_id', 'eztags'),
-                            $query->expr->bitAnd(
-                                $this->handler->quoteColumn('language_id', 'eztags_keyword'),
-                                -2 // -2 == PHP_INT_MAX << 1
+                        $query->expr->lAnd(
+                            $query->expr->gt(
+                                $query->expr->bitAnd(
+                                    $this->handler->quoteColumn('language_mask', 'eztags'),
+                                    1
+                                ),
+                                0
+                            ),
+                            $query->expr->eq(
+                                $this->handler->quoteColumn('main_language_id', 'eztags'),
+                                $query->expr->bitAnd(
+                                    $this->handler->quoteColumn('language_id', 'eztags_keyword'),
+                                    -2 // -2 == PHP_INT_MAX << 1
+                                )
                             )
                         )
                     )
@@ -1171,11 +1180,20 @@ class DoctrineDatabase extends Gateway
                             $this->handler->quoteColumn('locale', 'eztags_keyword'),
                             $translations
                         ),
-                        $query->expr->eq(
-                            $this->handler->quoteColumn('main_language_id', 'eztags'),
-                            $query->expr->bitAnd(
-                                $this->handler->quoteColumn('language_id', 'eztags_keyword'),
-                                -2 // -2 == PHP_INT_MAX << 1
+                        $query->expr->lAnd(
+                            $query->expr->gt(
+                                $query->expr->bitAnd(
+                                    $this->handler->quoteColumn('language_mask', 'eztags'),
+                                    1
+                                ),
+                                0
+                            ),
+                            $query->expr->eq(
+                                $this->handler->quoteColumn('main_language_id', 'eztags'),
+                                $query->expr->bitAnd(
+                                    $this->handler->quoteColumn('language_id', 'eztags_keyword'),
+                                    -2 // -2 == PHP_INT_MAX << 1
+                                )
                             )
                         )
                     )
