@@ -1,6 +1,12 @@
 Netgen Tags Bundle 2.2 changelog
 ================================
 
+2.2.5 (09.05.2017)
+------------------
+
+* Fix tags API always loading untranslated tags, even when they are NOT always available (thanks @Mrkisha)
+* Translate names of module and functions in Platform UI
+
 2.2.4 (23.02.2017)
 ------------------
 
