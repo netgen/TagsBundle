@@ -19,10 +19,6 @@ abstract class PlatformUIListener
             return false;
         }
 
-        if (!$request->headers->has('X-PJAX') || !$request->isXmlHttpRequest()) {
-            return false;
-        }
-
-        return true;
+        return $request->headers->has('X-AJAX-Update') || $request->isXmlHttpRequest();
     }
 }
