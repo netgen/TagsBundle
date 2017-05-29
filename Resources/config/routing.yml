@@ -10,4 +10,4 @@ netgen_tags_admin_redirects:
 
 netgen_tags_admin:
     resource: "routing/admin.yml"
-    prefix: /tags/admin
+    prefix: /pjax/tags/admin
