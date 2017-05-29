@@ -23,3 +23,25 @@ services:
             - [setLanguages, [$languages$]]
         tags:
             - {name: router, priority: 200}
+
+    eztags.platform_ui_navigationhub.zones.tags:
+        class: "%ezsystems.platformui.navigationhub.zone.class%"
+        public: false
+        arguments:
+            - "Tags"
+            - "tags"
+        tags:
+            - {name: ezplatform.ui.zone}
+
+    eztags..platformui.navigationhub.link.admin.tags:
+        class: "%ezsystems.platformui.navigationhub.link.route.class%"
+        arguments:
+            - "@router"
+            - "netgen_tags_admin_root"
+            - "Tags"
+            - "tags"
+        calls:
+            - [setRoutePrefix, ["netgen_tags"]]
+        tags:
+            - {name: ezplatform.ui.link}
+        public: false
