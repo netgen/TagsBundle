@@ -46,7 +46,7 @@ class RelatedContentController extends Controller
         );
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:related_content.html.twig',
+            '@NetgenTags/admin/tag/related_content.html.twig',
             array(
                 'tag' => $tag,
                 'related_content' => $pager,

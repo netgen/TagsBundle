@@ -16,6 +16,6 @@ services:
         arguments:
             - "@twig"
         calls:
-            - [setDefaultTemplate, ['NetgenTagsBundle:admin:pagerfanta.html.twig']]
+            - [setDefaultTemplate, ['@@NetgenTags/admin/pagerfanta.html.twig']]
         tags:
             - {name: pagerfanta.view, alias: eztags_admin}

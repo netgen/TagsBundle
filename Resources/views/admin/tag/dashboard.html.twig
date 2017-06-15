@@ -5,7 +5,7 @@
 {% block content %}
     <h2 class="tag-title">{{ 'dashboard.title'|trans }}</h2>
 
-    {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
+    {% include '@NetgenTags/admin/flash_messages.html.twig' %}
 
-    {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'childrenTags': childrenTags} %}
+    {% include '@NetgenTags/admin/tag/children.html.twig' with {'childrenTags': childrenTags} %}
 {% endblock %}

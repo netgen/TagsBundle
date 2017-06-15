@@ -100,7 +100,7 @@ class TagController extends Controller
 
         if (!$tag instanceof Tag) {
             return $this->render(
-                'NetgenTagsBundle:admin/tag:dashboard.html.twig',
+                '@NetgenTags/admin/tag/dashboard.html.twig',
                 $data
             );
         }
@@ -118,7 +118,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:show.html.twig',
+            '@NetgenTags/admin/tag/show.html.twig',
             $data
         );
     }
@@ -168,7 +168,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
+            '@NetgenTags/admin/tag/select_translation.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -213,7 +213,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:add.html.twig',
+            '@NetgenTags/admin/tag/add.html.twig',
             array(
                 'form' => $form->createView(),
                 'parentTag' => $parentTag,
@@ -267,7 +267,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
+            '@NetgenTags/admin/tag/select_translation.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -318,7 +318,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:update.html.twig',
+            '@NetgenTags/admin/tag/update.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -355,7 +355,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:delete.html.twig',
+            '@NetgenTags/admin/tag/delete.html.twig',
             array(
                 'tag' => $tag,
             )
@@ -405,7 +405,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:merge.html.twig',
+            '@NetgenTags/admin/tag/merge.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -456,7 +456,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:convert.html.twig',
+            '@NetgenTags/admin/tag/convert.html.twig',
             array(
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -645,7 +645,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:move_tags.html.twig',
+            '@NetgenTags/admin/tag/move_tags.html.twig',
             array(
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,
@@ -711,7 +711,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:copy_tags.html.twig',
+            '@NetgenTags/admin/tag/copy_tags.html.twig',
             array(
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,
@@ -764,7 +764,7 @@ class TagController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:delete_tags.html.twig',
+            '@NetgenTags/admin/tag/delete_tags.html.twig',
             array(
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,

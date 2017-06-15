@@ -23,27 +23,27 @@
     </title>
 
     {% block stylesheets %}
-        {% include 'NetgenTagsBundle:admin:stylesheets.html.twig' %}
+        {% include '@NetgenTags/admin/stylesheets.html.twig' %}
     {% endblock %}
 
     {% block javascripts %}
-        {% include 'NetgenTagsBundle:admin:javascripts.html.twig' %}
+        {% include '@NetgenTags/admin/javascripts.html.twig' %}
     {% endblock %}
 </head>
 <body>
     <div class="ng-tags-app">
-        {% include 'NetgenTagsBundle:admin:header.html.twig' %}
+        {% include '@NetgenTags/admin/header.html.twig' %}
 
         <div class="ng-tags-container">
             <div class="tags-sidebar tags-sidebar-resizable">
                 <div class="main-menu">
-                    {% include 'NetgenTagsBundle:admin:main_menu.html.twig' %}
+                    {% include '@NetgenTags/admin/main_menu.html.twig' %}
                 </div>
             </div>
 
             <div class="tags-content">
                 <div class="path">
-                    {% include 'NetgenTagsBundle:admin:path.html.twig' %}
+                    {% include '@NetgenTags/admin/path.html.twig' %}
                 </div>
 
                 {% block content %}{% endblock %}

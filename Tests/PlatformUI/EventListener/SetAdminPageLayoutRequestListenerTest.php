@@ -45,7 +45,7 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
             ->setMethods(array('setPageLayoutTemplate'))
             ->getMock();
 
-        $this->pageLayoutTemplate = 'AcmeBundle::pagelayout.html.twig';
+        $this->pageLayoutTemplate = '@Acme/pagelayout.html.twig';
 
         $this->event = $this->getMockBuilder(GetResponseEvent::class)
             ->disableOriginalConstructor()

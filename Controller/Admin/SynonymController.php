@@ -77,7 +77,7 @@ class SynonymController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:select_translation.html.twig',
+            '@NetgenTags/admin/tag/select_translation.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -119,7 +119,7 @@ class SynonymController extends Controller
         }
 
         return $this->render(
-            'NetgenTagsBundle:admin/tag:add.html.twig',
+            '@NetgenTags/admin/tag/add.html.twig',
             array(
                 'form' => $form->createView(),
             )

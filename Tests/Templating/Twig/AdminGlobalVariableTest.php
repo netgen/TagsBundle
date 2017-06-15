@@ -20,7 +20,7 @@ class AdminGlobalVariableTest extends TestCase
     public function setUp()
     {
         $this->adminGlobalVariable = new AdminGlobalVariable();
-        $this->template = 'AcmeBundle::pagelayout.html.twig';
+        $this->template = '@Acme/pagelayout.html.twig';
     }
 
     public function testInstanceOfGlobalAdminVariable()

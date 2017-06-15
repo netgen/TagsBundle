@@ -19,10 +19,10 @@ parameters:
     eztags.default.tag_view.default_ttl: 60
 
     # Default template used to generate tag view page
-    eztags.default.tag_view.template: 'NetgenTagsBundle:tag:view.html.twig'
+    eztags.default.tag_view.template: '@@NetgenTags/tag/view.html.twig'
 
     # Default pagelayout used in tag view page
-    eztags.default.tag_view.pagelayout: 'eZDemoBundle::pagelayout.html.twig'
+    eztags.default.tag_view.pagelayout: '@@eZDemo/pagelayout.html.twig'
 
     # Default path prefix to use when generating tag view links
     # Since it's NOT recommended to use empty path prefix here,
@@ -36,7 +36,7 @@ parameters:
     eztags.default.edit_views: {}
 
     # Default pagelayout template for admin interface
-    eztags.default.admin.pagelayout: 'NetgenTagsBundle:admin:pagelayout.html.twig'
+    eztags.default.admin.pagelayout: '@@NetgenTags/admin/pagelayout.html.twig'
 
     # Limit to tag children list in admin interface
     eztags.default.admin.children_limit: 25

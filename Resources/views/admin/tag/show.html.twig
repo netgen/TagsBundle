@@ -14,7 +14,7 @@
         <span class="tag-title-note">{{ 'tag.modified'|trans }}: <strong>{{ tag.modificationDate|date }}</strong></span>
     </h2>
 
-    {% include 'NetgenTagsBundle:admin:flash_messages.html.twig' %}
+    {% include '@NetgenTags/admin/flash_messages.html.twig' %}
 
     <div class="tags-btn-group">
         {% if is_granted('ez:tags:edit' ~ (tag.isSynonym ? 'synonym' : '')) %}
@@ -52,16 +52,16 @@
         </ul>
 
         <div class="tags-tab" data-tab="#latest">
-            {% include 'NetgenTagsBundle:admin/tag/tabs:latest_content.html.twig' %}
+            {% include '@NetgenTags/admin/tag/tabs/latest_content.html.twig' %}
         </div>
 
         <div class="tags-tab" data-tab="#translations">
-            {% include 'NetgenTagsBundle:admin/tag/tabs:translations.html.twig' %}
+            {% include '@NetgenTags/admin/tag/tabs/translations.html.twig' %}
         </div>
 
         {% if not tag.isSynonym %}
             <div class="tags-tab" data-tab="#synonyms">
-                {% include 'NetgenTagsBundle:admin/tag/tabs:synonyms.html.twig' %}
+                {% include '@NetgenTags/admin/tag/tabs/synonyms.html.twig' %}
             </div>
 
             <div class="tags-tab" data-tab="#limitations">
@@ -71,7 +71,7 @@
     </div>
 
     {% if not tag.isSynonym %}
-        {% include 'NetgenTagsBundle:admin/tag:children.html.twig' with {'tag': tag, 'childrenTags': childrenTags} %}
+        {% include '@NetgenTags/admin/tag/children.html.twig' with {'tag': tag, 'childrenTags': childrenTags} %}
     {% endif %}
 
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'eztags_admin' %}
 
-{% form_theme form 'NetgenTagsBundle:form:eztags.html.twig' %}
+{% form_theme form '@NetgenTags/form/eztags.html.twig' %}
 
 {% block content %}
     <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
