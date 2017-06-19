@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.0 changelog
 ================================
 
+3.0.4 (19.06.2017)
+------------------
+
+* Allow installation of version 2.x of `lolautruche/ez-core-extra-bundle` (thanks @wizhippo)
+
 3.0.3 (09.05.2017)
 ------------------
 
