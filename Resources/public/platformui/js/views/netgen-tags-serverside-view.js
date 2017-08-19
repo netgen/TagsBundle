@@ -62,14 +62,14 @@ YUI.add('netgen-tags-serverside-view', function (Y) {
                     case 'radio':
                     case 'checkbox':
                         if ( field.get('checked') ) {
-                            data.push(name + "=" + field.get('value'));
+                            data.push(name + "=" + encodeURIComponent(field.get('value')));
                         }
                         break;
                     case 'select-multiple':
                         if ( field.get('selectedIndex') >= 0 ) {
                             field.get('options').each(function (opt) {
                                 if ( opt.get('selected') ) {
-                                    data.push(name + "=" + opt.get('value'));
+                                    data.push(name + "=" + encodeURIComponent(opt.get('value')));
                                 }
                             });
                         }
@@ -77,7 +77,7 @@ YUI.add('netgen-tags-serverside-view', function (Y) {
                     default:
                         // `.get('value')` returns the expected field value for
                         // inputs, select-one and even textarea.
-                        data.push(name + "=" + field.get('value'));
+                        data.push(name + "=" + encodeURIComponent(field.get('value')));
                 }
                 /* jshint +W015 */
             });
