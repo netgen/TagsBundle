@@ -1,7 +1,7 @@
 Netgen Tags Bundle 3.0 changelog
 ================================
 
-3.0.5 (dd.mm.yyyy)
+3.0.5 (21.08.2017)
 ------------------
 
 * Fixed storing tags with special characters (e.g. `&`) when using Platform UI admin interface
