@@ -37,6 +37,13 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 class TagsIntegrationTest extends BaseIntegrationTest
 {
     /**
+     * Property indicating whether the DB already has been set up.
+     *
+     * @var bool
+     */
+    protected static $tagsSetUp = false;
+
+    /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $tagsService;
@@ -50,19 +57,18 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function setUp()
     {
-        if (!self::$setUp) {
-            parent::setUp();
+        parent::setUp();
 
-            $handler = $this->getDatabaseHandler();
-
-            $schema = __DIR__ . '/../../_fixtures/schema/schema.' . $this->db . '.sql';
+        if (!self::$tagsSetUp) {
+            $schema = __DIR__ . '/../../_fixtures/schema/schema.' . $this->handler->getName() . '.sql';
 
             $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents($schema)));
             foreach ($queries as $query) {
-                $handler->exec($query);
+                $this->handler->exec($query);
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../_fixtures/tags_tree.php');
+            self::$tagsSetUp = $this->handler;
         }
     }
 
@@ -73,14 +79,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         parent::resetSequences();
 
-        switch ($this->db) {
+        switch ($this->handler->getName()) {
             case 'pgsql':
                 // Update PostgreSQL sequences
-                $handler = $this->getDatabaseHandler();
-
                 $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql')));
                 foreach ($queries as $query) {
-                    $handler->exec($query);
+                    $this->handler->exec($query);
                 }
 
                 break;
@@ -124,12 +128,11 @@ class TagsIntegrationTest extends BaseIntegrationTest
             $fieldType,
             new TagsConverter(),
             new TagsStorage(
-                array(
-                    'LegacyStorage' => new TagsLegacyStorage(
-                        new LanguageHandlerMock()
-                    ),
+                new TagsLegacyStorage(
+                    $this->handler,
+                    new LanguageHandlerMock()
                 ),
-                $this->createMock(TagsService::class)
+                $this->tagsService
             )
         );
     }
