@@ -44,7 +44,7 @@ class Legacy extends BaseLegacy
             $loader->load(__DIR__ . '/../../../../Resources/config/limitations.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/fieldtypes.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/persistence.yml');
-            $loader->load(__DIR__ . '/../../../../Resources/config/storage/legacy.yml');
+            $loader->load(__DIR__ . '/../../../../Resources/config/storage/doctrine.yml');
             $loader->load(__DIR__ . '/../../../../Resources/config/search/legacy.yml');
 
             $loader->load(__DIR__ . '/../../../../Tests/settings/settings.yml');

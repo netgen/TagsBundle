@@ -6,7 +6,17 @@ services:
             - {name: ezpublish.storageEngine.legacy.converter, alias: eztags, lazy: true, callback: "::create"}
 
     eztags.field_type.eztags.storage_gateway:
+        alias: eztags.field_type.eztags.storage_gateway.doctrine
+
+    eztags.field_type.eztags.storage_gateway.doctrine:
+        class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage
+        arguments:
+            - "@ezpublish.api.storage_engine.legacy.connection"
+            - "@ezpublish.spi.persistence.legacy.language.handler"
+
+    eztags.field_type.eztags.storage_gateway.legacy:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
+        deprecated: 'Netgen Tags legacy storage gateway (%service_id%) is deprecated in favor of Doctrine storage implementation'
         arguments:
             - "@ezpublish.api.storage_engine.legacy.dbhandler"
             - "@ezpublish.spi.persistence.legacy.language.handler"

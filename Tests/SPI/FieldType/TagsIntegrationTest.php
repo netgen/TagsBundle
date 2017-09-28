@@ -9,7 +9,7 @@ use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
-use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage as TagsLegacyStorage;
+use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage as TagsDoctrineStorage;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
@@ -128,8 +128,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
             $fieldType,
             new TagsConverter(),
             new TagsStorage(
-                new TagsLegacyStorage(
-                    $this->handler,
+                new TagsDoctrineStorage(
+                    $this->handler->getConnection(),
                     new LanguageHandlerMock()
                 ),
                 $this->tagsService
