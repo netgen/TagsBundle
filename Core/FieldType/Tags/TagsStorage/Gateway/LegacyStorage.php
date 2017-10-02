@@ -8,7 +8,6 @@ use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use PDO;
-use RuntimeException;
 
 class LegacyStorage extends Gateway
 {
@@ -17,7 +16,7 @@ class LegacyStorage extends Gateway
      *
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
-    protected $connection;
+    protected $dbHandler;
 
     /**
      * Caching language handler.
@@ -29,33 +28,13 @@ class LegacyStorage extends Gateway
     /**
      * Constructor.
      *
+     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $dbHandler
      * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
      */
-    public function __construct(LanguageHandler $languageHandler)
+    public function __construct(DatabaseHandler $dbHandler, LanguageHandler $languageHandler)
     {
+        $this->dbHandler = $dbHandler;
         $this->languageHandler = $languageHandler;
-    }
-
-    /**
-     * Sets the data storage connection to use.
-     *
-     *
-     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $connection
-     *
-     * @throws \RuntimeException if $connection is not an instance of
-     *         {@link \eZ\Publish\Core\Persistence\Database\DatabaseHandler}
-     */
-    public function setConnection($connection)
-    {
-        // This obviously violates the Liskov substitution Principle, but with
-        // the given class design there is no sane other option. Actually the
-        // dbHandler *should* be passed to the constructor, and there should
-        // not be the need to post-inject it.
-        if (!$connection instanceof DatabaseHandler) {
-            throw new RuntimeException('Invalid connection passed');
-        }
-
-        $this->connection = $connection;
     }
 
     /**
@@ -66,26 +45,24 @@ class LegacyStorage extends Gateway
      */
     public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
-        $connection = $this->getConnection();
-
         foreach ($field->value->externalData as $priority => $tag) {
-            $insertQuery = $connection->createInsertQuery();
+            $insertQuery = $this->dbHandler->createInsertQuery();
             $insertQuery
-                ->insertInto($connection->quoteTable('eztags_attribute_link'))
+                ->insertInto($this->dbHandler->quoteTable('eztags_attribute_link'))
                 ->set(
-                    $connection->quoteColumn('keyword_id'),
+                    $this->dbHandler->quoteColumn('keyword_id'),
                     $insertQuery->bindValue($tag['id'], null, PDO::PARAM_INT)
                 )->set(
-                    $connection->quoteColumn('objectattribute_id'),
+                    $this->dbHandler->quoteColumn('objectattribute_id'),
                     $insertQuery->bindValue($field->id, null, PDO::PARAM_INT)
                 )->set(
-                    $connection->quoteColumn('objectattribute_version'),
+                    $this->dbHandler->quoteColumn('objectattribute_version'),
                     $insertQuery->bindValue($versionInfo->versionNo, null, PDO::PARAM_INT)
                 )->set(
-                    $connection->quoteColumn('object_id'),
+                    $this->dbHandler->quoteColumn('object_id'),
                     $insertQuery->bindValue($versionInfo->contentInfo->id, null, PDO::PARAM_INT)
                 )->set(
-                    $connection->quoteColumn('priority'),
+                    $this->dbHandler->quoteColumn('priority'),
                     $insertQuery->bindValue($priority, null, PDO::PARAM_INT)
                 );
 
@@ -113,41 +90,23 @@ class LegacyStorage extends Gateway
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
-        $connection = $this->getConnection();
-
-        $query = $connection->createDeleteQuery();
+        $query = $this->dbHandler->createDeleteQuery();
         $query
-            ->deleteFrom($connection->quoteTable('eztags_attribute_link'))
+            ->deleteFrom($this->dbHandler->quoteTable('eztags_attribute_link'))
             ->where(
                 $query->expr->lAnd(
                     $query->expr->in(
-                        $connection->quoteColumn('objectattribute_id'),
+                        $this->dbHandler->quoteColumn('objectattribute_id'),
                         $fieldIds
                     ),
                     $query->expr->eq(
-                        $connection->quoteColumn('objectattribute_version'),
+                        $this->dbHandler->quoteColumn('objectattribute_version'),
                         $query->bindValue($versionInfo->versionNo, null, PDO::PARAM_INT)
                     )
                 )
             );
 
         $query->prepare()->execute();
-    }
-
-    /**
-     * Returns the active connection.
-     *
-     * @throws \RuntimeException if no connection has been set, yet
-     *
-     * @return \eZ\Publish\Core\Persistence\Database\DatabaseHandler
-     */
-    protected function getConnection()
-    {
-        if ($this->connection === null) {
-            throw new RuntimeException('Missing database connection.');
-        }
-
-        return $this->connection;
     }
 
     /**
@@ -160,55 +119,53 @@ class LegacyStorage extends Gateway
      */
     protected function loadFieldData($fieldId, $versionNo)
     {
-        $connection = $this->getConnection();
-
-        $query = $connection->createSelectQuery();
+        $query = $this->dbHandler->createSelectQuery();
         $query
             ->selectDistinct(
                 // Tag
-                $connection->aliasedColumn($query, 'id', 'eztags'),
-                $connection->aliasedColumn($query, 'parent_id', 'eztags'),
-                $connection->aliasedColumn($query, 'main_tag_id', 'eztags'),
-                $connection->aliasedColumn($query, 'keyword', 'eztags'),
-                $connection->aliasedColumn($query, 'depth', 'eztags'),
-                $connection->aliasedColumn($query, 'path_string', 'eztags'),
-                $connection->aliasedColumn($query, 'modified', 'eztags'),
-                $connection->aliasedColumn($query, 'remote_id', 'eztags'),
-                $connection->aliasedColumn($query, 'main_language_id', 'eztags'),
-                $connection->aliasedColumn($query, 'language_mask', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'id', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'parent_id', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'main_tag_id', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'keyword', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'depth', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'path_string', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'modified', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'remote_id', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'main_language_id', 'eztags'),
+                $this->dbHandler->aliasedColumn($query, 'language_mask', 'eztags'),
                 // Tag keywords
-                $connection->aliasedColumn($query, 'keyword', 'eztags_keyword'),
-                $connection->aliasedColumn($query, 'locale', 'eztags_keyword'),
+                $this->dbHandler->aliasedColumn($query, 'keyword', 'eztags_keyword'),
+                $this->dbHandler->aliasedColumn($query, 'locale', 'eztags_keyword'),
                 // Tag attribute links
-                $connection->aliasedColumn($query, 'priority', 'eztags_attribute_link')
+                $this->dbHandler->aliasedColumn($query, 'priority', 'eztags_attribute_link')
             )
-            ->from($connection->quoteTable('eztags'))
+            ->from($this->dbHandler->quoteTable('eztags'))
             ->innerJoin(
-                $connection->quoteTable('eztags_attribute_link'),
+                $this->dbHandler->quoteTable('eztags_attribute_link'),
                 $query->expr->eq(
-                    $connection->quoteColumn('id', 'eztags'),
-                    $connection->quoteColumn('keyword_id', 'eztags_attribute_link')
+                    $this->dbHandler->quoteColumn('id', 'eztags'),
+                    $this->dbHandler->quoteColumn('keyword_id', 'eztags_attribute_link')
                 )
             )
             ->innerJoin(
-                $connection->quoteTable('eztags_keyword'),
+                $this->dbHandler->quoteTable('eztags_keyword'),
                 $query->expr->eq(
-                    $connection->quoteColumn('id', 'eztags'),
-                    $connection->quoteColumn('keyword_id', 'eztags_keyword')
+                    $this->dbHandler->quoteColumn('id', 'eztags'),
+                    $this->dbHandler->quoteColumn('keyword_id', 'eztags_keyword')
                 )
             )->where(
                 $query->expr->lAnd(
                     $query->expr->eq(
-                        $connection->quoteColumn('objectattribute_id', 'eztags_attribute_link'),
+                        $this->dbHandler->quoteColumn('objectattribute_id', 'eztags_attribute_link'),
                         $query->bindValue($fieldId, null, PDO::PARAM_INT)
                     ),
                     $query->expr->eq(
-                        $connection->quoteColumn('objectattribute_version', 'eztags_attribute_link'),
+                        $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link'),
                         $query->bindValue($versionNo, null, PDO::PARAM_INT)
                     )
                 )
             )
-            ->orderBy($connection->quoteColumn('priority', 'eztags_attribute_link'));
+            ->orderBy($this->dbHandler->quoteColumn('priority', 'eztags_attribute_link'));
 
         $statement = $query->prepare();
         $statement->execute();

@@ -3,7 +3,8 @@
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\Core\FieldType\GatewayBasedStorage;
+use eZ\Publish\SPI\FieldType\GatewayBasedStorage;
+use eZ\Publish\SPI\FieldType\StorageGateway;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -19,14 +20,14 @@ class TagsStorage extends GatewayBasedStorage
     protected $tagsService;
 
     /**
-     * Construct from gateways.
+     * Constructor.
      *
-     * @param \eZ\Publish\Core\FieldType\StorageGateway[] $gateways
+     * @param \eZ\Publish\SPI\FieldType\StorageGateway $gateway
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
-    public function __construct(array $gateways, TagsService $tagsService)
+    public function __construct(StorageGateway $gateway, TagsService $tagsService)
     {
-        parent::__construct($gateways);
+        parent::__construct($gateway);
 
         $this->tagsService = $tagsService;
     }
@@ -42,10 +43,7 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
-        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
-        $gateway = $this->getGateway($context);
-
-        $gateway->deleteFieldData($versionInfo, array($field->id));
+        $this->gateway->deleteFieldData($versionInfo, array($field->id));
         if (!empty($field->value->externalData)) {
             $externalData = $field->value->externalData;
             foreach ($externalData as $key => $tag) {
@@ -61,7 +59,7 @@ class TagsStorage extends GatewayBasedStorage
                 }
             }
 
-            $gateway->storeFieldData($versionInfo, $field);
+            $this->gateway->storeFieldData($versionInfo, $field);
         }
     }
 
@@ -74,9 +72,7 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
-        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
-        $gateway = $this->getGateway($context);
-        $gateway->getFieldData($versionInfo, $field);
+        $this->gateway->getFieldData($versionInfo, $field);
     }
 
     /**
@@ -91,9 +87,7 @@ class TagsStorage extends GatewayBasedStorage
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
     {
-        /** @var \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway */
-        $gateway = $this->getGateway($context);
-        $gateway->deleteFieldData($versionInfo, $fieldIds);
+        $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 
     /**

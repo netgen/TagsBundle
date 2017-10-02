@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^5.6|^7.0",
-        "ezsystems/ezpublish-kernel": "^6.5.2",
+        "php": "^5.6|^7.1",
+        "ezsystems/ezpublish-kernel": "^6.11",
         "ezsystems/repository-forms": "^1.4",
         "ezsystems/platform-ui-bundle": "^1.5",
         "ezsystems/ezplatform-solr-search-engine": "^1.1.3",

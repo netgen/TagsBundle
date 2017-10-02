@@ -12,7 +12,7 @@ services:
     eztags.field_type.eztags.external_storage:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
         arguments:
-            - []
+            - "@eztags.field_type.eztags.storage_gateway"
             - "@eztags.api.service.tags"
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler, alias: eztags}

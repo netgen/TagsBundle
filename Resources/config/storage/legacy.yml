@@ -8,9 +8,8 @@ services:
     eztags.field_type.eztags.storage_gateway:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
         arguments:
+            - "@ezpublish.api.storage_engine.legacy.dbhandler"
             - "@ezpublish.spi.persistence.legacy.language.handler"
-        tags:
-            - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: eztags, identifier: LegacyStorage}
 
     eztags.api.storage_engine.legacy.handler.tags.mapper:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
