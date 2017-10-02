@@ -44,7 +44,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('templating.yml');
         $loader->load('view.yml');
         $loader->load('limitations.yml');
-        $loader->load('storage/legacy.yml');
+        $loader->load('storage/doctrine.yml');
         $loader->load('admin/controllers.yml');
         $loader->load('admin/templating.yml');
         $loader->load('forms.yml');
