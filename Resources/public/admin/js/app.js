@@ -330,6 +330,10 @@ function ngTagsInit(){
     $('.tags-sidebar-resizable').tagsResize({connectWith: '.ng-tags-logo'});
 
     /* input enabled/disabled buttons */
+    ngTagsInit.handleButtons($);
+}
+
+ngTagsInit.handleButtons = function ($) {
     var $enabledInputs = $('input[data-enable]'),
         enabledInputsGroups = Array.from($enabledInputs).reduce(function(arr, item) {
         var name = item.dataset.enable;
@@ -344,9 +348,11 @@ function ngTagsInit(){
         var name = e.currentTarget.dataset.enable;
         $('input[data-enable="' + name + '"]:checked').length ? $('[data-enabler="' + name + '"]').removeAttr('disabled') : $('[data-enabler="' + name + '"]').attr('disabled', 'disabled');
     });
-
 }
 
 jQuery(document).ready(function($) {
     ngTagsInit();
 });
+
+// only disable/enable buttons, as the tree/tags needs further work.
+document.addEventListener('ez:app:updated', ngTagsInit.handleButtons.bind(this, jQuery));
