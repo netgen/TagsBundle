@@ -4,7 +4,7 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Platform 1.5+
+* eZ Platform 1.11+
 
 Optional requirements
 ---------------------
@@ -24,7 +24,7 @@ Installation steps
 Run the following from your website root folder to install Netgen Tags Bundle:
 
 ```
-$ composer require netgen/tagsbundle:^3.0
+$ composer require netgen/tagsbundle
 ```
 
 ### Activate the bundle
