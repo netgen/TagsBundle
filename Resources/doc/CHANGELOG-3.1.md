@@ -9,5 +9,6 @@ Netgen Tags Bundle 3.1 changelog
 * Removed usage of deprecated gateway based storage API
 * Removed usage of deprecated base field criterion visitor from eZ Solr bundle
 * Bumped minimum eZ version version to 6.11
+* Bumped minimum eZ Solr Search Engine Bundle version to 1.4
 * Bumped minimum eZ Core Extra Bundle version to 2.0
 * Dropped support for PHP 7.0
