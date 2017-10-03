@@ -480,7 +480,7 @@ class Tags extends RestController
      *
      * @throws \eZ\Publish\Core\REST\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
-     * @return \eZ\Publish\Core\REST\Server\Values\ResourceCreated
+     * @return \eZ\Publish\Core\REST\Server\Values\NoContent
      */
     public function mergeTags($tagPath, Request $request)
     {
