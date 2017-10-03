@@ -1,6 +1,15 @@
 Netgen Tags Bundle upgrade instructions
 =======================================
 
+Upgrade from 3.0 to 3.1
+-----------------------
+
+* `eztags.field_type.eztags.storage_gateway` service now points to the Doctrine version of storage gateway. If you want to keep using the legacy version in your code, it is available with `eztags.field_type.eztags.storage_gateway.legacy` service name
+* Minimum supported version of eZ Platform is now 1.11 (with Repository Forms 1.9 and Platform UI 1.11)
+* Minimum supported version of Solr Search Engine is now 1.4
+* Support for eZ Core Extra Bundle 1.0 has been dropped
+* Support for PHP 7.0 has been dropped
+
 Upgrade from 2.2 to 3.0
 -----------------------
 
