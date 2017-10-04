@@ -1,6 +1,13 @@
 Netgen Tags Bundle 3.0 changelog
 ================================
 
+3.0.6 (04.10.2017)
+------------------
+
+* Fixed an issue with wrong usage of offset and limit in storage gateway. `getChildren`, `getSynonyms`
+  and `getTagsByKeywords` methods would return `$limit` ROWS instead of `$limit` tags, which meant that
+  not all tag translations would be loaded.
+
 3.0.5 (21.08.2017)
 ------------------
 
