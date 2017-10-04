@@ -208,21 +208,43 @@ class DoctrineDatabase extends Gateway
      */
     public function getChildren($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
+        $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
+        $tagIdsQuery->where(
+            $tagIdsQuery->expr->lAnd(
+                $tagIdsQuery->expr->eq(
+                    $this->handler->quoteColumn('parent_id', 'eztags'),
+                    $tagIdsQuery->bindValue($tagId, null, PDO::PARAM_INT)
+                ),
+                $tagIdsQuery->expr->eq($this->handler->quoteColumn('main_tag_id', 'eztags'), 0)
+            )
+        )
+        ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+
+        $statement = $tagIdsQuery->prepare();
+        $statement->execute();
+
+        $tagIds = array_map(
+            function (array $row) {
+                return (int)$row['id'];
+            },
+            $statement->fetchAll(PDO::FETCH_ASSOC)
+        );
+
+        if (empty($tagIds)) {
+            return array();
+        }
+
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->lAnd(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('parent_id', 'eztags'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
-                ),
-                $query->expr->eq($this->handler->quoteColumn('main_tag_id', 'eztags'), 0)
+            $query->expr->in(
+                $this->handler->quoteColumn('id', 'eztags'),
+                $tagIds
             )
         )
         ->orderBy(
             $this->handler->quoteColumn('keyword', 'eztags_keyword'),
             $query::ASC
-        )
-        ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+        );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -274,21 +296,43 @@ class DoctrineDatabase extends Gateway
      */
     public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
     {
-        $query = $this->createTagFindQuery(array($translation), $useAlwaysAvailable);
-
-        $query->where(
+        $tagIdsQuery = $this->createTagIdsQuery(array($translation), $useAlwaysAvailable);
+        $tagIdsQuery->where(
             $exactMatch ?
-                $query->expr->eq(
+                $tagIdsQuery->expr->eq(
                     $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $query->bindValue($keyword, null, PDO::PARAM_STR)
+                    $tagIdsQuery->bindValue($keyword, null, PDO::PARAM_STR)
                 ) :
-                $query->expr->like(
+                $tagIdsQuery->expr->like(
                     $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $query->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                    $tagIdsQuery->bindValue($keyword . '%', null, PDO::PARAM_STR)
                 )
         );
 
-        $query->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+        $tagIdsQuery->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+
+        $statement = $tagIdsQuery->prepare();
+        $statement->execute();
+
+        $tagIds = array_map(
+            function (array $row) {
+                return (int)$row['id'];
+            },
+            $statement->fetchAll(PDO::FETCH_ASSOC)
+        );
+
+        if (empty($tagIds)) {
+            return array();
+        }
+
+        $query = $this->createTagFindQuery(array($translation), $useAlwaysAvailable);
+
+        $query->where(
+            $query->expr->in(
+                $this->handler->quoteColumn('id', 'eztags'),
+                $tagIds
+            )
+        );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -343,14 +387,36 @@ class DoctrineDatabase extends Gateway
      */
     public function getSynonyms($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
-        $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
-        $query->where(
-            $query->expr->eq(
+        $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
+        $tagIdsQuery->where(
+            $tagIdsQuery->expr->eq(
                 $this->handler->quoteColumn('main_tag_id', 'eztags'),
-                $query->bindValue($tagId, null, PDO::PARAM_INT)
+                $tagIdsQuery->bindValue($tagId, null, PDO::PARAM_INT)
             )
         )
         ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+
+        $statement = $tagIdsQuery->prepare();
+        $statement->execute();
+
+        $tagIds = array_map(
+            function (array $row) {
+                return (int)$row['id'];
+            },
+            $statement->fetchAll(PDO::FETCH_ASSOC)
+        );
+
+        if (empty($tagIds)) {
+            return array();
+        }
+
+        $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
+        $query->where(
+            $query->expr->in(
+                $this->handler->quoteColumn('id', 'eztags'),
+                $tagIds
+            )
+        );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -961,6 +1027,81 @@ class DoctrineDatabase extends Gateway
             );
 
         $query->prepare()->execute();
+    }
+
+    /**
+     * Creates a select query for tag objects that fetches only tag IDs.
+     *
+     * Does not apply any WHERE conditions.
+     *
+     * @param string[] $translations
+     * @param bool $useAlwaysAvailable
+     *
+     * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
+     */
+    protected function createTagIdsQuery(array $translations = null, $useAlwaysAvailable = true)
+    {
+        /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
+        $query = $this->handler->createSelectQuery();
+        $query->select('DISTINCT eztags.id')
+        ->from(
+            $this->handler->quoteTable('eztags')
+        )
+        // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
+        // since it creates an additional cartesian product with translations.
+        ->leftJoin(
+            $this->handler->quoteTable('eztags_keyword'),
+            $query->expr->lAnd(
+                // eztags_keyword.locale is also part of the PK but can't be
+                // easily joined with something at this level
+                $query->expr->eq(
+                    $this->handler->quoteColumn('keyword_id', 'eztags_keyword'),
+                    $this->handler->quoteColumn('id', 'eztags')
+                ),
+                $query->expr->eq(
+                    $this->handler->quoteColumn('status', 'eztags_keyword'),
+                    $query->bindValue(1, null, PDO::PARAM_INT)
+                )
+            )
+        );
+
+        if (!empty($translations)) {
+            if ($useAlwaysAvailable) {
+                $query->where(
+                    $query->expr->lOr(
+                        $query->expr->in(
+                            $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                            $translations
+                        ),
+                        $query->expr->lAnd(
+                            $query->expr->gt(
+                                $query->expr->bitAnd(
+                                    $this->handler->quoteColumn('language_mask', 'eztags'),
+                                    1
+                                ),
+                                0
+                            ),
+                            $query->expr->eq(
+                                $this->handler->quoteColumn('main_language_id', 'eztags'),
+                                $query->expr->bitAnd(
+                                    $this->handler->quoteColumn('language_id', 'eztags_keyword'),
+                                    -2 // -2 == PHP_INT_MAX << 1
+                                )
+                            )
+                        )
+                    )
+                );
+            } else {
+                $query->where(
+                    $query->expr->in(
+                        $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                        $translations
+                    )
+                );
+            }
+        }
+
+        return $query;
     }
 
     /**
