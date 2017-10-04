@@ -28,8 +28,7 @@
         "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
     },
     "conflict": {
-        "ezsystems/eztags-ls": "<2.1",
-        "ezsystems/ezplatform-solr-search-engine": "1.2.0"
+        "ezsystems/eztags-ls": "<2.1"
     },
     "autoload": {
         "psr-4": {"Netgen\\TagsBundle\\": ""},
