@@ -17,16 +17,16 @@
 
     <testsuites>
         <testsuite name="Netgen\TagsBundle\Tests\Core">
-            <directory>Tests/Core</directory>
+            <directory>tests/Core</directory>
         </testsuite>
         <testsuite name="Netgen\TagsBundle\Tests\SPI">
-            <directory>Tests/SPI</directory>
+            <directory>tests/SPI</directory>
         </testsuite>
         <testsuite name="Netgen\TagsBundle\Tests\PlatformUI">
-            <directory>Tests/PlatformUI</directory>
+            <directory>tests/PlatformUI</directory>
         </testsuite>
         <testsuite name="Netgen\TagsBundle\Tests\Templating">
-            <directory>Tests/Templating</directory>
+            <directory>tests/Templating</directory>
         </testsuite>
     </testsuites>
 

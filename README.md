@@ -34,11 +34,11 @@ License and installation instructions
 
 [License](LICENSE)
 
-[Installation instructions](Resources/doc/INSTALL.md)
+[Installation instructions](bundle/Resources/doc/INSTALL.md)
 
-[Upgrade instructions](Resources/doc/UPGRADE.md)
+[Upgrade instructions](bundle/Resources/doc/UPGRADE.md)
 
-[Changelogs](Resources/doc/)
+[Changelogs](bundle/Resources/doc/)
 
 Unit tests
 ----------

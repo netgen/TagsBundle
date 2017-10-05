@@ -1,8 +1,17 @@
 {
     "name": "netgen/tagsbundle",
     "description": "Netgen Tags Bundle is an eZ Platform / eZ Publish bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than ezkeyword field type included in eZ Publish kernel.",
-    "license": "GPL-2.0",
     "type": "ezplatform-bundle",
+    "keywords": [
+        "ezplatform",
+        "ezpublish",
+        "netgen",
+        "taxonomy",
+        "tagsbundle",
+        "tags"
+    ],
+    "homepage": "https://github.com/netgen/TagsBundle",
+    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Netgen",
@@ -31,12 +40,14 @@
         "ezsystems/eztags-ls": "<2.1"
     },
     "autoload": {
-        "psr-4": {"Netgen\\TagsBundle\\": ""},
-        "exclude-from-classmap": [
-            "Tests/"
-        ]
+        "psr-4": {
+            "Netgen\\TagsBundle\\": "bundle/"
+        }
     },
     "autoload-dev": {
+        "psr-4": {
+            "Netgen\\TagsBundle\\Tests\\": "tests/"
+        },
         "files": [
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
         ]

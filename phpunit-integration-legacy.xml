@@ -23,28 +23,28 @@
 
     <testsuites>
         <testsuite name="Netgen\TagsBundle\Tests\API">
-            <directory>Tests/API</directory>
+            <directory>tests/API</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>.</directory>
+            <directory>bundle</directory>
             <exclude>
-                <directory>API</directory>
-                <directory>Core/Persistence</directory>
-                <directory>Core/Repository</directory>
-                <directory>Core/SignalSlot</directory>
-                <directory>SPI</directory>
-                <directory>Controller</directory>
-                <directory>DependencyInjection</directory>
-                <directory>Resources</directory>
-                <directory>Tests</directory>
+                <directory>bundle/API</directory>
+                <directory>bundle/Core/Persistence</directory>
+                <directory>bundle/Core/Repository</directory>
+                <directory>bundle/Core/SignalSlot</directory>
+                <directory>bundle/SPI</directory>
+                <directory>bundle/Controller</directory>
+                <directory>bundle/DependencyInjection</directory>
+                <directory>bundle/Resources</directory>
+                <directory>tests</directory>
                 <directory>vendor</directory>
                 <directory>var</directory>
                 <directory>extension</directory>
                 <file>bootstrap.php</file>
-                <file>NetgenTagsBundle.php</file>
+                <file>bundle/NetgenTagsBundle.php</file>
             </exclude>
         </whitelist>
     </filter>
