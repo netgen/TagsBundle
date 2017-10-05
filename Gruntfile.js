@@ -11,8 +11,8 @@ module.exports = function (grunt) {
 
     // Configurable paths
     var config = {
-        sass_dir: 'Resources/sass/admin',
-        public_dir: 'Resources/public/admin'
+        sass_dir: 'bundle/Resources/sass/admin',
+        public_dir: 'bundle/Resources/public/admin'
     };
 
     // Define the configuration for all the tasks
