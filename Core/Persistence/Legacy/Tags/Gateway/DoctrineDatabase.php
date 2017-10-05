@@ -218,6 +218,10 @@ class DoctrineDatabase extends Gateway
                 $tagIdsQuery->expr->eq($this->handler->quoteColumn('main_tag_id', 'eztags'), 0)
             )
         )
+        ->orderBy(
+            $this->handler->quoteColumn('keyword', 'eztags'),
+            $tagIdsQuery::ASC
+        )
         ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
 
         $statement = $tagIdsQuery->prepare();

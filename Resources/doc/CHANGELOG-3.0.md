@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.0 changelog
 ================================
 
+3.0.7 (05.10.2017)
+------------------
+
+* Fix ordering of tags by keyword when fetching children after 3.0.6
+
 3.0.6 (04.10.2017)
 ------------------
 
