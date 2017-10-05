@@ -12,3 +12,5 @@ Netgen Tags Bundle 3.1 changelog
 * Bumped minimum eZ Solr Search Engine Bundle version to 1.4
 * Bumped minimum eZ Core Extra Bundle version to 2.0
 * Dropped support for PHP 7.0
+* New project structure
+* PSR-4 autoloading for bundle and tests
