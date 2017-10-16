@@ -1047,7 +1047,7 @@ class DoctrineDatabase extends Gateway
     {
         /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
         $query = $this->handler->createSelectQuery();
-        $query->select('DISTINCT eztags.id')
+        $query->select('DISTINCT eztags.id, eztags.keyword')
         ->from(
             $this->handler->quoteTable('eztags')
         )
