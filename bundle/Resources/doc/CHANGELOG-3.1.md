@@ -14,3 +14,4 @@ Netgen Tags Bundle 3.1 changelog
 * Dropped support for PHP 7.0
 * New project structure
 * Separate PSR-4 autoloading for bundle and tests
+* All services are marked as public/private, for compatibility with Symfony 3.4
