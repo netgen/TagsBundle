@@ -2,10 +2,12 @@ services:
     eztags.controller.tag_view:
         class: Netgen\TagsBundle\Controller\TagViewController
         parent: ezpublish.controller.base
+        public: false
 
     eztags.routing.tag_url_generator:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
         parent: ezpublish.url_generator.base
+        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@router.default"
@@ -13,6 +15,7 @@ services:
 
     eztags.routing.tag_router:
         class: Netgen\TagsBundle\Routing\TagRouter
+        public: false
         lazy: true
         arguments:
             - "@eztags.api.service.tags"

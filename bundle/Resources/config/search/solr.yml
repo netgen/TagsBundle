@@ -1,6 +1,7 @@
 services:
     eztags.search.solr.query.common.criterion_visitor.tag_id:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId
+        public: false
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
             - "@ezpublish.search.common.field_value_mapper.aggregate"
@@ -13,6 +14,7 @@ services:
 
     eztags.search.solr.query.common.criterion_visitor.tag_keyword:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword
+        public: false
         arguments:
             - "@ezpublish.search.common.field_name_resolver"
             - "@ezpublish.search.common.field_value_mapper.aggregate"

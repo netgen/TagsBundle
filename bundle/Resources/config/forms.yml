@@ -1,6 +1,7 @@
 services:
     eztags.forms.tree:
         class: Netgen\TagsBundle\Form\Type\TagTreeType
+        # public: false
         arguments:
             - "@eztags.api.service.tags"
         tags:
@@ -8,6 +9,7 @@ services:
 
     eztags.forms.translation_list:
         class: Netgen\TagsBundle\Form\Type\TranslationListType
+        # public: false
         arguments:
             - "@ezpublish.api.service.language"
         calls:

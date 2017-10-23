@@ -1,21 +1,24 @@
 services:
-    # eZ Tags field type
     eztags.field_type.eztags.converter:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
+        public: false
         tags:
             - {name: ezpublish.storageEngine.legacy.converter, alias: eztags, lazy: true, callback: "::create"}
 
     eztags.field_type.eztags.storage_gateway:
         alias: eztags.field_type.eztags.storage_gateway.doctrine
+        public: false
 
     eztags.field_type.eztags.storage_gateway.doctrine:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage
+        public: false
         arguments:
             - "@ezpublish.api.storage_engine.legacy.connection"
             - "@ezpublish.spi.persistence.legacy.language.handler"
 
     eztags.field_type.eztags.storage_gateway.legacy:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
+        public: false
         deprecated: 'Netgen Tags legacy storage gateway (%service_id%) is deprecated in favor of Doctrine storage implementation'
         arguments:
             - "@ezpublish.api.storage_engine.legacy.dbhandler"
@@ -23,12 +26,14 @@ services:
 
     eztags.api.storage_engine.legacy.handler.tags.mapper:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+        public: false
         arguments:
             - "@ezpublish.spi.persistence.legacy.language.handler"
             - "@ezpublish.persistence.legacy.language.mask_generator"
 
     eztags.api.storage_engine.legacy.handler.tags.gateway.inner:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
+        public: false
         arguments:
             - "@ezpublish.api.storage_engine.legacy.dbhandler"
             - "@ezpublish.spi.persistence.legacy.language.handler"
@@ -36,11 +41,13 @@ services:
 
     eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion
+        public: false
         arguments:
             - "@eztags.api.storage_engine.legacy.handler.tags.gateway.inner"
 
     eztags.api.storage_engine.legacy.handler.tags:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
+        public: true
         arguments:
             - "@eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion"
             - "@eztags.api.storage_engine.legacy.handler.tags.mapper"

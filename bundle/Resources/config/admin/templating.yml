@@ -1,6 +1,7 @@
 services:
     eztags.templating.admin_global_variable:
         class: Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable
+        public: false
         # We need the lazy flag due to usage of dynamic parameters
         lazy: true
         calls:
@@ -8,6 +9,7 @@ services:
 
     eztags.templating.twig.extension.admin:
         class: Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension
+        public: false
         arguments:
             - "@eztags.templating.admin_global_variable"
         tags:

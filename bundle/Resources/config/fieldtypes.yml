@@ -2,6 +2,8 @@ services:
     eztags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
+        # Field type services need to be public in eZ Platform
+        public: true
         arguments:
             - "@eztags.api.service.tags"
         calls:
@@ -11,6 +13,8 @@ services:
 
     eztags.field_type.eztags.external_storage:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
+        # External storage services need to be public in eZ Platform
+        public: true
         arguments:
             - "@eztags.field_type.eztags.storage_gateway"
             - "@eztags.api.service.tags"
@@ -19,11 +23,13 @@ services:
 
     eztags.field_type.eztags.indexable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
+        public: false
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
 
     eztags.field_type.eztags.form_mapper:
         class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
+        public: false
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:

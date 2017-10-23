@@ -1,6 +1,7 @@
 services:
     eztags.templating.twig.extension:
         class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
+        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.translation_helper"

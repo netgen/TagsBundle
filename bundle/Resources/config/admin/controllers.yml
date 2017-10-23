@@ -4,6 +4,7 @@ services:
     eztags.admin.controller.base:
         class: Netgen\TagsBundle\Controller\Admin\Controller
         parent: ezpublish.controller.base
+        public: false
         abstract: true
         calls:
             - [performAccessChecks, []]
@@ -11,6 +12,7 @@ services:
     eztags.admin.controller.tag:
         class: Netgen\TagsBundle\Controller\Admin\TagController
         parent: eztags.admin.controller.base
+        public: true
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.api.service.content_type"
@@ -21,27 +23,31 @@ services:
     eztags.admin.controller.related_content:
         class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
         parent: eztags.admin.controller.base
+        public: true
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
 
     eztags.admin.controller.synonym:
         class: Netgen\TagsBundle\Controller\Admin\SynonymController
         parent: eztags.admin.controller.base
+        public: true
         arguments:
             - "@eztags.api.service.tags"
             - "@translator"
 
     eztags.admin.controller.tree:
-            class: Netgen\TagsBundle\Controller\Admin\TreeController
-            parent: eztags.admin.controller.base
-            arguments:
-                - "@eztags.api.service.tags"
-                - "@translator"
-                - "@router"
+        class: Netgen\TagsBundle\Controller\Admin\TreeController
+        parent: eztags.admin.controller.base
+        public: true
+        arguments:
+            - "@eztags.api.service.tags"
+            - "@translator"
+            - "@router"
 
     eztags.admin.controller.field:
         class: Netgen\TagsBundle\Controller\Admin\FieldController
         parent: eztags.admin.controller.base
+        public: false
         lazy: true
         arguments:
             - "@eztags.api.service.tags"

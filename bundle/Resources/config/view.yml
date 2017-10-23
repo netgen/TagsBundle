@@ -1,11 +1,13 @@
 services:
     eztags.view.builder_parameter_collector.current_page:
+        # public: false
         class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
         tags:
             - {name: kernel.event_subscriber}
 
     eztags.view.view_parameters_injector.related_content_pager:
         class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
+        # public: false
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
         calls:
@@ -15,6 +17,7 @@ services:
 
     eztags.view.cache_response_listener:
         class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
+        # public: false
         arguments:
             - $tag_view.cache;eztags$
             - $tag_view.ttl_cache;eztags$
@@ -24,6 +27,7 @@ services:
 
     eztags.view.tag_view_builder:
         class: Netgen\TagsBundle\View\Builder\TagViewBuilder
+        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.view.configurator"
@@ -33,6 +37,7 @@ services:
 
     eztags.view.tag_matcher_factory:
         class: Netgen\TagsBundle\Matcher\TagMatcherFactory
+        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.translation_helper"
@@ -43,6 +48,7 @@ services:
 
     eztags.view.tag_view_provider:
         class: Netgen\TagsBundle\View\Provider\TagViewProvider
+        public: false
         arguments:
             - "@eztags.view.tag_matcher_factory"
         tags:

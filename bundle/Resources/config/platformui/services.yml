@@ -1,6 +1,7 @@
 services:
     eztags.platformui.event_listener.set_admin_pagelayout:
         class: Netgen\TagsBundle\PlatformUI\EventListener\SetAdminPageLayoutRequestListener
+        # public: false
         arguments:
             - "@eztags.templating.admin_global_variable"
             - "%eztags.platformui.admin.pagelayout%"
@@ -9,11 +10,13 @@ services:
 
     eztags.platformui.event_listener.redirect_response:
         class: Netgen\TagsBundle\PlatformUI\EventListener\RedirectResponseListener
+        # public: false
         tags:
             - { name: kernel.event_subscriber }
 
     eztags.platformui.application_config.provider:
         class: Netgen\TagsBundle\PlatformUI\ConfigProvider
+        public: false
         lazy: true
         arguments:
             - "@security.authorization_checker"
