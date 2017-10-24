@@ -2,7 +2,7 @@ services:
     eztags.controller.tag_view:
         class: Netgen\TagsBundle\Controller\TagViewController
         parent: ezpublish.controller.base
-        public: false
+        public: true
 
     eztags.routing.tag_url_generator:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
