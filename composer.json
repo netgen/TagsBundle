@@ -46,7 +46,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Netgen\\TagsBundle\\Tests\\": "tests/"
+            "Netgen\\TagsBundle\\Tests\\": "tests/",
+            "EzSystems\\EzPlatformSolrSearchEngine\\Tests\\": "vendor/ezsystems/ezplatform-solr-search-engine/tests/lib"
         },
         "files": [
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
