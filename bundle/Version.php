@@ -4,10 +4,10 @@ namespace Netgen\TagsBundle;
 
 abstract class Version
 {
-    const VERSION = '3.1.0';
-    const VERSION_ID = 30100;
+    const VERSION = '3.2.0-DEV';
+    const VERSION_ID = 30200;
     const MAJOR_VERSION = 3;
-    const MINOR_VERSION = 1;
+    const MINOR_VERSION = 2;
     const RELEASE_VERSION = 0;
-    const EXTRA_VERSION = '';
+    const EXTRA_VERSION = 'DEV';
 }
