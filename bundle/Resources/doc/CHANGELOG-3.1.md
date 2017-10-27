@@ -1,8 +1,8 @@
 Netgen Tags Bundle 3.1 changelog
 ================================
 
-3.1.0
------
+3.1.0 (27.10.2017)
+------------------
 
 * Use Twig paths to reference to Twig templates
 * Replaced the `eztags` field type legacy storage gateway with Doctrine storage gateway
