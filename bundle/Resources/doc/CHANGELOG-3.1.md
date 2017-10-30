@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.1 changelog
 ================================
 
+3.1.1 (30.10.2017)
+------------------
+
+* Twig global variable and tag router services need to be public
+
 3.1.0 (27.10.2017)
 ------------------
 
