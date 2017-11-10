@@ -47,7 +47,7 @@ services:
     eztags.admin.controller.field:
         class: Netgen\TagsBundle\Controller\Admin\FieldController
         parent: eztags.admin.controller.base
-        public: false
+        public: true
         lazy: true
         arguments:
             - "@eztags.api.service.tags"
