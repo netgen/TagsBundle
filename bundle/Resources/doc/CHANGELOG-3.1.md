@@ -4,7 +4,7 @@ Netgen Tags Bundle 3.1 changelog
 3.1.2 (10.11.2017)
 ------------------
 
-Field controller needs to be public (thanks @SylvainGuittard)
+* Field controller needs to be public (thanks @SylvainGuittard)
 
 3.1.1 (30.10.2017)
 ------------------
