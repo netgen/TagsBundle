@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.1 changelog
 ================================
 
+3.1.4 (21.11.2017)
+------------------
+
+* Make the Pagerfanta view lazy to prevent out of memory exceptions
+
 3.1.3 (21.11.2017)
 ------------------
 
