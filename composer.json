@@ -26,6 +26,7 @@
         "lolautruche/ez-core-extra-bundle": "^2.0"
     },
     "require-dev": {
+        "ezsystems/ezpublish-kernel": "^6.11@dev",
         "phpunit/phpunit": "^5.7"
     },
     "scripts": {
