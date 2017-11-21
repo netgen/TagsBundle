@@ -16,6 +16,9 @@ services:
     eztags.pagerfanta.view.eztags_admin:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\View\TagsAdminView
         public: false
+        # Not being lazy results in out of memory exceptions on eZ Platform 2.0,
+        # probably due to @twig dependency
+        lazy: true
         arguments:
             - "@twig"
         calls:
