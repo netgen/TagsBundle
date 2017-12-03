@@ -350,7 +350,7 @@ class TagsServiceTest extends TestCase
         $this->assertEquals(42, $createdTag->parentTagId);
         $this->assertEquals(array('eng-GB' => 'netgen'), $createdTag->keywords);
         $this->assertEquals('eng-GB', $createdTag->mainLanguageCode);
-        $this->assertEquals(true, $createdTag->alwaysAvailable);
+        $this->assertTrue($createdTag->alwaysAvailable);
     }
 
     /**
@@ -419,7 +419,7 @@ class TagsServiceTest extends TestCase
         $this->assertEquals(array('eng-GB' => 'netgen'), $updatedTag->keywords);
         $this->assertEquals('123456', $updatedTag->remoteId);
         $this->assertEquals('eng-GB', $updatedTag->mainLanguageCode);
-        $this->assertEquals(true, $updatedTag->alwaysAvailable);
+        $this->assertTrue($updatedTag->alwaysAvailable);
     }
 
     /**
@@ -481,7 +481,7 @@ class TagsServiceTest extends TestCase
         $this->assertEquals(42, $synonym->mainTagId);
         $this->assertEquals(array('eng-GB' => 'netgenlabs'), $synonym->keywords);
         $this->assertEquals('eng-GB', $synonym->mainLanguageCode);
-        $this->assertEquals(true, $synonym->alwaysAvailable);
+        $this->assertTrue($synonym->alwaysAvailable);
     }
 
     /**
