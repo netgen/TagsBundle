@@ -51,8 +51,10 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('validators.yml');
         $loader->load('param_converters.yml');
 
-        $loader->load('platformui/default_settings.yml');
-        $loader->load('platformui/services.yml');
+        if (in_array('EzSystemsPlatformUIBundle', $activatedBundles, true)) {
+            $loader->load('platformui/default_settings.yml');
+            $loader->load('platformui/services.yml');
+        }
 
         if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
             $loader->load('ezadminui/default_settings.yml');
