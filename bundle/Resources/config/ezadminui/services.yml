@@ -1,0 +1,17 @@
+services:
+    eztags.ezadminui.event_listener.main_menu_builder:
+        class: Netgen\TagsBundle\PlatformAdminUI\EventListener\MainMenuBuilderListener
+        # public: false
+        arguments:
+            - "@security.authorization_checker"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    eztags.ezadminui.event_listener.set_page_layout:
+        class: Netgen\TagsBundle\PlatformAdminUI\EventListener\SetPageLayoutListener
+        # public: false
+        arguments:
+            - "@eztags.templating.admin_global_variable"
+            - "%eztags.ezadminui.pagelayout%"
+        tags:
+            - { name: kernel.event_subscriber }

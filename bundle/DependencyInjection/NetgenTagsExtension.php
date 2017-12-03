@@ -54,6 +54,11 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('platformui/default_settings.yml');
         $loader->load('platformui/services.yml');
 
+        if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
+            $loader->load('ezadminui/default_settings.yml');
+            $loader->load('ezadminui/services.yml');
+        }
+
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
             $loader->load('search/solr.yml');
         }
