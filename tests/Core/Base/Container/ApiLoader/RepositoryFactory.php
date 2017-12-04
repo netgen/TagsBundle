@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeNameableCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
+use eZ\Publish\Core\Search\Common\BackgroundIndexer;
 use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
 use eZ\Publish\SPI\Search\Handler as SearchHandler;
 
@@ -38,14 +39,20 @@ class RepositoryFactory extends BaseRepositoryFactory
      * directly to make sure you get an instance wrapped inside Signal / Cache / * functionality.
      *
      * @param \eZ\Publish\SPI\Persistence\Handler $persistenceHandler
+     * @param \eZ\Publish\SPI\Search\Handler $searchHandler
+     * @param \eZ\Publish\Core\Search\Common\BackgroundIndexer $backgroundIndexer
      *
      * @return \eZ\Publish\API\Repository\Repository
      */
-    public function buildRepository(PersistenceHandler $persistenceHandler, SearchHandler $searchHandler)
-    {
+    public function buildRepository(
+        PersistenceHandler $persistenceHandler,
+        SearchHandler $searchHandler,
+        BackgroundIndexer $backgroundIndexer
+    ) {
         $repository = new $this->repositoryClass(
             $persistenceHandler,
             $searchHandler,
+            $backgroundIndexer,
             array(
                 'fieldType' => $this->fieldTypeCollectionFactory->getFieldTypes(),
                 'nameableFieldTypes' => $this->fieldTypeNameableCollectionFactory->getNameableFieldTypes(),
