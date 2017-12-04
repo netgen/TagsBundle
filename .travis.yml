@@ -32,7 +32,8 @@ before_install:
     - composer self-update
 
 # install dependencies
-install: travis_wait composer install --prefer-source
+# removing vendor/ocramius as generated versions can clash with install process due to usage of prefer-source
+install: rm -rf vendor/ocramius && travis_wait composer install --prefer-source
 
 # execute phpunit as the script command
 script:
