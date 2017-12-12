@@ -1,10 +1,16 @@
-{% extends '@EzPlatformAdminUi/layout.html.twig' %}
+{% set content = block('content') %}
 
-{% trans_default_domain 'eztags_admin' %}
+{#
+    We embed the main layout.html.twig instead of extending it
+    to be able to inject additional markup before and after its
+    content block.
+#}
+{% embed '@EzPlatformAdminUi/layout.html.twig' %}
+    {% trans_default_domain 'eztags_admin' %}
 
-{% block title %}{{ 'pagelayout.title'|trans }}{% endblock %}
+    {% block title %}{{ 'pagelayout.title'|trans }}{% endblock %}
 
-{% block pageTitle %}{% endblock %}
+    {% block pageTitle %}{% endblock %}
 
     {% block stylesheets %}
         {{ parent() }}
@@ -18,27 +24,26 @@
         {% include '@NetgenTags/admin/javascripts.html.twig' %}
     {% endblock %}
 
-{# @todo Not implemented yet #}
-{% block pre_content %}
-    <div class="ng-tags-app">
-        {% include '@NetgenTags/admin/header.html.twig' %}
+    {% block content %}
+        <div class="ng-tags-app">
+            {% include '@NetgenTags/admin/header.html.twig' %}
 
-        <section class="ng-tags-container">
-            <div class="tags-sidebar tags-sidebar-resizable">
-                <div class="main-menu">
-                    {% include '@NetgenTags/admin/main_menu.html.twig' %}
+            <section class="ng-tags-container">
+                <div class="tags-sidebar tags-sidebar-resizable">
+                    <div class="main-menu">
+                        {% include '@NetgenTags/admin/main_menu.html.twig' %}
+                    </div>
                 </div>
-            </div>
 
-            <div class="tags-content">
-                <div class="path">
-                    {% include '@NetgenTags/admin/path.html.twig' %}
+                <div class="tags-content">
+                    <div class="path">
+                        {% include '@NetgenTags/admin/path.html.twig' %}
+                    </div>
+
+                    {{ content|raw }}
+
                 </div>
-{% endblock %}
-
-{# @todo Not implemented yet #}
-{% block post_content %}
-            </div>
-        </section>
-    </div>
-{% endblock %}
+            </section>
+        </div>
+    {% endblock %}
+{% endembed %}
