@@ -12,6 +12,7 @@ services:
         # public: false
         arguments:
             - "@eztags.templating.admin_global_variable"
+            - "%ezpublish.siteaccess.groups_by_siteaccess%"
             - "%eztags.ezadminui.pagelayout%"
         tags:
             - { name: kernel.event_subscriber }
