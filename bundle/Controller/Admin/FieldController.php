@@ -57,8 +57,42 @@ class FieldController extends Controller
             $request->query->get('locale')
         );
 
+        $data = $data = $this->filterTags($searchResult->tags, $subTreeLimit, $hideRootTag);
+
+        return new JsonResponse($data);
+    }
+
+    /**
+     * Provides tag children data for tag field edit interface.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function childrenAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted('ez:tags:read');
+
+        $subTreeLimit = (int) $request->query->get('subTreeLimit', 0);
+        $hideRootTag = (bool) $request->query->get('hideRootTag', false);
+        $locale = $request->query->get('locale');
+
+        $tags = $this->tagsService->loadTagChildren(
+            !empty($subTreeLimit) ? $this->tagsService->loadTag($subTreeLimit) : null,
+            0,
+            -1,
+            array($locale)
+        );
+
+        $data = $this->filterTags($tags, $subTreeLimit, $hideRootTag);
+
+        return new JsonResponse($data);
+    }
+
+    private function filterTags(array $tags, $subTreeLimit, $hideRootTag)
+    {
         $data = array();
-        foreach ($searchResult->tags as $tag) {
+        foreach ($tags as $tag) {
             if ($subTreeLimit > 0 && !in_array($subTreeLimit, $tag->path, true)) {
                 continue;
             }
@@ -85,6 +119,6 @@ class FieldController extends Controller
             );
         }
 
-        return new JsonResponse($data);
+        return $data;
     }
 }

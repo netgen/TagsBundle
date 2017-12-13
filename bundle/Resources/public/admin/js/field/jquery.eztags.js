@@ -240,6 +240,7 @@
     isFilter: false,
     hasAddAccess: false, //++
     autocompleteUrl: null, //++
+    childrenUrl: null, //++
     suggestUrl: null, //++
     locale: null, //++
     iconPath: null, //++

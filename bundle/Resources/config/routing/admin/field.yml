@@ -3,3 +3,9 @@ netgen_tags_admin_field_autocomplete:
     defaults:
         _controller: eztags.admin.controller.field:autoCompleteAction
         _method: GET
+
+netgen_tags_admin_field_children:
+    path: /children
+    defaults:
+        _controller: eztags.admin.controller.field:childrenAction
+        _method: GET

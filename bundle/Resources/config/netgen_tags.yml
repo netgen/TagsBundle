@@ -4,9 +4,11 @@ system:
             default:
                 identifier: Default
                 name: field_definition.eztags.settings.edit_view.default
+                template: '@NetgenTags/ezadminui/field/edit/view/default.html.twig'
             select:
                 identifier: Select
                 name: field_definition.eztags.settings.edit_view.select
+                template: '@NetgenTags/ezadminui/field/edit/view/select.html.twig'
             tree:
                 identifier: Tree
                 name: field_definition.eztags.settings.edit_view.tree

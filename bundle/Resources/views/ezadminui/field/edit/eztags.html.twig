@@ -2,13 +2,15 @@
     {% set field = form.parent.vars.value.field %}
     {% set field_value = form.parent.vars.value.value %}
     {% set field_definition = form.parent.vars.value.fieldDefinition %}
+    {% set edit_view = field_definition.fieldSettings.editView|default('Default') %}
 
     <div class="ng-tags-input-ui">
         <div class="eztags-wrapper">
             <div id="eztags{{ field_definition.id }}" class="tagssuggest"
                 data-eztags
                 data-autocomplete-url="{{ path('netgen_tags_admin_field_autocomplete') }}"
-                data-builder="{{ field_definition.fieldSettings.editView|default('Default') }}"
+                data-children-url="{{ path('netgen_tags_admin_field_children') }}"
+                data-builder="{{ edit_view }}"
                 data-max-results="{{ ezpublish.configResolver.parameter('field.autocomplete_limit', 'eztags') }}"
                 data-has-add-access="{% if is_granted('ez:tags:add') %}1{% else %}0{% endif %}"
                 data-subtree-limit="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
@@ -23,25 +25,15 @@
                 {{ form_row(form.keywords, {attr: {class: 'tagnames'}}) }}
                 {{ form_row(form.locales, {attr: {class: 'taglocales'}}) }}
             </div>
-        </div>
 
-        <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{{ field_definition.id }}">
-            <div class="jqmdIn">
-                <div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">Select tag</span><span class="jqmdTCRight"></span></div>
-                <div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
-                    <div class="tags-modal-tree">
-                        <div
-                            class="tags-tree"
-                            data-path="{{ path('netgen_tags_admin_tree_get_children', {tagId: '_tagId_'}) }}"
-                            data-rootTagId="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
-                            data-showRootTag="true"
-                            data-selectedTagPath=""
-                            data-disableSubtree=""
-                        ></div>
-                    </div>
-                </div></div></div></div>
-                <a href="#" class="jqmdX jqmClose"></a>
-            </div>
+            {% set edit_view_template = null %}
+            {% for edit_view_config in ezpublish.configResolver.parameter('edit_views', 'eztags') %}
+                {% if edit_view_config.identifier == edit_view %}
+                    {% set edit_view_template = edit_view_config.template %}
+                {% endif %}
+            {% endfor %}
+
+            {% include edit_view_template ignore missing %}
         </div>
     </div>
 {% endblock %}

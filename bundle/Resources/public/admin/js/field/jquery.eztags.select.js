@@ -3,6 +3,8 @@
 (function() {
   'use strict';
 
+  var $ = jQuery;
+
   $.EzTags.Select = $.EzTags.Base.extend({
     templates: {
       option: ['<option value="<%= tag.id %>" <%= selected %> ><%= tag.name %></option>'],
@@ -106,10 +108,18 @@
 
     fetch_available_tags: function(done){
       var self = this;
-      $.ez('ezjsctags::children::' + this.opts.subtreeLimit + '::' + this.opts.hideRootTag + '::' + this.opts.locale, {}, function(data){
-        self.available_tags = self.parse_remote_tags(data.content.tags);
-        done.call(self);
-      });
+
+      $.get(this.opts.childrenUrl, {
+        subTreeLimit: this.opts.subtreeLimit,
+        hideRootTag: this.opts.hideRootTag,
+        locale: this.opts.locale
+      }, $.proxy(function (data) {
+           self.available_tags = self.parse_remote_tags(data);
+           done.call(self);
+         },
+         this
+        )
+      );
     },
 
     /**
