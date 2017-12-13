@@ -12,18 +12,6 @@
 
     {% block pageTitle %}{% endblock %}
 
-    {% block stylesheets %}
-        {{ parent() }}
-
-        {% include '@NetgenTags/admin/stylesheets.html.twig' %}
-    {% endblock %}
-
-    {% block javascripts %}
-        {{ parent() }}
-
-        {% include '@NetgenTags/admin/javascripts.html.twig' %}
-    {% endblock %}
-
     {% block content %}
         <div class="ng-tags-app">
             {% include '@NetgenTags/admin/header.html.twig' %}

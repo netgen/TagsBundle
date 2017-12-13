@@ -82,10 +82,19 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $configs = array(
             'netgen_tags.yml' => 'netgen_tags',
             'ezplatform.yml' => 'ezpublish',
-            'platformui/yui.yml' => 'ez_platformui',
-            'platformui/css.yml' => 'ez_platformui',
-            'platformui/javascript.yml' => 'ez_platformui',
         );
+
+        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
+
+        if (in_array('EzSystemsPlatformUIBundle', $activatedBundles, true)) {
+            $configs['platformui/yui.yml'] = 'ez_platformui';
+            $configs['platformui/css.yml'] = 'ez_platformui';
+            $configs['platformui/javascript.yml'] = 'ez_platformui';
+        }
+
+        if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
+            $configs['ezadminui/twig.yml'] = 'twig';
+        }
 
         foreach ($configs as $fileName => $extensionName) {
             $configFile = __DIR__ . '/../Resources/config/' . $fileName;

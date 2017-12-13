@@ -1,7 +1,7 @@
 services:
     eztags.ezadminui.event_listener.main_menu_builder:
         class: Netgen\TagsBundle\PlatformAdminUI\EventListener\MainMenuBuilderListener
-        # public: false
+        public: false
         arguments:
             - "@security.authorization_checker"
         tags:
@@ -9,10 +9,36 @@ services:
 
     eztags.ezadminui.event_listener.set_page_layout:
         class: Netgen\TagsBundle\PlatformAdminUI\EventListener\SetPageLayoutListener
-        # public: false
+        public: false
         arguments:
             - "@eztags.templating.admin_global_variable"
             - "%ezpublish.siteaccess.groups_by_siteaccess%"
             - "%eztags.ezadminui.pagelayout%"
         tags:
             - { name: kernel.event_subscriber }
+
+    eztags.ezadminui.component.stylesheets:
+         parent: EzSystems\EzPlatformAdminUi\Component\TwigComponent
+         public: false
+         arguments:
+             - "@twig"
+             - "@@NetgenTags/ezadminui/stylesheets.html.twig"
+         tags:
+             - { name: ezplatform.admin_ui.component, group: 'stylesheet-head' }
+
+    eztags.ezadminui.component.javascripts:
+         parent: EzSystems\EzPlatformAdminUi\Component\TwigComponent
+         public: false
+         arguments:
+             - "@twig"
+             - "@@NetgenTags/ezadminui/javascripts.html.twig"
+         tags:
+             - { name: ezplatform.admin_ui.component, group: 'script-body' }
+
+    eztags.ezadminui.form.tags_field_type:
+        class: Netgen\TagsBundle\Form\Type\FieldType\TagsFieldType
+        public: false
+        arguments:
+            - "@ezpublish.api.service.field_type"
+        tags:
+            - { name: form.type }

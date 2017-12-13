@@ -1,0 +1,63 @@
+{% block ezplatform_fieldtype_eztags_widget %}
+    {% set field = form.parent.vars.value.field %}
+    {% set field_value = form.parent.vars.value.value %}
+    {% set field_definition = form.parent.vars.value.fieldDefinition %}
+
+    {% set tag_ids = [] %}
+    {% set tag_parent_ids = [] %}
+    {% set tag_keywords = [] %}
+    {% set tag_locales = [] %}
+
+    {% for tag in field_value.tags %}
+        {% set tag_ids = tag_ids|merge([tag.id]) %}
+        {% set tag_parent_ids = tag_parent_ids|merge([tag.parentTagId]) %}
+
+        {% set keyword = tag.keywords[field.languageCode] is defined ? tag.keywords[field.languageCode] : tag.keywords[tag.mainLanguageCode] %}
+        {% set tag_keywords = tag_keywords|merge([keyword]) %}
+
+        {% set locale = tag.keywords[field.languageCode] is defined ? field.languageCode : tag.mainLanguageCode %}
+        {% set tag_locales = tag_locales|merge([locale]) %}
+    {% endfor %}
+
+    <div class="ng-tags-input-ui">
+        <div class="eztags-wrapper">
+            <div id="eztags{{ field_definition.id }}" class="tagssuggest"
+                data-eztags
+                data-autocomplete-url="{{ path('netgen_tags_admin_field_autocomplete') }}"
+                data-builder="{{ field_definition.fieldSettings.editView|default('Default') }}"
+                data-max-results="{{ ezpublish.configResolver.parameter('field.autocomplete_limit', 'eztags') }}"
+                data-has-add-access="{% if is_granted('ez:tags:add') %}1{% else %}0{% endif %}"
+                data-subtree-limit="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
+                data-hide-root-tag="{% if field_definition.fieldSettings.hideRootTag %}1{% else %}0{% endif %}"
+                data-max-tags="{{ field_definition.validatorConfiguration.TagsValueValidator.maxTags }}"
+                data-locale="{{ field.languageCode }}"
+                data-icon-path=""
+                >
+
+                {{ form_row(form.ids, {attr: {class: 'tagids'}}) }}
+                {{ form_row(form.parent_ids, {attr: {class: 'tagpids'}}) }}
+                {{ form_row(form.keywords, {attr: {class: 'tagnames'}}) }}
+                {{ form_row(form.locales, {attr: {class: 'taglocales'}}) }}
+            </div>
+        </div>
+
+        <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{{ field_definition.id }}">
+            <div class="jqmdIn">
+                <div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">Select tag</span><span class="jqmdTCRight"></span></div>
+                <div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
+                    <div class="tags-modal-tree">
+                        <div
+                            class="tags-tree"
+                            data-path="{{ path('netgen_tags_admin_tree_get_children', {tagId: '_tagId_'}) }}"
+                            data-rootTagId="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
+                            data-showRootTag="true"
+                            data-selectedTagPath=""
+                            data-disableSubtree=""
+                        ></div>
+                    </div>
+                </div></div></div></div>
+                <a href="#" class="jqmdX jqmClose"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

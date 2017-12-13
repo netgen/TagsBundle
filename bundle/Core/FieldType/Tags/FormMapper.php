@@ -2,8 +2,11 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
+use EzSystems\RepositoryForms\Data\Content\FieldData;
 use EzSystems\RepositoryForms\Data\FieldDefinitionData;
 use EzSystems\RepositoryForms\FieldType\FieldDefinitionFormMapperInterface;
+use EzSystems\RepositoryForms\FieldType\FieldValueFormMapperInterface;
+use Netgen\TagsBundle\Form\Type\FieldType\TagsFieldType;
 use Netgen\TagsBundle\Form\Type\TagTreeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints;
 
-class FormMapper implements FieldDefinitionFormMapperInterface
+class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
 {
     /**
      * @var array
@@ -26,6 +29,25 @@ class FormMapper implements FieldDefinitionFormMapperInterface
     public function setEditViews(array $availableEditViews)
     {
         $this->availableEditViews = $availableEditViews;
+    }
+
+    public function mapFieldValueForm(FormInterface $fieldForm, FieldData $data)
+    {
+        $fieldForm
+            ->add(
+                $fieldForm->getConfig()->getFormFactory()->createBuilder()
+                    ->create(
+                        'value',
+                        TagsFieldType::class,
+                        array(
+                            'required' => $data->fieldDefinition->isRequired,
+                            'label' => $data->fieldDefinition->getName(),
+                            'field' => $data->field,
+                        )
+                    )
+                    ->setAutoInitialize(false)
+                    ->getForm()
+            );
     }
 
     public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data)
