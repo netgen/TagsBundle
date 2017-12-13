@@ -3,22 +3,6 @@
     {% set field_value = form.parent.vars.value.value %}
     {% set field_definition = form.parent.vars.value.fieldDefinition %}
 
-    {% set tag_ids = [] %}
-    {% set tag_parent_ids = [] %}
-    {% set tag_keywords = [] %}
-    {% set tag_locales = [] %}
-
-    {% for tag in field_value.tags %}
-        {% set tag_ids = tag_ids|merge([tag.id]) %}
-        {% set tag_parent_ids = tag_parent_ids|merge([tag.parentTagId]) %}
-
-        {% set keyword = tag.keywords[field.languageCode] is defined ? tag.keywords[field.languageCode] : tag.keywords[tag.mainLanguageCode] %}
-        {% set tag_keywords = tag_keywords|merge([keyword]) %}
-
-        {% set locale = tag.keywords[field.languageCode] is defined ? field.languageCode : tag.mainLanguageCode %}
-        {% set tag_locales = tag_locales|merge([locale]) %}
-    {% endfor %}
-
     <div class="ng-tags-input-ui">
         <div class="eztags-wrapper">
             <div id="eztags{{ field_definition.id }}" class="tagssuggest"
