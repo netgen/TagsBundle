@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\Form\Type\FieldType;
 use eZ\Publish\API\Repository\FieldTypeService;
 use eZ\Publish\API\Repository\Values\Content\Field;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,16 +29,6 @@ class TagsFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['field']->fieldTypeIdentifier !== 'eztags') {
-            throw new InvalidConfigurationException(
-                sprintf(
-                    '%s form type only works with fields of type "eztags", "%s" given',
-                    self::class,
-                    $options['field']->fieldTypeIdentifier
-                )
-            );
-        }
-
         $builder
             ->add('ids', HiddenType::class)
             ->add('parent_ids', HiddenType::class)
