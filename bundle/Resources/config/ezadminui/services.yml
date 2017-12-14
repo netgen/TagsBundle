@@ -3,6 +3,7 @@ services:
         class: Netgen\TagsBundle\PlatformAdminUI\Menu\RoutePrefixVoter
         public: false
         arguments:
+            - "@request_stack"
             - "netgen_tags_admin_"
         tags:
             - { name: knp_menu.voter }
