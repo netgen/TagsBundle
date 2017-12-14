@@ -51,7 +51,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('validators.yml');
         $loader->load('param_converters.yml');
 
-        if (in_array('EzSystemsPlatformUIBundle', $activatedBundles, true)) {
+        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
             $loader->load('platformui/default_settings.yml');
             $loader->load('platformui/services.yml');
         }
@@ -86,7 +86,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
 
-        if (in_array('EzSystemsPlatformUIBundle', $activatedBundles, true)) {
+        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
             $configs['platformui/yui.yml'] = 'ez_platformui';
             $configs['platformui/css.yml'] = 'ez_platformui';
             $configs['platformui/javascript.yml'] = 'ez_platformui';
