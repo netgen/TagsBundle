@@ -1,4 +1,12 @@
 services:
+    eztags.ezadminui.menu.route_prefix_voter:
+        class: Netgen\TagsBundle\PlatformAdminUI\Menu\RoutePrefixVoter
+        public: false
+        arguments:
+            - "netgen_tags_admin_"
+        tags:
+            - { name: knp_menu.voter }
+
     eztags.ezadminui.event_listener.main_menu_builder:
         class: Netgen\TagsBundle\PlatformAdminUI\EventListener\MainMenuBuilderListener
         public: false
