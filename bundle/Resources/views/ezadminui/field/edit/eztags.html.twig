@@ -13,9 +13,9 @@
                 data-builder="{{ edit_view }}"
                 data-max-results="{{ ezpublish.configResolver.parameter('field.autocomplete_limit', 'eztags') }}"
                 data-has-add-access="{% if is_granted('ez:tags:add') %}1{% else %}0{% endif %}"
-                data-subtree-limit="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
-                data-hide-root-tag="{% if field_definition.fieldSettings.hideRootTag %}1{% else %}0{% endif %}"
-                data-max-tags="{{ field_definition.validatorConfiguration.TagsValueValidator.maxTags }}"
+                data-subtree-limit="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit|default(0) }}"
+                data-hide-root-tag="{% if field_definition.fieldSettings.hideRootTag|default(false) %}1{% else %}0{% endif %}"
+                data-max-tags="{{ field_definition.validatorConfiguration.TagsValueValidator.maxTags|default(0) }}"
                 data-locale="{{ field.languageCode }}"
                 data-icon-path=""
                 >
