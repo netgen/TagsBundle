@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\PlatformAdminUI\EventListener;
 
-use EzSystems\EzPlatformAdminUi\SiteAccess\AdminFilter;
+use EzSystems\EzPlatformAdminUiBundle\EzPlatformAdminUiBundle;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -61,7 +61,7 @@ class SetPageLayoutListener implements EventSubscriberInterface
             return;
         }
 
-        if (!in_array(AdminFilter::ADMIN_GROUP_NAME, $this->groupsBySiteAccess[$siteAccess], true)) {
+        if (!in_array(EzPlatformAdminUiBundle::ADMIN_GROUP_NAME, $this->groupsBySiteAccess[$siteAccess], true)) {
             return;
         }
 
