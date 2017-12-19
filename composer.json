@@ -27,7 +27,6 @@
         "twig/twig": "^1.35|^2.4.4"
     },
     "require-dev": {
-        "ezsystems/ezpublish-kernel": "^6.11@dev",
         "phpunit/phpunit": "^5.7"
     },
     "scripts": {
