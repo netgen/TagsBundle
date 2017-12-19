@@ -12,8 +12,8 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension;
 use PHPUnit\Framework\TestCase;
-use Twig_Extension;
-use Twig_SimpleFunction;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 class NetgenTagsExtensionTest extends TestCase
 {
@@ -87,7 +87,7 @@ class NetgenTagsExtensionTest extends TestCase
 
     public function testInstanceOfTwigExtension()
     {
-        $this->assertInstanceOf(Twig_Extension::class, $this->extension);
+        $this->assertInstanceOf(AbstractExtension::class, $this->extension);
     }
 
     public function testGetName()
@@ -98,15 +98,15 @@ class NetgenTagsExtensionTest extends TestCase
     public function testGetFunctions()
     {
         $functions = array(
-            new Twig_SimpleFunction(
+            new TwigFunction(
                 'netgen_tags_tag_keyword',
                 array($this->extension, 'getTagKeyword')
             ),
-            new Twig_SimpleFunction(
+            new TwigFunction(
                 'netgen_tags_language_name',
                 array($this->extension, 'getLanguageName')
             ),
-            new Twig_SimpleFunction(
+            new TwigFunction(
                 'netgen_tags_content_type_name',
                 array($this->extension, 'getContentTypeName')
             ),

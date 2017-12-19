@@ -23,7 +23,8 @@
         "ezsystems/ezpublish-kernel": "^6.11@dev|^7.0@dev",
         "ezsystems/repository-forms": "^1.9|^2.0",
         "ezsystems/ezplatform-solr-search-engine": "^1.4@dev",
-        "lolautruche/ez-core-extra-bundle": "^2.0"
+        "lolautruche/ez-core-extra-bundle": "^2.0",
+        "twig/twig": "^1.35|^2.4.4"
     },
     "require-dev": {
         "ezsystems/ezpublish-kernel": "^6.11@dev",

@@ -82,6 +82,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $configs = array(
             'netgen_tags.yml' => 'netgen_tags',
             'ezplatform.yml' => 'ezpublish',
+            'framework/twig.yml' => 'twig',
         );
 
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));

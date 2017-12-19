@@ -1,0 +1,2 @@
+globals:
+    eztags_admin: "@eztags.templating.admin_global_variable"

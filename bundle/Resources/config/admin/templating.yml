@@ -6,11 +6,3 @@ services:
         lazy: true
         calls:
             - [setPageLayoutTemplate, ["$admin.pagelayout;eztags$"]]
-
-    eztags.templating.twig.extension.admin:
-        class: Netgen\TagsBundle\Templating\Twig\Extension\AdminExtension
-        public: false
-        arguments:
-            - "@eztags.templating.admin_global_variable"
-        tags:
-            - { name: twig.extension }
