@@ -1,7 +1,7 @@
 {% trans_default_domain "ezrepoforms_content_type" %}
 
 {% block eztags_field_definition_edit %}
-    {% form_theme form '@NetgenTags/form/eztags.html.twig' %}
+    {% form_theme form.subTreeLimit '@NetgenTags/form/tag_tree.html.twig' %}
 
     <div class="eztags-validator subtree-limit{% if group_class is not empty %} {{ group_class }}{% endif %}">
         {{- form_label(form.subTreeLimit, null, {translation_domain: 'ezrepoforms_content_type'}) -}}
