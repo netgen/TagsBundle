@@ -1,9 +1,11 @@
-<script src="{{ asset('bundles/netgentags/vendor/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ asset('bundles/netgentags/admin/jstree/js/jstree.min.js') }}"></script>
-<script src="{{ asset('bundles/netgentags/admin/js/app.js') }}"></script>
-
-<script src="{{ asset('bundles/netgentags/admin/js/field/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('bundles/netgentags/admin/js/field/jqmodal.js') }}"></script>
-<script src="{{ asset('bundles/netgentags/admin/js/field/jquery.eztags.js') }}"></script>
-<script src="{{ asset('bundles/netgentags/admin/js/field/jquery.eztags.select.js') }}"></script>
-<script src="{{ asset('bundles/netgentags/ezadminui/js/field/init.js') }}"></script>
+{% javascripts
+    'bundles/netgentags/admin/jstree/js/jstree.min.js'
+    'bundles/netgentags/admin/js/app.js'
+    'bundles/netgentags/admin/js/field/jquery-ui.min.js'
+    'bundles/netgentags/admin/js/field/jqmodal.js'
+    'bundles/netgentags/admin/js/field/jquery.eztags.js'
+    'bundles/netgentags/admin/js/field/jquery.eztags.select.js'
+    'bundles/netgentags/ezadminui/js/field/init.js'
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
