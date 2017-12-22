@@ -52,7 +52,7 @@ _eztagsRoutes:
     resource: "@NetgenTagsBundle/Resources/config/routing.yml"
 ```
 
-If you're installing Tags Bundle in eZ Platform 2.x and plan to use it integrated in to eZ Platform Admin UI, you need to add it to Assetic configuration in `app/config/config.yml`, together with `EzPlatformAdminUiBundle` and all other bundles already configured there:
+If you're installing Tags Bundle on eZ Platform 2.x and plan to use it integrated into eZ Platform Admin UI, you need to add it to Assetic configuration in `app/config/config.yml`, together with `EzPlatformAdminUiBundle` and all other bundles already configured there:
 
 ```
 assetic:
