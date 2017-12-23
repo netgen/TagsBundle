@@ -15,11 +15,3 @@ services:
             - "@ezpublish.api.service.content_type"
         tags:
             - { name: twig.runtime }
-
-    # Runtime loader for Symfony 2.8
-
-    eztags.templating.twig.runtime.loader:
-        class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntimeLoader
-        public: false
-        arguments:
-            - "@eztags.templating.twig.runtime"
