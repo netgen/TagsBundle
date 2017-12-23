@@ -16,14 +16,6 @@ services:
             - "@ezpublish.api.storage_engine.legacy.connection"
             - "@ezpublish.spi.persistence.legacy.language.handler"
 
-    eztags.field_type.eztags.storage_gateway.legacy:
-        class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\LegacyStorage
-        public: false
-        deprecated: 'Netgen Tags legacy storage gateway (%service_id%) is deprecated in favor of Doctrine storage implementation'
-        arguments:
-            - "@ezpublish.api.storage_engine.legacy.dbhandler"
-            - "@ezpublish.spi.persistence.legacy.language.handler"
-
     eztags.api.storage_engine.legacy.handler.tags.mapper:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
         public: false

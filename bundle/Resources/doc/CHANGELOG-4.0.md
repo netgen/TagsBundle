@@ -6,3 +6,4 @@ Netgen Tags Bundle 4.0 changelog
 
 * Dropped support for eZ Publish kernel 6.x
 * Dropped support for PHP 5.6
+* Removed deprecated field type legacy storage
