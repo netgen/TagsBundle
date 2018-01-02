@@ -1,3 +1,2 @@
 parameters:
-    storage_dir: vendor/ezsystems/ezpublish-kernel/var/ezdemo_site/storage
     ezpublish.api.storage_engine.default: legacy
