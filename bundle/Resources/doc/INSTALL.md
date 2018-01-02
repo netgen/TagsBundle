@@ -86,8 +86,8 @@ $ php app/console cache:clear
 Run the following to correctly install and dump assets for admin UI. Make sure to use the correct Symfony environment with `--env` parameter:
 
 ```bash
-$ php app/console assets:install --symlink --relative
-$ php app/console assetic:dump
+$ php bin/console assets:install --symlink --relative
+$ php bin/console assetic:dump
 ```
 
 ### Edit Varnish configuration (optional but recommended)
