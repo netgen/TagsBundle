@@ -9,6 +9,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Repository\TagsService;
+use Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader\RepositoryFactory;
 
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
@@ -49,6 +50,9 @@ class Legacy extends BaseLegacy
 
             $loader->load(__DIR__ . '/../../../../tests/settings/settings.yml');
             $loader->load(__DIR__ . '/../../../../tests/settings/integration/legacy.yml');
+
+            $containerBuilder->findDefinition('ezpublish.api.repository.factory')
+                ->setClass(RepositoryFactory::class);
 
             $containerBuilder->setParameter(
                 'legacy_dsn',

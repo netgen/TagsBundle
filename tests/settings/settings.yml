@@ -1,4 +1,3 @@
 parameters:
     storage_dir: vendor/ezsystems/ezpublish-kernel/var/ezdemo_site/storage
     ezpublish.api.storage_engine.default: legacy
-    ezpublish.api.repository.factory.class: Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader\RepositoryFactory
