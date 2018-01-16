@@ -10,8 +10,12 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
                     var fieldDefinitionId = this.get('fieldDefinition').id;
 
                     this.initTagsTranslations();
+                    this.fetchAddPermissionFlag();
+
                     jQuery('#eztags' + fieldDefinitionId).EzTags();
                     jQuery('#parent-selector-tree-' + fieldDefinitionId).find('.tags-modal-tree').tagsTree({'modal': true});
+
+                    this.after('*:addPermissionFlagChange', this._setButtonVisibility, this);
                 }
             });
         },
@@ -33,6 +37,20 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
                 cancel: 'Cancel',
                 ok: 'OK',
             };
+        },
+
+        fetchAddPermissionFlag: function () {
+
+            var tagsConfig = this.get('config').netgenTags;
+
+            this.fire('fetchFlag', {
+                addTagButtonVisibility: tagsConfig.field.urls.addTagButtonVisibility
+            });
+        },
+
+        _setButtonVisibility: function () {
+            if (!this.get('addPermissionFlag'))
+                Y.one('.button-add-tag').remove();
         },
 
         validate: function () {

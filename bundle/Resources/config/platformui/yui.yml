@@ -42,6 +42,12 @@ system:
                 netgen-tags-field-edit-view:
                     requires: ['ez-fieldeditview', 'netgentagsfieldeditview-ez-template']
                     path: bundles/netgentags/platformui/js/views/field/netgen-tags-field-edit-view.js
+
+                netgen-tags-field-edit-view-service-plugin:
+                    requires: ['ez-pluginregistry', 'ez-viewservicebaseplugin', 'ez-translator']
+                    dependencyOf: ['netgen-tags-field-edit-view']
+                    path: bundles/netgentags/platformui/js/views/services/plugins/netgen-tags-field-edit-view-service-plugin.js
+
                 netgentagsfieldeditview-ez-template:
                     type: template
                     path: bundles/netgentags/platformui/js/views/field/templates/netgen-tags-field-edit-view.hbt
