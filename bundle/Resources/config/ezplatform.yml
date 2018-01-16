@@ -3,6 +3,6 @@ system:
         field_templates:
             - {template: "@NetgenTags/eztags_content_field.html.twig", priority: 0}
         fielddefinition_edit_templates:
-            - {template: "@NetgenTags/platformui/content_type/edit/eztags.html.twig", priority: 0}
+            - {template: "@NetgenTags/field_definition/edit/eztags.html.twig", priority: 0}
         fielddefinition_settings_templates:
-            - {template: "@NetgenTags/platformui/content_type/view/eztags.html.twig", priority: 0}
+            - {template: "@NetgenTags/field_definition/view/eztags.html.twig", priority: 0}

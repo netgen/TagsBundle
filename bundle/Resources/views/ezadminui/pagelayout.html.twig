@@ -1,0 +1,37 @@
+{% set content = block('content') %}
+
+{#
+    We embed the main layout.html.twig instead of extending it
+    to be able to inject additional markup before and after its
+    content block.
+#}
+{% embed '@EzPlatformAdminUi/layout.html.twig' %}
+    {% trans_default_domain 'eztags_admin' %}
+
+    {% block title %}{{ 'pagelayout.title'|trans }}{% endblock %}
+
+    {% block pageTitle %}{% endblock %}
+
+    {% block content %}
+        <div class="ng-tags-app row">
+            {% include '@NetgenTags/admin/header.html.twig' %}
+
+            <section class="ng-tags-container">
+                <div class="tags-sidebar tags-sidebar-resizable">
+                    <div class="main-menu">
+                        {% include '@NetgenTags/admin/main_menu.html.twig' %}
+                    </div>
+                </div>
+
+                <div class="tags-content">
+                    <div class="path">
+                        {% include '@NetgenTags/admin/path.html.twig' %}
+                    </div>
+
+                    {{ content|raw }}
+
+                </div>
+            </section>
+        </div>
+    {% endblock %}
+{% endembed %}

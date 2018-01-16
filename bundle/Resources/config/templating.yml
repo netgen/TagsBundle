@@ -2,10 +2,24 @@ services:
     eztags.templating.twig.extension:
         class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
         public: false
+        tags:
+            - { name: twig.extension }
+
+    eztags.templating.twig.runtime:
+        class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime
+        # public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.translation_helper"
             - "@ezpublish.api.service.language"
             - "@ezpublish.api.service.content_type"
         tags:
-            - { name: twig.extension }
+            - { name: twig.runtime }
+
+    # Runtime loader for Symfony 2.8
+
+    eztags.templating.twig.runtime.loader:
+        class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntimeLoader
+        public: false
+        arguments:
+            - "@eztags.templating.twig.runtime"

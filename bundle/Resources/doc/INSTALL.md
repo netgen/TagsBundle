@@ -52,15 +52,22 @@ _eztagsRoutes:
     resource: "@NetgenTagsBundle/Resources/config/routing.yml"
 ```
 
+If you're installing Tags Bundle on eZ Platform 2.x and plan to use it integrated into eZ Platform Admin UI, you need to add it to Assetic configuration in `app/config/config.yml`, together with `EzPlatformAdminUiBundle` and all other bundles already configured there:
+
+```
+assetic:
+    bundles: [EzPlatformAdminUiBundle, NetgenTagsBundle]
+```
+
 ### Import database tables
 
 Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Publish database:
 
 ```
-$ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/Resources/sql/mysql/schema.sql
+$ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/bundle/Resources/sql/mysql/schema.sql 
 ```
 
-PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/Resources/sql/postgresql/schema.sql`
+PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/bundle/Resources/sql/postgresql/schema.sql`
 
 ### Clear the caches
 

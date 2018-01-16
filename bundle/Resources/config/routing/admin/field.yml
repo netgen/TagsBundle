@@ -8,4 +8,9 @@ netgen_tags_add_tag_button_visibililty:
     path: /netgen_add_tags_permission
     defaults:
         _controller: eztags.controller.access:getAddPermissionFlagAction
+
+netgen_tags_admin_field_children:
+    path: /children
+    defaults:
+        _controller: eztags.admin.controller.field:childrenAction
         _method: GET

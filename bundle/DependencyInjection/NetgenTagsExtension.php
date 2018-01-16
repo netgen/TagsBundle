@@ -51,8 +51,15 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('validators.yml');
         $loader->load('param_converters.yml');
 
-        $loader->load('platformui/default_settings.yml');
-        $loader->load('platformui/services.yml');
+        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
+            $loader->load('platformui/default_settings.yml');
+            $loader->load('platformui/services.yml');
+        }
+
+        if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
+            $loader->load('ezadminui/default_settings.yml');
+            $loader->load('ezadminui/services.yml');
+        }
 
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
             $loader->load('search/solr.yml');
@@ -75,10 +82,20 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $configs = array(
             'netgen_tags.yml' => 'netgen_tags',
             'ezplatform.yml' => 'ezpublish',
-            'platformui/yui.yml' => 'ez_platformui',
-            'platformui/css.yml' => 'ez_platformui',
-            'platformui/javascript.yml' => 'ez_platformui',
+            'framework/twig.yml' => 'twig',
         );
+
+        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
+
+        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
+            $configs['platformui/yui.yml'] = 'ez_platformui';
+            $configs['platformui/css.yml'] = 'ez_platformui';
+            $configs['platformui/javascript.yml'] = 'ez_platformui';
+        }
+
+        if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
+            $configs['ezadminui/twig.yml'] = 'twig';
+        }
 
         foreach ($configs as $fileName => $extensionName) {
             $configFile = __DIR__ . '/../Resources/config/' . $fileName;
