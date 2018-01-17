@@ -736,7 +736,7 @@
         this.$add_button.hide();
     } else {
         this.$input.show();
-        this.$add_button.show();
+        this.opts.hasAddAccess ? this.$add_button.show() : this.$add_button.hide();
     }
   };
 
