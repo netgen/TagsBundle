@@ -4,7 +4,7 @@ netgen_tags_admin_field_autocomplete:
         _controller: eztags.admin.controller.field:autoCompleteAction
         _method: GET
 
-netgen_tags_admin_add_tag_button_visibililty:
+netgen_tags_admin_add_tag_button_visibility:
     path: /access/add
     defaults:
         _controller: eztags.admin.controller.access:getAddPermissionFlagAction

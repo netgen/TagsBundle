@@ -52,7 +52,7 @@ class ConfigProvider implements Provider
                 'autoCompleteLimit' => $this->configResolver->getParameter('field.autocomplete_limit', 'eztags'),
                 'urls' => array(
                     'autoComplete' => $this->urlGenerator->generate('netgen_tags_admin_field_autocomplete'),
-                    'addTagButtonVisibility' => $this->urlGenerator->generate('netgen_tags_admin_add_tag_button_visibililty'),
+                    'addTagButtonVisibility' => $this->urlGenerator->generate('netgen_tags_admin_add_tag_button_visibility'),
                     'treeChildren' => $this->urlGenerator->generate(
                         'netgen_tags_admin_tree_get_children',
                         array(

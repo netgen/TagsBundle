@@ -58,5 +58,3 @@ services:
         class: Netgen\TagsBundle\Controller\Admin\AccessController
         parent: ezpublish.controller.base
         public: true
-        arguments:
-            - "@security.authorization_checker"
