@@ -315,7 +315,7 @@
 
   Base.prototype.render_skeleton = function() {
     var $markup = $(this.render_template('skeleton'));
-    !this.opts.hasAddAccess && $markup.find('.button-add-tag').remove();
+    !this.opts.hasAddAccess && $markup.find('.button-add-tag').hide();
     $markup.find('.tags-listed').removeClass('no-results');
     this.$el.append($markup);
   };
@@ -736,7 +736,7 @@
         this.$add_button.hide();
     } else {
         this.$input.show();
-        this.$add_button.show();
+        this.opts.hasAddAccess ? this.$add_button.show() : this.$add_button.hide();
     }
   };
 
