@@ -315,6 +315,7 @@
 
   Base.prototype.render_skeleton = function() {
     var $markup = $(this.render_template('skeleton'));
+    !this.opts.hasAddAccess && $markup.find('.button-add-tag').hide();
     $markup.find('.tags-listed').removeClass('no-results');
     this.$el.append($markup);
   };

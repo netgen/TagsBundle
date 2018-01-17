@@ -49,8 +49,8 @@ YUI.add('netgen-tags-field-edit-view', function (Y) {
         },
 
         _setButtonVisibility: function () {
-            if (!this.get('addPermissionFlag'))
-                Y.one('.button-add-tag').remove();
+            var addTagButton = Y.one('.button-add-tag');
+            (this.get('addPermissionFlag')) ? addTagButton.show() : addTagButton.hide();
         },
 
         validate: function () {

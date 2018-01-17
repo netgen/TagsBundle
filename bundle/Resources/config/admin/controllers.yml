@@ -53,3 +53,10 @@ services:
             - "@eztags.api.service.tags"
         calls:
             - [setLanguages, ["$languages$"]]
+
+    eztags.admin.controller.access:
+        class: Netgen\TagsBundle\Controller\Admin\AccessController
+        parent: ezpublish.controller.base
+        public: true
+        arguments:
+            - "@security.authorization_checker"

@@ -4,11 +4,6 @@ services:
         parent: ezpublish.controller.base
         public: true
 
-    eztags.controller.access:
-        class: Netgen\TagsBundle\Controller\AccessController
-        parent: ezpublish.controller.base
-        public: true
-
     eztags.routing.tag_url_generator:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
         parent: ezpublish.url_generator.base
