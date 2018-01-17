@@ -7,13 +7,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AccessController extends Controller
 {
     /**
-     * Returns ez:tags:add flag for "Add new tag" button visibility
+     * Returns if current user has access to tags/add policy.
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function getAddPermissionFlagAction()
+    public function canAddTagsAction()
     {
         return new JsonResponse($this->isGranted('ez:tags:add'));
     }
-
 }
