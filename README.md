@@ -5,7 +5,7 @@ Netgen Tags Bundle
 [![Code Coverage](https://img.shields.io/codecov/c/github/netgen/TagsBundle.svg?style=flat-square)](https://codecov.io/gh/netgen/TagsBundle)
 [![Downloads](https://img.shields.io/packagist/dt/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
 [![Latest stable](https://img.shields.io/packagist/v/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
-[![License](https://img.shields.io/packagist/l/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
+[![License](https://img.shields.io/github/license/netgen/TagsBundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
 
 Netgen Tags Bundle is an eZ Platform bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than `ezkeyword` field type included in eZ Publish kernel.
 
