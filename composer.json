@@ -1,6 +1,7 @@
 {
     "name": "netgen/tagsbundle",
     "description": "Netgen Tags Bundle is an eZ Platform / eZ Publish bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than ezkeyword field type included in eZ Publish kernel.",
+    "license": "GPL-2.0-only",
     "type": "ezplatform-bundle",
     "keywords": [
         "ezplatform",
@@ -11,7 +12,6 @@
         "tags"
     ],
     "homepage": "https://github.com/netgen/TagsBundle",
-    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Netgen",
