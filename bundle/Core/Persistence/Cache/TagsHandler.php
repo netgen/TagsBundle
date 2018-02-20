@@ -189,6 +189,8 @@ class TagsHandler implements TagsHandlerInterface
         $this->logger->logCall(__METHOD__, array('struct' => $createStruct));
         $synonym = $this->tagsHandler->addSynonym($createStruct);
 
+        $this->clearTagCache($createStruct->mainTagId);
+
         $this->cache->getItem('tag', $synonym->id)->set($synonym)->save();
 
         return $synonym;
