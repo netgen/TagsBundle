@@ -202,12 +202,4 @@ abstract class Gateway
      * @param mixed $tagId
      */
     abstract public function deleteTag($tagId);
-
-    /**
-     * Updated subtree modification time for all tags in path.
-     *
-     * @param string $pathString
-     * @param int $timestamp
-     */
-    abstract public function updateSubtreeModificationTime($pathString, $timestamp = null);
 }

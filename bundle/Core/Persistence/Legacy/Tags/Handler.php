@@ -39,7 +39,6 @@ class Handler implements BaseTagsHandler
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
      *
-     *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
@@ -63,7 +62,6 @@ class Handler implements BaseTagsHandler
     /**
      * Loads a tag info object from its $tagId.
      *
-     *
      * @param mixed $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -83,7 +81,6 @@ class Handler implements BaseTagsHandler
      * Optionally a translation filter may be specified. If specified only the
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
-     *
      *
      * @param string $remoteId
      * @param string[] $translations
@@ -108,7 +105,6 @@ class Handler implements BaseTagsHandler
     /**
      * Loads a tag info object from its remote ID.
      *
-     *
      * @param string $remoteId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
@@ -124,7 +120,6 @@ class Handler implements BaseTagsHandler
 
     /**
      * Loads tags by specified keyword and parent ID.
-     *
      *
      * @param string $keyword The keyword to fetch tag for
      * @param mixed $parentTagId The parent ID to fetch tag for
@@ -150,7 +145,6 @@ class Handler implements BaseTagsHandler
     /**
      * Loads children of a tag identified by $tagId.
      *
-     *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
@@ -170,7 +164,6 @@ class Handler implements BaseTagsHandler
 
     /**
      * Returns the number of children of a tag identified by $tagId.
-     *
      *
      * @param mixed $tagId
      * @param string[] $translations
@@ -244,7 +237,6 @@ class Handler implements BaseTagsHandler
     /**
      * Loads the synonyms of a tag identified by $tagId.
      *
-     *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
@@ -264,7 +256,6 @@ class Handler implements BaseTagsHandler
 
     /**
      * Returns the number of synonyms of a tag identified by $tagId.
-     *
      *
      * @param mixed $tagId
      * @param string[] $translations
@@ -295,14 +286,11 @@ class Handler implements BaseTagsHandler
 
         $newTagId = $this->gateway->create($createStruct, $parentTagData);
 
-        $this->updateSubtreeModificationTime($newTagId);
-
         return $this->load($newTagId);
     }
 
     /**
      * Updates tag identified by $tagId.
-     *
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
@@ -314,8 +302,6 @@ class Handler implements BaseTagsHandler
     public function update(UpdateStruct $updateStruct, $tagId)
     {
         $this->gateway->update($updateStruct, $tagId);
-
-        $this->updateSubtreeModificationTime($tagId);
 
         return $this->load($tagId);
     }
@@ -332,14 +318,11 @@ class Handler implements BaseTagsHandler
         $mainTagData = $this->gateway->getBasicTagData($createStruct->mainTagId);
         $newSynonymId = $this->gateway->createSynonym($createStruct, $mainTagData);
 
-        $this->updateSubtreeModificationTime($newSynonymId);
-
         return $this->load($newSynonymId);
     }
 
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId.
-     *
      *
      * @param mixed $tagId
      * @param mixed $mainTagId
@@ -359,16 +342,11 @@ class Handler implements BaseTagsHandler
 
         $this->gateway->convertToSynonym($tagInfo->id, $mainTagData);
 
-        $timestamp = time();
-        $this->updateSubtreeModificationTime($tagInfo->parentTagId, $timestamp);
-        $this->updateSubtreeModificationTime($tagInfo->id, $timestamp);
-
         return $this->load($tagId);
     }
 
     /**
      * Merges the tag identified by $tagId into the tag identified by $targetTagId.
-     *
      *
      * @param mixed $tagId
      * @param mixed $targetTagId
@@ -377,9 +355,6 @@ class Handler implements BaseTagsHandler
      */
     public function merge($tagId, $targetTagId)
     {
-        $tagInfo = $this->loadTagInfo($tagId);
-        $targetTagInfo = $this->loadTagInfo($targetTagId);
-
         foreach ($this->loadSynonyms($tagId) as $synonym) {
             $this->gateway->transferTagAttributeLinks($synonym->id, $targetTagId);
             $this->gateway->deleteTag($synonym->id);
@@ -387,17 +362,12 @@ class Handler implements BaseTagsHandler
 
         $this->gateway->transferTagAttributeLinks($tagId, $targetTagId);
         $this->gateway->deleteTag($tagId);
-
-        $timestamp = time();
-        $this->updateSubtreeModificationTime($tagInfo->parentTagId, $timestamp);
-        $this->updateSubtreeModificationTime($targetTagInfo->id, $timestamp);
     }
 
     /**
      * Copies tag object identified by $sourceId into destination identified by $destinationParentId.
      *
      * Also performs a copy of all child locations of $sourceId tag
-     *
      *
      * @param mixed $sourceId The subtree denoted by the tag to copy
      * @param mixed $destinationParentId The target parent tag for the copy operation
@@ -412,14 +382,11 @@ class Handler implements BaseTagsHandler
 
         $copiedTagId = $this->recursiveCopySubtree($sourceTag, $destinationParentId);
 
-        $this->updateSubtreeModificationTime($copiedTagId);
-
         return $this->load($copiedTagId);
     }
 
     /**
      * Moves a tag identified by $sourceId into new parent identified by $destinationParentId.
-     *
      *
      * @param mixed $sourceId
      * @param mixed $destinationParentId
@@ -439,16 +406,11 @@ class Handler implements BaseTagsHandler
 
         $this->gateway->moveSubtree($sourceTagData, $destinationParentTagData);
 
-        $timestamp = time();
-        $this->updateSubtreeModificationTime($sourceTagData['parent_id'], $timestamp);
-        $this->updateSubtreeModificationTime($sourceId, $timestamp);
-
         return $this->load($sourceId);
     }
 
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it.
-     *
      *
      * @param mixed $tagId
      *
@@ -460,8 +422,6 @@ class Handler implements BaseTagsHandler
     {
         $tagInfo = $this->loadTagInfo($tagId);
         $this->gateway->deleteTag($tagInfo->id);
-
-        $this->updateSubtreeModificationTime($tagInfo->parentTagId);
     }
 
     /**
@@ -507,27 +467,5 @@ class Handler implements BaseTagsHandler
         }
 
         return $createdTag->id;
-    }
-
-    /**
-     * Updated subtree modification time for tag and all its parents.
-     *
-     * If tag is a synonym, subtree modification time of its main tag is updated
-     *
-     * @param mixed $tagId
-     * @param int $timestamp
-     */
-    protected function updateSubtreeModificationTime($tagId, $timestamp = null)
-    {
-        if ($tagId > 0) {
-            $tagInfo = $this->loadTagInfo($tagId);
-            $timestamp = $timestamp ?: time();
-
-            $this->gateway->updateSubtreeModificationTime($tagInfo->pathString, $timestamp);
-
-            if ($tagInfo->mainTagId > 0) {
-                $this->gateway->updateSubtreeModificationTime((string) $tagInfo->mainTagId, $timestamp);
-            }
-        }
     }
 }
