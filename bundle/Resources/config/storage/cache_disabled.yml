@@ -1,0 +1,4 @@
+services:
+    eztags.api.persistence_handler.tags.cache:
+        alias: eztags.api.persistence_handler.tags.storage
+        public: false
