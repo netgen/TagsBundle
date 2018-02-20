@@ -327,7 +327,7 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
      */
-    public function addSynonym($createStruct)
+    public function addSynonym(SynonymCreateStruct $createStruct)
     {
         $mainTagData = $this->gateway->getBasicTagData($createStruct->mainTagId);
         $newSynonymId = $this->gateway->createSynonym($createStruct, $mainTagData);

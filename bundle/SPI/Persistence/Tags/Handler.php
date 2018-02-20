@@ -205,7 +205,7 @@ interface Handler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The created synonym
      */
-    public function addSynonym($createStruct);
+    public function addSynonym(SynonymCreateStruct $createStruct);
 
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId.
