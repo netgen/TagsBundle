@@ -1,6 +1,6 @@
 services:
     eztags.api.persistence_handler.tags.cache:
-        class: Netgen\TagsBundle\Core\Persistence\Cache\TagsHandler
+        class: Netgen\TagsBundle\Core\Persistence\Cache\Stash\TagsHandler
         public: false
         arguments:
             - "@ezpublish.cache_pool.spi.cache.decorator"

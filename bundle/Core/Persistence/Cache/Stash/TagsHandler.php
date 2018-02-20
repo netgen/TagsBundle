@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\Persistence\Cache;
+namespace Netgen\TagsBundle\Core\Persistence\Cache\Stash;
 
 use eZ\Publish\Core\Persistence\Cache\CacheServiceDecorator;
 use eZ\Publish\Core\Persistence\Cache\PersistenceLogger;
@@ -257,11 +257,11 @@ class TagsHandler implements TagsHandlerInterface
         foreach ($tagIds as $tagId) {
             $this->cache->clear('tag', $tagId);
             $this->cache->clear('tag', 'info', $tagId);
-
-            $this->cache->clear('tag', 'remoteId', $tagId);
-            $this->cache->clear('tag', 'info', 'remoteId', $tagId);
         }
 
         $this->cache->clear('tag', 'synonyms', $tagIdToClear);
+
+        $this->cache->clear('tag', 'remoteId');
+        $this->cache->clear('tag', 'info', 'remoteId');
     }
 }
