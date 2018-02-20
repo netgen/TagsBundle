@@ -51,6 +51,12 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('validators.yml');
         $loader->load('param_converters.yml');
 
+        // We're using the existence of EzPlatformAdminUiBundle (Admin UI v2)
+        // as the means of detecting eZ kernel version 6 or 7
+        in_array('EzPlatformAdminUiBundle', $activatedBundles, true) ?
+            $loader->load('storage/cache_psr6.yml') :
+            $loader->load('storage/cache_stash.yml');
+
         if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
             $loader->load('platformui/default_settings.yml');
             $loader->load('platformui/services.yml');

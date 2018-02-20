@@ -1,15 +1,18 @@
 services:
     # Tags handler
     # We use a factory instead of alias so there's no need setting default storage engine twice
-    eztags.api.persistence_handler.tags.factory:
+    eztags.api.persistence_handler.tags.storage.factory:
         class: Netgen\TagsBundle\DependencyInjection\Factory\TagsHandlerFactory
         public: false
         calls:
             - [setContainer, ["@service_container"]]
 
-    eztags.api.persistence_handler.tags:
+    eztags.api.persistence_handler.tags.storage:
         class: Netgen\TagsBundle\SPI\Persistence\Tags\Handler
         public: false
-        factory: ["@eztags.api.persistence_handler.tags.factory", buildTagsHandler]
+        factory: ["@eztags.api.persistence_handler.tags.storage.factory", buildTagsHandler]
         arguments:
             - "%ezpublish.api.storage_engine.default%"
+
+    eztags.api.persistence_handler.tags:
+        alias: eztags.api.persistence_handler.tags.cache
