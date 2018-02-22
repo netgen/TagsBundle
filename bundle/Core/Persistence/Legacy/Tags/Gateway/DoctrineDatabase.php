@@ -511,6 +511,9 @@ class DoctrineDatabase extends Gateway
                 $this->handler->quoteColumn('main_tag_id'),
                 $query->bindValue(0, null, PDO::PARAM_INT)
             )->set(
+                $this->handler->quoteColumn('modified'),
+                $query->bindValue(time(), null, PDO::PARAM_INT)
+            )->set(
                 $this->handler->quoteColumn('keyword'),
                 $query->bindValue($createStruct->keywords[$createStruct->mainLanguageCode], null, PDO::PARAM_STR)
             )->set(
@@ -585,6 +588,9 @@ class DoctrineDatabase extends Gateway
         $query
             ->update($this->handler->quoteTable('eztags'))
             ->set(
+                $this->handler->quoteColumn('modified'),
+                $query->bindValue(time(), null, PDO::PARAM_INT)
+            )->set(
                 $this->handler->quoteColumn('keyword'),
                 $query->bindValue($updateStruct->keywords[$updateStruct->mainLanguageCode], null, PDO::PARAM_STR)
             )->set(
@@ -660,6 +666,9 @@ class DoctrineDatabase extends Gateway
             )->set(
                 $this->handler->quoteColumn('main_tag_id'),
                 $query->bindValue($createStruct->mainTagId, null, PDO::PARAM_INT)
+            )->set(
+                $this->handler->quoteColumn('modified'),
+                $query->bindValue(time(), null, PDO::PARAM_INT)
             )->set(
                 $this->handler->quoteColumn('keyword'),
                 $query->bindValue($createStruct->keywords[$createStruct->mainLanguageCode], null, PDO::PARAM_STR)
@@ -740,6 +749,9 @@ class DoctrineDatabase extends Gateway
             )->set(
                 $this->handler->quoteColumn('main_tag_id'),
                 $query->bindValue($mainTagData['id'], null, PDO::PARAM_INT)
+            )->set(
+                $this->handler->quoteColumn('modified'),
+                $query->bindValue(time(), null, PDO::PARAM_INT)
             )->set(
                 $this->handler->quoteColumn('depth'),
                 $query->bindValue($mainTagData['depth'], null, PDO::PARAM_INT)
@@ -914,6 +926,9 @@ class DoctrineDatabase extends Gateway
                     $this->handler->quoteColumn('depth'),
                     $query->bindValue($newDepth, null, PDO::PARAM_INT)
                 )->set(
+                    $this->handler->quoteColumn('modified'),
+                    $query->bindValue(time(), null, PDO::PARAM_INT)
+                )->set(
                     $this->handler->quoteColumn('parent_id'),
                     $query->bindValue($newParentId, null, PDO::PARAM_INT)
                 )->where(
@@ -992,37 +1007,6 @@ class DoctrineDatabase extends Gateway
         $query = $this->handler->createDeleteQuery();
         $query
             ->deleteFrom($this->handler->quoteTable('eztags'))
-            ->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn('id'),
-                    $tagIds
-                )
-            );
-
-        $query->prepare()->execute();
-    }
-
-    /**
-     * Updated subtree modification time for all tags in path.
-     *
-     * @param string $pathString
-     * @param int $timestamp
-     */
-    public function updateSubtreeModificationTime($pathString, $timestamp = null)
-    {
-        $tagIds = array_filter(explode('/', $pathString));
-
-        if (empty($tagIds)) {
-            return;
-        }
-
-        $query = $this->handler->createUpdateQuery();
-        $query
-            ->update($this->handler->quoteTable('eztags'))
-            ->set(
-                $this->handler->quoteColumn('modified'),
-                $query->bindValue($timestamp ?: time(), null, PDO::PARAM_INT)
-            )
             ->where(
                 $query->expr->in(
                     $this->handler->quoteColumn('id'),

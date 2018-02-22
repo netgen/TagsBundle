@@ -445,24 +445,4 @@ class ExceptionConversion extends Gateway
             throw new RuntimeException('Database error', 0, $e);
         }
     }
-
-    /**
-     * Updated subtree modification time for all tags in path.
-     *
-     *
-     * @param string $pathString
-     * @param int $timestamp
-     *
-     * @throws \RuntimeException
-     */
-    public function updateSubtreeModificationTime($pathString, $timestamp = null)
-    {
-        try {
-            $this->innerGateway->updateSubtreeModificationTime($pathString, $timestamp);
-        } catch (DBALException $e) {
-            throw new RuntimeException('Database error', 0, $e);
-        } catch (PDOException $e) {
-            throw new RuntimeException('Database error', 0, $e);
-        }
-    }
 }

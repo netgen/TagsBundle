@@ -46,3 +46,8 @@ parameters:
 
     # Limit to autocomplete list in field edit interface
     eztags.default.field.autocomplete_limit: 25
+
+    # Enables or disables persistence cache.
+    # It will reuse eZ Platform persistence cache configuration.
+    # Not exposed through semantic config due to it being NON-siteaccess aware.
+    eztags.enable_persistence_cache: true

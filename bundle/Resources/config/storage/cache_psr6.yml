@@ -1,0 +1,8 @@
+services:
+    eztags.api.persistence_handler.tags.cache:
+        class: Netgen\TagsBundle\Core\Persistence\Cache\TagsHandler
+        public: false
+        arguments:
+            - "@ezpublish.cache_pool"
+            - "@eztags.api.persistence_handler.tags.storage"
+            - "@ezpublish.spi.persistence.cache.persistenceLogger"

@@ -17,7 +17,7 @@ services:
         arguments:
             - "@ezpublish.api.repository"
             - "@eztags.api.persistence_handler.tags"
-            - "@ezpublish.spi.persistence.legacy.language.handler"
+            - "@ezpublish.spi.persistence.cache.contentLanguageHandler"
 
     # Kept for BC with Tags Bundle 2.x
 
