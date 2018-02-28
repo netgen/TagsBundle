@@ -1,4 +1,4 @@
-Netgen Tags Bundle 3.2 changelog
+Netgen Tags Bundle 3.3 changelog
 ================================
 
 3.3.0 (dd.mm.yyyy)
