@@ -6,14 +6,14 @@
 
 {% block content %}
     {% if tag is defined %}
-        <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+        <h2 class="ng-ui-title">{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
     {% else %}
-        <h2 class="tag-title">{{ 'tag.add.title'|trans }}</h2>
+        <h2 class="ng-ui-title">{{ 'tag.add.title'|trans }}</h2>
     {% endif %}
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
 
-        <button class="tags-btn tags-btn-primary" type="submit">{{ 'tag.button.continue'|trans }}</button>
+        <button class="ng-ui-btn ng-ui-btn-primary" type="submit">{{ 'tag.button.continue'|trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

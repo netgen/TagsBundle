@@ -3,7 +3,7 @@
 {% use '@NetgenTags/form/tag_tree.html.twig' %}
 
 {%- block form_row -%}
-    <div class="ng-tags-input {% if errors|length > 0 %} error-input{% endif %}">
+    <div class="ng-ui-input {% if errors|length > 0 %} error-input{% endif %}">
         {%- if 'checkbox' in block_prefixes or 'radio' in block_prefixes -%}
             {{- form_widget(form) -}}
             {{- form_label(form) -}}

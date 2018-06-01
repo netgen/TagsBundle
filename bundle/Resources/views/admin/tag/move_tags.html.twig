@@ -5,7 +5,7 @@
 {% form_theme form '@NetgenTags/form/eztags.html.twig' %}
 
 {% block content %}
-    <h2 class="tag-title">{{ 'tag.move_tags.title'|trans }}</h2>
+    <h2 class="ng-ui-title">{{ 'tag.move_tags.title'|trans }}</h2>
 
     <p>{{ 'tag.move_tags.message'|trans }}</p>
 
@@ -31,10 +31,10 @@
 
         {{ form_widget(form) }}
 
-        <div class="tags-actions">
-            <button type="submit" class="tags-btn tags-btn-primary">{{ 'tag.button.save'|trans }}</button>
+        <div class="ng-ui-actions">
+            <button type="submit" class="ng-ui-btn ng-ui-btn-primary">{{ 'tag.button.save'|trans }}</button>
 
-            <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag ? parentTag.id : 0}) }}" class="tags-btn">
+            <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag ? parentTag.id : 0}) }}" class="ng-ui-btn">
                 {{ 'tag.button.discard'|trans }}
             </a>
         </div>

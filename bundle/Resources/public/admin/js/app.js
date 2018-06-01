@@ -10,7 +10,7 @@ $.noConflict();
     var TagsTree = function(el, options){
         this.settings = $.extend({
             'modal': false,
-            'treeClassName': 'tags-tree',
+            'treeClassName': 'ng-ui-tree',
             'modalClassName': 'ng-modal'
         }, options);
 
@@ -46,7 +46,7 @@ $.noConflict();
                     }
                 },
                 'themes': {
-                    'name': 'ng-tags'
+                    'name': 'ng-ui'
                 }
             }
         }).on("ready.jstree", function (event, data) {
@@ -183,7 +183,7 @@ $.noConflict();
             'connectWith': 0,
             'minWidth': 140
         }, options);
-        this.$handle = $('<div class="tags-resizable-handle" />');
+        this.$handle = $('<div class="ng-ui-resizable-handle" />');
 
         this.init();
     }
@@ -192,20 +192,20 @@ $.noConflict();
             this.$connected = $(this.settings.connectWith);
         }
         this.initialResize();
-        this.$el.addClass('tags-resizable').append(this.$handle);
+        this.$el.addClass('ng-ui-resizable').append(this.$handle);
         this.setupEvents();
     };
     TagsResize.prototype.setupEvents = function(){
         this.$handle.on('mousedown', function(e){
             e.preventDefault();
-            $('body').addClass('tags-resizing');
+            $('body').addClass('ng-ui-resizing');
             $(window).on('mousemove.resize', function(e){
                 this.resizeEl(e.pageX - this.el.offsetLeft);
             }.bind(this));
             $(window).one('mouseup', function(e){
-                if(!$('body').hasClass('tags-resizing')) return;
+                if(!$('body').hasClass('ng-ui-resizing')) return;
                 $(window).off('mousemove.resize');
-                $('body').removeClass('tags-resizing');
+                $('body').removeClass('ng-ui-resizing');
                 window.sessionStorage.tagsResize = this.el.offsetWidth;
             }.bind(this));
         }.bind(this));
@@ -241,93 +241,9 @@ function ngTagsInit(){
 
     var $ = jQuery;
 
-    /* button click effect */
-    function TagsBtn(el){
-        this.$el = $(el);
-        this.$effect = $('<span class="tags-btn-effect">');
-        this.init();
-    }
-    TagsBtn.prototype.init = function(){
-        this.setupEvents();
-    };
-    TagsBtn.prototype.setupEvents = function(){
-        this.$el.on('click', function(e){
-            if(e.currentTarget.attributes.disabled) e.preventDefault();
-        });
-        this.$el.on('mousedown', function(e){
-            this.$effect.detach();
-            this.addEffect(e);
-        }.bind(this));
-        this.$effect.on('animationend', function(){
-            $(this).detach();
-        });
-    };
-    TagsBtn.prototype.addEffect = function(e){
-        this.$effect.css(this.calcPos(e));
-        this.$el.append(this.$effect);
-    };
-    TagsBtn.prototype.calcPos = function(e){
-        var btnOffset = this.$el.offset(),
-            elWidth = this.$el.outerWidth(),
-            rel = {
-                x: e.pageX - btnOffset.left,
-                y: e.pageY - btnOffset.top
-            },
-            effectWidth = rel.x <= (elWidth/2) ? (elWidth - rel.x) * 2.4 : rel.x * 2.4;
-        this.effectCss = {
-            'left': rel.x,
-            'top': rel.y,
-            'width': effectWidth,
-            'height': effectWidth
-        };
-        return this.effectCss;
-    };
-    $.fn.tagsBtn = function () {
-        return $(this).each(function(){
-            var $this = $(this);
-            if ($this.data('tagsbtn')){
-                return;
-            }
-            var instance = new TagsBtn(this);
-            $this.data('tagsbtn', instance);
-        });
-    };
-
-    $('.tags-btn').tagsBtn();
-
-    /* tabs */
-    $.fn.tagsTabs = function(){
-        return this.each(function(){
-            if(!$(this).data('tagsTabs')){
-                var $el = $(this),
-                    controls = $el.find('.tags-tab-control'),
-                    $initialTab = $el.find('.tags-tab-control[href="' + localStorage.tagsTabActive + '"]'),
-                    toggleActive = function(trigger, tab){
-                        trigger.addClass('active').siblings().removeClass('active');
-                        tab.addClass('active').siblings().removeClass('active');
-                    };
-                $(this).data('tagsTabs', 'true');
-                $(this).on('click', '.tags-tab-control', function(e){
-                    e.preventDefault();
-                });
-                $(this).on('mousedown', '.tags-tab-control', function(e){
-                    var target = this.getAttribute('href');
-                    localStorage.tagsTabActive = target;
-                    toggleActive($(this).closest('li'), $('[data-tab="' + target + '"]'));
-                });
-                if($initialTab.length){
-                    toggleActive($initialTab.closest('li'), $('[data-tab="' + localStorage.tagsTabActive + '"]'));
-                } else {
-                    toggleActive($(controls[0]).closest('li'), $('[data-tab="' + $(controls[0]).attr('href') + '"]'));
-                }
-            }
-        });
-    };
-
-    $('.tags-tabs').tagsTabs();
-    $('.tags-modal-tree').tagsTree({'modal': true});
-    $('.tags-tree-wrapper').tagsTree();
-    $('.tags-sidebar-resizable').tagsResize({connectWith: '.ng-tags-logo'});
+    $('.ng-ui-modal-tree').tagsTree({'modal': true});
+    $('.ng-ui-tree-wrapper').tagsTree();
+    $('.ng-ui-sidebar-resizable').tagsResize({connectWith: '.ng-tags-logo'});
 
     /* input enabled/disabled buttons */
     var $enabledInputs = $('input[data-enable]'),

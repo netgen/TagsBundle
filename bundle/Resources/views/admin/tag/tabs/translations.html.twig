@@ -46,16 +46,16 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
 
-    <div class="tags-btn-group">
+    <div class="ng-ui-btn-group">
         {% if can_edit %}
-            <button type="submit" class="tags-btn" data-enabler="Locale" name="RemoveTranslationButton">{{ 'tag.button.remove_selected'|trans }}</button>
-            <button type="submit" class="tags-btn" data-enabler="MainLocale" name="UpdateMainTranslationButton">{{ 'tag.button.set_main'|trans }}</button>
+            <button type="submit" class="ng-ui-btn" data-enabler="Locale" name="RemoveTranslationButton">{{ 'tag.button.remove_selected'|trans }}</button>
+            <button type="submit" class="ng-ui-btn" data-enabler="MainLocale" name="UpdateMainTranslationButton">{{ 'tag.button.set_main'|trans }}</button>
         {% endif %}
     </div>
 
     <input type="checkbox" name="AlwaysAvailable" id="AlwaysAvailable" {% if tag.alwaysAvailable %}checked="checked"{% endif %} {% if not can_edit %} disabled="disabled" {% endif %} /><label for="AlwaysAvailable">{{ 'tag.translations.always_available'|trans }}</label>
 
     {% if can_edit %}
-        <button type="submit" class="tags-btn" name="UpdateAlwaysAvailableButton">{{ 'tag.button.update'|trans }}</button>
+        <button type="submit" class="ng-ui-btn" name="UpdateAlwaysAvailableButton">{{ 'tag.button.update'|trans }}</button>
     {% endif %}
 </form>

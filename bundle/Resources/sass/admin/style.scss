@@ -1,15 +1,7 @@
-@charset "UTF-8";
+@charset 'UTF-8';
 //IMPORTANT: only add imports to this file
 
-@import "fonts";
-@import "variables";
-@import "base";
-@import "typography";
-@import "buttons";
-@import "forms";
-@import "pagination";
-@import "tree";
-@import "tabs";
-@import "modal";
-@import "resize";
-@import "content";
+@import 'variables';
+@import '../../../../node_modules/@netgen/admin-ui/scss/style';
+@import 'fonts';
+@import 'base';

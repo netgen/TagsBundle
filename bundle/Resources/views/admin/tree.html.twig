@@ -7,7 +7,7 @@
 
 {% block tags_tree %}
     <div
-        class="tags-tree"
+        class="ng-ui-tree"
         data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
         data-rootTagId="{{ rootTagId }}"
         data-showRootTag="{{ showRootTag ? 'true' : 'false' }}"

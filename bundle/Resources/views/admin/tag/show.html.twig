@@ -3,68 +3,68 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <h2 class="tag-title">
+    <h2 class="ng-ui-title">
         {{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}
 
         {% if tag.isSynonym %}
             ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)
         {% endif %}
 
-        <span class="tag-title-note">{{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong></span>
-        <span class="tag-title-note">{{ 'tag.modified'|trans }}: <strong>{{ tag.modificationDate|date }}</strong></span>
+        <span class="ng-ui-title-note">{{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong></span>
+        <span class="ng-ui-title-note">{{ 'tag.modified'|trans }}: <strong>{{ tag.modificationDate|date }}</strong></span>
     </h2>
 
     {% include '@NetgenTags/admin/flash_messages.html.twig' %}
 
-    <div class="tags-btn-group">
+    <div class="ng-ui-btn-group">
         {% if is_granted('ez:tags:edit' ~ (tag.isSynonym ? 'synonym' : '')) %}
-            <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'tag.edit.title'|trans }}</a>
+            <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="ng-ui-btn ng-ui-btn-primary">{{ 'tag.edit.title'|trans }}</a>
         {% endif %}
 
         {% if is_granted('ez:tags:delete' ~ (tag.isSynonym ? 'synonym' : '')) %}
-            <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.delete.title'|trans }}</a>
+            <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="ng-ui-btn">{{ 'tag.delete.title'|trans }}</a>
         {% endif %}
 
         {% if not tag.isSynonym %}
             {% if is_granted('ez:tags:merge') %}
-                <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.merge.title'|trans }}</a>
+                <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="ng-ui-btn">{{ 'tag.merge.title'|trans }}</a>
             {% endif %}
 
             {% if is_granted('ez:tags:addsynonym') %}
-                <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="tags-btn">{{ 'tag.add_synonym.title'|trans }}</a>
+                <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="ng-ui-btn">{{ 'tag.add_synonym.title'|trans }}</a>
             {% endif %}
 
             {% if is_granted('ez:tags:makesynonym') %}
-                <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
+                <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="ng-ui-btn">{{ 'tag.convert.title'|trans }}</a>
             {% endif %}
         {% endif %}
     </div>
 
-    <div class="tags-tabs">
-        <ul class="tags-tab-controls">
-            <li><a class="tags-tab-control" data-target="latest" href="#latest">{{ 'tag.latest_content.title'|trans }}</a></li>
-            <li><a class="tags-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="tags-badge">{{ tag.keywords|length }}</span></a></li>
+    <div class="ng-ui-tabs">
+        <ul class="ng-ui-tab-controls">
+            <li><a class="ng-ui-tab-control" data-target="latest" href="#latest">{{ 'tag.latest_content.title'|trans }}</a></li>
+            <li><a class="ng-ui-tab-control" data-target="translations" href="#translations">{{ 'tag.translations.title'|trans }} <span class="ng-ui-badge">{{ tag.keywords|length }}</span></a></li>
 
             {% if not tag.isSynonym %}
-                <li><a class="tags-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="tags-badge">{{ synonyms|length }}</span></a></li>
-                <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
+                <li><a class="ng-ui-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="ng-ui-badge">{{ synonyms|length }}</span></a></li>
+                <li><a class="ng-ui-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="ng-ui-badge">{{ subTreeLimitations|length }}</span></a></li>
             {% endif %}
         </ul>
 
-        <div class="tags-tab" data-tab="#latest">
+        <div class="ng-ui-tab" data-tab="#latest">
             {% include '@NetgenTags/admin/tag/tabs/latest_content.html.twig' %}
         </div>
 
-        <div class="tags-tab" data-tab="#translations">
+        <div class="ng-ui-tab" data-tab="#translations">
             {% include '@NetgenTags/admin/tag/tabs/translations.html.twig' %}
         </div>
 
         {% if not tag.isSynonym %}
-            <div class="tags-tab" data-tab="#synonyms">
+            <div class="ng-ui-tab" data-tab="#synonyms">
                 {% include '@NetgenTags/admin/tag/tabs/synonyms.html.twig' %}
             </div>
 
-            <div class="tags-tab" data-tab="#limitations">
+            <div class="ng-ui-tab" data-tab="#limitations">
                 {% include '@NetgenTags/admin/tag/tabs/subtree_limitations.html.twig' %}
             </div>
         {% endif %}

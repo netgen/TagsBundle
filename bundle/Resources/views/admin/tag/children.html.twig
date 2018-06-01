@@ -9,8 +9,8 @@
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
 {% if can_add %}
-    <div class="tags-btn-group">
-        <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
+    <div class="ng-ui-btn-group">
+        <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="ng-ui-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
     </div>
 {% endif %}
 
@@ -55,17 +55,17 @@
             {{ pagerfanta( childrenTags, 'eztags_admin' ) }}
         {% endif %}
 
-        <div class="tags-btn-group">
+        <div class="ng-ui-btn-group">
             {% if can_edit %}
-                <button type="submit" name="MoveTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.move_selected'|trans }}</button>
+                <button type="submit" name="MoveTagsAction" class="ng-ui-btn" data-enabler="Tags">{{ 'tag.button.move_selected'|trans }}</button>
             {% endif %}
 
             {% if can_read %}
-                <button type="submit" name="CopyTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.copy_selected'|trans }}</button>
+                <button type="submit" name="CopyTagsAction" class="ng-ui-btn" data-enabler="Tags">{{ 'tag.button.copy_selected'|trans }}</button>
             {% endif %}
 
             {% if can_delete %}
-                <button type="submit" name="DeleteTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.delete_selected'|trans }}</button>
+                <button type="submit" name="DeleteTagsAction" class="ng-ui-btn" data-enabler="Tags">{{ 'tag.button.delete_selected'|trans }}</button>
             {% endif %}
         </div>
     </form>

@@ -3,6 +3,6 @@
     {% set selectedTag = app.request.attributes.get('tag') %}
 {% endif %}
 
-<div class="tags-tree-wrapper">
+<div class="ng-ui-tree-wrapper">
     {% include '@NetgenTags/admin/tree.html.twig' with {selectedTag: selectedTag} %}
 </div>

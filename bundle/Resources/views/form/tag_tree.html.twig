@@ -1,13 +1,13 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block tag_tree_widget %}
-    <div class="ng-tags-input {% if errors|length > 0 %} error-input{% endif %}">
-        <div class="tags-modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
+    <div class="ng-ui-input {% if errors|length > 0 %} error-input{% endif %}">
+        <div class="ng-ui-modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
             {{- form_label(form) -}}
 
             <input type="hidden" class="tag-id" {{ block('widget_attributes') }} value="{% if tag is not null %}{{ tag.id }}{% else %}0{% endif %}" />
-            <span class="tag-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
-            <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select_tag'|trans }}</button>
+            <span class="ng-ui-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
+            <button type="button" class="ng-ui-btn modal-tree-button">{{ 'tag.tree.select_tag'|trans }}</button>
 
             {# Renders a tree inside modal window, for selecting tag inside forms. #}
             <div class="ng-modal">

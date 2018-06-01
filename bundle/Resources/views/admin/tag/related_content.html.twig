@@ -5,7 +5,7 @@
 {% set tag_keyword = netgen_tags_tag_keyword( tag ) %}
 
 {% block content %}
-    <h2 class="tag-title">
+    <h2 class="ng-ui-title">
         {{ 'tag.related_content.title'|trans }}: <a href="{{ path( 'netgen_tags_admin_tag_show', {tagId: tag.id} ) }}">{{ netgen_tags_tag_keyword( tag ) }}</a>
     </h2>
 
