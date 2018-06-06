@@ -8,10 +8,10 @@
 {% block tags_tree %}
     <div
         class="ng-ui-tree"
-        data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_tagId_'}) }}"
-        data-rootTagId="{{ rootTagId }}"
-        data-showRootTag="{{ showRootTag ? 'true' : 'false' }}"
-        data-selectedTagPath="{{ selectedTag ? selectedTag.pathString : '' }}"
+        data-path="{{ path('netgen_tags_admin_tree_get_children', {'tagId': '_itemId_'}) }}"
+        data-rootItemId="{{ rootTagId }}"
+        data-showRootItem="{{ showRootTag ? 'true' : 'false' }}"
+        data-selectedItemPath="{{ selectedTag ? selectedTag.pathString : '' }}"
         data-disableSubtree="{{ disableSubtree|join(',') }}"
     ></div>
 {% endblock %}

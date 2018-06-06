@@ -5,10 +5,10 @@
             <div class="ng-ui-modal-tree">
                 <div
                     class="tags-tree"
-                    data-path="{{ path('netgen_tags_admin_tree_get_children', {tagId: '_tagId_'}) }}"
-                    data-rootTagId="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
+                    data-path="{{ path('netgen_tags_admin_tree_get_children', {tagId: '_itemId_'}) }}"
+                    data-rootItemId="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
                     data-showRootTag="true"
-                    data-selectedTagPath=""
+                    data-selectedItemPath=""
                     data-disableSubtree=""
                 ></div>
             </div>

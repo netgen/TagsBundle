@@ -5,7 +5,7 @@
         <div class="ng-ui-modal-tree" data-noValueText="{{ '(' ~ 'tag.tree.no_tag_selected'|trans ~ ')' }}">
             {{- form_label(form) -}}
 
-            <input type="hidden" class="tag-id" {{ block('widget_attributes') }} value="{% if tag is not null %}{{ tag.id }}{% else %}0{% endif %}" />
+            <input type="hidden" class="item-id" {{ block('widget_attributes') }} value="{% if tag is not null %}{{ tag.id }}{% else %}0{% endif %}" />
             <span class="ng-ui-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
             <button type="button" class="ng-ui-btn modal-tree-button">{{ 'tag.tree.select_tag'|trans }}</button>
 

@@ -9,6 +9,8 @@ module.exports = function (grunt) {
         lockfile: 'grunt-lock'
     });
 
+    var collapse = require('bundle-collapser/plugin');
+
     // Configurable paths
     var config = {
         sass_dir: 'bundle/Resources/sass/admin',
@@ -78,7 +80,52 @@ module.exports = function (grunt) {
                     dest: '<%= config.public_dir %>/css'
                 }]
             }
-        }
+        },
+
+        cssmin: {
+            target: {
+                options: {
+                    level: 1,
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= config.public_dir %>/css',
+                    src: ['*.css', '!*.min.css'],
+                    dest: '<%= config.public_dir %>/css',
+                    ext: '.min.css',
+                }],
+            },
+        },
+
+        // Compiles es6 js files to supported js
+        browserify: {
+            dev: {
+                options: {
+                    watch: true,
+                    browserifyOptions: {
+                        debug: true,
+                    },
+                    transform: [
+                        ['babelify', { presets: ['env', 'es2015', 'stage-0'] }],
+                    ],
+                },
+                files: {
+                    '<%= config.public_dir %>/js/app.js': ['bundle/Resources/es6/app.js'],
+                },
+            },
+            prod: {
+                options: {
+                    transform: [
+                        ['babelify', { presets: ['env', 'es2015', 'stage-0'] }],
+                        ['uglifyify'],
+                    ],
+                    plugin: [collapse],
+                },
+                files: {
+                    '<%= config.public_dir %>/js/app.min.js': ['bundle/Resources/es6/app.js'],
+                },
+            },
+        },
     });
 
     grunt.registerTask('serve', 'Start the server and preview your app', function () {
@@ -86,7 +133,18 @@ module.exports = function (grunt) {
             'lockfile',
             'sass:dist',
             'postcss',
+            'browserify:dev',
             'watch'
+        ]);
+    });
+
+    grunt.registerTask('build', 'Build production minified assets', function () {
+        grunt.task.run([
+            'lockfile',
+            'sass:dist',
+            'postcss',
+            'cssmin',
+            'browserify:prod',
         ]);
     });
 
