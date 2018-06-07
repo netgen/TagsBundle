@@ -49,7 +49,7 @@ module.exports = function (grunt) {
                 sourceMap: true,
                 sourceMapEmbed: true,
                 sourceMapContents: true,
-                includePaths: ['.']
+                includePaths: ['node_modules']
             },
             dist: {
                 files: [{

@@ -22,6 +22,6 @@
         "uglifyify": "^5.0.0"
     },
     "dependencies": {
-        "@netgen/admin-ui": "^1.0.0"
+        "@netgen/admin-ui": "^1.0.3"
     }
 }
