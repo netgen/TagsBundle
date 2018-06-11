@@ -37,13 +37,13 @@
                 <div class="jqmdIn">
                     <div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">Select tag</span><span class="jqmdTCRight"></span></div>
                     <div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
-                        <div class="tags-modal-tree">
+                        <div class="ng-ui-modal-tree">
                             <div
-                                class="tags-tree"
+                                class="ng-ui-tree"
                                 data-path="{{tagsConfig.field.urls.treeChildren}}"
-                                data-rootTagId="{{subTreeLimit}}"
-                                data-showRootTag="true"
-                                data-selectedTagPath=""
+                                data-rootItemId="{{subTreeLimit}}"
+                                data-showRootItem="true"
+                                data-selectedItemPath=""
                                 data-disableSubtree=""
                             ></div>
                         </div>
