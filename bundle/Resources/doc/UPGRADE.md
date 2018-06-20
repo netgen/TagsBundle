@@ -1,6 +1,23 @@
 Netgen Tags Bundle upgrade instructions
 =======================================
 
+Notes on upgrading to eZ Platform 2.2
+-------------------------------------
+
+Beginning with 2.2, eZ Platform introduced support for `utf8mb4` MySQL character set. When upgrading to eZ Platform 2.2, make
+sure to update Netgen Tags table indexes and primary keys with the following commands to properly support `utf8mb4` charset.
+
+```sql
+ALTER TABLE `eztags` DROP KEY `idx_eztags_keyword`;
+ALTER TABLE `eztags` ADD KEY `idx_eztags_keyword` (`keyword`(191));
+
+ALTER TABLE `eztags` DROP KEY `idx_eztags_keyword_id`;
+ALTER TABLE `eztags` ADD KEY `idx_eztags_keyword_id` (`keyword`(191), id);
+
+ALTER TABLE `eztags_keyword` DROP PRIMARY KEY;
+ALTER TABLE `eztags_keyword` ADD PRIMARY KEY (`keyword_id`, `locale`(191));
+```
+
 Upgrade from 3.0 to 3.1
 -----------------------
 
