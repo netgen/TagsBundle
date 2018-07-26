@@ -7,6 +7,7 @@ dashboard.title: 'Tags dashboard'
 
 tag.title: 'Tag'
 tag.tag_id: 'Tag ID'
+tag.tag_remote_id: 'Tag remote ID'
 tag.tag_name: 'Keyword'
 tag.translations: 'Translations'
 tag.modified: 'Modified'
