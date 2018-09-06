@@ -72,6 +72,10 @@ Clear the eZ Platform caches with the following command:
 $ php bin/console cache:clear
 ```
 
+### Update Anonymous Role permissions
+
+Give the Anonymous Role 'Read' permissions to the `Tags` module.
+
 ### Install and dump assets
 
 Run the following to correctly install and dump assets for admin UI. Make sure to use the correct Symfony environment with `--env` parameter:
