@@ -64,6 +64,10 @@ $ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/bund
 
 PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/bundle/Resources/sql/postgresql/schema.sql`
 
+### Update Anonymous Role permissions
+
+Give 'Read' permisions to the 'Tags' module for the Anonymous Role.
+
 ### Clear the caches
 
 Clear the eZ Platform caches with the following command:
