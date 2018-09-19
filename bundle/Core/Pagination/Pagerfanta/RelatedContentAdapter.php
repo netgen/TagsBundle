@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -31,6 +32,11 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      * @var int
      */
     protected $nbResults;
+
+    /**
+     * @var eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
+     */
+    protected $additionalCriteria;
 
     /**
      * Constructor.

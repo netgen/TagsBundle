@@ -158,25 +158,27 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
      * @param bool $returnContentInfo
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true);
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = []);
 
     /**
      * Returns the number of content objects related to $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
-    public function getRelatedContentCount(Tag $tag);
+    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = []);
 
     /**
      * Creates the new tag.
