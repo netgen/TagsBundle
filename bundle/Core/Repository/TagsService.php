@@ -431,13 +431,14 @@ class TagsService implements TagsServiceInterface
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
      * @param array $contentTypeFilter The list of content types to return
      * @param bool $returnContentInfo
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, array $contentTypeFilter = array(), $returnContentInfo = true)
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, array $contentTypeFilter = array(), $returnContentInfo = true, array $additionalCriteria = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -461,7 +462,7 @@ class TagsService implements TagsServiceInterface
                 [
                     'offset' => $offset,
                     'limit' => $limit > 0 ? $limit : 1000000,
-                    'filter' => new Criterion\LogicalAnd($criteria),
+                    'filter' => new Criterion\LogicalAnd($criteria + $additionalCriteria),
                     'sortClauses' => [
                         new Query\SortClause\DateModified(Query::SORT_DESC),
                     ],
@@ -482,13 +483,14 @@ class TagsService implements TagsServiceInterface
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param array $contentTypeFilter The list of content types to return
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
-    public function getRelatedContentCount(Tag $tag, array $contentTypeFilter = array())
+    public function getRelatedContentCount(Tag $tag, array $contentTypeFilter = array(), array $additionalCriteria = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -506,7 +508,7 @@ class TagsService implements TagsServiceInterface
             new Query(
                 [
                     'limit' => 0,
-                    'filter' => new Criterion\LogicalAnd($criteria),
+                    'filter' => new Criterion\LogicalAnd($criteria + $additionalCriteria),
                 ]
             )
         );
