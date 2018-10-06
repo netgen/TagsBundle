@@ -646,10 +646,10 @@ class DoctrineDatabaseTest extends TestCase
         $query = $this->handler->createSelectQuery();
         $this->assertQueryResult(
             array(
-                array(40, 7, 0, 'Updated tag', 3, '/8/7/40/', 1308153110, 'updatedRemoteId', 2, 11),
+                array(40, 7, 0, 'Updated tag', 3, '/8/7/40/', 'updatedRemoteId', 2, 11),
             ),
             $query
-                ->select('*')
+                ->select('id, parent_id, main_tag_id, keyword, depth, path_string, remote_id, main_language_id, language_mask')
                 ->from('eztags')
                 ->where($query->expr->eq('id', 40))
         );
@@ -804,27 +804,6 @@ class DoctrineDatabaseTest extends TestCase
                 ->select('keyword_id')
                 ->from('eztags_attribute_link')
                 ->where($query->expr->in('keyword_id', array(7, 13, 14, 27, 40, 53, 54, 55)))
-        );
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::updateSubtreeModificationTime
-     */
-    public function testUpdateSubtreeModificationTime()
-    {
-        $this->tagsGateway->updateSubtreeModificationTime('/8/7/40/', 123);
-
-        $query = $this->handler->createSelectQuery();
-        $this->assertQueryResult(
-            array(
-                array(123),
-                array(123),
-                array(123),
-            ),
-            $query
-                ->select('modified')
-                ->from('eztags')
-                ->where($query->expr->in('id', array(8, 7, 40)))
         );
     }
 
