@@ -1,6 +1,12 @@
 Netgen Tags Bundle 3.3 changelog
 ================================
 
+3.3.2 (06.10.2018)
+------------------
+
+* Fix duplicate YAML key
+* Fixes to tests
+
 3.3.1 (05.10.2018)
 ------------------
 
