@@ -483,7 +483,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testCreate()
     {
-        $handler = $this->getTagsHandler(array('load', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('load'));
 
         $this->gateway
             ->expects($this->once())
@@ -582,7 +582,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testCreateWithNoParent()
     {
-        $handler = $this->getTagsHandler(array('load', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('load'));
 
         $this->gateway
             ->expects($this->once())
@@ -662,7 +662,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testUpdate()
     {
-        $handler = $this->getTagsHandler(array('load', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('load'));
 
         $this->gateway
             ->expects($this->once())
@@ -733,7 +733,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testAddSynonym()
     {
-        $handler = $this->getTagsHandler(array('load', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('load'));
 
         $this->gateway
             ->expects($this->once())
@@ -838,7 +838,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testConvertToSynonym()
     {
-        $handler = $this->getTagsHandler(array('load', 'loadTagInfo', 'loadSynonyms', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('loadTagInfo', 'loadSynonyms', 'load'));
 
         $tag = new TagInfo(
             array(
@@ -891,7 +891,7 @@ class TagsHandlerTest extends TestCase
             ->with(16, $mainTagData);
 
         $handler
-            ->expects($this->at(4))
+            ->expects($this->at(2))
             ->method('load')
             ->with(16)
             ->will(
@@ -924,36 +924,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testMerge()
     {
-        $handler = $this->getTagsHandler(array('loadTagInfo', 'loadSynonyms', 'updateSubtreeModificationTime'));
-
-        $handler
-            ->expects($this->at(0))
-            ->method('loadTagInfo')
-            ->with(40)
-            ->will(
-                $this->returnValue(
-                    new TagInfo(
-                        array(
-                            'id' => 40,
-                            'parentTagId' => 7,
-                        )
-                    )
-                )
-            );
-
-        $handler
-            ->expects($this->at(1))
-            ->method('loadTagInfo')
-            ->with(42)
-            ->will(
-                $this->returnValue(
-                    new TagInfo(
-                        array(
-                            'id' => 42,
-                        )
-                    )
-                )
-            );
+        $handler = $this->getTagsHandler(array('loadTagInfo', 'loadSynonyms'));
 
         $tags = array(
             new Tag(array('id' => 50)),
@@ -999,7 +970,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testMoveSubtree()
     {
-        $handler = $this->getTagsHandler(array('load', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('load'));
 
         $sourceData = array(
             'id' => 42,
@@ -1082,7 +1053,7 @@ class TagsHandlerTest extends TestCase
      */
     public function testDeleteTag()
     {
-        $handler = $this->getTagsHandler(array('loadTagInfo', 'updateSubtreeModificationTime'));
+        $handler = $this->getTagsHandler(array('loadTagInfo'));
 
         $handler
             ->expects($this->once())
@@ -1107,25 +1078,23 @@ class TagsHandlerTest extends TestCase
         $handler->deleteTag(40);
     }
 
-    protected function getTagsHandler(array $mockedMethods = array('updateSubtreeModificationTime'))
+    protected function getTagsHandler(array $mockedMethods = null)
     {
-        return $this->getMockBuilder(Handler::class)
-            ->setMethods($mockedMethods)
+        $this->gateway = $this->createMock(Gateway::class);
+
+        $this->mapper = $this->getMockBuilder(Mapper::class)
             ->setConstructorArgs(
                 array(
-                    $this->gateway = $this->createMock(Gateway::class),
-                    $this->mapper = $this->createMock(
-                        Mapper::class,
-                        array(),
-                        array(
-                            new LanguageHandlerMock(),
-                            new MaskGenerator(
-                                new LanguageHandlerMock()
-                            ),
-                        )
+                    new LanguageHandlerMock(),
+                    new MaskGenerator(
+                        new LanguageHandlerMock()
                     ),
                 )
-            )
+            )->getMock();
+
+        return $this->getMockBuilder(Handler::class)
+            ->setMethods($mockedMethods)
+            ->setConstructorArgs(array($this->gateway, $this->mapper))
             ->getMock();
     }
 }
