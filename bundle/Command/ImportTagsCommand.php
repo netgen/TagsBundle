@@ -97,6 +97,8 @@ class ImportTagsCommand extends ContainerAwareCommand
 
         $progress = new ProgressBar($output, $dataCount);
 
+        $progress->start();
+
         foreach ($data as $datum) {
             if (in_array('RemoteID', $headers)) {
                 $remoteID = $datum['RemoteID'];
