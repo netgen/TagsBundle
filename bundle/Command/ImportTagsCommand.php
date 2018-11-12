@@ -35,8 +35,7 @@ class ImportTagsCommand extends Command
         Repository $repository,
         Serializer $serializer,
         TagsService $tagsService
-    )
-    {
+    ) {
         $this->repository = $repository;
         $this->serializer = $serializer;
         $this->tagsService = $tagsService;
@@ -80,14 +79,14 @@ class ImportTagsCommand extends Command
 
         $filename = $input->getOption('filename');
 
-        if (empty($filename) {
+        if (empty($filename)) {
             throw new RuntimeException('Parameter --filename is required');
         }
 
         $parentTagId = $input->getOption('parent-tag-id');
 
         // If the parent-tag-id parameter is not specified, the parent tag ID is set to the root tag ID.
-        if (empty($parentTagId) {
+        if (empty($parentTagId)) {
             $parentTagId = 0;
         }
 
@@ -115,7 +114,7 @@ class ImportTagsCommand extends Command
         $this->style->text("Found <comment>{$dataCount}</comment> tags for import from the file.");
 
         $availableLanguageCodes = array_map(
-            function(Language $language) {
+            function (Language $language) {
                 return $language->languageCode;
             },
             $this->repository->getContentLanguageService()->loadLanguages()
@@ -144,7 +143,7 @@ class ImportTagsCommand extends Command
                 }
             }
 
-            foreach($availableLanguageCodes as $availableLanguageCode) {
+            foreach ($availableLanguageCodes as $availableLanguageCode) {
                 if (array_key_exists($availableLanguageCode, $datum)) {
                     $tagCreateStruct->setKeyword($datum[$availableLanguageCode], $availableLanguageCode);
                 }
