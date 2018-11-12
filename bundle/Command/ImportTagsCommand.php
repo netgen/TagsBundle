@@ -1,26 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Command;
 
-use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Helper\ProgressBar;
+use eZ\Publish\API\Repository\Repository;
+use eZ\Publish\API\Repository\Values\Content\Language;
+use eZ\Publish\Core\Repository\Values\User\UserReference;
+use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Serializer\Serializer;
+use RuntimeException;
 
-class ImportTagsCommand extends ContainerAwareCommand
+class ImportTagsCommand extends Command
 {
+    /** @var \eZ\Publish\API\Repository\Repository  */
+    private $repository;
+
+    /** @var \Symfony\Component\Serializer\Serializer  */
+    private $serializer;
+
+    /** @var \Netgen\TagsBundle\API\Repository\TagsService  */
+    private $tagsService;
+
+    /** @var \Symfony\Component\Console\Style\SymfonyStyle  */
+    private $style;
+
+    public function __construct(
+        Repository $repository,
+        Serializer $serializer,
+        TagsService $tagsService
+    )
+    {
+        $this->repository = $repository;
+        $this->serializer = $serializer;
+        $this->tagsService = $tagsService;
+
+        parent::__construct(null);
+    }
+
     protected function configure()
     {
         $this
             ->setName('netgen:tags:import')
-            ->setDescription("Creates new tags based on an already existing CSV file. The file should be uploaded to the root of the installation.")
+            ->setDescription("Creates new tags based on an already existing CSV file.")
+            ->setHelp("This command creates new tags based on an already existing CSV file. The filename parameter is required and should contain the full path of the file. The parent-tag-id parameter is optional nd should contain the ID of the tag underneath which to add the newly created tags. 
+            
+            The file headers should be language codes. The script supports an additional header 'RemoteID', which sets the remote id value of the tag imported - this is particularly useful when connecting tags from a different system.")
             ->addOption(
                 'filename',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'The CSV file to be imported (NOTE: input the relative path from the root of the installation)'
+                'The CSV file to be imported (NOTE: input the full path of the file)'
             )
             ->addOption(
                 'parent-tag-id',
@@ -32,134 +68,93 @@ class ImportTagsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var \eZ\Publish\API\Repository\Repository $repository
-         */
-        $repository = $this->getContainer()->get('ezpublish.api.repository');
+        $this->style = new SymfonyStyle($input, $output);
 
-        $currentUserReference = $repository->getPermissionResolver()->getCurrentUserReference();
+        $this->style->title('Tags import');
 
         $adminUserReference = new UserReference(14);
 
-        // We need to set the current user to admin until the import is ready since the anonymous user which is logged
-        // in by default does not have a permission to add a tag.
-        $repository->getPermissionResolver()->setCurrentUserReference($adminUserReference);
+        // We need to set the current user as admin since the anonymous user (which is logged in by default)
+        // does not have permission to add a tag.
+        $this->repository->getPermissionResolver()->setCurrentUserReference($adminUserReference);
 
         $filename = $input->getOption('filename');
 
-        if (empty($filename)) {
-            throw new \RuntimeException('Parameter --filename is required');
+        if (empty($filename) {
+            throw new RuntimeException('Parameter --filename is required');
         }
 
         $parentTagId = $input->getOption('parent-tag-id');
 
-        if (empty($parentTagId)) {
+        // If the parent-tag-id parameter is not specified, the parent tag ID is set to the root tag ID.
+        if (empty($parentTagId) {
             $parentTagId = 0;
         }
 
-        $fileFullPath = $this->getContainer()->getParameter('kernel.root_dir') . $filename;
-
-        if (!file_exists($fileFullPath)) {
-            throw new \RuntimeException("No file has been found on the specified location.");
+        if (!file_exists($filename)) {
+            throw new RuntimeException('No file has been found on the specified location.');
         }
 
-        $output->writeln('Found file on the specified location.');
+        $this->style->text('Found file on the specified location.');
 
-        $fileContents = file_get_contents($fileFullPath);
+        // See RFC 7111 for clarification on text/csv MIME type usage
+        if (!mime_content_type($filename) == 'text/csv') {
+            throw new RuntimeException('The file is not a valid CSV.');
+        }
 
-        /** @var \Symfony\Component\Serializer\Serializer $serializer */
-        $serializer = $this->getContainer()->get('serializer');
+        $fileContents = file_get_contents($filename);
 
-        $data = $serializer->decode($fileContents, 'csv');
+        $data = $this->serializer->decode($fileContents, 'csv');
+
+        if (empty($data)) {
+            throw new RuntimeException('No data found.');
+        }
 
         $dataCount = count($data);
 
-        $output->writeln("Found <comment>{$dataCount}</comment> tags for import from the file.");
+        $this->style->text("Found <comment>{$dataCount}</comment> tags for import from the file.");
 
-        // We support only locale headers and the RemoteID header for now
-        $headers = array_keys($data[0]);
-
-        $localeList = array();
-
-        $output->writeln('Extracting the locale list.');
-
-        foreach ($headers as $header) {
-            if ($header !== 'RemoteID') {
-                $localeList[] = $header;
-            }
-        }
-
-        $output->writeln('List of locales extracted.');
+        $availableLanguageCodes = array_map(
+            function(Language $language) {
+                return $language->languageCode;
+            },
+            $this->repository->getContentLanguageService()->loadLanguages()
+        );
 
         // IMPORTANT: the mainLanguageCode for the tag is always presumed to be the first language in the list.
-        $mainLanguageCode = $localeList[0];
+        $mainLanguageCode = $availableLanguageCodes[0];
 
-        $existing = array();
-
-        $progress = new ProgressBar($output, $dataCount);
-
-        $progress->start();
+        $this->style->progressStart($dataCount);
 
         foreach ($data as $datum) {
-            if (in_array('RemoteID', $headers)) {
-                $remoteID = $datum['RemoteID'];
+            $tagCreateStruct = $this->tagsService->newTagCreateStruct($parentTagId, $mainLanguageCode);
 
+            if (array_key_exists('RemoteID', $datum)) {
                 try {
-                    /** @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag */
-                    $tag = $tagsService->loadTagByRemoteId($remoteID);
+                    $tag = $this->tagsService->loadTagByRemoteId($datum['RemoteID']);
                 } catch (\eZ\Publish\API\Repository\Exceptions\NotFoundException $e) {
-                    $this->createTag($datum, $mainLanguageCode, $localeList, $parentTagId);
+                    $tagCreateStruct->remoteId = $datum['RemoteID'];
                 }
 
-                if (isset($tag) && ($tag instanceof Netgen\TagsBundle\API\Repository\Values\Tags\Tag))
-                {
-                    $existing[] = $tag->remoteId;
-                    $progress->advance();
+                if (isset($tag) && $tag instanceof Tag) {
+                    $this->style->text("Found already existing tag with remote ID <comment>{$tag->remoteId}</comment>.");
+                    $this->style->progressAdvance();
+                    unset($tagCreateStruct);
                     continue;
                 }
-
-                $this->createTag($datum, $mainLanguageCode, $localeList, $parentTagId);
-                $progress->advance();
-            }
-        }
-
-        $progress->finish();
-
-        $output->writeln('');
-
-        $output->writeln("The import is complete.");
-
-        if (count($existing) > 0) {
-            $existingCount = count($existing);
-
-            $existingIds = implode(', ', $existing);
-
-            $output->writeln("<comment>{$existingCount}</comment> tags already exist. The remote IDs in question are: {$existingIds}");
-        }
-
-        $repository->getPermissionResolver()->setCurrentUserReference($currentUserReference);
-
-        return 0;
-    }
-
-    private function createTag($datum, $mainLanguageCode, $localeList, $parentTagId)
-    {
-        /** @var \Netgen\TagsBundle\API\Repository\TagsService $tagsService */
-        $tagsService = $this->getContainer()->get('ezpublish.api.service.tags');
-
-        $tagCreateStruct = new TagCreateStruct();
-
-        if (array_key_exists('RemoteID', $datum)) {
-            $tagCreateStruct->remoteId = $datum['RemoteID'];
-        }
-
-        foreach ($localeList as $locale) {
-            if ($locale == $mainLanguageCode) {
-                $tagCreateStruct->mainLanguageCode = $mainLanguageCode;
             }
 
-            $tagCreateStruct->setKeyword($datum[$locale], $locale);
+            foreach($availableLanguageCodes as $availableLanguageCode) {
+                if (array_key_exists($availableLanguageCode, $datum)) {
+                    $tagCreateStruct->setKeyword($datum[$availableLanguageCode], $availableLanguageCode);
+                }
+            }
+
+            $this->style->progressAdvance();
         }
 
-        return $tagsService->createTag($tagCreateStruct);
+        $this->style->progressFinish();
+
+        $this->style->text("Import complete.");
     }
 }

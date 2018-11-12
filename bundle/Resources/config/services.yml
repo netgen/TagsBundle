@@ -26,3 +26,11 @@ services:
             - [setLanguages, [$languages$]]
         tags:
             - {name: router, priority: 200}
+
+    eztags.import.command:
+        class: Netgen\TagsBundle\Command\ImportTagsCommand
+        public: false
+        arguments:
+            - "@ezpublish.api.repository"
+            - "@serializer"
+            - "@eztags.api.service.tags"
