@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.3 changelog
 ================================
 
+3.3.3 (14.11.2018)
+------------------
+
+* Removed the not implemented tree view from field edit interface
+
 3.3.2 (06.10.2018)
 ------------------
 

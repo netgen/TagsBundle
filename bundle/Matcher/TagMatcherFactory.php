@@ -47,7 +47,7 @@ class TagMatcherFactory extends ClassNameMatcherFactory
     /**
      * Returns the matcher object.
      *
-     * @param string $matcherIdentifier The matcher class.
+     * @param string $matcherIdentifier the matcher class.
      *        If it begins with a '\' it means it's a fully qualified class name,
      *        otherwise it is relative to provided namespace (if available)
      *

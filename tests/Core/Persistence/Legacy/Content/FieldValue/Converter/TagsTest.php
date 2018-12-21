@@ -161,7 +161,7 @@ class TagsTest extends TestCase
         self::assertInstanceOf(FieldSettings::class, $fieldDefinition->fieldTypeConstraints->fieldSettings);
         self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['subTreeLimit']);
         self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['maxTags']);
-        self::assertEquals(true, $fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
+        self::assertTrue($fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
         self::assertEquals('Select', $fieldDefinition->fieldTypeConstraints->fieldSettings['editView']);
         self::assertNull($fieldDefinition->defaultValue->data);
     }
@@ -174,6 +174,6 @@ class TagsTest extends TestCase
     public function testGetIndexColumn()
     {
         $indexColumn = $this->converter->getIndexColumn();
-        self::assertEquals(false, $indexColumn);
+        self::assertFalse($indexColumn);
     }
 }
