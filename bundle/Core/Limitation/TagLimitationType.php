@@ -184,7 +184,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException If the limitation does not support
      *         value schema
      *
-     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
+     * @return mixed[]|int in case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_* constants.
      *                     Note: The hash might be an instance of Traversable, and not a native php array
      */

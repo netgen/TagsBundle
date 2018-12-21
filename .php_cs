@@ -8,6 +8,7 @@ return PhpCsFixer\Config::create()
         'array_syntax' => array('syntax' => 'long'),
         'combine_consecutive_unsets' => true,
         'concat_space' => ['spacing' => 'one'],
+        'native_function_invocation' => false,
         'no_useless_else' => true,
         'no_useless_return' => true,
         'ordered_class_elements' => true,
