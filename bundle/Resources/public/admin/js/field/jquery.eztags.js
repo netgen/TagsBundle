@@ -772,7 +772,7 @@
     });
 
     this.setup_browse_picker_dragging();
-
+    this.setup_tree_picker_dragging();
   };
 
   Base.prototype.setup_browse_picker_dragging = function() {
