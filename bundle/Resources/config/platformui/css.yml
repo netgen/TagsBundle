@@ -1,9 +1,0 @@
-system:
-    default:
-        css:
-            files:
-                - bundles/netgentags/admin/jstree/themes/default/style.min.css
-                - bundles/netgentags/admin/css/style.css
-                - bundles/netgentags/admin/css/field/tagssuggest.css
-                - bundles/netgentags/admin/css/field/jqmodal.css
-                - bundles/netgentags/platformui/css/style.css

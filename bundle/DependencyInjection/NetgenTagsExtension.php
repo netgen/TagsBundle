@@ -53,17 +53,10 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 
         $persistenceCache = 'disabled';
         if ($container->getParameter('eztags.enable_persistence_cache')) {
-            // We're using the existence of EzPlatformAdminUiBundle (Admin UI v2)
-            // as the means of detecting eZ kernel version 6 or 7
-            $persistenceCache = in_array('EzPlatformAdminUiBundle', $activatedBundles, true) ? 'psr6' : 'stash';
+            $persistenceCache = 'psr6';
         }
 
         $loader->load('storage/cache_' . $persistenceCache . '.yml');
-
-        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
-            $loader->load('platformui/default_settings.yml');
-            $loader->load('platformui/services.yml');
-        }
 
         if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
             $loader->load('ezadminui/default_settings.yml');
@@ -95,12 +88,6 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         );
 
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
-
-        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
-            $configs['platformui/yui.yml'] = 'ez_platformui';
-            $configs['platformui/css.yml'] = 'ez_platformui';
-            $configs['platformui/javascript.yml'] = 'ez_platformui';
-        }
 
         if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
             $configs['ezadminui/twig.yml'] = 'twig';

@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle;
 
 use Netgen\TagsBundle\DependencyInjection\Compiler\TagViewBuilderPass;
-use Netgen\TagsBundle\DependencyInjection\Compiler\TwigRuntimePass;
 use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -22,7 +21,6 @@ class NetgenTagsBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new TagViewBuilderPass());
-        $container->addCompilerPass(new TwigRuntimePass());
 
         $eZExtension = $container->getExtension('ezpublish');
         $eZExtension->addPolicyProvider(new TagsPolicyProvider());

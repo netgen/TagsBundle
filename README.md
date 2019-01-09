@@ -5,11 +5,11 @@ Netgen Tags Bundle
 [![Code Coverage](https://img.shields.io/codecov/c/github/netgen/TagsBundle.svg?style=flat-square)](https://codecov.io/gh/netgen/TagsBundle)
 [![Downloads](https://img.shields.io/packagist/dt/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
 [![Latest stable](https://img.shields.io/packagist/v/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
-[![License](https://img.shields.io/packagist/l/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
+[![License](https://img.shields.io/github/license/netgen/TagsBundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
 
-Netgen Tags Bundle is an eZ Publish / eZ Platform bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than `ezkeyword` field type included in eZ Publish kernel.
+Netgen Tags Bundle is an eZ Platform bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than `ezkeyword` field type included in eZ Publish kernel.
 
-This repository represents a rewrite of eZ Tags, the original eZ Publish 4 extension located at [https://github.com/ezsystems/eztags](https://github.com/ezsystems/eztags).
+If you need eZ Publish 4 variant of this bundle, look at eZ Tags, located at [https://github.com/ezsystems/eztags](https://github.com/ezsystems/eztags).
 
 Implemented features
 --------------------
@@ -21,7 +21,7 @@ Implemented features
 * `TagId` and `TagKeyword` search criteria
 * Solr indexing of `eztags` field type
 * Tag router and path generator
-* Admin interface (standalone, as well integrated into Platform UI)
+* Admin interface (standalone, as well integrated into eZ Platform Admin UI)
 * REST interface
 
 Credits

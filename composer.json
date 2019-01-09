@@ -19,15 +19,15 @@
         }
     ],
     "require": {
-        "php": "^5.6|^7.1",
-        "ezsystems/ezpublish-kernel": "^6.11@dev|^7.0@dev",
-        "ezsystems/repository-forms": "^1.9|^2.0",
+        "php": "^7.1",
+        "ezsystems/ezpublish-kernel": "^7.0@dev",
+        "ezsystems/repository-forms": "^2.0",
         "ezsystems/ezplatform-solr-search-engine": "^1.4@dev",
         "lolautruche/ez-core-extra-bundle": "^2.0",
         "twig/twig": "^1.35|^2.4.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^6.5"
     },
     "scripts": {
         "test": "@php vendor/bin/phpunit --colors=always",
@@ -37,7 +37,7 @@
         "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
     },
     "conflict": {
-        "ezsystems/platform-ui-bundle": "<1.11",
+        "ezsystems/platform-ui-bundle": "*",
         "ezsystems/eztags-ls": "<2.1"
     },
     "autoload": {
@@ -56,7 +56,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.3.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     }
 }
