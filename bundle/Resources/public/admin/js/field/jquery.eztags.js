@@ -260,15 +260,16 @@
       noExistingTranslations: 'NOEXISTINGTRANSLATIONS',
       addTranslation: 'ADDTRANSLATION',
       cancel: 'CANCEL',
-      ok: 'OK'
+      ok: 'OK',
+      browse: 'BROWSE'
     },
 
     templates: {
       skeleton: [
           '<div class="tagssuggest-ui">',
               '<div class="tags-output">',
-                  '<label><%=tr.selectedTags%>:</label>'
-,                  '<div class="tags-list tags-listed no-results">',
+                  '<label><%=tr.selectedTags%>:</label>',
+                  '<div class="tags-list tags-listed no-results">',
                       '<p class="loading"><%=tr.loading%></p>',
                       '<p class="no-results"><%=tr.noSelectedTags%>.</p>',
                       '<ul class="float-break clearfix js-tags-selected"></ul>',
@@ -285,6 +286,7 @@
                       '<input class="tagssuggestfield tags-input-field" type="text" size="70" value="" autocomplete="off" />',
                       '<div class="tagssuggestresults jsonSuggestResults"><div class="results-wrap" /></div>',
                   '</div>',
+                  '<input type="button" value="<%=tr.browse%>" class="button-browse-tag" />',
                   '<input type="button" value="<%=tr.addNew%>" class="button-add-tag button-disabled" disabled="disabled" />',
               '</div>',
           '</div>'
@@ -326,20 +328,22 @@
   Base.prototype.setup_ui = function() {
     this.render_skeleton();
 
-    this.$input = this.$('.tags-input-field');
-    this.$add_button = this.$('.button-add-tag');
+    this.$input                     = this.$('.tags-input-field');
+    this.$add_button                = this.$('.button-add-tag');
+    this.$browse_button             = this.$('.button-browse-tag');
 
-    this.$hidden_inputs = {};
-    this.$hidden_inputs.tagids     = this.$('.tagids');
-    this.$hidden_inputs.tagnames   = this.$('.tagnames');
-    this.$hidden_inputs.tagpids    = this.$('.tagpids');
-    this.$hidden_inputs.taglocales = this.$('.taglocales');
+    this.$hidden_inputs             = {};
+    this.$hidden_inputs.tagids      = this.$('.tagids');
+    this.$hidden_inputs.tagnames    = this.$('.tagnames');
+    this.$hidden_inputs.tagpids     = this.$('.tagpids');
+    this.$hidden_inputs.taglocales  = this.$('.taglocales');
 
-    this.$tree_picker_element = $('#parent-selector-tree-'+this.group_id);
-    this.$selected_tags = this.$('.js-tags-selected');
-    this.$autocomplete_tags = this.$('.results-wrap');
+    this.$tree_picker_element       = $('#parent-selector-tree-'+this.group_id);
+    this.$browse_picker_element     = $('#parent-selector-browse-tree-'+this.group_id);
+    this.$selected_tags             = this.$('.js-tags-selected');
+    this.$autocomplete_tags         = this.$('.results-wrap');
 
-    this.$suggested_tags = this.$('.js-tags-suggested');
+    this.$suggested_tags            = this.$('.js-tags-suggested');
 
   };
 
@@ -365,7 +369,7 @@
 
   /**
    * Fetch autocomplete. Makes new ajax call only if search string changes.
-   * No return value. Makes call to after_fech_autocomplete on successful ajax call.
+   * No return value. Makes call to after_fetch_autocomplete on successful ajax call.
    * @param  {object} e Event object.
    */
   Base.prototype.fetch_autocomplete = function(e) {
@@ -388,6 +392,37 @@
     }, $.proxy(this.after_fetch_autocomplete, this));
 
     //$.get('autocomplete.json', $.proxy(this.after_fetch_autocomplete, this));
+  };
+
+  /**
+   * Indexes all tags.
+   * No return value. Makes call to after_fetch_autocomplete on successful ajax call.
+   */
+  Base.prototype.fetch_all_tags = function() {
+    var search_string = ''; // Empty string to fetch all tags
+
+    $.get(this.opts.autocompleteUrl, {
+      searchString: search_string,
+      subTreeLimit: this.opts.subtreeLimit,
+      hideRootTag: this.opts.hideRootTag,
+      locale: this.opts.locale
+    }, $.proxy(this.after_fetch_browse, this));
+  };
+
+  /**
+   * Fills autocomplete_tags property object with fetch tags. And than
+   * calls functions to render autocomplete tags and display autocomplete.
+   * @param  {object} data Object containing fetch tags.
+   */
+  Base.prototype.after_fetch_browse = function(data) {
+    var tags = data;
+    var self = this;
+    this.$autocomplete_tags.empty().parent().hide();
+
+    this.autocomplete_tags.clear();
+    $.each(tags, function(i, raw){
+      self.autocomplete_tags.add(self.parse_remote_tag(raw));
+    });
   };
 
   /**
@@ -526,6 +561,8 @@
    */
   Base.prototype.setup_events = function() {
     this.$add_button.on('click', $.proxy(this.handler_add_buton, this));
+    this.$browse_button.on('click', $.proxy(this.handler_browse_buton, this));
+    this.$browse_picker_element.on('click', 'li[role="treeitem"] .jstree-anchor', $.proxy(this.handler_browse_tag, this));
     this.$el.on('click', '.js-tags-remove', $.proxy(this.handler_remove_buton, this));
     this.$el.on('click', '.js-suggested-item', $.proxy(this.handler_suggested_tag, this));
     this.$el.on('click', '.js-autocomplete-item', $.proxy(this.handler_autocomplete_tag, this));
@@ -548,6 +585,56 @@
     e.preventDefault();
     var tag = this.autocomplete_tags.find($(e.target).closest('[data-cid]').data('cid'));
     this.add(tag);
+  };
+
+  /**
+   * Adds tag user clicks on autocomplete list.
+   * @param  {object} e jQuery click event object.
+   */
+  Base.prototype.handler_browse_tag = function(e){
+    e.preventDefault();
+    var tagId = $(e.target).closest('li[role="treeitem"]').attr('id');
+    var tag = this.autocomplete_tags.indexed[tagId];
+
+    if (this.tag_is_selected(tag)) {
+      return;
+    }
+
+    this.add(tag);
+  };
+
+  /**
+   * Check if the tag is already selected
+   * @param  {object} tag The tag object
+   */
+  Base.prototype.tag_is_selected = function(selectedTag){
+    var self = this;
+    $.map(this.tags.items, function(tag){
+      if (tag.id == selectedTag.id) {
+        self.show_tag_selected(tag);
+        return true;
+      }
+    });
+
+    return false;
+  };
+
+  /**
+   * Adds warning message in the JQM modal
+   * already been added
+   * @param  {object} tag The tag object
+   */
+  Base.prototype.show_tag_selected = function(tag){
+    var $jqm = this.$browse_picker_element.find('.jqmdBC');
+
+    // This does not support translations.
+    var $message = $('<div>').addClass('message').text('The tag "' + tag.name + '" is already added');
+    $jqm.append($message);
+
+    // Hides the message after 3 seconds
+    setTimeout(function(){
+      $message.fadeOut();
+    }, 3000);
   };
 
   /**
@@ -615,6 +702,14 @@
   };
 
   /**
+   * Handles browsing tags on button click.
+   */
+  Base.prototype.handler_browse_buton = function() {
+    this.fetch_all_tags();
+    this.show_browse_tree_picker();
+  };
+
+  /**
    * Handles tag removal on button click.
    * @param  {object} e jQuery event object on click event.
    * @return {object}   Tag that was removed.
@@ -632,6 +727,14 @@
 
   Base.prototype.hide_tree_picker = function() {
     this.$tree_picker_element.jqmHide();
+  };
+
+  Base.prototype.show_browse_tree_picker = function() {
+    this.$browse_picker_element.jqmShow();
+  };
+
+  Base.prototype.hide_browse_tree_picker = function() {
+    this.$browse_picker_element.jqmHide();
   };
 
 
@@ -653,8 +756,27 @@
       }
     });
 
-    this.setup_tree_picker_dragging();
+    this.$browse_picker_element.jqm({
+      modal:true,
+      overlay:60,
+      overlayClass: 'whiteOverlay',
+      onShow: function(hash){
+        self.tree_picker_open = true;
+        $.jqm.params.onShow.apply(this, arguments);
+        hash.o.insertAfter(self.$browse_picker_element);
+      },
+      onHide: function(hash){
+        self.tree_picker_open = false;
+        $.jqm.params.onHide.apply(this, arguments);
+      }
+    });
 
+    this.setup_browse_picker_dragging();
+
+  };
+
+  Base.prototype.setup_browse_picker_dragging = function() {
+    $.fn.draggable && this.$browse_picker_element.draggable({ handle: '.jqDrag' });
   };
 
   Base.prototype.setup_tree_picker_dragging = function() {

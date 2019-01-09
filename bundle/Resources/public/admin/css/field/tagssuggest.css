@@ -19,7 +19,9 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.ng-tags-input-ui button.button-add-tag {
+.ng-tags-input-ui button.button-add-tag,
+.ng-tags-input-ui input.button-browse-tag {
+    margin-right: 5px;
     color: #fff;
     background-color: #f15a10;
     border-color: #f15a10;
@@ -127,4 +129,13 @@ position:         absolute;
     display:inline-block;
     width:auto;
     margin:0 8px 8px 0;
+}
+
+.message {
+    color: #b58105;
+    background-color: #fff8db;
+    box-shadow: 0 0 0 1px #b58105 inset, 0 0 0 0 transparent;
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 13px;
 }
