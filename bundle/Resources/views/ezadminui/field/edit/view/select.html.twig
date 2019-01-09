@@ -1,1 +1,29 @@
 {# This file is intentionally left blank #}
+<div class="jqmDialog parent-selector-tree browse-tags" id="parent-selector-browse-tree-{{ field_definition.id }}">
+    <div class="jqmdIn">
+        <div class="jqmdTC">
+            <span class="jqmdTCLeft"></span>
+            <span class="jqDrag">Browse tags</span>
+            <span class="jqmdTCRight"></span>
+        </div>
+        <div class="jqmdBL">
+            <div class="jqmdBR">
+                <div class="jqmdBC">
+                    <div class="jqmdBCIn">
+                        <div class="tags-modal-tree">
+                            <div
+                                class="tags-tree"
+                                data-path="{{ path('netgen_tags_admin_tree_get_children', {tagId: '_tagId_'}) }}"
+                                data-rootTagId="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit }}"
+                                data-showRootTag="true"
+                                data-selectedTagPath=""
+                                data-disableSubtree=""
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="jqmdX jqmClose"></a>
+    </div>
+</div>

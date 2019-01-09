@@ -71,7 +71,9 @@
 	 * Open matching modals (if not shown)
 	 */
 	$.fn.jqmShow=function(trigger){
-		return this.each(function(){ !this._jqmShown&&show($(this), trigger); });
+		return this.each(function(){ 
+			!this._jqmShown&&show($(this), trigger); 
+		});
 	};
 	
 	/**
