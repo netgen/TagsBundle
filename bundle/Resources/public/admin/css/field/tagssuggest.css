@@ -20,7 +20,9 @@
 }
 
 .ng-tags-input-ui button.button-add-tag,
-.ng-tags-input-ui input.button-add-tag {
+.ng-tags-input-ui input.button-add-tag,
+.ng-tags-input-ui input.button-browse-tag {
+    margin-right: 5px;
     color: #fff;
     background-color: #f15a10;
     border-color: #f15a10;
@@ -44,7 +46,8 @@
 }
 
 .ng-tags-input-ui button.button-add-tag:not(.button-disabled):hover,
-.ng-tags-input-ui input.button-add-tag:not(.button-disabled):hover {
+.ng-tags-input-ui input.button-add-tag:not(.button-disabled):hover,
+.ng-tags-input-ui input.button-browse-tag:not(.button-disabled):hover {
     cursor: pointer;
 }
 
