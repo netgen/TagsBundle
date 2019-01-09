@@ -328,22 +328,22 @@
   Base.prototype.setup_ui = function() {
     this.render_skeleton();
 
-    this.$input                    = this.$('.tags-input-field');
-    this.$add_button               = this.$('.button-add-tag');
-    this.$browse_button            = this.$('.button-browse-tag');
+    this.$input                     = this.$('.tags-input-field');
+    this.$add_button                = this.$('.button-add-tag');
+    this.$browse_button             = this.$('.button-browse-tag');
 
-    this.$hidden_inputs            = {};
-    this.$hidden_inputs.tagids     = this.$('.tagids');
-    this.$hidden_inputs.tagnames   = this.$('.tagnames');
-    this.$hidden_inputs.tagpids    = this.$('.tagpids');
-    this.$hidden_inputs.taglocales = this.$('.taglocales');
+    this.$hidden_inputs             = {};
+    this.$hidden_inputs.tagids      = this.$('.tagids');
+    this.$hidden_inputs.tagnames    = this.$('.tagnames');
+    this.$hidden_inputs.tagpids     = this.$('.tagpids');
+    this.$hidden_inputs.taglocales  = this.$('.taglocales');
 
-    this.$tree_picker_element = $('#parent-selector-tree-'+this.group_id);
-    this.$browse_picker_element = $('#parent-selector-browse-tree-'+this.group_id);
-    this.$selected_tags = this.$('.js-tags-selected');
-    this.$autocomplete_tags = this.$('.results-wrap');
+    this.$tree_picker_element       = $('#parent-selector-tree-'+this.group_id);
+    this.$browse_picker_element     = $('#parent-selector-browse-tree-'+this.group_id);
+    this.$selected_tags             = this.$('.js-tags-selected');
+    this.$autocomplete_tags         = this.$('.results-wrap');
 
-    this.$suggested_tags = this.$('.js-tags-suggested');
+    this.$suggested_tags            = this.$('.js-tags-suggested');
 
   };
 
@@ -562,7 +562,7 @@
   Base.prototype.setup_events = function() {
     this.$add_button.on('click', $.proxy(this.handler_add_buton, this));
     this.$browse_button.on('click', $.proxy(this.handler_browse_buton, this));
-    this.$browse_picker_element.on('click', 'li[role="treeitem"]', $.proxy(this.handler_browse_tag, this));
+    this.$browse_picker_element.on('click', 'li[role="treeitem"] .jstree-anchor', $.proxy(this.handler_browse_tag, this));
     this.$el.on('click', '.js-tags-remove', $.proxy(this.handler_remove_buton, this));
     this.$el.on('click', '.js-suggested-item', $.proxy(this.handler_suggested_tag, this));
     this.$el.on('click', '.js-autocomplete-item', $.proxy(this.handler_autocomplete_tag, this));
@@ -595,7 +595,46 @@
     e.preventDefault();
     var tagId = $(e.target).closest('li[role="treeitem"]').attr('id');
     var tag = this.autocomplete_tags.indexed[tagId];
+
+    if (this.tag_is_selected(tag)) {
+      return;
+    }
+
     this.add(tag);
+  };
+
+  /**
+   * Check if the tag is already selected
+   * @param  {object} tag The tag object
+   */
+  Base.prototype.tag_is_selected = function(selectedTag){
+    var self = this;
+    $.map(this.tags.items, function(tag){
+      if (tag.id == selectedTag.id) {
+        self.show_tag_selected(tag);
+        return true;
+      }
+    });
+
+    return false;
+  };
+
+  /**
+   * Adds warning message in the JQM modal
+   * already been added
+   * @param  {object} tag The tag object
+   */
+  Base.prototype.show_tag_selected = function(tag){
+    var $jqm = this.$browse_picker_element.find('.jqmdBC');
+
+    // This does not support translations.
+    var $message = $('<div>').addClass('message').text('The tag "' + tag.name + '" is already added');
+    $jqm.append($message);
+
+    // Hides the message after 3 seconds
+    setTimeout(function(){
+      $message.fadeOut();
+    }, 3000);
   };
 
   /**

@@ -137,3 +137,19 @@ position:         absolute;
     width:auto;
     margin:0 8px 8px 0;
 }
+
+.jqmDialog .jqmdBR {
+    position: relative;
+}
+
+.message {
+    color: #b58105;
+    background-color: #fff8db;
+    box-shadow: 0 0 0 1px #b58105 inset, 0 0 0 0 transparent;
+    padding: 5px 10px;
+    font-size: 13px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    z-index: 2;
+}
