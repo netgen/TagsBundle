@@ -1,60 +1,10 @@
 /* SUGGEST */
 
 .ng-tags-input-ui .tagssuggestfieldwrap {float:left; position:relative; width:300px; margin:0 6px 0 0; vertical-align:top;}
+.ng-tags-input-ui .tagssuggestfield {width:100%; height:20px; margin:0; padding:1px 0; position:relative;/* border:1px solid #A5ACB2;*/}
 .ng-tags-input-ui .tags-output {display:block;}
-.ng-tags-input-ui .tags-input {clear: both; display:inline-block;}
+.ng-tags-input-ui .tags-input {clear: both; display:block;}
 .ng-tags-input-ui fieldset .button-add-tag {margin:0;}
-
-.ng-tags-input-ui .tagssuggestfield {
-    position:relative;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #333333;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ededed;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.ng-tags-input-ui button.button-add-tag,
-.ng-tags-input-ui input.button-add-tag,
-.ng-tags-input-ui input.button-browse-tag {
-    margin-right: 5px;
-    color: #fff;
-    background-color: #f15a10;
-    border-color: #f15a10;
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    user-select: none;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.ng-tags-input-ui button.button-add-tag.button-disabled,
-.ng-tags-input-ui input.button-add-tag.button-disabled {
-    background-color: rgba(241, 90, 16, 0.7);
-}
-
-.ng-tags-input-ui button.button-add-tag:not(.button-disabled):hover,
-.ng-tags-input-ui input.button-add-tag:not(.button-disabled):hover,
-.ng-tags-input-ui input.button-browse-tag:not(.button-disabled):hover {
-    cursor: pointer;
-}
-
-.ng-tags-input-ui .tagssuggestfield:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(241, 90, 16, 0.25);
-}
 
 .ng-tags-input-ui .jsonSuggestResults {
     display: none;
