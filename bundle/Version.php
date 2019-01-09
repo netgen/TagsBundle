@@ -11,3 +11,4 @@ abstract class Version
     const RELEASE_VERSION = 0;
     const EXTRA_VERSION = 'DEV';
 }
+
