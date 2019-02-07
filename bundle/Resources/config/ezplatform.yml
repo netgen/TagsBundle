@@ -1,4 +1,7 @@
 system:
+    admin_group:
+        field_templates:
+            - {template: "@NetgenTags/admin/eztags_content_field.html.twig", priority: 1}
     default:
         field_templates:
             - {template: "@NetgenTags/eztags_content_field.html.twig", priority: 0}
