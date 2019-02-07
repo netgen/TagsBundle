@@ -42,7 +42,7 @@ class Configuration extends SiteAccessConfiguration
                     ->scalarNode('pagelayout')
                         ->info('Default pagelayout used in tag view page')
                         ->cannotBeEmpty()
-                        ->defaultValue('@eZDemo/pagelayout.html.twig')
+                        ->defaultValue('@ezdesign/pagelayout.html.twig')
                     ->end()
                     ->scalarNode('path_prefix')
                         ->info('Default path prefix to use when generating tag view links')
