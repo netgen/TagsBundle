@@ -7,6 +7,7 @@ use eZ\Publish\Core\Persistence\Cache\PersistenceLogger;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandlerInterface;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
@@ -33,19 +34,27 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
     public function load($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
         $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
-        $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
-        $cacheItem = $this->cache->getItem("netgen-tag-${tagId}-${translationsKey}-${alwaysAvailableKey}");
-        if ($cacheItem->isHit()) {
-            return $cacheItem->get();
-        }
+        $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
-        $tag = $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable);
-        $cacheItem->set($tag);
-        $cacheItem->tag($this->getCacheTags($tag->id, $tag->pathString));
-        $this->cache->save($cacheItem);
+        return $this->getCacheValue(
+            $tagId,
+            'netgen-tag-',
+            function ($tagId) use ($translations, $useAlwaysAvailable) {
+                return $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable);
+            },
+            static function (Tag $tag) {
+                $tags[] = 'tag-' . $tag->id;
+                foreach (\explode('/', trim($tag->pathString, '/')) as $pathId) {
+                    $tags[] = 'tag-path-' . $pathId;
+                }
 
-        return $tag;
+                return $tags;
+            },
+            static function (Tag $tag) use ($keySuffix) {
+                return array('netgen-tag-' . $tag->id . $keySuffix);
+            },
+            $keySuffix
+        );
     }
 
     public function loadTagInfo($tagId)
