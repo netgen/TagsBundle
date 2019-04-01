@@ -6,6 +6,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Closure;
 
 interface TagsService
 {
@@ -314,4 +315,27 @@ interface TagsService
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
      */
     public function newTagUpdateStruct();
+
+    /**
+     * Allows tags API execution to be performed with full access sand-boxed.
+     *
+     * The closure sandbox will do a catch all on exceptions and rethrow after
+     * re-setting the sudo flag.
+     *
+     * Example use:
+     *     $tag = $tagsService->sudo(
+     *         function (TagsService $tagsService) use ($tagId) {
+     *             return $tagsService->loadTag($tagId);
+     *         }
+     *     );
+     *
+     * @param \Closure $callback
+     * @param \Netgen\TagsBundle\API\Repository\TagsService $outerTagsService
+     *
+     * @throws \RuntimeException Thrown on recursive sudo() use
+     * @throws \Exception Re throws exceptions thrown inside $callback
+     *
+     * @return mixed
+     */
+    public function sudo(Closure $callback, TagsService $outerTagsService = null);
 }

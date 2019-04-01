@@ -506,29 +506,8 @@ class TagsService implements TagsServiceInterface
         return $this->service->newTagUpdateStruct();
     }
 
-    /**
-     * Allows tags API execution to be performed with full access sand-boxed.
-     *
-     * The closure sandbox will do a catch all on exceptions and rethrow after
-     * re-setting the sudo flag.
-     *
-     * Example use:
-     *     $tag = $tagsService->sudo(
-     *         function ( TagsService $tagsService ) use ( $tagId )
-     *         {
-     *             return $tagsService->loadTag( $tagId );
-     *         }
-     *     );
-     *
-     * @param \Closure $callback
-     *
-     * @throws \RuntimeException Thrown on recursive sudo() use
-     * @throws \Exception Re throws exceptions thrown inside $callback
-     *
-     * @return mixed
-     */
-    public function sudo(Closure $callback)
+    public function sudo(Closure $callback, TagsServiceInterface $outerTagsService = null)
     {
-        return $this->service->sudo($callback, $this);
+        return $this->service->sudo($callback, $outerTagsService !== null ? $outerTagsService : $this);
     }
 }
