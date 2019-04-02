@@ -1,8 +1,10 @@
+dist: trusty
+
 language: php
 
 cache:
     directories:
-        - vendor
+        - $HOME/.composer
 
 matrix:
     # mark as finished before allow_failures are run
@@ -16,37 +18,38 @@ matrix:
           env: CONFIG="phpunit.xml" COVERAGE="unit"
         - php: 7.2
           env: CONFIG="phpunit-integration-legacy.xml" COVERAGE="integration"
+        - php: 7.3
+          env: CONFIG="phpunit.xml" COVERAGE="unit"
+        - php: 7.3
+          env: CONFIG="phpunit-integration-legacy.xml" COVERAGE="integration"
 
 # test only master (+ pull requests)
 branches:
-  only:
-    - master
-    - 3.3-release
+    only:
+        - master
 
-# make sure to update composer to latest available version
-before_install:
-    - phpenv config-add travis.php.ini
-    - composer self-update
+before_script:
+    - phpenv config-rm xdebug.ini || true
+    - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
-# install dependencies
-# removing vendor/ocramius as generated versions can clash with install process due to usage of prefer-source
-install: rm -rf vendor/ocramius && travis_wait composer install --prefer-source
+    # Read-only OAuth token to work around GitHub API rate limits
+    - composer config -g github-oauth.github.com "4b3b0a83ea27d9544d3608a384c7a14625a98804"
+
+    - composer update --no-suggest --prefer-dist
 
 # execute phpunit as the script command
 script:
-  - ./vendor/bin/phpunit -d memory_limit=-1 --colors -c $CONFIG --coverage-clover=coverage.xml
+    - composer validate --strict
+    - ./vendor/bin/phpunit -d memory_limit=-1 --colors -c $CONFIG --coverage-clover=coverage.xml
 
 # disable mail notifications
-notification:
-  email: false
+notifications:
+    email: false
 
 # reduce depth (history) of git checkout
 git:
-  depth: 30
-
-# we don't need sudo
-sudo: false
+    depth: 1
 
 # send coverage to codecov.io
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -F $COVERAGE
+    - bash <(curl -s https://codecov.io/bash) -F $COVERAGE
