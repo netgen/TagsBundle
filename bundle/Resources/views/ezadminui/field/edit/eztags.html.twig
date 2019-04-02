@@ -3,7 +3,6 @@
     {% set field_value = form.parent.vars.value.value %}
     {% set field_definition = form.parent.vars.value.fieldDefinition %}
     {% set edit_view = field_definition.fieldSettings.editView|default('Default') %}
-    {% set select_view = 'Select' %}
 
     <div class="ng-tags-input-ui">
         <div class="eztags-wrapper">
@@ -29,14 +28,14 @@
 
             {% set edit_view_template = null %}
 
-            {% for view_config in ezpublish.configResolver.parameter('edit_views', 'eztags') %}
-                {% if view_config.identifier == edit_view %}
-                    {% set edit_view_template = view_config.template %}
+            {% for edit_view_config in ezpublish.configResolver.parameter('edit_views', 'eztags') %}
+                {% if edit_view_config.identifier == edit_view %}
+                    {% set edit_view_template = edit_view_config.template %}
                 {% endif %}
             {% endfor %}
 
             {% include edit_view_template ignore missing %}
-            {% include '@NetgenTags/ezadminui/field/browse/view/browse.html.twig' ignore missing %}
+            {% include '@NetgenTags/ezadminui/field/browse/view/browse.html.twig' %}
 
         </div>
     </div>
