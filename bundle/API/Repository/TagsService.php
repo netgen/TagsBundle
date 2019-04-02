@@ -25,6 +25,21 @@ interface TagsService
     public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true);
 
     /**
+     * Loads a tag object from array of $tagIds.
+     *
+     * Tags missing (NotFound), or not accessible (Unauthorized) to the current user will be filtered out from the
+     * returned array. As returned array has tag id's as keys, you can use array_keys + array_diff to get missing items
+     *
+     *
+     * @param array $tagIds
+     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     *
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] Key of array is the corresponding tag id
+     */
+    public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true);
+
+    /**
      * Loads a tag object from its $remoteId.
      *
      * @param string $remoteId

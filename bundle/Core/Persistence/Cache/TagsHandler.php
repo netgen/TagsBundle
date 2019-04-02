@@ -57,6 +57,32 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
         );
     }
 
+    public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true)
+    {
+        $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
+
+        return $this->getMultipleCacheValues(
+            $tagIds,
+            'netgen-tag-',
+            function ($tagId) use ($translations, $useAlwaysAvailable) {
+                return $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable);
+            },
+            static function (Tag $tag) {
+                $tags[] = 'tag-' . $tag->id;
+                foreach (\explode('/', trim($tag->pathString, '/')) as $pathId) {
+                    $tags[] = 'tag-path-' . $pathId;
+                }
+
+                return $tags;
+            },
+            static function (Tag $tag) use ($keySuffix) {
+                return array('netgen-tag-' . $tag->id . $keySuffix);
+            },
+            $keySuffix
+        );
+    }
+
     public function loadTagInfo($tagId)
     {
         $cacheItem = $this->cache->getItem("netgen-tag-info-${tagId}");

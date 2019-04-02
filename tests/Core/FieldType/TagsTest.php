@@ -4,7 +4,6 @@ namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
 use DateTime;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
 use eZ\Publish\Core\FieldType\ValidationError;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -29,23 +28,26 @@ class TagsTest extends FieldTypeTest
     /**
      * Returns values for TagsService::loadTag based on input value.
      *
-     * @param int $tagId
+     * @param array $tagIds
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function getTagsServiceLoadTagValues($tagId)
+    public function getTagsServiceLoadTagValues(array $tagIds)
     {
-        if ($tagId < 0 || $tagId === PHP_INT_MAX) {
-            throw new NotFoundException('tag', $tagId);
+        $tags = array();
+        foreach ($tagIds as $tagId) {
+            if ($tagId < 0 || $tagId === PHP_INT_MAX) {
+                continue;
+            }
+
+            $tags[$tagId] = new Tag(
+                array(
+                    'id' => $tagId,
+                )
+            );
         }
 
-        return new Tag(
-            array(
-                'id' => $tagId,
-            )
-        );
+        return $tags;
     }
 
     /**
@@ -576,7 +578,7 @@ class TagsTest extends FieldTypeTest
         $this->tagsService = $this->createMock(TagsService::class);
 
         $this->tagsService->expects($this->any())
-            ->method('loadTag')
+            ->method('loadTagList')
             ->will($this->returnCallback(array($this, 'getTagsServiceLoadTagValues')));
 
         $tagsType = new TagsType($this->tagsService);

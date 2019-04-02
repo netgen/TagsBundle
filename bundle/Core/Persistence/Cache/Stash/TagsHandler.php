@@ -49,6 +49,27 @@ class TagsHandler implements TagsHandlerInterface
         return $tag;
     }
 
+    public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true)
+    {
+        $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
+
+        $tags = array();
+        // Stash does not implement multi loading fully, so we iterate
+        foreach ($tagIds as $tagId) {
+            $cache = $this->cache->getItem('tag', $tagId, $translationsKey, $alwaysAvailableKey);
+            $tag = $cache->get();
+            if ($cache->isMiss()) {
+                $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+                $cache->set($tag = $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable))->save();
+            }
+
+            $tags[$tagId] = $tag;
+        }
+
+        return $tags;
+    }
+
     public function loadTagInfo($tagId)
     {
         $cache = $this->cache->getItem('tag', 'info', $tagId);

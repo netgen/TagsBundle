@@ -97,6 +97,24 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
+    {
+        if ($this->hasAccess('tags', 'read') === false) {
+            return array();
+        }
+
+        $spiTags = $this->tagsHandler->loadList(
+            $tagIds,
+            $languages,
+            $useAlwaysAvailable
+        );
+
+        return $this->buildTagDomainList($spiTags);
+    }
+
+    /**
      * Loads a tag object from its $remoteId.
      *
      * @param string $remoteId
@@ -1068,28 +1086,54 @@ class TagsService implements TagsServiceInterface
 
     protected function buildTagDomainObject(SPITag $spiTag)
     {
-        $languageCodes = array();
-        foreach ($spiTag->languageIds as $languageId) {
-            $languageCodes[] = $this->languageHandler->load($languageId)->languageCode;
+        return $this->buildTagDomainList(array($spiTag))[$spiTag->id];
+    }
+
+    protected function buildTagDomainList(array $spiTags)
+    {
+        // Optimization for 2.5+ to load all languages at once:
+        if (\method_exists($this->languageHandler, 'loadList')) {
+            $languageIds = array(array());
+            foreach ($spiTags as $spiTag) {
+                $languageIds[] = $spiTag->languageIds;
+            }
+
+            $languages = $this->languageHandler->loadList(\array_unique(\array_merge(...$languageIds)));
         }
 
-        $modificationDate = new DateTime();
-        $modificationDate->setTimestamp($spiTag->modificationDate);
+        $tags = array();
+        foreach ($spiTags as $spiTag) {
+            $languageCodes = array();
+            foreach ($spiTag->languageIds as $languageId) {
+                if (isset($languages[$languageId])) {
+                    // 2.5+
+                    $languageCodes[] = $languages[$languageId]->languageCode;
+                } elseif (!isset($languages)) {
+                    // @deprecated Compat code for eZ Platform 1.x
+                    $languageCodes[] = $this->languageHandler->load($languageId)->languageCode;
+                }
+            }
 
-        return new Tag(
-            array(
-                'id' => $spiTag->id,
-                'parentTagId' => $spiTag->parentTagId,
-                'mainTagId' => $spiTag->mainTagId,
-                'keywords' => $spiTag->keywords,
-                'depth' => $spiTag->depth,
-                'pathString' => $spiTag->pathString,
-                'modificationDate' => $modificationDate,
-                'remoteId' => $spiTag->remoteId,
-                'alwaysAvailable' => $spiTag->alwaysAvailable,
-                'mainLanguageCode' => $spiTag->mainLanguageCode,
-                'languageCodes' => $languageCodes,
-            )
-        );
+            $modificationDate = new DateTime();
+            $modificationDate->setTimestamp($spiTag->modificationDate);
+
+            $tags[$spiTag->id] = new Tag(
+                array(
+                    'id' => $spiTag->id,
+                    'parentTagId' => $spiTag->parentTagId,
+                    'mainTagId' => $spiTag->mainTagId,
+                    'keywords' => $spiTag->keywords,
+                    'depth' => $spiTag->depth,
+                    'pathString' => $spiTag->pathString,
+                    'modificationDate' => $modificationDate,
+                    'remoteId' => $spiTag->remoteId,
+                    'alwaysAvailable' => $spiTag->alwaysAvailable,
+                    'mainLanguageCode' => $spiTag->mainLanguageCode,
+                    'languageCodes' => $languageCodes,
+                )
+            );
+        }
+
+        return $tags;
     }
 }

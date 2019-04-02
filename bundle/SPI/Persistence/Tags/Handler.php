@@ -22,6 +22,19 @@ interface Handler
     public function load($tagId, array $translations = null, $useAlwaysAvailable = true);
 
     /**
+     * Loads a tag object from array of $tagIds.
+     *
+     * Tags missing (NotFound) will be filtered out from the returned array.
+     *
+     * @param array $tagIds
+     * @param array|null $translations A language filter for keywords. If not given all languages are returned
+     * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
+     *
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[] Key of array is the corresponding tag id
+     */
+    public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true);
+
+    /**
      * Loads a tag info object from its $tagId.
      *
      * @param mixed $tagId
