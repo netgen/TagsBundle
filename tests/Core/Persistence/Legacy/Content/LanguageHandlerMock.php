@@ -3,33 +3,33 @@
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content;
 
 use eZ\Publish\SPI\Persistence\Content\Language;
-use eZ\Publish\SPI\Persistence\Content\Language\CreateStruct;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Simple mock for a Language\Handler.
+ * Simple mock provider for a Language\Handler.
  */
-class LanguageHandlerMock implements LanguageHandler
+class LanguageHandlerMock
 {
     protected $languages = array();
 
     public function __construct()
     {
-        $this->languages[] = new Language(
+        $this->languages['eng-US'] = new Language(
             array(
                 'id' => 2,
                 'languageCode' => 'eng-US',
                 'name' => 'English (American)',
             )
         );
-        $this->languages[] = new Language(
+        $this->languages['ger-DE'] = new Language(
             array(
                 'id' => 4,
                 'languageCode' => 'ger-DE',
                 'name' => 'German',
             )
         );
-        $this->languages[] = new Language(
+        $this->languages['eng-GB'] = new Language(
             array(
                 'id' => 8,
                 'languageCode' => 'eng-GB',
@@ -38,88 +38,59 @@ class LanguageHandlerMock implements LanguageHandler
         );
     }
 
-    /**
-     * Create a new language.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\Language\CreateStruct $struct
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\Language
-     */
-    public function create(CreateStruct $struct)
+    public function __invoke(TestCase $testCase)
     {
-        throw new \RuntimeException('Not implemented, yet.');
-    }
+        $mock = $testCase->getMockBuilder(LanguageHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-    /**
-     * Update language.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\Language $struct
-     */
-    public function update(Language $struct)
-    {
-        throw new \RuntimeException('Not implemented, yet.');
-    }
+        $mock->expects($testCase::any())
+            ->method('load')
+            ->will(
+                $testCase::returnValueMap(
+                    [
+                        [2, $this->languages['eng-US']],
+                        [4, $this->languages['ger-DE']],
+                        [8, $this->languages['eng-GB']],
+                        ['2', $this->languages['eng-US']],
+                        ['4', $this->languages['ger-DE']],
+                        ['8', $this->languages['eng-GB']],
+                    ]
+                )
+            );
 
-    /**
-     * Get language by id.
-     *
-     * @param mixed $id
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language could not be found by $id
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\Language
-     */
-    public function load($id)
-    {
-        $id = (int) $id;
-        foreach ($this->languages as $language) {
-            if ($language->id === $id) {
-                return $language;
-            }
-        }
-        throw new \RuntimeException("Language $id not found.");
-    }
+        $mock->expects($testCase::any())
+            ->method('loadByLanguageCode')
+            ->will(
+                $testCase::returnValueMap(
+                    [
+                        ['eng-US', $this->languages['eng-US']],
+                        ['ger-DE', $this->languages['ger-DE']],
+                        ['eng-GB', $this->languages['eng-GB']],
+                    ]
+                )
+            );
 
-    /**
-     * Get language by Language Code (eg: eng-GB).
-     *
-     * @param string $languageCode
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\Language
-     */
-    public function loadByLanguageCode($languageCode)
-    {
-        foreach ($this->languages as $language) {
-            if ($language->languageCode === $languageCode) {
-                return $language;
-            }
-        }
-        throw new \RuntimeException("Language $languageCode not found.");
-    }
+        $mock->expects($testCase::any())
+            ->method('loadListByLanguageCodes')
+            ->will(
+                $testCase::returnCallback(
+                    function (array $languageCodes) {
+                        return iterator_to_array(
+                            (function () use ($languageCodes) {
+                                foreach ($languageCodes as $languageCode) {
+                                    yield $languageCode => $this->languages[$languageCode];
+                                }
+                            })()
+                        );
+                    }
+                )
+            );
 
-    /**
-     * Get all languages.
-     *
-     * Return list of languages where key of hash is language code.
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\Language[]
-     */
-    public function loadAll()
-    {
-        return $this->languages;
-    }
+        $mock->expects($testCase::any())
+            ->method('loadAll')
+            ->will($testCase::returnValue(array_values($this->languages)));
 
-    /**
-     * Delete a language.
-     *
-     * @todo Might throw an exception if the language is still associated with some content / types / (...) ?
-     *
-     * @param mixed $id
-     */
-    public function delete($id)
-    {
-        throw new \RuntimeException('Not implemented, yet.');
+        return $mock;
     }
 }

@@ -11,8 +11,8 @@
     convertWarningsToExceptions="true"
     forceCoversAnnotation="true"
     beStrictAboutOutputDuringTests="true"
-    beStrictAboutTestSize="true"
     beStrictAboutChangesToGlobalState="true"
+    beStrictAboutTestsThatDoNotTestAnything="false"
 >
 
     <testsuites>

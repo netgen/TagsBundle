@@ -1082,13 +1082,13 @@ class TagsHandlerTest extends TestCase
     {
         $this->gateway = $this->createMock(Gateway::class);
 
+        $languageHandlerMock = (new LanguageHandlerMock())($this);
+
         $this->mapper = $this->getMockBuilder(Mapper::class)
             ->setConstructorArgs(
                 array(
-                    new LanguageHandlerMock(),
-                    new MaskGenerator(
-                        new LanguageHandlerMock()
-                    ),
+                    $languageHandlerMock,
+                    new MaskGenerator($languageHandlerMock),
                 )
             )->getMock();
 

@@ -816,12 +816,12 @@ class DoctrineDatabaseTest extends TestCase
     {
         $dbHandler = $this->getDatabaseHandler();
 
+        $languageHandlerMock = (new LanguageHandlerMock())($this);
+
         return new DoctrineDatabase(
             $dbHandler,
-            new LanguageHandlerMock(),
-            new MaskGenerator(
-                new LanguageHandlerMock()
-            )
+            $languageHandlerMock,
+            new MaskGenerator($languageHandlerMock)
         );
     }
 }

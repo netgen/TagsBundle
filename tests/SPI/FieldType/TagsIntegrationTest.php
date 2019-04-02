@@ -130,7 +130,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
             new TagsStorage(
                 new TagsDoctrineStorage(
                     $this->handler->getConnection(),
-                    new LanguageHandlerMock()
+                    (new LanguageHandlerMock())($this)
                 ),
                 $this->tagsService
             )

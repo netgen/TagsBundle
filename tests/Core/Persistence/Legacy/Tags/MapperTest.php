@@ -160,11 +160,11 @@ class MapperTest extends TestCase
      */
     protected function getMapper()
     {
+        $languageHandlerMock = (new LanguageHandlerMock())($this);
+
         return new Mapper(
-            new LanguageHandlerMock(),
-            new MaskGenerator(
-                new LanguageHandlerMock()
-            )
+            $languageHandlerMock,
+            new MaskGenerator($languageHandlerMock)
         );
     }
 }
