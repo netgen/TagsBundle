@@ -28,19 +28,15 @@
             </div>
 
             {% set edit_view_template = null %}
-            {% set select_view_template = null %}
 
             {% for view_config in ezpublish.configResolver.parameter('edit_views', 'eztags') %}
                 {% if view_config.identifier == edit_view %}
                     {% set edit_view_template = view_config.template %}
                 {% endif %}
-                {% if view_config.identifier == select_view %}
-                    {% set select_view_template = view_config.template %}
-                {% endif %}
             {% endfor %}
 
             {% include edit_view_template ignore missing %}
-            {% include select_view_template ignore missing %}
+            {% include '@NetgenTags/ezadminui/field/browse/view/browse.html.twig' ignore missing %}
 
         </div>
     </div>
