@@ -60,6 +60,14 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
+    {
+        return $this->service->loadTagList($tagIds, $languages, $useAlwaysAvailable);
+    }
+
+    /**
      * Loads a tag object from its $remoteId.
      *
      * @param string $remoteId

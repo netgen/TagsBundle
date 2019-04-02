@@ -60,6 +60,23 @@ class Handler implements BaseTagsHandler
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true)
+    {
+        // @todo This can be optimized in the future by adding method on gateway to load several
+        $tags = array();
+        foreach ($tagIds as $tagId) {
+            $rows = $this->gateway->getFullTagData($tagId, $translations, $useAlwaysAvailable);
+            if (!empty($rows)) {
+                $tags[(int) $tagId] = $this->mapper->extractTagListFromRows($rows)[0];
+            }
+        }
+
+        return $tags;
+    }
+
+    /**
      * Loads a tag info object from its $tagId.
      *
      * @param mixed $tagId

@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use eZ\Publish\Core\FieldType\FieldType;
@@ -131,6 +130,18 @@ class Type extends FieldType
         }
 
         $tags = array();
+        $tagIds = array();
+        foreach ($hash as $hashItem) {
+            if (isset($hashItem['id'])) {
+                $tagIds[] = $hashItem['id'];
+            }
+        }
+
+        if (!empty($tagIds)) {
+            $loadedTags = $this->tagsService->loadTagList($tagIds);
+        } else {
+            $loadedTags = array();
+        }
 
         foreach ($hash as $hashItem) {
             if (!is_array($hashItem)) {
@@ -151,13 +162,10 @@ class Type extends FieldType
                             true,
                     )
                 );
-            } else {
-                try {
-                    $tags[] = $this->tagsService->loadTag($hashItem['id']);
-                } catch (NotFoundException $e) {
-                    // We ignore and do not load tags which do not exist
-                }
+            } elseif (isset($loadedTags[$hashItem['id']])) {
+                $tags[] = $loadedTags[$hashItem['id']];
             }
+            // We ignore tags which do not exist (missing in $loadedTags)
         }
 
         return new Value($tags);
@@ -307,19 +315,15 @@ class Type extends FieldType
                             );
                         }
 
-                        if ($value > 0) {
-                            try {
-                                $this->tagsService->loadTag($value);
-                            } catch (NotFoundException $e) {
-                                $validationErrors[] = new ValidationError(
-                                    "Validator parameter '%parameter%' value must be an existing tag ID",
-                                    null,
-                                    array(
-                                        '%parameter%' => $name,
-                                    ),
-                                    "[$validatorIdentifier][$name]"
-                                );
-                            }
+                        if ($value > 0 && !$this->tagsService->loadTagList(array($value))) {
+                            $validationErrors[] = new ValidationError(
+                                "Validator parameter '%parameter%' value must be an existing tag ID",
+                                null,
+                                array(
+                                    '%parameter%' => $name,
+                                ),
+                                "[$validatorIdentifier][$name]"
+                            );
                         }
                         break;
                     case 'maxTags':
