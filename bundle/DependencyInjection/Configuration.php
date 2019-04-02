@@ -40,7 +40,7 @@ class Configuration extends SiteAccessConfiguration
                         ->defaultValue('@NetgenTags/tag/view.html.twig')
                     ->end()
                     ->scalarNode('pagelayout')
-                        ->info('Default pagelayout used in tag view page')
+                        ->info('Default pagelayout used in tag view page. DEPRECATED in Tags Bundle 3.4 (and will be removed in 4.0) in favor of using the pagelayout configured in eZ Platform.')
                         ->cannotBeEmpty()
                         ->defaultValue('@eZDemo/pagelayout.html.twig')
                     ->end()
