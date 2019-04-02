@@ -27,6 +27,7 @@
             </div>
 
             {% set edit_view_template = null %}
+
             {% for edit_view_config in ezpublish.configResolver.parameter('edit_views', 'eztags') %}
                 {% if edit_view_config.identifier == edit_view %}
                     {% set edit_view_template = edit_view_config.template %}
@@ -34,6 +35,8 @@
             {% endfor %}
 
             {% include edit_view_template ignore missing %}
+            {% include '@NetgenTags/ezadminui/field/browse/view/browse.html.twig' %}
+
         </div>
     </div>
 {% endblock %}

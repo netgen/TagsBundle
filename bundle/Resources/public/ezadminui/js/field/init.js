@@ -21,6 +21,7 @@
       addTranslation: 'Add translation',
       cancel: 'Cancel',
       ok: 'OK',
+      browse: 'Browse',
     };
   };
 

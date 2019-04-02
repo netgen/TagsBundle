@@ -34,6 +34,7 @@ parameters:
 
     # Setting that will hold all available edit views
     eztags.default.edit_views: {}
+    eztags.default.browse_views: {}
 
     # Default pagelayout template for admin interface
     eztags.default.admin.pagelayout: '@@NetgenTags/admin/pagelayout.html.twig'
