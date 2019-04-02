@@ -5,7 +5,7 @@ Netgen Tags Bundle 3.3 changelog
 ------------------
 
 * Added styles for tags input in eZ Platform Admin UI (thanks @JorgenSolli)
-* `TagsService::sudo()` is not part of the public API
+* `TagsService::sudo()` is no2 part of the public API
 
 3.3.3 (14.11.2018)
 ------------------
