@@ -2,11 +2,11 @@
 
 namespace Netgen\TagsBundle\API\Repository;
 
+use Closure;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
-use Closure;
 
 interface TagsService
 {
@@ -337,5 +337,5 @@ interface TagsService
      *
      * @return mixed
      */
-    public function sudo(Closure $callback, TagsService $outerTagsService = null);
+    public function sudo(Closure $callback, self $outerTagsService = null);
 }

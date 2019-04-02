@@ -48,14 +48,14 @@ class LanguageHandlerMock
             ->method('load')
             ->will(
                 $testCase::returnValueMap(
-                    [
-                        [2, $this->languages['eng-US']],
-                        [4, $this->languages['ger-DE']],
-                        [8, $this->languages['eng-GB']],
-                        ['2', $this->languages['eng-US']],
-                        ['4', $this->languages['ger-DE']],
-                        ['8', $this->languages['eng-GB']],
-                    ]
+                    array(
+                        array(2, $this->languages['eng-US']),
+                        array(4, $this->languages['ger-DE']),
+                        array(8, $this->languages['eng-GB']),
+                        array('2', $this->languages['eng-US']),
+                        array('4', $this->languages['ger-DE']),
+                        array('8', $this->languages['eng-GB']),
+                    )
                 )
             );
 
@@ -63,11 +63,11 @@ class LanguageHandlerMock
             ->method('loadByLanguageCode')
             ->will(
                 $testCase::returnValueMap(
-                    [
-                        ['eng-US', $this->languages['eng-US']],
-                        ['ger-DE', $this->languages['ger-DE']],
-                        ['eng-GB', $this->languages['eng-GB']],
-                    ]
+                    array(
+                        array('eng-US', $this->languages['eng-US']),
+                        array('ger-DE', $this->languages['ger-DE']),
+                        array('eng-GB', $this->languages['eng-GB']),
+                    )
                 )
             );
 
