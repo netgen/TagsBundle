@@ -337,7 +337,7 @@ class DoctrineDatabase extends Gateway
                 $tagIds
             )
         );
-        $query->orderBy('eztags.keyword', 'ASC');
+        $query->orderBy('eztags_keyword.keyword', 'ASC');
 
         $statement = $query->prepare();
         $statement->execute();
