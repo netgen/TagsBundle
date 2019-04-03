@@ -47,13 +47,6 @@ netgen_tags:
     resource: "@NetgenTagsBundle/Resources/config/routing.yml"
 ```
 
-Add the bundle to Assetic configuration in `app/config/config.yml`, together with `EzPlatformAdminUiBundle` and all other bundles already configured there:
-
-```
-assetic:
-    bundles: [EzPlatformAdminUiBundle, NetgenTagsBundle]
-```
-
 ### Import database tables
 
 Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Platform database:
@@ -74,6 +67,14 @@ Clear the eZ Platform caches with the following command:
 
 ```bash
 $ php bin/console cache:clear
+```
+
+### Install assets
+
+Run the following to correctly install assets for admin UI:
+
+```bash
+$ php bin/console assets:install --symlink --relative
 ```
 
 ### Edit Varnish 4+ configuration (optional but recommended)
