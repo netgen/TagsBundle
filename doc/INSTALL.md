@@ -6,11 +6,6 @@ Requirements
 
 * eZ Platform 1.11+ / 2.0+
 
-Optional requirements
----------------------
-
-* eZ Publish Legacy Stack with legacy eZ Tags 2.1 installed and configured, to enable editing `eztags` attributes in legacy admin interface
-
 Installation steps
 ------------------
 
@@ -59,7 +54,7 @@ PostgreSQL variant of the above schema file is also available at `vendor/netgen/
 
 ### Update Anonymous Role permissions
 
-Give 'Read' permisions to the 'Tags' module for the Anonymous Role.
+Give 'Read' permisions to the 'Tags' module for the `Anonymous` role.
 
 ### Clear the caches
 
