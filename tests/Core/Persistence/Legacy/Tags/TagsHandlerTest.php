@@ -332,7 +332,7 @@ class TagsHandlerTest extends TestCase
 
         $tagsCount = $this->tagsHandler->getChildrenCount(42);
 
-        self::assertEquals(3, $tagsCount);
+        self::assertSame(3, $tagsCount);
     }
 
     /**
@@ -402,7 +402,7 @@ class TagsHandlerTest extends TestCase
 
         $tagsCount = $this->tagsHandler->getTagsByKeywordCount('eztags', 'eng-GB');
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -475,7 +475,7 @@ class TagsHandlerTest extends TestCase
 
         $tagsCount = $this->tagsHandler->getSynonymCount(42);
 
-        self::assertEquals(3, $tagsCount);
+        self::assertSame(3, $tagsCount);
     }
 
     /**

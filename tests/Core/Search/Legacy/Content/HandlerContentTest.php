@@ -239,7 +239,7 @@ class HandlerContentTest extends LanguageAwareTestCase
 
         sort($result);
 
-        self::assertEquals($expectedIds, $result);
+        self::assertSame($expectedIds, $result);
     }
 
     /**

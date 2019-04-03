@@ -92,7 +92,7 @@ class TagKeywordTest extends TestCase
             ->expects(self::never())
             ->method('getSearchableFieldMap');
 
-        self::assertEquals(
+        self::assertSame(
             '(tags_field_s:"tag1" OR tags_field_s:"tag2" OR tags_field2_s:"tag1" OR tags_field2_s:"tag2")',
             $this->visitor->visit($criterion)
         );
@@ -160,7 +160,7 @@ class TagKeywordTest extends TestCase
                 )
             );
 
-        self::assertEquals(
+        self::assertSame(
             '(news_tags_field_s:"tag1" OR news_tags_field_s:"tag2" OR article_tags_field2_s:"tag1" OR article_tags_field2_s:"tag2")',
             $this->visitor->visit($criterion)
         );

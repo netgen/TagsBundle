@@ -76,7 +76,7 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
 
     public function testGetSubscribedEventShouldReturnValidConfiguration()
     {
-        self::assertEquals([KernelEvents::REQUEST => 'onKernelRequest'], SetAdminPageLayoutRequestListener::getSubscribedEvents());
+        self::assertSame([KernelEvents::REQUEST => 'onKernelRequest'], SetAdminPageLayoutRequestListener::getSubscribedEvents());
     }
 
     public function testIsMasterRequestFalse()

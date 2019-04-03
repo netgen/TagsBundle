@@ -33,7 +33,7 @@ class AdminGlobalVariableTest extends TestCase
         self::assertNull($this->adminGlobalVariable->getPageLayoutTemplate());
 
         $this->adminGlobalVariable->setPageLayoutTemplate($this->template);
-        self::assertEquals($this->template, $this->adminGlobalVariable->getPageLayoutTemplate());
+        self::assertSame($this->template, $this->adminGlobalVariable->getPageLayoutTemplate());
 
         $this->adminGlobalVariable->setPageLayoutTemplate();
         self::assertNull($this->adminGlobalVariable->getPageLayoutTemplate());

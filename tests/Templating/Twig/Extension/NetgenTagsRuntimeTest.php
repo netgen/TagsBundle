@@ -110,7 +110,7 @@ class NetgenTagsRuntimeTest extends TestCase
             ->with($this->tag)
             ->willReturn($translated);
 
-        self::assertEquals($translated, $this->runtime->getTagKeyword(1));
+        self::assertSame($translated, $this->runtime->getTagKeyword(1));
     }
 
     public function testGetTagKeywordWithTagArgument()
@@ -125,7 +125,7 @@ class NetgenTagsRuntimeTest extends TestCase
             ->with($this->tag)
             ->willReturn($translated);
 
-        self::assertEquals($translated, $this->runtime->getTagKeyword($this->tag));
+        self::assertSame($translated, $this->runtime->getTagKeyword($this->tag));
     }
 
     public function testGetLanguageName()
@@ -145,7 +145,7 @@ class NetgenTagsRuntimeTest extends TestCase
 
         $name = $this->runtime->getLanguageName($language->languageCode);
 
-        self::assertEquals($language->name, $name);
+        self::assertSame($language->name, $name);
     }
 
     public function testGetContentTypeNameWithNotFoundException()
@@ -169,7 +169,7 @@ class NetgenTagsRuntimeTest extends TestCase
             ->with($contentType)
             ->willReturn($this->contentType);
 
-        self::assertEquals('Translated name', $this->runtime->getContentTypeName('content_type'));
+        self::assertSame('Translated name', $this->runtime->getContentTypeName('content_type'));
     }
 
     public function testGetContentTypeNameWithContentTypeAsArgument()
@@ -177,6 +177,6 @@ class NetgenTagsRuntimeTest extends TestCase
         $this->contentTypeService->expects(self::never())
             ->method('loadContentType');
 
-        self::assertEquals('Translated name', $this->runtime->getContentTypeName($this->contentType));
+        self::assertSame('Translated name', $this->runtime->getContentTypeName($this->contentType));
     }
 }

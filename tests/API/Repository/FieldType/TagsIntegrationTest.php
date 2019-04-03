@@ -8,8 +8,9 @@ use eZ\Publish\API\Repository\Values\Content\Field;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
-use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
+use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Constraint\TraversableContains;
 use stdClass;
 
 /**
@@ -147,16 +148,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertFieldDataLoadedCorrect(Field $field)
     {
         self::assertInstanceOf(
-            Value::class,
+            TagsValue::class,
             $field->value
         );
 
-        self::assertEquals(
-            [
-                $this->getTag1(),
-            ],
-            $field->value->tags
-        );
+        self::assertCount(1, $field->value->tags);
+        self::assertContainsEquals($this->getTag1(), $field->value->tags);
     }
 
     /**
@@ -230,17 +227,13 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
         self::assertInstanceOf(
-            Value::class,
+            TagsValue::class,
             $field->value
         );
 
-        self::assertEquals(
-            [
-                $this->getTag2(),
-                $this->getTag3(),
-            ],
-            $field->value->tags
-        );
+        self::assertCount(2, $field->value->tags);
+        self::assertContainsEquals($this->getTag2(), $field->value->tags);
+        self::assertContainsEquals($this->getTag3(), $field->value->tags);
     }
 
     /**
@@ -280,16 +273,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
         self::assertInstanceOf(
-            Value::class,
+            TagsValue::class,
             $field->value
         );
 
-        self::assertEquals(
-            [
-                $this->getTag1(),
-            ],
-            $field->value->tags
-        );
+        self::assertCount(1, $field->value->tags);
+        self::assertContainsEquals($this->getTag1(), $field->value->tags);
     }
 
     /**
@@ -415,6 +404,24 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getFieldName()
     {
         return 'eztags';
+    }
+
+    /**
+     * @param mixed $needle
+     * @param iterable $haystack
+     * @param string $message
+     */
+    public static function assertContainsEquals($needle, iterable $haystack, string $message = ''): void
+    {
+        if (method_exists(Assert::class, 'assertContainsEquals')) {
+            Assert::assertContainsEquals($needle, $haystack, $message);
+
+            return;
+        }
+
+        $constraint = new TraversableContains($needle, false, false);
+
+        Assert::assertThat($haystack, $constraint, $message);
     }
 
     /**

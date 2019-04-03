@@ -91,7 +91,7 @@ class TagIdTest extends TestCase
             ->expects(self::never())
             ->method('getSearchableFieldMap');
 
-        self::assertEquals(
+        self::assertSame(
             '(tags_field_s:"42" OR tags_field_s:"43" OR tags_field2_s:"42" OR tags_field2_s:"43")',
             $this->visitor->visit($criterion)
         );
@@ -159,7 +159,7 @@ class TagIdTest extends TestCase
                 )
             );
 
-        self::assertEquals(
+        self::assertSame(
             '(news_tags_field_s:"42" OR news_tags_field_s:"43" OR article_tags_field2_s:"42" OR article_tags_field2_s:"43")',
             $this->visitor->visit($criterion)
         );

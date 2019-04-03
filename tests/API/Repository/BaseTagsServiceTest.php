@@ -339,7 +339,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         foreach ($children as $child) {
             self::assertInstanceOf(Tag::class, $child);
-            self::assertEquals($tag->id, $child->parentTagId);
+            self::assertSame($tag->id, $child->parentTagId);
         }
     }
 
@@ -356,7 +356,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         foreach ($children as $child) {
             self::assertInstanceOf(Tag::class, $child);
-            self::assertEquals(0, $child->parentTagId);
+            self::assertSame(0, $child->parentTagId);
         }
     }
 
@@ -385,7 +385,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $tag = $this->tagsService->loadTag(16)
         );
 
-        self::assertEquals(6, $childrenCount);
+        self::assertSame(6, $childrenCount);
     }
 
     /**
@@ -396,7 +396,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $childrenCount = $this->tagsService->getTagChildrenCount();
 
-        self::assertEquals(9, $childrenCount);
+        self::assertSame(9, $childrenCount);
     }
 
     /**
@@ -427,7 +427,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         foreach ($tags as $tag) {
             self::assertInstanceOf(Tag::class, $tag);
-            self::assertEquals(['eng-GB' => 'eztags'], $tag->keywords);
+            self::assertSame(['eng-GB' => 'eztags'], $tag->keywords);
         }
     }
 
@@ -450,7 +450,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $tagsCount = $this->tagsService->getTagsByKeywordCount('eztags', 'eng-GB');
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -478,7 +478,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         foreach ($synonyms as $synonym) {
             self::assertInstanceOf(Tag::class, $synonym);
-            self::assertEquals($tag->id, $synonym->mainTagId);
+            self::assertSame($tag->id, $synonym->mainTagId);
         }
     }
 
@@ -520,7 +520,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $this->tagsService->loadTag(16)
         );
 
-        self::assertEquals(2, $synonymsCount);
+        self::assertSame(2, $synonymsCount);
     }
 
     /**
@@ -619,7 +619,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $this->tagsService->loadTag(16)
         );
 
-        self::assertEquals(3, $contentCount);
+        self::assertSame(3, $contentCount);
     }
 
     /**
@@ -632,7 +632,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $this->tagsService->loadTag(42)
         );
 
-        self::assertEquals(0, $contentCount);
+        self::assertSame(0, $contentCount);
     }
 
     /**
@@ -1086,10 +1086,10 @@ abstract class BaseTagsServiceTest extends BaseTest
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp());
 
         $synonymsCount = $this->tagsService->getTagSynonymCount($mainTag);
-        self::assertEquals(3, $synonymsCount);
+        self::assertSame(3, $synonymsCount);
 
         $childrenCount = $this->tagsService->getTagChildrenCount($mainTag);
-        self::assertEquals(6, $childrenCount);
+        self::assertSame(6, $childrenCount);
     }
 
     /**
@@ -1218,10 +1218,10 @@ abstract class BaseTagsServiceTest extends BaseTest
         }
 
         $relatedObjectsCount = $this->tagsService->getRelatedContentCount($targetTag);
-        self::assertEquals(3, $relatedObjectsCount);
+        self::assertSame(3, $relatedObjectsCount);
 
         $childrenCount = $this->tagsService->getTagChildrenCount($targetTag);
-        self::assertEquals(6, $childrenCount);
+        self::assertSame(6, $childrenCount);
     }
 
     /**
@@ -1487,9 +1487,9 @@ abstract class BaseTagsServiceTest extends BaseTest
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp());
 
         foreach ($this->tagsService->loadTagSynonyms($movedTag) as $synonym) {
-            self::assertEquals($targetParentTag->id, $synonym->parentTagId);
-            self::assertEquals($targetParentTag->depth + 1, $synonym->depth);
-            self::assertEquals($targetParentTag->pathString . $synonym->id . '/', $synonym->pathString);
+            self::assertSame($targetParentTag->id, $synonym->parentTagId);
+            self::assertSame($targetParentTag->depth + 1, $synonym->depth);
+            self::assertSame($targetParentTag->pathString . $synonym->id . '/', $synonym->pathString);
         }
     }
 

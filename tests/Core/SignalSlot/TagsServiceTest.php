@@ -65,7 +65,7 @@ class TagsServiceTest extends TestCase
         $tag = $signalSlotService->loadTag(42);
 
         self::assertInstanceOf(Tag::class, $tag);
-        self::assertEquals(42, $tag->id);
+        self::assertSame(42, $tag->id);
     }
 
     /**
@@ -87,7 +87,7 @@ class TagsServiceTest extends TestCase
         $tag = $signalSlotService->loadTagByRemoteId('12345');
 
         self::assertInstanceOf(Tag::class, $tag);
-        self::assertEquals('12345', $tag->remoteId);
+        self::assertSame('12345', $tag->remoteId);
     }
 
     /**
@@ -109,7 +109,7 @@ class TagsServiceTest extends TestCase
         $tag = $signalSlotService->loadTagByUrl('Netgen/TagsBundle', ['eng-GB']);
 
         self::assertInstanceOf(Tag::class, $tag);
-        self::assertEquals(['eng-GB' => 'TagsBundle'], $tag->keywords);
+        self::assertSame(['eng-GB' => 'TagsBundle'], $tag->keywords);
     }
 
     /**
@@ -137,7 +137,7 @@ class TagsServiceTest extends TestCase
 
         foreach ($tags as $tag) {
             self::assertInstanceOf(Tag::class, $tag);
-            self::assertEquals(42, $tag->parentTagId);
+            self::assertSame(42, $tag->parentTagId);
         }
     }
 
@@ -155,7 +155,7 @@ class TagsServiceTest extends TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tagsCount = $signalSlotService->getTagChildrenCount(new Tag(['id' => 42]));
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -183,7 +183,7 @@ class TagsServiceTest extends TestCase
 
         foreach ($tags as $tag) {
             self::assertInstanceOf(Tag::class, $tag);
-            self::assertEquals(['eng-GB' => 'netgen'], $tag->keywords);
+            self::assertSame(['eng-GB' => 'netgen'], $tag->keywords);
         }
     }
 
@@ -201,7 +201,7 @@ class TagsServiceTest extends TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tagsCount = $signalSlotService->getTagsByKeywordCount('netgen', 'eng-GB');
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -229,7 +229,7 @@ class TagsServiceTest extends TestCase
 
         foreach ($tags as $tag) {
             self::assertInstanceOf(Tag::class, $tag);
-            self::assertEquals(42, $tag->mainTagId);
+            self::assertSame(42, $tag->mainTagId);
         }
     }
 
@@ -247,7 +247,7 @@ class TagsServiceTest extends TestCase
         $signalSlotService = $this->getSignalSlotService();
         $tagsCount = $signalSlotService->getTagSynonymCount(new Tag(['id' => 42]));
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -292,7 +292,7 @@ class TagsServiceTest extends TestCase
         $signalSlotService = $this->getSignalSlotService();
         $contentCount = $signalSlotService->getRelatedContentCount(new Tag(['id' => 42]));
 
-        self::assertEquals(2, $contentCount);
+        self::assertSame(2, $contentCount);
     }
 
     /**
@@ -346,10 +346,10 @@ class TagsServiceTest extends TestCase
 
         self::assertInstanceOf(Tag::class, $createdTag);
 
-        self::assertEquals(24, $createdTag->id);
-        self::assertEquals(42, $createdTag->parentTagId);
-        self::assertEquals(['eng-GB' => 'netgen'], $createdTag->keywords);
-        self::assertEquals('eng-GB', $createdTag->mainLanguageCode);
+        self::assertSame(24, $createdTag->id);
+        self::assertSame(42, $createdTag->parentTagId);
+        self::assertSame(['eng-GB' => 'netgen'], $createdTag->keywords);
+        self::assertSame('eng-GB', $createdTag->mainLanguageCode);
         self::assertTrue($createdTag->alwaysAvailable);
     }
 
@@ -385,7 +385,7 @@ class TagsServiceTest extends TestCase
                         [
                             'id' => 42,
                             'keywords' => ['eng-GB' => 'netgen'],
-                            'remoteId' => 123456,
+                            'remoteId' => '123456',
                             'mainLanguageCode' => 'eng-GB',
                             'alwaysAvailable' => true,
                         ]
@@ -415,10 +415,10 @@ class TagsServiceTest extends TestCase
 
         self::assertInstanceOf(Tag::class, $updatedTag);
 
-        self::assertEquals(42, $updatedTag->id);
-        self::assertEquals(['eng-GB' => 'netgen'], $updatedTag->keywords);
-        self::assertEquals('123456', $updatedTag->remoteId);
-        self::assertEquals('eng-GB', $updatedTag->mainLanguageCode);
+        self::assertSame(42, $updatedTag->id);
+        self::assertSame(['eng-GB' => 'netgen'], $updatedTag->keywords);
+        self::assertSame('123456', $updatedTag->remoteId);
+        self::assertSame('eng-GB', $updatedTag->mainLanguageCode);
         self::assertTrue($updatedTag->alwaysAvailable);
     }
 
@@ -477,10 +477,10 @@ class TagsServiceTest extends TestCase
 
         self::assertInstanceOf(Tag::class, $synonym);
 
-        self::assertEquals(24, $synonym->id);
-        self::assertEquals(42, $synonym->mainTagId);
-        self::assertEquals(['eng-GB' => 'netgenlabs'], $synonym->keywords);
-        self::assertEquals('eng-GB', $synonym->mainLanguageCode);
+        self::assertSame(24, $synonym->id);
+        self::assertSame(42, $synonym->mainTagId);
+        self::assertSame(['eng-GB' => 'netgenlabs'], $synonym->keywords);
+        self::assertSame('eng-GB', $synonym->mainLanguageCode);
         self::assertTrue($synonym->alwaysAvailable);
     }
 
@@ -538,8 +538,8 @@ class TagsServiceTest extends TestCase
 
         self::assertInstanceOf(Tag::class, $synonym);
 
-        self::assertEquals(42, $synonym->id);
-        self::assertEquals(24, $synonym->mainTagId);
+        self::assertSame(42, $synonym->id);
+        self::assertSame(24, $synonym->mainTagId);
     }
 
     /**
@@ -642,9 +642,9 @@ class TagsServiceTest extends TestCase
 
         self::assertInstanceOf(Tag::class, $copiedTag);
 
-        self::assertEquals(42, $copiedTag->id);
-        self::assertEquals(25, $copiedTag->parentTagId);
-        self::assertEquals(['eng-GB' => 'netgen'], $copiedTag->keywords);
+        self::assertSame(42, $copiedTag->id);
+        self::assertSame(25, $copiedTag->parentTagId);
+        self::assertSame(['eng-GB' => 'netgen'], $copiedTag->keywords);
     }
 
     /**
@@ -701,8 +701,8 @@ class TagsServiceTest extends TestCase
 
         self::assertInstanceOf(Tag::class, $movedTag);
 
-        self::assertEquals(24, $movedTag->id);
-        self::assertEquals(25, $movedTag->parentTagId);
+        self::assertSame(24, $movedTag->id);
+        self::assertSame(25, $movedTag->parentTagId);
     }
 
     /**
@@ -759,8 +759,8 @@ class TagsServiceTest extends TestCase
         $tagCreateStruct = $signalSlotService->newTagCreateStruct(42, 'eng-GB');
 
         self::assertInstanceOf(TagCreateStruct::class, $tagCreateStruct);
-        self::assertEquals(42, $tagCreateStruct->parentTagId);
-        self::assertEquals('eng-GB', $tagCreateStruct->mainLanguageCode);
+        self::assertSame(42, $tagCreateStruct->parentTagId);
+        self::assertSame('eng-GB', $tagCreateStruct->mainLanguageCode);
     }
 
     /**
@@ -782,8 +782,8 @@ class TagsServiceTest extends TestCase
         $synonymCreateStruct = $signalSlotService->newSynonymCreateStruct(42, 'eng-GB');
 
         self::assertInstanceOf(SynonymCreateStruct::class, $synonymCreateStruct);
-        self::assertEquals(42, $synonymCreateStruct->mainTagId);
-        self::assertEquals('eng-GB', $synonymCreateStruct->mainLanguageCode);
+        self::assertSame(42, $synonymCreateStruct->mainTagId);
+        self::assertSame('eng-GB', $synonymCreateStruct->mainLanguageCode);
     }
 
     /**
@@ -822,7 +822,7 @@ class TagsServiceTest extends TestCase
         $signalSlotService = $this->getSignalSlotService();
         $value = $signalSlotService->sudo($callback);
 
-        self::assertEquals('some_value', $value);
+        self::assertSame('some_value', $value);
     }
 
     /**

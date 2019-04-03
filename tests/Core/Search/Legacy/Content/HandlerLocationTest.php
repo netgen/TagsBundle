@@ -231,7 +231,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
 
         sort($ids);
 
-        self::assertEquals($expectedIds, $ids);
+        self::assertSame($expectedIds, $ids);
     }
 
     /**

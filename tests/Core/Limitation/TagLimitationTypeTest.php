@@ -288,7 +288,7 @@ class TagLimitationTypeTest extends Base
 
         self::assertInstanceOf(TagLimitation::class, $value);
         self::assertInternalType('array', $value->limitationValues);
-        self::assertEquals($expected, $value->limitationValues);
+        self::assertSame($expected, $value->limitationValues);
     }
 
     /**
@@ -331,7 +331,7 @@ class TagLimitationTypeTest extends Base
         $value = $limitationType->evaluate($limitation, $this->userMock, $object);
 
         self::assertInternalType('boolean', $value);
-        self::assertEquals($expected, $value);
+        self::assertSame($expected, $value);
     }
 
     /**
@@ -395,8 +395,8 @@ class TagLimitationTypeTest extends Base
         self::assertInstanceOf(TagId::class, $criterion);
         self::assertInternalType('array', $criterion->value);
         self::assertInternalType('string', $criterion->operator);
-        self::assertEquals(Operator::EQ, $criterion->operator);
-        self::assertEquals([1], $criterion->value);
+        self::assertSame(Operator::EQ, $criterion->operator);
+        self::assertSame([1], $criterion->value);
     }
 
     /**
@@ -415,8 +415,8 @@ class TagLimitationTypeTest extends Base
         self::assertInstanceOf(TagId::class, $criterion);
         self::assertInternalType('array', $criterion->value);
         self::assertInternalType('string', $criterion->operator);
-        self::assertEquals(Operator::IN, $criterion->operator);
-        self::assertEquals([1, 2], $criterion->value);
+        self::assertSame(Operator::IN, $criterion->operator);
+        self::assertSame([1, 2], $criterion->value);
     }
 
     /**

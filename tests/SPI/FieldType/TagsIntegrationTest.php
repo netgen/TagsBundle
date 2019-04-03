@@ -209,7 +209,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertLoadedFieldDataCorrect(Field $field)
     {
-        self::assertEquals(
+        self::assertSame(
             $this->getInitialValue()->externalData,
             $field->value->externalData
         );
@@ -251,7 +251,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertUpdatedFieldDataCorrect(Field $field)
     {
-        self::assertEquals(
+        self::assertSame(
             $this->getUpdatedValue()->externalData,
             $field->value->externalData
         );

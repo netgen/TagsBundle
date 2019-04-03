@@ -54,7 +54,7 @@ class TagLimitationTest extends BaseLimitationTest
 
         /* END: Use Case */
 
-        self::assertEquals(
+        self::assertSame(
             'netgen',
             $createdTag->getKeyword('eng-GB')
         );

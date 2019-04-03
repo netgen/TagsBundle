@@ -68,15 +68,15 @@ class DoctrineDatabaseTest extends TestCase
     public static function getLoadTagValues()
     {
         return [
-            ['id', 40],
-            ['parent_id', 7],
-            ['main_tag_id', 0],
+            ['id', '40'],
+            ['parent_id', '7'],
+            ['main_tag_id', '0'],
             ['keyword', 'eztags'],
-            ['depth', 3],
+            ['depth', '3'],
             ['path_string', '/8/7/40/'],
-            ['modified', 1308153110],
+            ['modified', '1308153110'],
             ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['main_language_id', 8],
+            ['main_language_id', '8'],
             ['language_mask', '8'],
         ];
     }
@@ -87,15 +87,15 @@ class DoctrineDatabaseTest extends TestCase
     public static function getLoadFullTagValues()
     {
         return [
-            ['eztags_id', 40],
-            ['eztags_parent_id', 7],
-            ['eztags_main_tag_id', 0],
+            ['eztags_id', '40'],
+            ['eztags_parent_id', '7'],
+            ['eztags_main_tag_id', '0'],
             ['eztags_keyword', 'eztags'],
-            ['eztags_depth', 3],
+            ['eztags_depth', '3'],
             ['eztags_path_string', '/8/7/40/'],
-            ['eztags_modified', 1308153110],
+            ['eztags_modified', '1308153110'],
             ['eztags_remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['eztags_main_language_id', 8],
+            ['eztags_main_language_id', '8'],
             ['eztags_language_mask', '8'],
             ['eztags_keyword_keyword', 'eztags'],
             ['eztags_keyword_locale', 'eng-GB'],
@@ -114,7 +114,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getBasicTagData(40);
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[$field],
             "Value in property ${field} not as expected."
@@ -141,7 +141,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[$field],
             "Value in property ${field} not as expected."
@@ -169,7 +169,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagData(40);
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[0][$field],
             "Value in property ${field} not as expected."
@@ -183,7 +183,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagData(999);
 
-        self::assertEquals([], $data);
+        self::assertSame([], $data);
     }
 
     /**
@@ -198,7 +198,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagData(40, ['eng-GB'], false);
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[0][$field],
             "Value in property ${field} not as expected."
@@ -212,7 +212,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagData(40, ['cro-HR'], false);
 
-        self::assertEquals([], $data);
+        self::assertSame([], $data);
     }
 
     /**
@@ -227,7 +227,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[0][$field],
             "Value in property ${field} not as expected."
@@ -241,7 +241,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('unknown');
 
-        self::assertEquals([], $data);
+        self::assertSame([], $data);
     }
 
     /**
@@ -256,7 +256,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['eng-GB'], false);
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[0][$field],
             "Value in property ${field} not as expected."
@@ -270,7 +270,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['cro-HR'], false);
 
-        self::assertEquals([], $data);
+        self::assertSame([], $data);
     }
 
     /**
@@ -285,7 +285,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7);
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[0][$field],
             "Value in property ${field} not as expected."
@@ -299,7 +299,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('unknown', 999);
 
-        self::assertEquals([], $data);
+        self::assertSame([], $data);
     }
 
     /**
@@ -314,7 +314,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['eng-GB'], false);
 
-        self::assertEquals(
+        self::assertSame(
             $value,
             $data[0][$field],
             "Value in property ${field} not as expected."
@@ -328,7 +328,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['cro-HR'], false);
 
-        self::assertEquals([], $data);
+        self::assertSame([], $data);
     }
 
     /**
@@ -340,12 +340,12 @@ class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getChildren(16);
 
         self::assertCount(6, $data);
-        self::assertEquals(20, $data[0]['eztags_id']);
-        self::assertEquals(15, $data[1]['eztags_id']);
-        self::assertEquals(72, $data[2]['eztags_id']);
-        self::assertEquals(71, $data[3]['eztags_id']);
-        self::assertEquals(18, $data[4]['eztags_id']);
-        self::assertEquals(19, $data[5]['eztags_id']);
+        self::assertSame('20', $data[0]['eztags_id']);
+        self::assertSame('15', $data[1]['eztags_id']);
+        self::assertSame('72', $data[2]['eztags_id']);
+        self::assertSame('71', $data[3]['eztags_id']);
+        self::assertSame('18', $data[4]['eztags_id']);
+        self::assertSame('19', $data[5]['eztags_id']);
     }
 
     /**
@@ -356,7 +356,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getChildrenCount(16);
 
-        self::assertEquals(6, $tagsCount);
+        self::assertSame(6, $tagsCount);
     }
 
     /**
@@ -368,12 +368,12 @@ class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getChildren(16, 0, -1, ['eng-GB'], false);
 
         self::assertCount(6, $data);
-        self::assertEquals(20, $data[0]['eztags_id']);
-        self::assertEquals(15, $data[1]['eztags_id']);
-        self::assertEquals(72, $data[2]['eztags_id']);
-        self::assertEquals(71, $data[3]['eztags_id']);
-        self::assertEquals(18, $data[4]['eztags_id']);
-        self::assertEquals(19, $data[5]['eztags_id']);
+        self::assertSame('20', $data[0]['eztags_id']);
+        self::assertSame('15', $data[1]['eztags_id']);
+        self::assertSame('72', $data[2]['eztags_id']);
+        self::assertSame('71', $data[3]['eztags_id']);
+        self::assertSame('18', $data[4]['eztags_id']);
+        self::assertSame('19', $data[5]['eztags_id']);
     }
 
     /**
@@ -384,7 +384,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getChildrenCount(16, ['eng-GB'], false);
 
-        self::assertEquals(6, $tagsCount);
+        self::assertSame(6, $tagsCount);
     }
 
     /**
@@ -406,7 +406,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getChildrenCount(16, ['cro-HR'], false);
 
-        self::assertEquals(0, $tagsCount);
+        self::assertSame(0, $tagsCount);
     }
 
     /**
@@ -418,8 +418,8 @@ class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB');
 
         self::assertCount(2, $data);
-        self::assertEquals('eztags', $data[0]['eztags_keyword_keyword']);
-        self::assertEquals('eztags', $data[1]['eztags_keyword_keyword']);
+        self::assertSame('eztags', $data[0]['eztags_keyword_keyword']);
+        self::assertSame('eztags', $data[1]['eztags_keyword_keyword']);
     }
 
     /**
@@ -430,7 +430,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getTagsByKeywordCount('eztags', 'eng-GB');
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -442,8 +442,8 @@ class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB', false);
 
         self::assertCount(2, $data);
-        self::assertEquals('eztags', $data[0]['eztags_keyword_keyword']);
-        self::assertEquals('eztags', $data[1]['eztags_keyword_keyword']);
+        self::assertSame('eztags', $data[0]['eztags_keyword_keyword']);
+        self::assertSame('eztags', $data[1]['eztags_keyword_keyword']);
     }
 
     /**
@@ -454,7 +454,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getTagsByKeywordCount('eztags', 'eng-GB', false);
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -466,8 +466,8 @@ class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getSynonyms(16);
 
         self::assertCount(2, $data);
-        self::assertEquals(95, $data[0]['eztags_id']);
-        self::assertEquals(96, $data[1]['eztags_id']);
+        self::assertSame('95', $data[0]['eztags_id']);
+        self::assertSame('96', $data[1]['eztags_id']);
     }
 
     /**
@@ -478,7 +478,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getSynonymCount(16);
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -490,8 +490,8 @@ class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getSynonyms(16, 0, -1, ['eng-GB'], false);
 
         self::assertCount(2, $data);
-        self::assertEquals(95, $data[0]['eztags_id']);
-        self::assertEquals(96, $data[1]['eztags_id']);
+        self::assertSame('95', $data[0]['eztags_id']);
+        self::assertSame('96', $data[1]['eztags_id']);
     }
 
     /**
@@ -502,7 +502,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getSynonymCount(16, ['eng-GB'], false);
 
-        self::assertEquals(2, $tagsCount);
+        self::assertSame(2, $tagsCount);
     }
 
     /**
@@ -524,7 +524,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $tagsCount = $this->tagsGateway->getSynonymCount(16, ['cro-HR'], false);
 
-        self::assertEquals(0, $tagsCount);
+        self::assertSame(0, $tagsCount);
     }
 
     /**

@@ -60,8 +60,8 @@ class TagsTest extends TestCase
         self::assertNull($storageFieldValue->dataInt);
         self::assertNull($storageFieldValue->dataFloat);
 
-        self::assertEquals(0, $storageFieldValue->sortKeyInt);
-        self::assertEquals('', $storageFieldValue->sortKeyString);
+        self::assertSame(0, $storageFieldValue->sortKeyInt);
+        self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
     /**
@@ -112,10 +112,10 @@ class TagsTest extends TestCase
             $storageFieldDefinition
         );
 
-        self::assertEquals(0, $storageFieldDefinition->dataInt1);
-        self::assertEquals(1, $storageFieldDefinition->dataInt3);
-        self::assertEquals(10, $storageFieldDefinition->dataInt4);
-        self::assertEquals('Select', $storageFieldDefinition->dataText1);
+        self::assertSame(0, $storageFieldDefinition->dataInt1);
+        self::assertSame(1, $storageFieldDefinition->dataInt3);
+        self::assertSame(10, $storageFieldDefinition->dataInt4);
+        self::assertSame('Select', $storageFieldDefinition->dataText1);
     }
 
     /**
@@ -131,10 +131,10 @@ class TagsTest extends TestCase
             $storageFieldDefinition
         );
 
-        self::assertEquals(0, $storageFieldDefinition->dataInt1);
-        self::assertEquals(0, $storageFieldDefinition->dataInt3);
-        self::assertEquals(0, $storageFieldDefinition->dataInt4);
-        self::assertEquals(Type::EDIT_VIEW_DEFAULT_VALUE, $storageFieldDefinition->dataText1);
+        self::assertSame(0, $storageFieldDefinition->dataInt1);
+        self::assertSame(0, $storageFieldDefinition->dataInt3);
+        self::assertSame(0, $storageFieldDefinition->dataInt4);
+        self::assertSame(Type::EDIT_VIEW_DEFAULT_VALUE, $storageFieldDefinition->dataText1);
     }
 
     /**
@@ -159,10 +159,10 @@ class TagsTest extends TestCase
         );
 
         self::assertInstanceOf(FieldSettings::class, $fieldDefinition->fieldTypeConstraints->fieldSettings);
-        self::assertEquals(0, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['subTreeLimit']);
-        self::assertEquals(10, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['maxTags']);
+        self::assertSame(0, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['subTreeLimit']);
+        self::assertSame(10, $fieldDefinition->fieldTypeConstraints->validators['TagsValueValidator']['maxTags']);
         self::assertTrue($fieldDefinition->fieldTypeConstraints->fieldSettings['hideRootTag']);
-        self::assertEquals('Select', $fieldDefinition->fieldTypeConstraints->fieldSettings['editView']);
+        self::assertSame('Select', $fieldDefinition->fieldTypeConstraints->fieldSettings['editView']);
         self::assertNull($fieldDefinition->defaultValue->data);
     }
 

@@ -81,7 +81,7 @@ class RedirectResponseListenerTest extends TestCase
 
     public function testGetSubscribedEventShouldReturnValidConfiguration()
     {
-        self::assertEquals([KernelEvents::RESPONSE => 'onKernelResponse'], RedirectResponseListener::getSubscribedEvents());
+        self::assertSame([KernelEvents::RESPONSE => 'onKernelResponse'], RedirectResponseListener::getSubscribedEvents());
     }
 
     public function testIfNotMasterRequestThenReturn()
@@ -137,8 +137,8 @@ class RedirectResponseListenerTest extends TestCase
         $this->listener->onKernelResponse($event);
 
         $response = $event->getResponse();
-        self::assertEquals(Response::HTTP_RESET_CONTENT, $response->getStatusCode());
-        self::assertEquals($url, $response->headers->get('PJAX-Location'));
+        self::assertSame(Response::HTTP_RESET_CONTENT, $response->getStatusCode());
+        self::assertSame($url, $response->headers->get('PJAX-Location'));
         self::assertFalse($response->headers->has('Location'));
     }
 
