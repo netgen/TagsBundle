@@ -10,10 +10,10 @@ CREATE TABLE `eztags` (
   `main_language_id` int(11) NOT NULL default '0',
   `language_mask` int(11) NOT NULL default '0',
   PRIMARY KEY ( `id` ),
-  KEY `idx_eztags_keyword` ( `keyword` ),
-  KEY `idx_eztags_keyword_id` ( `keyword`, `id` ),
+  KEY `idx_eztags_keyword` ( `keyword`(191) ),
+  KEY `idx_eztags_keyword_id` ( `keyword`(191), `id` ),
   UNIQUE KEY `idx_eztags_remote_id` ( `remote_id` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `eztags_attribute_link` (
   `id` int(11) NOT NULL auto_increment,
@@ -27,7 +27,7 @@ CREATE TABLE `eztags_attribute_link` (
   KEY `idx_eztags_attr_link_kid_oaid_oav` ( `keyword_id`, `objectattribute_id`, `objectattribute_version` ),
   KEY `idx_eztags_attr_link_kid_oid` ( `keyword_id`, `object_id` ),
   KEY `idx_eztags_attr_link_oaid_oav` ( `objectattribute_id`, `objectattribute_version` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `eztags_keyword` (
   `keyword_id` int(11) NOT NULL default '0',
@@ -35,5 +35,5 @@ CREATE TABLE `eztags_keyword` (
   `keyword` varchar(255) NOT NULL default '',
   `locale` varchar(255) NOT NULL default '',
   `status` int(11) NOT NULL default '0',
-  PRIMARY KEY ( `keyword_id`, `locale` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY ( `keyword_id`, `locale`(191) )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
