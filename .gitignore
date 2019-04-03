@@ -9,5 +9,6 @@ composer.phar
 composer.lock
 grunt.lock
 yarn.lock
+package-lock.json
 phpunit.phar
 .php_cs.cache
