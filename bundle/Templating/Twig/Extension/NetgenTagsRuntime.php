@@ -93,6 +93,6 @@ class NetgenTagsRuntime
             }
         }
 
-        return $this->translationHelper->getTranslatedByMethod($contentType, 'getName');
+        return $contentType->getName();
     }
 }

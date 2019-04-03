@@ -80,7 +80,7 @@ class NetgenTagsRuntimeTest extends TestCase
         );
 
         $this->tag = new Tag();
-        $this->contentType = new ContentType(array('fieldDefinitions' => array()));
+        $this->contentType = new ContentType(array('names' => array('eng-GB' => 'Translated name')));
     }
 
     public function testInstanceOfTwigExtension()
@@ -157,9 +157,6 @@ class NetgenTagsRuntimeTest extends TestCase
             ->with($contentType)
             ->willThrowException(new NotFoundException($contentType, $contentType));
 
-        $this->translationHelper->expects($this->never())
-            ->method('getTranslatedByMethod');
-
         $this->assertEmpty($this->runtime->getContentTypeName('content_type'));
     }
 
@@ -172,11 +169,6 @@ class NetgenTagsRuntimeTest extends TestCase
             ->with($contentType)
             ->willReturn($this->contentType);
 
-        $this->translationHelper->expects($this->once())
-            ->method('getTranslatedByMethod')
-            ->with($this->contentType, 'getName')
-            ->willReturn('Translated name');
-
         $this->assertEquals('Translated name', $this->runtime->getContentTypeName('content_type'));
     }
 
@@ -184,11 +176,6 @@ class NetgenTagsRuntimeTest extends TestCase
     {
         $this->contentTypeService->expects($this->never())
             ->method('loadContentType');
-
-        $this->translationHelper->expects($this->once())
-            ->method('getTranslatedByMethod')
-            ->with($this->contentType, 'getName')
-            ->willReturn('Translated name');
 
         $this->assertEquals('Translated name', $this->runtime->getContentTypeName($this->contentType));
     }

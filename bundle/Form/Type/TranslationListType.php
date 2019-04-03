@@ -50,10 +50,21 @@ class TranslationListType extends AbstractType
         parent::configureOptions($resolver);
 
         $choices = array();
-        foreach ($this->languages as $language) {
-            $choices += array(
-                $this->languageService->loadLanguage($language)->name => $language,
+
+        if (method_exists($this->languageService, 'loadLanguageListByCode')) {
+            $choices = iterator_to_array(
+                (function () {
+                    foreach ($this->languageService->loadLanguageListByCode($this->languages) as $language) {
+                        yield $language->name => $language->languageCode;
+                    }
+                })()
             );
+        } else {
+            foreach ($this->languages as $language) {
+                $choices += array(
+                    $this->languageService->loadLanguage($language)->name => $language,
+                );
+            }
         }
 
         $resolver
