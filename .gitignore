@@ -8,5 +8,6 @@ var/
 composer.phar
 composer.lock
 grunt.lock
+yarn.lock
 phpunit.phar
 .php_cs.cache
