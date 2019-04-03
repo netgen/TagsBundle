@@ -1,6 +1,6 @@
 {
     "name": "netgen/tagsbundle",
-    "description": "Netgen Tags Bundle is an eZ Platform / eZ Publish bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than ezkeyword field type included in eZ Publish kernel.",
+    "description": "Netgen Tags Bundle is an eZ Platform bundle for taxonomy management and easier classification of content, providing more functionality for tagging content than ezkeyword field type included in eZ Publish kernel.",
     "license": "GPL-2.0-only",
     "type": "ezplatform-bundle",
     "keywords": [
@@ -19,12 +19,12 @@
         }
     ],
     "require": {
-        "php": "^5.6|^7.1",
-        "ezsystems/ezpublish-kernel": "^6.13@dev|^7.5@dev",
-        "ezsystems/repository-forms": "^1.9|^2.0",
-        "ezsystems/ezplatform-solr-search-engine": "^1.4@dev",
+        "php": "^5.6 || ^7.1",
+        "ezsystems/ezpublish-kernel": "^6.13@dev || ^7.5@dev",
+        "ezsystems/repository-forms": "^1.11 || ^2.5",
+        "ezsystems/ezplatform-solr-search-engine": "^1.5",
         "lolautruche/ez-core-extra-bundle": "^2.0",
-        "twig/twig": "^1.35|^2.4.4"
+        "twig/twig": "^2.7.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5"
