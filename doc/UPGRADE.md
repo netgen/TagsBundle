@@ -18,6 +18,18 @@ ALTER TABLE `eztags_keyword` DROP PRIMARY KEY;
 ALTER TABLE `eztags_keyword` ADD PRIMARY KEY (`keyword_id`, `locale`(191));
 ```
 
+Upgrade from 3.3 to 3.4
+-----------------------
+
+* `tag_view.pagelayout` configuration for setting the pagelayout of the tag view page has been deprecated and its usages removed. Instead, it has been replaced with pagelayout config from eZ Platform.
+
+  If you didn't override the tag view template and wish to continue using this parameter, override the `@NetgenTags/tag/view.html.twig` template and use the following `extends` instead of the original one:
+
+  `{% extends ezpublish.configResolver.parameter( 'tag_view.pagelayout', 'eztags' ) %}`
+
+* Minimum supported version of eZ Platform is now 1.13 (with Repository Forms 1.11 and Platform UI 1.13) and eZ Platform 7.5
+* Minimum supported version of Solr Search Engine is now 1.5
+
 Upgrade from 3.0 to 3.1
 -----------------------
 
