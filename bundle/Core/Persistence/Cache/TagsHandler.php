@@ -65,8 +65,8 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
         return $this->getMultipleCacheValues(
             $tagIds,
             'netgen-tag-',
-            function ($tagId) use ($translations, $useAlwaysAvailable) {
-                return $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable);
+            function ($tagIds) use ($translations, $useAlwaysAvailable) {
+                return $this->tagsHandler->loadList($tagIds, $translations, $useAlwaysAvailable);
             },
             static function (Tag $tag) {
                 $tags[] = 'tag-' . $tag->id;
