@@ -19,7 +19,7 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
     /**
      * @var array
      */
-    protected $availableEditViews = array();
+    protected $availableEditViews = [];
 
     /**
      * Sets the available edit views.
@@ -39,11 +39,11 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
                     ->create(
                         'value',
                         TagsFieldType::class,
-                        array(
+                        [
                             'required' => $data->fieldDefinition->isRequired,
                             'label' => $data->fieldDefinition->getName(),
                             'field' => $data->field,
-                        )
+                        ]
                     )
                     ->setAutoInitialize(false)
                     ->getForm()
@@ -52,67 +52,75 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
 
     public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data)
     {
-        $editViewChoices = array();
+        $editViewChoices = [];
         foreach ($this->availableEditViews as $editView) {
             $editViewChoices[$editView['name']] = $editView['identifier'];
         }
 
         $fieldDefinitionForm
             ->add(
-                'subTreeLimit', TagTreeType::class, array(
+                'subTreeLimit',
+                TagTreeType::class,
+                [
                     'property_path' => 'validatorConfiguration[TagsValueValidator][subTreeLimit]',
                     'label' => 'field_definition.eztags.validator.subtree_limit',
-                )
+                ]
             )
             ->add(
-                'maxTags', IntegerType::class, array(
+                'maxTags',
+                IntegerType::class,
+                [
                     'required' => false,
                     'property_path' => 'validatorConfiguration[TagsValueValidator][maxTags]',
                     'label' => 'field_definition.eztags.validator.max_tags',
-                    'constraints' => array(
-                        new Constraints\Type(array('type' => 'int')),
+                    'constraints' => [
+                        new Constraints\Type(['type' => 'int']),
                         new Constraints\NotBlank(),
                         new Constraints\GreaterThanOrEqual(
-                            array(
+                            [
                                 'value' => 0,
-                            )
+                            ]
                         ),
-                    ),
+                    ],
                     'empty_data' => 0,
-                    'attr' => array(
+                    'attr' => [
                         'min' => 0,
-                    ),
-                )
+                    ],
+                ]
             )
             ->add(
-                'hideRootTag', CheckboxType::class, array(
+                'hideRootTag',
+                CheckboxType::class,
+                [
                     'required' => false,
                     'property_path' => 'fieldSettings[hideRootTag]',
                     'label' => 'field_definition.eztags.settings.hide_root_tag',
-                    'constraints' => array(
-                        new Constraints\Type(array('type' => 'bool')),
+                    'constraints' => [
+                        new Constraints\Type(['type' => 'bool']),
                         new Constraints\NotNull(),
-                    ),
-                )
+                    ],
+                ]
             )
             ->add(
-                'editView', ChoiceType::class, array(
+                'editView',
+                ChoiceType::class,
+                [
                     'choices' => $editViewChoices,
                     'choices_as_values' => true,
                     'required' => true,
                     'property_path' => 'fieldSettings[editView]',
                     'label' => 'field_definition.eztags.settings.edit_view',
-                    'constraints' => array(
-                        new Constraints\Type(array('type' => 'string')),
+                    'constraints' => [
+                        new Constraints\Type(['type' => 'string']),
                         new Constraints\NotBlank(),
                         new Constraints\Choice(
-                            array(
+                            [
                                 'choices' => array_values($editViewChoices),
                                 'strict' => true,
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             );
     }
 }

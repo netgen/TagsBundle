@@ -29,11 +29,11 @@ class TagConvertType extends AbstractType
             ->add(
                 'mainTag',
                 TagTreeType::class,
-                array(
+                [
                     'label' => 'tag.main_tag',
-                    'disableSubtree' => array($options['tag']->id),
+                    'disableSubtree' => [$options['tag']->id],
                     'allowRootTag' => false,
-                )
+                ]
             );
     }
 }

@@ -77,12 +77,7 @@ class Configuration extends SiteAccessConfiguration
                         ->children()
                             ->scalarNode('template')->info('Your template path, as @My/subdir/my_template.html.twig')->end()
                             ->scalarNode('controller')
-                                ->info(
-<<<'EOT'
-Use custom controller instead of the default one to display a tag matching your rules.
-You can use the controller reference notation supported by Symfony.
-EOT
-                                )
+                                ->info('Use custom controller instead of the default one to display a tag matching your rules. You can use the controller reference notation supported by Symfony.')
                                 ->example('MyBundle:MyControllerClass:view')
                             ->end()
                             ->arrayNode('match')
@@ -92,17 +87,12 @@ EOT
                                 ->prototype('variable')->end()
                             ->end()
                             ->arrayNode('params')
-                                ->info(
-<<<'EOT'
-Arbitrary params that will be passed in the TagView object, manageable by tag view provider.
-Those params will NOT be passed to the resulting view template by default.
-EOT
-                                )
+                                ->info('Arbitrary params that will be passed in the TagView object, manageable by tag view provider. Those params will NOT be passed to the resulting view template by default.')
                                 ->example(
-                                    array(
+                                    [
                                         'foo' => '%some.parameter.reference%',
-                                        'osTypes' => array('osx', 'linux', 'windows'),
-                                    )
+                                        'osTypes' => ['osx', 'linux', 'windows'],
+                                    ]
                                 )
                                 ->useAttributeAsKey('key')
                                 ->prototype('variable')->end()

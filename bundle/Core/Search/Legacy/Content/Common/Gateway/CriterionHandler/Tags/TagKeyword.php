@@ -49,7 +49,7 @@ class TagKeyword extends Tags
             ->innerJoin(
                 $this->dbHandler->quoteTable('eztags_attribute_link'),
                 $subSelect->expr->lAnd(
-                    array(
+                    [
                         $subSelect->expr->eq(
                             $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link'),
                             $this->dbHandler->quoteColumn('current_version', 'ezcontentobject')
@@ -58,7 +58,7 @@ class TagKeyword extends Tags
                             $this->dbHandler->quoteColumn('object_id', 'eztags_attribute_link'),
                             $this->dbHandler->quoteColumn('id', 'ezcontentobject')
                         ),
-                    )
+                    ]
                 )
             )->innerJoin(
                 $this->dbHandler->quoteTable('eztags'),
@@ -128,7 +128,7 @@ class TagKeyword extends Tags
             $subSelect->innerJoin(
                 $this->dbHandler->quoteTable('ezcontentobject_attribute'),
                 $subSelect->expr->lAnd(
-                    array(
+                    [
                         $subSelect->expr->eq(
                             $this->dbHandler->quoteColumn('id', 'ezcontentobject_attribute'),
                             $this->dbHandler->quoteColumn('objectattribute_id', 'eztags_attribute_link')
@@ -137,7 +137,7 @@ class TagKeyword extends Tags
                             $this->dbHandler->quoteColumn('version', 'ezcontentobject_attribute'),
                             $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link')
                         ),
-                    )
+                    ]
                 )
             );
 

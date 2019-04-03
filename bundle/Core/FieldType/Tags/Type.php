@@ -27,34 +27,34 @@ class Type extends FieldType
      *
      * @var array
      */
-    protected $settingsSchema = array(
-        'hideRootTag' => array(
+    protected $settingsSchema = [
+        'hideRootTag' => [
             'type' => 'boolean',
             'default' => false,
-        ),
-        'editView' => array(
+        ],
+        'editView' => [
             'type' => 'string',
             'default' => self::EDIT_VIEW_DEFAULT_VALUE,
-        ),
-    );
+        ],
+    ];
 
     /**
      * The validator configuration schema.
      *
      * @var array
      */
-    protected $validatorConfigurationSchema = array(
-        'TagsValueValidator' => array(
-            'subTreeLimit' => array(
+    protected $validatorConfigurationSchema = [
+        'TagsValueValidator' => [
+            'subTreeLimit' => [
                 'type' => 'int',
                 'default' => 0,
-            ),
-            'maxTags' => array(
+            ],
+            'maxTags' => [
                 'type' => 'int',
                 'default' => 0,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -64,7 +64,7 @@ class Type extends FieldType
     /**
      * @var array
      */
-    protected $availableEditViews = array();
+    protected $availableEditViews = [];
 
     /**
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -129,8 +129,8 @@ class Type extends FieldType
             return new Value();
         }
 
-        $tags = array();
-        $tagIds = array();
+        $tags = [];
+        $tagIds = [];
         foreach ($hash as $hashItem) {
             if (isset($hashItem['id'])) {
                 $tagIds[] = $hashItem['id'];
@@ -140,7 +140,7 @@ class Type extends FieldType
         if (!empty($tagIds)) {
             $loadedTags = $this->tagsService->loadTagList($tagIds);
         } else {
-            $loadedTags = array();
+            $loadedTags = [];
         }
 
         foreach ($hash as $hashItem) {
@@ -150,7 +150,7 @@ class Type extends FieldType
 
             if (!isset($hashItem['id'])) {
                 $tags[] = new Tag(
-                    array(
+                    [
                         'parentTagId' => $hashItem['parent_id'],
                         'keywords' => $hashItem['keywords'],
                         'mainLanguageCode' => $hashItem['main_language_code'],
@@ -160,7 +160,7 @@ class Type extends FieldType
                         'alwaysAvailable' => isset($hashItem['always_available']) ?
                             $hashItem['always_available'] :
                             true,
-                    )
+                    ]
                 );
             } elseif (isset($loadedTags[$hashItem['id']])) {
                 $tags[] = $loadedTags[$hashItem['id']];
@@ -180,19 +180,19 @@ class Type extends FieldType
      */
     public function toHash(SPIValue $value)
     {
-        $hash = array();
+        $hash = [];
 
         foreach ($value->tags as $tag) {
             if (empty($tag->id)) {
-                $hash[] = array(
+                $hash[] = [
                     'parent_id' => $tag->parentTagId,
                     'keywords' => $tag->keywords,
                     'remote_id' => $tag->remoteId,
                     'always_available' => $tag->alwaysAvailable,
                     'main_language_code' => $tag->mainLanguageCode,
-                );
+                ];
             } else {
-                $hash[] = array(
+                $hash[] = [
                     'id' => $tag->id,
                     'parent_id' => $tag->parentTagId,
                     'main_tag_id' => $tag->mainTagId,
@@ -204,7 +204,7 @@ class Type extends FieldType
                     'always_available' => $tag->alwaysAvailable,
                     'main_language_code' => $tag->mainLanguageCode,
                     'language_codes' => $tag->languageCodes,
-                );
+                ];
             }
         }
 
@@ -221,11 +221,11 @@ class Type extends FieldType
     public function toPersistenceValue(SPIValue $value)
     {
         return new FieldValue(
-            array(
+            [
                 'data' => null,
                 'externalData' => $this->toHash($value),
                 'sortKey' => $this->getSortInfo($value),
-            )
+            ]
         );
     }
 
@@ -262,7 +262,7 @@ class Type extends FieldType
      */
     public function validateValidatorConfiguration($validatorConfiguration)
     {
-        $validationErrors = array();
+        $validationErrors = [];
 
         if (!is_array($validatorConfiguration)) {
             $validationErrors[] = new ValidationError('Validator configuration must be in form of an array');
@@ -275,10 +275,10 @@ class Type extends FieldType
                 $validationErrors[] = new ValidationError(
                     "Validator '%validator%' is unknown",
                     null,
-                    array(
+                    [
                         '%validator%' => $validatorIdentifier,
-                    ),
-                    "[$validatorIdentifier]"
+                    ],
+                    "[${validatorIdentifier}]"
                 );
 
                 continue;
@@ -297,10 +297,10 @@ class Type extends FieldType
                             $validationErrors[] = new ValidationError(
                                 "Validator parameter '%parameter%' value must be of numeric type",
                                 null,
-                                array(
+                                [
                                     '%parameter%' => $name,
-                                ),
-                                "[$validatorIdentifier][$name]"
+                                ],
+                                "[${validatorIdentifier}][${name}]"
                             );
                         }
 
@@ -308,33 +308,34 @@ class Type extends FieldType
                             $validationErrors[] = new ValidationError(
                                 "Validator parameter '%parameter%' value must be equal or larger than 0",
                                 null,
-                                array(
+                                [
                                     '%parameter%' => $name,
-                                ),
-                                "[$validatorIdentifier][$name]"
+                                ],
+                                "[${validatorIdentifier}][${name}]"
                             );
                         }
 
-                        if ($value > 0 && !$this->tagsService->loadTagList(array($value))) {
+                        if ($value > 0 && !$this->tagsService->loadTagList([$value])) {
                             $validationErrors[] = new ValidationError(
                                 "Validator parameter '%parameter%' value must be an existing tag ID",
                                 null,
-                                array(
+                                [
                                     '%parameter%' => $name,
-                                ),
-                                "[$validatorIdentifier][$name]"
+                                ],
+                                "[${validatorIdentifier}][${name}]"
                             );
                         }
+
                         break;
                     case 'maxTags':
                         if (!is_int($value)) {
                             $validationErrors[] = new ValidationError(
                                 "Validator parameter '%parameter%' value must be of integer type",
                                 null,
-                                array(
+                                [
                                     '%parameter%' => $name,
-                                ),
-                                "[$validatorIdentifier][$name]"
+                                ],
+                                "[${validatorIdentifier}][${name}]"
                             );
                         }
 
@@ -342,21 +343,22 @@ class Type extends FieldType
                             $validationErrors[] = new ValidationError(
                                 "Validator parameter '%parameter%' value must be equal or larger than 0",
                                 null,
-                                array(
+                                [
                                     '%parameter%' => $name,
-                                ),
-                                "[$validatorIdentifier][$name]"
+                                ],
+                                "[${validatorIdentifier}][${name}]"
                             );
                         }
+
                         break;
                     default:
                         $validationErrors[] = new ValidationError(
                             "Validator parameter '%parameter%' is unknown",
                             null,
-                            array(
+                            [
                                 '%parameter%' => $name,
-                            ),
-                            "[$validatorIdentifier][$name]"
+                            ],
+                            "[${validatorIdentifier}][${name}]"
                         );
                 }
             }
@@ -368,7 +370,6 @@ class Type extends FieldType
     /**
      * Validates a field based on the validators in the field definition.
      *
-     *
      * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $fieldValue The field value for which an action is performed
      *
@@ -378,7 +379,7 @@ class Type extends FieldType
      */
     public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
     {
-        $validationErrors = array();
+        $validationErrors = [];
 
         if ($this->isEmptyValue($fieldValue)) {
             return $validationErrors;
@@ -387,9 +388,9 @@ class Type extends FieldType
         $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
         $constraints = isset($validatorConfiguration['TagsValueValidator']) ?
             $validatorConfiguration['TagsValueValidator'] :
-            array();
+            [];
 
-        $validationErrors = array();
+        $validationErrors = [];
 
         if (isset($constraints['subTreeLimit']) && $constraints['subTreeLimit'] > 0) {
             foreach ($fieldValue->tags as $tag) {
@@ -401,10 +402,10 @@ class Type extends FieldType
                     $validationErrors[] = new ValidationError(
                         'Tag "%keyword%" is not below tag with ID %subTreeLimit% as specified by field definition',
                         null,
-                        array(
+                        [
                             '%keyword%' => $tag->getKeyword(),
                             '%subTreeLimit%' => $constraints['subTreeLimit'],
-                        ),
+                        ],
                         'value'
                     );
 
@@ -418,9 +419,9 @@ class Type extends FieldType
                 $validationErrors[] = new ValidationError(
                     'Number of tags must be lower or equal to %maxTags%',
                     null,
-                    array(
+                    [
                         '%maxTags%' => $constraints['maxTags'],
-                    ),
+                    ],
                     'value'
                 );
             }
@@ -438,7 +439,7 @@ class Type extends FieldType
      */
     public function validateFieldSettings($fieldSettings)
     {
-        $validationErrors = array();
+        $validationErrors = [];
 
         if (!is_array($fieldSettings)) {
             $validationErrors[] = new ValidationError('Field settings must be in form of an array');
@@ -451,11 +452,12 @@ class Type extends FieldType
                 $validationErrors[] = new ValidationError(
                     'Setting "%setting%" is unknown',
                     null,
-                    array(
+                    [
                         '%setting%' => $name,
-                    ),
-                    "[$name]"
+                    ],
+                    "[${name}]"
                 );
+
                 continue;
             }
 
@@ -465,22 +467,23 @@ class Type extends FieldType
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of boolean type",
                             null,
-                            array(
+                            [
                                 '%setting%' => $name,
-                            ),
-                            "[$name]"
+                            ],
+                            "[${name}]"
                         );
                     }
+
                     break;
                 case 'editView':
                     if (!is_string($value)) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of string type",
                             null,
-                            array(
+                            [
                                 '%setting%' => $name,
-                            ),
-                            "[$name]"
+                            ],
+                            "[${name}]"
                         );
                     }
 
@@ -488,6 +491,7 @@ class Type extends FieldType
                     foreach ($this->availableEditViews as $editView) {
                         if ($editView['identifier'] === $value) {
                             $editViewExists = true;
+
                             break;
                         }
                     }
@@ -496,12 +500,13 @@ class Type extends FieldType
                         $validationErrors[] = new ValidationError(
                             "Edit view '%editView%' does not exist",
                             null,
-                            array(
+                            [
                                 '%editView%' => $value,
-                            ),
-                            "[$name]"
+                            ],
+                            "[${name}]"
                         );
                     }
+
                     break;
             }
         }
@@ -561,7 +566,7 @@ class Type extends FieldType
         foreach ($value->tags as $tag) {
             if (!$tag instanceof Tag) {
                 throw new InvalidArgumentType(
-                    "$tag",
+                    "${tag}",
                     Value::class,
                     $tag
                 );

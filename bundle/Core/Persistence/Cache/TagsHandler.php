@@ -51,7 +51,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
                 return $tags;
             },
             static function (Tag $tag) use ($keySuffix) {
-                return array('netgen-tag-' . $tag->id . $keySuffix);
+                return ['netgen-tag-' . $tag->id . $keySuffix];
             },
             $keySuffix
         );
@@ -77,7 +77,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
                 return $tags;
             },
             static function (Tag $tag) use ($keySuffix) {
-                return array('netgen-tag-' . $tag->id . $keySuffix);
+                return ['netgen-tag-' . $tag->id . $keySuffix];
             },
             $keySuffix
         );
@@ -90,7 +90,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
             return $cacheItem->get();
         }
 
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId]);
         $tagInfo = $this->tagsHandler->loadTagInfo($tagId);
         $cacheItem->set($tagInfo);
         $cacheItem->tag($this->getCacheTags($tagInfo->id, $tagInfo->pathString));
@@ -108,7 +108,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
             return $cacheItem->get();
         }
 
-        $this->logger->logCall(__METHOD__, array('tag' => $remoteId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['tag' => $remoteId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
         $tag = $this->tagsHandler->loadByRemoteId($remoteId, $translations, $useAlwaysAvailable);
         $cacheItem->set($tag);
         $cacheItem->tag($this->getCacheTags($tag->id, $tag->pathString));
@@ -124,7 +124,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
             return $cacheItem->get();
         }
 
-        $this->logger->logCall(__METHOD__, array('tag' => $remoteId));
+        $this->logger->logCall(__METHOD__, ['tag' => $remoteId]);
         $tagInfo = $this->tagsHandler->loadTagInfoByRemoteId($remoteId);
         $cacheItem->set($tagInfo);
         $cacheItem->tag($this->getCacheTags($tagInfo->id, $tagInfo->pathString));
@@ -135,42 +135,42 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function loadTagByKeywordAndParentId($keyword, $parentTagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $this->logger->logCall(__METHOD__, array('keyword' => $keyword, 'parentTag' => $parentTagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['keyword' => $keyword, 'parentTag' => $parentTagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->loadTagByKeywordAndParentId($keyword, $parentTagId, $translations, $useAlwaysAvailable);
     }
 
     public function loadChildren($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->loadChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
     }
 
     public function getChildrenCount($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->getChildrenCount($tagId, $translations, $useAlwaysAvailable);
     }
 
     public function loadTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        $this->logger->logCall(__METHOD__, array('keyword' => $keyword, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['keyword' => $keyword, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->loadTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $offset, $limit);
     }
 
     public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true)
     {
-        $this->logger->logCall(__METHOD__, array('keyword' => $keyword, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['keyword' => $keyword, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable);
     }
 
     public function searchTags($searchString, $translation, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
     {
-        $this->logger->logCall(__METHOD__, array('searchString' => $searchString, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['searchString' => $searchString, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->searchTags($searchString, $translation, $useAlwaysAvailable, $offset, $limit);
     }
@@ -185,7 +185,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
             return array_slice($cacheItem->get(), $offset, $limit > -1 ? $limit : null);
         }
 
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         $tagInfo = $this->loadTagInfo($tagId);
         $synonyms = $this->tagsHandler->loadSynonyms($tagId, 0, null, $translations, $useAlwaysAvailable);
@@ -203,85 +203,85 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function getSynonymCount($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         return $this->tagsHandler->getSynonymCount($tagId, $translations, $useAlwaysAvailable);
     }
 
     public function create(CreateStruct $createStruct)
     {
-        $this->logger->logCall(__METHOD__, array('struct' => $createStruct));
+        $this->logger->logCall(__METHOD__, ['struct' => $createStruct]);
 
         return $this->tagsHandler->create($createStruct);
     }
 
     public function update(UpdateStruct $updateStruct, $tagId)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'struct' => $updateStruct));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'struct' => $updateStruct]);
         $updatedTag = $this->tagsHandler->update($updateStruct, $tagId);
 
-        $this->cache->invalidateTags(array('tag-' . $tagId));
+        $this->cache->invalidateTags(['tag-' . $tagId]);
 
         return $updatedTag;
     }
 
     public function addSynonym(SynonymCreateStruct $createStruct)
     {
-        $this->logger->logCall(__METHOD__, array('struct' => $createStruct));
+        $this->logger->logCall(__METHOD__, ['struct' => $createStruct]);
         $synonym = $this->tagsHandler->addSynonym($createStruct);
 
-        $this->cache->invalidateTags(array('tag-' . $createStruct->mainTagId));
+        $this->cache->invalidateTags(['tag-' . $createStruct->mainTagId]);
 
         return $synonym;
     }
 
     public function convertToSynonym($tagId, $mainTagId)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId]);
         $synonym = $this->tagsHandler->convertToSynonym($tagId, $mainTagId);
 
-        $this->cache->invalidateTags(array('tag-' . $tagId, 'tag-' . $mainTagId));
+        $this->cache->invalidateTags(['tag-' . $tagId, 'tag-' . $mainTagId]);
 
         return $synonym;
     }
 
     public function merge($tagId, $targetTagId)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId, 'targetTag' => $targetTagId));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'targetTag' => $targetTagId]);
 
         $this->tagsHandler->merge($tagId, $targetTagId);
 
-        $this->cache->invalidateTags(array('tag-path-' . $tagId, 'tag-path-' . $targetTagId));
+        $this->cache->invalidateTags(['tag-path-' . $tagId, 'tag-path-' . $targetTagId]);
     }
 
     public function copySubtree($sourceId, $destinationParentId)
     {
-        $this->logger->logCall(__METHOD__, array('sourceTag' => $sourceId, 'destinationTag' => $destinationParentId));
+        $this->logger->logCall(__METHOD__, ['sourceTag' => $sourceId, 'destinationTag' => $destinationParentId]);
 
         $return = $this->tagsHandler->copySubtree($sourceId, $destinationParentId);
 
-        $this->cache->invalidateTags(array('tag-path-' . $sourceId, 'tag-path-' . $destinationParentId));
+        $this->cache->invalidateTags(['tag-path-' . $sourceId, 'tag-path-' . $destinationParentId]);
 
         return $return;
     }
 
     public function moveSubtree($sourceId, $destinationParentId)
     {
-        $this->logger->logCall(__METHOD__, array('sourceTag' => $sourceId, 'destinationTag' => $destinationParentId));
+        $this->logger->logCall(__METHOD__, ['sourceTag' => $sourceId, 'destinationTag' => $destinationParentId]);
 
         $return = $this->tagsHandler->moveSubtree($sourceId, $destinationParentId);
 
-        $this->cache->invalidateTags(array('tag-path-' . $sourceId, 'tag-path-' . $destinationParentId));
+        $this->cache->invalidateTags(['tag-path-' . $sourceId, 'tag-path-' . $destinationParentId]);
 
         return $return;
     }
 
     public function deleteTag($tagId)
     {
-        $this->logger->logCall(__METHOD__, array('tag' => $tagId));
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId]);
         $this->tagsHandler->deleteTag($tagId);
 
-        $this->cache->invalidateTags(array('tag-path-' . $tagId));
+        $this->cache->invalidateTags(['tag-path-' . $tagId]);
     }
 
     /**
@@ -293,7 +293,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
      *
      * @return array
      */
-    private function getCacheTags($tagId, $pathString, array $tags = array())
+    private function getCacheTags($tagId, $pathString, array $tags = [])
     {
         $tags[] = 'tag-' . $tagId;
 

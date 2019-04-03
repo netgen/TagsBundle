@@ -38,7 +38,7 @@ class CopyTagsType extends AbstractType
             ->add(
                 'parentTag',
                 TagTreeType::class,
-                array(
+                [
                     'label' => 'tag.parent_tag',
                     'disableSubtree' => array_map(
                         function (Tag $tag) {
@@ -46,7 +46,7 @@ class CopyTagsType extends AbstractType
                         },
                         $options['tags']
                     ),
-                )
+                ]
             );
     }
 }

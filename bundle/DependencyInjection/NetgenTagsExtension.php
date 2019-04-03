@@ -88,11 +88,11 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
      */
     public function prepend(ContainerBuilder $container)
     {
-        $configs = array(
+        $configs = [
             'netgen_tags.yml' => 'netgen_tags',
             'ezplatform.yml' => 'ezpublish',
             'framework/twig.yml' => 'twig',
-        );
+        ];
 
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
 

@@ -52,7 +52,6 @@ class DoctrineDatabase extends Gateway
     /**
      * Returns an array with basic tag data.
      *
-     *
      * @param mixed $tagId
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
@@ -84,7 +83,6 @@ class DoctrineDatabase extends Gateway
 
     /**
      * Returns an array with basic tag data by remote ID.
-     *
      *
      * @param string $remoteId
      *
@@ -235,7 +233,7 @@ class DoctrineDatabase extends Gateway
         );
 
         if (empty($tagIds)) {
-            return array();
+            return [];
         }
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
@@ -300,7 +298,7 @@ class DoctrineDatabase extends Gateway
      */
     public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
     {
-        $tagIdsQuery = $this->createTagIdsQuery(array($translation), $useAlwaysAvailable);
+        $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
         $tagIdsQuery->where(
             $exactMatch ?
                 $tagIdsQuery->expr->eq(
@@ -326,10 +324,10 @@ class DoctrineDatabase extends Gateway
         );
 
         if (empty($tagIds)) {
-            return array();
+            return [];
         }
 
-        $query = $this->createTagFindQuery(array($translation), $useAlwaysAvailable);
+        $query = $this->createTagFindQuery([$translation], $useAlwaysAvailable);
 
         $query->where(
             $query->expr->in(
@@ -361,7 +359,7 @@ class DoctrineDatabase extends Gateway
      */
     public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
     {
-        $query = $this->createTagCountQuery(array($translation, $useAlwaysAvailable));
+        $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
         $query->where(
             $exactMatch ?
@@ -416,7 +414,7 @@ class DoctrineDatabase extends Gateway
         );
 
         if (empty($tagIds)) {
-            return array();
+            return [];
         }
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
@@ -797,8 +795,8 @@ class DoctrineDatabase extends Gateway
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $updateLinkIds = array();
-        $deleteLinkIds = array();
+        $updateLinkIds = [];
+        $deleteLinkIds = [];
 
         foreach ($rows as $row) {
             $query = $this->handler->createSelectQuery();
@@ -919,7 +917,7 @@ class DoctrineDatabase extends Gateway
                 $newParentId = (int) implode('', array_slice(explode('/', $newPathString), -3, 1));
             }
 
-            $newDepth = substr_count($newPathString, '/') - 1;
+            $newDepth = mb_substr_count($newPathString, '/') - 1;
 
             $query = $this->handler->createUpdateQuery();
             $query
@@ -976,7 +974,7 @@ class DoctrineDatabase extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        $tagIds = array();
+        $tagIds = [];
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
             $tagIds[] = (int) $row['id'];
         }
@@ -1034,7 +1032,7 @@ class DoctrineDatabase extends Gateway
      */
     protected function createTagIdsQuery(array $translations = null, $useAlwaysAvailable = true)
     {
-        /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
+        /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
         $query->select('DISTINCT eztags.id, eztags.keyword')
         ->from(
@@ -1110,7 +1108,7 @@ class DoctrineDatabase extends Gateway
      */
     protected function createTagFindQuery(array $translations = null, $useAlwaysAvailable = true)
     {
-        /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
+        /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
         $query->select(
             // Tag
@@ -1200,7 +1198,7 @@ class DoctrineDatabase extends Gateway
      */
     protected function createTagCountQuery(array $translations = null, $useAlwaysAvailable = true)
     {
-        /** @var $query \eZ\Publish\Core\Persistence\Database\SelectQuery */
+        /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
         $query->select(
             $query->alias($query->expr->count('DISTINCT eztags.id'), 'count')
@@ -1331,7 +1329,7 @@ class DoctrineDatabase extends Gateway
      */
     protected function generateLanguageMask(array $keywords, $alwaysAvailable = true)
     {
-        $languages = array();
+        $languages = [];
 
         foreach ($keywords as $languageCode => $keyword) {
             $languages[$languageCode] = true;

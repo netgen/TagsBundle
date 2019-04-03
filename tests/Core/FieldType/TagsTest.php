@@ -34,16 +34,16 @@ class TagsTest extends FieldTypeTest
      */
     public function getTagsServiceLoadTagValues(array $tagIds)
     {
-        $tags = array();
+        $tags = [];
         foreach ($tagIds as $tagId) {
             if ($tagId < 0 || $tagId === PHP_INT_MAX) {
                 continue;
             }
 
             $tags[$tagId] = new Tag(
-                array(
+                [
                     'id' => $tagId,
-                )
+                ]
             );
         }
 
@@ -61,31 +61,31 @@ class TagsTest extends FieldTypeTest
      */
     public function provideValidFieldSettings()
     {
-        return array(
-            array(
-                array(),
-            ),
-            array(
-                array(
+        return [
+            [
+                [],
+            ],
+            [
+                [
                     'editView' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'editView' => 'Select',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'hideRootTag' => true,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'hideRootTag' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -96,44 +96,44 @@ class TagsTest extends FieldTypeTest
      */
     public function provideValidValidatorConfiguration()
     {
-        return array(
-            array(
-                array(),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+        return [
+            [
+                [],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'subTreeLimit' => 0,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'subTreeLimit' => 5,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'maxTags' => 0,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'maxTags' => 10,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -148,26 +148,26 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInValidFieldSettings()
     {
-        return array(
-            array(
+        return [
+            [
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'nonExistingKey' => 42,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'editView' => 'Unknown',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'hideRootTag' => 42,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -180,63 +180,63 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInvalidValidatorConfiguration()
     {
-        return array(
-            array(
+        return [
+            [
                 true,
-            ),
-            array(
-                array(
-                    'NonExistentValidator' => array(),
-                ),
-            ),
-            array(
-                array(
+            ],
+            [
+                [
+                    'NonExistentValidator' => [],
+                ],
+            ],
+            [
+                [
                     'TagsValueValidator' => true,
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'nonExistentParameter' => 42,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'subTreeLimit' => true,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'subTreeLimit' => -5,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'subTreeLimit' => PHP_INT_MAX,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'maxTags' => true,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'TagsValueValidator' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'TagsValueValidator' => [
                         'maxTags' => -5,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -246,26 +246,26 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInvalidInputForAcceptValue()
     {
-        return array(
-            array(
+        return [
+            [
                 42,
                 InvalidArgumentException::class,
-            ),
-            array(
+            ],
+            [
                 'invalid',
                 InvalidArgumentException::class,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     new stdClass(),
-                ),
+                ],
                 InvalidArgumentException::class,
-            ),
-            array(
+            ],
+            [
                 new stdClass(),
                 InvalidArgumentException::class,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -275,32 +275,32 @@ class TagsTest extends FieldTypeTest
      */
     public function provideValidInputForAcceptValue()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
                 new TagsValue(),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 new TagsValue(),
-            ),
-            array(
-                array(new Tag()),
-                new TagsValue(array(new Tag())),
-            ),
-            array(
+            ],
+            [
+                [new Tag()],
+                new TagsValue([new Tag()]),
+            ],
+            [
                 new TagsValue(),
                 new TagsValue(),
-            ),
-            array(
-                new TagsValue(array()),
+            ],
+            [
+                new TagsValue([]),
                 new TagsValue(),
-            ),
-            array(
-                new TagsValue(array(new Tag())),
-                new TagsValue(array(new Tag())),
-            ),
-        );
+            ],
+            [
+                new TagsValue([new Tag()]),
+                new TagsValue([new Tag()]),
+            ],
+        ];
     }
 
     /**
@@ -311,88 +311,88 @@ class TagsTest extends FieldTypeTest
      */
     public function provideValidDataForValidate()
     {
-        return array(
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+        return [
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'subTreeLimit' => 0,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag(array('id' => 102, 'pathString' => '/2/42/102/')))),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag(['id' => 102, 'pathString' => '/2/42/102/'])]),
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'subTreeLimit' => 42,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag(array('id' => 42, 'pathString' => '/2/42/')))),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag(['id' => 42, 'pathString' => '/2/42/'])]),
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'subTreeLimit' => 42,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag(array('id' => 102, 'pathString' => '/2/42/102/')))),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag(['id' => 102, 'pathString' => '/2/42/102/'])]),
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'maxTags' => 0,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 new TagsValue(),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'maxTags' => 0,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag(), new Tag())),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag(), new Tag()]),
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'maxTags' => 2,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 new TagsValue(),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'maxTags' => 2,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag())),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag()]),
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'maxTags' => 2,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag(), new Tag())),
-            ),
-        );
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag(), new Tag()]),
+            ],
+        ];
     }
 
     /**
@@ -404,60 +404,60 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInvalidDataForValidate()
     {
-        return array(
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+        return [
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'subTreeLimit' => 42,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 new TagsValue(
-                    array(
+                    [
                         new Tag(
-                            array(
+                            [
                                 'id' => 102,
                                 'pathString' => '/2/43/102/',
-                                'keywords' => array('eng-GB' => 'test'),
+                                'keywords' => ['eng-GB' => 'test'],
                                 'mainLanguageCode' => 'eng-GB',
-                            )
+                            ]
                         ),
-                    )
+                    ]
                 ),
-                array(
+                [
                     new ValidationError(
                         'Tag "%keyword%" is not below tag with ID %subTreeLimit% as specified by field definition',
                         null,
-                        array(
+                        [
                             '%keyword%' => 'test',
                             '%subTreeLimit%' => 42,
-                        ),
+                        ],
                         'value'
                     ),
-                ),
-            ),
-            array(
-                array(
-                    'validatorConfiguration' => array(
-                        'TagsValueValidator' => array(
+                ],
+            ],
+            [
+                [
+                    'validatorConfiguration' => [
+                        'TagsValueValidator' => [
                             'maxTags' => 2,
-                        ),
-                    ),
-                ),
-                new TagsValue(array(new Tag(), new Tag(), new Tag())),
-                array(
+                        ],
+                    ],
+                ],
+                new TagsValue([new Tag(), new Tag(), new Tag()]),
+                [
                     new ValidationError(
                         'Number of tags must be lower or equal to %maxTags%',
                         null,
-                        array(
+                        [
                             '%maxTags%' => 2,
-                        ),
+                        ],
                         'value'
                     ),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -467,26 +467,26 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInputForToHash()
     {
-        return array(
-            array(
+        return [
+            [
                 new TagsValue(),
-                array(),
-            ),
-            array(
-                new TagsValue(array()),
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
+                new TagsValue([]),
+                [],
+            ],
+            [
                 new TagsValue(
-                    array(
+                    [
                         $this->getTag(),
-                    )
+                    ]
                 ),
-                array(
+                [
                     $this->getTagHash(),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -496,30 +496,30 @@ class TagsTest extends FieldTypeTest
      */
     public function provideInputForFromHash()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
                 new TagsValue(),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 new TagsValue(),
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     $this->getTagHash(),
-                ),
+                ],
                 new TagsValue(
-                    array(
+                    [
                         new Tag(
-                            array(
+                            [
                                 'id' => 40,
-                            )
+                            ]
                         ),
-                    )
+                    ]
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -529,33 +529,33 @@ class TagsTest extends FieldTypeTest
      */
     public function provideDataForGetName()
     {
-        return array(
-            array(
+        return [
+            [
                 new TagsValue(),
                 '',
-            ),
-            array(
-                new TagsValue(array()),
+            ],
+            [
+                new TagsValue([]),
                 '',
-            ),
-            array(
+            ],
+            [
                 new TagsValue(
-                    array(
+                    [
                         $this->getTag(),
-                    )
+                    ]
                 ),
                 'eztags',
-            ),
-            array(
+            ],
+            [
                 new TagsValue(
-                    array(
+                    [
                         $this->getTag(),
                         $this->getTag(),
-                    )
+                    ]
                 ),
                 'eztags, eztags',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -577,16 +577,16 @@ class TagsTest extends FieldTypeTest
     {
         $this->tagsService = $this->createMock(TagsService::class);
 
-        $this->tagsService->expects($this->any())
+        $this->tagsService->expects(self::any())
             ->method('loadTagList')
-            ->will($this->returnCallback(array($this, 'getTagsServiceLoadTagValues')));
+            ->will(self::returnCallback([$this, 'getTagsServiceLoadTagValues']));
 
         $tagsType = new TagsType($this->tagsService);
         $tagsType->setEditViews(
-            array(
-                'default' => array('identifier' => 'Default'),
-                'select' => array('identifier' => 'Select'),
-            )
+            [
+                'default' => ['identifier' => 'Default'],
+                'select' => ['identifier' => 'Select'],
+            ]
         );
 
         return $tagsType;
@@ -599,16 +599,16 @@ class TagsTest extends FieldTypeTest
      */
     protected function getSettingsSchemaExpectation()
     {
-        return array(
-            'hideRootTag' => array(
+        return [
+            'hideRootTag' => [
                 'type' => 'boolean',
                 'default' => false,
-            ),
-            'editView' => array(
+            ],
+            'editView' => [
                 'type' => 'string',
                 'default' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -618,18 +618,18 @@ class TagsTest extends FieldTypeTest
      */
     protected function getValidatorConfigurationSchemaExpectation()
     {
-        return array(
-            'TagsValueValidator' => array(
-                'subTreeLimit' => array(
+        return [
+            'TagsValueValidator' => [
+                'subTreeLimit' => [
                     'type' => 'int',
                     'default' => 0,
-                ),
-                'maxTags' => array(
+                ],
+                'maxTags' => [
                     'type' => 'int',
                     'default' => 0,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -653,19 +653,19 @@ class TagsTest extends FieldTypeTest
         $modificationDate->setTimestamp(1308153110);
 
         return new Tag(
-            array(
+            [
                 'id' => 40,
                 'parentTagId' => 7,
                 'mainTagId' => 0,
-                'keywords' => array('eng-GB' => 'eztags'),
+                'keywords' => ['eng-GB' => 'eztags'],
                 'depth' => 3,
                 'pathString' => '/8/7/40/',
                 'modificationDate' => $modificationDate,
                 'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
-                'languageCodes' => array('eng-GB'),
-            )
+                'languageCodes' => ['eng-GB'],
+            ]
         );
     }
 
@@ -676,18 +676,18 @@ class TagsTest extends FieldTypeTest
      */
     protected function getTagHash()
     {
-        return array(
+        return [
             'id' => 40,
             'parent_id' => 7,
             'main_tag_id' => 0,
-            'keywords' => array('eng-GB' => 'eztags'),
+            'keywords' => ['eng-GB' => 'eztags'],
             'depth' => 3,
             'path_string' => '/8/7/40/',
             'modified' => 1308153110,
             'remote_id' => '182be0c5cdcd5072bb1864cdee4d3d6e',
             'always_available' => false,
             'main_language_code' => 'eng-GB',
-            'language_codes' => array('eng-GB'),
-        );
+            'language_codes' => ['eng-GB'],
+        ];
     }
 }

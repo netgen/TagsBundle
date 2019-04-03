@@ -64,8 +64,8 @@ class Handler implements BaseTagsHandler
      */
     public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true)
     {
-        // @todo This can be optimized in the future by adding method on gateway to load several
-        $tags = array();
+        // TODO: This can be optimized in the future by adding method on gateway to load several
+        $tags = [];
         foreach ($tagIds as $tagId) {
             $rows = $this->gateway->getFullTagData($tagId, $translations, $useAlwaysAvailable);
             if (!empty($rows)) {
@@ -244,10 +244,10 @@ class Handler implements BaseTagsHandler
         $totalCount = $this->gateway->getTagsByKeywordCount($searchString, $translation, $useAlwaysAvailable, false);
 
         return new SearchResult(
-            array(
+            [
                 'tags' => $this->mapper->extractTagListFromRows($tags),
                 'totalCount' => $totalCount,
-            )
+            ]
         );
     }
 

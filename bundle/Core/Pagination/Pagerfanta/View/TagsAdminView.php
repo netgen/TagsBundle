@@ -86,7 +86,7 @@ class TagsAdminView implements ViewInterface
      *
      * @return string
      */
-    public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = array())
+    public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = [])
     {
         $this->pagerfanta = $pagerfanta;
         $this->routeGenerator = $routeGenerator;
@@ -96,10 +96,10 @@ class TagsAdminView implements ViewInterface
 
         return $this->twig->render(
             isset($options['template']) ? $options['template'] : $this->template,
-            array(
+            [
                 'pager' => $pagerfanta,
                 'pages' => $this->getPages(),
-            )
+            ]
         );
     }
 
@@ -175,7 +175,7 @@ class TagsAdminView implements ViewInterface
      */
     protected function getPages()
     {
-        $pages = array();
+        $pages = [];
 
         $pages['previous_page'] = $this->pagerfanta->hasPreviousPage() ?
             $this->generateUrl($this->pagerfanta->getPreviousPage()) :
@@ -188,7 +188,7 @@ class TagsAdminView implements ViewInterface
 
         $pages['separator_before'] = $this->startPage > 3 ? true : false;
 
-        $middlePages = array();
+        $middlePages = [];
         for ($i = $this->startPage, $end = $this->endPage; $i <= $end; ++$i) {
             $middlePages[$i] = $this->generateUrl($i);
         }

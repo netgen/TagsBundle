@@ -20,23 +20,23 @@ class TagUpdateType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired(array('tag', 'languageCode'))
+            ->setRequired(['tag', 'languageCode'])
             ->setAllowedTypes('tag', Tag::class)
             ->setAllowedTypes('languageCode', 'string')
             ->setDefaults(
-                array(
+                [
                     'data_class' => TagUpdateStruct::class,
                     'constraints' => function (Options $options) {
-                        return array(
+                        return [
                             new TagUpdateStructConstraint(
-                                array(
+                                [
                                     'payload' => $options['tag'],
                                     'languageCode' => $options['languageCode'],
-                                )
+                                ]
                             ),
-                        );
+                        ];
                     },
-                )
+                ]
             );
     }
 

@@ -42,23 +42,23 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
     {
         $this->globalVariable = $this->getMockBuilder(AdminGlobalVariable::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('setPageLayoutTemplate'))
+            ->setMethods(['setPageLayoutTemplate'])
             ->getMock();
 
         $this->pageLayoutTemplate = '@Acme/pagelayout.html.twig';
 
         $this->event = $this->getMockBuilder(GetResponseEvent::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('isMasterRequest', 'getRequest'))
+            ->setMethods(['isMasterRequest', 'getRequest'])
             ->getMock();
 
         $this->request = new Request(
-            array(),
-            array(),
-            array('_route' => 'netgen_tags_admin'),
-            array(),
-            array(),
-            array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest')
+            [],
+            [],
+            ['_route' => 'netgen_tags_admin'],
+            [],
+            [],
+            ['HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
         $this->listener = new SetAdminPageLayoutRequestListener($this->globalVariable, $this->pageLayoutTemplate);
@@ -66,29 +66,29 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
 
     public function testInstanceOfEventSubscriberInterface()
     {
-        $this->assertInstanceOf(EventSubscriberInterface::class, $this->listener);
+        self::assertInstanceOf(EventSubscriberInterface::class, $this->listener);
     }
 
     public function testInstanceOfPlatformUIListener()
     {
-        $this->assertInstanceOf(PlatformUIListener::class, $this->listener);
+        self::assertInstanceOf(PlatformUIListener::class, $this->listener);
     }
 
     public function testGetSubscribedEventShouldReturnValidConfiguration()
     {
-        $this->assertEquals(array(KernelEvents::REQUEST => 'onKernelRequest'), SetAdminPageLayoutRequestListener::getSubscribedEvents());
+        self::assertEquals([KernelEvents::REQUEST => 'onKernelRequest'], SetAdminPageLayoutRequestListener::getSubscribedEvents());
     }
 
     public function testIsMasterRequestFalse()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(false);
 
-        $this->event->expects($this->never())
+        $this->event->expects(self::never())
             ->method('getRequest');
 
-        $this->globalVariable->expects($this->never())
+        $this->globalVariable->expects(self::never())
             ->method('setPageLayoutTemplate');
 
         $this->listener->onKernelRequest($this->event);
@@ -96,15 +96,15 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
 
     public function testIsMasterRequestTrue()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getRequest')
             ->willReturn($this->request);
 
-        $this->globalVariable->expects($this->once())
+        $this->globalVariable->expects(self::once())
             ->method('setPageLayoutTemplate')
             ->with($this->pageLayoutTemplate);
 
@@ -113,15 +113,15 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
 
     public function testIsPlatformUIRequestFalse()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getRequest')
             ->willReturn(new Request());
 
-        $this->globalVariable->expects($this->never())
+        $this->globalVariable->expects(self::never())
             ->method('setPageLayoutTemplate');
 
         $this->listener->onKernelRequest($this->event);

@@ -38,7 +38,7 @@ class TagsTest extends TestCase
     public function testCreate()
     {
         $converter = TagsConverter::create();
-        $this->assertInstanceOf(get_class($this->converter), $converter);
+        self::assertInstanceOf(get_class($this->converter), $converter);
     }
 
     /**
@@ -49,19 +49,19 @@ class TagsTest extends TestCase
     public function testToStorageValue()
     {
         $value = new FieldValue();
-        $value->data = array('key1', 'key2');
+        $value->data = ['key1', 'key2'];
         $value->sortKey = false;
 
         $storageFieldValue = new StorageFieldValue();
 
         $this->converter->toStorageValue($value, $storageFieldValue);
 
-        $this->assertNull($storageFieldValue->dataText);
-        $this->assertNull($storageFieldValue->dataInt);
-        $this->assertNull($storageFieldValue->dataFloat);
+        self::assertNull($storageFieldValue->dataText);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertNull($storageFieldValue->dataFloat);
 
-        $this->assertEquals(0, $storageFieldValue->sortKeyInt);
-        $this->assertEquals('', $storageFieldValue->sortKeyString);
+        self::assertEquals(0, $storageFieldValue->sortKeyInt);
+        self::assertEquals('', $storageFieldValue->sortKeyString);
     }
 
     /**
@@ -76,8 +76,8 @@ class TagsTest extends TestCase
 
         $this->converter->toFieldValue($storageFieldValue, $fieldValue);
 
-        $this->assertNull($fieldValue->data);
-        $this->assertNull($fieldValue->sortKey);
+        self::assertNull($fieldValue->data);
+        self::assertNull($fieldValue->sortKey);
     }
 
     /**
@@ -89,25 +89,25 @@ class TagsTest extends TestCase
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
-            array(
+            [
                 'hideRootTag' => true,
                 'editView' => 'Select',
-            )
+            ]
         );
 
-        $fieldTypeConstraints->validators = array(
-            'TagsValueValidator' => array(
+        $fieldTypeConstraints->validators = [
+            'TagsValueValidator' => [
                 'subTreeLimit' => 0,
                 'maxTags' => 10,
-            ),
-        );
+            ],
+        ];
 
         $storageFieldDefinition = new StorageFieldDefinition();
         $this->converter->toStorageFieldDefinition(
             new PersistenceFieldDefinition(
-                array(
+                [
                     'fieldTypeConstraints' => $fieldTypeConstraints,
-                )
+                ]
             ),
             $storageFieldDefinition
         );
@@ -148,12 +148,12 @@ class TagsTest extends TestCase
 
         $this->converter->toFieldDefinition(
             new StorageFieldDefinition(
-                array(
+                [
                     'dataInt1' => 0,
                     'dataInt3' => true,
                     'dataInt4' => 10,
                     'dataText1' => 'Select',
-                )
+                ]
             ),
             $fieldDefinition
         );

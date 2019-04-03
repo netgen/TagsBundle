@@ -52,7 +52,6 @@ class RemoteIdValidator extends ConstraintValidator
             $tag = $this->tagsService->loadTagByRemoteId($value);
 
             if (!$constraint->payload instanceof Tag || $tag->id !== $constraint->payload->id) {
-                /* @var \Netgen\TagsBundle\Validator\Constraints\RemoteId $constraint */
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('%remoteId%', $value)
                     ->addViolation();

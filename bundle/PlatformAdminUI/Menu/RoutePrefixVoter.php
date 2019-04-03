@@ -38,11 +38,11 @@ class RoutePrefixVoter implements VoterInterface
             return null;
         }
 
-        $routes = (array) $item->getExtra('routes', array());
+        $routes = (array) $item->getExtra('routes', []);
 
         foreach ($routes as $testedRoute) {
             if (is_string($testedRoute)) {
-                $testedRoute = array('route' => $testedRoute);
+                $testedRoute = ['route' => $testedRoute];
             }
 
             if (!is_array($testedRoute)) {

@@ -49,7 +49,7 @@ class RelatedContentPager implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(ViewEvents::FILTER_VIEW_PARAMETERS => 'injectPager');
+        return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectPager'];
     }
 
     /**

@@ -46,58 +46,58 @@ class RedirectResponseListenerTest extends TestCase
 
         $this->kernel = $this->getMockBuilder(HttpKernelInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(array())
+            ->setMethods([])
             ->getMock();
 
         $this->response = $this->getMockBuilder(Response::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('isRedirect', 'setStatusCode'))
+            ->setMethods(['isRedirect', 'setStatusCode'])
             ->getMock();
 
         $this->platformUiRequest = new Request(
-            array(),
-            array(),
-            array('_route' => 'netgen_tags_admin'),
-            array(),
-            array(),
-            array('HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest')
+            [],
+            [],
+            ['_route' => 'netgen_tags_admin'],
+            [],
+            [],
+            ['HTTP_X-PJAX' => 'weeee', 'HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
         $this->event = $this->getMockBuilder(FilterResponseEvent::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getResponse', 'isMasterRequest', 'getRequest'))
+            ->setMethods(['getResponse', 'isMasterRequest', 'getRequest'])
             ->getMock();
     }
 
     public function testInstanceOfEventSubscriberInterface()
     {
-        $this->assertInstanceOf(EventSubscriberInterface::class, $this->listener);
+        self::assertInstanceOf(EventSubscriberInterface::class, $this->listener);
     }
 
     public function testInstanceOfPlatformUIListener()
     {
-        $this->assertInstanceOf(PlatformUIListener::class, $this->listener);
+        self::assertInstanceOf(PlatformUIListener::class, $this->listener);
     }
 
     public function testGetSubscribedEventShouldReturnValidConfiguration()
     {
-        $this->assertEquals(array(KernelEvents::RESPONSE => 'onKernelResponse'), RedirectResponseListener::getSubscribedEvents());
+        self::assertEquals([KernelEvents::RESPONSE => 'onKernelResponse'], RedirectResponseListener::getSubscribedEvents());
     }
 
     public function testIfNotMasterRequestThenReturn()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getResponse')
             ->willReturn($this->response);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(false);
 
-        $this->response->expects($this->never())
+        $this->response->expects(self::never())
             ->method('isRedirect');
 
-        $this->event->expects($this->never())
+        $this->event->expects(self::never())
             ->method('getRequest');
 
         $this->listener->onKernelResponse($this->event);
@@ -105,19 +105,19 @@ class RedirectResponseListenerTest extends TestCase
 
     public function testIfIsRedirectThenReturn()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getResponse')
             ->willReturn($this->response);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->response->expects($this->once())
+        $this->response->expects(self::once())
             ->method('isRedirect')
             ->willReturn(false);
 
-        $this->event->expects($this->never())
+        $this->event->expects(self::never())
             ->method('getRequest');
 
         $this->listener->onKernelResponse($this->event);
@@ -137,30 +137,30 @@ class RedirectResponseListenerTest extends TestCase
         $this->listener->onKernelResponse($event);
 
         $response = $event->getResponse();
-        $this->assertEquals(Response::HTTP_RESET_CONTENT, $response->getStatusCode());
-        $this->assertEquals($url, $response->headers->get('PJAX-Location'));
-        $this->assertFalse($response->headers->has('Location'));
+        self::assertEquals(Response::HTTP_RESET_CONTENT, $response->getStatusCode());
+        self::assertEquals($url, $response->headers->get('PJAX-Location'));
+        self::assertFalse($response->headers->has('Location'));
     }
 
     public function testIsPlatformUIRequestWithRoute()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getResponse')
             ->willReturn($this->response);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->response->expects($this->once())
+        $this->response->expects(self::once())
             ->method('isRedirect')
             ->willReturn(true);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getRequest')
-            ->willReturn(new Request(array(), array(), array('_route' => 'something')));
+            ->willReturn(new Request([], [], ['_route' => 'something']));
 
-        $this->response->expects($this->never())
+        $this->response->expects(self::never())
             ->method('setStatusCode');
 
         $this->listener->onKernelResponse($this->event);
@@ -168,23 +168,23 @@ class RedirectResponseListenerTest extends TestCase
 
     public function testIsPlatformUIRequestWithHeaders()
     {
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getResponse')
             ->willReturn($this->response);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->response->expects($this->once())
+        $this->response->expects(self::once())
             ->method('isRedirect')
             ->willReturn(true);
 
-        $this->event->expects($this->once())
+        $this->event->expects(self::once())
             ->method('getRequest')
-            ->willReturn(new Request(array(), array(), array('_route' => 'netgen_tags_admin')));
+            ->willReturn(new Request([], [], ['_route' => 'netgen_tags_admin']));
 
-        $this->response->expects($this->never())
+        $this->response->expects(self::never())
             ->method('setStatusCode');
 
         $this->listener->onKernelResponse($this->event);

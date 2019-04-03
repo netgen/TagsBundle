@@ -80,7 +80,7 @@ class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $data = array();
+        $data = [];
 
         if (!$tag instanceof Tag || !$tag->isSynonym()) {
             $configResolver = $this->getConfigResolver();
@@ -93,9 +93,9 @@ class TagController extends Controller
                 $tag
             );
 
-            $data += array(
+            $data += [
                 'childrenTags' => $pager,
-            );
+            ];
         }
 
         if (!$tag instanceof Tag) {
@@ -105,16 +105,16 @@ class TagController extends Controller
             );
         }
 
-        $data += array(
+        $data += [
             'tag' => $tag,
             'latestContent' => $this->tagsService->getRelatedContent($tag, 0, 10),
-        );
+        ];
 
         if (!$tag->isSynonym()) {
-            $data += array(
+            $data += [
                 'synonyms' => $this->tagsService->loadTagSynonyms($tag),
                 'subTreeLimitations' => $this->getSubtreeLimitations($tag),
-            );
+            ];
         }
 
         return $this->render(
@@ -140,19 +140,19 @@ class TagController extends Controller
         if (count($availableLanguages) === 1) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
-                array(
+                [
                     'parentId' => $parentTag !== null ? $parentTag->id : 0,
                     'languageCode' => $availableLanguages[0],
-                )
+                ]
             );
         }
 
         $form = $this->createForm(
             LanguageSelectType::class,
             null,
-            array(
+            [
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -160,18 +160,18 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
-                array(
+                [
                     'parentId' => $parentTag !== null ? $parentTag->id : 0,
                     'languageCode' => $form->getData()['languageCode'],
-                )
+                ]
             );
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/select_translation.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -197,9 +197,9 @@ class TagController extends Controller
         $form = $this->createForm(
             TagCreateType::class,
             $tagCreateStruct,
-            array(
+            [
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -207,17 +207,17 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $newTag = $this->tagsService->createTag($form->getData());
 
-            $this->addFlashMessage('success', 'tag_added', array('%tagKeyword%' => $newTag->keyword));
+            $this->addFlashMessage('success', 'tag_added', ['%tagKeyword%' => $newTag->keyword]);
 
             return $this->redirectToTag($newTag);
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/add.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'parentTag' => $parentTag,
-            )
+            ]
         );
     }
 
@@ -238,20 +238,20 @@ class TagController extends Controller
         if (count($availableLanguages) === 1) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_update',
-                array(
+                [
                     'tagId' => $tag->id,
                     'languageCode' => $availableLanguages[0],
-                )
+                ]
             );
         }
 
         $form = $this->createForm(
             LanguageSelectType::class,
             null,
-            array(
+            [
                 'action' => $request->getPathInfo(),
                 'tag' => $tag,
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -259,19 +259,19 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_update',
-                array(
+                [
                     'tagId' => $tag->id,
                     'languageCode' => $form->getData()['languageCode'],
-                )
+                ]
             );
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/select_translation.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            )
+            ]
         );
     }
 
@@ -300,11 +300,11 @@ class TagController extends Controller
         $form = $this->createForm(
             TagUpdateType::class,
             $tagUpdateStruct,
-            array(
+            [
                 'action' => $request->getPathInfo(),
                 'languageCode' => $languageCode,
                 'tag' => $tag,
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -312,17 +312,17 @@ class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $updatedTag = $this->tagsService->updateTag($tag, $form->getData());
 
-            $this->addFlashMessage('success', 'tag_updated', array('%tagKeyword%' => $updatedTag->keyword));
+            $this->addFlashMessage('success', 'tag_updated', ['%tagKeyword%' => $updatedTag->keyword]);
 
             return $this->redirectToTag($updatedTag);
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/update.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            )
+            ]
         );
     }
 
@@ -349,16 +349,16 @@ class TagController extends Controller
 
             $this->tagsService->deleteTag($tag);
 
-            $this->addFlashMessage('success', 'tag_deleted', array('%tagKeyword%' => $tag->keyword));
+            $this->addFlashMessage('success', 'tag_deleted', ['%tagKeyword%' => $tag->keyword]);
 
             return $this->redirectToTag();
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/delete.html.twig',
-            array(
+            [
                 'tag' => $tag,
-            )
+            ]
         );
     }
 
@@ -379,10 +379,10 @@ class TagController extends Controller
         $form = $this->createForm(
             TagMergeType::class,
             null,
-            array(
+            [
                 'tag' => $tag,
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -395,10 +395,10 @@ class TagController extends Controller
             $this->addFlashMessage(
                 'success',
                 'tag_merged',
-                array(
+                [
                     '%tagKeyword%' => $tag->keyword,
                     '%sourceTagKeyword%' => $sourceTag->keyword,
-                )
+                ]
             );
 
             return $this->redirectToTag($sourceTag);
@@ -406,10 +406,10 @@ class TagController extends Controller
 
         return $this->render(
             '@NetgenTags/admin/tag/merge.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            )
+            ]
         );
     }
 
@@ -430,10 +430,10 @@ class TagController extends Controller
         $form = $this->createForm(
             TagConvertType::class,
             null,
-            array(
+            [
                 'tag' => $tag,
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -446,10 +446,10 @@ class TagController extends Controller
             $this->addFlashMessage(
                 'success',
                 'tag_converted',
-                array(
+                [
                     '%tagKeyword%' => $tag->keyword,
                     '%mainTagKeyword%' => $mainTag->keyword,
-                )
+                ]
             );
 
             return $this->redirectToTag($mainTag);
@@ -457,10 +457,10 @@ class TagController extends Controller
 
         return $this->render(
             '@NetgenTags/admin/tag/convert.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            )
+            ]
         );
     }
 
@@ -499,7 +499,7 @@ class TagController extends Controller
 
             foreach ($locales as $locale) {
                 if (!isset($newKeywords[$locale])) {
-                    $this->addFlashMessage('errors', 'no_translation', array('%locale%' => $locale));
+                    $this->addFlashMessage('errors', 'no_translation', ['%locale%' => $locale]);
                 } elseif ($locale === $tag->mainLanguageCode) {
                     $this->addFlashMessage('errors', 'main_translation');
                 } else {
@@ -520,12 +520,12 @@ class TagController extends Controller
             $newMainTranslation = $request->request->get('MainLocale');
 
             if (!in_array($newMainTranslation, $tag->languageCodes, true)) {
-                $this->addFlashMessage('errors', 'no_translation', array('%locale%', $newMainTranslation));
+                $this->addFlashMessage('errors', 'no_translation', ['%locale%', $newMainTranslation]);
             } else {
                 $tagUpdateStruct->mainLanguageCode = $newMainTranslation;
                 $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
-                $this->addFlashMessage('success', 'main_translation_set', array('%locale%' => $newMainTranslation));
+                $this->addFlashMessage('success', 'main_translation_set', ['%locale%' => $newMainTranslation]);
             }
         } elseif ($request->request->has('UpdateAlwaysAvailableButton')) {
             $tagUpdateStruct->alwaysAvailable = (bool) $request->request->get('AlwaysAvailable');
@@ -561,27 +561,27 @@ class TagController extends Controller
         if ($request->request->has('MoveTagsAction')) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_move_tags',
-                array(
+                [
                     'parentId' => $tag !== null ? $tag->id : 0,
-                )
+                ]
             );
         }
 
         if ($request->request->has('CopyTagsAction')) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_copy_tags',
-                array(
+                [
                     'parentId' => $tag !== null ? $tag->id : 0,
-                )
+                ]
             );
         }
 
         if ($request->request->has('DeleteTagsAction')) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_delete_tags',
-                array(
+                [
                     'parentId' => $tag !== null ? $tag->id : 0,
-                )
+                ]
             );
         }
 
@@ -610,20 +610,20 @@ class TagController extends Controller
             return $this->redirectToTag($parentTag);
         }
 
-        $tags = array();
+        $tags = [];
         foreach ($tagIds as $tagId) {
             $tags[] = $this->tagsService->loadTag($tagId);
         }
 
         $form = $this->createForm(
             MoveTagsType::class,
-            array(
+            [
                 'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
-            ),
-            array(
+            ],
+            [
                 'tags' => $tags,
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -646,11 +646,11 @@ class TagController extends Controller
 
         return $this->render(
             '@NetgenTags/admin/tag/move_tags.html.twig',
-            array(
+            [
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -676,20 +676,20 @@ class TagController extends Controller
             return $this->redirectToTag($parentTag);
         }
 
-        $tags = array();
+        $tags = [];
         foreach ($tagIds as $tagId) {
             $tags[] = $this->tagsService->loadTag($tagId);
         }
 
         $form = $this->createForm(
             CopyTagsType::class,
-            array(
+            [
                 'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
-            ),
-            array(
+            ],
+            [
                 'tags' => $tags,
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -712,11 +712,11 @@ class TagController extends Controller
 
         return $this->render(
             '@NetgenTags/admin/tag/copy_tags.html.twig',
-            array(
+            [
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -742,7 +742,7 @@ class TagController extends Controller
             return $this->redirectToTag($parentTag);
         }
 
-        $tags = array();
+        $tags = [];
         foreach ($tagIds as $tagId) {
             $tags[] = $this->tagsService->loadTag($tagId);
         }
@@ -765,10 +765,10 @@ class TagController extends Controller
 
         return $this->render(
             '@NetgenTags/admin/tag/delete_tags.html.twig',
-            array(
+            [
                 'parentTag' => $parentTag ?: null,
                 'tags' => $tags,
-            )
+            ]
         );
     }
 
@@ -781,7 +781,7 @@ class TagController extends Controller
      */
     protected function getSubtreeLimitations(Tag $tag)
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->contentTypeService->loadContentTypeGroups() as $contentTypeGroup) {
             foreach ($this->contentTypeService->loadContentTypes($contentTypeGroup) as $contentType) {
@@ -792,10 +792,10 @@ class TagController extends Controller
                             !empty($validatorConfiguration['TagsValueValidator']['subTreeLimit']) &&
                             $validatorConfiguration['TagsValueValidator']['subTreeLimit'] === $tag->id
                         ) {
-                            $result[] = array(
+                            $result[] = [
                                 'contentTypeId' => $contentType->id,
                                 'attributeIdentifier' => $fieldDefinition->identifier,
-                            );
+                            ];
                         }
                     }
                 }

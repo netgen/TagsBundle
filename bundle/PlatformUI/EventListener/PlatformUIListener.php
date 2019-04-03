@@ -15,7 +15,7 @@ abstract class PlatformUIListener
      */
     protected function isPlatformUIRequest(Request $request)
     {
-        if (stripos($request->attributes->get('_route'), 'netgen_tags_admin') !== 0) {
+        if (mb_stripos($request->attributes->get('_route'), 'netgen_tags_admin') !== 0) {
             return false;
         }
 

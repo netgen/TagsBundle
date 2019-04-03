@@ -24,7 +24,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected $tagRow = array(
+    protected $tagRow = [
         'id' => 42,
         'parent_id' => 21,
         'main_tag_id' => 0,
@@ -35,14 +35,14 @@ class MapperTest extends TestCase
         'remote_id' => '123456abcdef',
         'main_language_id' => 8,
         'language_mask' => 9,
-    );
+    ];
 
     /**
      * Tags list data from the database.
      *
      * @var array
      */
-    protected $tagListRow = array(
+    protected $tagListRow = [
         'eztags_id' => 42,
         'eztags_parent_id' => 21,
         'eztags_main_tag_id' => 0,
@@ -55,14 +55,14 @@ class MapperTest extends TestCase
         'eztags_language_mask' => 9,
         'eztags_keyword_keyword' => 'Croatia',
         'eztags_keyword_locale' => 'eng-GB',
-    );
+    ];
 
     /**
      * Expected Tag object properties values.
      *
      * @var array
      */
-    protected $tagValues = array(
+    protected $tagValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -72,27 +72,27 @@ class MapperTest extends TestCase
         'remoteId' => '123456abcdef',
         'alwaysAvailable' => true,
         'mainLanguageCode' => 'eng-GB',
-        'languageIds' => array(8),
-    );
+        'languageIds' => [8],
+    ];
 
     /**
      * Expected Tag object properties values.
      *
      * @var array
      */
-    protected $tagListValues = array(
+    protected $tagListValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
-        'keywords' => array('eng-GB' => 'Croatia'),
+        'keywords' => ['eng-GB' => 'Croatia'],
         'depth' => 3,
         'pathString' => '/1/21/42/',
         'modificationDate' => 1234567,
         'remoteId' => '123456abcdef',
         'alwaysAvailable' => true,
         'mainLanguageCode' => 'eng-GB',
-        'languageIds' => array(8),
-    );
+        'languageIds' => [8],
+    ];
 
     public function setUp()
     {
@@ -109,7 +109,7 @@ class MapperTest extends TestCase
             $this->tagRow
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TagInfo::class,
             $tag
         );
@@ -126,7 +126,7 @@ class MapperTest extends TestCase
      */
     public function testExtractTagListFromRows()
     {
-        $inputRows = array();
+        $inputRows = [];
         for ($i = 0; $i < 3; ++$i) {
             $row = $this->tagListRow;
             $row['eztags_id'] += $i;
@@ -135,17 +135,17 @@ class MapperTest extends TestCase
 
         $tags = $this->tagsMapper->extractTagListFromRows($inputRows);
 
-        $this->assertCount(3, $tags);
+        self::assertCount(3, $tags);
 
         $i = 0;
         foreach ($tags as $tag) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 Tag::class,
                 $tag
             );
 
             $this->assertPropertiesCorrect(
-                array('id' => $this->tagListValues['id'] + $i) + $this->tagListValues,
+                ['id' => $this->tagListValues['id'] + $i] + $this->tagListValues,
                 $tag
             );
 

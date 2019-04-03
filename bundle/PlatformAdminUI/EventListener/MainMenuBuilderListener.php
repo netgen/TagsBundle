@@ -22,7 +22,7 @@ class MainMenuBuilderListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(ConfigureMenuEvent::MAIN_MENU => 'onMainMenuBuild');
+        return [ConfigureMenuEvent::MAIN_MENU => 'onMainMenuBuild'];
     }
 
     /**
@@ -49,7 +49,7 @@ class MainMenuBuilderListener implements EventSubscriberInterface
         $menuOrder = $this->getNewMenuOrder($menu);
 
         $menu
-            ->addChild('eztags', array('route' => 'netgen_tags_admin_root'))
+            ->addChild('eztags', ['route' => 'netgen_tags_admin_root'])
             ->setLabel('menu.main_menu.header')
             ->setExtra('translation_domain', 'eztags_admin');
 
@@ -68,7 +68,7 @@ class MainMenuBuilderListener implements EventSubscriberInterface
         $menuOrder = array_keys($menu->getChildren());
         $configMenuIndex = array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true);
         if ($configMenuIndex !== false) {
-            array_splice($menuOrder, array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true), 0, array('eztags'));
+            array_splice($menuOrder, array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true), 0, ['eztags']);
 
             return $menuOrder;
         }

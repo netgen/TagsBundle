@@ -83,7 +83,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     public function getSlice($offset, $length)
     {
         if (!$this->tag instanceof Tag) {
-            return array();
+            return [];
         }
 
         $relatedContent = $this->tagsService->getRelatedContent(

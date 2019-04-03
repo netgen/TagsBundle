@@ -30,6 +30,9 @@ class Legacy extends BaseLegacy
      */
     public function getServiceContainer()
     {
+        /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
+        $loader = null;
+
         if (!isset(self::$serviceContainer)) {
             $config = include __DIR__ . '/../../../../vendor/ezsystems/ezpublish-kernel/config.php';
             $installDir = $config['install_dir'];
@@ -37,7 +40,6 @@ class Legacy extends BaseLegacy
             /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
             $containerBuilder = include $config['container_builder_path'];
 
-            /* @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
             $loader->load('search_engines/legacy.yml');
             $loader->load('tests/integration_legacy.yml');
             $loader->load(__DIR__ . '/../../../../bundle/Resources/config/papi.yml');

@@ -25,7 +25,6 @@ class TagId extends Tags
     /**
      * Map field value to a proper Solr representation.
      *
-     *
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
      * @param \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor $subVisitor
      *
@@ -45,7 +44,7 @@ class TagId extends Tags
             );
         }
 
-        $queries = array();
+        $queries = [];
         foreach ($searchFields as $name => $fieldType) {
             foreach ($criterion->value as $value) {
                 $preparedValue = $this->escapeQuote(

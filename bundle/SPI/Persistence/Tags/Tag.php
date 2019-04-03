@@ -38,7 +38,7 @@ class Tag extends ValueObject
      *
      * @return string[]
      */
-    public $keywords = array();
+    public $keywords = [];
 
     /**
      * The depth tag has in tag tree.
@@ -87,5 +87,5 @@ class Tag extends ValueObject
      *
      * @var int[]
      */
-    public $languageIds = array();
+    public $languageIds = [];
 }

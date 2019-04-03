@@ -117,10 +117,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
         $fieldType->setTransformationProcessor($this->getTransformationProcessor());
         $fieldType->setEditViews(
-            array(
-                'default' => array('identifier' => 'Default'),
-                'select' => array('identifier' => 'Select'),
-            )
+            [
+                'default' => ['identifier' => 'Default'],
+                'select' => ['identifier' => 'Select'],
+            ]
         );
 
         return $this->getHandler(
@@ -160,24 +160,24 @@ class TagsIntegrationTest extends BaseIntegrationTest
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
-            array(
+            [
                 'hideRootTag' => false,
                 'editView' => TagsType::EDIT_VIEW_DEFAULT_VALUE,
-            )
+            ]
         );
 
-        $fieldTypeConstraints->validators = array(
-            'TagsValueValidator' => array(
+        $fieldTypeConstraints->validators = [
+            'TagsValueValidator' => [
                 'subTreeLimit' => 0,
                 'maxTags' => 0,
-            ),
-        );
+            ],
+        ];
 
-        return array(
+        return [
             // The eztags field type does not have any special field definition properties
-            array('fieldType', 'eztags'),
-            array('fieldTypeConstraints', $fieldTypeConstraints),
-        );
+            ['fieldType', 'eztags'],
+            ['fieldTypeConstraints', $fieldTypeConstraints],
+        ];
     }
 
     /**
@@ -188,13 +188,13 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getInitialValue()
     {
         return new FieldValue(
-            array(
+            [
                 'data' => null,
-                'externalData' => array(
+                'externalData' => [
                     $this->getTagHash1(),
-                ),
+                ],
                 'sortKey' => null,
-            )
+            ]
         );
     }
 
@@ -209,13 +209,13 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertLoadedFieldDataCorrect(Field $field)
     {
-        $this->assertEquals(
+        self::assertEquals(
             $this->getInitialValue()->externalData,
             $field->value->externalData
         );
 
-        $this->assertNull($field->value->data);
-        $this->assertNull($field->value->sortKey);
+        self::assertNull($field->value->data);
+        self::assertNull($field->value->sortKey);
     }
 
     /**
@@ -228,14 +228,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getUpdatedValue()
     {
         return new FieldValue(
-            array(
+            [
                 'data' => null,
-                'externalData' => array(
+                'externalData' => [
                     $this->getTagHash1(),
                     $this->getTagHash2(),
-                ),
+                ],
                 'sortKey' => null,
-            )
+            ]
         );
     }
 
@@ -251,13 +251,13 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertUpdatedFieldDataCorrect(Field $field)
     {
-        $this->assertEquals(
+        self::assertEquals(
             $this->getUpdatedValue()->externalData,
             $field->value->externalData
         );
 
-        $this->assertNull($field->value->data);
-        $this->assertNull($field->value->sortKey);
+        self::assertNull($field->value->data);
+        self::assertNull($field->value->sortKey);
     }
 
     /**
@@ -267,19 +267,19 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     protected function getTagHash1()
     {
-        return array(
+        return [
             'id' => 40,
             'parent_id' => 7,
             'main_tag_id' => 0,
-            'keywords' => array('eng-GB' => 'eztags'),
+            'keywords' => ['eng-GB' => 'eztags'],
             'depth' => 3,
             'path_string' => '/8/7/40/',
             'modified' => 1308153110,
             'remote_id' => '182be0c5cdcd5072bb1864cdee4d3d6e',
             'always_available' => false,
             'main_language_code' => 'eng-GB',
-            'language_codes' => array('eng-GB'),
-        );
+            'language_codes' => ['eng-GB'],
+        ];
     }
 
     /**
@@ -289,18 +289,18 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     protected function getTagHash2()
     {
-        return array(
+        return [
             'id' => 8,
             'parent_id' => 0,
             'main_tag_id' => 0,
-            'keywords' => array('eng-GB' => 'ez publish'),
+            'keywords' => ['eng-GB' => 'ez publish'],
             'depth' => 1,
             'path_string' => '/8/',
             'modified' => 1343169159,
             'remote_id' => 'eccbc87e4b5ce2fe28308fd9f2a7baf3',
             'always_available' => false,
             'main_language_code' => 'eng-GB',
-            'language_codes' => array('eng-GB'),
-        );
+            'language_codes' => ['eng-GB'],
+        ];
     }
 }

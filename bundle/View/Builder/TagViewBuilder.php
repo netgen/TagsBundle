@@ -73,7 +73,7 @@ class TagViewBuilder implements ViewBuilder
      */
     public function matches($argument)
     {
-        return is_string($argument) && strpos($argument, 'eztags.controller.tag_view:') !== false;
+        return is_string($argument) && mb_strpos($argument, 'eztags.controller.tag_view:') !== false;
     }
 
     /**

@@ -50,13 +50,13 @@ class DoctrineStorage extends Gateway
             $insertQuery
                 ->insert($this->connection->quoteIdentifier('eztags_attribute_link'))
                 ->values(
-                    array(
+                    [
                         'keyword_id' => ':keyword_id',
                         'objectattribute_id' => ':objectattribute_id',
                         'objectattribute_version' => ':objectattribute_version',
                         'object_id' => ':object_id',
                         'priority' => ':priority',
-                    )
+                    ]
                 )
                 ->setParameter(':keyword_id', $tag['id'], PDO::PARAM_INT)
                 ->setParameter(':objectattribute_id', $field->id, PDO::PARAM_INT)
@@ -93,7 +93,7 @@ class DoctrineStorage extends Gateway
             ->delete($this->connection->quoteIdentifier('eztags_attribute_link'))
             ->where(
                 $query->expr()->andX(
-                    $query->expr()->in('objectattribute_id', array(':objectattribute_id')),
+                    $query->expr()->in('objectattribute_id', [':objectattribute_id']),
                     $query->expr()->eq('objectattribute_version', ':objectattribute_version')
                 )
             )
@@ -165,22 +165,22 @@ class DoctrineStorage extends Gateway
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $tagList = array();
+        $tagList = [];
         foreach ($rows as $row) {
             $tagId = (int) $row['eztags_id'];
             if (!isset($tagList[$tagId])) {
-                $tagList[$tagId] = array();
+                $tagList[$tagId] = [];
                 $tagList[$tagId]['id'] = (int) $row['eztags_id'];
                 $tagList[$tagId]['parent_id'] = (int) $row['eztags_parent_id'];
                 $tagList[$tagId]['main_tag_id'] = (int) $row['eztags_main_tag_id'];
-                $tagList[$tagId]['keywords'] = array();
+                $tagList[$tagId]['keywords'] = [];
                 $tagList[$tagId]['depth'] = (int) $row['eztags_depth'];
                 $tagList[$tagId]['path_string'] = $row['eztags_path_string'];
                 $tagList[$tagId]['modified'] = (int) $row['eztags_modified'];
                 $tagList[$tagId]['remote_id'] = $row['eztags_remote_id'];
                 $tagList[$tagId]['always_available'] = ((int) $row['eztags_language_mask'] & 1) ? true : false;
                 $tagList[$tagId]['main_language_code'] = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
-                $tagList[$tagId]['language_codes'] = array();
+                $tagList[$tagId]['language_codes'] = [];
             }
 
             if (!isset($tagList[$tagId]['keywords'][$row['eztags_keyword_locale']])) {

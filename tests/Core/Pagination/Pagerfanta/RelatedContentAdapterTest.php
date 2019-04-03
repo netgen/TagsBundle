@@ -26,51 +26,51 @@ class RelatedContentAdapterTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
-     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getNbResults
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
     public function testGetNbResults()
     {
         $nbResults = 4;
 
         $tag = new Tag(
-            array(
+            [
                 'id' => 42,
-            )
+            ]
         );
 
         $this->tagsService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRelatedContentCount')
-            ->with($this->equalTo($tag))
-            ->will($this->returnValue($nbResults));
+            ->with(self::equalTo($tag))
+            ->will(self::returnValue($nbResults));
 
         $adapter = $this->getAdapter($tag, $this->tagsService);
-        $this->assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($nbResults, $adapter->getNbResults());
 
         // Running a 2nd time to ensure TagsService::getRelatedContentCount() is called only once.
-        $this->assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($nbResults, $adapter->getNbResults());
     }
 
     /**
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
-     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getNbResults
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
     public function testGetNbResultsWithoutTag()
     {
         $this->tagsService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getRelatedContentCount');
 
         $adapter = new RelatedContentAdapter($this->tagsService);
-        $this->assertSame(0, $adapter->getNbResults());
+        self::assertSame(0, $adapter->getNbResults());
     }
 
     /**
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
-     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getSlice
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
     public function testGetSlice()
     {
@@ -79,68 +79,68 @@ class RelatedContentAdapterTest extends TestCase
         $nbResults = 5;
 
         $tag = new Tag(
-            array(
+            [
                 'id' => 42,
-            )
+            ]
         );
 
-        $relatedContent = array(
+        $relatedContent = [
             new Content(
-                array(
-                    'internalFields' => array(),
-                )
+                [
+                    'internalFields' => [],
+                ]
             ),
             new Content(
-                array(
-                    'internalFields' => array(),
-                )
+                [
+                    'internalFields' => [],
+                ]
             ),
-        );
+        ];
 
         $this->tagsService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRelatedContentCount')
-            ->with($this->equalTo($tag))
-            ->will($this->returnValue($nbResults));
+            ->with(self::equalTo($tag))
+            ->will(self::returnValue($nbResults));
 
         $this
             ->tagsService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRelatedContent')
             ->with(
-                $this->equalTo($tag),
-                $this->equalTo($offset),
-                $this->equalTo($limit)
+                self::equalTo($tag),
+                self::equalTo($offset),
+                self::equalTo($limit)
             )
             ->will(
-                $this->returnValue($relatedContent)
+                self::returnValue($relatedContent)
             );
 
         $adapter = $this->getAdapter($tag, $this->tagsService);
 
-        $this->assertSame($relatedContent, $adapter->getSlice($offset, $limit));
-        $this->assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($relatedContent, $adapter->getSlice($offset, $limit));
+        self::assertSame($nbResults, $adapter->getNbResults());
     }
 
     /**
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::__construct
-     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getSlice
+     * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
     public function testGetSliceWithoutTag()
     {
         $this->tagsService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getRelatedContentCount');
 
         $this
             ->tagsService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getRelatedContent');
 
         $adapter = new RelatedContentAdapter($this->tagsService);
 
-        $this->assertSame(array(), $adapter->getSlice(2, 2));
+        self::assertSame([], $adapter->getSlice(2, 2));
     }
 
     /**

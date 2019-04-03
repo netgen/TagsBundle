@@ -79,5 +79,5 @@ class TagInfo extends ValueObject
      *
      * @var int[]
      */
-    public $languageIds = array();
+    public $languageIds = [];
 }

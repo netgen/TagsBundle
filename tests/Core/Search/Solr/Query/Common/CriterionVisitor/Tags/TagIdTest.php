@@ -48,7 +48,7 @@ class TagIdTest extends TestCase
      */
     public function testCanVisit()
     {
-        $criterion = new Criterion\TagId(array(42, 43));
+        $criterion = new Criterion\TagId([42, 43]);
         self::assertTrue($this->visitor->canVisit($criterion));
     }
 
@@ -57,133 +57,133 @@ class TagIdTest extends TestCase
      */
     public function testCanVisitReturnsFalse()
     {
-        $criterion = new LocationId(array(42, 43));
+        $criterion = new LocationId([42, 43]);
         self::assertFalse($this->visitor->canVisit($criterion));
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
+     * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      */
     public function testVisit()
     {
-        $criterion = new Criterion\TagId(array(42, 43), 'tags_field');
+        $criterion = new Criterion\TagId([42, 43], 'tags_field');
 
         $this->fieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFieldTypes')
             ->with(
-                $this->equalTo($criterion),
-                $this->equalTo('tags_field'),
+                self::equalTo($criterion),
+                self::equalTo('tags_field'),
                 'eztags',
                 'tag_ids'
             )
             ->will(
-                $this->returnValue(
-                    array(
+                self::returnValue(
+                    [
                         'tags_field_s' => new FieldType\MultipleIntegerField(),
                         'tags_field2_s' => new FieldType\MultipleIntegerField(),
-                    )
+                    ]
                 )
             );
 
         $this->contentTypeHandler
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getSearchableFieldMap');
 
-        $this->assertEquals(
+        self::assertEquals(
             '(tags_field_s:"42" OR tags_field_s:"43" OR tags_field2_s:"42" OR tags_field2_s:"43")',
             $this->visitor->visit($criterion)
         );
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
+     * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      */
     public function testVisitWithoutTarget()
     {
-        $criterion = new Criterion\TagId(array(42, 43));
+        $criterion = new Criterion\TagId([42, 43]);
 
         $this->contentTypeHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
-                    array(
-                        'news' => array(
-                            'tags_field' => array(
+                self::returnValue(
+                    [
+                        'news' => [
+                            'tags_field' => [
                                 'field_type_identifier' => 'eztags',
-                            ),
-                        ),
-                        'article' => array(
-                            'tags_field2' => array(
+                            ],
+                        ],
+                        'article' => [
+                            'tags_field2' => [
                                 'field_type_identifier' => 'eztags',
-                            ),
-                        ),
-                    )
+                            ],
+                        ],
+                    ]
                 )
             );
 
         $this->fieldNameResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('getFieldTypes')
             ->with(
-                $this->equalTo($criterion),
-                $this->equalTo('tags_field'),
+                self::equalTo($criterion),
+                self::equalTo('tags_field'),
                 'eztags',
                 'tag_ids'
             )
             ->will(
-                $this->returnValue(
-                    array(
+                self::returnValue(
+                    [
                         'news_tags_field_s' => new FieldType\MultipleIntegerField(),
-                    )
+                    ]
                 )
             );
 
         $this->fieldNameResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getFieldTypes')
             ->with(
-                $this->equalTo($criterion),
-                $this->equalTo('tags_field2'),
+                self::equalTo($criterion),
+                self::equalTo('tags_field2'),
                 'eztags',
                 'tag_ids'
             )
             ->will(
-                $this->returnValue(
-                    array(
+                self::returnValue(
+                    [
                         'article_tags_field2_s' => new FieldType\MultipleIntegerField(),
-                    )
+                    ]
                 )
             );
 
-        $this->assertEquals(
+        self::assertEquals(
             '(news_tags_field_s:"42" OR news_tags_field_s:"43" OR article_tags_field2_s:"42" OR article_tags_field2_s:"43")',
             $this->visitor->visit($criterion)
         );
     }
 
     /**
-     * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
+     * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
     public function testVisitThrowsInvalidArgumentException()
     {
-        $criterion = new Criterion\TagId(array(42, 43), 'tags_field');
+        $criterion = new Criterion\TagId([42, 43], 'tags_field');
 
         $this->fieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFieldTypes')
             ->with(
-                $this->equalTo($criterion),
-                $this->equalTo('tags_field'),
+                self::equalTo($criterion),
+                self::equalTo('tags_field'),
                 'eztags',
                 'tag_ids'
             )
-            ->will($this->returnValue(array()));
+            ->will(self::returnValue([]));
 
         $this->visitor->visit($criterion);
     }

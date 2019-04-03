@@ -23,35 +23,35 @@ abstract class CreateStructValidator extends ConstraintValidator
 
         $validator->atPath('alwaysAvailable')->validate(
             $value->alwaysAvailable,
-            array(
-                new Constraints\Type(array('type' => 'bool')),
+            [
+                new Constraints\Type(['type' => 'bool']),
                 new Constraints\NotNull(),
-            )
+            ]
         );
 
         $validator->atPath('keyword')->validate(
             $value->getKeyword(),
-            array(
-                new Constraints\Type(array('type' => 'string')),
+            [
+                new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
-            )
+            ]
         );
 
         $validator->atPath('remoteId')->validate(
             $value->remoteId,
-            array(
-                new Constraints\Type(array('type' => 'string')),
+            [
+                new Constraints\Type(['type' => 'string']),
                 new RemoteId(),
-            )
+            ]
         );
 
         $validator->atPath('mainLanguageCode')->validate(
             $value->mainLanguageCode,
-            array(
-                new Constraints\Type(array('type' => 'string')),
+            [
+                new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
                 new Language(),
-            )
+            ]
         );
     }
 }

@@ -79,7 +79,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     public function setLanguages(array $languages = null)
     {
-        $this->languages = $languages !== null ? $languages : array();
+        $this->languages = $languages !== null ? $languages : [];
     }
 
     /**
@@ -121,11 +121,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
         // We specifically pass tag ID so tag view builder will reload the tag and check for permissions
         // Unfortunately, since at this point user is still anonymous (why!?), this is the best we can do
-        $params = array(
+        $params = [
             '_route' => self::TAG_URL_ROUTE_NAME,
             '_controller' => static::TAG_VIEW_ACTION_CONTROLLER,
             'tagId' => $tag->id,
-        );
+        ];
 
         $request->attributes->set('tagId', $tag->id);
 
@@ -156,7 +156,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return string The generated URL
      */
-    public function generate($name, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         // Direct access to Tag
         if ($name instanceof Tag) {
@@ -261,7 +261,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return string
      */
-    public function getRouteDebugMessage($name, array $parameters = array())
+    public function getRouteDebugMessage($name, array $parameters = [])
     {
         if ($name instanceof RouteObjectInterface) {
             return 'Route with key ' . $name->getRouteKey();

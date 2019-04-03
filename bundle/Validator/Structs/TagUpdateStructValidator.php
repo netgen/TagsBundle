@@ -58,41 +58,41 @@ class TagUpdateStructValidator extends ConstraintValidator
 
         $validator->atPath('alwaysAvailable')->validate(
             $value->alwaysAvailable,
-            array(
-                new Constraints\Type(array('type' => 'bool')),
+            [
+                new Constraints\Type(['type' => 'bool']),
                 new Constraints\NotNull(),
-            )
+            ]
         );
 
         $validator->atPath('keyword')->validate(
             $value->getKeyword($constraint->languageCode),
-            array(
-                new Constraints\Type(array('type' => 'string')),
+            [
+                new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
-            )
+            ]
         );
 
         $validator->atPath('remoteId')->validate(
             $value->remoteId,
-            array(
-                new Constraints\Type(array('type' => 'string')),
+            [
+                new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
                 new RemoteId(
-                    array(
+                    [
                         'payload' => $constraint->payload,
-                    )
+                    ]
                 ),
-            )
+            ]
         );
 
         if ($value->mainLanguageCode !== null) {
             $validator->atPath('mainLanguageCode')->validate(
                 $value->mainLanguageCode,
-                array(
-                    new Constraints\Type(array('type' => 'string')),
+                [
+                    new Constraints\Type(['type' => 'string']),
                     new Constraints\NotBlank(),
                     new Language(),
-                )
+                ]
             );
         }
     }

@@ -9,19 +9,19 @@ class NetgenTagsExtension extends AbstractExtension
 {
     public function getFunctions()
     {
-        return array(
+        return [
             new TwigFunction(
                 'netgen_tags_tag_keyword',
-                array(NetgenTagsRuntime::class, 'getTagKeyword')
+                [NetgenTagsRuntime::class, 'getTagKeyword']
             ),
             new TwigFunction(
                 'netgen_tags_language_name',
-                array(NetgenTagsRuntime::class, 'getLanguageName')
+                [NetgenTagsRuntime::class, 'getLanguageName']
             ),
             new TwigFunction(
                 'netgen_tags_content_type_name',
-                array(NetgenTagsRuntime::class, 'getContentTypeName')
+                [NetgenTagsRuntime::class, 'getContentTypeName']
             ),
-        );
+        ];
     }
 }

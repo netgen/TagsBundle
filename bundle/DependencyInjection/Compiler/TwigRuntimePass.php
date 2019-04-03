@@ -24,9 +24,9 @@ class TwigRuntimePass implements CompilerPassInterface
 
         $twig->addMethodCall(
             'addRuntimeLoader',
-            array(
+            [
                 new Reference('eztags.templating.twig.runtime.loader'),
-            )
+            ]
         );
     }
 }

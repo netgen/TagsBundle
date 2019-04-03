@@ -18,7 +18,7 @@ class LanguageSelectType extends AbstractType
         $resolver
             ->setDefault('tag', null)
             ->setRequired('tag')
-            ->setAllowedTypes('tag', array(Tag::class, 'null'));
+            ->setAllowedTypes('tag', [Tag::class, 'null']);
     }
 
     /**
@@ -29,9 +29,9 @@ class LanguageSelectType extends AbstractType
         $builder->add(
             'languageCode',
             TranslationListType::class,
-            array(
+            [
                 'tag' => $options['tag'],
-            )
+            ]
         );
     }
 }

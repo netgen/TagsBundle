@@ -16,7 +16,7 @@ class FieldController extends Controller
     /**
      * @var array
      */
-    protected $languages = array();
+    protected $languages = [];
 
     /**
      * Constructor.
@@ -35,7 +35,7 @@ class FieldController extends Controller
      */
     public function setLanguages(array $languages = null)
     {
-        $this->languages = $languages !== null ? $languages : array();
+        $this->languages = $languages !== null ? $languages : [];
     }
 
     /**
@@ -81,7 +81,7 @@ class FieldController extends Controller
             !empty($subTreeLimit) ? $this->tagsService->loadTag($subTreeLimit) : null,
             0,
             -1,
-            array($locale)
+            [$locale]
         );
 
         $data = $this->filterTags($tags, $subTreeLimit, $hideRootTag);
@@ -91,7 +91,7 @@ class FieldController extends Controller
 
     private function filterTags(array $tags, $subTreeLimit, $hideRootTag)
     {
-        $data = array();
+        $data = [];
         foreach ($tags as $tag) {
             if ($subTreeLimit > 0 && !in_array($subTreeLimit, $tag->path, true)) {
                 continue;
@@ -103,20 +103,20 @@ class FieldController extends Controller
 
             $tagKeywords = $tag->getKeywords($this->languages);
 
-            $parentTagKeywords = array();
+            $parentTagKeywords = [];
             if ($tag->hasParent()) {
                 $parentTag = $this->tagsService->loadTag($tag->parentTagId);
                 $parentTagKeywords = $parentTag->getKeywords($this->languages);
             }
 
-            $data[] = array(
+            $data[] = [
                 'parent_id' => $tag->parentTagId,
                 'parent_name' => !empty($parentTagKeywords) ? array_values($parentTagKeywords)[0] : '',
                 'name' => array_values($tagKeywords)[0],
                 'id' => $tag->id,
                 'main_tag_id' => $tag->mainTagId,
                 'locale' => array_keys($tagKeywords)[0],
-            );
+            ];
         }
 
         return $data;

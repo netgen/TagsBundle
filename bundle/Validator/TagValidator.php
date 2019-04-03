@@ -68,7 +68,6 @@ class TagValidator extends ConstraintValidator
                     ->addViolation();
             }
         } catch (NotFoundException $e) {
-            /* @var \Netgen\TagsBundle\Validator\Constraints\Tag $constraint */
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%tagId%', $value)
                 ->addViolation();

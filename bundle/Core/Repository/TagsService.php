@@ -102,7 +102,7 @@ class TagsService implements TagsServiceInterface
     public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
     {
         if ($this->hasAccess('tags', 'read') === false) {
-            return array();
+            return [];
         }
 
         $spiTags = $this->tagsHandler->loadList(
@@ -176,7 +176,7 @@ class TagsService implements TagsServiceInterface
 
                 // Reasoning behind this is that the FIRST item sorted by languages must be matched to the keyword
                 // If not, it means that the tag is not translated to the correct keyword in the most prioritized language
-                $spiTagKeywords = array();
+                $spiTagKeywords = [];
                 foreach ($languages as $language) {
                     if (isset($spiTag->keywords[$language])) {
                         $spiTagKeywords[$language] = $spiTag->keywords[$language];
@@ -232,7 +232,7 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        $tags = array();
+        $tags = [];
         foreach ($spiTags as $spiTag) {
             $tags[] = $this->buildTagDomainObject($spiTag);
         }
@@ -285,7 +285,7 @@ class TagsService implements TagsServiceInterface
 
         $spiTags = $this->tagsHandler->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit);
 
-        $tags = array();
+        $tags = [];
         foreach ($spiTags as $spiTag) {
             $tags[] = $this->buildTagDomainObject($spiTag);
         }
@@ -340,16 +340,16 @@ class TagsService implements TagsServiceInterface
             $limit
         );
 
-        $tags = array();
+        $tags = [];
         foreach ($spiSearchResult->tags as $spiTag) {
             $tags[] = $this->buildTagDomainObject($spiTag);
         }
 
         return new SearchResult(
-            array(
+            [
                 'tags' => $tags,
                 'totalCount' => $spiSearchResult->totalCount,
-            )
+            ]
         );
     }
 
@@ -385,7 +385,7 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        $tags = array();
+        $tags = [];
         foreach ($spiTags as $spiTag) {
             $tags[] = $this->buildTagDomainObject($spiTag);
         }
@@ -446,20 +446,20 @@ class TagsService implements TagsServiceInterface
             $method = 'findContentInfo';
         }
 
-        $searchResult = $this->repository->getSearchService()->$method(
+        $searchResult = $this->repository->getSearchService()->{$method}(
             new Query(
-                array(
+                [
                     'offset' => $offset,
                     'limit' => $limit > 0 ? $limit : 1000000,
                     'filter' => new TagId($tag->id),
-                    'sortClauses' => array(
+                    'sortClauses' => [
                         new Query\SortClause\DateModified(Query::SORT_DESC),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
-        $content = array();
+        $content = [];
         foreach ($searchResult->searchHits as $searchHit) {
             $content[] = $searchHit->valueObject;
         }
@@ -485,10 +485,10 @@ class TagsService implements TagsServiceInterface
 
         $searchResult = $this->repository->getSearchService()->findContentInfo(
             new Query(
-                array(
+                [
                     'limit' => 0,
                     'filter' => new TagId($tag->id),
-                )
+                ]
             )
         );
 
@@ -537,6 +537,7 @@ class TagsService implements TagsServiceInterface
         if ($tagCreateStruct->remoteId !== null) {
             try {
                 $this->tagsHandler->loadTagInfoByRemoteId($tagCreateStruct->remoteId);
+
                 throw new InvalidArgumentException('tagCreateStruct', 'Tag with provided remote ID already exists');
             } catch (NotFoundException $e) {
                 // Do nothing
@@ -557,11 +558,13 @@ class TagsService implements TagsServiceInterface
         $createStruct->alwaysAvailable = $tagCreateStruct->alwaysAvailable;
 
         $this->repository->beginTransaction();
+
         try {
             $newTag = $this->tagsHandler->create($createStruct);
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
 
@@ -652,11 +655,13 @@ class TagsService implements TagsServiceInterface
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable !== null ? $tagUpdateStruct->alwaysAvailable : $spiTag->alwaysAvailable;
 
         $this->repository->beginTransaction();
+
         try {
             $updatedTag = $this->tagsHandler->update($updateStruct, $spiTag->id);
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
 
@@ -706,6 +711,7 @@ class TagsService implements TagsServiceInterface
         if ($synonymCreateStruct->remoteId !== null) {
             try {
                 $this->tagsHandler->loadTagInfoByRemoteId($synonymCreateStruct->remoteId);
+
                 throw new InvalidArgumentException('synonymCreateStruct', 'Tag with provided remote ID already exists');
             } catch (NotFoundException $e) {
                 // Do nothing
@@ -726,11 +732,13 @@ class TagsService implements TagsServiceInterface
         $createStruct->alwaysAvailable = $synonymCreateStruct->alwaysAvailable;
 
         $this->repository->beginTransaction();
+
         try {
             $newTag = $this->tagsHandler->addSynonym($createStruct);
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
 
@@ -767,11 +775,12 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException('mainTag', 'Destination tag is a synonym');
         }
 
-        if (strpos($spiMainTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+        if (mb_strpos($spiMainTagInfo->pathString, $spiTagInfo->pathString) === 0) {
             throw new InvalidArgumentException('mainTag', 'Destination tag is a sub tag of the given tag');
         }
 
         $this->repository->beginTransaction();
+
         try {
             foreach ($this->tagsHandler->loadChildren($spiTagInfo->id) as $child) {
                 $this->tagsHandler->moveSubtree($child->id, $spiMainTagInfo->id);
@@ -781,6 +790,7 @@ class TagsService implements TagsServiceInterface
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
 
@@ -815,11 +825,12 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException('targetTag', 'Target tag is a synonym');
         }
 
-        if (strpos($spiTargetTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+        if (mb_strpos($spiTargetTagInfo->pathString, $spiTagInfo->pathString) === 0) {
             throw new InvalidArgumentException('targetParentTag', 'Target tag is a sub tag of the given tag');
         }
 
         $this->repository->beginTransaction();
+
         try {
             foreach ($this->tagsHandler->loadChildren($spiTagInfo->id) as $child) {
                 $this->tagsHandler->moveSubtree($child->id, $spiTargetTagInfo->id);
@@ -829,6 +840,7 @@ class TagsService implements TagsServiceInterface
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
     }
@@ -861,7 +873,9 @@ class TagsService implements TagsServiceInterface
 
         if (!$targetParentTag instanceof Tag && $tag->parentTagId === 0) {
             throw new InvalidArgumentException('targetParentTag', 'Tag is already located at the root of the tree');
-        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId === $targetParentTag->id) {
+        }
+
+        if ($targetParentTag instanceof Tag && $tag->parentTagId === $targetParentTag->id) {
             throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
@@ -873,12 +887,13 @@ class TagsService implements TagsServiceInterface
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
             }
 
-            if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            if (mb_strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
             }
         }
 
         $this->repository->beginTransaction();
+
         try {
             $copiedTag = $this->tagsHandler->copySubtree(
                 $spiTagInfo->id,
@@ -887,6 +902,7 @@ class TagsService implements TagsServiceInterface
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
 
@@ -921,7 +937,9 @@ class TagsService implements TagsServiceInterface
 
         if (!$targetParentTag instanceof Tag && $tag->parentTagId === 0) {
             throw new InvalidArgumentException('targetParentTag', 'Tag is already located at the root of the tree');
-        } elseif ($targetParentTag instanceof Tag && $tag->parentTagId === $targetParentTag->id) {
+        }
+
+        if ($targetParentTag instanceof Tag && $tag->parentTagId === $targetParentTag->id) {
             throw new InvalidArgumentException('targetParentTag', 'Target parent tag is already the parent of the given tag');
         }
 
@@ -933,12 +951,13 @@ class TagsService implements TagsServiceInterface
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
             }
 
-            if (strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            if (mb_strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
             }
         }
 
         $this->repository->beginTransaction();
+
         try {
             $movedTag = $this->tagsHandler->moveSubtree(
                 $spiTagInfo->id,
@@ -947,6 +966,7 @@ class TagsService implements TagsServiceInterface
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
 
@@ -976,11 +996,13 @@ class TagsService implements TagsServiceInterface
         }
 
         $this->repository->beginTransaction();
+
         try {
             $this->tagsHandler->deleteTag($tag->id);
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
+
             throw $e;
         }
     }
@@ -1032,10 +1054,12 @@ class TagsService implements TagsServiceInterface
     public function sudo(Closure $callback, TagsServiceInterface $outerTagsService = null)
     {
         ++$this->sudoNestingLevel;
+
         try {
             $returnValue = $callback($outerTagsService !== null ? $outerTagsService : $this);
         } catch (Exception $e) {
             --$this->sudoNestingLevel;
+
             throw $e;
         }
 
@@ -1086,14 +1110,14 @@ class TagsService implements TagsServiceInterface
 
     protected function buildTagDomainObject(SPITag $spiTag)
     {
-        return $this->buildTagDomainList(array($spiTag))[$spiTag->id];
+        return $this->buildTagDomainList([$spiTag])[$spiTag->id];
     }
 
     protected function buildTagDomainList(array $spiTags)
     {
         // Optimization for 2.5+ to load all languages at once:
         if (\method_exists($this->languageHandler, 'loadList')) {
-            $languageIds = array(array());
+            $languageIds = [[]];
             foreach ($spiTags as $spiTag) {
                 $languageIds[] = $spiTag->languageIds;
             }
@@ -1101,9 +1125,9 @@ class TagsService implements TagsServiceInterface
             $languages = $this->languageHandler->loadList(\array_unique(\array_merge(...$languageIds)));
         }
 
-        $tags = array();
+        $tags = [];
         foreach ($spiTags as $spiTag) {
-            $languageCodes = array();
+            $languageCodes = [];
             foreach ($spiTag->languageIds as $languageId) {
                 if (isset($languages[$languageId])) {
                     // 2.5+
@@ -1118,7 +1142,7 @@ class TagsService implements TagsServiceInterface
             $modificationDate->setTimestamp($spiTag->modificationDate);
 
             $tags[$spiTag->id] = new Tag(
-                array(
+                [
                     'id' => $spiTag->id,
                     'parentTagId' => $spiTag->parentTagId,
                     'mainTagId' => $spiTag->mainTagId,
@@ -1130,7 +1154,7 @@ class TagsService implements TagsServiceInterface
                     'alwaysAvailable' => $spiTag->alwaysAvailable,
                     'mainLanguageCode' => $spiTag->mainLanguageCode,
                     'languageCodes' => $languageCodes,
-                )
+                ]
             );
         }
 

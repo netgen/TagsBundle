@@ -105,9 +105,9 @@ class TagUrlGenerator extends Generator
             $isInternal = true;
             $tagUrl = $this->defaultRouter->generate(
                 self::INTERNAL_TAG_ROUTE,
-                array(
+                [
                     'tagId' => $originalTagId,
-                )
+                ]
             );
         } catch (LogicException $e) {
             if ($this->logger !== null) {
@@ -117,9 +117,9 @@ class TagUrlGenerator extends Generator
             $isInternal = true;
             $tagUrl = $this->defaultRouter->generate(
                 self::INTERNAL_TAG_ROUTE,
-                array(
+                [
                     'tagId' => $originalTagId,
-                )
+                ]
             );
         }
 

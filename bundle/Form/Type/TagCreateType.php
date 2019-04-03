@@ -18,12 +18,12 @@ class TagCreateType extends AbstractType
 
         $resolver
             ->setDefaults(
-                array(
+                [
                     'data_class' => TagCreateStruct::class,
-                    'constraints' => array(
+                    'constraints' => [
                         new TagCreateStructConstraint(),
-                    ),
-                )
+                    ],
+                ]
             );
     }
 
@@ -35,12 +35,12 @@ class TagCreateType extends AbstractType
         $builder->add(
             'parentTagId',
             TagTreeType::class,
-            array(
+            [
                 'label' => 'tag.parent_tag',
                 // Disable constraints specified in TagTreeType, since
                 // they are validated in TagCreateStructConstraint
                 'constraints' => null,
-            )
+            ]
         );
     }
 

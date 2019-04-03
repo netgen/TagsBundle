@@ -37,9 +37,9 @@ abstract class Controller extends BaseController
 
         return $this->redirectToRoute(
             'netgen_tags_admin_tag_show',
-            array(
+            [
                 'tagId' => $tag->id,
-            )
+            ]
         );
     }
 
@@ -50,7 +50,7 @@ abstract class Controller extends BaseController
      * @param string $message
      * @param array $parameters
      */
-    protected function addFlashMessage($messageType, $message, array $parameters = array())
+    protected function addFlashMessage($messageType, $message, array $parameters = [])
     {
         $this->addFlash(
             'tags.' . $messageType,

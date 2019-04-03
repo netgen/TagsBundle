@@ -30,9 +30,9 @@ class TagLimitationTest extends BaseLimitationTest
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'add');
         $policyCreateStruct->addLimitation(
             new TagLimitation(
-                array(
-                    'limitationValues' => array(47),
-                )
+                [
+                    'limitationValues' => [47],
+                ]
             )
         );
 
@@ -54,7 +54,7 @@ class TagLimitationTest extends BaseLimitationTest
 
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             'netgen',
             $createdTag->getKeyword('eng-GB')
         );
@@ -85,9 +85,9 @@ class TagLimitationTest extends BaseLimitationTest
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'add');
         $policyCreateStruct->addLimitation(
             new TagLimitation(
-                array(
-                    'limitationValues' => array(47, 48),
-                )
+                [
+                    'limitationValues' => [47, 48],
+                ]
             )
         );
         $role = $roleService->addPolicy($role, $policyCreateStruct);

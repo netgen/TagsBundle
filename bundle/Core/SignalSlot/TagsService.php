@@ -270,13 +270,13 @@ class TagsService implements TagsServiceInterface
         $returnValue = $this->service->createTag($tagCreateStruct);
         $this->signalDispatcher->emit(
             new CreateTagSignal(
-                array(
+                [
                     'tagId' => $returnValue->id,
                     'parentTagId' => $returnValue->parentTagId,
                     'keywords' => $returnValue->keywords,
                     'mainLanguageCode' => $returnValue->mainLanguageCode,
                     'alwaysAvailable' => $returnValue->alwaysAvailable,
-                )
+                ]
             )
         );
 
@@ -300,13 +300,13 @@ class TagsService implements TagsServiceInterface
         $returnValue = $this->service->updateTag($tag, $tagUpdateStruct);
         $this->signalDispatcher->emit(
             new UpdateTagSignal(
-                array(
+                [
                     'tagId' => $returnValue->id,
                     'keywords' => $returnValue->keywords,
                     'remoteId' => $returnValue->remoteId,
                     'mainLanguageCode' => $returnValue->mainLanguageCode,
                     'alwaysAvailable' => $returnValue->alwaysAvailable,
-                )
+                ]
             )
         );
 
@@ -328,13 +328,13 @@ class TagsService implements TagsServiceInterface
         $returnValue = $this->service->addSynonym($synonymCreateStruct);
         $this->signalDispatcher->emit(
             new AddSynonymSignal(
-                array(
+                [
                     'tagId' => $returnValue->id,
                     'mainTagId' => $returnValue->mainTagId,
                     'keywords' => $returnValue->keywords,
                     'mainLanguageCode' => $returnValue->mainLanguageCode,
                     'alwaysAvailable' => $returnValue->alwaysAvailable,
-                )
+                ]
             )
         );
 
@@ -359,10 +359,10 @@ class TagsService implements TagsServiceInterface
         $returnValue = $this->service->convertToSynonym($tag, $mainTag);
         $this->signalDispatcher->emit(
             new ConvertToSynonymSignal(
-                array(
+                [
                     'tagId' => $returnValue->id,
                     'mainTagId' => $returnValue->mainTagId,
-                )
+                ]
             )
         );
 
@@ -385,10 +385,10 @@ class TagsService implements TagsServiceInterface
         $this->service->mergeTags($tag, $targetTag);
         $this->signalDispatcher->emit(
             new MergeTagsSignal(
-                array(
+                [
                     'tagId' => $tag->id,
                     'targetTagId' => $targetTag->id,
-                )
+                ]
             )
         );
     }
@@ -412,13 +412,13 @@ class TagsService implements TagsServiceInterface
         $returnValue = $this->service->copySubtree($tag, $targetParentTag);
         $this->signalDispatcher->emit(
             new CopySubtreeSignal(
-                array(
+                [
                     'sourceTagId' => $tag->id,
                     'targetParentTagId' => $targetParentTag ?
                         $targetParentTag->id :
                         0,
                     'newTagId' => $returnValue->id,
-                )
+                ]
             )
         );
 
@@ -444,12 +444,12 @@ class TagsService implements TagsServiceInterface
         $returnValue = $this->service->moveSubtree($tag, $targetParentTag);
         $this->signalDispatcher->emit(
             new MoveSubtreeSignal(
-                array(
+                [
                     'sourceTagId' => $tag->id,
                     'targetParentTagId' => $targetParentTag ?
                         $targetParentTag->id :
                         0,
-                )
+                ]
             )
         );
 
@@ -471,9 +471,9 @@ class TagsService implements TagsServiceInterface
         $this->service->deleteTag($tag);
         $this->signalDispatcher->emit(
             new DeleteTagSignal(
-                array(
+                [
                     'tagId' => $tag->id,
-                )
+                ]
             )
         );
     }

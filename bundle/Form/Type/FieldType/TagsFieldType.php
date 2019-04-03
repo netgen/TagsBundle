@@ -23,7 +23,7 @@ class TagsFieldType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array('field'));
+        $resolver->setRequired(['field']);
         $resolver->setAllowedTypes('field', Field::class);
     }
 

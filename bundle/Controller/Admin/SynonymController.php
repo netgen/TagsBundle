@@ -49,19 +49,19 @@ class SynonymController extends Controller
         if (count($availableLanguages) === 1) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_synonym_add',
-                array(
+                [
                     'mainTagId' => $mainTagId,
                     'languageCode' => $availableLanguages[0],
-                )
+                ]
             );
         }
 
         $form = $this->createForm(
             LanguageSelectType::class,
             null,
-            array(
+            [
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -69,18 +69,18 @@ class SynonymController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute(
                 'netgen_tags_admin_synonym_add',
-                array(
+                [
                     'mainTagId' => $mainTagId,
                     'languageCode' => $form->getData()['languageCode'],
-                )
+                ]
             );
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/select_translation.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -103,9 +103,9 @@ class SynonymController extends Controller
         $form = $this->createForm(
             SynonymCreateType::class,
             $synonymCreateStruct,
-            array(
+            [
                 'action' => $request->getPathInfo(),
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -113,16 +113,16 @@ class SynonymController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $newSynonym = $this->tagsService->addSynonym($form->getData());
 
-            $this->addFlashMessage('success', 'tag_added', array('%tagKeyword%' => $newSynonym->keyword));
+            $this->addFlashMessage('success', 'tag_added', ['%tagKeyword%' => $newSynonym->keyword]);
 
             return $this->redirectToTag($newSynonym);
         }
 
         return $this->render(
             '@NetgenTags/admin/tag/add.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 }

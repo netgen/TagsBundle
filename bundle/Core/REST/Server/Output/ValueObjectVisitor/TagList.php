@@ -31,7 +31,7 @@ class TagList extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ezpublish_rest_eztags_loadTag',
-                    array('tagPath' => trim($restTag->tag->pathString, '/'))
+                    ['tagPath' => trim($restTag->tag->pathString, '/')]
                 )
             );
             $generator->endAttribute('href');

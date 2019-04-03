@@ -40,6 +40,6 @@ class TagView extends BaseView implements View, TagValueView, CachableView
      */
     protected function getInternalParameters()
     {
-        return array('tag' => $this->tag);
+        return ['tag' => $this->tag];
     }
 }

@@ -16,7 +16,7 @@ class RedirectResponseListener extends PlatformUIListener implements EventSubscr
      */
     public static function getSubscribedEvents()
     {
-        return array(KernelEvents::RESPONSE => 'onKernelResponse');
+        return [KernelEvents::RESPONSE => 'onKernelResponse'];
     }
 
     /**

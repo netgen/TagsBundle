@@ -30,7 +30,6 @@ interface TagsService
      * Tags missing (NotFound), or not accessible (Unauthorized) to the current user will be filtered out from the
      * returned array. As returned array has tag id's as keys, you can use array_keys + array_diff to get missing items
      *
-     *
      * @param array $tagIds
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available

@@ -36,10 +36,10 @@ class FieldValueTransformer implements DataTransformerInterface
             return null;
         }
 
-        $ids = array();
-        $parentIds = array();
-        $keywords = array();
-        $locales = array();
+        $ids = [];
+        $parentIds = [];
+        $keywords = [];
+        $locales = [];
 
         foreach ($value->tags as $tag) {
             $tagKeyword = $tag->getKeyword($this->field->languageCode);
@@ -51,12 +51,12 @@ class FieldValueTransformer implements DataTransformerInterface
             $locales[] = $tagKeyword !== null ? $this->field->languageCode : $tag->mainLanguageCode;
         }
 
-        return array(
+        return [
             'ids' => implode('|#', $ids),
             'parent_ids' => implode('|#', $parentIds),
             'keywords' => implode('|#', $keywords),
             'locales' => implode('|#', $locales),
-        );
+        ];
     }
 
     /**
@@ -75,23 +75,23 @@ class FieldValueTransformer implements DataTransformerInterface
         $keywords = explode('|#', $value['keywords']);
         $locales = explode('|#', $value['locales']);
 
-        $hash = array();
+        $hash = [];
         for ($i = 0, $count = count($ids); $i < $count; ++$i) {
             if (!array_key_exists($i, $parentIds) || !array_key_exists($i, $keywords) || !array_key_exists($i, $locales)) {
                 break;
             }
 
             if ($ids[$i] !== '0') {
-                $hash[] = array('id' => (int) $ids[$i]);
+                $hash[] = ['id' => (int) $ids[$i]];
 
                 continue;
             }
 
-            $hash[] = array(
+            $hash[] = [
                 'parent_id' => (int) $parentIds[$i],
-                'keywords' => array($locales[$i] => $keywords[$i]),
+                'keywords' => [$locales[$i] => $keywords[$i]],
                 'main_language_code' => $locales[$i],
-            );
+            ];
         }
 
         return $this->fieldType->fromHash($hash);

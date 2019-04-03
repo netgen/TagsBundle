@@ -38,10 +38,10 @@ class TagParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverterConfiguration $configuration)
     {
-        $supportedParameters = array(
+        $supportedParameters = [
             'tagId' => 'tag',
             'parentId' => 'parentTag',
-        );
+        ];
 
         foreach ($supportedParameters as $source => $destination) {
             if (!$request->attributes->has($source)) {

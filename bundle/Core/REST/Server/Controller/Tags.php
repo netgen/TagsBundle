@@ -54,9 +54,9 @@ class Tags extends RestController
         return new BaseValues\TemporaryRedirect(
             $this->router->generate(
                 'ezpublish_rest_eztags_loadTag',
-                array(
+                [
                     'tagPath' => trim($tag->pathString, '/'),
-                )
+                ]
             )
         );
     }
@@ -78,7 +78,7 @@ class Tags extends RestController
 
         if (trim($tag->pathString, '/') !== $tagPath) {
             throw new Exceptions\NotFoundException(
-                "Could not find tag with path string $tagPath"
+                "Could not find tag with path string ${tagPath}"
             );
         }
 
@@ -96,7 +96,7 @@ class Tags extends RestController
                 $childrenCount,
                 $synonymsCount
             ),
-            array('tagId' => $tag->id)
+            ['tagId' => $tag->id]
         );
     }
 
@@ -124,7 +124,7 @@ class Tags extends RestController
             $limit >= 0 ? $limit : 25
         );
 
-        $restTags = array();
+        $restTags = [];
         foreach ($tags as $tag) {
             $restTags[] = new Values\RestTag($tag, 0, 0);
         }
@@ -134,7 +134,7 @@ class Tags extends RestController
                 $restTags,
                 $request->getPathInfo()
             ),
-            array('tagKeyword' => $keyword . '|#' . $language)
+            ['tagKeyword' => $keyword . '|#' . $language]
         );
     }
 
@@ -160,7 +160,7 @@ class Tags extends RestController
             $limit >= 0 ? $limit : 25
         );
 
-        $restTags = array();
+        $restTags = [];
         foreach ($children as $tag) {
             $restTags[] = new Values\RestTag($tag, 0, 0);
         }
@@ -170,7 +170,7 @@ class Tags extends RestController
                 $restTags,
                 $request->getPathInfo()
             ),
-            array('tagId' => $tagId)
+            ['tagId' => $tagId]
         );
     }
 
@@ -194,7 +194,7 @@ class Tags extends RestController
             $limit >= 0 ? $limit : 25
         );
 
-        $restSynonyms = array();
+        $restSynonyms = [];
         foreach ($synonyms as $synonym) {
             $restSynonyms[] = new Values\RestTag($synonym, 0, 0);
         }
@@ -204,7 +204,7 @@ class Tags extends RestController
                 $restSynonyms,
                 $request->getPathInfo()
             ),
-            array('tagId' => $tagId)
+            ['tagId' => $tagId]
         );
     }
 
@@ -228,7 +228,7 @@ class Tags extends RestController
             $limit >= 0 ? $limit : 25
         );
 
-        $restContent = array();
+        $restContent = [];
         foreach ($relatedContent as $contentInfo) {
             $restContent[] = new BaseValues\RestContent($contentInfo);
         }
@@ -238,7 +238,7 @@ class Tags extends RestController
                 $restContent,
                 $request->getPathInfo()
             ),
-            array('tagId' => $tagId)
+            ['tagId' => $tagId]
         );
     }
 
@@ -255,7 +255,7 @@ class Tags extends RestController
     {
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
-                array('Content-Type' => $request->headers->get('Content-Type')),
+                ['Content-Type' => $request->headers->get('Content-Type')],
                 $request->getContent()
             )
         );
@@ -283,7 +283,7 @@ class Tags extends RestController
     {
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
-                array('Content-Type' => $request->headers->get('Content-Type')),
+                ['Content-Type' => $request->headers->get('Content-Type')],
                 $request->getContent()
             )
         );
@@ -311,7 +311,7 @@ class Tags extends RestController
     {
         $tagUpdateStruct = $this->inputDispatcher->parse(
             new Message(
-                array('Content-Type' => $request->headers->get('Content-Type')),
+                ['Content-Type' => $request->headers->get('Content-Type')],
                 $request->getContent()
             )
         );
@@ -354,6 +354,7 @@ class Tags extends RestController
         );
 
         $destinationHref = $request->headers->get('Destination');
+
         try {
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
@@ -374,9 +375,9 @@ class Tags extends RestController
         return new BaseValues\ResourceCreated(
             $this->router->generate(
                 'ezpublish_rest_eztags_loadTag',
-                array(
+                [
                     'tagPath' => trim($newTag->pathString, '/'),
-                )
+                ]
             )
         );
     }
@@ -398,6 +399,7 @@ class Tags extends RestController
         );
 
         $destinationHref = $request->headers->get('Destination');
+
         try {
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
@@ -421,9 +423,9 @@ class Tags extends RestController
         return new BaseValues\ResourceCreated(
             $this->router->generate(
                 'ezpublish_rest_eztags_loadTag',
-                array(
+                [
                     'tagPath' => trim($tag->pathString, '/'),
-                )
+                ]
             )
         );
     }
@@ -445,6 +447,7 @@ class Tags extends RestController
         );
 
         $destinationHref = $request->headers->get('Destination');
+
         try {
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
@@ -465,9 +468,9 @@ class Tags extends RestController
         return new BaseValues\ResourceCreated(
             $this->router->generate(
                 'ezpublish_rest_eztags_loadTag',
-                array(
+                [
                     'tagPath' => trim($convertedTag->pathString, '/'),
-                )
+                ]
             )
         );
     }
@@ -489,6 +492,7 @@ class Tags extends RestController
         );
 
         $destinationHref = $request->headers->get('Destination');
+
         try {
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,

@@ -46,7 +46,7 @@ class CachedViewResponseListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(KernelEvents::RESPONSE => array('configureCache', 10));
+        return [KernelEvents::RESPONSE => ['configureCache', 10]];
     }
 
     /**

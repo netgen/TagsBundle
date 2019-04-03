@@ -46,21 +46,21 @@ class ConfigProvider implements Provider
      */
     public function getConfig()
     {
-        return array(
-            'field' => array(
+        return [
+            'field' => [
                 'hasAddAccess' => $this->authorizationChecker->isGranted('ez:tags:add'),
                 'autoCompleteLimit' => $this->configResolver->getParameter('field.autocomplete_limit', 'eztags'),
-                'urls' => array(
+                'urls' => [
                     'autoComplete' => $this->urlGenerator->generate('netgen_tags_admin_field_autocomplete'),
                     'addTagButtonVisibility' => $this->urlGenerator->generate('netgen_tags_admin_access_add_tags'),
                     'treeChildren' => $this->urlGenerator->generate(
                         'netgen_tags_admin_tree_get_children',
-                        array(
+                        [
                             'tagId' => '_tagId_',
-                        )
+                        ]
                     ),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

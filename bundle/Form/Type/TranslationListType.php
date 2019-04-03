@@ -49,7 +49,7 @@ class TranslationListType extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $choices = array();
+        $choices = [];
 
         if (method_exists($this->languageService, 'loadLanguageListByCode')) {
             $choices = iterator_to_array(
@@ -61,17 +61,17 @@ class TranslationListType extends AbstractType
             );
         } else {
             foreach ($this->languages as $language) {
-                $choices += array(
+                $choices += [
                     $this->languageService->loadLanguage($language)->name => $language,
-                );
+                ];
             }
         }
 
         $resolver
             ->setRequired('tag')
-            ->setAllowedTypes('tag', array(Tag::class, 'null'))
+            ->setAllowedTypes('tag', [Tag::class, 'null'])
             ->setDefaults(
-                array(
+                [
                     'tag' => null,
                     'choices' => $choices,
                     'choices_as_values' => true,
@@ -90,9 +90,9 @@ class TranslationListType extends AbstractType
                             return $options['tag']->languageCodes;
                         }
 
-                        return array();
+                        return [];
                     },
-                )
+                ]
             );
     }
 
@@ -101,9 +101,9 @@ class TranslationListType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars += array(
+        $view->vars += [
             'tag' => $options['tag'],
-        );
+        ];
     }
 
     /**

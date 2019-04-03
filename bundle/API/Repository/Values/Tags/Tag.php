@@ -52,7 +52,7 @@ class Tag extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords = array();
+    protected $keywords = [];
 
     /**
      * The depth tag has in tag tree.
@@ -106,7 +106,7 @@ class Tag extends ValueObject
      *
      * @var string[]
      */
-    protected $languageCodes = array();
+    protected $languageCodes = [];
 
     /**
      * Construct object optionally with a set of properties.
@@ -116,7 +116,7 @@ class Tag extends ValueObject
      *
      * @param array $properties
      */
-    public function __construct(array $properties = array())
+    public function __construct(array $properties = [])
     {
         parent::__construct($properties);
 
@@ -192,7 +192,7 @@ class Tag extends ValueObject
      */
     public function getKeywords(array $languageCodes)
     {
-        $keywords = array();
+        $keywords = [];
 
         foreach ($languageCodes as $languageCode) {
             if (isset($this->keywords[$languageCode])) {
@@ -201,9 +201,9 @@ class Tag extends ValueObject
         }
 
         if (empty($keywords)) {
-            return array(
+            return [
                 $this->mainLanguageCode => $this->getKeyword($this->mainLanguageCode),
-            );
+            ];
         }
 
         return $keywords;
@@ -240,7 +240,7 @@ class Tag extends ValueObject
      *
      * @return array
      */
-    protected function getProperties($dynamicProperties = array('keyword'))
+    protected function getProperties($dynamicProperties = ['keyword'])
     {
         return parent::getProperties($dynamicProperties);
     }

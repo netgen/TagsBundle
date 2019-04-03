@@ -69,7 +69,7 @@ class Mapper
      */
     public function extractTagListFromRows(array $rows)
     {
-        $tagList = array();
+        $tagList = [];
         foreach ($rows as $row) {
             $tagId = (int) $row['eztags_id'];
             if (!isset($tagList[$tagId])) {
@@ -77,7 +77,7 @@ class Mapper
                 $tag->id = (int) $row['eztags_id'];
                 $tag->parentTagId = (int) $row['eztags_parent_id'];
                 $tag->mainTagId = (int) $row['eztags_main_tag_id'];
-                $tag->keywords = array();
+                $tag->keywords = [];
                 $tag->depth = (int) $row['eztags_depth'];
                 $tag->pathString = $row['eztags_path_string'];
                 $tag->modificationDate = (int) $row['eztags_modified'];

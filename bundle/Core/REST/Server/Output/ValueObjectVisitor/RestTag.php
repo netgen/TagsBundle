@@ -27,7 +27,7 @@ class RestTag extends ValueObjectVisitor
             'href',
             $this->router->generate(
                 'ezpublish_rest_eztags_loadTag',
-                array('tagPath' => trim($tag->pathString, '/'))
+                ['tagPath' => trim($tag->pathString, '/')]
             )
         );
         $generator->endAttribute('href');
@@ -44,9 +44,9 @@ class RestTag extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ezpublish_rest_eztags_loadTag',
-                    array(
+                    [
                         'tagPath' => $parentPathString,
-                    )
+                    ]
                 )
             );
             $generator->endAttribute('href');
@@ -59,10 +59,10 @@ class RestTag extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ezpublish_rest_eztags_loadTag',
-                    array(
+                    [
                         // Main tags always have a same parent tag ID
                         'tagPath' => $parentPathString . '/' . $tag->mainTagId,
-                    )
+                    ]
                 )
             );
             $generator->endAttribute('href');
@@ -110,9 +110,9 @@ class RestTag extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ezpublish_rest_eztags_loadTagChildren',
-                    array(
+                    [
                         'tagPath' => trim($tag->pathString, '/'),
-                    )
+                    ]
                 )
             );
             $generator->endAttribute('href');
@@ -126,7 +126,7 @@ class RestTag extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ezpublish_rest_eztags_loadTagSynonyms',
-                    array('tagPath' => trim($tag->pathString, '/'))
+                    ['tagPath' => trim($tag->pathString, '/')]
                 )
             );
             $generator->endAttribute('href');
@@ -138,9 +138,9 @@ class RestTag extends ValueObjectVisitor
             'href',
             $this->router->generate(
                 'ezpublish_rest_eztags_getRelatedContent',
-                array(
+                [
                     'tagPath' => trim($tag->pathString, '/'),
-                )
+                ]
             )
         );
         $generator->endAttribute('href');

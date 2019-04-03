@@ -13,14 +13,14 @@ class Value extends BaseValue
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public $tags = array();
+    public $tags = [];
 
     /**
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
-    public function __construct(array $tags = array())
+    public function __construct(array $tags = [])
     {
         $this->tags = $tags;
     }

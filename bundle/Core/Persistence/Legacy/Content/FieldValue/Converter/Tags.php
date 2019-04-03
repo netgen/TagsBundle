@@ -83,19 +83,19 @@ class Tags implements Converter
     public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
-            array(
+            [
                 'hideRootTag' => (bool) $storageDef->dataInt3,
                 'editView' => $storageDef->dataText1,
-            ),
+            ],
             FieldSettings::ARRAY_AS_PROPS
         );
 
-        $fieldDef->fieldTypeConstraints->validators = array(
-            static::TAGS_VALIDATOR_IDENTIFIER => array(
+        $fieldDef->fieldTypeConstraints->validators = [
+            static::TAGS_VALIDATOR_IDENTIFIER => [
                 'subTreeLimit' => (int) $storageDef->dataInt1,
                 'maxTags' => (int) $storageDef->dataInt4,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

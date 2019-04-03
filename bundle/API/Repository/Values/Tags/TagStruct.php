@@ -75,7 +75,7 @@ abstract class TagStruct extends ValueObject
         }
 
         if (!is_array($this->keywords)) {
-            $this->keywords = array();
+            $this->keywords = [];
         }
 
         $this->keywords[$language] = $keyword;

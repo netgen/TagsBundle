@@ -54,22 +54,22 @@ class NetgenTagsRuntimeTest extends TestCase
     {
         $this->tagsService = $this->getMockBuilder(TagsService::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('loadTag'))
+            ->setMethods(['loadTag'])
             ->getMock();
 
         $this->translationHelper = $this->getMockBuilder(TranslationHelper::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getTranslatedByMethod'))
+            ->setMethods(['getTranslatedByMethod'])
             ->getMock();
 
         $this->languageService = $this->getMockBuilder(LanguageService::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('loadLanguage'))
+            ->setMethods(['loadLanguage'])
             ->getMock();
 
         $this->contentTypeService = $this->getMockBuilder(ContentTypeService::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('loadContentType'))
+            ->setMethods(['loadContentType'])
             ->getMock();
 
         $this->runtime = new NetgenTagsRuntime(
@@ -80,103 +80,103 @@ class NetgenTagsRuntimeTest extends TestCase
         );
 
         $this->tag = new Tag();
-        $this->contentType = new ContentType(array('names' => array('eng-GB' => 'Translated name')));
+        $this->contentType = new ContentType(['names' => ['eng-GB' => 'Translated name']]);
     }
 
     public function testInstanceOfTwigExtension()
     {
-        $this->assertInstanceOf(NetgenTagsRuntime::class, $this->runtime);
+        self::assertInstanceOf(NetgenTagsRuntime::class, $this->runtime);
     }
 
     public function testGetTagKeywordWithNotFoundException()
     {
-        $this->tagsService->expects($this->once())
+        $this->tagsService->expects(self::once())
             ->method('loadTag')
             ->willThrowException(new NotFoundException('tag', 'tag'));
 
-        $this->assertEmpty($this->runtime->getTagKeyword(1));
+        self::assertEmpty($this->runtime->getTagKeyword(1));
     }
 
     public function testGetTagKeywordWithNonTagArgument()
     {
         $translated = 'translated';
 
-        $this->tagsService->expects($this->once())
+        $this->tagsService->expects(self::once())
             ->method('loadTag')
             ->willReturn($this->tag);
 
-        $this->translationHelper->expects($this->once())
+        $this->translationHelper->expects(self::once())
             ->method('getTranslatedByMethod')
             ->with($this->tag)
             ->willReturn($translated);
 
-        $this->assertEquals($translated, $this->runtime->getTagKeyword(1));
+        self::assertEquals($translated, $this->runtime->getTagKeyword(1));
     }
 
     public function testGetTagKeywordWithTagArgument()
     {
         $translated = 'translated';
 
-        $this->tagsService->expects($this->never())
+        $this->tagsService->expects(self::never())
             ->method('loadTag');
 
-        $this->translationHelper->expects($this->once())
+        $this->translationHelper->expects(self::once())
             ->method('getTranslatedByMethod')
             ->with($this->tag)
             ->willReturn($translated);
 
-        $this->assertEquals($translated, $this->runtime->getTagKeyword($this->tag));
+        self::assertEquals($translated, $this->runtime->getTagKeyword($this->tag));
     }
 
     public function testGetLanguageName()
     {
         $language = new Language(
-            array(
+            [
                 'id' => 123,
                 'languageCode' => 'eng-EU',
                 'name' => 'English',
-            )
+            ]
         );
 
-        $this->languageService->expects($this->once())
+        $this->languageService->expects(self::once())
             ->method('loadLanguage')
             ->with($language->languageCode)
             ->willReturn($language);
 
         $name = $this->runtime->getLanguageName($language->languageCode);
 
-        $this->assertEquals($language->name, $name);
+        self::assertEquals($language->name, $name);
     }
 
     public function testGetContentTypeNameWithNotFoundException()
     {
         $contentType = 'content_type';
 
-        $this->contentTypeService->expects($this->once())
+        $this->contentTypeService->expects(self::once())
             ->method('loadContentType')
             ->with($contentType)
             ->willThrowException(new NotFoundException($contentType, $contentType));
 
-        $this->assertEmpty($this->runtime->getContentTypeName('content_type'));
+        self::assertEmpty($this->runtime->getContentTypeName('content_type'));
     }
 
     public function testGetContentTypeNameWithNonContentTypeAsArgument()
     {
         $contentType = 'content_type';
 
-        $this->contentTypeService->expects($this->once())
+        $this->contentTypeService->expects(self::once())
             ->method('loadContentType')
             ->with($contentType)
             ->willReturn($this->contentType);
 
-        $this->assertEquals('Translated name', $this->runtime->getContentTypeName('content_type'));
+        self::assertEquals('Translated name', $this->runtime->getContentTypeName('content_type'));
     }
 
     public function testGetContentTypeNameWithContentTypeAsArgument()
     {
-        $this->contentTypeService->expects($this->never())
+        $this->contentTypeService->expects(self::never())
             ->method('loadContentType');
 
-        $this->assertEquals('Translated name', $this->runtime->getContentTypeName($this->contentType));
+        self::assertEquals('Translated name', $this->runtime->getContentTypeName($this->contentType));
     }
 }

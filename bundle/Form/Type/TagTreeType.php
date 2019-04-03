@@ -42,18 +42,18 @@ class TagTreeType extends AbstractType
             ->setRequired('disableSubtree')
             ->setAllowedTypes('disableSubtree', 'array')
             ->setDefaults(
-                array(
+                [
                     'error_bubbling' => false,
                     'allowRootTag' => true,
-                    'disableSubtree' => array(),
+                    'disableSubtree' => [],
                     'constraints' => function (Options $options) {
-                        return array(
-                            new Constraints\Type(array('type' => 'numeric')),
+                        return [
+                            new Constraints\Type(['type' => 'numeric']),
                             new Constraints\NotBlank(),
-                            new TagConstraint(array('allowRootTag' => $options['allowRootTag'])),
-                        );
+                            new TagConstraint(['allowRootTag' => $options['allowRootTag']]),
+                        ];
                     },
-                )
+                ]
             );
     }
 
@@ -71,11 +71,11 @@ class TagTreeType extends AbstractType
             }
         }
 
-        $view->vars += array(
+        $view->vars += [
             'tag' => $tag,
             'allowRootTag' => $options['allowRootTag'],
             'disableSubtree' => $options['disableSubtree'],
-        );
+        ];
     }
 
     /**

@@ -50,7 +50,6 @@ class LanguageValidator extends ConstraintValidator
         try {
             $this->languageService->loadLanguage($value);
         } catch (NotFoundException $e) {
-            /* @var \Netgen\TagsBundle\Validator\Constraints\Language $constraint */
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%languageCode%', $value)
                 ->addViolation();

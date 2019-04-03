@@ -19,9 +19,9 @@ class SearchField implements Indexable
      */
     public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
     {
-        $tagKeywords = array();
-        $parentTagIds = array();
-        $tagIds = array();
+        $tagKeywords = [];
+        $parentTagIds = [];
+        $tagIds = [];
 
         if (!empty($field->value->externalData)) {
             foreach ($field->value->externalData as $tag) {
@@ -40,7 +40,7 @@ class SearchField implements Indexable
             }
         }
 
-        return array(
+        return [
             new Search\Field(
                 'tag_keywords',
                 $tagKeywords,
@@ -66,7 +66,7 @@ class SearchField implements Indexable
                 implode(' ', $tagKeywords),
                 new Search\FieldType\FullTextField()
             ),
-        );
+        ];
     }
 
     /**
@@ -76,13 +76,13 @@ class SearchField implements Indexable
      */
     public function getIndexDefinition()
     {
-        return array(
+        return [
             'tag_keywords' => new Search\FieldType\MultipleStringField(),
             'parent_tag_ids' => new Search\FieldType\MultipleIntegerField(),
             'tag_ids' => new Search\FieldType\MultipleIntegerField(),
             'tag_text' => new Search\FieldType\TextField(),
             'fulltext' => new Search\FieldType\FullTextField(),
-        );
+        ];
     }
 
     /**

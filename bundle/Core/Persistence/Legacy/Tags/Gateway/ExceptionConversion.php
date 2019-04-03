@@ -32,7 +32,6 @@ class ExceptionConversion extends Gateway
     /**
      * Returns an array with basic tag data.
      *
-     *
      * @param mixed $tagId
      *
      * @throws \RuntimeException
@@ -71,7 +70,6 @@ class ExceptionConversion extends Gateway
     /**
      * Returns an array with full tag data.
      *
-     *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
@@ -93,7 +91,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Returns an array with basic tag data for the tag with $remoteId.
-     *
      *
      * @param string $remoteId
      * @param string[] $translations
@@ -138,7 +135,6 @@ class ExceptionConversion extends Gateway
     /**
      * Returns data for the first level children of the tag identified by given $tagId.
      *
-     *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
@@ -163,7 +159,6 @@ class ExceptionConversion extends Gateway
     /**
      * Returns how many tags exist below tag identified by $tagId.
      *
-     *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
@@ -185,7 +180,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Returns data for tags identified by given $keyword.
-     *
      *
      * @param string $keyword
      * @param string $translation
@@ -212,7 +206,6 @@ class ExceptionConversion extends Gateway
     /**
      * Returns how many tags exist with $keyword.
      *
-     *
      * @param string $keyword
      * @param string $translation
      * @param bool $useAlwaysAvailable
@@ -235,7 +228,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Returns data for synonyms of the tag identified by given $tagId.
-     *
      *
      * @param mixed $tagId
      * @param int $offset The start offset for paging
@@ -261,7 +253,6 @@ class ExceptionConversion extends Gateway
     /**
      * Returns how many synonyms exist for a tag identified by $tagId.
      *
-     *
      * @param mixed $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
@@ -284,7 +275,6 @@ class ExceptionConversion extends Gateway
     /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData.
      *
-     *
      * @param mixed $synonymId
      * @param array $mainTagData
      *
@@ -303,7 +293,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Creates a new tag using the given $createStruct below $parentTag.
-     *
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
      * @param array $parentTag
@@ -326,7 +315,6 @@ class ExceptionConversion extends Gateway
     /**
      * Updates an existing tag.
      *
-     *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
      * @param mixed $tagId
      *
@@ -345,7 +333,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Creates a new synonym using the given $keyword for tag $tag.
-     *
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
      * @param array $tag
@@ -368,7 +355,6 @@ class ExceptionConversion extends Gateway
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData.
      *
-     *
      * @param mixed $tagId
      * @param array $mainTagData
      *
@@ -387,7 +373,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId.
-     *
      *
      * @param mixed $tagId
      * @param mixed $targetTagId
@@ -408,7 +393,6 @@ class ExceptionConversion extends Gateway
     /**
      * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData.
      *
-     *
      * @param array $sourceTagData
      * @param array $destinationParentTagData
      *
@@ -427,7 +411,6 @@ class ExceptionConversion extends Gateway
 
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it.
-     *
      *
      * @param mixed $tagId
      *

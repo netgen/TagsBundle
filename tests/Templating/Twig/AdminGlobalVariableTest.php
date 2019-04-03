@@ -25,17 +25,17 @@ class AdminGlobalVariableTest extends TestCase
 
     public function testInstanceOfGlobalAdminVariable()
     {
-        $this->assertInstanceOf(AdminGlobalVariable::class, $this->adminGlobalVariable);
+        self::assertInstanceOf(AdminGlobalVariable::class, $this->adminGlobalVariable);
     }
 
     public function testGetAndSetPageLayoutTemplate()
     {
-        $this->assertNull($this->adminGlobalVariable->getPageLayoutTemplate());
+        self::assertNull($this->adminGlobalVariable->getPageLayoutTemplate());
 
         $this->adminGlobalVariable->setPageLayoutTemplate($this->template);
-        $this->assertEquals($this->template, $this->adminGlobalVariable->getPageLayoutTemplate());
+        self::assertEquals($this->template, $this->adminGlobalVariable->getPageLayoutTemplate());
 
         $this->adminGlobalVariable->setPageLayoutTemplate();
-        $this->assertNull($this->adminGlobalVariable->getPageLayoutTemplate());
+        self::assertNull($this->adminGlobalVariable->getPageLayoutTemplate());
     }
 }

@@ -32,7 +32,7 @@ class TagId extends Criterion implements CriterionInterface
 
     public function getSpecifications()
     {
-        return array(
+        return [
             new Specifications(
                 Operator::IN,
                 Specifications::FORMAT_ARRAY,
@@ -43,7 +43,7 @@ class TagId extends Criterion implements CriterionInterface
                 Specifications::FORMAT_SINGLE,
                 Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
             ),
-        );
+        ];
     }
 
     public static function createFromQueryBuilder($target, $operator, $value)

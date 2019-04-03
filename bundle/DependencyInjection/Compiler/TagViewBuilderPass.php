@@ -23,7 +23,7 @@ class TagViewBuilderPass implements CompilerPassInterface
 
         $viewBuilderRegistry->addMethodCall(
             'addToRegistry',
-            array(array($tagViewBuilder))
+            [[$tagViewBuilder]]
         );
     }
 }

@@ -72,7 +72,7 @@ abstract class Tags extends Field
             );
         }
 
-        $targetFieldTypes = array();
+        $targetFieldTypes = [];
         foreach ($this->contentTypeHandler->getSearchableFieldMap() as $fieldDefinitions) {
             foreach ($fieldDefinitions as $fieldIdentifier => $fieldDefinition) {
                 if (!isset($fieldDefinition['field_type_identifier'])) {

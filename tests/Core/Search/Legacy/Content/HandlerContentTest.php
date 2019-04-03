@@ -71,14 +71,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagIdFilter()
     {
         $this->assertSearchResults(
-            array(57, 60),
+            [57, 60],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Criterion\TagId(40),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -87,14 +87,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagIdFilterWithTarget()
     {
         $this->assertSearchResults(
-            array(57),
+            [57],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Criterion\TagId(61, 'tags'),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -103,14 +103,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagIdFilterIn()
     {
         $this->assertSearchResults(
-            array(57, 60, 61),
+            [57, 60, 61],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
-                        'filter' => new Criterion\TagId(array(40, 41)),
+                    [
+                        'filter' => new Criterion\TagId([40, 41]),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -119,19 +119,19 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagIdFilterWithLogicalAnd()
     {
         $this->assertSearchResults(
-            array(57),
+            [57],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Query\Criterion\LogicalAnd(
-                            array(
+                            [
                                 new Criterion\TagId(16),
                                 new Criterion\TagId(40),
-                            )
+                            ]
                         ),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -140,14 +140,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagKeywordFilter()
     {
         $this->assertSearchResults(
-            array(57, 60),
+            [57, 60],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -156,14 +156,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagKeywordFilterWithTarget()
     {
         $this->assertSearchResults(
-            array(57),
+            [57],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'template', 'tags'),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -172,14 +172,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagKeywordFilterIn()
     {
         $this->assertSearchResults(
-            array(57, 60, 61),
+            [57, 60, 61],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
-                        'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::IN, array('eztags', 'cms')),
+                    [
+                        'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::IN, ['eztags', 'cms']),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -188,19 +188,19 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagKeywordFilterInWithLogicalAnd()
     {
         $this->assertSearchResults(
-            array(57),
+            [57],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Query\Criterion\LogicalAnd(
-                            array(
+                            [
                                 new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'mobile'),
                                 new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
-                            )
+                            ]
                         ),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -209,14 +209,14 @@ class HandlerContentTest extends LanguageAwareTestCase
     public function testTagKeywordFilterLike()
     {
         $this->assertSearchResults(
-            array(57, 58, 59, 60),
+            [57, 58, 59, 60],
             $this->getContentSearchHandler()->findContent(
                 new Query(
-                    array(
+                    [
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::LIKE, '%e%'),
                         'limit' => 10,
-                        'sortClauses' => array(new SortClause\ContentId()),
-                    )
+                        'sortClauses' => [new SortClause\ContentId()],
+                    ]
                 )
             )
         );
@@ -239,7 +239,7 @@ class HandlerContentTest extends LanguageAwareTestCase
 
         sort($result);
 
-        $this->assertEquals($expectedIds, $result);
+        self::assertEquals($expectedIds, $result);
     }
 
     /**
@@ -256,7 +256,7 @@ class HandlerContentTest extends LanguageAwareTestCase
             new Content\Gateway\DoctrineDatabase(
                 $this->getDatabaseHandler(),
                 new Content\Common\Gateway\CriteriaConverter(
-                    array(
+                    [
                         new TagIdCriterionHandler(
                             $this->getDatabaseHandler()
                         ),
@@ -272,12 +272,12 @@ class HandlerContentTest extends LanguageAwareTestCase
                         new CriterionHandler\MatchAll(
                             $this->getDatabaseHandler()
                         ),
-                    )
+                    ]
                 ),
                 new Content\Common\Gateway\SortClauseConverter(
-                    array(
+                    [
                         new Content\Common\Gateway\SortClauseHandler\ContentId($this->getDatabaseHandler()),
-                    )
+                    ]
                 ),
                 $this->getLanguageHandler()
             ),
@@ -298,22 +298,22 @@ class HandlerContentTest extends LanguageAwareTestCase
     protected function getContentMapperMock()
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)
-            ->setMethods(array('extractContentFromRows'))
+            ->setMethods(['extractContentFromRows'])
             ->setConstructorArgs(
-                array(
+                [
                     $this->fieldRegistry,
                     $this->getLanguageHandler(),
-                )
+                ]
             )
             ->getMock();
 
-        $mapperMock->expects($this->any())
+        $mapperMock->expects(self::any())
             ->method('extractContentFromRows')
-            ->with($this->isType('array'))
+            ->with(self::isType('array'))
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     function ($rows) {
-                        $contentObjs = array();
+                        $contentObjs = [];
                         foreach ($rows as $row) {
                             $contentId = (int) $row['ezcontentobject_id'];
                             if (!isset($contentObjs[$contentId])) {

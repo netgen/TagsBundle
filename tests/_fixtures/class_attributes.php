@@ -1,8 +1,8 @@
 <?php
 
-return array(
-    'ezcontentclass_attribute' => array(
-        array(
+return [
+    'ezcontentclass_attribute' => [
+        [
             'id' => '794',
             'is_searchable' => '1',
             'data_type_string' => 'eztags',
@@ -10,6 +10,6 @@ return array(
             'category' => '',
             'contentclass_id' => '21',
             'serialized_name_list' => '',
-        ),
-    ),
-);
+        ],
+    ],
+];

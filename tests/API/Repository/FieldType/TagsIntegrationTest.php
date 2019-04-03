@@ -37,16 +37,16 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getSettingsSchema()
     {
-        return array(
-            'hideRootTag' => array(
+        return [
+            'hideRootTag' => [
                 'type' => 'boolean',
                 'default' => false,
-            ),
-            'editView' => array(
+            ],
+            'editView' => [
                 'type' => 'string',
                 'default' => Type::EDIT_VIEW_DEFAULT_VALUE,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -56,18 +56,18 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getValidatorSchema()
     {
-        return array(
-            'TagsValueValidator' => array(
-                'subTreeLimit' => array(
+        return [
+            'TagsValueValidator' => [
+                'subTreeLimit' => [
                     'type' => 'int',
                     'default' => 0,
-                ),
-                'maxTags' => array(
+                ],
+                'maxTags' => [
                     'type' => 'int',
                     'default' => 0,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -77,10 +77,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getValidFieldSettings()
     {
-        return array(
+        return [
             'hideRootTag' => true,
             'editView' => Type::EDIT_VIEW_DEFAULT_VALUE,
-        );
+        ];
     }
 
     /**
@@ -90,9 +90,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getInvalidFieldSettings()
     {
-        return array(
+        return [
             'unknown' => 42,
-        );
+        ];
     }
 
     /**
@@ -102,12 +102,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getValidValidatorConfiguration()
     {
-        return array(
-            'TagsValueValidator' => array(
+        return [
+            'TagsValueValidator' => [
                 'subTreeLimit' => 0,
                 'maxTags' => 10,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -117,9 +117,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function getInvalidValidatorConfiguration()
     {
-        return array(
-            'unknown' => array('value' => 42),
-        );
+        return [
+            'unknown' => ['value' => 42],
+        ];
     }
 
     /**
@@ -130,9 +130,9 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getValidCreationFieldData()
     {
         return new TagsValue(
-            array(
+            [
                 $this->getTag1(),
-            )
+            ]
         );
     }
 
@@ -146,15 +146,15 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Value::class,
             $field->value
         );
 
-        $this->assertEquals(
-            array(
+        self::assertEquals(
+            [
                 $this->getTag1(),
-            ),
+            ],
             $field->value->tags
         );
     }
@@ -182,26 +182,26 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function provideInvalidCreationFieldData()
     {
-        return array(
-            array(
+        return [
+            [
                 42,
                 InvalidArgumentType::class,
-            ),
-            array(
+            ],
+            [
                 'invalid',
                 InvalidArgumentType::class,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     new stdClass(),
-                ),
+                ],
                 InvalidArgumentType::class,
-            ),
-            array(
+            ],
+            [
                 new stdClass(),
                 InvalidArgumentType::class,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -212,10 +212,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
     public function getValidUpdateFieldData()
     {
         return new TagsValue(
-            array(
+            [
                 $this->getTag2(),
                 $this->getTag3(),
-            )
+            ]
         );
     }
 
@@ -229,16 +229,16 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Value::class,
             $field->value
         );
 
-        $this->assertEquals(
-            array(
+        self::assertEquals(
+            [
                 $this->getTag2(),
                 $this->getTag3(),
-            ),
+            ],
             $field->value->tags
         );
     }
@@ -279,15 +279,15 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Value::class,
             $field->value
         );
 
-        $this->assertEquals(
-            array(
+        self::assertEquals(
+            [
                 $this->getTag1(),
-            ),
+            ],
             $field->value->tags
         );
     }
@@ -314,26 +314,26 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function provideToHashData()
     {
-        return array(
-            array(
+        return [
+            [
                 new TagsValue(),
-                array(),
-            ),
-            array(
-                new TagsValue(array()),
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
+                new TagsValue([]),
+                [],
+            ],
+            [
                 new TagsValue(
-                    array(
+                    [
                         $this->getTag1(),
-                    )
+                    ]
                 ),
-                array(
+                [
                     $this->getTagHash1(),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -358,26 +358,26 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function provideFromHashData()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
                 new TagsValue(),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 new TagsValue(),
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     $this->getTagHash1(),
-                ),
+                ],
                 new TagsValue(
-                    array(
+                    [
                         $this->getTag1(),
-                    )
+                    ]
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -387,10 +387,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function providerForTestIsEmptyValue()
     {
-        return array(
-            array(new TagsValue()),
-            array(new TagsValue(array())),
-        );
+        return [
+            [new TagsValue()],
+            [new TagsValue([])],
+        ];
     }
 
     /**
@@ -400,11 +400,11 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     public function providerForTestIsNotEmptyValue()
     {
-        return array(
-            array(
+        return [
+            [
                 $this->getValidCreationFieldData(),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -428,19 +428,19 @@ class TagsIntegrationTest extends BaseIntegrationTest
         $modificationDate->setTimestamp(1308153110);
 
         return new Tag(
-            array(
+            [
                 'id' => 40,
                 'parentTagId' => 7,
                 'mainTagId' => 0,
-                'keywords' => array('eng-GB' => 'eztags'),
+                'keywords' => ['eng-GB' => 'eztags'],
                 'depth' => 3,
                 'pathString' => '/8/7/40/',
                 'modificationDate' => $modificationDate,
                 'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
-                'languageCodes' => array('eng-GB'),
-            )
+                'languageCodes' => ['eng-GB'],
+            ]
         );
     }
 
@@ -455,19 +455,19 @@ class TagsIntegrationTest extends BaseIntegrationTest
         $modificationDate->setTimestamp(1343169159);
 
         return new Tag(
-            array(
+            [
                 'id' => 8,
                 'parentTagId' => 0,
                 'mainTagId' => 0,
-                'keywords' => array('eng-GB' => 'ez publish'),
+                'keywords' => ['eng-GB' => 'ez publish'],
                 'depth' => 1,
                 'pathString' => '/8/',
                 'modificationDate' => $modificationDate,
                 'remoteId' => 'eccbc87e4b5ce2fe28308fd9f2a7baf3',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
-                'languageCodes' => array('eng-GB'),
-            )
+                'languageCodes' => ['eng-GB'],
+            ]
         );
     }
 
@@ -482,19 +482,19 @@ class TagsIntegrationTest extends BaseIntegrationTest
         $modificationDate->setTimestamp(1343169159);
 
         return new Tag(
-            array(
+            [
                 'id' => 9,
                 'parentTagId' => 47,
                 'mainTagId' => 0,
-                'keywords' => array('eng-GB' => 'php'),
+                'keywords' => ['eng-GB' => 'php'],
                 'depth' => 2,
                 'pathString' => '/47/9/',
                 'modificationDate' => $modificationDate,
                 'remoteId' => 'a87ff679a2f3e71d9181a67b7542122c',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
-                'languageCodes' => array('eng-GB'),
-            )
+                'languageCodes' => ['eng-GB'],
+            ]
         );
     }
 
@@ -505,18 +505,18 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     protected function getTagHash1()
     {
-        return array(
+        return [
             'id' => 40,
             'parent_id' => 7,
             'main_tag_id' => 0,
-            'keywords' => array('eng-GB' => 'eztags'),
+            'keywords' => ['eng-GB' => 'eztags'],
             'depth' => 3,
             'path_string' => '/8/7/40/',
             'modified' => 1308153110,
             'remote_id' => '182be0c5cdcd5072bb1864cdee4d3d6e',
             'always_available' => false,
             'main_language_code' => 'eng-GB',
-            'language_codes' => array('eng-GB'),
-        );
+            'language_codes' => ['eng-GB'],
+        ];
     }
 }

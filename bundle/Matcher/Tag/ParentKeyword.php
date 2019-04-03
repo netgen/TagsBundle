@@ -30,7 +30,8 @@ class ParentKeyword extends MultipleValued
         );
 
         $keyword = $this->translationHelper->getTranslatedByMethod(
-            $parentTag, 'getKeyword'
+            $parentTag,
+            'getKeyword'
         );
 
         return isset($this->values[$keyword]);

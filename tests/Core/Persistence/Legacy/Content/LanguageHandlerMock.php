@@ -11,30 +11,30 @@ use PHPUnit\Framework\TestCase;
  */
 class LanguageHandlerMock
 {
-    protected $languages = array();
+    protected $languages = [];
 
     public function __construct()
     {
         $this->languages['eng-US'] = new Language(
-            array(
+            [
                 'id' => 2,
                 'languageCode' => 'eng-US',
                 'name' => 'English (American)',
-            )
+            ]
         );
         $this->languages['ger-DE'] = new Language(
-            array(
+            [
                 'id' => 4,
                 'languageCode' => 'ger-DE',
                 'name' => 'German',
-            )
+            ]
         );
         $this->languages['eng-GB'] = new Language(
-            array(
+            [
                 'id' => 8,
                 'languageCode' => 'eng-GB',
                 'name' => 'English (United Kingdom)',
-            )
+            ]
         );
     }
 
@@ -48,14 +48,14 @@ class LanguageHandlerMock
             ->method('load')
             ->will(
                 $testCase::returnValueMap(
-                    array(
-                        array(2, $this->languages['eng-US']),
-                        array(4, $this->languages['ger-DE']),
-                        array(8, $this->languages['eng-GB']),
-                        array('2', $this->languages['eng-US']),
-                        array('4', $this->languages['ger-DE']),
-                        array('8', $this->languages['eng-GB']),
-                    )
+                    [
+                        [2, $this->languages['eng-US']],
+                        [4, $this->languages['ger-DE']],
+                        [8, $this->languages['eng-GB']],
+                        ['2', $this->languages['eng-US']],
+                        ['4', $this->languages['ger-DE']],
+                        ['8', $this->languages['eng-GB']],
+                    ]
                 )
             );
 
@@ -63,11 +63,11 @@ class LanguageHandlerMock
             ->method('loadByLanguageCode')
             ->will(
                 $testCase::returnValueMap(
-                    array(
-                        array('eng-US', $this->languages['eng-US']),
-                        array('ger-DE', $this->languages['ger-DE']),
-                        array('eng-GB', $this->languages['eng-GB']),
-                    )
+                    [
+                        ['eng-US', $this->languages['eng-US']],
+                        ['ger-DE', $this->languages['ger-DE']],
+                        ['eng-GB', $this->languages['eng-GB']],
+                    ]
                 )
             );
 

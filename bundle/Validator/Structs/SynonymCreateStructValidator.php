@@ -42,11 +42,11 @@ class SynonymCreateStructValidator extends CreateStructValidator
 
         $validator->atPath('mainTagId')->validate(
             $value->mainTagId,
-            array(
-                new Constraints\Type(array('type' => 'numeric')),
+            [
+                new Constraints\Type(['type' => 'numeric']),
                 new Constraints\NotBlank(),
-                new Tag(array('allowRootTag' => false)),
-            )
+                new Tag(['allowRootTag' => false]),
+            ]
         );
     }
 }

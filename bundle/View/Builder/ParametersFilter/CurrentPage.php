@@ -17,9 +17,9 @@ class CurrentPage implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             ViewEvents::FILTER_BUILDER_PARAMETERS => 'addCurrentPage',
-        );
+        ];
     }
 
     /**
@@ -32,7 +32,7 @@ class CurrentPage implements EventSubscriberInterface
         $parameterBag = $event->getParameters();
 
         $route = $parameterBag->get('_route');
-        if (!in_array($route, array(TagRouter::TAG_URL_ROUTE_NAME, TagUrlGenerator::INTERNAL_TAG_ROUTE), true)) {
+        if (!in_array($route, [TagRouter::TAG_URL_ROUTE_NAME, TagUrlGenerator::INTERNAL_TAG_ROUTE], true)) {
             return;
         }
 

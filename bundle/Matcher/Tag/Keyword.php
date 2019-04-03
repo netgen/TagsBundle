@@ -21,7 +21,8 @@ class Keyword extends MultipleValued
         }
 
         $keyword = $this->translationHelper->getTranslatedByMethod(
-            $view->getTag(), 'getKeyword'
+            $view->getTag(),
+            'getKeyword'
         );
 
         return isset($this->values[$keyword]);

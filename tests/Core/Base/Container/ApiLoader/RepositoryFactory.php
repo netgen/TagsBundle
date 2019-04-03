@@ -14,16 +14,16 @@ class RepositoryFactory extends BaseRepositoryFactory
         FieldTypeNameableCollectionFactory $fieldTypeNameableCollectionFactory,
         array $policyMap
     ) {
-        $policyMap['tags'] = array(
-            'add' => array('Tag' => true),
-            'read' => array(),
-            'editsynonym' => array(),
-            'addsynonym' => array(),
-            'makesynonym' => array(),
-            'merge' => array(),
-            'edit' => array(),
-            'delete' => array(),
-        );
+        $policyMap['tags'] = [
+            'add' => ['Tag' => true],
+            'read' => [],
+            'editsynonym' => [],
+            'addsynonym' => [],
+            'makesynonym' => [],
+            'merge' => [],
+            'edit' => [],
+            'delete' => [],
+        ];
 
         parent::__construct(
             $repositoryClass,

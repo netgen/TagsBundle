@@ -17,12 +17,12 @@ class SynonymCreateType extends AbstractType
 
         $resolver
             ->setDefaults(
-                array(
+                [
                     'data_class' => SynonymCreateStruct::class,
-                    'constraints' => array(
+                    'constraints' => [
                         new SynonymCreateStructConstraint(),
-                    ),
-                )
+                    ],
+                ]
             );
     }
 

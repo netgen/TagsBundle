@@ -13,7 +13,6 @@ abstract class Tags extends CriterionHandler
     /**
      * Returns searchable fields for the Criterion.
      *
-     *
      * @param string $fieldIdentifier
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier

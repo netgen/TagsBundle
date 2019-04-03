@@ -44,7 +44,6 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitationValue
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
@@ -53,7 +52,9 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     {
         if (!$limitationValue instanceof APITagLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'TagLimitation', $limitationValue);
-        } elseif (!is_array($limitationValue->limitationValues)) {
+        }
+
+        if (!is_array($limitationValue->limitationValues)) {
             throw new InvalidArgumentType('$limitationValue->limitationValues', 'array', $limitationValue->limitationValues);
         }
 
@@ -75,7 +76,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      */
     public function validate(APILimitationValue $limitationValue)
     {
-        $validationErrors = array();
+        $validationErrors = [];
 
         foreach ($limitationValue->limitationValues as $key => $id) {
             try {
@@ -84,10 +85,10 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
                 $validationErrors[] = new ValidationError(
                     "limitationValues[%key%] => '%value%' does not exist in the backend",
                     null,
-                    array(
+                    [
                         'value' => $id,
                         'key' => $key,
-                    )
+                    ]
                 );
             }
         }
@@ -107,12 +108,11 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      */
     public function buildValue(array $limitationValues)
     {
-        return new APITagLimitation(array('limitationValues' => $limitationValues));
+        return new APITagLimitation(['limitationValues' => $limitationValues]);
     }
 
     /**
      * Evaluate permission against content and placement.
-     *
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $value
      * @param \eZ\Publish\API\Repository\Values\User\UserReference $currentUser
@@ -153,7 +153,6 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
 
     /**
      * Returns Criterion for use in find() query.
-     *
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $value
      * @param \eZ\Publish\API\Repository\Values\User\UserReference $currentUser

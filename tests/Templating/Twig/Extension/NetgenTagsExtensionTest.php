@@ -21,13 +21,13 @@ class NetgenTagsExtensionTest extends TestCase
 
     public function testInstanceOfTwigExtension()
     {
-        $this->assertInstanceOf(AbstractExtension::class, $this->extension);
+        self::assertInstanceOf(AbstractExtension::class, $this->extension);
     }
 
     public function testGetFunctions()
     {
         foreach ($this->extension->getFunctions() as $function) {
-            $this->assertInstanceOf(TwigFunction::class, $function);
+            self::assertInstanceOf(TwigFunction::class, $function);
         }
     }
 }

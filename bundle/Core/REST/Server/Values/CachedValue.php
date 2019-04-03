@@ -28,7 +28,7 @@ class CachedValue extends Value
      * @param mixed $value The value that gets cached
      * @param array $cacheTags Tags to add to the cache (supported: tagId, tagKeyword)
      */
-    public function __construct($value, array $cacheTags = array())
+    public function __construct($value, array $cacheTags = [])
     {
         $this->value = $value;
         $this->cacheTags = $this->checkCacheTags($cacheTags);
@@ -45,7 +45,7 @@ class CachedValue extends Value
      */
     protected function checkCacheTags(array $tags)
     {
-        $invalidTags = array_diff(array_keys($tags), array('tagId', 'tagKeyword'));
+        $invalidTags = array_diff(array_keys($tags), ['tagId', 'tagKeyword']);
         if (count($invalidTags) > 0) {
             throw new InvalidArgumentException(
                 'cacheTags',
