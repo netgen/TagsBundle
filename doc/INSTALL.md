@@ -76,15 +76,6 @@ Clear the eZ Platform caches with the following command:
 $ php bin/console cache:clear
 ```
 
-### Install and dump assets
-
-Run the following to correctly install and dump assets for admin UI. Make sure to use the correct Symfony environment with `--env` parameter:
-
-```bash
-$ php bin/console assets:install --symlink --relative
-$ php bin/console assetic:dump
-```
-
 ### Edit Varnish 4+ configuration (optional but recommended)
 
 Add the following block to the end of `if (req.method == "BAN")` block in `ez_purge` method in your Varnish configuration file to be able to clear Varnish cache for tag view pages:
