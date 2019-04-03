@@ -67,7 +67,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     /**
      * Makes sure LimitationValue->limitationValues is valid according to valueSchema().
      *
-     * Make sure {@link acceptValue()} is checked first!
+     * Make sure {@see acceptValue()} is checked first!
      *
      * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitationValue
      *

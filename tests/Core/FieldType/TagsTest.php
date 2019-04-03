@@ -52,7 +52,7 @@ class TagsTest extends FieldTypeTest
 
     /**
      * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
+     * {@see validateFieldSettings()} method.
      *
      * Returns an array of data provider sets with a single argument: A valid
      * set of field settings.
@@ -90,7 +90,7 @@ class TagsTest extends FieldTypeTest
 
     /**
      * Provide data sets with validator configurations which are considered
-     * valid by the {@link validateValidatorConfiguration()} method.
+     * valid by the {@see validateValidatorConfiguration()} method.
      *
      * @return array
      */
@@ -138,7 +138,7 @@ class TagsTest extends FieldTypeTest
 
     /**
      * Provide data sets with field settings which are considered invalid by the
-     * {@link validateFieldSettings()} method. The method must return a
+     * {@see validateFieldSettings()} method. The method must return a
      * non-empty array of validation error when receiving such field settings.
      *
      * Returns an array of data provider sets with a single argument: A valid
@@ -172,7 +172,7 @@ class TagsTest extends FieldTypeTest
 
     /**
      * Provide data sets with validator configurations which are considered
-     * invalid by the {@link validateValidatorConfiguration()} method. The
+     * invalid by the {@see validateValidatorConfiguration()} method. The
      * method must return a non-empty array of validation errors when receiving
      * one of the provided values.
      *
@@ -305,7 +305,7 @@ class TagsTest extends FieldTypeTest
 
     /**
      * Provides data sets with validator configuration and/or field settings and
-     * field value which are considered valid by the {@link validate()} method.
+     * field value which are considered valid by the {@see validate()} method.
      *
      * @return array
      */
@@ -398,7 +398,7 @@ class TagsTest extends FieldTypeTest
     /**
      * Provides data sets with validator configuration and/or field settings,
      * field value and corresponding validation errors returned by
-     * the {@link validate()} method.
+     * the {@see validate()} method.
      *
      * @return array
      */

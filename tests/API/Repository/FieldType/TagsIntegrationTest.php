@@ -139,7 +139,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Asserts that the field data was loaded correctly.
      *
-     * Asserts that the data provided by {@link getValidCreationFieldData()}
+     * Asserts that the data provided by {@see getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Field $field
@@ -222,7 +222,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Asserts the the field data was loaded correctly.
      *
-     * Asserts that the data provided by {@link getValidUpdateFieldData()}
+     * Asserts that the data provided by {@see getValidUpdateFieldData()}
      * was stored and loaded correctly.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Field $field
@@ -272,7 +272,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Asserts the the field data was loaded correctly.
      *
-     * Asserts that the data provided by {@link getValidCreationFieldData()}
+     * Asserts that the data provided by {@see getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Field $field
