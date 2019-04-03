@@ -1,7 +1,7 @@
 Netgen Tags Bundle 3.4 changelog
 ================================
 
-3.4.0 (xx.xx.xxxx)
+3.4.0 (03.04.2019)
 ------------------
 
 * Added possibility to browse for tags in field edit interface (thanks @JorgenSolli)
