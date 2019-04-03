@@ -27,7 +27,7 @@ Upgrade from 3.3 to 3.4
 
   `{% extends ezpublish.configResolver.parameter( 'tag_view.pagelayout', 'eztags' ) %}`
 
-* Minimum supported version of eZ Platform is now 1.13 (with Repository Forms 1.11 and Platform UI 1.13) and eZ Platform 7.5
+* Minimum supported versions of eZ Platform are now 1.13 (with Repository Forms 1.11 and Platform UI 1.13) and eZ Platform 2.5 or later
 * Minimum supported version of Solr Search Engine is now 1.5
 
 Upgrade from 3.0 to 3.1
