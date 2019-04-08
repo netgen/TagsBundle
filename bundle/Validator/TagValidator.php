@@ -58,7 +58,7 @@ class TagValidator extends ConstraintValidator
 
         try {
             $tag = $this->tagsService->sudo(
-                function (TagsService $tagsService) use ($value) {
+                static function (TagsService $tagsService) use ($value) {
                     return $tagsService->loadTag($value);
                 }
             );

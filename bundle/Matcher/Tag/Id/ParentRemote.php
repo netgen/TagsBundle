@@ -25,7 +25,7 @@ class ParentRemote extends MultipleValued
         $tag = $view->getTag();
 
         $parentTag = $this->tagsService->sudo(
-            function (TagsService $tagsService) use ($tag) {
+            static function (TagsService $tagsService) use ($tag) {
                 return $tagsService->loadTag($tag->parentTagId);
             }
         );

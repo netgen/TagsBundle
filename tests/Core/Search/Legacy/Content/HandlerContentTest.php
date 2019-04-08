@@ -231,7 +231,7 @@ class HandlerContentTest extends LanguageAwareTestCase
     protected function assertSearchResults($expectedIds, $searchResult)
     {
         $result = array_map(
-            function ($hit) {
+            static function ($hit) {
                 return $hit->valueObject->id;
             },
             $searchResult->searchHits
@@ -312,7 +312,7 @@ class HandlerContentTest extends LanguageAwareTestCase
             ->with(self::isType('array'))
             ->will(
                 self::returnCallback(
-                    function ($rows) {
+                    static function ($rows) {
                         $contentObjs = [];
                         foreach ($rows as $row) {
                             $contentId = (int) $row['ezcontentobject_id'];

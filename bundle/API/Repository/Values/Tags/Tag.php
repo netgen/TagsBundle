@@ -121,7 +121,7 @@ class Tag extends ValueObject
         parent::__construct($properties);
 
         $this->path = array_map(
-            function ($id) {
+            static function ($id) {
                 return (int) $id;
             },
             explode('/', trim($this->pathString, '/'))

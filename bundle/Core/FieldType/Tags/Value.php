@@ -35,7 +35,7 @@ class Value extends BaseValue
         return implode(
             ', ',
             array_map(
-                function (Tag $tag) {
+                static function (Tag $tag) {
                     return $tag->getKeyword();
                 },
                 $this->tags

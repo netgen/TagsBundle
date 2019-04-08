@@ -223,7 +223,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     protected function assertSearchResults($expectedIds, $searchResult)
     {
         $ids = array_map(
-            function ($hit) {
+            static function ($hit) {
                 return $hit->valueObject->id;
             },
             $searchResult->searchHits
@@ -290,7 +290,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
             ->with(self::isType('array'))
             ->will(
                 self::returnCallback(
-                    function ($rows) {
+                    static function ($rows) {
                         $locations = [];
                         foreach ($rows as $row) {
                             $locationId = (int) $row['node_id'];

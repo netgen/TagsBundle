@@ -18,7 +18,7 @@ class CopyTagsType extends AbstractType
         $resolver
             ->setRequired('tags')
             ->setAllowedTypes('tags', 'array')
-            ->setAllowedValues('tags', function (array $tags) {
+            ->setAllowedValues('tags', static function (array $tags) {
                 foreach ($tags as $tag) {
                     if (!$tag instanceof Tag) {
                         return false;
@@ -41,7 +41,7 @@ class CopyTagsType extends AbstractType
                 [
                     'label' => 'tag.parent_tag',
                     'disableSubtree' => array_map(
-                        function (Tag $tag) {
+                        static function (Tag $tag) {
                             return $tag->id;
                         },
                         $options['tags']

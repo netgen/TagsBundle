@@ -23,6 +23,7 @@ return PhpCsFixer\Config::create()
 
         // Additional rules
         'mb_str_functions' => true,
+        'static_lambda' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

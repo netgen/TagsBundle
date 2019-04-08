@@ -811,7 +811,7 @@ class TagsServiceTest extends TestCase
      */
     public function testSudo()
     {
-        $callback = function () {
+        $callback = static function () {
         };
 
         $this->tagsService
