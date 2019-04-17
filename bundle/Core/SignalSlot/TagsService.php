@@ -228,6 +228,7 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
+     * @param array $contentTypeFilter The list of content types to return
      * @param bool $returnContentInfo
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -235,24 +236,37 @@ class TagsService implements TagsServiceInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true)
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, array $contentTypeFilter = array(), $returnContentInfo = true)
     {
-        return $this->service->getRelatedContent($tag, $offset, $limit, $returnContentInfo);
+        return $this->service->getRelatedContent($tag, $offset, $limit, $contentTypeFilter, $returnContentInfo);
     }
 
     /**
      * Returns the number of content objects related to $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param array $contentTypeFilter The list of content types to return
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
-    public function getRelatedContentCount(Tag $tag)
+    public function getRelatedContentCount(Tag $tag, array $contentTypeFilter = array())
     {
-        return $this->service->getRelatedContentCount($tag);
+        return $this->service->getRelatedContentCount($tag, $contentTypeFilter);
+    }
+
+    /**
+     * Returns content type facets of content objects related to $tag.
+     *
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
+     */
+    public function getRelatedContentTypeFacets(Tag $tag)
+    {
+        return $this->service->getRelatedContentTypeFacets($tag);
     }
 
     /**
