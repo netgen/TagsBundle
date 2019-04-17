@@ -16,3 +16,12 @@ services:
             - [setLanguages, [$languages$]]
         tags:
             - { name: form.type }
+
+    eztags.forms.content_type_filter:
+        class: Netgen\TagsBundle\Form\Type\ContentTypeFilterType
+        # public: false
+        arguments:
+            - "@eztags.api.service.tags"
+            - "@ezpublish.api.service.content_type"
+        tags:
+            - { name: form.type }
