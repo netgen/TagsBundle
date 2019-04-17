@@ -44,6 +44,8 @@ tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
 
 tag.related_content.title: 'List of content related to tag'
+tag.related_content.filter.content_type: 'Content type filter'
+tag.related_content.filter.content_type.button.submit: 'Apply'
 
 tag.add.title: 'New tag'
 
