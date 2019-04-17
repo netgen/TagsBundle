@@ -28,6 +28,11 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     protected $returnContentInfo;
 
     /**
+     * @var array
+     */
+    protected $contentTypeFilter = array();
+
+    /**
      * @var int
      */
     protected $nbResults;
@@ -55,6 +60,16 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     }
 
     /**
+     * Sets the list of content types to return.
+     *
+     * @param array $contentTypeFilter
+     */
+    public function setContentTypeFilter(array $contentTypeFilter = array())
+    {
+        $this->contentTypeFilter = $contentTypeFilter;
+    }
+
+    /**
      * Returns the number of results.
      *
      * @return int The number of results
@@ -66,7 +81,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
         }
 
         if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->contentTypeFilter);
         }
 
         return $this->nbResults;
@@ -90,11 +105,12 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             $this->tag,
             $offset,
             $length,
+            $this->contentTypeFilter,
             $this->returnContentInfo
         );
 
         if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->contentTypeFilter);
         }
 
         return $relatedContent;
