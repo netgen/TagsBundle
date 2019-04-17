@@ -139,3 +139,22 @@
         }
     }
 }
+
+.ng-tags-content-type-filter {
+    form {
+        background: #e6e5e5;
+        padding: .8em;
+        margin: .5em 0;
+        font-size: 13px;
+
+        select[multiple] {
+            width: 100%;
+            border: 0;
+            margin: 0 0 1em;
+
+            option {
+                padding: .25em;
+            }
+        }
+    }
+}
