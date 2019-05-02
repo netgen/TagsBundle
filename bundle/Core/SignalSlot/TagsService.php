@@ -258,15 +258,19 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Returns content type facets of content objects related to $tag.
+     * Returns facets for given $facetBuilders,
+     * for content tagged with $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
+     *
+     * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
      */
-    public function getRelatedContentTypeFacets(Tag $tag)
+    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = [])
     {
-        return $this->service->getRelatedContentTypeFacets($tag);
+        return $this->service->getRelatedContentFacets($tag, $facetBuilders);
     }
 
     /**

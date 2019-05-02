@@ -51,6 +51,7 @@ class RelatedContentController extends Controller
 
         $currentPage = (int) $request->query->get('page');
         $configResolver = $this->getConfigResolver();
+        $filterApplied = false;
 
         $form = $this->createForm(
             ContentTypeFilterType::class,
@@ -65,12 +66,13 @@ class RelatedContentController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $contentTypeFilter = $form->get('content_types')->getData();
 
-            if ($this->adapter instanceof RelatedContentAdapter) {
+            if ($this->adapter instanceof RelatedContentAdapter && !empty($contentTypeFilter)) {
                 $additionalCriteria = [
                     new ContentTypeIdentifier($contentTypeFilter)
                 ];
 
                 $this->adapter->setAdditionalCriteria($additionalCriteria);
+                $filterApplied = true;
             }
         }
 
@@ -87,6 +89,7 @@ class RelatedContentController extends Controller
                 'tag' => $tag,
                 'related_content' => $pager,
                 'filter_form' => $form->createView(),
+                'filter_applied' => $filterApplied,
             ]
         );
     }

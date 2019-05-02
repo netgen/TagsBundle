@@ -196,13 +196,17 @@ interface TagsService
     public function getRelatedContentCount(Tag $tag, array $additionalCriteria = []);
 
     /**
-     * Returns content type facets of content objects related to $tag.
+     * Returns facets for given $facetBuilders,
+     * for content tagged with $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
+     *
+     * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
      */
-    public function getRelatedContentTypeFacets(Tag $tag);
+    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = []);
 
     /**
      * Creates the new tag.

@@ -7,6 +7,7 @@ use DateTime;
 use Exception;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository;
+use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\User;
@@ -23,6 +24,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
+use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
@@ -505,26 +507,29 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Returns content type facets of content objects related to $tag.
+     * Returns facets for given $facetBuilders,
+     * for content tagged with $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
+     *
+     * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
      */
-    public function getRelatedContentTypeFacets(Tag $tag)
+    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
-        $facetBuilders = [
-            new Query\FacetBuilder\ContentTypeFacetBuilder(
-                [
-                    'name' => 'content_type',
-                    'minCount' => 1,
-                ]
-            ),
-        ];
+        if (!$this->repository->getSearchService()->supports(SearchService::CAPABILITY_FACETS)) {
+            throw new FacetingNotSupportedException();
+        }
+
+        if (empty($facetBuilders)) {
+            return [];
+        }
 
         $searchResult = $this->repository->getSearchService()->findContentInfo(
             new Query(
