@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use eZ\Publish\API\Repository\Values\Content\Search\Facet\ContentTypeFacet;
 use Netgen\Bundle\EnhancedSelectionBundle\Form\Type\FieldType\OptionType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -65,7 +66,11 @@ class RelatedContentController extends Controller
             $contentTypeFilter = $form->get('content_types')->getData();
 
             if ($this->adapter instanceof RelatedContentAdapter) {
-                $this->adapter->setContentTypeFilter($contentTypeFilter);
+                $additionalCriteria = [
+                    new ContentTypeIdentifier($contentTypeFilter)
+                ];
+
+                $this->adapter->setAdditionalCriteria($additionalCriteria);
             }
         }
 
@@ -81,7 +86,6 @@ class RelatedContentController extends Controller
             [
                 'tag' => $tag,
                 'related_content' => $pager,
-
                 'filter_form' => $form->createView(),
             ]
         );

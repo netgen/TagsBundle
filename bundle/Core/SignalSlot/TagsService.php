@@ -228,7 +228,6 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
-     * @param array $contentTypeFilter The list of content types to return
      * @param bool $returnContentInfo
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
@@ -237,16 +236,15 @@ class TagsService implements TagsServiceInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, array $contentTypeFilter = array(), $returnContentInfo = true, array $additionalCriteria = [])
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [])
     {
-        return $this->service->getRelatedContent($tag, $offset, $limit, $contentTypeFilter, $returnContentInfo, $additionalCriteria);
+        return $this->service->getRelatedContent($tag, $offset, $limit, $returnContentInfo, $additionalCriteria);
     }
 
     /**
      * Returns the number of content objects related to $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param array $contentTypeFilter The list of content types to return
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -254,9 +252,9 @@ class TagsService implements TagsServiceInterface
      *
      * @return int
      */
-    public function getRelatedContentCount(Tag $tag, array $contentTypeFilter = array(), array $additionalCriteria = [])
+    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = [])
     {
-        return $this->service->getRelatedContentCount($tag, $contentTypeFilter, $additionalCriteria);
+        return $this->service->getRelatedContentCount($tag, $additionalCriteria);
     }
 
     /**

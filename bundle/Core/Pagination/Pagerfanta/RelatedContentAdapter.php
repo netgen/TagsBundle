@@ -29,11 +29,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     protected $returnContentInfo;
 
     /**
-     * @var array
-     */
-    protected $contentTypeFilter = array();
-
-    /**
      * @var int
      */
     protected $nbResults;
@@ -41,7 +36,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * @var eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
      */
-    protected $additionalCriteria;
+    protected $additionalCriteria = [];
 
     /**
      * Constructor.
@@ -66,13 +61,13 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     }
 
     /**
-     * Sets the list of content types to return.
+     * Sets additional criteria to be used in search.
      *
      * @param array $contentTypeFilter
      */
-    public function setContentTypeFilter(array $contentTypeFilter = array())
+    public function setAdditionalCriteria(array $additionalCriteria = array())
     {
-        $this->contentTypeFilter = $contentTypeFilter;
+        $this->additionalCriteria = $additionalCriteria;
     }
 
     /**
@@ -87,7 +82,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
         }
 
         if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->contentTypeFilter);
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
         }
 
         return $this->nbResults;
@@ -111,12 +106,12 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             $this->tag,
             $offset,
             $length,
-            $this->contentTypeFilter,
-            $this->returnContentInfo
+            $this->returnContentInfo,
+            $this->additionalCriteria
         );
 
         if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->contentTypeFilter);
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
         }
 
         return $relatedContent;

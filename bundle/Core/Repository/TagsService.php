@@ -429,7 +429,6 @@ class TagsService implements TagsServiceInterface
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
-     * @param array $contentTypeFilter The list of content types to return
      * @param bool $returnContentInfo
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
@@ -438,7 +437,7 @@ class TagsService implements TagsServiceInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, array $contentTypeFilter = array(), $returnContentInfo = true, array $additionalCriteria = [])
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -449,20 +448,15 @@ class TagsService implements TagsServiceInterface
             $method = 'findContentInfo';
         }
 
-        $criteria = [
-            new TagId($tag->id),
-        ];
-
-        if (!empty($contentTypeFilter)) {
-            $criteria[] = new Criterion\ContentTypeIdentifier($contentTypeFilter);
-        }
+        $criteria = [new TagId($tag->id)];
+        $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
 
         $searchResult = $this->repository->getSearchService()->{$method}(
             new Query(
                 [
                     'offset' => $offset,
                     'limit' => $limit > 0 ? $limit : 1000000,
-                    'filter' => new Criterion\LogicalAnd($criteria + $additionalCriteria),
+                    'filter' => $filter,
                     'sortClauses' => [
                         new Query\SortClause\DateModified(Query::SORT_DESC),
                     ],
@@ -482,7 +476,6 @@ class TagsService implements TagsServiceInterface
      * Returns the number of content objects related to $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param array $contentTypeFilter The list of content types to return
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -490,25 +483,20 @@ class TagsService implements TagsServiceInterface
      *
      * @return int
      */
-    public function getRelatedContentCount(Tag $tag, array $contentTypeFilter = array(), array $additionalCriteria = [])
+    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
-        $criteria = [
-            new TagId($tag->id),
-        ];
-
-        if (!empty($contentTypeFilter)) {
-            $criteria[] = new Criterion\ContentTypeIdentifier($contentTypeFilter);
-        }
+        $criteria = [new TagId($tag->id)];
+        $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
 
         $searchResult = $this->repository->getSearchService()->findContentInfo(
             new Query(
                 [
                     'limit' => 0,
-                    'filter' => new Criterion\LogicalAnd($criteria + $additionalCriteria),
+                    'filter' => $filter,
                 ]
             )
         );
