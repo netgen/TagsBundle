@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -34,7 +33,12 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     protected $nbResults;
 
     /**
-     * @var eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
+     * @var \eZ\Publish\API\Repository\Values\Content\Query\SortClause[]
+     */
+    protected $sortClauses = [];
+
+    /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
      */
     protected $additionalCriteria = [];
 
@@ -61,9 +65,17 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     }
 
     /**
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause[] $sortClauses
+     */
+    public function setSortClauses(array $sortClauses)
+    {
+        $this->sortClauses = $sortClauses;
+    }
+
+    /**
      * Sets additional criteria to be used in search.
      *
-     * @param array $contentTypeFilter
+     * @param array $additionalCriteria
      */
     public function setAdditionalCriteria(array $additionalCriteria = array())
     {
@@ -74,6 +86,9 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      * Returns the number of results.
      *
      * @return int The number of results
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
     public function getNbResults()
     {
@@ -95,6 +110,10 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      * @param int $length The length
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
      */
     public function getSlice($offset, $length)
     {
@@ -107,6 +126,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             $offset,
             $length,
             $this->returnContentInfo,
+            $this->sortClauses,
             $this->additionalCriteria
         );
 

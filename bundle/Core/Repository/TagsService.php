@@ -432,14 +432,14 @@ class TagsService implements TagsServiceInterface
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
      * @param bool $returnContentInfo
+     * @param array $sortClauses
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
-     *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [])
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $sortClauses = [], array $additionalCriteria = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -453,15 +453,19 @@ class TagsService implements TagsServiceInterface
         $criteria = [new TagId($tag->id)];
         $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
 
+        if (empty($sortClauses)) {
+            $sortClauses = [
+                new Query\SortClause\DateModified(Query::SORT_DESC),
+            ];
+        }
+
         $searchResult = $this->repository->getSearchService()->{$method}(
             new Query(
                 [
                     'offset' => $offset,
                     'limit' => $limit > 0 ? $limit : 1000000,
                     'filter' => $filter,
-                    'sortClauses' => [
-                        new Query\SortClause\DateModified(Query::SORT_DESC),
-                    ],
+                    'sortClauses' => $sortClauses,
                 ]
             )
         );
@@ -516,6 +520,8 @@ class TagsService implements TagsServiceInterface
      * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
      *
      * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
      */
     public function getRelatedContentFacets(Tag $tag, array $facetBuilders = [])
     {
@@ -524,7 +530,7 @@ class TagsService implements TagsServiceInterface
         }
 
         if (!$this->repository->getSearchService()->supports(SearchService::CAPABILITY_FACETS)) {
-            throw new FacetingNotSupportedException();
+            throw new FacetingNotSupportedException('Faceting for related content is not supported');
         }
 
         if (empty($facetBuilders)) {
