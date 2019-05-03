@@ -61,9 +61,9 @@ class RelatedContentController extends Controller
         $form = $this->createForm(
             RelatedContentFilterType::class,
             null,
-            array(
+            [
                 'tag' => $tag,
-            )
+            ]
         );
 
         $form->handleRequest($request);
@@ -75,7 +75,7 @@ class RelatedContentController extends Controller
             if ($this->adapter instanceof RelatedContentAdapter) {
                 if (!empty($contentTypeFilter)) {
                     $additionalCriteria = [
-                        new ContentTypeIdentifier($contentTypeFilter)
+                        new ContentTypeIdentifier($contentTypeFilter),
                     ];
 
                     $this->adapter->setAdditionalCriteria($additionalCriteria);

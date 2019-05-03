@@ -176,9 +176,9 @@ interface TagsService
      * @param array $sortClauses
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
-     *
      * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
     public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $sortClauses = [], array $additionalCriteria = []);
 
@@ -202,9 +202,9 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
-     *
      * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
      */
     public function getRelatedContentFacets(Tag $tag, array $facetBuilders = []);
 

@@ -2,8 +2,8 @@
 
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\SortClauseVisitor;
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause\ContentTypeId as ContentTypeIdClause;
 
 /**

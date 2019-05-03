@@ -67,23 +67,23 @@ class RelatedContentFilterType extends AbstractType
             ->add(
                 'content_types',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => $this->getContentTypeOptions($options['tag']),
                     'label' => 'tag.related_content.filter.content_type',
                     'expanded' => false,
                     'multiple' => true,
                     'required' => false,
-                )
+                ]
             )->add(
                 'sort',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => $this->getSortOptions(),
                     'label' => 'tag.related_content.filter.sort',
                     'expanded' => false,
                     'multiple' => false,
                     'required' => true,
-                )
+                ]
             );
     }
 
@@ -98,7 +98,8 @@ class RelatedContentFilterType extends AbstractType
     {
         try {
             return $this->getContentTypeOptionsFromFacets($tag);
-        } catch (FacetingNotSupportedException $e) {}
+        } catch (FacetingNotSupportedException $e) {
+        }
 
         return $this->getAllContentTypeOptions();
     }
@@ -108,9 +109,9 @@ class RelatedContentFilterType extends AbstractType
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @return array
-     *
      * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
+     *
+     * @return array
      */
     protected function getContentTypeOptionsFromFacets(Tag $tag)
     {
@@ -125,7 +126,7 @@ class RelatedContentFilterType extends AbstractType
 
         $facets = $this->tagsService->getRelatedContentFacets($tag, $facetBuilders);
 
-        $options = array();
+        $options = [];
         foreach ($facets as $facet) {
             if (!$facet instanceof ContentTypeFacet) {
                 continue;
@@ -134,10 +135,11 @@ class RelatedContentFilterType extends AbstractType
             foreach ($facet->entries as $contentTypeId => $count) {
                 try {
                     $contentType = $this->contentTypeService->loadContentType($contentTypeId);
-                    $value = $contentType->getName().' ('.$count.')';
+                    $value = $contentType->getName() . ' (' . $count . ')';
 
                     $options[$value] = $contentType->identifier;
-                } catch (NotFoundException $e) {}
+                } catch (NotFoundException $e) {
+                }
             }
         }
 
@@ -179,7 +181,7 @@ class RelatedContentFilterType extends AbstractType
 
         $options = [];
         foreach ($sortOptions as $sortOption) {
-            $label = 'tag.related_content.filter.sort.'.$sortOption;
+            $label = 'tag.related_content.filter.sort.' . $sortOption;
             $options[$label] = $sortOption;
         }
 

@@ -16,11 +16,11 @@ class SortService
         'date_modified_ascending',
         'date_modified_descending',
         'content_type_id_ascending',
-        'content_type_id_descending'
+        'content_type_id_descending',
     ];
 
     /**
-     * Returns allowed sort options;
+     * Returns allowed sort options;.
      *
      * @return array
      */
@@ -41,7 +41,7 @@ class SortService
         $sortClauses = [];
 
         foreach ($sortOptions as $sortOption) {
-            if (!in_array($sortOption, self::$allowedSortOptions)) {
+            if (!in_array($sortOption, self::$allowedSortOptions, true)) {
                 continue;
             }
 
