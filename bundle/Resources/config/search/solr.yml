@@ -24,3 +24,9 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    eztags.search.solr.query.common.sort_clause_visitor.content_type_id:
+        class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\SortClauseVisitor\ContentTypeId
+        public: false
+        tags:
+            - {name: ezpublish.search.solr.query.content.sort_clause_visitor}
