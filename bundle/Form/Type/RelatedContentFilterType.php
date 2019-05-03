@@ -8,12 +8,13 @@ use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\ContentTypeFacet
 use eZ\Publish\API\Repository\Values\Content\Search\Facet\ContentTypeFacet;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\Search\RelatedContent\SortService;
 use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ContentTypeFilterType extends AbstractType
+class RelatedContentFilterType extends AbstractType
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -26,15 +27,22 @@ class ContentTypeFilterType extends AbstractType
     protected $contentTypeService;
 
     /**
+     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortService
+     */
+    protected $sortService;
+
+    /**
      * ContentTypeFilterType constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortService $sortService
      */
-    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService)
+    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService, SortService $sortService)
     {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
+        $this->sortService = $sortService;
     }
 
     /**
@@ -66,6 +74,16 @@ class ContentTypeFilterType extends AbstractType
                     'multiple' => true,
                     'required' => false,
                 )
+            )->add(
+                'sort',
+                ChoiceType::class,
+                array(
+                    'choices' => $this->getSortOptions(),
+                    'label' => 'tag.related_content.filter.sort',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'required' => true,
+                )
             );
     }
 
@@ -75,8 +93,6 @@ class ContentTypeFilterType extends AbstractType
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return array
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
     protected function getContentTypeOptions(Tag $tag)
     {
@@ -118,7 +134,7 @@ class ContentTypeFilterType extends AbstractType
             foreach ($facet->entries as $contentTypeId => $count) {
                 try {
                     $contentType = $this->contentTypeService->loadContentType($contentTypeId);
-                    $value = $contentType->getName() . " (" . $count . ")";
+                    $value = $contentType->getName().' ('.$count.')';
 
                     $options[$value] = $contentType->identifier;
                 } catch (NotFoundException $e) {}
@@ -147,6 +163,24 @@ class ContentTypeFilterType extends AbstractType
             }
 
             $options[$group->identifier] = $groupOptions;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Prepares sort options for form.
+     *
+     * @return array
+     */
+    protected function getSortOptions()
+    {
+        $sortOptions = $this->sortService->getSortOptions();
+
+        $options = [];
+        foreach ($sortOptions as $sortOption) {
+            $label = 'tag.related_content.filter.sort.'.$sortOption;
+            $options[$label] = $sortOption;
         }
 
         return $options;

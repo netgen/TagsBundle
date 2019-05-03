@@ -4,13 +4,11 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
-use eZ\Publish\API\Repository\Values\Content\Search\Facet\ContentTypeFacet;
-use Netgen\Bundle\EnhancedSelectionBundle\Form\Type\FieldType\OptionType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
-use Netgen\TagsBundle\Form\Type\ContentTypeFilterType;
+use Netgen\TagsBundle\Core\Search\RelatedContent\SortService;
+use Netgen\TagsBundle\Form\Type\RelatedContentFilterType;
 use Pagerfanta\Adapter\AdapterInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 
 class RelatedContentController extends Controller
@@ -26,15 +24,22 @@ class RelatedContentController extends Controller
     protected $contentTypeService;
 
     /**
+     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortService
+     */
+    protected $sortService;
+
+    /**
      * Constructor.
      *
      * @param \Pagerfanta\Adapter\AdapterInterface $adapter
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortService $sortService
      */
-    public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService)
+    public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService, SortService $sortService)
     {
         $this->adapter = $adapter;
         $this->contentTypeService = $contentTypeService;
+        $this->sortService = $sortService;
     }
 
     /**
@@ -54,7 +59,7 @@ class RelatedContentController extends Controller
         $filterApplied = false;
 
         $form = $this->createForm(
-            ContentTypeFilterType::class,
+            RelatedContentFilterType::class,
             null,
             array(
                 'tag' => $tag,
@@ -65,13 +70,20 @@ class RelatedContentController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contentTypeFilter = $form->get('content_types')->getData();
+            $sortOption = $form->get('sort')->getData();
 
-            if ($this->adapter instanceof RelatedContentAdapter && !empty($contentTypeFilter)) {
-                $additionalCriteria = [
-                    new ContentTypeIdentifier($contentTypeFilter)
-                ];
+            if ($this->adapter instanceof RelatedContentAdapter) {
+                if (!empty($contentTypeFilter)) {
+                    $additionalCriteria = [
+                        new ContentTypeIdentifier($contentTypeFilter)
+                    ];
 
-                $this->adapter->setAdditionalCriteria($additionalCriteria);
+                    $this->adapter->setAdditionalCriteria($additionalCriteria);
+                }
+
+                $sortClauses = $this->sortService->mapSortClauses([$sortOption]);
+                $this->adapter->setSortClauses($sortClauses);
+
                 $filterApplied = true;
             }
         }

@@ -18,10 +18,11 @@ services:
             - { name: form.type }
 
     eztags.forms.content_type_filter:
-        class: Netgen\TagsBundle\Form\Type\ContentTypeFilterType
+        class: Netgen\TagsBundle\Form\Type\RelatedContentFilterType
         # public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.api.service.content_type"
+            - "@eztags.search.related_content.sort_service"
         tags:
             - { name: form.type }
