@@ -1,14 +1,14 @@
 
-DROP SEQUENCE IF EXISTS eztags_s;
-CREATE SEQUENCE eztags_s
+DROP SEQUENCE IF EXISTS eztags_id_seq;
+CREATE SEQUENCE eztags_id_seq
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
 
-DROP SEQUENCE IF EXISTS eztags_attribute_link_s;
-CREATE SEQUENCE eztags_attribute_link_s
+DROP SEQUENCE IF EXISTS eztags_attribute_link_id_seq;
+CREATE SEQUENCE eztags_attribute_link_id_seq
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -17,7 +17,7 @@ CREATE SEQUENCE eztags_attribute_link_s
 
 DROP TABLE IF EXISTS eztags;
 CREATE TABLE eztags (
-    id integer DEFAULT nextval( 'eztags_s'::text ) NOT NULL,
+    id integer DEFAULT nextval( 'eztags_id_seq'::text ) NOT NULL,
     parent_id integer DEFAULT 0 NOT NULL,
     main_tag_id integer DEFAULT 0 NOT NULL,
     keyword character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE eztags (
 
 DROP TABLE IF EXISTS eztags_attribute_link;
 CREATE TABLE eztags_attribute_link (
-  id integer DEFAULT nextval( 'eztags_attribute_link_s'::text ) NOT NULL,
+  id integer DEFAULT nextval( 'eztags_attribute_link_id_seq'::text ) NOT NULL,
   keyword_id integer DEFAULT 0 NOT NULL,
   objectattribute_id integer DEFAULT 0 NOT NULL,
   objectattribute_version integer DEFAULT 0 NOT NULL,

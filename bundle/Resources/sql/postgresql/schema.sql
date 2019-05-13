@@ -1,6 +1,6 @@
-CREATE SEQUENCE eztags_s;
+CREATE SEQUENCE eztags_id_seq;
 CREATE TABLE eztags (
-   id integer DEFAULT nextval('eztags_s'::text) NOT NULL,
+   id integer DEFAULT nextval('eztags_id_seq'::text) NOT NULL,
    parent_id integer not null default 0,
    main_tag_id integer not null default 0,
    keyword varchar(255) NOT NULL default '',
@@ -20,10 +20,10 @@ CREATE INDEX idx_eztags_keyword_id ON eztags (
    keyword,
    id
 );
- 
-CREATE SEQUENCE eztags_attribute_link_s;
+
+CREATE SEQUENCE eztags_attribute_link_id_seq;
 CREATE TABLE eztags_attribute_link (
-   id integer DEFAULT nextval('eztags_attribute_link_s'::text) NOT NULL,
+   id integer DEFAULT nextval('eztags_attribute_link_id_seq'::text) NOT NULL,
    keyword_id integer not null default 0,
    objectattribute_id integer not null default 0,
    objectattribute_version integer not null default 0,
@@ -47,7 +47,7 @@ CREATE INDEX idx_eztags_attr_link_oaid_oav ON eztags_attribute_link (
    objectattribute_id,
    objectattribute_version
 );
- 
+
 CREATE TABLE eztags_keyword (
    keyword_id integer not null default 0,
    language_id integer not null default 0,
