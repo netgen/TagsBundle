@@ -44,6 +44,9 @@ netgen_tags:
 
 ### Import database tables
 
+Note: Netgen Tags supports eZ Platform schema builder, making it possible to automatically install its database tables when installing
+clean/demo data of eZ Platform. In that case, there's no need to install the tables manually.
+
 Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Platform database:
 
 ```
