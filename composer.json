@@ -21,6 +21,7 @@
     "require": {
         "php": "^5.6 || ^7.1",
         "ezsystems/ezpublish-kernel": "^6.13@dev || ^7.5@dev",
+        "ezsystems/ezplatform-http-cache": "~0.9.0",
         "ezsystems/repository-forms": "^1.11 || ^2.5",
         "ezsystems/ezplatform-solr-search-engine": "^1.5",
         "lolautruche/ez-core-extra-bundle": "^2.0",

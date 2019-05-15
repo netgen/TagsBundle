@@ -1,0 +1,46 @@
+services:
+    Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot:
+        abstract: true
+        arguments:
+            - "@ezplatform.http_cache.purge_client"
+            - "@eztags.api.storage_engine.legacy.handler.tags"
+
+    Netgen\TagsBundle\Core\SignalSlot\ConvertToSynonymSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\CreateTagSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\AddSynonymSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\MergeTagsSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\UpdateTagSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\DeleteTagSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\MoveSubtreeSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal }
+
+    Netgen\TagsBundle\Core\SignalSlot\CopySubtreeSlot:
+        parent: Netgen\TagsBundle\Core\SignalSlot\AbstractPublishSlot
+        tags:
+            - { name: ezpublish.api.slot, signal: \Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal }
