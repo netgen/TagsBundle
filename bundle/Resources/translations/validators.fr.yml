@@ -1,7 +1,7 @@
-eztags.tag.no_tag: 'Le tag avec ID %tagId% n'existe pas.'
-eztags.tag.synonym: 'Le tag sélectionné ne peut pas être un synonyme.'
-eztags.tag.invalid_tag: 'Le tag n'est pas valide.'
+eztags.tag.no_tag: "Le tag avec ID %tagId% n'existe pas."
+eztags.tag.synonym: "Le tag sélectionné ne peut pas être un synonyme."
+eztags.tag.invalid_tag: "Le tag n''est pas valide."
 
 eztags.language.no_language: "Le code de langue %languageCode% n'existe pas."
 
-eztags.remote_id.remote_id_exists: 'Le tag avec l'ID distant "%remoteId%" existe déjà.'
+eztags.remote_id.remote_id_exists: "Le tag avec l'ID distant ""%remoteId%"" existe déjà."
