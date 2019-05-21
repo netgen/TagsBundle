@@ -1,6 +1,6 @@
 errors.invalid_csrf_token: 'Jeton CSRF invalide'
 errors.no_selected_tags: 'Vous devez sélectionner au moins un tag.'
-errors.no_translation: 'La traduction pour la locale "%locale%" n'existe pas'
+errors.no_translation: "La traduction pour la locale %locale% n'existe pas"
 errors.no_translation_selected: 'Vous devez sélectionner au moins une traduction'
 errors.main_translation: 'Vous ne pouvez pas supprimer la traduction principale'
 
