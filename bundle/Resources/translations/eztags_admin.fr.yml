@@ -1,0 +1,91 @@
+menu.main_menu.header: 'Tags'
+
+pagelayout.title: 'Tags Netgen'
+pagelayout.you_are_here: 'Vous êtes ici'
+
+dashboard.title: 'Tags tableau de bord'
+
+tag.title: 'Tag'
+tag.tag_id: 'Tag ID'
+tag.remote_id: 'Identification à distance'
+tag.tag_name: 'Mot-clé'
+tag.translations: 'Traductions'
+tag.modified: 'Modifié'
+tag.main_tag: 'Tag principale'
+tag.parent_tag: 'Tag parent'
+
+tag.content.content_id: 'ID du contenu'
+tag.content.name: 'Nom'
+tag.content.modified: 'Modifié'
+tag.content.content_type_id: 'ID du type de contenu'
+tag.content.content_type: 'Type de contenu'
+tag.content.field_def_identifier: 'Identificateur'
+
+tag.latest_content.title: 'Dernier contenu'
+tag.latest_content.no_content: 'Aucun contenu connexe'
+tag.latest_content.all_content: 'Afficher tout le contenu lié au tag'
+
+tag.translations.title: 'Traductions'
+tag.translations.langunage: 'Langue'
+tag.translations.translation: 'Traduction'
+tag.translations.locale: 'Locale'
+tag.translations.main: 'Principale'
+tag.translations.always_available: 'Utilisez la langue principale s'il n'y a pas de traduction prioritaire.'
+tag.translations.add_translation: 'Ajouter une traduction'
+tag.translations.edit_translation: 'Réviser la traduction'
+
+tag.synonyms.title: 'Synonymes'
+tag.synonyms.no_synonyms: 'Pas de synonymes'
+
+tag.children.title: 'Tag enfants'
+tag.children.no_children: 'Pas de tags trouvés'
+
+tag.subtree_limitations.title: 'Limites des sous-arbres'
+tag.subtree_limitations.no_limitations: 'Aucune limite de sous-arbre'
+
+tag.related_content.title: 'Liste des contenus liés au tag'
+
+tag.add.title: 'Nouveau tag'
+
+tag.edit.title: 'Modifier le tag'
+
+tag.delete.title: 'Supprimer le tag'
+tag.delete.message: 'Êtes-vous sûr de vouloir supprimer le tag "%tagKeyword%" ? Toutes les tags et synonymes enfants seront également supprimés et supprimés des objets existants.'
+
+tag.merge.title: 'Fusionner le tag'
+tag.merge.message: 'Fusionner ce tag avec un autre tag supprimera le tag et ses synonymes et transférera tous les objets associés dans le tag principale. De plus, tous les tags enfants deviendront des tags principaux enfants.'
+
+tag.add_synonym.title: 'Ajouter un synonyme'
+
+tag.convert.title: 'Convertir en synonyme'
+
+tag.move_tags.title: 'Déplacer les tags'
+tag.move_tags.message: 'Êtes-vous sûr de vouloir déplacer les tags sélectionnés ?'
+
+tag.copy_tags.title: 'Copier les tags'
+
+tag.delete_tags.title: 'Supprimer les tags'
+tag.delete_tags.message: 'Êtes-vous sûr de vouloir supprimer les tags sélectionnés ? Tous les tag et synonymes enfants seront également supprimés et supprimés des objets existants.'
+
+tag.button.save: 'Sauvegarder'
+tag.button.discard: 'Jeter'
+tag.button.yes: 'Oui'
+tag.button.no: 'Non'
+tag.button.edit: 'Modifier'
+tag.button.update: 'Mettre à jour'
+tag.button.remove_selected: 'Supprimer la sélection'
+tag.button.set_main: 'Définir principal'
+tag.button.move_selected: 'Déplacer les tags sélectionnées'
+tag.button.copy_selected: 'Copier les tags sélectionnés'
+tag.button.delete_selected: 'Supprimer les tags sélectionnés'
+tag.button.continue: 'Continuer'
+
+tag.tree.top_level_tags: 'Tags de premier niveau'
+tag.tree.add_child: 'Ajouter un tag enfant'
+tag.tree.update_tag: 'Modifier le tag'
+tag.tree.delete_tag: 'Supprimer le tag'
+tag.tree.merge_tag: 'Fusionner le tag'
+tag.tree.convert_tag: 'Convertir en synonyme'
+tag.tree.add_synonym: 'Ajouter un synonyme'
+tag.tree.no_tag_selected: 'pas de tag'
+tag.tree.select_tag: 'Sélectionner un tag'
