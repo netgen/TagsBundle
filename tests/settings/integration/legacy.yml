@@ -8,3 +8,7 @@ services:
             - [setEditViews, [{ default: { identifier: Default } }]]
         tags:
             - {name: ezpublish.fieldType, alias: eztags}
+
+    eztags.field_type.eztags.nameable:
+        class: Netgen\TagsBundle\Core\FieldType\Tags\NameableField
+        public: false
