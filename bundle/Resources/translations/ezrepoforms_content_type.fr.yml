@@ -1,0 +1,15 @@
+field_definition.eztags.validator.subtree_limit: 'Limiter par sous-arbre de tag'
+field_definition.eztags.validator.subtree_limit.no_limit: 'Aucune limite de sous-arbres'
+
+field_definition.eztags.validator.max_tags: 'Nombre maximum de tags autorisées'
+field_definition.eztags.validator.max_tags.no_limit: 'Aucune limite'
+
+field_definition.eztags.settings.edit_view: 'Modifier la vue'
+field_definition.eztags.settings.edit_view.default: 'Vue par défaut'
+field_definition.eztags.settings.edit_view.select: 'Sélectionner la vue'
+field_definition.eztags.settings.edit_view.tree: "Vue de l'arbre"
+
+field_definition.eztags.settings.hide_root_tag: "Masquer le tag de limite de sous-arbre racine lors de l'édition de l'objet"
+
+field_definition.eztags.settings.yes: 'Oui'
+field_definition.eztags.settings.no: 'Non'
