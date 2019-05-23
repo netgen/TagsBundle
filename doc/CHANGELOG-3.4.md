@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.4 changelog
 ================================
 
+3.4.1
+-----
+
+* Use siteaccess aware repository in tags service (thanks @RandyCupic)
+
 3.4.0 (03.04.2019)
 ------------------
 
