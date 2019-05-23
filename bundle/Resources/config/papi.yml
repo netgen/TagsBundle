@@ -15,7 +15,7 @@ services:
         class: Netgen\TagsBundle\Core\Repository\TagsService
         public: false
         arguments:
-            - "@ezpublish.api.repository"
+            - "@ezpublish.siteaccessaware.repository"
             - "@eztags.api.persistence_handler.tags"
             - "@ezpublish.spi.persistence.cache.contentLanguageHandler"
 
