@@ -50,7 +50,6 @@ class RelatedContentFilterType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefault('tag', null)
             ->setRequired('tag')
             ->setAllowedTypes('tag', Tag::class);
     }
