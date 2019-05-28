@@ -75,7 +75,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * Sets additional criteria to be used in search.
      *
-     * @param array $additionalCriteria
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria
      */
     public function setAdditionalCriteria(array $additionalCriteria = [])
     {
@@ -85,7 +85,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * Returns the number of results.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
      * @return int The number of results

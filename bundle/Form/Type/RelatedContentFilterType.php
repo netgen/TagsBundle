@@ -45,9 +45,6 @@ class RelatedContentFilterType extends AbstractType
         $this->sortService = $sortService;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -58,9 +55,6 @@ class RelatedContentFilterType extends AbstractType
             ->setAllowedTypes('tag', Tag::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

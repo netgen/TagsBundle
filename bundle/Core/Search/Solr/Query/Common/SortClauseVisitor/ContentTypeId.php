@@ -14,7 +14,7 @@ class ContentTypeId extends SortClauseVisitor
     /**
      * Check if visitor is applicable to current sortClause.
      *
-     * @param SortClause $sortClause
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause $sortClause
      *
      * @return bool
      */
@@ -26,7 +26,7 @@ class ContentTypeId extends SortClauseVisitor
     /**
      * Map field value to a proper Solr representation.
      *
-     * @param SortClause $sortClause
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause $sortClause
      *
      * @return string
      */
