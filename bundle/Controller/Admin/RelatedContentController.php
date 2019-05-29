@@ -6,7 +6,7 @@ use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
-use Netgen\TagsBundle\Core\Search\RelatedContent\SortService;
+use Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper;
 use Netgen\TagsBundle\Form\Type\RelatedContentFilterType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,22 +24,22 @@ class RelatedContentController extends Controller
     protected $contentTypeService;
 
     /**
-     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortService
+     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
      */
-    protected $sortService;
+    protected $sortClauseMapper;
 
     /**
      * Constructor.
      *
      * @param \Pagerfanta\Adapter\AdapterInterface $adapter
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
-     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortService $sortService
+     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper $sortClauseMapper
      */
-    public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService, SortService $sortService)
+    public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService, SortClauseMapper $sortClauseMapper)
     {
         $this->adapter = $adapter;
         $this->contentTypeService = $contentTypeService;
-        $this->sortService = $sortService;
+        $this->sortClauseMapper = $sortClauseMapper;
     }
 
     /**
@@ -81,7 +81,7 @@ class RelatedContentController extends Controller
                     $this->adapter->setAdditionalCriteria($additionalCriteria);
                 }
 
-                $sortClauses = $this->sortService->mapSortClauses([$sortOption]);
+                $sortClauses = $this->sortClauseMapper->mapSortClauses([$sortOption]);
                 $this->adapter->setSortClauses($sortClauses);
 
                 $filterApplied = true;

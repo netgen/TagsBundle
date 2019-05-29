@@ -6,7 +6,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause\ContentTypeId;
 
-class SortService
+class SortClauseMapper
 {
     private static $allowedSortOptions = [
         'content_id_ascending',
