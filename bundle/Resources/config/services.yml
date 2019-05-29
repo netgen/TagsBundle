@@ -26,3 +26,11 @@ services:
             - [setLanguages, [$languages$]]
         tags:
             - {name: router, priority: 200}
+
+    eztags.repository.related_content_facets_loader:
+        class: Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader
+        public: true
+        arguments:
+            - "@eztags.api.service.tags.inner"
+            - "@ezpublish.api.service.search"
+

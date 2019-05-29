@@ -6,9 +6,9 @@ use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\ContentTypeFacetBuilder;
 use eZ\Publish\API\Repository\Values\Content\Search\Facet\ContentTypeFacet;
-use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Core\Search\RelatedContent\SortService;
+use Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper;
 use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,9 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RelatedContentFilterType extends AbstractType
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
+     * @var \Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader
      */
-    protected $tagsService;
+    protected $relatedContentFacetsLoader;
 
     /**
      * @var \eZ\Publish\API\Repository\ContentTypeService
@@ -27,22 +27,22 @@ class RelatedContentFilterType extends AbstractType
     protected $contentTypeService;
 
     /**
-     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortService
+     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
      */
-    protected $sortService;
+    protected $sortClauseMapper;
 
     /**
      * ContentTypeFilterType constructor.
      *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
+     * @param \Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader $relatedContentFacetsLoader
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
-     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortService $sortService
+     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper $sortClauseMapper
      */
-    public function __construct(TagsService $tagsService, ContentTypeService $contentTypeService, SortService $sortService)
+    public function __construct(RelatedContentFacetsLoader $relatedContentFacetsLoader, ContentTypeService $contentTypeService, SortClauseMapper $sortClauseMapper)
     {
-        $this->tagsService = $tagsService;
+        $this->relatedContentFacetsLoader = $relatedContentFacetsLoader;
         $this->contentTypeService = $contentTypeService;
-        $this->sortService = $sortService;
+        $this->sortClauseMapper = $sortClauseMapper;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -91,8 +91,7 @@ class RelatedContentFilterType extends AbstractType
     {
         try {
             return $this->getContentTypeOptionsFromFacets($tag);
-        } catch (FacetingNotSupportedException $e) {
-        }
+        } catch (FacetingNotSupportedException $e) {}
 
         return $this->getAllContentTypeOptions();
     }
@@ -117,7 +116,7 @@ class RelatedContentFilterType extends AbstractType
             ),
         ];
 
-        $facets = $this->tagsService->getRelatedContentFacets($tag, $facetBuilders);
+        $facets = $this->relatedContentFacetsLoader->getRelatedContentFacets($tag, $facetBuilders);
 
         $options = [];
         foreach ($facets as $facet) {
@@ -131,8 +130,7 @@ class RelatedContentFilterType extends AbstractType
                     $value = $contentType->getName() . ' (' . $count . ')';
 
                     $options[$value] = $contentType->identifier;
-                } catch (NotFoundException $e) {
-                }
+                } catch (NotFoundException $e) {}
             }
         }
 
@@ -170,7 +168,7 @@ class RelatedContentFilterType extends AbstractType
      */
     protected function getSortOptions()
     {
-        $sortOptions = $this->sortService->getSortOptions();
+        $sortOptions = $this->sortClauseMapper->getSortOptions();
 
         $options = [];
         foreach ($sortOptions as $sortOption) {

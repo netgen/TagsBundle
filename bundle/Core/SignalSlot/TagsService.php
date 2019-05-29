@@ -259,22 +259,6 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Returns facets for given $facetBuilders,
-     * for content tagged with $tag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     *
-     * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
-     */
-    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = [])
-    {
-        return $this->service->getRelatedContentFacets($tag, $facetBuilders);
-    }
-
-    /**
      * Creates the new tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct

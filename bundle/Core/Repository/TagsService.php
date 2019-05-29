@@ -7,7 +7,6 @@ use DateTime;
 use Exception;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\User;
@@ -24,7 +23,6 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
-use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
@@ -509,46 +507,6 @@ class TagsService implements TagsServiceInterface
         );
 
         return $searchResult->totalCount;
-    }
-
-    /**
-     * Returns facets for given $facetBuilders,
-     * for content tagged with $tag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     *
-     * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
-     */
-    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = [])
-    {
-        if ($this->hasAccess('tags', 'read') === false) {
-            throw new UnauthorizedException('tags', 'read');
-        }
-
-        if (!$this->repository->getSearchService()->supports(SearchService::CAPABILITY_FACETS)) {
-            throw new FacetingNotSupportedException('Faceting for related content is not supported');
-        }
-
-        if (empty($facetBuilders)) {
-            return [];
-        }
-
-        $searchResult = $this->repository->getSearchService()->findContentInfo(
-            new Query(
-                [
-                    'limit' => 0,
-                    'filter' => new TagId($tag->id),
-                    'facetBuilders' => $facetBuilders,
-                ]
-            )
-        );
-
-        return $searchResult->facets;
     }
 
     /**
