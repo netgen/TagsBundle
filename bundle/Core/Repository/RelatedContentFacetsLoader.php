@@ -4,10 +4,10 @@ namespace Netgen\TagsBundle\Core\Repository;
 
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
-use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 
 class RelatedContentFacetsLoader
 {
