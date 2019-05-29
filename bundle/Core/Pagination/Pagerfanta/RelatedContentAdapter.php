@@ -85,8 +85,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * Returns the number of results.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @return int The number of results
      */
     public function getNbResults()
@@ -107,10 +105,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      *
      * @param int $offset The offset
      * @param int $length The length
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
