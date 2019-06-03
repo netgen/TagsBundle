@@ -119,8 +119,8 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             $offset,
             $length,
             $this->returnContentInfo,
-            $this->sortClauses,
-            $this->additionalCriteria
+            $this->additionalCriteria,
+            $this->sortClauses
         );
 
         if (!isset($this->nbResults)) {
