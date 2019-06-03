@@ -55,21 +55,19 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getFullTagData')
             ->with(42)
-            ->will(
-                self::returnValue(
+            ->willReturn(
+                [
                     [
-                        [
-                            'eztags_id' => 42,
-                        ],
-                    ]
-                )
+                        'eztags_id' => 42,
+                    ],
+                ]
             );
 
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
             ->with([['eztags_id' => 42]])
-            ->will(self::returnValue([new Tag(['id' => 42])]));
+            ->willReturn([new Tag(['id' => 42])]);
 
         $tag = $this->tagsHandler->load(42);
 
@@ -90,7 +88,7 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getFullTagData')
             ->with(42)
-            ->will(self::returnValue([]));
+            ->willReturn([]);
 
         $this->mapper
             ->expects(self::never())
@@ -108,19 +106,17 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getBasicTagData')
             ->with(42)
-            ->will(
-                self::returnValue(
-                    [
-                        'id' => 42,
-                    ]
-                )
+            ->willReturn(
+                [
+                    'id' => 42,
+                ]
             );
 
         $this->mapper
             ->expects(self::once())
             ->method('createTagInfoFromRow')
             ->with(['id' => 42])
-            ->will(self::returnValue(new TagInfo(['id' => 42])));
+            ->willReturn(new TagInfo(['id' => 42]));
 
         $tagInfo = $this->tagsHandler->loadTagInfo(42);
 
@@ -139,21 +135,19 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getFullTagDataByRemoteId')
             ->with('abcdef')
-            ->will(
-                self::returnValue(
+            ->willReturn(
+                [
                     [
-                        [
-                            'eztags_remote_id' => 'abcdef',
-                        ],
-                    ]
-                )
+                        'eztags_remote_id' => 'abcdef',
+                    ],
+                ]
             );
 
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
             ->with([['eztags_remote_id' => 'abcdef']])
-            ->will(self::returnValue([new Tag(['remoteId' => 'abcdef'])]));
+            ->willReturn([new Tag(['remoteId' => 'abcdef'])]);
 
         $tag = $this->tagsHandler->loadByRemoteId('abcdef');
 
@@ -173,7 +167,7 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getFullTagDataByRemoteId')
             ->with('abcdef')
-            ->will(self::returnValue([]));
+            ->willReturn([]);
 
         $this->mapper
             ->expects(self::never())
@@ -191,19 +185,17 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getBasicTagDataByRemoteId')
             ->with('12345')
-            ->will(
-                self::returnValue(
-                    [
-                        'remote_id' => '12345',
-                    ]
-                )
+            ->willReturn(
+                [
+                    'remote_id' => '12345',
+                ]
             );
 
         $this->mapper
             ->expects(self::once())
             ->method('createTagInfoFromRow')
             ->with(['remote_id' => '12345'])
-            ->will(self::returnValue(new TagInfo(['remoteId' => '12345'])));
+            ->willReturn(new TagInfo(['remoteId' => '12345']));
 
         $tagInfo = $this->tagsHandler->loadTagInfoByRemoteId('12345');
 
@@ -222,23 +214,21 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getFullTagDataByKeywordAndParentId')
             ->with('eztags', 42)
-            ->will(
-                self::returnValue(
+            ->willReturn(
+                [
                     [
-                        [
-                            'eztags_id' => 42,
-                            'eztags_keyword' => 'eztags',
-                            'eztags_keyword_keyword' => 'eztags',
-                        ],
-                    ]
-                )
+                        'eztags_id' => 42,
+                        'eztags_keyword' => 'eztags',
+                        'eztags_keyword_keyword' => 'eztags',
+                    ],
+                ]
             );
 
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
             ->with([['eztags_id' => 42, 'eztags_keyword' => 'eztags', 'eztags_keyword_keyword' => 'eztags']])
-            ->will(self::returnValue([new Tag(['id' => 42, 'keywords' => ['eng-GB' => 'eztags']])]));
+            ->willReturn([new Tag(['id' => 42, 'keywords' => ['eng-GB' => 'eztags']])]);
 
         $tag = $this->tagsHandler->loadTagByKeywordAndParentId('eztags', 42);
 
@@ -271,20 +261,18 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getChildren')
             ->with(42)
-            ->will(
-                self::returnValue(
+            ->willReturn(
+                [
                     [
-                        [
-                            'eztags_id' => 43,
-                        ],
-                        [
-                            'eztags_id' => 44,
-                        ],
-                        [
-                            'eztags_id' => 45,
-                        ],
-                    ]
-                )
+                        'eztags_id' => 43,
+                    ],
+                    [
+                        'eztags_id' => 44,
+                    ],
+                    [
+                        'eztags_id' => 45,
+                    ],
+                ]
             );
 
         $this->mapper
@@ -297,14 +285,12 @@ class TagsHandlerTest extends TestCase
                     ['eztags_id' => 45],
                 ]
             )
-            ->will(
-                self::returnValue(
-                    [
-                        new Tag(['id' => 43]),
-                        new Tag(['id' => 44]),
-                        new Tag(['id' => 45]),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Tag(['id' => 43]),
+                    new Tag(['id' => 44]),
+                    new Tag(['id' => 45]),
+                ]
             );
 
         $tags = $this->tagsHandler->loadChildren(42);
@@ -328,7 +314,7 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getChildrenCount')
             ->with(42)
-            ->will(self::returnValue(3));
+            ->willReturn(3);
 
         $tagsCount = $this->tagsHandler->getChildrenCount(42);
 
@@ -344,19 +330,17 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getTagsByKeyword')
             ->with('eztags', 'eng-GB')
-            ->will(
-                self::returnValue(
+            ->willReturn(
+                [
                     [
-                        [
-                            'eztags_keyword' => 'eztags',
-                            'eztags_main_language_id' => 4,
-                        ],
-                        [
-                            'eztags_keyword' => 'eztags',
-                            'eztags_main_language_id' => 4,
-                        ],
-                    ]
-                )
+                        'eztags_keyword' => 'eztags',
+                        'eztags_main_language_id' => 4,
+                    ],
+                    [
+                        'eztags_keyword' => 'eztags',
+                        'eztags_main_language_id' => 4,
+                    ],
+                ]
             );
 
         $this->mapper
@@ -368,13 +352,11 @@ class TagsHandlerTest extends TestCase
                     ['eztags_keyword' => 'eztags', 'eztags_main_language_id' => 4],
                 ]
             )
-            ->will(
-                self::returnValue(
-                    [
-                        new Tag(['keywords' => ['eng-GB' => 'eztags']]),
-                        new Tag(['keywords' => ['eng-GB' => 'eztags']]),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Tag(['keywords' => ['eng-GB' => 'eztags']]),
+                    new Tag(['keywords' => ['eng-GB' => 'eztags']]),
+                ]
             );
 
         $tags = $this->tagsHandler->loadTagsByKeyword('eztags', 'eng-GB');
@@ -398,7 +380,7 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getTagsByKeywordCount')
             ->with('eztags', 'eng-GB')
-            ->will(self::returnValue(2));
+            ->willReturn(2);
 
         $tagsCount = $this->tagsHandler->getTagsByKeywordCount('eztags', 'eng-GB');
 
@@ -414,20 +396,18 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getSynonyms')
             ->with(42)
-            ->will(
-                self::returnValue(
+            ->willReturn(
+                [
                     [
-                        [
-                            'eztags_id' => 43,
-                        ],
-                        [
-                            'eztags_id' => 44,
-                        ],
-                        [
-                            'eztags_id' => 45,
-                        ],
-                    ]
-                )
+                        'eztags_id' => 43,
+                    ],
+                    [
+                        'eztags_id' => 44,
+                    ],
+                    [
+                        'eztags_id' => 45,
+                    ],
+                ]
             );
 
         $this->mapper
@@ -440,14 +420,12 @@ class TagsHandlerTest extends TestCase
                     ['eztags_id' => 45],
                 ]
             )
-            ->will(
-                self::returnValue(
-                    [
-                        new Tag(['id' => 43]),
-                        new Tag(['id' => 44]),
-                        new Tag(['id' => 45]),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Tag(['id' => 43]),
+                    new Tag(['id' => 44]),
+                    new Tag(['id' => 45]),
+                ]
             );
 
         $tags = $this->tagsHandler->loadSynonyms(42);
@@ -471,7 +449,7 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getSynonymCount')
             ->with(42)
-            ->will(self::returnValue(3));
+            ->willReturn(3);
 
         $tagsCount = $this->tagsHandler->getSynonymCount(42);
 
@@ -489,14 +467,12 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getBasicTagData')
             ->with(21)
-            ->will(
-                self::returnValue(
-                    [
-                        'id' => 21,
-                        'depth' => 2,
-                        'path_string' => '/1/2/',
-                    ]
-                )
+            ->willReturn(
+                [
+                    'id' => 21,
+                    'depth' => 2,
+                    'path_string' => '/1/2/',
+                ]
             );
 
         $this->gateway
@@ -518,18 +494,15 @@ class TagsHandlerTest extends TestCase
                     'path_string' => '/1/2/',
                 ]
             )
-            ->will(
-                self::returnValue(
-                    95
-                )
+            ->willReturn(
+                95
             );
 
         $handler->expects(self::once())
             ->method('load')
             ->with(95)
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 95,
                             'parentTagId' => 21,
@@ -543,7 +516,6 @@ class TagsHandlerTest extends TestCase
                             'languageIds' => [4],
                         ]
                     )
-                )
             );
 
         $tag = $handler->create(
@@ -598,18 +570,15 @@ class TagsHandlerTest extends TestCase
                     ]
                 )
             )
-            ->will(
-                self::returnValue(
-                    95
-                )
+            ->willReturn(
+                95
             );
 
         $handler->expects(self::once())
             ->method('load')
             ->with(95)
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 95,
                             'parentTagId' => 0,
@@ -623,7 +592,6 @@ class TagsHandlerTest extends TestCase
                             'languageIds' => [4],
                         ]
                     )
-                )
             );
 
         $tag = $handler->create(
@@ -683,9 +651,8 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('load')
             ->with(40)
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 40,
                             'keywords' => ['eng-US' => 'Updated tag US', 'eng-GB' => 'Updated tag'],
@@ -695,7 +662,6 @@ class TagsHandlerTest extends TestCase
                             'languageIds' => [2, 4],
                         ]
                     )
-                )
             );
 
         $tag = $handler->update(
@@ -739,15 +705,13 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getBasicTagData')
             ->with(21)
-            ->will(
-                self::returnValue(
-                    [
-                        'id' => 21,
-                        'parent_id' => 1,
-                        'depth' => 2,
-                        'path_string' => '/1/21/',
-                    ]
-                )
+            ->willReturn(
+                [
+                    'id' => 21,
+                    'parent_id' => 1,
+                    'depth' => 2,
+                    'path_string' => '/1/21/',
+                ]
             );
 
         $this->gateway
@@ -770,19 +734,16 @@ class TagsHandlerTest extends TestCase
                     'path_string' => '/1/21/',
                 ]
             )
-            ->will(
-                self::returnValue(
-                    95
-                )
+            ->willReturn(
+                95
             );
 
         $handler
             ->expects(self::once())
             ->method('load')
             ->with(95)
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 95,
                             'parentTagId' => 1,
@@ -796,7 +757,6 @@ class TagsHandlerTest extends TestCase
                             'languageIds' => [4],
                         ]
                     )
-                )
             );
 
         $tag = $handler->addSynonym(
@@ -860,23 +820,21 @@ class TagsHandlerTest extends TestCase
             ->expects(self::at(0))
             ->method('loadTagInfo')
             ->with(16)
-            ->will(
-                self::returnValue(
-                    $tag
-                )
+            ->willReturn(
+                $tag
             );
 
         $this->gateway
             ->expects(self::at(0))
             ->method('getBasicTagData')
             ->with(66)
-            ->will(self::returnValue($mainTagData));
+            ->willReturn($mainTagData);
 
         $handler
             ->expects(self::at(1))
             ->method('loadSynonyms')
             ->with(16)
-            ->will(self::returnValue($synonyms));
+            ->willReturn($synonyms);
 
         foreach ($synonyms as $index => $synonym) {
             $this->gateway
@@ -894,14 +852,12 @@ class TagsHandlerTest extends TestCase
             ->expects(self::at(2))
             ->method('load')
             ->with(16)
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 16,
                         ]
                     )
-                )
             );
 
         $synonym = $handler->convertToSynonym(16, 66);
@@ -935,8 +891,8 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('loadSynonyms')
             ->with(40)
-            ->will(
-                self::returnValue($tags)
+            ->willReturn(
+                $tags
             );
 
         array_push($tags, new Tag(['id' => 40]));
@@ -997,27 +953,26 @@ class TagsHandlerTest extends TestCase
             ->expects(self::at(0))
             ->method('getBasicTagData')
             ->with(42)
-            ->will(self::returnValue($sourceData));
+            ->willReturn($sourceData);
 
         $this->gateway
             ->expects(self::at(1))
             ->method('getBasicTagData')
             ->with(66)
-            ->will(self::returnValue($destinationData));
+            ->willReturn($destinationData);
 
         $this->gateway
             ->expects(self::once())
             ->method('moveSubtree')
             ->with($sourceData, $destinationData)
-            ->will(self::returnValue($movedData));
+            ->willReturn($movedData);
 
         $handler
             ->expects(self::once())
             ->method('load')
             ->with($movedData['id'])
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => $movedData['id'],
                             'parentTagId' => $movedData['parent_id'],
@@ -1026,7 +981,6 @@ class TagsHandlerTest extends TestCase
                             'modificationDate' => $movedData['modified'],
                         ]
                     )
-                )
             );
 
         $movedTag = $handler->moveSubtree(42, 66);
@@ -1059,15 +1013,13 @@ class TagsHandlerTest extends TestCase
             ->expects(self::once())
             ->method('loadTagInfo')
             ->with(40)
-            ->will(
-                self::returnValue(
-                    new TagInfo(
+            ->willReturn(
+                new TagInfo(
                         [
                             'id' => 40,
                             'parentTagId' => 21,
                         ]
                     )
-                )
             );
 
         $this->gateway

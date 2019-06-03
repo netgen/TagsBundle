@@ -288,21 +288,19 @@ class HandlerLocationTest extends LanguageAwareTestCase
             ->expects(self::any())
             ->method('createLocationsFromRows')
             ->with(self::isType('array'))
-            ->will(
-                self::returnCallback(
-                    static function ($rows) {
-                        $locations = [];
-                        foreach ($rows as $row) {
-                            $locationId = (int) $row['node_id'];
-                            if (!isset($locations[$locationId])) {
-                                $locations[$locationId] = new SPILocation();
-                                $locations[$locationId]->id = $locationId;
-                            }
+            ->willReturnCallback(
+                static function ($rows) {
+                    $locations = [];
+                    foreach ($rows as $row) {
+                        $locationId = (int) $row['node_id'];
+                        if (!isset($locations[$locationId])) {
+                            $locations[$locationId] = new SPILocation();
+                            $locations[$locationId]->id = $locationId;
                         }
-
-                        return array_values($locations);
                     }
-                )
+
+                    return array_values($locations);
+                }
             );
 
         return $mapperMock;

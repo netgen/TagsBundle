@@ -78,7 +78,7 @@ class Tags extends RestController
 
         if (trim($tag->pathString, '/') !== $tagPath) {
             throw new Exceptions\NotFoundException(
-                "Could not find tag with path string ${tagPath}"
+                "Could not find tag with path string {$tagPath}"
             );
         }
 

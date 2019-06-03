@@ -310,23 +310,21 @@ class HandlerContentTest extends LanguageAwareTestCase
         $mapperMock->expects(self::any())
             ->method('extractContentFromRows')
             ->with(self::isType('array'))
-            ->will(
-                self::returnCallback(
-                    static function ($rows) {
-                        $contentObjs = [];
-                        foreach ($rows as $row) {
-                            $contentId = (int) $row['ezcontentobject_id'];
-                            if (!isset($contentObjs[$contentId])) {
-                                $contentObjs[$contentId] = new ContentObject();
-                                $contentObjs[$contentId]->versionInfo = new VersionInfo();
-                                $contentObjs[$contentId]->versionInfo->contentInfo = new ContentInfo();
-                                $contentObjs[$contentId]->versionInfo->contentInfo->id = $contentId;
-                            }
+            ->willReturnCallback(
+                static function ($rows) {
+                    $contentObjs = [];
+                    foreach ($rows as $row) {
+                        $contentId = (int) $row['ezcontentobject_id'];
+                        if (!isset($contentObjs[$contentId])) {
+                            $contentObjs[$contentId] = new ContentObject();
+                            $contentObjs[$contentId]->versionInfo = new VersionInfo();
+                            $contentObjs[$contentId]->versionInfo->contentInfo = new ContentInfo();
+                            $contentObjs[$contentId]->versionInfo->contentInfo->id = $contentId;
                         }
-
-                        return array_values($contentObjs);
                     }
-                )
+
+                    return array_values($contentObjs);
+                }
             );
 
         return $mapperMock;

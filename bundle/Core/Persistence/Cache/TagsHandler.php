@@ -85,7 +85,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function loadTagInfo($tagId)
     {
-        $cacheItem = $this->cache->getItem("netgen-tag-info-${tagId}");
+        $cacheItem = $this->cache->getItem("netgen-tag-info-{$tagId}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -103,7 +103,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
     {
         $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
-        $cacheItem = $this->cache->getItem("netgen-tag-byRemoteId-${remoteId}-${translationsKey}-${alwaysAvailableKey}");
+        $cacheItem = $this->cache->getItem("netgen-tag-byRemoteId-{$remoteId}-{$translationsKey}-{$alwaysAvailableKey}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -119,7 +119,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function loadTagInfoByRemoteId($remoteId)
     {
-        $cacheItem = $this->cache->getItem("netgen-tag-info-byRemoteId-${remoteId}");
+        $cacheItem = $this->cache->getItem("netgen-tag-info-byRemoteId-{$remoteId}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -180,7 +180,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
         // Method caches all synonyms in cache and only uses offset / limit to slice the cached result
         $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
-        $cacheItem = $this->cache->getItem("netgen-tag-synonyms-${tagId}-${translationsKey}-${alwaysAvailableKey}");
+        $cacheItem = $this->cache->getItem("netgen-tag-synonyms-{$tagId}-{$translationsKey}-{$alwaysAvailableKey}");
         if ($cacheItem->isHit()) {
             return array_slice($cacheItem->get(), $offset, $limit > -1 ? $limit : null);
         }

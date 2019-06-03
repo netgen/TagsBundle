@@ -55,10 +55,8 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('loadTag')
             ->with(self::equalTo(42))
-            ->will(
-                self::returnValue(
-                    new Tag(['id' => 42])
-                )
+            ->willReturn(
+                new Tag(['id' => 42])
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -77,10 +75,8 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('loadTagByRemoteId')
             ->with(self::equalTo('12345'))
-            ->will(
-                self::returnValue(
-                    new Tag(['remoteId' => '12345'])
-                )
+            ->willReturn(
+                new Tag(['remoteId' => '12345'])
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -99,10 +95,8 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('loadTagByUrl')
             ->with('Netgen/TagsBundle', ['eng-GB'])
-            ->will(
-                self::returnValue(
-                    new Tag(['keywords' => ['eng-GB' => 'TagsBundle']])
-                )
+            ->willReturn(
+                new Tag(['keywords' => ['eng-GB' => 'TagsBundle']])
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -121,13 +115,11 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('loadTagChildren')
             ->with(self::equalTo(new Tag(['id' => 42])))
-            ->will(
-                self::returnValue(
-                    [
-                        new Tag(['parentTagId' => 42]),
-                        new Tag(['parentTagId' => 42]),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Tag(['parentTagId' => 42]),
+                    new Tag(['parentTagId' => 42]),
+                ]
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -150,7 +142,7 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('getTagChildrenCount')
             ->with(self::equalTo(new Tag(['id' => 42])))
-            ->will(self::returnValue(2));
+            ->willReturn(2);
 
         $signalSlotService = $this->getSignalSlotService();
         $tagsCount = $signalSlotService->getTagChildrenCount(new Tag(['id' => 42]));
@@ -167,13 +159,11 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('loadTagsByKeyword')
             ->with('netgen', 'eng-GB')
-            ->will(
-                self::returnValue(
-                    [
-                        new Tag(['keywords' => ['eng-GB' => 'netgen']]),
-                        new Tag(['keywords' => ['eng-GB' => 'netgen']]),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Tag(['keywords' => ['eng-GB' => 'netgen']]),
+                    new Tag(['keywords' => ['eng-GB' => 'netgen']]),
+                ]
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -196,7 +186,7 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('getTagsByKeywordCount')
             ->with('netgen', 'eng-GB')
-            ->will(self::returnValue(2));
+            ->willReturn(2);
 
         $signalSlotService = $this->getSignalSlotService();
         $tagsCount = $signalSlotService->getTagsByKeywordCount('netgen', 'eng-GB');
@@ -213,13 +203,11 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('loadTagSynonyms')
             ->with(self::equalTo(new Tag(['id' => 42])))
-            ->will(
-                self::returnValue(
-                    [
-                        new Tag(['mainTagId' => 42]),
-                        new Tag(['mainTagId' => 42]),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Tag(['mainTagId' => 42]),
+                    new Tag(['mainTagId' => 42]),
+                ]
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -242,7 +230,7 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('getTagSynonymCount')
             ->with(self::equalTo(new Tag(['id' => 42])))
-            ->will(self::returnValue(2));
+            ->willReturn(2);
 
         $signalSlotService = $this->getSignalSlotService();
         $tagsCount = $signalSlotService->getTagSynonymCount(new Tag(['id' => 42]));
@@ -259,13 +247,11 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('getRelatedContent')
             ->with(self::equalTo(new Tag(['id' => 42])))
-            ->will(
-                self::returnValue(
-                    [
-                        new Content(),
-                        new Content(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    new Content(),
+                    new Content(),
+                ]
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -287,7 +273,7 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('getRelatedContentCount')
             ->with(self::equalTo(new Tag(['id' => 42])))
-            ->will(self::returnValue(2));
+            ->willReturn(2);
 
         $signalSlotService = $this->getSignalSlotService();
         $contentCount = $signalSlotService->getRelatedContentCount(new Tag(['id' => 42]));
@@ -310,9 +296,8 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('createTag')
             ->with(self::equalTo($tagCreateStruct))
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 24,
                             'parentTagId' => 42,
@@ -321,7 +306,6 @@ class TagsServiceTest extends TestCase
                             'alwaysAvailable' => true,
                         ]
                     )
-                )
             );
 
         $this->signalDispatcher
@@ -379,9 +363,8 @@ class TagsServiceTest extends TestCase
                 self::equalTo($tag),
                 self::equalTo($tagUpdateStruct)
             )
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 42,
                             'keywords' => ['eng-GB' => 'netgen'],
@@ -390,7 +373,6 @@ class TagsServiceTest extends TestCase
                             'alwaysAvailable' => true,
                         ]
                     )
-                )
             );
 
         $this->signalDispatcher
@@ -441,9 +423,8 @@ class TagsServiceTest extends TestCase
                     $synonymCreateStruct
                 )
             )
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 24,
                             'keywords' => ['eng-GB' => 'netgenlabs'],
@@ -452,7 +433,6 @@ class TagsServiceTest extends TestCase
                             'alwaysAvailable' => true,
                         ]
                     )
-                )
             );
 
         $this->signalDispatcher
@@ -508,15 +488,13 @@ class TagsServiceTest extends TestCase
                 self::equalTo($tag),
                 self::equalTo($mainTag)
             )
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 42,
                             'mainTagId' => 24,
                         ]
                     )
-                )
             );
 
         $this->signalDispatcher
@@ -610,16 +588,14 @@ class TagsServiceTest extends TestCase
                 self::equalTo($tag),
                 self::equalTo($targetTag)
             )
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 42,
                             'parentTagId' => 25,
                             'keywords' => ['eng-GB' => 'netgen'],
                         ]
                     )
-                )
             );
 
         $this->signalDispatcher
@@ -671,15 +647,13 @@ class TagsServiceTest extends TestCase
                 self::equalTo($tag),
                 self::equalTo($targetTag)
             )
-            ->will(
-                self::returnValue(
-                    new Tag(
+            ->willReturn(
+                new Tag(
                         [
                             'id' => 24,
                             'parentTagId' => 25,
                         ]
                     )
-                )
             );
 
         $this->signalDispatcher
@@ -749,10 +723,8 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('newTagCreateStruct')
             ->with(self::equalTo(42), self::equalTo('eng-GB'))
-            ->will(
-                self::returnValue(
-                    new TagCreateStruct(['parentTagId' => 42, 'mainLanguageCode' => 'eng-GB'])
-                )
+            ->willReturn(
+                new TagCreateStruct(['parentTagId' => 42, 'mainLanguageCode' => 'eng-GB'])
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -772,10 +744,8 @@ class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('newSynonymCreateStruct')
             ->with(self::equalTo(42), self::equalTo('eng-GB'))
-            ->will(
-                self::returnValue(
-                    new SynonymCreateStruct(['mainTagId' => 42, 'mainLanguageCode' => 'eng-GB'])
-                )
+            ->willReturn(
+                new SynonymCreateStruct(['mainTagId' => 42, 'mainLanguageCode' => 'eng-GB'])
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -794,10 +764,8 @@ class TagsServiceTest extends TestCase
         $this->tagsService
             ->expects(self::once())
             ->method('newTagUpdateStruct')
-            ->will(
-                self::returnValue(
-                    new TagUpdateStruct()
-                )
+            ->willReturn(
+                new TagUpdateStruct()
             );
 
         $signalSlotService = $this->getSignalSlotService();
@@ -817,7 +785,7 @@ class TagsServiceTest extends TestCase
         $this->tagsService
             ->expects(self::once())
             ->method('sudo')
-            ->will(self::returnValue('some_value'));
+            ->willReturn('some_value');
 
         $signalSlotService = $this->getSignalSlotService();
         $value = $signalSlotService->sudo($callback);

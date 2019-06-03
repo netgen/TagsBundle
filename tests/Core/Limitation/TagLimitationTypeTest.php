@@ -250,10 +250,8 @@ class TagLimitationTypeTest extends Base
                         ->expects(self::at($key))
                         ->method('loadTagInfo')
                         ->with($value)
-                        ->will(
-                            self::returnValue(
-                                new TagInfo(['id' => $value])
-                            )
+                        ->willReturn(
+                            new TagInfo(['id' => $value])
                         );
                 } else {
                     $this->tagsHandlerMock

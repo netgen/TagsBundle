@@ -117,7 +117,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -144,7 +144,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -172,7 +172,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -201,7 +201,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -230,7 +230,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -259,7 +259,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -288,7 +288,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 
@@ -317,7 +317,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property ${field} not as expected."
+            "Value in property {$field} not as expected."
         );
     }
 

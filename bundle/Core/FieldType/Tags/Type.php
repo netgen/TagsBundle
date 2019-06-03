@@ -278,7 +278,7 @@ class Type extends FieldType
                     [
                         '%validator%' => $validatorIdentifier,
                     ],
-                    "[${validatorIdentifier}]"
+                    "[{$validatorIdentifier}]"
                 );
 
                 continue;
@@ -300,7 +300,7 @@ class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[${validatorIdentifier}][${name}]"
+                                "[{$validatorIdentifier}][{$name}]"
                             );
                         }
 
@@ -311,7 +311,7 @@ class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[${validatorIdentifier}][${name}]"
+                                "[{$validatorIdentifier}][{$name}]"
                             );
                         }
 
@@ -322,7 +322,7 @@ class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[${validatorIdentifier}][${name}]"
+                                "[{$validatorIdentifier}][{$name}]"
                             );
                         }
 
@@ -335,7 +335,7 @@ class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[${validatorIdentifier}][${name}]"
+                                "[{$validatorIdentifier}][{$name}]"
                             );
                         }
 
@@ -346,7 +346,7 @@ class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[${validatorIdentifier}][${name}]"
+                                "[{$validatorIdentifier}][{$name}]"
                             );
                         }
 
@@ -358,7 +358,7 @@ class Type extends FieldType
                             [
                                 '%parameter%' => $name,
                             ],
-                            "[${validatorIdentifier}][${name}]"
+                            "[{$validatorIdentifier}][{$name}]"
                         );
                 }
             }
@@ -455,7 +455,7 @@ class Type extends FieldType
                     [
                         '%setting%' => $name,
                     ],
-                    "[${name}]"
+                    "[{$name}]"
                 );
 
                 continue;
@@ -470,7 +470,7 @@ class Type extends FieldType
                             [
                                 '%setting%' => $name,
                             ],
-                            "[${name}]"
+                            "[{$name}]"
                         );
                     }
 
@@ -483,7 +483,7 @@ class Type extends FieldType
                             [
                                 '%setting%' => $name,
                             ],
-                            "[${name}]"
+                            "[{$name}]"
                         );
                     }
 
@@ -503,7 +503,7 @@ class Type extends FieldType
                             [
                                 '%editView%' => $value,
                             ],
-                            "[${name}]"
+                            "[{$name}]"
                         );
                     }
 
@@ -566,7 +566,7 @@ class Type extends FieldType
         foreach ($value->tags as $tag) {
             if (!$tag instanceof Tag) {
                 throw new InvalidArgumentType(
-                    "${tag}",
+                    "{$tag}",
                     Value::class,
                     $tag
                 );

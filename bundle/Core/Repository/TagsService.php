@@ -438,7 +438,7 @@ class TagsService implements TagsServiceInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true,  array $additionalCriteria = [], array $sortClauses = [])
+    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = [])
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');

@@ -78,13 +78,11 @@ class TagIdTest extends TestCase
                 'eztags',
                 'tag_ids'
             )
-            ->will(
-                self::returnValue(
-                    [
-                        'tags_field_s' => new FieldType\MultipleIntegerField(),
-                        'tags_field2_s' => new FieldType\MultipleIntegerField(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    'tags_field_s' => new FieldType\MultipleIntegerField(),
+                    'tags_field2_s' => new FieldType\MultipleIntegerField(),
+                ]
             );
 
         $this->contentTypeHandler
@@ -108,21 +106,19 @@ class TagIdTest extends TestCase
         $this->contentTypeHandler
             ->expects(self::once())
             ->method('getSearchableFieldMap')
-            ->will(
-                self::returnValue(
-                    [
-                        'news' => [
-                            'tags_field' => [
-                                'field_type_identifier' => 'eztags',
-                            ],
+            ->willReturn(
+                [
+                    'news' => [
+                        'tags_field' => [
+                            'field_type_identifier' => 'eztags',
                         ],
-                        'article' => [
-                            'tags_field2' => [
-                                'field_type_identifier' => 'eztags',
-                            ],
+                    ],
+                    'article' => [
+                        'tags_field2' => [
+                            'field_type_identifier' => 'eztags',
                         ],
-                    ]
-                )
+                    ],
+                ]
             );
 
         $this->fieldNameResolver
@@ -134,12 +130,10 @@ class TagIdTest extends TestCase
                 'eztags',
                 'tag_ids'
             )
-            ->will(
-                self::returnValue(
-                    [
-                        'news_tags_field_s' => new FieldType\MultipleIntegerField(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    'news_tags_field_s' => new FieldType\MultipleIntegerField(),
+                ]
             );
 
         $this->fieldNameResolver
@@ -151,12 +145,10 @@ class TagIdTest extends TestCase
                 'eztags',
                 'tag_ids'
             )
-            ->will(
-                self::returnValue(
-                    [
-                        'article_tags_field2_s' => new FieldType\MultipleIntegerField(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    'article_tags_field2_s' => new FieldType\MultipleIntegerField(),
+                ]
             );
 
         self::assertSame(
@@ -183,7 +175,7 @@ class TagIdTest extends TestCase
                 'eztags',
                 'tag_ids'
             )
-            ->will(self::returnValue([]));
+            ->willReturn([]);
 
         $this->visitor->visit($criterion);
     }

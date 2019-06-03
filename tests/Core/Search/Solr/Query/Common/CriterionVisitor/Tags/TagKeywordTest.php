@@ -79,13 +79,11 @@ class TagKeywordTest extends TestCase
                 'eztags',
                 'tag_keywords'
             )
-            ->will(
-                self::returnValue(
-                    [
-                        'tags_field_s' => new FieldType\MultipleStringField(),
-                        'tags_field2_s' => new FieldType\MultipleStringField(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    'tags_field_s' => new FieldType\MultipleStringField(),
+                    'tags_field2_s' => new FieldType\MultipleStringField(),
+                ]
             );
 
         $this->contentTypeHandler
@@ -109,21 +107,19 @@ class TagKeywordTest extends TestCase
         $this->contentTypeHandler
             ->expects(self::once())
             ->method('getSearchableFieldMap')
-            ->will(
-                self::returnValue(
-                    [
-                        'news' => [
-                            'tags_field' => [
-                                'field_type_identifier' => 'eztags',
-                            ],
+            ->willReturn(
+                [
+                    'news' => [
+                        'tags_field' => [
+                            'field_type_identifier' => 'eztags',
                         ],
-                        'article' => [
-                            'tags_field2' => [
-                                'field_type_identifier' => 'eztags',
-                            ],
+                    ],
+                    'article' => [
+                        'tags_field2' => [
+                            'field_type_identifier' => 'eztags',
                         ],
-                    ]
-                )
+                    ],
+                ]
             );
 
         $this->fieldNameResolver
@@ -135,12 +131,10 @@ class TagKeywordTest extends TestCase
                 'eztags',
                 'tag_keywords'
             )
-            ->will(
-                self::returnValue(
-                    [
-                        'news_tags_field_s' => new FieldType\MultipleStringField(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    'news_tags_field_s' => new FieldType\MultipleStringField(),
+                ]
             );
 
         $this->fieldNameResolver
@@ -152,12 +146,10 @@ class TagKeywordTest extends TestCase
                 'eztags',
                 'tag_keywords'
             )
-            ->will(
-                self::returnValue(
-                    [
-                        'article_tags_field2_s' => new FieldType\MultipleStringField(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    'article_tags_field2_s' => new FieldType\MultipleStringField(),
+                ]
             );
 
         self::assertSame(
@@ -184,7 +176,7 @@ class TagKeywordTest extends TestCase
                 'eztags',
                 'tag_keywords'
             )
-            ->will(self::returnValue([]));
+            ->willReturn([]);
 
         $this->visitor->visit($criterion);
     }

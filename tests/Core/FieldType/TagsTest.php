@@ -579,7 +579,7 @@ class TagsTest extends FieldTypeTest
 
         $this->tagsService->expects(self::any())
             ->method('loadTagList')
-            ->will(self::returnCallback([$this, 'getTagsServiceLoadTagValues']));
+            ->willReturnCallback([$this, 'getTagsServiceLoadTagValues']);
 
         $tagsType = new TagsType($this->tagsService);
         $tagsType->setEditViews(
