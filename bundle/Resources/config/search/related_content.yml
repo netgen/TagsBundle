@@ -1,0 +1,4 @@
+services:
+    eztags.search.related_content.sort_service:
+        class: Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
+        public: false

@@ -33,6 +33,16 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     protected $nbResults;
 
     /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Query\SortClause[]
+     */
+    protected $sortClauses = [];
+
+    /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
+     */
+    protected $additionalCriteria = [];
+
+    /**
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -55,6 +65,24 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     }
 
     /**
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause[] $sortClauses
+     */
+    public function setSortClauses(array $sortClauses)
+    {
+        $this->sortClauses = $sortClauses;
+    }
+
+    /**
+     * Sets additional criteria to be used in search.
+     *
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria
+     */
+    public function setAdditionalCriteria(array $additionalCriteria = [])
+    {
+        $this->additionalCriteria = $additionalCriteria;
+    }
+
+    /**
      * Returns the number of results.
      *
      * @return int The number of results
@@ -66,7 +94,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
         }
 
         if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
         }
 
         return $this->nbResults;
@@ -90,11 +118,13 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             $this->tag,
             $offset,
             $length,
-            $this->returnContentInfo
+            $this->returnContentInfo,
+            $this->additionalCriteria,
+            $this->sortClauses
         );
 
         if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag);
+            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
         }
 
         return $relatedContent;

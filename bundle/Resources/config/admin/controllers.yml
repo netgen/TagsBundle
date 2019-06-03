@@ -26,6 +26,8 @@ services:
         public: true
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
+            - "@ezpublish.api.service.content_type"
+            - "@eztags.search.related_content.sort_service"
 
     eztags.admin.controller.synonym:
         class: Netgen\TagsBundle\Controller\Admin\SynonymController

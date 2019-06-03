@@ -3,11 +3,22 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% set tag_keyword = netgen_tags_tag_keyword( tag ) %}
+{% set filter_applied = filter_applied|default(false) %}
 
 {% block content %}
     <h2 class="tag-title">
         {{ 'tag.related_content.title'|trans }}: <a href="{{ path( 'netgen_tags_admin_tag_show', {tagId: tag.id} ) }}">{{ netgen_tags_tag_keyword( tag ) }}</a>
     </h2>
+
+    {% if related_content|length > 0 or filter_applied %}
+        <div class="ng-tags-content-type-filter">
+            {{ form_start(filter_form) }}
+                {{ form_widget(filter_form) }}
+
+                <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.related_content.filter.button.submit'|trans }}" />
+            {{ form_end(filter_form) }}
+        </div>
+    {% endif %}
 
     {% if related_content|length > 0 %}
         <table>

@@ -44,6 +44,17 @@ tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
 
 tag.related_content.title: 'List of content related to tag'
+tag.related_content.filter.content_type: 'Content type filter'
+tag.related_content.filter.sort: 'Sort'
+tag.related_content.filter.sort.content_id_ascending: 'Content ID ascending'
+tag.related_content.filter.sort.content_id_descending: 'Content ID descending'
+tag.related_content.filter.sort.name_ascending: 'Name ascending'
+tag.related_content.filter.sort.name_descending: 'Name descending'
+tag.related_content.filter.sort.date_modified_ascending: 'Modified ascending'
+tag.related_content.filter.sort.date_modified_descending: 'Modified descending'
+tag.related_content.filter.sort.content_type_id_ascending: 'Content type ID ascending'
+tag.related_content.filter.sort.content_type_id_descending: 'Content type ID descending'
+tag.related_content.filter.button.submit: 'Apply'
 
 tag.add.title: 'New tag'
 

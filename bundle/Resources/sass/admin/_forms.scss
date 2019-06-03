@@ -139,3 +139,38 @@
         }
     }
 }
+
+.ng-tags-content-type-filter {
+    form {
+        background: #e6e5e5;
+        padding: .8em;
+        margin: .5em 0;
+        font-size: 13px;
+
+        select[multiple] {
+            display:block;
+            width: 100%;
+            max-width:500px;
+            border: 0;
+            margin: 0 0 1em;
+
+            option {
+                padding: .25em;
+            }
+        }
+
+        select:not([multiple]) {
+            display:block;
+            width:100%;
+            max-width:500px;
+            border:1px solid $borderColor;
+            height:$btnHeight;
+            line-height:$btnHeight;
+            padding:0 0.75em;
+            border-radius:$borderRadius;
+            font-size:1em;
+            background:#ffffff;
+            margin: 0 0 1em;
+        }
+    }
+}
