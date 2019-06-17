@@ -27,12 +27,6 @@ services:
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
 
-    eztags.field_type.eztags.nameable:
-        class: Netgen\TagsBundle\Core\FieldType\Tags\NameableField
-        public: false
-        tags:
-            - { name: ezpublish.fieldType.nameable, alias: eztags }
-
     eztags.field_type.eztags.form_mapper:
         class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
         public: false

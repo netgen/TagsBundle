@@ -10,10 +10,6 @@ services:
         tags:
             - {name: ezpublish.fieldType, alias: eztags}
 
-    eztags.field_type.eztags.nameable:
-        class: Netgen\TagsBundle\Core\FieldType\Tags\NameableField
-        public: false
-
     eztags.ezpublish.spi.persistence.legacy.language.handler:
         alias: ezpublish.spi.persistence.legacy.language.handler
         public: true
