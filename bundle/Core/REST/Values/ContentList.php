@@ -1,13 +1,13 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Values;
+namespace Netgen\TagsBundle\Core\REST\Values;
 
-use eZ\Publish\Core\REST\Common\Value;
+use EzSystems\EzPlatformRest\Value;
 
 class ContentList extends Value
 {
     /**
-     * @var \eZ\Publish\Core\REST\Server\Values\RestContent[]
+     * @var \EzSystems\EzPlatformRest\Values\RestContent[]
      */
     public $contents;
 
@@ -19,7 +19,7 @@ class ContentList extends Value
     /**
      * Constructor.
      *
-     * @param \eZ\Publish\Core\REST\Server\Values\RestContent[] $contents
+     * @param \EzSystems\EzPlatformRest\Values\RestContent[] $contents
      * @param string $path
      */
     public function __construct(array $contents, $path)

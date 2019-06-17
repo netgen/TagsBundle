@@ -1,11 +1,11 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Input\Parser;
+namespace Netgen\TagsBundle\Core\REST\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Exceptions;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
+use EzSystems\EzPlatformRest\Exceptions;
+use EzSystems\EzPlatformRest\Input\BaseParser;
+use EzSystems\EzPlatformRest\Input\ParserTools;
+use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
 
 class TagSynonymCreate extends BaseParser
@@ -16,7 +16,7 @@ class TagSynonymCreate extends BaseParser
     protected $tagsService;
 
     /**
-     * @var \eZ\Publish\Core\REST\Common\Input\ParserTools
+     * @var \EzSystems\EzPlatformRest\Input\ParserTools
      */
     protected $parserTools;
 
@@ -24,7 +24,7 @@ class TagSynonymCreate extends BaseParser
      * Constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \eZ\Publish\Core\REST\Common\Input\ParserTools $parserTools
+     * @param \EzSystems\EzPlatformRest\Input\ParserTools $parserTools
      */
     public function __construct(TagsService $tagsService, ParserTools $parserTools)
     {
@@ -36,9 +36,9 @@ class TagSynonymCreate extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \EzSystems\EzPlatformRest\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @throws \eZ\Publish\Core\REST\Common\Exceptions\Parser If the parsing failed
+     * @throws \EzSystems\EzPlatformRest\Exceptions\Parser If the parsing failed
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */

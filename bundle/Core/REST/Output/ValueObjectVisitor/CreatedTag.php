@@ -1,18 +1,18 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor;
+namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use EzSystems\EzPlatformRest\Output\Generator;
+use EzSystems\EzPlatformRest\Output\Visitor;
 
 class CreatedTag extends RestTag
 {
     /**
      * Visit struct returned by controllers.
      *
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $visitor
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
-     * @param \Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag $data
+     * @param \EzSystems\EzPlatformRest\Output\Visitor $visitor
+     * @param \EzSystems\EzPlatformRest\Output\Generator $generator
+     * @param \Netgen\TagsBundle\Core\REST\Values\CreatedTag $data
      */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {

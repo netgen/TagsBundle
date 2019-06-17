@@ -1,12 +1,12 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor;
+namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\RequestStackAware;
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use EzSystems\EzPlatformRest\Output\Generator;
+use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
+use EzSystems\EzPlatformRest\Output\Visitor;
 use Symfony\Component\HttpFoundation\Request;
 
 class CachedValue extends ValueObjectVisitor
@@ -31,9 +31,9 @@ class CachedValue extends ValueObjectVisitor
     /**
      * Visit struct returned by controllers.
      *
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $visitor
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
-     * @param \Netgen\TagsBundle\Core\REST\Server\Values\CachedValue $data
+     * @param \EzSystems\EzPlatformRest\Output\Visitor $visitor
+     * @param \EzSystems\EzPlatformRest\Output\Generator $generator
+     * @param \Netgen\TagsBundle\Core\REST\Values\CachedValue $data
      */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {

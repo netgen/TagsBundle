@@ -1,19 +1,19 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor;
+namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use EzSystems\EzPlatformRest\Output\Generator;
+use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
+use EzSystems\EzPlatformRest\Output\Visitor;
 
 class ContentList extends ValueObjectVisitor
 {
     /**
      * Visit struct returned by controllers.
      *
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $visitor
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
-     * @param \Netgen\TagsBundle\Core\REST\Server\Values\ContentList $data
+     * @param \EzSystems\EzPlatformRest\Output\Visitor $visitor
+     * @param \EzSystems\EzPlatformRest\Output\Generator $generator
+     * @param \Netgen\TagsBundle\Core\REST\Values\ContentList $data
      */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {

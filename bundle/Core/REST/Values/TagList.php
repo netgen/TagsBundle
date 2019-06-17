@@ -1,13 +1,13 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Values;
+namespace Netgen\TagsBundle\Core\REST\Values;
 
-use eZ\Publish\Core\REST\Common\Value;
+use EzSystems\EzPlatformRest\Value;
 
 class TagList extends Value
 {
     /**
-     * @var \Netgen\TagsBundle\Core\REST\Server\Values\RestTag[]
+     * @var \Netgen\TagsBundle\Core\REST\Values\RestTag[]
      */
     public $tags;
 
@@ -19,7 +19,7 @@ class TagList extends Value
     /**
      * Constructor.
      *
-     * @param \Netgen\TagsBundle\Core\REST\Server\Values\RestTag[] $tags
+     * @param \Netgen\TagsBundle\Core\REST\Values\RestTag[] $tags
      * @param string $path
      */
     public function __construct(array $tags, $path)

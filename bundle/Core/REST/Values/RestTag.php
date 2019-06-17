@@ -1,8 +1,8 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Values;
+namespace Netgen\TagsBundle\Core\REST\Values;
 
-use eZ\Publish\Core\REST\Common\Value;
+use EzSystems\EzPlatformRest\Value;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 class RestTag extends Value

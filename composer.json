@@ -19,8 +19,9 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
+        "ezsystems/ezplatform-rest": "^1.0@dev",
         "ezsystems/repository-forms": "^3.0@dev",
         "ezsystems/ezplatform-solr-search-engine": "^2.0@dev",
         "lolautruche/ez-core-extra-bundle": "dev-master",

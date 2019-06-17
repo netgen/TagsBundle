@@ -1,9 +1,9 @@
 <?php
 
-namespace Netgen\TagsBundle\Core\REST\Server\Values;
+namespace Netgen\TagsBundle\Core\REST\Values;
 
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\REST\Common\Value;
+use EzSystems\EzPlatformRest\Value;
 
 class CachedValue extends Value
 {

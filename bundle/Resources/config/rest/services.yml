@@ -2,7 +2,7 @@ services:
     # Controllers
 
     eztags.rest.controller.tags:
-        class: Netgen\TagsBundle\Core\REST\Server\Controller\Tags
+        class: Netgen\TagsBundle\Core\REST\Controller\Tags
         parent: ezpublish_rest.controller.base
         public: true
         arguments:
@@ -11,7 +11,7 @@ services:
     # Value object visitors
 
     eztags.rest.output.value_object_visitor.cached_value:
-        class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\CachedValue
+        class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CachedValue
         parent: ezpublish_rest.output.value_object_visitor.base
         public: false
         arguments:
@@ -19,41 +19,41 @@ services:
         calls:
             - [setRequestStack, ["@request_stack"]]
         tags:
-            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\CachedValue }
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CachedValue }
 
     eztags.rest.output.value_object_visitor.rest_tag:
-        class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\RestTag
+        class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\RestTag
         parent: ezpublish_rest.output.value_object_visitor.base
         public: false
         tags:
-            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\RestTag }
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\RestTag }
 
     eztags.rest.output.value_object_visitor.tag_list:
-        class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\TagList
+        class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\TagList
         parent: ezpublish_rest.output.value_object_visitor.base
         public: false
         tags:
-            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\TagList }
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\TagList }
 
     # Reimplemented to allow for specifying custom href to content list in the output
     eztags.rest.output.value_object_visitor.content_list:
-        class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\ContentList
+        class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\ContentList
         parent: ezpublish_rest.output.value_object_visitor.base
         public: false
         tags:
-            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\ContentList }
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\ContentList }
 
     eztags.rest.output.value_object_visitor.created_tag:
-        class: Netgen\TagsBundle\Core\REST\Server\Output\ValueObjectVisitor\CreatedTag
+        class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CreatedTag
         parent: ezpublish_rest.output.value_object_visitor.base
         public: false
         tags:
-            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Server\Values\CreatedTag }
+            - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CreatedTag }
 
     # Input parsers
 
     eztags.rest.input.parser.tag_create:
-        class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagCreate
+        class: Netgen\TagsBundle\Core\REST\Input\Parser\TagCreate
         parent: ezpublish_rest.input.parser
         public: false
         arguments:
@@ -63,7 +63,7 @@ services:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagCreate }
 
     eztags.rest.input.parser.tag_synonym_create:
-        class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagSynonymCreate
+        class: Netgen\TagsBundle\Core\REST\Input\Parser\TagSynonymCreate
         parent: ezpublish_rest.input.parser
         public: false
         arguments:
@@ -73,7 +73,7 @@ services:
             - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.TagSynonymCreate }
 
     eztags.rest.input.parser.tag_update:
-        class: Netgen\TagsBundle\Core\REST\Server\Input\Parser\TagUpdate
+        class: Netgen\TagsBundle\Core\REST\Input\Parser\TagUpdate
         parent: ezpublish_rest.input.parser
         public: false
         arguments:
