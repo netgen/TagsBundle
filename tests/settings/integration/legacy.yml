@@ -2,6 +2,7 @@ services:
     eztags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
+        public: true
         arguments:
             - "@eztags.api.service.tags"
         calls:
@@ -12,3 +13,11 @@ services:
     eztags.field_type.eztags.nameable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\NameableField
         public: false
+
+    eztags.ezpublish.spi.persistence.legacy.language.handler:
+        alias: ezpublish.spi.persistence.legacy.language.handler
+        public: true
+
+    eztags.ezpublish.persistence.legacy.language.mask_generator:
+        alias: ezpublish.persistence.legacy.language.mask_generator
+        public: true

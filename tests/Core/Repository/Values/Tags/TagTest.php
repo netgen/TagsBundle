@@ -10,7 +10,7 @@ class TagTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::getProperties
      */
-    public function testObjectProperties()
+    public function testObjectProperties(): void
     {
         $object = new Tag();
         $properties = $object->attributes();

@@ -24,7 +24,7 @@ class TagsTest extends TestCase
      */
     protected $converter;
 
-    protected function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->converter = new TagsConverter();
@@ -35,7 +35,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::create
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $converter = TagsConverter::create();
         self::assertInstanceOf(get_class($this->converter), $converter);
@@ -46,7 +46,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageValue
      */
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = ['key1', 'key2'];
@@ -69,7 +69,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldValue
      */
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $fieldValue = new FieldValue();
@@ -85,7 +85,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
      */
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
@@ -123,7 +123,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
      */
-    public function testToStorageFieldDefinitionWithNoSettingsAndValidators()
+    public function testToStorageFieldDefinitionWithNoSettingsAndValidators(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $this->converter->toStorageFieldDefinition(
@@ -142,7 +142,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldDefinition
      */
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition();
 
@@ -171,7 +171,7 @@ class TagsTest extends TestCase
      * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::getIndexColumn
      */
-    public function testGetIndexColumn()
+    public function testGetIndexColumn(): void
     {
         $indexColumn = $this->converter->getIndexColumn();
         self::assertFalse($indexColumn);

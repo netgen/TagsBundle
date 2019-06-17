@@ -50,7 +50,7 @@ class NetgenTagsRuntimeTest extends TestCase
      */
     protected $contentType;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tagsService = $this->getMockBuilder(TagsService::class)
             ->disableOriginalConstructor()
@@ -83,12 +83,12 @@ class NetgenTagsRuntimeTest extends TestCase
         $this->contentType = new ContentType(['names' => ['eng-GB' => 'Translated name']]);
     }
 
-    public function testInstanceOfTwigExtension()
+    public function testInstanceOfTwigExtension(): void
     {
         self::assertInstanceOf(NetgenTagsRuntime::class, $this->runtime);
     }
 
-    public function testGetTagKeywordWithNotFoundException()
+    public function testGetTagKeywordWithNotFoundException(): void
     {
         $this->tagsService->expects(self::once())
             ->method('loadTag')
@@ -97,7 +97,7 @@ class NetgenTagsRuntimeTest extends TestCase
         self::assertEmpty($this->runtime->getTagKeyword(1));
     }
 
-    public function testGetTagKeywordWithNonTagArgument()
+    public function testGetTagKeywordWithNonTagArgument(): void
     {
         $translated = 'translated';
 
@@ -113,7 +113,7 @@ class NetgenTagsRuntimeTest extends TestCase
         self::assertSame($translated, $this->runtime->getTagKeyword(1));
     }
 
-    public function testGetTagKeywordWithTagArgument()
+    public function testGetTagKeywordWithTagArgument(): void
     {
         $translated = 'translated';
 
@@ -128,7 +128,7 @@ class NetgenTagsRuntimeTest extends TestCase
         self::assertSame($translated, $this->runtime->getTagKeyword($this->tag));
     }
 
-    public function testGetLanguageName()
+    public function testGetLanguageName(): void
     {
         $language = new Language(
             [
@@ -148,7 +148,7 @@ class NetgenTagsRuntimeTest extends TestCase
         self::assertSame($language->name, $name);
     }
 
-    public function testGetContentTypeNameWithNotFoundException()
+    public function testGetContentTypeNameWithNotFoundException(): void
     {
         $contentType = 'content_type';
 
@@ -160,7 +160,7 @@ class NetgenTagsRuntimeTest extends TestCase
         self::assertEmpty($this->runtime->getContentTypeName('content_type'));
     }
 
-    public function testGetContentTypeNameWithNonContentTypeAsArgument()
+    public function testGetContentTypeNameWithNonContentTypeAsArgument(): void
     {
         $contentType = 'content_type';
 
@@ -172,7 +172,7 @@ class NetgenTagsRuntimeTest extends TestCase
         self::assertSame('Translated name', $this->runtime->getContentTypeName('content_type'));
     }
 
-    public function testGetContentTypeNameWithContentTypeAsArgument()
+    public function testGetContentTypeNameWithContentTypeAsArgument(): void
     {
         $this->contentTypeService->expects(self::never())
             ->method('loadContentType');

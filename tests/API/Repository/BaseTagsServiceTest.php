@@ -7,8 +7,10 @@ use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
+use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
 use eZ\Publish\Core\Repository\Values\User\User;
@@ -34,7 +36,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $tag = new Tag();
 
@@ -61,7 +63,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         try {
             $tag = new Tag();
@@ -76,7 +78,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         try {
             $tag = new Tag();
@@ -91,7 +93,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__isset
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $tag = new Tag();
         $value = isset($tag->notDefined);
@@ -106,7 +108,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $tag = new Tag(['id' => 2]);
 
@@ -120,7 +122,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::newTagCreateStruct
      */
-    public function testNewTagCreateStruct()
+    public function testNewTagCreateStruct(): void
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(42, 'eng-GB');
 
@@ -141,7 +143,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::newTagCreateStruct
      */
-    public function testNewSynonymCreateStruct()
+    public function testNewSynonymCreateStruct(): void
     {
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(42, 'eng-GB');
 
@@ -162,7 +164,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::newTagUpdateStruct
      */
-    public function testNewTagUpdateStruct()
+    public function testNewTagUpdateStruct(): void
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
@@ -182,7 +184,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTag
      */
-    public function testLoadTag()
+    public function testLoadTag(): void
     {
         $tag = $this->tagsService->loadTag(40);
 
@@ -207,22 +209,22 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTag
      */
-    public function testLoadTagThrowsNotFoundException()
+    public function testLoadTagThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsService->loadTag(PHP_INT_MAX);
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTag
      */
-    public function testLoadTagThrowsUnauthorizedException()
+    public function testLoadTagThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTag(40);
     }
@@ -230,7 +232,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
      */
-    public function testLoadTagByRemoteId()
+    public function testLoadTagByRemoteId(): void
     {
         // $this->markTestSkipped( "Fails for unknown reason!" );
 
@@ -257,22 +259,22 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
      */
-    public function testLoadTagByRemoteIdThrowsNotFoundException()
+    public function testLoadTagByRemoteIdThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsService->loadTagByRemoteId('Non-existing remote ID');
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByRemoteId
      */
-    public function testLoadTagByRemoteIdThrowsUnauthorizedException()
+    public function testLoadTagByRemoteIdThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
     }
@@ -280,7 +282,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByUrl
      */
-    public function testLoadTagByUrl()
+    public function testLoadTagByUrl(): void
     {
         $tag = $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', ['eng-GB']);
 
@@ -305,22 +307,22 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByUrl
      */
-    public function testLoadTagByUrlThrowsNotFoundException()
+    public function testLoadTagByUrlThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsService->loadTagByUrl('does/not/exist', ['eng-GB']);
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagByUrl
      */
-    public function testLoadTagByUrlThrowsUnauthorizedException()
+    public function testLoadTagByUrlThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', ['eng-GB']);
     }
@@ -329,12 +331,12 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
      * @depends testLoadTag
      */
-    public function testLoadTagChildren()
+    public function testLoadTagChildren(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $children = $this->tagsService->loadTagChildren($tag);
 
-        self::assertInternalType('array', $children);
+        self::assertIsArray($children);
         self::assertCount(6, $children);
 
         foreach ($children as $child) {
@@ -347,11 +349,11 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
      * @depends testLoadTag
      */
-    public function testLoadTagChildrenFromRoot()
+    public function testLoadTagChildrenFromRoot(): void
     {
         $children = $this->tagsService->loadTagChildren();
 
-        self::assertInternalType('array', $children);
+        self::assertIsArray($children);
         self::assertCount(9, $children);
 
         foreach ($children as $child) {
@@ -361,12 +363,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
      */
-    public function testLoadTagChildrenThrowsUnauthorizedException()
+    public function testLoadTagChildrenThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagChildren(
             new Tag(
@@ -379,7 +381,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
      * @depends testLoadTag
      */
-    public function testGetTagChildrenCount()
+    public function testGetTagChildrenCount(): void
     {
         $childrenCount = $this->tagsService->getTagChildrenCount(
             $tag = $this->tagsService->loadTag(16)
@@ -392,7 +394,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
      * @depends testLoadTag
      */
-    public function testGetTagChildrenCountFromRoot()
+    public function testGetTagChildrenCountFromRoot(): void
     {
         $childrenCount = $this->tagsService->getTagChildrenCount();
 
@@ -400,12 +402,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
      */
-    public function testGetTagChildrenCountThrowsUnauthorizedException()
+    public function testGetTagChildrenCountThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getTagChildrenCount(
             new Tag(
@@ -418,11 +420,11 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagsByKeyword
      * @depends testLoadTag
      */
-    public function testLoadTagsByKeyword()
+    public function testLoadTagsByKeyword(): void
     {
         $tags = $this->tagsService->loadTagsByKeyword('eztags', 'eng-GB');
 
-        self::assertInternalType('array', $tags);
+        self::assertIsArray($tags);
         self::assertCount(2, $tags);
 
         foreach ($tags as $tag) {
@@ -432,12 +434,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagsByKeyword
      */
-    public function testLoadTagsByKeywordThrowsUnauthorizedException()
+    public function testLoadTagsByKeywordThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagsByKeyword('eztags', 'eng-GB');
     }
@@ -446,7 +448,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagsByKeywordCount
      * @depends testLoadTag
      */
-    public function testGetTagsByKeywordCount()
+    public function testGetTagsByKeywordCount(): void
     {
         $tagsCount = $this->tagsService->getTagsByKeywordCount('eztags', 'eng-GB');
 
@@ -454,12 +456,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagsByKeywordCount
      */
-    public function testGetTagsByKeywordCountThrowsUnauthorizedException()
+    public function testGetTagsByKeywordCountThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getTagsByKeywordCount('eztags', 'eng-GB');
     }
@@ -468,12 +470,12 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      * @depends testLoadTag
      */
-    public function testLoadTagSynonyms()
+    public function testLoadTagSynonyms(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $synonyms = $this->tagsService->loadTagSynonyms($tag);
 
-        self::assertInternalType('array', $synonyms);
+        self::assertIsArray($synonyms);
         self::assertCount(2, $synonyms);
 
         foreach ($synonyms as $synonym) {
@@ -483,25 +485,25 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      * @depends testLoadTag
      */
-    public function testLoadTagSynonymsThrowsInvalidArgumentException()
+    public function testLoadTagSynonymsThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->loadTagSynonyms(
             $this->tagsService->loadTag(95)
         );
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
      */
-    public function testLoadTagSynonymsThrowsUnauthorizedException()
+    public function testLoadTagSynonymsThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->loadTagSynonyms(
             new Tag(
@@ -514,7 +516,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
      * @depends testLoadTag
      */
-    public function testGetTagSynonymCount()
+    public function testGetTagSynonymCount(): void
     {
         $synonymsCount = $this->tagsService->getTagSynonymCount(
             $this->tagsService->loadTag(16)
@@ -524,25 +526,25 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
      * @depends testLoadTag
      */
-    public function testGetTagSynonymCountThrowsInvalidArgumentException()
+    public function testGetTagSynonymCountThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->getTagSynonymCount(
             $this->tagsService->loadTag(95)
         );
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
      */
-    public function testGetTagSynonymCountThrowsUnauthorizedException()
+    public function testGetTagSynonymCountThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getTagSynonymCount(
             new Tag(
@@ -555,12 +557,12 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      * @depends testLoadTag
      */
-    public function testGetRelatedContent()
+    public function testGetRelatedContent(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $content = $this->tagsService->getRelatedContent($tag);
 
-        self::assertInternalType('array', $content);
+        self::assertIsArray($content);
         self::assertCount(3, $content);
 
         foreach ($content as $contentItem) {
@@ -572,35 +574,35 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      * @depends testLoadTag
      */
-    public function testGetRelatedContentNoContent()
+    public function testGetRelatedContentNoContent(): void
     {
         $tag = $this->tagsService->loadTag(42);
         $content = $this->tagsService->getRelatedContent($tag);
 
-        self::assertInternalType('array', $content);
+        self::assertIsArray($content);
         self::assertCount(0, $content);
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      * @depends testLoadTag
      */
-    public function testGetRelatedContentThrowsNotFoundException()
+    public function testGetRelatedContentThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsService->getRelatedContent(
             $this->tagsService->loadTag(PHP_INT_MAX)
         );
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
      */
-    public function testGetRelatedContentThrowsUnauthorizedException()
+    public function testGetRelatedContentThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getRelatedContent(
             new Tag(
@@ -613,7 +615,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      * @depends testLoadTag
      */
-    public function testGetRelatedContentCount()
+    public function testGetRelatedContentCount(): void
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
             $this->tagsService->loadTag(16)
@@ -626,7 +628,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      * @depends testLoadTag
      */
-    public function testGetRelatedContentCountNoContent()
+    public function testGetRelatedContentCountNoContent(): void
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
             $this->tagsService->loadTag(42)
@@ -636,25 +638,25 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      * @depends testLoadTag
      */
-    public function testGetRelatedContentCountThrowsNotFoundException()
+    public function testGetRelatedContentCountThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsService->getRelatedContentCount(
             $this->tagsService->loadTag(PHP_INT_MAX)
         );
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
      */
-    public function testGetRelatedContentCountThrowsUnauthorizedException()
+    public function testGetRelatedContentCountThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->getRelatedContentCount(
             new Tag(
@@ -667,7 +669,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
-    public function testCreateTag()
+    public function testCreateTag(): void
     {
         $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
         $createStruct->setKeyword('Test tag');
@@ -702,7 +704,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
-    public function testCreateTagWithNoParent()
+    public function testCreateTagWithNoParent(): void
     {
         $createStruct = $this->tagsService->newTagCreateStruct(0, 'eng-GB');
         $createStruct->setKeyword('Test tag');
@@ -734,38 +736,38 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
-    public function testCreateTagThrowsInvalidArgumentValueInvalidLanguageCode()
+    public function testCreateTagThrowsInvalidArgumentValueInvalidLanguageCode(): void
     {
+        $this->expectException(InvalidArgumentValue::class);
+
         $createStruct = $this->tagsService->newTagCreateStruct(40, '');
         $this->tagsService->createTag($createStruct);
     }
 
     /**
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
-    public function testCreateTagThrowsInvalidArgumentValueInvalidRemoteId()
+    public function testCreateTagThrowsInvalidArgumentValueInvalidRemoteId(): void
     {
+        $this->expectException(InvalidArgumentValue::class);
+
         $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
         $createStruct->remoteId = 42;
         $this->tagsService->createTag($createStruct);
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
-    public function testCreateTagThrowsInvalidArgumentException()
+    public function testCreateTagThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
         $createStruct->remoteId = '182be0c5cdcd5072bb1864cdee4d3d6e';
 
@@ -773,13 +775,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
      * @depends testNewTagCreateStruct
      */
-    public function testCreateTagThrowsUnauthorizedException()
+    public function testCreateTagThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
 
         $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
@@ -793,7 +795,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTag()
+    public function testUpdateTag(): void
     {
         $tag = $this->tagsService->loadTag(40);
 
@@ -832,13 +834,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTagThrowsNotFoundException()
+    public function testUpdateTagThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $updateStruct = $this->tagsService->newTagUpdateStruct();
         $updateStruct->setKeyword('New keyword');
         $updateStruct->remoteId = 'New remote ID';
@@ -854,14 +856,14 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTagThrowsInvalidArgumentValueInvalidKeyword()
+    public function testUpdateTagThrowsInvalidArgumentValueInvalidKeyword(): void
     {
+        $this->expectException(InvalidArgumentValue::class);
+
         $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
@@ -875,14 +877,14 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTagThrowsInvalidArgumentValueInvalidRemoteId()
+    public function testUpdateTagThrowsInvalidArgumentValueInvalidRemoteId(): void
     {
+        $this->expectException(InvalidArgumentValue::class);
+
         $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
@@ -896,14 +898,14 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTagThrowsInvalidArgumentException()
+    public function testUpdateTagThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
@@ -917,13 +919,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTagThrowsUnauthorizedException()
+    public function testUpdateTagThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
@@ -941,13 +943,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
      * @depends testNewTagUpdateStruct
      */
-    public function testUpdateTagThrowsUnauthorizedExceptionForSynonym()
+    public function testUpdateTagThrowsUnauthorizedExceptionForSynonym(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
@@ -968,7 +970,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      * @depends testLoadTag
      */
-    public function testAddSynonym()
+    public function testAddSynonym(): void
     {
         $createStruct = $this->tagsService->newSynonymCreateStruct(40, 'eng-GB');
         $createStruct->setKeyword('New synonym');
@@ -1000,12 +1002,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      */
-    public function testAddSynonymThrowsNotFoundException()
+    public function testAddSynonymThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $createStruct = $this->tagsService->newSynonymCreateStruct(PHP_INT_MAX, 'eng-GB');
         $createStruct->setKeyword('Test tag');
 
@@ -1013,13 +1015,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      * @depends testLoadTag
      */
-    public function testAddSynonymThrowsInvalidArgumentValueInvalidKeyword()
+    public function testAddSynonymThrowsInvalidArgumentValueInvalidKeyword(): void
     {
+        $this->expectException(InvalidArgumentValue::class);
+
         $createStruct = $this->tagsService->newSynonymCreateStruct(95, 'eng-GB');
         $createStruct->setKeyword('');
 
@@ -1027,13 +1029,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      * @depends testLoadTag
      */
-    public function testAddSynonymThrowsInvalidArgumentException()
+    public function testAddSynonymThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $createStruct = $this->tagsService->newSynonymCreateStruct(95, 'eng-GB');
         $createStruct->setKeyword('New synonym');
 
@@ -1041,12 +1043,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
      */
-    public function testAddSynonymThrowsUnauthorizedException()
+    public function testAddSynonymThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $createStruct = $this->tagsService->newSynonymCreateStruct(40, 'eng-GB');
         $createStruct->setKeyword('New synonym');
 
@@ -1060,7 +1062,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @depends testGetTagSynonymCount
      * @depends testGetTagChildrenCount
      */
-    public function testConvertToSynonym()
+    public function testConvertToSynonym(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $mainTag = $this->tagsService->loadTag(40);
@@ -1095,7 +1097,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      */
-    public function testConvertToSynonymThrowsNotFoundException()
+    public function testConvertToSynonymThrowsNotFoundException(): void
     {
         try {
             $this->tagsService->convertToSynonym(
@@ -1138,7 +1140,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      * @depends testLoadTag
      */
-    public function testConvertToSynonymThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    public function testConvertToSynonymThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
     {
         try {
             $this->tagsService->convertToSynonym(
@@ -1162,13 +1164,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      * @depends testLoadTag
      */
-    public function testConvertToSynonymThrowsInvalidArgumentExceptionMainTagBelowTag()
+    public function testConvertToSynonymThrowsInvalidArgumentExceptionMainTagBelowTag(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->convertToSynonym(
             $this->tagsService->loadTag(7),
             $this->tagsService->loadTag(40)
@@ -1176,12 +1178,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
      */
-    public function testConvertToSynonymThrowsUnauthorizedException()
+    public function testConvertToSynonymThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->convertToSynonym(
             new Tag(
@@ -1203,7 +1205,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @depends testGetRelatedContentCount
      * @depends testGetTagChildrenCount
      */
-    public function testMergeTags()
+    public function testMergeTags(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $targetTag = $this->tagsService->loadTag(40);
@@ -1227,7 +1229,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      */
-    public function testMergeTagsThrowsNotFoundException()
+    public function testMergeTagsThrowsNotFoundException(): void
     {
         try {
             $this->tagsService->mergeTags(
@@ -1270,7 +1272,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      * @depends testLoadTag
      */
-    public function testMergeTagsThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    public function testMergeTagsThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
     {
         try {
             $this->tagsService->mergeTags(
@@ -1294,13 +1296,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      * @depends testLoadTag
      */
-    public function testMergeTagsThrowsInvalidArgumentExceptionTargetTagBelowTag()
+    public function testMergeTagsThrowsInvalidArgumentExceptionTargetTagBelowTag(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->mergeTags(
             $this->tagsService->loadTag(7),
             $this->tagsService->loadTag(40)
@@ -1308,12 +1310,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
      */
-    public function testMergeTagsThrowsUnauthorizedException()
+    public function testMergeTagsThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->mergeTags(
             new Tag(
@@ -1332,7 +1334,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         self::markTestIncomplete('@TODO: Implement test for copySubtree');
     }
@@ -1340,7 +1342,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      */
-    public function testCopySubtreeThrowsNotFoundException()
+    public function testCopySubtreeThrowsNotFoundException(): void
     {
         try {
             $this->tagsService->copySubtree(
@@ -1383,7 +1385,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      * @depends testLoadTag
      */
-    public function testCopySubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    public function testCopySubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
     {
         try {
             $this->tagsService->copySubtree(
@@ -1407,13 +1409,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      * @depends testLoadTag
      */
-    public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
+    public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->copySubtree(
             $this->tagsService->loadTag(7),
             $this->tagsService->loadTag(40)
@@ -1421,13 +1423,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      * @depends testLoadTag
      */
-    public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
+    public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->copySubtree(
             $this->tagsService->loadTag(7),
             $this->tagsService->loadTag(8)
@@ -1435,12 +1437,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
      */
-    public function testCopySubtreeThrowsUnauthorizedException()
+    public function testCopySubtreeThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->copySubtree(
             new Tag(
@@ -1461,7 +1463,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @depends testLoadTag
      * @depends testLoadTagSynonyms
      */
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $targetParentTag = $this->tagsService->loadTag(40);
@@ -1496,7 +1498,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      */
-    public function testMoveSubtreeThrowsNotFoundException()
+    public function testMoveSubtreeThrowsNotFoundException(): void
     {
         try {
             $this->tagsService->moveSubtree(
@@ -1539,7 +1541,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      */
-    public function testMoveSubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms()
+    public function testMoveSubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
     {
         try {
             $this->tagsService->moveSubtree(
@@ -1563,13 +1565,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      */
-    public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag()
+    public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->moveSubtree(
             $this->tagsService->loadTag(7),
             $this->tagsService->loadTag(40)
@@ -1577,13 +1579,13 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      * @depends testLoadTag
      */
-    public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent()
+    public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->tagsService->moveSubtree(
             $this->tagsService->loadTag(7),
             $this->tagsService->loadTag(8)
@@ -1591,12 +1593,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
      */
-    public function testMoveSubtreeThrowsUnauthorizedException()
+    public function testMoveSubtreeThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->moveSubtree(
             new Tag(
@@ -1618,7 +1620,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      * @depends testLoadTagSynonyms
      * @depends testLoadTagChildren
      */
-    public function testDeleteTag()
+    public function testDeleteTag(): void
     {
         $tag = $this->tagsService->loadTag(16);
         $tagSynonyms = $this->tagsService->loadTagSynonyms($tag);
@@ -1653,12 +1655,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
      */
-    public function testDeleteTagThrowsNotFoundException()
+    public function testDeleteTagThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsService->deleteTag(
             new Tag(
                 [
@@ -1669,12 +1671,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
      */
-    public function testDeleteTagThrowsUnauthorizedException()
+    public function testDeleteTagThrowsUnauthorizedException(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->deleteTag(
             new Tag(
@@ -1686,12 +1688,12 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     *
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
      */
-    public function testDeleteTagThrowsUnauthorizedExceptionForSynonym()
+    public function testDeleteTagThrowsUnauthorizedExceptionForSynonym(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $this->repository->setCurrentUser($this->getStubbedUser(10));
         $this->tagsService->deleteTag(
             new Tag(

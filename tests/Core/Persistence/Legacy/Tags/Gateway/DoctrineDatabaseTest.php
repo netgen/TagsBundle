@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
@@ -23,7 +24,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Sets up the test suite.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -110,7 +111,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetBasicTagData($field, $value)
+    public function testGetBasicTagData($field, $value): void
     {
         $data = $this->tagsGateway->getBasicTagData(40);
 
@@ -123,10 +124,11 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
-    public function testGetBasicTagDataThrowsNotFoundException()
+    public function testGetBasicTagDataThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsGateway->getBasicTagData(999);
     }
 
@@ -137,7 +139,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetBasicTagDataByRemoteId($field, $value)
+    public function testGetBasicTagDataByRemoteId($field, $value): void
     {
         $data = $this->tagsGateway->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
@@ -150,10 +152,11 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByRemoteId
-     * @expectedException \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
-    public function testGetBasicTagDataByRemoteIdThrowsNotFoundException()
+    public function testGetBasicTagDataByRemoteIdThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->tagsGateway->getBasicTagDataByRemoteId('unknown');
     }
 
@@ -165,7 +168,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagData($field, $value)
+    public function testGetFullTagData($field, $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40);
 
@@ -179,7 +182,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
      */
-    public function testGetNonExistentFullTagData()
+    public function testGetNonExistentFullTagData(): void
     {
         $data = $this->tagsGateway->getFullTagData(999);
 
@@ -194,7 +197,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataWithoutAlwaysAvailable($field, $value)
+    public function testGetFullTagDataWithoutAlwaysAvailable($field, $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40, ['eng-GB'], false);
 
@@ -208,7 +211,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
      */
-    public function testGetNonExistentFullTagDataWithoutAlwaysAvailable()
+    public function testGetNonExistentFullTagDataWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getFullTagData(40, ['cro-HR'], false);
 
@@ -223,7 +226,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByRemoteId($field, $value)
+    public function testGetFullTagDataByRemoteId($field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
@@ -237,7 +240,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
      */
-    public function testGetNonExistentFullTagDataByRemoteId()
+    public function testGetNonExistentFullTagDataByRemoteId(): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('unknown');
 
@@ -252,7 +255,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable($field, $value)
+    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable($field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['eng-GB'], false);
 
@@ -266,7 +269,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
      */
-    public function testGetNonExistentFullTagDataByRemoteIdWithoutAlwaysAvailable()
+    public function testGetNonExistentFullTagDataByRemoteIdWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['cro-HR'], false);
 
@@ -281,7 +284,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByKeywordIdAndParentId($field, $value)
+    public function testGetFullTagDataByKeywordIdAndParentId($field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7);
 
@@ -295,7 +298,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      */
-    public function testGetNonExistentFullTagDataByKeywordIdAndParentId()
+    public function testGetNonExistentFullTagDataByKeywordIdAndParentId(): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('unknown', 999);
 
@@ -310,7 +313,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable($field, $value)
+    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable($field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['eng-GB'], false);
 
@@ -324,7 +327,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      */
-    public function testGetNonExistentFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable()
+    public function testGetNonExistentFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['cro-HR'], false);
 
@@ -335,7 +338,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
      */
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $data = $this->tagsGateway->getChildren(16);
 
@@ -352,7 +355,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
      */
-    public function testGetChildrenCount()
+    public function testGetChildrenCount(): void
     {
         $tagsCount = $this->tagsGateway->getChildrenCount(16);
 
@@ -363,7 +366,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
      */
-    public function testGetChildrenWithoutAlwaysAvailable()
+    public function testGetChildrenWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getChildren(16, 0, -1, ['eng-GB'], false);
 
@@ -380,7 +383,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
      */
-    public function testGetChildrenCountWithoutAlwaysAvailable()
+    public function testGetChildrenCountWithoutAlwaysAvailable(): void
     {
         $tagsCount = $this->tagsGateway->getChildrenCount(16, ['eng-GB'], false);
 
@@ -391,7 +394,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildren
      */
-    public function testGetChildrenWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    public function testGetChildrenWithoutAlwaysAvailableAndWithNonExistentLanguageCode(): void
     {
         $data = $this->tagsGateway->getChildren(16, 0, -1, ['cro-HR'], false);
 
@@ -402,7 +405,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getChildrenCount
      */
-    public function testGetChildrenCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    public function testGetChildrenCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode(): void
     {
         $tagsCount = $this->tagsGateway->getChildrenCount(16, ['cro-HR'], false);
 
@@ -413,7 +416,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeyword
      */
-    public function testGetTagsByKeyword()
+    public function testGetTagsByKeyword(): void
     {
         $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB');
 
@@ -426,7 +429,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeywordCount
      */
-    public function testGetTagsByKeywordCount()
+    public function testGetTagsByKeywordCount(): void
     {
         $tagsCount = $this->tagsGateway->getTagsByKeywordCount('eztags', 'eng-GB');
 
@@ -437,7 +440,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeyword
      */
-    public function testGetTagsByKeywordWithoutAlwaysAvailable()
+    public function testGetTagsByKeywordWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB', false);
 
@@ -450,7 +453,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getTagsByKeywordCount
      */
-    public function testGetTagsByKeywordCountWithoutAlwaysAvailable()
+    public function testGetTagsByKeywordCountWithoutAlwaysAvailable(): void
     {
         $tagsCount = $this->tagsGateway->getTagsByKeywordCount('eztags', 'eng-GB', false);
 
@@ -461,7 +464,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
      */
-    public function testGetSynonyms()
+    public function testGetSynonyms(): void
     {
         $data = $this->tagsGateway->getSynonyms(16);
 
@@ -474,7 +477,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
      */
-    public function testGetSynonymCount()
+    public function testGetSynonymCount(): void
     {
         $tagsCount = $this->tagsGateway->getSynonymCount(16);
 
@@ -485,7 +488,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
      */
-    public function testGetSynonymsWithoutAlwaysAvailable()
+    public function testGetSynonymsWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getSynonyms(16, 0, -1, ['eng-GB'], false);
 
@@ -498,7 +501,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
      */
-    public function testGetSynonymCountWithoutAlwaysAvailable()
+    public function testGetSynonymCountWithoutAlwaysAvailable(): void
     {
         $tagsCount = $this->tagsGateway->getSynonymCount(16, ['eng-GB'], false);
 
@@ -509,7 +512,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonyms
      */
-    public function testGetSynonymsWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    public function testGetSynonymsWithoutAlwaysAvailableAndWithNonExistentLanguageCode(): void
     {
         $data = $this->tagsGateway->getSynonyms(16, 0, -1, ['cro-HR'], false);
 
@@ -520,7 +523,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagCountQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymCount
      */
-    public function testGetSynonymCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode()
+    public function testGetSynonymCountWithoutAlwaysAvailableAndWithNonExistentLanguageCode(): void
     {
         $tagsCount = $this->tagsGateway->getSynonymCount(16, ['cro-HR'], false);
 
@@ -531,7 +534,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::moveSynonym
      */
-    public function testMoveSynonym()
+    public function testMoveSynonym(): void
     {
         $this->tagsGateway->moveSynonym(
             95,
@@ -560,7 +563,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::generateLanguageMask
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->tagsGateway->create(
             new CreateStruct(
@@ -597,7 +600,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::generateLanguageMask
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
      */
-    public function testCreateWithNoParent()
+    public function testCreateWithNoParent(): void
     {
         $this->tagsGateway->create(
             new CreateStruct(
@@ -629,7 +632,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::update
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->tagsGateway->update(
             new UpdateStruct(
@@ -661,7 +664,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::insertTagKeywords
      */
-    public function testCreateSynonym()
+    public function testCreateSynonym(): void
     {
         $this->tagsGateway->createSynonym(
             new SynonymCreateStruct(
@@ -697,7 +700,7 @@ class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::convertToSynonym
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getSynonymPathString
      */
-    public function testConvertToSynonym()
+    public function testConvertToSynonym(): void
     {
         $this->tagsGateway->convertToSynonym(
             80,
@@ -724,7 +727,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::transferTagAttributeLinks
      */
-    public function testTransferTagAttributeLinks()
+    public function testTransferTagAttributeLinks(): void
     {
         $this->tagsGateway->transferTagAttributeLinks(16, 40);
 
@@ -745,7 +748,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::moveSubtree
      */
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $this->tagsGateway->moveSubtree(
             [
@@ -780,7 +783,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::deleteTag
      */
-    public function testDeleteTag()
+    public function testDeleteTag(): void
     {
         $this->tagsGateway->deleteTag(7);
 

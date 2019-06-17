@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
@@ -40,7 +41,7 @@ class TagsHandlerTest extends TestCase
      */
     protected $tagsHandler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tagsHandler = $this->getTagsHandler();
     }
@@ -49,7 +50,7 @@ class TagsHandlerTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -80,10 +81,11 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::load
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
-    public function testLoadThrowsNotFoundException()
+    public function testLoadThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->gateway
             ->expects(self::once())
             ->method('getFullTagData')
@@ -100,7 +102,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagInfo
      */
-    public function testLoadTagInfo()
+    public function testLoadTagInfo(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -129,7 +131,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByRemoteId
      */
-    public function testLoadByRemoteId()
+    public function testLoadByRemoteId(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -159,10 +161,11 @@ class TagsHandlerTest extends TestCase
 
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadByRemoteId
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
-    public function testLoadByRemoteIdThrowsNotFoundException()
+    public function testLoadByRemoteIdThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->gateway
             ->expects(self::once())
             ->method('getFullTagDataByRemoteId')
@@ -179,7 +182,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagInfoByRemoteId
      */
-    public function testLoadTagInfoByRemoteId()
+    public function testLoadTagInfoByRemoteId(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -208,7 +211,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagByKeywordAndParentId
      */
-    public function testLoadTagByKeywordAndParentId()
+    public function testLoadTagByKeywordAndParentId(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -239,11 +242,12 @@ class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagByKeywordAndParentId
      */
-    public function testLoadTagByKeywordAndParentIdThrowsNotFoundException()
+    public function testLoadTagByKeywordAndParentIdThrowsNotFoundException(): void
     {
+        $this->expectException(NotFoundException::class);
+
         $this->gateway
             ->expects(self::once())
             ->method('getFullTagDataByKeywordAndParentId')
@@ -255,7 +259,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadChildren
      */
-    public function testLoadChildren()
+    public function testLoadChildren(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -308,7 +312,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getChildrenCount
      */
-    public function testGetChildrenCount()
+    public function testGetChildrenCount(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -324,7 +328,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadTagsByKeyword
      */
-    public function testLoadTagsByKeyword()
+    public function testLoadTagsByKeyword(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -374,7 +378,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getTagsByKeywordCount
      */
-    public function testGetTagsByKeywordCount()
+    public function testGetTagsByKeywordCount(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -390,7 +394,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::loadSynonyms
      */
-    public function testLoadSynonyms()
+    public function testLoadSynonyms(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -443,7 +447,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::getSynonymCount
      */
-    public function testGetSynonymCount()
+    public function testGetSynonymCount(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -459,7 +463,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getTagsHandler(['load']);
 
@@ -503,18 +507,18 @@ class TagsHandlerTest extends TestCase
             ->with(95)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 95,
-                            'parentTagId' => 21,
-                            'mainTagId' => 0,
-                            'keywords' => ['eng-GB' => 'New tag'],
-                            'depth' => 3,
-                            'pathString' => '/1/2/95/',
-                            'remoteId' => '123456abcdef',
-                            'alwaysAvailable' => true,
-                            'mainLanguageCode' => 'eng-GB',
-                            'languageIds' => [4],
-                        ]
+                    [
+                        'id' => 95,
+                        'parentTagId' => 21,
+                        'mainTagId' => 0,
+                        'keywords' => ['eng-GB' => 'New tag'],
+                        'depth' => 3,
+                        'pathString' => '/1/2/95/',
+                        'remoteId' => '123456abcdef',
+                        'alwaysAvailable' => true,
+                        'mainLanguageCode' => 'eng-GB',
+                        'languageIds' => [4],
+                    ]
                     )
             );
 
@@ -552,7 +556,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::create
      */
-    public function testCreateWithNoParent()
+    public function testCreateWithNoParent(): void
     {
         $handler = $this->getTagsHandler(['load']);
 
@@ -579,18 +583,18 @@ class TagsHandlerTest extends TestCase
             ->with(95)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 95,
-                            'parentTagId' => 0,
-                            'mainTagId' => 0,
-                            'keywords' => ['eng-GB' => 'New tag'],
-                            'depth' => 3,
-                            'pathString' => '/1/2/95/',
-                            'remoteId' => '123456abcdef',
-                            'alwaysAvailable' => true,
-                            'mainLanguageCode' => 'eng-GB',
-                            'languageIds' => [4],
-                        ]
+                    [
+                        'id' => 95,
+                        'parentTagId' => 0,
+                        'mainTagId' => 0,
+                        'keywords' => ['eng-GB' => 'New tag'],
+                        'depth' => 3,
+                        'pathString' => '/1/2/95/',
+                        'remoteId' => '123456abcdef',
+                        'alwaysAvailable' => true,
+                        'mainLanguageCode' => 'eng-GB',
+                        'languageIds' => [4],
+                    ]
                     )
             );
 
@@ -628,7 +632,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::update
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getTagsHandler(['load']);
 
@@ -653,14 +657,14 @@ class TagsHandlerTest extends TestCase
             ->with(40)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 40,
-                            'keywords' => ['eng-US' => 'Updated tag US', 'eng-GB' => 'Updated tag'],
-                            'remoteId' => '123456abcdef',
-                            'mainLanguageCode' => 'eng-US',
-                            'alwaysAvailable' => true,
-                            'languageIds' => [2, 4],
-                        ]
+                    [
+                        'id' => 40,
+                        'keywords' => ['eng-US' => 'Updated tag US', 'eng-GB' => 'Updated tag'],
+                        'remoteId' => '123456abcdef',
+                        'mainLanguageCode' => 'eng-US',
+                        'alwaysAvailable' => true,
+                        'languageIds' => [2, 4],
+                    ]
                     )
             );
 
@@ -697,7 +701,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::addSynonym
      */
-    public function testAddSynonym()
+    public function testAddSynonym(): void
     {
         $handler = $this->getTagsHandler(['load']);
 
@@ -744,18 +748,18 @@ class TagsHandlerTest extends TestCase
             ->with(95)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 95,
-                            'parentTagId' => 1,
-                            'mainTagId' => 21,
-                            'keywords' => ['eng-GB' => 'New synonym'],
-                            'depth' => 2,
-                            'pathString' => '/1/95/',
-                            'remoteId' => '12345',
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                            'languageIds' => [4],
-                        ]
+                    [
+                        'id' => 95,
+                        'parentTagId' => 1,
+                        'mainTagId' => 21,
+                        'keywords' => ['eng-GB' => 'New synonym'],
+                        'depth' => 2,
+                        'pathString' => '/1/95/',
+                        'remoteId' => '12345',
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                        'languageIds' => [4],
+                    ]
                     )
             );
 
@@ -796,7 +800,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::convertToSynonym
      */
-    public function testConvertToSynonym()
+    public function testConvertToSynonym(): void
     {
         $handler = $this->getTagsHandler(['loadTagInfo', 'loadSynonyms', 'load']);
 
@@ -854,9 +858,9 @@ class TagsHandlerTest extends TestCase
             ->with(16)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 16,
-                        ]
+                    [
+                        'id' => 16,
+                    ]
                     )
             );
 
@@ -878,7 +882,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::merge
      */
-    public function testMerge()
+    public function testMerge(): void
     {
         $handler = $this->getTagsHandler(['loadTagInfo', 'loadSynonyms']);
 
@@ -916,7 +920,7 @@ class TagsHandlerTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::copySubtree
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::recursiveCopySubtree
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         self::markTestIncomplete('@TODO: Implement test for copySubtree');
     }
@@ -924,7 +928,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::moveSubtree
      */
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $handler = $this->getTagsHandler(['load']);
 
@@ -973,13 +977,13 @@ class TagsHandlerTest extends TestCase
             ->with($movedData['id'])
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => $movedData['id'],
-                            'parentTagId' => $movedData['parent_id'],
-                            'depth' => $movedData['depth'],
-                            'pathString' => $movedData['path_string'],
-                            'modificationDate' => $movedData['modified'],
-                        ]
+                    [
+                        'id' => $movedData['id'],
+                        'parentTagId' => $movedData['parent_id'],
+                        'depth' => $movedData['depth'],
+                        'pathString' => $movedData['path_string'],
+                        'modificationDate' => $movedData['modified'],
+                    ]
                     )
             );
 
@@ -1005,7 +1009,7 @@ class TagsHandlerTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::deleteTag
      */
-    public function testDeleteTag()
+    public function testDeleteTag(): void
     {
         $handler = $this->getTagsHandler(['loadTagInfo']);
 
@@ -1015,10 +1019,10 @@ class TagsHandlerTest extends TestCase
             ->with(40)
             ->willReturn(
                 new TagInfo(
-                        [
-                            'id' => 40,
-                            'parentTagId' => 21,
-                        ]
+                    [
+                        'id' => 40,
+                        'parentTagId' => 21,
+                    ]
                     )
             );
 

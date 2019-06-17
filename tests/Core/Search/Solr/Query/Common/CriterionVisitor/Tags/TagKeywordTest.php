@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler;
@@ -29,7 +30,7 @@ class TagKeywordTest extends TestCase
      */
     protected $visitor;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fieldNameResolver = $this->createMock(FieldNameResolver::class);
 
@@ -47,7 +48,7 @@ class TagKeywordTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword::canVisit
      */
-    public function testCanVisit()
+    public function testCanVisit(): void
     {
         $criterion = new Criterion\TagKeyword(Operator::IN, ['tag1', 'tag2']);
         self::assertTrue($this->visitor->canVisit($criterion));
@@ -56,7 +57,7 @@ class TagKeywordTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword::canVisit
      */
-    public function testCanVisitReturnsFalse()
+    public function testCanVisitReturnsFalse(): void
     {
         $criterion = new LocationId(['tag1', 'tag2']);
         self::assertFalse($this->visitor->canVisit($criterion));
@@ -66,7 +67,7 @@ class TagKeywordTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword::visit
      */
-    public function testVisit()
+    public function testVisit(): void
     {
         $criterion = new Criterion\TagKeyword(Operator::IN, ['tag1', 'tag2'], 'tags_field');
 
@@ -100,7 +101,7 @@ class TagKeywordTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword::visit
      */
-    public function testVisitWithoutTarget()
+    public function testVisitWithoutTarget(): void
     {
         $criterion = new Criterion\TagKeyword(Operator::IN, ['tag1', 'tag2']);
 
@@ -161,10 +162,11 @@ class TagKeywordTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword::visit
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testVisitThrowsInvalidArgumentException()
+    public function testVisitThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $criterion = new Criterion\TagKeyword(Operator::IN, ['tag1', 'tag2'], 'tags_field');
 
         $this->fieldNameResolver

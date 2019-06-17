@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\API\Repository\Values\User\Limitation;
 
+use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use eZ\Publish\API\Repository\Tests\Values\User\Limitation\BaseLimitationTest;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 
@@ -10,7 +11,7 @@ class TagLimitationTest extends BaseLimitationTest
     /**
      * Test for the TagLimitation that allows access.
      */
-    public function testTagLimitationAllow()
+    public function testTagLimitationAllow(): void
     {
         $repository = $this->getRepository();
 
@@ -62,11 +63,11 @@ class TagLimitationTest extends BaseLimitationTest
 
     /**
      * Test for the TagLimitation that forbids access.
-     *
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
-    public function testTagLimitationForbid()
+    public function testTagLimitationForbid(): void
     {
+        $this->expectException(UnauthorizedException::class);
+
         $repository = $this->getRepository();
 
         /** @var \Netgen\TagsBundle\Tests\API\Repository\SetupFactory\Legacy $setupFactory */

@@ -18,7 +18,7 @@ class RelatedContentAdapterTest extends TestCase
     /**
      * Sets up the test.
      */
-    protected function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->tagsService = $this->createMock(TagsService::class);
@@ -29,7 +29,7 @@ class RelatedContentAdapterTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getNbResults
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
-    public function testGetNbResults()
+    public function testGetNbResults(): void
     {
         $nbResults = 4;
 
@@ -57,7 +57,7 @@ class RelatedContentAdapterTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getNbResults
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
-    public function testGetNbResultsWithoutTag()
+    public function testGetNbResultsWithoutTag(): void
     {
         $this->tagsService
             ->expects(self::never())
@@ -72,7 +72,7 @@ class RelatedContentAdapterTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getSlice
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
-    public function testGetSlice()
+    public function testGetSlice(): void
     {
         $offset = 2;
         $limit = 2;
@@ -127,7 +127,7 @@ class RelatedContentAdapterTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::getSlice
      * @covers \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter::setTag
      */
-    public function testGetSliceWithoutTag()
+    public function testGetSliceWithoutTag(): void
     {
         $this->tagsService
             ->expects(self::never())

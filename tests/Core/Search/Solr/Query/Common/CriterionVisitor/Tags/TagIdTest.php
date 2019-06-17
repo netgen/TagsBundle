@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
 use eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler;
 use eZ\Publish\Core\Search\Common\FieldNameResolver;
@@ -28,7 +29,7 @@ class TagIdTest extends TestCase
      */
     protected $visitor;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fieldNameResolver = $this->createMock(FieldNameResolver::class);
 
@@ -46,7 +47,7 @@ class TagIdTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::canVisit
      */
-    public function testCanVisit()
+    public function testCanVisit(): void
     {
         $criterion = new Criterion\TagId([42, 43]);
         self::assertTrue($this->visitor->canVisit($criterion));
@@ -55,7 +56,7 @@ class TagIdTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::canVisit
      */
-    public function testCanVisitReturnsFalse()
+    public function testCanVisitReturnsFalse(): void
     {
         $criterion = new LocationId([42, 43]);
         self::assertFalse($this->visitor->canVisit($criterion));
@@ -65,7 +66,7 @@ class TagIdTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      */
-    public function testVisit()
+    public function testVisit(): void
     {
         $criterion = new Criterion\TagId([42, 43], 'tags_field');
 
@@ -99,7 +100,7 @@ class TagIdTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
      */
-    public function testVisitWithoutTarget()
+    public function testVisitWithoutTarget(): void
     {
         $criterion = new Criterion\TagId([42, 43]);
 
@@ -160,10 +161,11 @@ class TagIdTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags::getSearchFields
      * @covers \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId::visit
-     * @expectedException \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testVisitThrowsInvalidArgumentException()
+    public function testVisitThrowsInvalidArgumentException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $criterion = new Criterion\TagId([42, 43], 'tags_field');
 
         $this->fieldNameResolver

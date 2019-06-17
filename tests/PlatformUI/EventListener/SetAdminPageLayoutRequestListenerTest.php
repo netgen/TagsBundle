@@ -38,7 +38,7 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
      */
     protected $pageLayoutTemplate;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->globalVariable = $this->getMockBuilder(AdminGlobalVariable::class)
             ->disableOriginalConstructor()
@@ -64,22 +64,22 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
         $this->listener = new SetAdminPageLayoutRequestListener($this->globalVariable, $this->pageLayoutTemplate);
     }
 
-    public function testInstanceOfEventSubscriberInterface()
+    public function testInstanceOfEventSubscriberInterface(): void
     {
         self::assertInstanceOf(EventSubscriberInterface::class, $this->listener);
     }
 
-    public function testInstanceOfPlatformUIListener()
+    public function testInstanceOfPlatformUIListener(): void
     {
         self::assertInstanceOf(PlatformUIListener::class, $this->listener);
     }
 
-    public function testGetSubscribedEventShouldReturnValidConfiguration()
+    public function testGetSubscribedEventShouldReturnValidConfiguration(): void
     {
         self::assertSame([KernelEvents::REQUEST => 'onKernelRequest'], SetAdminPageLayoutRequestListener::getSubscribedEvents());
     }
 
-    public function testIsMasterRequestFalse()
+    public function testIsMasterRequestFalse(): void
     {
         $this->event->expects(self::once())
             ->method('isMasterRequest')
@@ -94,7 +94,7 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testIsMasterRequestTrue()
+    public function testIsMasterRequestTrue(): void
     {
         $this->event->expects(self::once())
             ->method('isMasterRequest')
@@ -111,7 +111,7 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
         $this->listener->onKernelRequest($this->event);
     }
 
-    public function testIsPlatformUIRequestFalse()
+    public function testIsPlatformUIRequestFalse(): void
     {
         $this->event->expects(self::once())
             ->method('isMasterRequest')

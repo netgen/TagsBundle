@@ -40,7 +40,7 @@ class RedirectResponseListenerTest extends TestCase
      */
     protected $event;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listener = new RedirectResponseListener();
 
@@ -69,22 +69,22 @@ class RedirectResponseListenerTest extends TestCase
             ->getMock();
     }
 
-    public function testInstanceOfEventSubscriberInterface()
+    public function testInstanceOfEventSubscriberInterface(): void
     {
         self::assertInstanceOf(EventSubscriberInterface::class, $this->listener);
     }
 
-    public function testInstanceOfPlatformUIListener()
+    public function testInstanceOfPlatformUIListener(): void
     {
         self::assertInstanceOf(PlatformUIListener::class, $this->listener);
     }
 
-    public function testGetSubscribedEventShouldReturnValidConfiguration()
+    public function testGetSubscribedEventShouldReturnValidConfiguration(): void
     {
         self::assertSame([KernelEvents::RESPONSE => 'onKernelResponse'], RedirectResponseListener::getSubscribedEvents());
     }
 
-    public function testIfNotMasterRequestThenReturn()
+    public function testIfNotMasterRequestThenReturn(): void
     {
         $this->event->expects(self::once())
             ->method('getResponse')
@@ -103,7 +103,7 @@ class RedirectResponseListenerTest extends TestCase
         $this->listener->onKernelResponse($this->event);
     }
 
-    public function testIfIsRedirectThenReturn()
+    public function testIfIsRedirectThenReturn(): void
     {
         $this->event->expects(self::once())
             ->method('getResponse')
@@ -123,7 +123,7 @@ class RedirectResponseListenerTest extends TestCase
         $this->listener->onKernelResponse($this->event);
     }
 
-    public function testValidRequest()
+    public function testValidRequest(): void
     {
         $url = 'test.com';
 
@@ -142,7 +142,7 @@ class RedirectResponseListenerTest extends TestCase
         self::assertFalse($response->headers->has('Location'));
     }
 
-    public function testIsPlatformUIRequestWithRoute()
+    public function testIsPlatformUIRequestWithRoute(): void
     {
         $this->event->expects(self::once())
             ->method('getResponse')
@@ -166,7 +166,7 @@ class RedirectResponseListenerTest extends TestCase
         $this->listener->onKernelResponse($this->event);
     }
 
-    public function testIsPlatformUIRequestWithHeaders()
+    public function testIsPlatformUIRequestWithHeaders(): void
     {
         $this->event->expects(self::once())
             ->method('getResponse')

@@ -94,7 +94,7 @@ class MapperTest extends TestCase
         'languageIds' => [8],
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tagsMapper = $this->getMapper();
     }
@@ -103,7 +103,7 @@ class MapperTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::createTagInfoFromRow
      */
-    public function testCreateTagInfoFromRow()
+    public function testCreateTagInfoFromRow(): void
     {
         $tag = $this->tagsMapper->createTagInfoFromRow(
             $this->tagRow
@@ -124,7 +124,7 @@ class MapperTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper::extractTagListFromRows
      */
-    public function testExtractTagListFromRows()
+    public function testExtractTagListFromRows(): void
     {
         $inputRows = [];
         for ($i = 0; $i < 3; ++$i) {

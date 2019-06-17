@@ -36,7 +36,7 @@ class TagsServiceTest extends TestCase
     /**
      * Sets up the test.
      */
-    protected function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -49,7 +49,7 @@ class TagsServiceTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::__construct
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTag
      */
-    public function testLoadTag()
+    public function testLoadTag(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -69,7 +69,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTagByRemoteId
      */
-    public function testLoadTagByRemoteId()
+    public function testLoadTagByRemoteId(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -89,7 +89,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTagByUrl
      */
-    public function testLoadTagByUrl()
+    public function testLoadTagByUrl(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -109,7 +109,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTagChildren
      */
-    public function testLoadTagChildren()
+    public function testLoadTagChildren(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -136,7 +136,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::getTagChildrenCount
      */
-    public function testGetTagChildrenCount()
+    public function testGetTagChildrenCount(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -153,7 +153,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTagsByKeyword
      */
-    public function testLoadTagsByKeyword()
+    public function testLoadTagsByKeyword(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -180,7 +180,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::getTagsByKeywordCount
      */
-    public function testGetTagsByKeywordCount()
+    public function testGetTagsByKeywordCount(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -197,7 +197,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::loadTagSynonyms
      */
-    public function testLoadTagSynonyms()
+    public function testLoadTagSynonyms(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -224,7 +224,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::getTagSynonymCount
      */
-    public function testGetTagSynonymCount()
+    public function testGetTagSynonymCount(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -241,7 +241,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::getRelatedContent
      */
-    public function testGetRelatedContent()
+    public function testGetRelatedContent(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -267,7 +267,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::getRelatedContentCount
      */
-    public function testGetRelatedContentCount()
+    public function testGetRelatedContentCount(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -284,7 +284,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::createTag
      */
-    public function testCreateTag()
+    public function testCreateTag(): void
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = '42';
@@ -298,13 +298,13 @@ class TagsServiceTest extends TestCase
             ->with(self::equalTo($tagCreateStruct))
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 24,
-                            'parentTagId' => 42,
-                            'keywords' => ['eng-GB' => 'netgen'],
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                        ]
+                    [
+                        'id' => 24,
+                        'parentTagId' => 42,
+                        'keywords' => ['eng-GB' => 'netgen'],
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                    ]
                     )
             );
 
@@ -340,7 +340,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::updateTag
      */
-    public function testUpdateTag()
+    public function testUpdateTag(): void
     {
         $tagUpdateStruct = new TagUpdateStruct();
         $tagUpdateStruct->alwaysAvailable = true;
@@ -365,13 +365,13 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 42,
-                            'keywords' => ['eng-GB' => 'netgen'],
-                            'remoteId' => '123456',
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                        ]
+                    [
+                        'id' => 42,
+                        'keywords' => ['eng-GB' => 'netgen'],
+                        'remoteId' => '123456',
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                    ]
                     )
             );
 
@@ -407,7 +407,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::addSynonym
      */
-    public function testAddSynonym()
+    public function testAddSynonym(): void
     {
         $synonymCreateStruct = new SynonymCreateStruct();
         $synonymCreateStruct->mainTagId = '42';
@@ -425,13 +425,13 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 24,
-                            'keywords' => ['eng-GB' => 'netgenlabs'],
-                            'mainTagId' => 42,
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                        ]
+                    [
+                        'id' => 24,
+                        'keywords' => ['eng-GB' => 'netgenlabs'],
+                        'mainTagId' => 42,
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                    ]
                     )
             );
 
@@ -467,7 +467,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::convertToSynonym
      */
-    public function testConvertToSynonym()
+    public function testConvertToSynonym(): void
     {
         $tag = new Tag(
             [
@@ -490,10 +490,10 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 42,
-                            'mainTagId' => 24,
-                        ]
+                    [
+                        'id' => 42,
+                        'mainTagId' => 24,
+                    ]
                     )
             );
 
@@ -523,7 +523,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::mergeTags
      */
-    public function testMergeTags()
+    public function testMergeTags(): void
     {
         $tag = new Tag(
             [
@@ -566,7 +566,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::copySubtree
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $tag = new Tag(
             [
@@ -590,11 +590,11 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 42,
-                            'parentTagId' => 25,
-                            'keywords' => ['eng-GB' => 'netgen'],
-                        ]
+                    [
+                        'id' => 42,
+                        'parentTagId' => 25,
+                        'keywords' => ['eng-GB' => 'netgen'],
+                    ]
                     )
             );
 
@@ -626,7 +626,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::moveSubtree
      */
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $tag = new Tag(
             [
@@ -649,10 +649,10 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 24,
-                            'parentTagId' => 25,
-                        ]
+                    [
+                        'id' => 24,
+                        'parentTagId' => 25,
+                    ]
                     )
             );
 
@@ -682,7 +682,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::deleteTag
      */
-    public function testDeleteTag()
+    public function testDeleteTag(): void
     {
         $tag = new Tag(
             [
@@ -717,7 +717,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::newTagCreateStruct
      */
-    public function testNewTagCreateStruct()
+    public function testNewTagCreateStruct(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -738,7 +738,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::newSynonymCreateStruct
      */
-    public function testNewSynonymCreateStruct()
+    public function testNewSynonymCreateStruct(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -759,7 +759,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::newTagUpdateStruct
      */
-    public function testNewTagUpdateStruct()
+    public function testNewTagUpdateStruct(): void
     {
         $this->tagsService
             ->expects(self::once())
@@ -777,7 +777,7 @@ class TagsServiceTest extends TestCase
     /**
      * @covers \Netgen\TagsBundle\Core\SignalSlot\TagsService::sudo
      */
-    public function testSudo()
+    public function testSudo(): void
     {
         $callback = static function () {
         };

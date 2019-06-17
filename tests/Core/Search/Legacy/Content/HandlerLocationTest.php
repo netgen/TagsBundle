@@ -36,7 +36,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
      * time, which is not required to spent, since we are only reading from the
      * database anyways.
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::$setUp) {
             parent::setUp();
@@ -60,7 +60,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         }
     }
 
-    public function testTagIdFilter()
+    public function testTagIdFilter(): void
     {
         $this->assertSearchResults(
             [59, 62],
@@ -76,7 +76,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagIdFilterWithTarget()
+    public function testTagIdFilterWithTarget(): void
     {
         $this->assertSearchResults(
             [59],
@@ -92,7 +92,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagIdFilterIn()
+    public function testTagIdFilterIn(): void
     {
         $this->assertSearchResults(
             [59, 62, 63],
@@ -108,7 +108,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagIdFilterWithLogicalAnd()
+    public function testTagIdFilterWithLogicalAnd(): void
     {
         $this->assertSearchResults(
             [59],
@@ -129,7 +129,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagKeywordFilter()
+    public function testTagKeywordFilter(): void
     {
         $this->assertSearchResults(
             [59, 62],
@@ -145,7 +145,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagKeywordFilterWithTarget()
+    public function testTagKeywordFilterWithTarget(): void
     {
         $this->assertSearchResults(
             [59],
@@ -161,7 +161,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagKeywordFilterIn()
+    public function testTagKeywordFilterIn(): void
     {
         $this->assertSearchResults(
             [59, 62, 63],
@@ -177,7 +177,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagKeywordFilterInWithLogicalAnd()
+    public function testTagKeywordFilterInWithLogicalAnd(): void
     {
         $this->assertSearchResults(
             [59],
@@ -198,7 +198,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTagKeywordFilterLike()
+    public function testTagKeywordFilterLike(): void
     {
         $this->assertSearchResults(
             [59, 60, 61, 62],
