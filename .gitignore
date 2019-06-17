@@ -12,3 +12,4 @@ yarn.lock
 package-lock.json
 phpunit.phar
 .php_cs.cache
+.phpunit.result.cache
