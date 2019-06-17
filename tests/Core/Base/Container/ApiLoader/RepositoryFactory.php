@@ -3,7 +3,6 @@
 namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
-use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeNameableCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
 
 class RepositoryFactory extends BaseRepositoryFactory
@@ -11,7 +10,6 @@ class RepositoryFactory extends BaseRepositoryFactory
     public function __construct(
         $repositoryClass,
         FieldTypeCollectionFactory $fieldTypeCollectionFactory,
-        FieldTypeNameableCollectionFactory $fieldTypeNameableCollectionFactory,
         array $policyMap
     ) {
         $policyMap['tags'] = [
@@ -28,7 +26,6 @@ class RepositoryFactory extends BaseRepositoryFactory
         parent::__construct(
             $repositoryClass,
             $fieldTypeCollectionFactory,
-            $fieldTypeNameableCollectionFactory,
             $policyMap
         );
     }

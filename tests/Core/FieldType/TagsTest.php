@@ -527,15 +527,19 @@ class TagsTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideDataForGetName()
+    public function provideDataForGetName(): array
     {
         return [
             [
                 new TagsValue(),
+                [],
+                'eng-GB',
                 '',
             ],
             [
                 new TagsValue([]),
+                [],
+                'eng-GB',
                 '',
             ],
             [
@@ -544,6 +548,8 @@ class TagsTest extends FieldTypeTest
                         $this->getTag(),
                     ]
                 ),
+                [],
+                'eng-GB',
                 'eztags',
             ],
             [
@@ -553,6 +559,8 @@ class TagsTest extends FieldTypeTest
                         $this->getTag(),
                     ]
                 ),
+                [],
+                'eng-GB',
                 'eztags, eztags',
             ],
         ];
