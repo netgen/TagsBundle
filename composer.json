@@ -20,10 +20,11 @@
     ],
     "require": {
         "php": "^7.3",
-        "ezsystems/ezpublish-kernel": "^8.0@dev",
-        "ezsystems/ezplatform-rest": "^1.0@dev",
-        "ezsystems/repository-forms": "^3.0@dev",
-        "ezsystems/ezplatform-solr-search-engine": "^2.0@dev",
+        "ezsystems/ezpublish-kernel": "^8.0",
+        "ezsystems/ezplatform-admin-ui": "^2.0",
+        "ezsystems/ezplatform-rest": "^1.0",
+        "ezsystems/repository-forms": "^3.0",
+        "ezsystems/ezplatform-solr-search-engine": "^2.0",
         "lolautruche/ez-core-extra-bundle": "dev-master",
         "twig/twig": "^2.11.2"
     },
@@ -41,7 +42,7 @@
         "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
     },
     "conflict": {
-        "ezsystems/platform-ui-bundle": "<1.13",
+        "ezsystems/platform-ui-bundle": "*",
         "ezsystems/eztags-ls": "<2.1"
     },
     "autoload": {
