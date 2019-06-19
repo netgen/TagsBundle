@@ -9,14 +9,14 @@ class MergeTagsSignal extends Signal
     /**
      * Tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $tagId;
 
     /**
      * Target tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $targetTagId;
 }

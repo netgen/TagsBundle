@@ -23,8 +23,6 @@ use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Test case for legacy content search handler with Tags criteria.
- *
  * @todo Test with criterion target
  * @todo Test TagKeyword criterion with languages/translations
  */
@@ -33,8 +31,6 @@ class HandlerContentTest extends LanguageAwareTestCase
     private static $setUp = false;
 
     /**
-     * Field registry mock.
-     *
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
     private $fieldRegistry;
@@ -226,9 +222,6 @@ class HandlerContentTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * Assert search results.
-     */
     private function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $result = array_map(
@@ -289,9 +282,6 @@ class HandlerContentTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * Returns a content mapper mock.
-     */
     private function getContentMapperMock(): MockObject
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)

@@ -22,9 +22,6 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
         $this->matcherFactory = $matcherFactory;
     }
 
-    /**
-     * Matches the view with the matching config.
-     */
     public function getView(View $view): View
     {
         if (($configHash = $this->matcherFactory->match($view)) === null) {
@@ -34,9 +31,6 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
         return $this->buildTagView($configHash);
     }
 
-    /**
-     * Changes the site access.
-     */
     public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         if ($this->matcherFactory instanceof SiteAccessAware) {

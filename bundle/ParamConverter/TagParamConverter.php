@@ -59,9 +59,6 @@ class TagParamConverter implements ParamConverterInterface
         return true;
     }
 
-    /**
-     * Checks if the object is supported.
-     */
     public function supports(ParamConverterConfiguration $configuration): bool
     {
         return is_a($configuration->getClass(), Tag::class, true);

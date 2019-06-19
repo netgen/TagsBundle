@@ -37,17 +37,6 @@ class TagMatcherFactory extends ClassNameMatcherFactory
         parent::__construct($repository, 'Netgen\TagsBundle\Matcher\Tag');
     }
 
-    /**
-     * Returns the matcher object.
-     *
-     * @param string $matcherIdentifier the matcher class.
-     *        If it begins with a '\' it means it's a fully qualified class name,
-     *        otherwise it is relative to provided namespace (if available)
-     *
-     * @throws \InvalidArgumentException If no matcher could be found
-     *
-     * @return \eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface
-     */
     protected function getMatcher($matcherIdentifier): ViewMatcherInterface
     {
         if ($this->container->has($matcherIdentifier)) {

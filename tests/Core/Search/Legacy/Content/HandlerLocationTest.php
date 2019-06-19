@@ -24,8 +24,6 @@ use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Test case for legacy location search handler with Tags criteria.
- *
  * @todo Test with criterion target
  * @todo Test TagKeyword criterion with languages/translations
  */
@@ -218,9 +216,6 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * Assert search results.
-     */
     private function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $ids = array_map(
@@ -272,9 +267,6 @@ class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * Returns a location mapper mock.
-     */
     private function getLocationMapperMock(): MockObject
     {
         $mapperMock = $this->createMock(

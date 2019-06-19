@@ -21,22 +21,12 @@ abstract class MultipleValued implements ViewMatcherInterface, TagsServiceAwareI
      */
     protected $translationHelper;
 
-    /**
-     * Registers the matching configuration for the matcher.
-     *
-     * @param mixed $matchingConfig
-     *
-     * @throws \InvalidArgumentException Should be thrown if $matchingConfig is not valid
-     */
     public function setMatchingConfig($matchingConfig): void
     {
         $matchingConfig = !is_array($matchingConfig) ? [$matchingConfig] : $matchingConfig;
         $this->values = array_fill_keys($matchingConfig, true);
     }
 
-    /**
-     * Sets the translation helper.
-     */
     public function setTranslationHelper(TranslationHelper $translationHelper): void
     {
         $this->translationHelper = $translationHelper;

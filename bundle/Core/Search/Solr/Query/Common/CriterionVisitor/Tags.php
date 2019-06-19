@@ -54,13 +54,6 @@ abstract class Tags extends Field
         $this->fieldName = $fieldName;
     }
 
-    /**
-     * Get array of search fields.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return \eZ\Publish\SPI\Search\FieldType[] Array of field types indexed by name
-     */
     protected function getSearchFields(Criterion $criterion)
     {
         if ($criterion->target !== null) {

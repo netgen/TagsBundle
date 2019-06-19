@@ -21,12 +21,6 @@ class RelatedContentFacetsLoader
      */
     private $searchService;
 
-    /**
-     * RelatedContentFacetsLoader constructor.
-     *
-     * @param \Netgen\TagsBundle\Core\Repository\TagsService $tagsService
-     * @param \eZ\Publish\API\Repository\SearchService $searchService
-     */
     public function __construct(TagsService $tagsService, SearchService $searchService)
     {
         $this->tagsService = $tagsService;

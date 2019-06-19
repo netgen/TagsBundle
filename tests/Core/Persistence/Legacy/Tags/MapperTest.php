@@ -9,9 +9,6 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
-/**
- * Test case for Tags mapper.
- */
 class MapperTest extends TestCase
 {
     /**
@@ -88,6 +85,7 @@ class MapperTest extends TestCase
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
     ];
+
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */

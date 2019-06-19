@@ -9,7 +9,7 @@ class UpdateTagSignal extends Signal
     /**
      * Tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $tagId;
 

@@ -13,30 +13,11 @@ use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
  */
 class TagKeyword extends Tags
 {
-    /**
-     * Check if this criterion handler accepts to handle the given criterion.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
-     */
     public function accept(Criterion $criterion)
     {
         return $criterion instanceof TagKeywordCriterion;
     }
 
-    /**
-     * Generate query expression for a Criterion this handler accepts.
-     *
-     * accept() must be called before calling this method.
-     *
-     * @param \eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
-     * @param \eZ\Publish\Core\Persistence\Database\SelectQuery $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     * @param array $fieldFilters
-     *
-     * @return \eZ\Publish\Core\Persistence\Database\Expression
-     */
     public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null)
     {
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue $valueData */

@@ -8,9 +8,6 @@ use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 
 class TagLimitationTest extends BaseLimitationTest
 {
-    /**
-     * Test for the TagLimitation that allows access.
-     */
     public function testTagLimitationAllow(): void
     {
         $repository = $this->getRepository();
@@ -61,9 +58,6 @@ class TagLimitationTest extends BaseLimitationTest
         );
     }
 
-    /**
-     * Test for the TagLimitation that forbids access.
-     */
     public function testTagLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);

@@ -9,14 +9,14 @@ class ConvertToSynonymSignal extends Signal
     /**
      * Tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $tagId;
 
     /**
      * Main tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $mainTagId;
 }

@@ -11,9 +11,6 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
-/**
- * Test case for Tags Legacy gateway.
- */
 class DoctrineDatabaseTest extends TestCase
 {
     /**

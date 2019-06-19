@@ -13,12 +13,6 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Constraint\TraversableContains;
 use stdClass;
 
-/**
- * Integration test for eztags field type.
- *
- * @group integration
- * @group field-type
- */
 class TagsIntegrationTest extends BaseIntegrationTest
 {
     public function getTypeName(): string

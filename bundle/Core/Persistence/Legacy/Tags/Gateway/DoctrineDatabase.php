@@ -35,13 +35,6 @@ class DoctrineDatabase extends Gateway
      */
     private $languageMaskGenerator;
 
-    /**
-     * Constructor.
-     *
-     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $handler
-     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
-     * @param \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator
-     */
     public function __construct(DatabaseHandler $handler, LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator)
     {
         $this->handler = $handler;
@@ -49,15 +42,6 @@ class DoctrineDatabase extends Gateway
         $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
-    /**
-     * Returns an array with basic tag data.
-     *
-     * @param mixed $tagId
-     *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
-     *
-     * @return array
-     */
     public function getBasicTagData($tagId)
     {
         $query = $this->handler->createSelectQuery();
@@ -81,15 +65,6 @@ class DoctrineDatabase extends Gateway
         throw new NotFoundException('tag', $tagId);
     }
 
-    /**
-     * Returns an array with basic tag data by remote ID.
-     *
-     * @param string $remoteId
-     *
-     * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
-     *
-     * @return array
-     */
     public function getBasicTagDataByRemoteId($remoteId)
     {
         $query = $this->handler->createSelectQuery();
@@ -113,15 +88,6 @@ class DoctrineDatabase extends Gateway
         throw new NotFoundException('tag', $remoteId);
     }
 
-    /**
-     * Returns an array with full tag data.
-     *
-     * @param mixed $tagId
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return array
-     */
     public function getFullTagData($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
@@ -138,15 +104,6 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns an array with full tag data for the tag with $remoteId.
-     *
-     * @param string $remoteId
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return array
-     */
     public function getFullTagDataByRemoteId($remoteId, array $translations = null, $useAlwaysAvailable = true)
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
@@ -163,16 +120,6 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns an array with full tag data for the tag with $parentId parent ID and $keyword keyword.
-     *
-     * @param string $keyword
-     * @param string $parentId
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return array
-     */
     public function getFullTagDataByKeywordAndParentId($keyword, $parentId, array $translations = null, $useAlwaysAvailable = true)
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
@@ -193,17 +140,6 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns data for the first level children of the tag identified by given $tagId.
-     *
-     * @param mixed $tagId
-     * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return array
-     */
     public function getChildren($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
@@ -254,15 +190,6 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns how many tags exist below tag identified by $tagId.
-     *
-     * @param mixed $tagId
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return int
-     */
     public function getChildrenCount($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
@@ -284,18 +211,6 @@ class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    /**
-     * Returns data for tags identified by given $keyword.
-     *
-     * @param string $keyword
-     * @param string $translation
-     * @param bool $useAlwaysAvailable
-     * @param bool $exactMatch
-     * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = -1 all tags starting at $offset are returned
-     *
-     * @return array
-     */
     public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
     {
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
@@ -347,16 +262,6 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns how many tags exist with $keyword.
-     *
-     * @param string $keyword
-     * @param string $translation
-     * @param bool $useAlwaysAvailable
-     * @param bool $exactMatch
-     *
-     * @return int
-     */
     public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
     {
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
@@ -381,17 +286,6 @@ class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    /**
-     * Returns data for synonyms of the tag identified by given $tagId.
-     *
-     * @param mixed $tagId
-     * @param int $offset The start offset for paging
-     * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return array
-     */
     public function getSynonyms($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
@@ -431,15 +325,6 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns how many synonyms exist for a tag identified by $tagId.
-     *
-     * @param mixed $tagId
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return int
-     */
     public function getSynonymCount($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
@@ -458,12 +343,6 @@ class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    /**
-     * Moves the synonym identified by $synonymId to tag identified by $mainTagData.
-     *
-     * @param mixed $synonymId
-     * @param array $mainTagData
-     */
     public function moveSynonym($synonymId, $mainTagData)
     {
         $query = $this->handler->createUpdateQuery();
@@ -491,14 +370,6 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
     }
 
-    /**
-     * Creates a new tag using the given $createStruct below $parentTag.
-     *
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct $createStruct
-     * @param array $parentTag
-     *
-     * @return int
-     */
     public function create(CreateStruct $createStruct, array $parentTag = null)
     {
         $query = $this->handler->createInsertQuery();
@@ -579,12 +450,6 @@ class DoctrineDatabase extends Gateway
         return $tagId;
     }
 
-    /**
-     * Updates an existing tag.
-     *
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
-     * @param mixed $tagId
-     */
     public function update(UpdateStruct $updateStruct, $tagId)
     {
         $query = $this->handler->createUpdateQuery();
@@ -647,14 +512,6 @@ class DoctrineDatabase extends Gateway
         );
     }
 
-    /**
-     * Creates a new synonym using the given $keyword for tag $tag.
-     *
-     * @param \Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct $createStruct
-     * @param array $tag
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag
-     */
     public function createSynonym(SynonymCreateStruct $createStruct, array $tag)
     {
         $query = $this->handler->createInsertQuery();
@@ -735,12 +592,6 @@ class DoctrineDatabase extends Gateway
         return $synonymId;
     }
 
-    /**
-     * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData.
-     *
-     * @param mixed $tagId
-     * @param array $mainTagData
-     */
     public function convertToSynonym($tagId, $mainTagData)
     {
         $query = $this->handler->createUpdateQuery();
@@ -771,12 +622,6 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
     }
 
-    /**
-     * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId.
-     *
-     * @param mixed $tagId
-     * @param mixed $targetTagId
-     */
     public function transferTagAttributeLinks($tagId, $targetTagId)
     {
         $query = $this->handler->createSelectQuery();
@@ -866,12 +711,6 @@ class DoctrineDatabase extends Gateway
         }
     }
 
-    /**
-     * Moves a tag identified by $sourceTagData into new parent identified by $destinationParentTagData.
-     *
-     * @param array $sourceTagData
-     * @param array $destinationParentTagData
-     */
     public function moveSubtree(array $sourceTagData, array $destinationParentTagData = null)
     {
         $query = $this->handler->createSelectQuery();
@@ -945,13 +784,6 @@ class DoctrineDatabase extends Gateway
         }
     }
 
-    /**
-     * Deletes tag identified by $tagId, including its synonyms and all tags under it.
-     *
-     * If $tagId is a synonym, only the synonym is deleted
-     *
-     * @param mixed $tagId
-     */
     public function deleteTag($tagId)
     {
         $query = $this->handler->createSelectQuery();
@@ -1020,16 +852,6 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
     }
 
-    /**
-     * Creates a select query for tag objects that fetches only tag IDs.
-     *
-     * Does not apply any WHERE conditions.
-     *
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
-     */
     private function createTagIdsQuery(array $translations = null, $useAlwaysAvailable = true)
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
@@ -1265,7 +1087,7 @@ class DoctrineDatabase extends Gateway
     /**
      * Inserts keywords for tag with provided tag ID.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param array $keywords
      * @param string $mainLanguageCode
      * @param bool $alwaysAvailable
@@ -1306,7 +1128,7 @@ class DoctrineDatabase extends Gateway
     /**
      * Returns the path string of a synonym for main tag path string.
      *
-     * @param mixed $synonymId
+     * @param int $synonymId
      * @param string $mainTagPathString
      *
      * @return string

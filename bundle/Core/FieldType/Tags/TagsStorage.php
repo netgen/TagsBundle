@@ -39,7 +39,7 @@ class TagsStorage extends GatewayBasedStorage
      * @param \eZ\Publish\SPI\Persistence\Content\Field $field
      * @param array $context
      *
-     * @return mixed null|true
+     * @return bool|null
      */
     public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {

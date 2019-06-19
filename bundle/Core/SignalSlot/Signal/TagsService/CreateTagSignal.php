@@ -9,14 +9,14 @@ class CreateTagSignal extends Signal
     /**
      * Tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $tagId;
 
     /**
      * Parent tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $parentTagId;
 

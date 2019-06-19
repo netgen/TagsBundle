@@ -12,9 +12,6 @@ class TagView extends BaseView implements TagValueView, CacheableView
      */
     private $tag;
 
-    /**
-     * Sets the tag.
-     */
     public function setTag(Tag $tag): void
     {
         $this->tag = $tag;

@@ -34,8 +34,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     protected $tagsService;
 
     /**
-     * Test a new class and default values on properties.
-     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct
      */
     public function testNewClass(): void
@@ -61,8 +59,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * Test retrieving missing property.
-     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
      */
     public function testMissingProperty(): void
@@ -76,8 +72,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * Test setting read only property.
-     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__set
      */
     public function testReadOnlyProperty(): void
@@ -91,8 +85,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * Test if property exists.
-     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__isset
      */
     public function testIsPropertySet(): void
@@ -106,8 +98,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * Test unsetting a property.
-     *
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__unset
      */
     public function testUnsetProperty(): void
@@ -1742,17 +1732,12 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * Returns the path string of a synonym for main tag path string.
-     *
-     * @param mixed $synonymId
-     * @param string $mainTagPathString
-     *
-     * @return string
      */
-    private function getSynonymPathString($synonymId, string $mainTagPathString): string
+    private function getSynonymPathString(int $synonymId, string $mainTagPathString): string
     {
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
 
-        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
+        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . $synonymId . '/';
     }
 }

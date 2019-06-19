@@ -20,11 +20,6 @@ class Tags extends RestController
      */
     private $tagsService;
 
-    /**
-     * Controller.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     */
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
@@ -536,12 +531,12 @@ class Tags extends RestController
      *
      * @param string $path
      *
-     * @return mixed
+     * @return int
      */
     private function extractTagIdFromPath($path)
     {
         $pathParts = explode('/', trim($path, '/'));
 
-        return array_pop($pathParts);
+        return (int) array_pop($pathParts);
     }
 }

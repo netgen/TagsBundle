@@ -13,7 +13,7 @@ interface TagsService
     /**
      * Loads a tag object from its $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
@@ -309,7 +309,7 @@ interface TagsService
     /**
      * Instantiates a new tag create struct.
      *
-     * @param mixed $parentTagId
+     * @param int $parentTagId
      * @param string $mainLanguageCode
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
@@ -319,7 +319,7 @@ interface TagsService
     /**
      * Instantiates a new synonym create struct.
      *
-     * @param mixed $mainTagId
+     * @param int $mainTagId
      * @param string $mainLanguageCode
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct

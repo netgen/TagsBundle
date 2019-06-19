@@ -9,14 +9,14 @@ class MoveSubtreeSignal extends Signal
     /**
      * Source tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $sourceTagId;
 
     /**
      * Target parent tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $targetParentTagId;
 }

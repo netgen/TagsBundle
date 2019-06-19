@@ -11,11 +11,6 @@ class CreatedTag extends Value
      */
     public $restTag;
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\Core\REST\Values\RestTag $restTag
-     */
     public function __construct(RestTag $restTag)
     {
         $this->restTag = $restTag;

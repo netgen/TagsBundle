@@ -8,9 +8,6 @@ use Netgen\TagsBundle\View\TagValueView;
 
 class MainTag extends MultipleValued
 {
-    /**
-     * Matches the $view against a set of matchers.
-     */
     public function match(View $view): bool
     {
         if (!$view instanceof TagValueView) {

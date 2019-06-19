@@ -7,9 +7,9 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 /**
  * Class representing a tag.
  *
- * @property-read mixed $id Tag ID
- * @property-read mixed $parentTagId Parent tag ID
- * @property-read mixed $mainTagId Main tag ID
+ * @property-read int $id Tag ID
+ * @property-read int $parentTagId Parent tag ID
+ * @property-read int $mainTagId Main tag ID
  * @property-read string $keyword Convenience getter for $this->getKeyword() and BC layer
  * @property-read string[] $keywords Tag keywords
  * @property-read int $depth The depth tag has in tag tree
@@ -126,13 +126,6 @@ class Tag extends ValueObject
         );
     }
 
-    /**
-     * Magic getter for retrieving convenience properties.
-     *
-     * @param string $property The name of the property to retrieve
-     *
-     * @return mixed
-     */
     public function __get($property)
     {
         if ($property === 'keyword') {
@@ -142,13 +135,6 @@ class Tag extends ValueObject
         return parent::__get($property);
     }
 
-    /**
-     * Magic isset for signaling existence of convenience properties.
-     *
-     * @param string $property
-     *
-     * @return bool
-     */
     public function __isset($property)
     {
         if ($property === 'keyword') {
@@ -210,15 +196,6 @@ class Tag extends ValueObject
         return $this->mainTagId > 0;
     }
 
-    /**
-     * Function where list of properties are returned.
-     *
-     * Override to add dynamic properties
-     *
-     * @param array $dynamicProperties
-     *
-     * @return array
-     */
     protected function getProperties($dynamicProperties = ['keyword']): array
     {
         return parent::getProperties($dynamicProperties);

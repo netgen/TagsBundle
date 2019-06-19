@@ -19,14 +19,6 @@ class Type extends FieldType
      */
     const EDIT_VIEW_DEFAULT_VALUE = 'Default';
 
-    /**
-     * The setting keys which are available on this field type.
-     *
-     * The key is the setting name, and the value is the default value for given
-     * setting, set to null if no particular default should be set.
-     *
-     * @var array
-     */
     protected $settingsSchema = [
         'hideRootTag' => [
             'type' => 'boolean',
@@ -38,11 +30,6 @@ class Type extends FieldType
         ],
     ];
 
-    /**
-     * The validator configuration schema.
-     *
-     * @var array
-     */
     protected $validatorConfigurationSchema = [
         'TagsValueValidator' => [
             'subTreeLimit' => [
@@ -66,9 +53,6 @@ class Type extends FieldType
      */
     private $availableEditViews = [];
 
-    /**
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     */
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
@@ -76,53 +60,27 @@ class Type extends FieldType
 
     /**
      * Sets the available edit views.
-     *
-     * @param array $availableEditViews
      */
     public function setEditViews(array $availableEditViews)
     {
         $this->availableEditViews = $availableEditViews;
     }
 
-    /**
-     * Returns the field type identifier for this field type.
-     *
-     * @return string
-     */
     public function getFieldTypeIdentifier()
     {
         return 'eztags';
     }
 
-    /**
-     * Returns a human readable string representation from the given $value.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return string
-     */
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {
         return (string) $value;
     }
 
-    /**
-     * Returns the empty value for this field type.
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
     public function getEmptyValue()
     {
         return new Value();
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
     public function fromHash($hash)
     {
         if (!is_array($hash)) {
@@ -171,13 +129,6 @@ class Type extends FieldType
         return new Value($tags);
     }
 
-    /**
-     * Converts the given $value into a plain hash format.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return array
-     */
     public function toHash(SPIValue $value)
     {
         $hash = [];
@@ -211,13 +162,6 @@ class Type extends FieldType
         return $hash;
     }
 
-    /**
-     * Converts a $value to a persistence value.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
-     */
     public function toPersistenceValue(SPIValue $value)
     {
         return new FieldValue(
@@ -229,37 +173,16 @@ class Type extends FieldType
         );
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
     public function fromPersistenceValue(FieldValue $fieldValue)
     {
         return $this->fromHash($fieldValue->externalData);
     }
 
-    /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return bool
-     */
     public function isEmptyValue(SPIValue $value)
     {
         return $value === null || $value->tags === $this->getEmptyValue()->tags;
     }
 
-    /**
-     * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $validatorConfiguration
-     *
-     * @return \eZ\Publish\SPI\FieldType\ValidationError[]
-     */
     public function validateValidatorConfiguration($validatorConfiguration)
     {
         $validationErrors = [];
@@ -367,16 +290,6 @@ class Type extends FieldType
         return $validationErrors;
     }
 
-    /**
-     * Validates a field based on the validators in the field definition.
-     *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $fieldValue The field value for which an action is performed
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     *
-     * @return \eZ\Publish\SPI\FieldType\ValidationError[]
-     */
     public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
     {
         $validationErrors = [];
@@ -430,13 +343,6 @@ class Type extends FieldType
         return $validationErrors;
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \eZ\Publish\SPI\FieldType\ValidationError[]
-     */
     public function validateFieldSettings($fieldSettings)
     {
         $validationErrors = [];
@@ -514,23 +420,11 @@ class Type extends FieldType
         return $validationErrors;
     }
 
-    /**
-     * Indicates if the field type supports indexing and sort keys for searching.
-     *
-     * @return bool
-     */
     public function isSearchable()
     {
         return true;
     }
 
-    /**
-     * Inspects given $inputValue and potentially converts it into a dedicated value object.
-     *
-     * @param mixed $inputValue
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value The potentially converted and structurally plausible value
-     */
     protected function createValueFromInput($inputValue)
     {
         if (is_array($inputValue)) {
@@ -546,13 +440,6 @@ class Type extends FieldType
         return $inputValue;
     }
 
-    /**
-     * Throws an exception if value structure is not of expected format.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure
-     */
     protected function checkValueStructure(BaseValue $value)
     {
         if (!is_array($value->tags)) {
@@ -574,13 +461,6 @@ class Type extends FieldType
         }
     }
 
-    /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return bool
-     */
     protected function getSortInfo(BaseValue $value)
     {
         return false;

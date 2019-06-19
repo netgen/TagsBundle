@@ -14,12 +14,6 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use stdClass;
 
-/**
- * Test for eztags field type.
- *
- * @group fieldType
- * @group eztags
- */
 class TagsTest extends FieldTypeTest
 {
     /**

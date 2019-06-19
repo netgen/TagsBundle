@@ -12,14 +12,9 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Test case for Tags converter in Legacy storage.
- */
 class TagsTest extends TestCase
 {
     /**
-     * Tags converter.
-     *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
      */
     private $converter;
@@ -31,8 +26,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::create
      */
     public function testCreate(): void
@@ -42,8 +35,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageValue
      */
     public function testToStorageValue(): void
@@ -65,8 +56,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldValue
      */
     public function testToFieldValue(): void
@@ -81,8 +70,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
      */
     public function testToStorageFieldDefinition(): void
@@ -119,8 +106,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toStorageFieldDefinition
      */
     public function testToStorageFieldDefinitionWithNoSettingsAndValidators(): void
@@ -138,8 +123,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::toFieldDefinition
      */
     public function testToFieldDefinition(): void
@@ -167,8 +150,6 @@ class TagsTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group eztags
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::getIndexColumn
      */
     public function testGetIndexColumn(): void

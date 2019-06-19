@@ -11,7 +11,7 @@ abstract class Gateway
     /**
      * Returns an array with basic tag data.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      *
      * @return array
      */
@@ -29,7 +29,7 @@ abstract class Gateway
     /**
      * Returns an array with full tag data.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
      *
@@ -63,7 +63,7 @@ abstract class Gateway
     /**
      * Returns data for the first level children of the tag identified by given $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param string[] $translations
@@ -76,7 +76,7 @@ abstract class Gateway
     /**
      * Returns how many tags exist below tag identified by $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
      *
@@ -113,7 +113,7 @@ abstract class Gateway
     /**
      * Returns data for synonyms of the tag identified by given $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param string[] $translations
@@ -126,7 +126,7 @@ abstract class Gateway
     /**
      * Returns how many synonyms exist for a tag identified by $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
      *
@@ -137,7 +137,7 @@ abstract class Gateway
     /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData.
      *
-     * @param mixed $synonymId
+     * @param int $synonymId
      * @param array $mainTagData
      */
     abstract public function moveSynonym($synonymId, $mainTagData);
@@ -156,7 +156,7 @@ abstract class Gateway
      * Updates an existing tag.
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
-     * @param mixed $tagId
+     * @param int $tagId
      */
     abstract public function update(UpdateStruct $updateStruct, $tagId);
 
@@ -173,7 +173,7 @@ abstract class Gateway
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagData.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param array $mainTagData
      */
     abstract public function convertToSynonym($tagId, $mainTagData);
@@ -181,8 +181,8 @@ abstract class Gateway
     /**
      * Transfers all tag attribute links from tag identified by $tagId into the tag identified by $targetTagId.
      *
-     * @param mixed $tagId
-     * @param mixed $targetTagId
+     * @param int $tagId
+     * @param int $targetTagId
      */
     abstract public function transferTagAttributeLinks($tagId, $targetTagId);
 
@@ -199,7 +199,7 @@ abstract class Gateway
      *
      * If $tagId is a synonym, only the synonym is deleted
      *
-     * @param mixed $tagId
+     * @param int $tagId
      */
     abstract public function deleteTag($tagId);
 }

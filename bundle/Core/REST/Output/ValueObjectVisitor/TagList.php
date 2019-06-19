@@ -8,13 +8,6 @@ use EzSystems\EzPlatformRest\Output\Visitor;
 
 class TagList extends ValueObjectVisitor
 {
-    /**
-     * Visit struct returned by controllers.
-     *
-     * @param \EzSystems\EzPlatformRest\Output\Visitor $visitor
-     * @param \EzSystems\EzPlatformRest\Output\Generator $generator
-     * @param \Netgen\TagsBundle\Core\REST\Values\TagList $data
-     */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {
         $generator->startObjectElement('TagList');

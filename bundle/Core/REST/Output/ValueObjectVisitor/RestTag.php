@@ -8,13 +8,6 @@ use EzSystems\EzPlatformRest\Output\Visitor;
 
 class RestTag extends ValueObjectVisitor
 {
-    /**
-     * Visit struct returned by controllers.
-     *
-     * @param \EzSystems\EzPlatformRest\Output\Visitor $visitor
-     * @param \EzSystems\EzPlatformRest\Output\Generator $generator
-     * @param \Netgen\TagsBundle\Core\REST\Values\RestTag $data
-     */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {
         $generator->startObjectElement('Tag');

@@ -106,12 +106,12 @@ class DoctrineStorage extends Gateway
     /**
      * Returns the data for the given $fieldId and $versionNo.
      *
-     * @param mixed $fieldId
-     * @param mixed $versionNo
+     * @param int $fieldId
+     * @param int $versionNo
      *
      * @return array
      */
-    private function loadFieldData($fieldId, $versionNo)
+    private function loadFieldData(int $fieldId, int $versionNo)
     {
         $query = $this->connection->createQueryBuilder();
         $query

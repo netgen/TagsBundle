@@ -11,7 +11,7 @@ interface Handler
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
      *
@@ -37,7 +37,7 @@ interface Handler
     /**
      * Loads a tag info object from its $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -77,7 +77,7 @@ interface Handler
      * Loads tag by specified keyword and parent ID.
      *
      * @param string $keyword The keyword to fetch tag for
-     * @param mixed $parentTagId The parent ID to fetch tag for
+     * @param int $parentTagId The parent ID to fetch tag for
      * @param string[] $translations The languages to load
      * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
@@ -90,7 +90,7 @@ interface Handler
     /**
      * Loads children of a tag identified by $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param string[] $translations
@@ -105,7 +105,7 @@ interface Handler
     /**
      * Returns the number of children of a tag identified by $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
      *
@@ -155,7 +155,7 @@ interface Handler
     /**
      * Loads the synonyms of a tag identified by $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all synonyms starting at $offset are returned
      * @param string[] $translations
@@ -170,7 +170,7 @@ interface Handler
     /**
      * Returns the number of synonyms of a tag identified by $tagId.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      * @param string[] $translations
      * @param bool $useAlwaysAvailable
      *
@@ -193,7 +193,7 @@ interface Handler
      * Updates tag identified by $tagId.
      *
      * @param \Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct $updateStruct
-     * @param mixed $tagId
+     * @param int $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
@@ -213,8 +213,8 @@ interface Handler
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId.
      *
-     * @param mixed $tagId
-     * @param mixed $mainTagId
+     * @param int $tagId
+     * @param int $mainTagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $mainTagId are invalid
      *
@@ -225,8 +225,8 @@ interface Handler
     /**
      * Merges the tag identified by $tagId into the tag identified by $targetTagId.
      *
-     * @param mixed $tagId
-     * @param mixed $targetTagId
+     * @param int $tagId
+     * @param int $targetTagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      */
@@ -237,8 +237,8 @@ interface Handler
      *
      * Also performs a copy of all child locations of $sourceId tag
      *
-     * @param mixed $sourceId The subtree denoted by the tag to copy
-     * @param mixed $destinationParentId The target parent tag for the copy operation
+     * @param int $sourceId The subtree denoted by the tag to copy
+     * @param int $destinationParentId The target parent tag for the copy operation
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
@@ -249,8 +249,8 @@ interface Handler
     /**
      * Moves a tag identified by $sourceId into new parent identified by $destinationParentId.
      *
-     * @param mixed $sourceId
-     * @param mixed $destinationParentId
+     * @param int $sourceId
+     * @param int $destinationParentId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
@@ -261,7 +261,7 @@ interface Handler
     /**
      * Deletes tag identified by $tagId, including its synonyms and all tags under it.
      *
-     * @param mixed $tagId
+     * @param int $tagId
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      *

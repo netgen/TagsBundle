@@ -7,13 +7,6 @@ use EzSystems\EzPlatformRest\Output\Visitor;
 
 class CreatedTag extends RestTag
 {
-    /**
-     * Visit struct returned by controllers.
-     *
-     * @param \EzSystems\EzPlatformRest\Output\Visitor $visitor
-     * @param \EzSystems\EzPlatformRest\Output\Generator $generator
-     * @param \Netgen\TagsBundle\Core\REST\Values\CreatedTag $data
-     */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {
         parent::visit($visitor, $generator, $data->restTag);

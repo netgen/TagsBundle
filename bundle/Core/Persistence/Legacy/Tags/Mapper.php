@@ -23,12 +23,6 @@ class Mapper
      */
     private $languageMaskGenerator;
 
-    /**
-     * Constructor.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
-     * @param \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator
-     */
     public function __construct(LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator)
     {
         $this->languageHandler = $languageHandler;

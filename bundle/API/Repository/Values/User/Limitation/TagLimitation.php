@@ -8,9 +8,6 @@ class TagLimitation extends Limitation
 {
     public const TAG = 'Tag';
 
-    /**
-     * Returns the limitation identifier.
-     */
     public function getIdentifier(): string
     {
         return self::TAG;

@@ -7,9 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class TagViewBuilderPass implements CompilerPassInterface
 {
-    /**
-     * Registers the tag view builder into view builder registry.
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!$container->has('ezpublish.view_builder.registry')) {

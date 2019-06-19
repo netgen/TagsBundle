@@ -20,28 +20,12 @@ class TagCreate extends BaseParser
      */
     private $parserTools;
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \EzSystems\EzPlatformRest\Input\ParserTools $parserTools
-     */
     public function __construct(TagsService $tagsService, ParserTools $parserTools)
     {
         $this->tagsService = $tagsService;
         $this->parserTools = $parserTools;
     }
 
-    /**
-     * Parse input structure.
-     *
-     * @param array $data
-     * @param \EzSystems\EzPlatformRest\Input\ParsingDispatcher $parsingDispatcher
-     *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\Parser If the parsing failed
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
-     */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {
         if (!array_key_exists('ParentTag', $data) || !is_array($data['ParentTag'])) {

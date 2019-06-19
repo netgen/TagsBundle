@@ -790,9 +790,6 @@ class TagsServiceTest extends TestCase
         self::assertSame('some_value', $value);
     }
 
-    /**
-     * Returns signal slot service under test.
-     */
     private function getSignalSlotService(): TagsService
     {
         return new TagsService($this->tagsService, $this->signalDispatcher);
