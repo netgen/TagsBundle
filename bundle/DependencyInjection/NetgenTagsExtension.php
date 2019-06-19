@@ -57,9 +57,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 
         $persistenceCache = 'disabled';
         if ($container->getParameter('eztags.enable_persistence_cache')) {
-            // We're using the existence of EzPlatformAdminUiBundle (Admin UI v2)
-            // as the means of detecting eZ kernel version 6 or 7
-            $persistenceCache = in_array('EzPlatformAdminUiBundle', $activatedBundles, true) ? 'psr6' : 'stash';
+            $persistenceCache = 'psr6';
         }
 
         $loader->load('storage/cache_' . $persistenceCache . '.yml');
