@@ -92,7 +92,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $processor = new ConfigurationProcessor($container, 'eztags');
         $processor->mapConfig(
             $config,
-            static function ($config, $scope, ContextualizerInterface $c) {
+            static function ($config, $scope, ContextualizerInterface $c): void {
                 $c->setContextualParameter('tag_view.cache', $scope, $config['tag_view']['cache']);
                 $c->setContextualParameter('tag_view.ttl_cache', $scope, $config['tag_view']['ttl_cache']);
                 $c->setContextualParameter('tag_view.default_ttl', $scope, $config['tag_view']['default_ttl']);

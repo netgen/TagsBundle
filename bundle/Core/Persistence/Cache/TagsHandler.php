@@ -39,10 +39,10 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
         return $this->getCacheValue(
             $tagId,
             'netgen-tag-',
-            function ($tagId) use ($translations, $useAlwaysAvailable) {
+            function (int $tagId) use ($translations, $useAlwaysAvailable): Tag {
                 return $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable);
             },
-            static function (Tag $tag) {
+            static function (Tag $tag): array {
                 $tags[] = 'tag-' . $tag->id;
                 foreach (\explode('/', trim($tag->pathString, '/')) as $pathId) {
                     $tags[] = 'tag-path-' . $pathId;
@@ -50,7 +50,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
                 return $tags;
             },
-            static function (Tag $tag) use ($keySuffix) {
+            static function (Tag $tag) use ($keySuffix): array {
                 return ['netgen-tag-' . $tag->id . $keySuffix];
             },
             $keySuffix
@@ -65,10 +65,10 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
         return $this->getMultipleCacheValues(
             $tagIds,
             'netgen-tag-',
-            function ($tagIds) use ($translations, $useAlwaysAvailable) {
+            function (array $tagIds) use ($translations, $useAlwaysAvailable): array {
                 return $this->tagsHandler->loadList($tagIds, $translations, $useAlwaysAvailable);
             },
-            static function (Tag $tag) {
+            static function (Tag $tag): array {
                 $tags[] = 'tag-' . $tag->id;
                 foreach (\explode('/', trim($tag->pathString, '/')) as $pathId) {
                     $tags[] = 'tag-path-' . $pathId;
@@ -76,7 +76,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
                 return $tags;
             },
-            static function (Tag $tag) use ($keySuffix) {
+            static function (Tag $tag) use ($keySuffix): array {
                 return ['netgen-tag-' . $tag->id . $keySuffix];
             },
             $keySuffix

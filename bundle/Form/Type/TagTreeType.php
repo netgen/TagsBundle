@@ -38,7 +38,7 @@ class TagTreeType extends AbstractType
                     'error_bubbling' => false,
                     'allowRootTag' => true,
                     'disableSubtree' => [],
-                    'constraints' => static function (Options $options) {
+                    'constraints' => static function (Options $options): array {
                         return [
                             new Constraints\Type(['type' => 'numeric']),
                             new Constraints\NotBlank(),

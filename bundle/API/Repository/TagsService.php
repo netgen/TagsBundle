@@ -341,7 +341,7 @@ interface TagsService
      *
      * Example use:
      *     $tag = $tagsService->sudo(
-     *         function (TagsService $tagsService) use ($tagId) {
+     *         static function (TagsService $tagsService) use ($tagId): Tag {
      *             return $tagsService->loadTag($tagId);
      *         }
      *     );

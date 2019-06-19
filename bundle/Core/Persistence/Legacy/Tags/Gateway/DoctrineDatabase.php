@@ -226,7 +226,7 @@ class DoctrineDatabase extends Gateway
         $statement->execute();
 
         $tagIds = array_map(
-            static function (array $row) {
+            static function (array $row): int {
                 return (int) $row['id'];
             },
             $statement->fetchAll(PDO::FETCH_ASSOC)
@@ -317,7 +317,7 @@ class DoctrineDatabase extends Gateway
         $statement->execute();
 
         $tagIds = array_map(
-            static function (array $row) {
+            static function (array $row): int {
                 return (int) $row['id'];
             },
             $statement->fetchAll(PDO::FETCH_ASSOC)
@@ -407,7 +407,7 @@ class DoctrineDatabase extends Gateway
         $statement->execute();
 
         $tagIds = array_map(
-            static function (array $row) {
+            static function (array $row): int {
                 return (int) $row['id'];
             },
             $statement->fetchAll(PDO::FETCH_ASSOC)

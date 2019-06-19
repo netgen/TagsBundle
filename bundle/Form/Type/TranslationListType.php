@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Form\Type;
 
 use eZ\Publish\API\Repository\LanguageService;
+use Generator;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
@@ -43,7 +44,7 @@ class TranslationListType extends AbstractType
 
         if (method_exists($this->languageService, 'loadLanguageListByCode')) {
             $choices = iterator_to_array(
-                (function () {
+                (function (): Generator {
                     foreach ($this->languageService->loadLanguageListByCode($this->languages) as $language) {
                         yield $language->name => $language->languageCode;
                     }
@@ -68,14 +69,14 @@ class TranslationListType extends AbstractType
                     'expanded' => true,
                     'multiple' => false,
                     'label' => false,
-                    'data' => function (Options $options) {
+                    'data' => function (Options $options): ?string {
                         if ($options['tag'] instanceof Tag) {
                             return $options['tag']->mainLanguageCode;
                         }
 
                         return $this->languages[0] ?? null;
                     },
-                    'preferred_choices' => static function (Options $options) {
+                    'preferred_choices' => static function (Options $options): array {
                         if ($options['tag'] instanceof Tag) {
                             return $options['tag']->languageCodes;
                         }

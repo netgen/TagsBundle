@@ -23,7 +23,7 @@ class TagUpdateType extends AbstractType
             ->setDefaults(
                 [
                     'data_class' => TagUpdateStruct::class,
-                    'constraints' => static function (Options $options) {
+                    'constraints' => static function (Options $options): array {
                         return [
                             new TagUpdateStructConstraint(
                                 [

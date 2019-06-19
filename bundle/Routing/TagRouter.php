@@ -89,7 +89,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         }
 
         $tag = $this->tagsService->sudo(
-            function (TagsService $tagsService) use ($requestedPath) {
+            function (TagsService $tagsService) use ($requestedPath): Tag {
                 return $tagsService->loadTagByUrl(
                     $requestedPath,
                     $this->languages

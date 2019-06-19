@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content;
 
 use eZ\Publish\SPI\Persistence\Content\Language;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -70,9 +71,9 @@ class LanguageHandlerMock
         $mock->expects($testCase::any())
             ->method('loadListByLanguageCodes')
             ->willReturnCallback(
-                function (array $languageCodes) {
+                function (array $languageCodes): array {
                     return iterator_to_array(
-                        (function () use ($languageCodes) {
+                        (function () use ($languageCodes): Generator {
                             foreach ($languageCodes as $languageCode) {
                                 yield $languageCode => $this->languages[$languageCode];
                             }

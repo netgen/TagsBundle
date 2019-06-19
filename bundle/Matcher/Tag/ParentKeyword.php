@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Matcher\Tag;
 
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\View\TagValueView;
 
 class ParentKeyword extends MultipleValued
@@ -20,7 +21,7 @@ class ParentKeyword extends MultipleValued
         $tag = $view->getTag();
 
         $parentTag = $this->tagsService->sudo(
-            static function (TagsService $tagsService) use ($tag) {
+            static function (TagsService $tagsService) use ($tag): Tag {
                 return $tagsService->loadTag($tag->parentTagId);
             }
         );

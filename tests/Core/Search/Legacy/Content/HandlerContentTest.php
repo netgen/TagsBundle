@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
@@ -231,7 +232,7 @@ class HandlerContentTest extends LanguageAwareTestCase
     protected function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $result = array_map(
-            static function ($hit) {
+            static function (SearchHit $hit): int {
                 return $hit->valueObject->id;
             },
             $searchResult->searchHits
@@ -307,7 +308,7 @@ class HandlerContentTest extends LanguageAwareTestCase
             ->method('extractContentFromRows')
             ->with(self::isType('array'))
             ->willReturnCallback(
-                static function ($rows) {
+                static function (array $rows): array {
                     $contentObjects = [];
                     foreach ($rows as $row) {
                         $contentId = (int) $row['ezcontentobject_id'];

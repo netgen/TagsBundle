@@ -142,7 +142,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         }
 
         $limitationValues = array_map(
-            static function ($value) {
+            static function ($value): int {
                 return (int) $value;
             },
             $value->limitationValues

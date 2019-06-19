@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Validator;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag as APITag;
 use Netgen\TagsBundle\Validator\Constraints\Tag;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -45,7 +46,7 @@ class TagValidator extends ConstraintValidator
 
         try {
             $tag = $this->tagsService->sudo(
-                static function (TagsService $tagsService) use ($value) {
+                static function (TagsService $tagsService) use ($value): APITag {
                     return $tagsService->loadTag($value);
                 }
             );

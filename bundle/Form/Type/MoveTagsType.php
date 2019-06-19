@@ -15,7 +15,7 @@ class MoveTagsType extends AbstractType
         $resolver
             ->setRequired('tags')
             ->setAllowedTypes('tags', 'array')
-            ->setAllowedValues('tags', static function (array $tags) {
+            ->setAllowedValues('tags', static function (array $tags): bool {
                 foreach ($tags as $tag) {
                     if (!$tag instanceof Tag) {
                         return false;
@@ -35,7 +35,7 @@ class MoveTagsType extends AbstractType
                 [
                     'label' => 'tag.parent_tag',
                     'disableSubtree' => array_map(
-                        static function (Tag $tag) {
+                        static function (Tag $tag): int {
                             return $tag->id;
                         },
                         $options['tags']
