@@ -1,9 +1,3 @@
-netgen_tags_admin_root:
-    path: /
-    defaults:
-        _controller: eztags.admin.controller.tag:showTagAction
-        _method: GET
-
 netgen_tags_admin_tag:
     resource: "admin/tag.yml"
     prefix: /tag

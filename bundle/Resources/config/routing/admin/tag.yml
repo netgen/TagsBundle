@@ -1,5 +1,5 @@
 netgen_tags_admin_tag_show:
-    path: /{tagId}
+    path: /show/{tagId}
     defaults:
         _controller: eztags.admin.controller.tag:showTagAction
         _method: GET

@@ -7,6 +7,7 @@ netgen_tags_internal:
 
 netgen_tags_admin_redirects:
     resource: "routing/admin/redirects.yml"
+    prefix: /tags
 
 netgen_tags_admin:
     resource: "routing/admin.yml"
