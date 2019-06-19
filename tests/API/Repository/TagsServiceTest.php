@@ -16,7 +16,7 @@ class TagsServiceTest extends BaseTagsServiceTest
         $this->tagsService = $this->getTagsService();
     }
 
-    protected function getTagsService(bool $initialInitializeFromScratch = true): TagsService
+    private function getTagsService(bool $initialInitializeFromScratch = true): TagsService
     {
         $this->tagsService = $this->tagsService ?? $this->getSetupFactory()->getTagsService($initialInitializeFromScratch);
 

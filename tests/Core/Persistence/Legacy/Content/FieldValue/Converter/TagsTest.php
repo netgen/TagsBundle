@@ -22,7 +22,7 @@ class TagsTest extends TestCase
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
      */
-    protected $converter;
+    private $converter;
 
     protected function setUp(): void
     {

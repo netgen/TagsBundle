@@ -26,12 +26,12 @@ class TagsServiceTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \eZ\Publish\Core\SignalSlot\SignalDispatcher|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $signalDispatcher;
+    private $signalDispatcher;
 
     protected function setUp(): void
     {
@@ -793,7 +793,7 @@ class TagsServiceTest extends TestCase
     /**
      * Returns signal slot service under test.
      */
-    protected function getSignalSlotService(): TagsService
+    private function getSignalSlotService(): TagsService
     {
         return new TagsService($this->tagsService, $this->signalDispatcher);
     }

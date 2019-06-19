@@ -17,17 +17,17 @@ class TagIdTest extends TestCase
     /**
      * @var \eZ\Publish\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $fieldNameResolver;
+    private $fieldNameResolver;
 
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $contentTypeHandler;
+    private $contentTypeHandler;
 
     /**
      * @var \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId
      */
-    protected $visitor;
+    private $visitor;
 
     protected function setUp(): void
     {

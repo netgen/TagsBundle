@@ -30,14 +30,14 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class HandlerContentTest extends LanguageAwareTestCase
 {
-    protected static $setUp = false;
+    private static $setUp = false;
 
     /**
      * Field registry mock.
      *
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $fieldRegistry;
+    private $fieldRegistry;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -229,7 +229,7 @@ class HandlerContentTest extends LanguageAwareTestCase
     /**
      * Assert search results.
      */
-    protected function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
+    private function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $result = array_map(
             static function (SearchHit $hit): int {
@@ -249,7 +249,7 @@ class HandlerContentTest extends LanguageAwareTestCase
      * This method returns a fully functional search handler to perform tests
      * on.
      */
-    protected function getContentSearchHandler(): Handler
+    private function getContentSearchHandler(): Handler
     {
         return new Content\Handler(
             new Content\Gateway\DoctrineDatabase(
@@ -292,7 +292,7 @@ class HandlerContentTest extends LanguageAwareTestCase
     /**
      * Returns a content mapper mock.
      */
-    protected function getContentMapperMock(): MockObject
+    private function getContentMapperMock(): MockObject
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)
             ->setMethods(['extractContentFromRows'])

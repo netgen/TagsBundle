@@ -25,7 +25,7 @@ class TagLimitationTypeTest extends Base
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tagsHandlerMock;
+    private $tagsHandlerMock;
 
     /**
      * @var \eZ\Publish\SPI\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject

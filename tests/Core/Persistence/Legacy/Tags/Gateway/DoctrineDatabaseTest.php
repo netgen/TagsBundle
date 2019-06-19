@@ -19,7 +19,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
-    protected $tagsGateway;
+    private $tagsGateway;
 
     protected function setUp(): void
     {
@@ -798,7 +798,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns gateway implementation for legacy storage.
      */
-    protected function getTagsGateway(): DoctrineDatabase
+    private function getTagsGateway(): DoctrineDatabase
     {
         $dbHandler = $this->getDatabaseHandler();
 

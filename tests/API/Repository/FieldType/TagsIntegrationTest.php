@@ -261,7 +261,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a tag for tests.
      */
-    protected function getTag1(): Tag
+    private function getTag1(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1308153110);
@@ -286,7 +286,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a tag for tests.
      */
-    protected function getTag2(): Tag
+    private function getTag2(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1343169159);
@@ -311,7 +311,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a tag for tests.
      */
-    protected function getTag3(): Tag
+    private function getTag3(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1343169159);
@@ -336,7 +336,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a hash version of tag for tests.
      */
-    protected function getTagHash1(): array
+    private function getTagHash1(): array
     {
         return [
             'id' => 40,

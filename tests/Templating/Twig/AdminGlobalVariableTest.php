@@ -10,12 +10,12 @@ class AdminGlobalVariableTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable
      */
-    protected $adminGlobalVariable;
+    private $adminGlobalVariable;
 
     /**
      * @var string
      */
-    protected $template;
+    private $template;
 
     protected function setUp(): void
     {

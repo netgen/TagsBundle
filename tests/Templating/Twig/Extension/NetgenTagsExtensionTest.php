@@ -12,7 +12,7 @@ class NetgenTagsExtensionTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
      */
-    protected $extension;
+    private $extension;
 
     protected function setUp(): void
     {

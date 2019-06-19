@@ -26,19 +26,19 @@ class TagsHandlerTest extends TestCase
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $gateway;
+    private $gateway;
 
     /**
      * Mocked tags mapper instance.
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $mapper;
+    private $mapper;
 
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
      */
-    protected $tagsHandler;
+    private $tagsHandler;
 
     protected function setUp(): void
     {
@@ -1033,7 +1033,7 @@ class TagsHandlerTest extends TestCase
         $handler->deleteTag(40);
     }
 
-    protected function getTagsHandler(?array $mockedMethods = null): MockObject
+    private function getTagsHandler(?array $mockedMethods = null): MockObject
     {
         $this->gateway = $this->createMock(Gateway::class);
 

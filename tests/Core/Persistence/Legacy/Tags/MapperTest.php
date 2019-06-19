@@ -15,16 +15,11 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 class MapperTest extends TestCase
 {
     /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
-     */
-    protected $tagsMapper;
-
-    /**
      * Tags data from the database.
      *
      * @var array
      */
-    protected static $tagRow = [
+    private static $tagRow = [
         'id' => 42,
         'parent_id' => 21,
         'main_tag_id' => 0,
@@ -42,7 +37,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected static $tagListRow = [
+    private static $tagListRow = [
         'eztags_id' => 42,
         'eztags_parent_id' => 21,
         'eztags_main_tag_id' => 0,
@@ -62,7 +57,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected static $tagValues = [
+    private static $tagValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -80,7 +75,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected static $tagListValues = [
+    private static $tagListValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -93,6 +88,10 @@ class MapperTest extends TestCase
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
     ];
+    /**
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+     */
+    private $tagsMapper;
 
     protected function setUp(): void
     {
@@ -156,7 +155,7 @@ class MapperTest extends TestCase
     /**
      * Returns mapper instance for testing.
      */
-    protected function getMapper(): Mapper
+    private function getMapper(): Mapper
     {
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 

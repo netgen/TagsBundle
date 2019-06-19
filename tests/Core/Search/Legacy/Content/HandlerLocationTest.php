@@ -31,7 +31,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class HandlerLocationTest extends LanguageAwareTestCase
 {
-    protected static $setUp = false;
+    private static $setUp = false;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -221,7 +221,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     /**
      * Assert search results.
      */
-    protected function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
+    private function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $ids = array_map(
             static function (SearchHit $hit): int {
@@ -241,7 +241,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
      * This method returns a fully functional search handler to perform tests
      * on.
      */
-    protected function getContentSearchHandler(): Handler
+    private function getContentSearchHandler(): Handler
     {
         return new Content\Handler(
             $this->createMock(Content\Gateway::class),
@@ -275,7 +275,7 @@ class HandlerLocationTest extends LanguageAwareTestCase
     /**
      * Returns a location mapper mock.
      */
-    protected function getLocationMapperMock(): MockObject
+    private function getLocationMapperMock(): MockObject
     {
         $mapperMock = $this->createMock(
             LocationMapper::class,

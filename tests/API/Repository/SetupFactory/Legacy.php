@@ -22,7 +22,7 @@ class Legacy extends BaseLegacy
      *
      * @var array
      */
-    protected static $tagsInitialData;
+    private static $tagsInitialData;
 
     public function getServiceContainer(): ServiceContainer
     {
@@ -122,21 +122,21 @@ class Legacy extends BaseLegacy
         return self::$initialData;
     }
 
-    /**
-     * Returns the database schema as an array of SQL statements.
-     */
-    protected function getTagsSchemaStatements(): array
-    {
-        $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
-
-        return array_filter(preg_split('(;\\s*$)m', file_get_contents($tagsSchemaPath)));
-    }
-
     protected function initializeSchema(): void
     {
         parent::initializeSchema();
 
         $statements = $this->getTagsSchemaStatements();
         $this->applyStatements($statements);
+    }
+
+    /**
+     * Returns the database schema as an array of SQL statements.
+     */
+    private function getTagsSchemaStatements(): array
+    {
+        $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
+
+        return array_filter(preg_split('(;\\s*$)m', file_get_contents($tagsSchemaPath)));
     }
 }

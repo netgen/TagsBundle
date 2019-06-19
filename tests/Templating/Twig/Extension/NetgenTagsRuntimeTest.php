@@ -18,37 +18,37 @@ class NetgenTagsRuntimeTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime
      */
-    protected $runtime;
+    private $runtime;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
-    protected $translationHelper;
+    private $translationHelper;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
-    protected $languageService;
+    private $languageService;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
-    protected $contentTypeService;
+    private $contentTypeService;
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected $tag;
+    private $tag;
 
     /**
      * @var \eZ\Publish\Core\Repository\Values\ContentType\ContentType
      */
-    protected $contentType;
+    private $contentType;
 
     protected function setUp(): void
     {

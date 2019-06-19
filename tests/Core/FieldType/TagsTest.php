@@ -25,7 +25,7 @@ class TagsTest extends FieldTypeTest
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * Returns values for TagsService::loadTag based on input value.
@@ -555,7 +555,7 @@ class TagsTest extends FieldTypeTest
     /**
      * Returns a tag for tests.
      */
-    protected function getTag(): Tag
+    private function getTag(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1308153110);
@@ -580,7 +580,7 @@ class TagsTest extends FieldTypeTest
     /**
      * Returns a hash version of tag for tests.
      */
-    protected function getTagHash(): array
+    private function getTagHash(): array
     {
         return [
             'id' => 40,

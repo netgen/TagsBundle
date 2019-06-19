@@ -42,12 +42,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
      *
      * @var bool
      */
-    protected static $tagsSetUp = false;
+    private static $tagsSetUp = false;
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tagsService;
+    private $tagsService;
 
     protected function setUp(): void
     {
@@ -193,7 +193,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a hash version of tag for tests.
      */
-    protected function getTagHash1(): array
+    private function getTagHash1(): array
     {
         return [
             'id' => 40,
@@ -213,7 +213,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
     /**
      * Returns a hash version of tag for tests.
      */
-    protected function getTagHash2(): array
+    private function getTagHash2(): array
     {
         return [
             'id' => 8,

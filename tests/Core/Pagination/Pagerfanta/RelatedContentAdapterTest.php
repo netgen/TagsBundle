@@ -13,7 +13,7 @@ class RelatedContentAdapterTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tagsService;
+    private $tagsService;
 
     protected function setUp(): void
     {
@@ -143,7 +143,7 @@ class RelatedContentAdapterTest extends TestCase
     /**
      * Returns the adapter to test.
      */
-    protected function getAdapter(Tag $tag, TagsService $tagsService): RelatedContentAdapter
+    private function getAdapter(Tag $tag, TagsService $tagsService): RelatedContentAdapter
     {
         $adapter = new RelatedContentAdapter($tagsService);
         $adapter->setTag($tag);

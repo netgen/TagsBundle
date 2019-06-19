@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class LanguageHandlerMock
 {
-    protected $languages = [];
+    private $languages = [];
 
     public function __construct()
     {

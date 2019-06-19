@@ -1707,35 +1707,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * Creates and returns a \DateTimeInterface object with received timestamp.
-     */
-    protected function getDateTime(?int $timestamp = null): DateTimeInterface
-    {
-        $timestamp = $timestamp ?: time();
-
-        $dateTime = new DateTime();
-        $dateTime->setTimestamp($timestamp);
-
-        return $dateTime;
-    }
-
-    /**
-     * Returns the path string of a synonym for main tag path string.
-     *
-     * @param mixed $synonymId
-     * @param string $mainTagPathString
-     *
-     * @return string
-     */
-    protected function getSynonymPathString($synonymId, string $mainTagPathString): string
-    {
-        $pathStringElements = explode('/', trim($mainTagPathString, '/'));
-        array_pop($pathStringElements);
-
-        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
-    }
-
-    /**
      * Returns User stub with $id as User/Content id.
      */
     protected function getStubbedUser(int $id): APIUser
@@ -1754,5 +1725,34 @@ abstract class BaseTagsServiceTest extends BaseTest
                 ),
             ]
         );
+    }
+
+    /**
+     * Creates and returns a \DateTimeInterface object with received timestamp.
+     */
+    private function getDateTime(?int $timestamp = null): DateTimeInterface
+    {
+        $timestamp = $timestamp ?: time();
+
+        $dateTime = new DateTime();
+        $dateTime->setTimestamp($timestamp);
+
+        return $dateTime;
+    }
+
+    /**
+     * Returns the path string of a synonym for main tag path string.
+     *
+     * @param mixed $synonymId
+     * @param string $mainTagPathString
+     *
+     * @return string
+     */
+    private function getSynonymPathString($synonymId, string $mainTagPathString): string
+    {
+        $pathStringElements = explode('/', trim($mainTagPathString, '/'));
+        array_pop($pathStringElements);
+
+        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
     }
 }
