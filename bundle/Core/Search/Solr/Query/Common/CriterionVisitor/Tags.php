@@ -31,21 +31,12 @@ abstract class Tags extends Field
      */
     private $fieldName;
 
-    /**
-     * Create from FieldNameResolver, FieldType identifier and field name.
-     *
-     * @param \eZ\Publish\Core\Search\Common\FieldNameResolver $fieldNameResolver
-     * @param \eZ\Publish\Core\Search\Common\FieldValueMapper $fieldValueMapper
-     * @param \eZ\Publish\SPI\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param string $fieldTypeIdentifier
-     * @param string $fieldName
-     */
     public function __construct(
         FieldNameResolver $fieldNameResolver,
         FieldValueMapper $fieldValueMapper,
         Handler $contentTypeHandler,
-        $fieldTypeIdentifier,
-        $fieldName
+        string $fieldTypeIdentifier,
+        string $fieldName
     ) {
         parent::__construct($fieldNameResolver, $fieldValueMapper);
 
@@ -54,7 +45,7 @@ abstract class Tags extends Field
         $this->fieldName = $fieldName;
     }
 
-    protected function getSearchFields(Criterion $criterion)
+    protected function getSearchFields(Criterion $criterion): array
     {
         if ($criterion->target !== null) {
             return $this->fieldNameResolver->getFieldTypes(

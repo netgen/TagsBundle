@@ -23,15 +23,13 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
 
     /**
      * Sets the available edit views.
-     *
-     * @param array $availableEditViews
      */
-    public function setEditViews(array $availableEditViews)
+    public function setEditViews(array $availableEditViews): void
     {
         $this->availableEditViews = $availableEditViews;
     }
 
-    public function mapFieldValueForm(FormInterface $fieldForm, FieldData $data)
+    public function mapFieldValueForm(FormInterface $fieldForm, FieldData $data): void
     {
         $fieldForm
             ->add(
@@ -50,7 +48,7 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
             );
     }
 
-    public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data)
+    public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data): void
     {
         $editViewChoices = [];
         foreach ($this->availableEditViews as $editView) {

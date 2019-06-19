@@ -23,7 +23,7 @@ class CachedValue extends ValueObjectVisitor
         $this->configResolver = $configResolver;
     }
 
-    public function visit(Visitor $visitor, Generator $generator, $data)
+    public function visit(Visitor $visitor, Generator $generator, $data): void
     {
         $visitor->visitValueObject($data->value);
 

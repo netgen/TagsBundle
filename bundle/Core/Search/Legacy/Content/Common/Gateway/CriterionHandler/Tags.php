@@ -5,24 +5,21 @@ namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionH
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-/**
- * Tag keyword criterion handler.
- */
 abstract class Tags extends CriterionHandler
 {
     /**
      * Returns searchable fields for the Criterion.
      *
-     * @param string $fieldIdentifier
+     * @param string|null $fieldIdentifier
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier
      *
      * @return int[]|null
      */
-    protected function getSearchableFields($fieldIdentifier)
+    protected function getSearchableFields(?string $fieldIdentifier): ?array
     {
         if ($fieldIdentifier === null) {
-            return;
+            return null;
         }
 
         $query = $this->dbHandler->createSelectQuery();

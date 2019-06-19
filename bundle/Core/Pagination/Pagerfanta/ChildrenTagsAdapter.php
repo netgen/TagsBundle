@@ -38,20 +38,16 @@ class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 
     /**
      * Sets the tag to the adapter.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
-    public function setTag(Tag $tag)
+    public function setTag(Tag $tag): void
     {
         $this->tag = $tag;
     }
 
     /**
      * Returns the number of results.
-     *
-     * @return int The number of results
      */
-    public function getNbResults()
+    public function getNbResults(): int
     {
         if (!isset($this->nbResults)) {
             $this->nbResults = $this->tagsService->getTagChildrenCount($this->tag);
@@ -68,7 +64,7 @@ class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function getSlice($offset, $length)
+    public function getSlice($offset, $length): iterable
     {
         $childrenTags = $this->tagsService->loadTagChildren($this->tag, $offset, $length);
 

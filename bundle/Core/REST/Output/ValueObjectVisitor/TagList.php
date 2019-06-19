@@ -8,7 +8,7 @@ use EzSystems\EzPlatformRest\Output\Visitor;
 
 class TagList extends ValueObjectVisitor
 {
-    public function visit(Visitor $visitor, Generator $generator, $data)
+    public function visit(Visitor $visitor, Generator $generator, $data): void
     {
         $generator->startObjectElement('TagList');
         $visitor->setHeader('Content-Type', $generator->getMediaType('TagList'));

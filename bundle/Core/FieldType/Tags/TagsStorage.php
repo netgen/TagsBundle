@@ -8,6 +8,7 @@ use eZ\Publish\SPI\FieldType\StorageGateway;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 /**
  * Converter for Tags field type external storage.
@@ -19,12 +20,6 @@ class TagsStorage extends GatewayBasedStorage
      */
     private $tagsService;
 
-    /**
-     * Constructor.
-     *
-     * @param \eZ\Publish\SPI\FieldType\StorageGateway $gateway
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     */
     public function __construct(StorageGateway $gateway, TagsService $tagsService)
     {
         parent::__construct($gateway);
@@ -32,16 +27,7 @@ class TagsStorage extends GatewayBasedStorage
         $this->tagsService = $tagsService;
     }
 
-    /**
-     * Stores value for $field in an external data source.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return bool|null
-     */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): ?bool
     {
         $this->gateway->deleteFieldData($versionInfo, [$field->id]);
         if (count($field->value->externalData ?? []) > 0) {
@@ -63,52 +49,21 @@ class TagsStorage extends GatewayBasedStorage
         }
     }
 
-    /**
-     * Populates $field value property based on the external data.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param array $context
-     */
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context): void
     {
         $this->gateway->getFieldData($versionInfo, $field);
     }
 
-    /**
-     * Deletes field data for all $fieldIds in the version identified by
-     * $versionInfo.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param array $fieldIds Array of field IDs
-     * @param array $context
-     *
-     * @return bool
-     */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context): void
     {
         $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 
-    /**
-     * Checks if field type has external data to deal with.
-     *
-     * @return bool
-     */
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }
 
-    /**
-     * Get index data for external data for search backend.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return \eZ\Publish\SPI\Search\Field[]
-     */
     public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
     {
         return false;
@@ -116,12 +71,8 @@ class TagsStorage extends GatewayBasedStorage
 
     /**
      * Creates a tag from provided data.
-     *
-     * @param array $tagData
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    private function createTag(array $tagData)
+    private function createTag(array $tagData): Tag
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             $tagData['parent_id'],

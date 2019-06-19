@@ -8,17 +8,14 @@ use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as TagKeywordCriterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
-/**
- * Tag keyword criterion handler.
- */
 class TagKeyword extends Tags
 {
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof TagKeywordCriterion;
     }
 
-    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null)
+    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null): string
     {
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue $valueData */
         $valueData = $criterion->valueData;

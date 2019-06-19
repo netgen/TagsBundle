@@ -25,25 +25,13 @@ class DoctrineStorage extends Gateway
      */
     private $languageHandler;
 
-    /**
-     * Constructor.
-     *
-     * @param \Doctrine\DBAL\Connection $connection
-     * @param \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler
-     */
     public function __construct(Connection $connection, LanguageHandler $languageHandler)
     {
         $this->connection = $connection;
         $this->languageHandler = $languageHandler;
     }
 
-    /**
-     * Stores the tags in the database based on the given field data.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): void
     {
         foreach ($field->value->externalData as $priority => $tag) {
             $insertQuery = $this->connection->createQueryBuilder();
@@ -68,25 +56,12 @@ class DoctrineStorage extends Gateway
         }
     }
 
-    /**
-     * Gets the tags stored in the field.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->loadFieldData($field->id, $versionInfo->versionNo);
     }
 
-    /**
-     * Deletes field data for all $fieldIds in the version identified by
-     * $versionInfo.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param array $fieldIds
-     */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -105,13 +80,8 @@ class DoctrineStorage extends Gateway
 
     /**
      * Returns the data for the given $fieldId and $versionNo.
-     *
-     * @param int $fieldId
-     * @param int $versionNo
-     *
-     * @return array
      */
-    private function loadFieldData(int $fieldId, int $versionNo)
+    private function loadFieldData(int $fieldId, int $versionNo): array
     {
         $query = $this->connection->createQueryBuilder();
         $query

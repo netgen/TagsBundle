@@ -8,8 +8,6 @@ interface TagAdapterInterface
 {
     /**
      * Sets the tag to the adapter.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      */
-    public function setTag(Tag $tag);
+    public function setTag(Tag $tag): void;
 }

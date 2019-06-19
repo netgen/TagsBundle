@@ -11,12 +11,12 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause\ContentType
  */
 class ContentTypeId extends SortClauseVisitor
 {
-    public function canVisit(SortClause $sortClause)
+    public function canVisit(SortClause $sortClause): bool
     {
         return $sortClause instanceof ContentTypeIdClause;
     }
 
-    public function visit(SortClause $sortClause)
+    public function visit(SortClause $sortClause): string
     {
         return 'content_type_id_id' . $this->getDirection($sortClause);
     }

@@ -31,12 +31,8 @@ class Mapper
 
     /**
      * Creates a tag from a $data row.
-     *
-     * @param array $row
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo
      */
-    public function createTagInfoFromRow(array $row)
+    public function createTagInfoFromRow(array $row): TagInfo
     {
         $tagInfo = new TagInfo();
 
@@ -61,7 +57,7 @@ class Mapper
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public function extractTagListFromRows(array $rows)
+    public function extractTagListFromRows(array $rows): array
     {
         $tagList = [];
         foreach ($rows as $row) {

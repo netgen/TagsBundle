@@ -17,12 +17,10 @@ class TagList extends Value
     public $path;
 
     /**
-     * Constructor.
-     *
      * @param \Netgen\TagsBundle\Core\REST\Values\RestTag[] $tags
      * @param string $path
      */
-    public function __construct(array $tags, $path)
+    public function __construct(array $tags, string $path)
     {
         $this->tags = $tags;
         $this->path = $path;

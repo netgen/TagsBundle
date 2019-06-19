@@ -20,11 +20,9 @@ class SortClauseMapper
     ];
 
     /**
-     * Returns allowed sort options;.
-     *
-     * @return array
+     * Returns allowed sort options.
      */
-    public function getSortOptions()
+    public function getSortOptions(): array
     {
         return self::$allowedSortOptions;
     }
@@ -36,7 +34,7 @@ class SortClauseMapper
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\SortClause[]
      */
-    public function mapSortClauses(array $sortOptions)
+    public function mapSortClauses(array $sortOptions): array
     {
         $sortClauses = [];
 
@@ -53,12 +51,8 @@ class SortClauseMapper
 
     /**
      * Maps given sort option to corresponding SortClause, if supported.
-     *
-     * @param string $sortOption
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Query\SortClause
      */
-    private function mapSortClause($sortOption)
+    private function mapSortClause(string $sortOption): SortClause
     {
         switch ($sortOption) {
             case 'content_id_ascending':

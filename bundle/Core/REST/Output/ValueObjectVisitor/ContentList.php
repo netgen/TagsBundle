@@ -8,7 +8,7 @@ use EzSystems\EzPlatformRest\Output\Visitor;
 
 class ContentList extends ValueObjectVisitor
 {
-    public function visit(Visitor $visitor, Generator $generator, $data)
+    public function visit(Visitor $visitor, Generator $generator, $data): void
     {
         $generator->startObjectElement('ContentList');
         $visitor->setHeader('Content-Type', $generator->getMediaType('ContentList'));

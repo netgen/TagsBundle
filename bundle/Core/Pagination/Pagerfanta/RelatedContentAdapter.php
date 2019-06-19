@@ -54,12 +54,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
         $this->returnContentInfo = (bool) $returnContentInfo;
     }
 
-    /**
-     * Sets the tag to the adapter.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     */
-    public function setTag(Tag $tag)
+    public function setTag(Tag $tag): void
     {
         $this->tag = $tag;
     }
@@ -67,7 +62,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause[] $sortClauses
      */
-    public function setSortClauses(array $sortClauses)
+    public function setSortClauses(array $sortClauses): void
     {
         $this->sortClauses = $sortClauses;
     }
@@ -77,17 +72,15 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria
      */
-    public function setAdditionalCriteria(array $additionalCriteria = [])
+    public function setAdditionalCriteria(array $additionalCriteria = []): void
     {
         $this->additionalCriteria = $additionalCriteria;
     }
 
     /**
      * Returns the number of results.
-     *
-     * @return int The number of results
      */
-    public function getNbResults()
+    public function getNbResults(): int
     {
         if (!$this->tag instanceof Tag) {
             return 0;
@@ -108,7 +101,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function getSlice($offset, $length)
+    public function getSlice($offset, $length): iterable
     {
         if (!$this->tag instanceof Tag) {
             return [];

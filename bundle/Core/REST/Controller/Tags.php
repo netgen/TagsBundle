@@ -28,13 +28,9 @@ class Tags extends RestController
     /**
      * Loads the tag for a given ID (x)or remote ID.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID
-     *
-     * @return \EzSystems\EzPlatformRest\Server\Values\TemporaryRedirect
      */
-    public function redirectTag(Request $request)
+    public function redirectTag(Request $request): BaseValues\TemporaryRedirect
     {
         if (!$request->query->has('id') && !$request->query->has('remoteId')) {
             throw new BadRequestException("At least one of 'id' or 'remoteId' parameters is required.");
@@ -59,13 +55,9 @@ class Tags extends RestController
     /**
      * Loads a tag object by its path.
      *
-     * @param string $tagPath
-     *
      * @throws \EzSystems\EzPlatformRest\Exceptions\NotFoundException If no tag is found with specified path
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CachedValue
      */
-    public function loadTag($tagPath)
+    public function loadTag(string $tagPath): Values\CachedValue
     {
         $tag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath($tagPath)
@@ -98,15 +90,9 @@ class Tags extends RestController
     /**
      * Loads all tags with specified keyword.
      *
-     * @param string $keyword
-     * @param string $language
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Exceptions\NotFoundException If no tag is found with specified path
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CachedValue
      */
-    public function loadTagsByKeyword($keyword, $language, Request $request)
+    public function loadTagsByKeyword(string $keyword, string $language, Request $request): Values\CachedValue
     {
         $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
         $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
@@ -135,13 +121,8 @@ class Tags extends RestController
 
     /**
      * Loads children of a tag object.
-     *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CachedValue
      */
-    public function loadTagChildren($tagPath, Request $request)
+    public function loadTagChildren(string $tagPath, Request $request): Values\CachedValue
     {
         $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
         $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
@@ -171,13 +152,8 @@ class Tags extends RestController
 
     /**
      * Loads synonyms of a tag object.
-     *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CachedValue
      */
-    public function loadTagSynonyms($tagPath, Request $request)
+    public function loadTagSynonyms(string $tagPath, Request $request): Values\CachedValue
     {
         $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
         $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
@@ -205,13 +181,8 @@ class Tags extends RestController
 
     /**
      * Returns content related to a tag.
-     *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CachedValue
      */
-    public function getRelatedContent($tagPath, Request $request)
+    public function getRelatedContent(string $tagPath, Request $request): Values\CachedValue
     {
         $offset = $request->query->has('offset') ? (int) $request->query->get('offset') : 0;
         $limit = $request->query->has('limit') ? (int) $request->query->get('limit') : 25;
@@ -240,13 +211,9 @@ class Tags extends RestController
     /**
      * Creates a new tag.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Exceptions\ForbiddenException If there was an error while creating the tag
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CreatedTag
      */
-    public function createTag(Request $request)
+    public function createTag(Request $request): Values\CreatedTag
     {
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
@@ -267,14 +234,9 @@ class Tags extends RestController
     /**
      * Creates a new synonym.
      *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Exceptions\ForbiddenException If there was an error while creating the tag
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\CreatedTag
      */
-    public function createSynonym($tagPath, Request $request)
+    public function createSynonym(string $tagPath, Request $request): Values\CreatedTag
     {
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
@@ -296,13 +258,8 @@ class Tags extends RestController
 
     /**
      * Updates a tag.
-     *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Netgen\TagsBundle\Core\REST\Values\RestTag
      */
-    public function updateTag($tagPath, Request $request)
+    public function updateTag(string $tagPath, Request $request): Values\RestTag
     {
         $tagUpdateStruct = $this->inputDispatcher->parse(
             new Message(
@@ -335,14 +292,9 @@ class Tags extends RestController
     /**
      * Copies a subtree to a new destination.
      *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
-     *
-     * @return \EzSystems\EzPlatformRest\Server\Values\ResourceCreated
      */
-    public function copySubtree($tagPath, Request $request)
+    public function copySubtree(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
         $tag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath($tagPath)
@@ -380,14 +332,9 @@ class Tags extends RestController
     /**
      * Moves a subtree to a new location.
      *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
-     *
-     * @return \EzSystems\EzPlatformRest\Server\Values\ResourceCreated
      */
-    public function moveSubtree($tagPath, Request $request)
+    public function moveSubtree(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
         $tag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath($tagPath)
@@ -428,14 +375,9 @@ class Tags extends RestController
     /**
      * Converts a tag to synonym.
      *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
-     *
-     * @return \EzSystems\EzPlatformRest\Server\Values\ResourceCreated
      */
-    public function convertToSynonym($tagPath, Request $request)
+    public function convertToSynonym(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
         $tag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath($tagPath)
@@ -473,14 +415,9 @@ class Tags extends RestController
     /**
      * Merges two tags.
      *
-     * @param string $tagPath
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
-     *
-     * @return \EzSystems\EzPlatformRest\Server\Values\NoContent
      */
-    public function mergeTags($tagPath, Request $request)
+    public function mergeTags(string $tagPath, Request $request): BaseValues\NoContent
     {
         $tag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath($tagPath)
@@ -510,12 +447,8 @@ class Tags extends RestController
 
     /**
      * Deletes a tag.
-     *
-     * @param string $tagPath
-     *
-     * @return \EzSystems\EzPlatformRest\Server\Values\NoContent
      */
-    public function deleteTag($tagPath)
+    public function deleteTag(string $tagPath): BaseValues\NoContent
     {
         $tag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath($tagPath)
@@ -528,12 +461,8 @@ class Tags extends RestController
 
     /**
      * Extracts and returns an item ID from a path, e.g. /1/2/42/ => 42.
-     *
-     * @param string $path
-     *
-     * @return int
      */
-    private function extractTagIdFromPath($path)
+    private function extractTagIdFromPath(string $path): int
     {
         $pathParts = explode('/', trim($path, '/'));
 

@@ -7,6 +7,7 @@ use EzSystems\EzPlatformRest\Input\BaseParser;
 use EzSystems\EzPlatformRest\Input\ParserTools;
 use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 
 class TagCreate extends BaseParser
 {
@@ -26,7 +27,7 @@ class TagCreate extends BaseParser
         $this->parserTools = $parserTools;
     }
 
-    public function parse(array $data, ParsingDispatcher $parsingDispatcher)
+    public function parse(array $data, ParsingDispatcher $parsingDispatcher): TagCreateStruct
     {
         if (!array_key_exists('ParentTag', $data) || !is_array($data['ParentTag'])) {
             throw new Exceptions\Parser("Missing or invalid 'ParentTag' element for TagCreate.");

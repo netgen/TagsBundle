@@ -11,12 +11,12 @@ use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
 class TagKeyword extends Tags
 {
-    public function canVisit(Criterion $criterion)
+    public function canVisit(Criterion $criterion): bool
     {
         return $criterion instanceof APITagKeyword;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
+    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
     {
         $criterion->value = (array) $criterion->value;
         $searchFields = $this->getSearchFields($criterion);

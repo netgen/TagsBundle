@@ -23,8 +23,6 @@ class CachedValue extends Value
     public $cacheTags;
 
     /**
-     * Constructor.
-     *
      * @param mixed $value The value that gets cached
      * @param array $cacheTags Tags to add to the cache (supported: tagId, tagKeyword)
      */
@@ -37,13 +35,9 @@ class CachedValue extends Value
     /**
      * Checks for unsupported cache tags.
      *
-     * @param array $tags
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If invalid cache tags are provided
-     *
-     * @return array
      */
-    private function checkCacheTags(array $tags)
+    private function checkCacheTags(array $tags): array
     {
         $invalidTags = array_diff(array_keys($tags), ['tagId', 'tagKeyword']);
         if (count($invalidTags) > 0) {

@@ -7,7 +7,7 @@ use EzSystems\EzPlatformRest\Output\Visitor;
 
 class CreatedTag extends RestTag
 {
-    public function visit(Visitor $visitor, Generator $generator, $data)
+    public function visit(Visitor $visitor, Generator $generator, $data): void
     {
         parent::visit($visitor, $generator, $data->restTag);
 

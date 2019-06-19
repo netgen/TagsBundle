@@ -39,7 +39,7 @@ class RelatedContentFacetsLoader
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
      */
-    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = [])
+    public function getRelatedContentFacets(Tag $tag, array $facetBuilders = []): array
     {
         if ($this->tagsService->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');

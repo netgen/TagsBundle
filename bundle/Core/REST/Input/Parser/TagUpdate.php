@@ -7,6 +7,7 @@ use EzSystems\EzPlatformRest\Input\BaseParser;
 use EzSystems\EzPlatformRest\Input\ParserTools;
 use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 class TagUpdate extends BaseParser
 {
@@ -26,7 +27,7 @@ class TagUpdate extends BaseParser
         $this->parserTools = $parserTools;
     }
 
-    public function parse(array $data, ParsingDispatcher $parsingDispatcher)
+    public function parse(array $data, ParsingDispatcher $parsingDispatcher): TagUpdateStruct
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 

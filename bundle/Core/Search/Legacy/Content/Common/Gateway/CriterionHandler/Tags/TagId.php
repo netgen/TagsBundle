@@ -8,17 +8,14 @@ use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as TagIdCriterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
-/**
- * Tag ID criterion handler.
- */
 class TagId extends Tags
 {
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof TagIdCriterion;
     }
 
-    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null)
+    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null): string
     {
         $subSelect = $query->subSelect();
         $subSelect

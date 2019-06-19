@@ -44,8 +44,6 @@ class TagsAdminView implements ViewInterface
     private $endPage;
 
     /**
-     * Constructor.
-     *
      * @param \Twig\Environment $twig
      */
     public function __construct(Environment $twig)
@@ -55,20 +53,13 @@ class TagsAdminView implements ViewInterface
 
     /**
      * Sets the default template.
-     *
-     * @param string $template
      */
-    public function setDefaultTemplate($template)
+    public function setDefaultTemplate(string $template): void
     {
         $this->template = $template;
     }
 
-    /**
-     * Returns the canonical name.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'eztags_admin';
     }
@@ -86,7 +77,7 @@ class TagsAdminView implements ViewInterface
      *
      * @return string
      */
-    public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = [])
+    public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = []): string
     {
         $this->pagerfanta = $pagerfanta;
         $this->routeGenerator = $routeGenerator;
@@ -95,7 +86,7 @@ class TagsAdminView implements ViewInterface
         $this->calculateStartAndEndPage();
 
         return $this->twig->render(
-            isset($options['template']) ? $options['template'] : $this->template,
+            $options['template'] ?? $this->template,
             [
                 'pager' => $pagerfanta,
                 'pages' => $this->getPages(),
@@ -105,10 +96,8 @@ class TagsAdminView implements ViewInterface
 
     /**
      * Initializes the proximity.
-     *
-     * @param array $options
      */
-    private function initializeProximity($options)
+    private function initializeProximity(array $options): void
     {
         $this->proximity = isset($options['proximity']) ?
             (int) $options['proximity'] :
@@ -118,7 +107,7 @@ class TagsAdminView implements ViewInterface
     /**
      * Calculates start and end page that will be shown in the middle of pager.
      */
-    private function calculateStartAndEndPage()
+    private function calculateStartAndEndPage(): void
     {
         $currentPage = $this->pagerfanta->getCurrentPage();
         $nbPages = $this->pagerfanta->getNbPages();
@@ -136,44 +125,30 @@ class TagsAdminView implements ViewInterface
             $endPage = $nbPages;
         }
 
-        $this->startPage = (int) $startPage;
-        $this->endPage = (int) $endPage;
+        $this->startPage = $startPage;
+        $this->endPage = $endPage;
     }
 
     /**
      * Calculates the end page when start page is underflowed.
-     *
-     * @param int $startPage
-     * @param int $endPage
-     * @param int $nbPages
-     *
-     * @return int
      */
-    private function calculateEndPageForStartPageUnderflow($startPage, $endPage, $nbPages)
+    private function calculateEndPageForStartPageUnderflow(int $startPage, int $endPage, int $nbPages): int
     {
         return min($endPage + (1 - $startPage), $nbPages);
     }
 
     /**
      * Calculates the start page when end page is overflowed.
-     *
-     * @param int $startPage
-     * @param int $endPage
-     * @param int $nbPages
-     *
-     * @return int
      */
-    private function calculateStartPageForEndPageOverflow($startPage, $endPage, $nbPages)
+    private function calculateStartPageForEndPageOverflow(int $startPage, int $endPage, int $nbPages): int
     {
         return max($startPage - ($endPage - $nbPages), 1);
     }
 
     /**
      * Returns the list of all pages that need to be displayed.
-     *
-     * @return array
      */
-    private function getPages()
+    private function getPages(): array
     {
         $pages = [];
 
@@ -186,7 +161,7 @@ class TagsAdminView implements ViewInterface
 
         $pages['second_page'] = $this->startPage === 3 ? $this->generateUrl(2) : false;
 
-        $pages['separator_before'] = $this->startPage > 3 ? true : false;
+        $pages['separator_before'] = $this->startPage > 3;
 
         $middlePages = [];
         for ($i = $this->startPage, $end = $this->endPage; $i <= $end; ++$i) {
@@ -195,7 +170,7 @@ class TagsAdminView implements ViewInterface
 
         $pages['middle_pages'] = $middlePages;
 
-        $pages['separator_after'] = $this->endPage < $this->pagerfanta->getNbPages() - 2 ? true : false;
+        $pages['separator_after'] = $this->endPage < $this->pagerfanta->getNbPages() - 2;
 
         $pages['second_to_last_page'] = $this->endPage === $this->pagerfanta->getNbPages() - 2 ?
             $this->generateUrl($this->pagerfanta->getNbPages() - 1) :
@@ -218,12 +193,8 @@ class TagsAdminView implements ViewInterface
 
     /**
      * Generates the URL based on provided page.
-     *
-     * @param int $page
-     *
-     * @return string
      */
-    private function generateUrl($page)
+    private function generateUrl(int $page): string
     {
         $routeGenerator = $this->routeGenerator;
 

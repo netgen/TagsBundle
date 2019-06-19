@@ -4,7 +4,9 @@ namespace Netgen\TagsBundle\Core\Limitation;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
+use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 use eZ\Publish\API\Repository\Values\User\Limitation as APILimitationValue;
+use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\UserReference;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
@@ -33,7 +35,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         $this->tagsPersistence = $tagsPersistence;
     }
 
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APITagLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'TagLimitation', $limitationValue);
@@ -50,7 +52,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         }
     }
 
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
 
@@ -72,12 +74,12 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         return $validationErrors;
     }
 
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): Limitation
     {
         return new APITagLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, UserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, UserReference $currentUser, ValueObject $object, array $targets = null): bool
     {
         if (!$value instanceof APITagLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: TagLimitation');
@@ -101,7 +103,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         return in_array($object->id, $limitationValues, true);
     }
 
-    public function getCriterion(APILimitationValue $value, UserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, UserReference $currentUser): CriterionInterface
     {
         if (count($value->limitationValues ?? []) === 0) {
             // no limitation values

@@ -12,22 +12,22 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 
 class Tags implements Converter
 {
-    const TAGS_VALIDATOR_IDENTIFIER = 'TagsValueValidator';
+    private const TAGS_VALIDATOR_IDENTIFIER = 'TagsValueValidator';
 
-    public static function create()
+    public static function create(): self
     {
         return new self();
     }
 
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
     }
 
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
     }
 
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         $storageDef->dataInt1 = isset($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit']) ?
             (int) $fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit'] :
@@ -41,12 +41,10 @@ class Tags implements Converter
             (int) $fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags'] :
             0;
 
-        $storageDef->dataText1 = isset($fieldDef->fieldTypeConstraints->fieldSettings['editView']) ?
-            $fieldDef->fieldTypeConstraints->fieldSettings['editView'] :
-            Type::EDIT_VIEW_DEFAULT_VALUE;
+        $storageDef->dataText1 = $fieldDef->fieldTypeConstraints->fieldSettings['editView'] ?? Type::EDIT_VIEW_DEFAULT_VALUE;
     }
 
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             [
@@ -64,7 +62,7 @@ class Tags implements Converter
         ];
     }
 
-    public function getIndexColumn()
+    public function getIndexColumn(): bool
     {
         return false;
     }
