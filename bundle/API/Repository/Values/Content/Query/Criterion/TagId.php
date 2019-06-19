@@ -5,7 +5,6 @@ namespace Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * A criterion that matches content based on tag ID that is located in one of the fields.
@@ -14,7 +13,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
  * - IN: matches against a list of tag IDs (with OR operator)
  * - EQ: matches against one tag ID
  */
-class TagId extends Criterion implements CriterionInterface
+class TagId extends Criterion
 {
     /**
      * Creates a new TagId criterion.
@@ -44,10 +43,5 @@ class TagId extends Criterion implements CriterionInterface
                 Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
             ),
         ];
-    }
-
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
-        return new self($value);
     }
 }

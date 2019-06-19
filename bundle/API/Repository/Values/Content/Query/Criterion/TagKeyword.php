@@ -6,7 +6,6 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * A criterion that matches content based on tag keyword that is located in one of the fields.
@@ -16,7 +15,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
  * - EQ: matches against one tag keyword
  * - LIKE: matches against a part of tag keyword
  */
-class TagKeyword extends Criterion implements CriterionInterface
+class TagKeyword extends Criterion
 {
     /**
      * Creates a new TagKeyword criterion.
@@ -53,10 +52,5 @@ class TagKeyword extends Criterion implements CriterionInterface
                 Specifications::TYPE_STRING
             ),
         ];
-    }
-
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
-        return new self($operator, $value);
     }
 }
