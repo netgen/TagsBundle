@@ -34,24 +34,24 @@ class TagsService implements TagsServiceInterface
     /**
      * @var \eZ\Publish\API\Repository\Repository
      */
-    protected $repository;
+    private $repository;
 
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
-    protected $tagsHandler;
+    private $tagsHandler;
 
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    private $languageHandler;
 
     /**
      * Counter for the current sudo nesting level.
      *
      * @var int
      */
-    protected $sudoNestingLevel = 0;
+    private $sudoNestingLevel = 0;
 
     /**
      * Constructor.
@@ -1119,12 +1119,12 @@ class TagsService implements TagsServiceInterface
         return $this->repository->canUser($module, $function, $object, $targets);
     }
 
-    protected function buildTagDomainObject(SPITag $spiTag)
+    private function buildTagDomainObject(SPITag $spiTag)
     {
         return $this->buildTagDomainList([$spiTag])[$spiTag->id];
     }
 
-    protected function buildTagDomainList(array $spiTags)
+    private function buildTagDomainList(array $spiTags)
     {
         // Optimization for 2.5+ to load all languages at once:
         if (\method_exists($this->languageHandler, 'loadList')) {

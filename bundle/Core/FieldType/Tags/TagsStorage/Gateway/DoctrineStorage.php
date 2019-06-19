@@ -16,14 +16,14 @@ class DoctrineStorage extends Gateway
      *
      * @var \Doctrine\DBAL\Connection
      */
-    protected $connection;
+    private $connection;
 
     /**
      * Caching language handler.
      *
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    private $languageHandler;
 
     /**
      * Constructor.
@@ -111,7 +111,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    protected function loadFieldData($fieldId, $versionNo)
+    private function loadFieldData($fieldId, $versionNo)
     {
         $query = $this->connection->createQueryBuilder();
         $query

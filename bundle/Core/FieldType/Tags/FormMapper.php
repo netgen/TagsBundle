@@ -19,7 +19,7 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
     /**
      * @var array
      */
-    protected $availableEditViews = [];
+    private $availableEditViews = [];
 
     /**
      * Sets the available edit views.

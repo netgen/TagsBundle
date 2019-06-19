@@ -19,12 +19,12 @@ class TagMatcherFactory extends ClassNameMatcherFactory
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \eZ\Publish\Core\Helper\TranslationHelper
      */
-    protected $translationHelper;
+    private $translationHelper;
 
     public function __construct(
         TagsService $tagsService,

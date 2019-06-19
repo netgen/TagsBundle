@@ -23,17 +23,17 @@ class TagUrlGenerator extends Generator
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
-    protected $defaultRouter;
+    private $defaultRouter;
 
     /**
      * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    protected $configResolver;
+    private $configResolver;
 
     public function __construct(
         TagsService $tagsService,

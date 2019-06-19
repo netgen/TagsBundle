@@ -24,7 +24,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
-    protected $tagsPersistence;
+    private $tagsPersistence;
 
     /**
      * Constructor.

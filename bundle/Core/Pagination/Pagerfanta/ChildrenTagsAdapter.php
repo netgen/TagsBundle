@@ -14,17 +14,17 @@ class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected $tag;
+    private $tag;
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var int
      */
-    protected $nbResults;
+    private $nbResults;
 
     /**
      * Constructor.

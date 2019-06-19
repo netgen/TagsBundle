@@ -15,7 +15,7 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
     /**
      * @var \eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface
      */
-    protected $matcherFactory;
+    private $matcherFactory;
 
     public function __construct(MatcherFactoryInterface $matcherFactory)
     {
@@ -47,7 +47,7 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
     /**
      * Builds a TagView object from $viewConfig.
      */
-    protected function buildTagView(array $viewConfig): TagView
+    private function buildTagView(array $viewConfig): TagView
     {
         $view = new TagView();
         $view->setConfigHash($viewConfig);

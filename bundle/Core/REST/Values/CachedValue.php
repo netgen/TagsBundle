@@ -43,7 +43,7 @@ class CachedValue extends Value
      *
      * @return array
      */
-    protected function checkCacheTags(array $tags)
+    private function checkCacheTags(array $tags)
     {
         $invalidTags = array_diff(array_keys($tags), ['tagId', 'tagKeyword']);
         if (count($invalidTags) > 0) {

@@ -15,12 +15,12 @@ class RelatedContentPager implements EventSubscriberInterface
     /**
      * @var \Pagerfanta\Adapter\AdapterInterface
      */
-    protected $adapter;
+    private $adapter;
 
     /**
      * @var int
      */
-    protected $pagerLimit;
+    private $pagerLimit;
 
     public function __construct(AdapterInterface $adapter)
     {

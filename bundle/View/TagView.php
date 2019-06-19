@@ -10,7 +10,7 @@ class TagView extends BaseView implements TagValueView, CacheableView
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected $tag;
+    private $tag;
 
     /**
      * Sets the tag.

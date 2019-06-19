@@ -13,12 +13,12 @@ class TagCreate extends BaseParser
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \EzSystems\EzPlatformRest\Input\ParserTools
      */
-    protected $parserTools;
+    private $parserTools;
 
     /**
      * Constructor.

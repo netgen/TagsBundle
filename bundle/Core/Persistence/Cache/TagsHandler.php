@@ -18,7 +18,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
-    protected $tagsHandler;
+    private $tagsHandler;
 
     public function __construct(
         TagAwareAdapterInterface $cache,

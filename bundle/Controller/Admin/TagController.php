@@ -24,27 +24,27 @@ class TagController extends Controller
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \eZ\Publish\API\Repository\ContentTypeService
      */
-    protected $contentTypeService;
+    private $contentTypeService;
 
     /**
      * @var \eZ\Publish\API\Repository\SearchService
      */
-    protected $searchService;
+    private $searchService;
 
     /**
      * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
-    protected $translator;
+    private $translator;
 
     /**
      * @var \Pagerfanta\Adapter\AdapterInterface
      */
-    protected $tagChildrenAdapter;
+    private $tagChildrenAdapter;
 
     public function __construct(
         TagsService $tagsService,
@@ -700,7 +700,7 @@ class TagController extends Controller
     /**
      * Returns an array with subtree limitations for given tag.
      */
-    protected function getSubtreeLimitations(Tag $tag): array
+    private function getSubtreeLimitations(Tag $tag): array
     {
         $result = [];
 

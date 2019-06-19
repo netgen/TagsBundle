@@ -13,27 +13,27 @@ class TreeController extends Controller
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
-    protected $translator;
+    private $translator;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
-    protected $router;
+    private $router;
 
     /**
      * @var array
      */
-    protected $treeLabels;
+    private $treeLabels;
 
     /**
      * @var array
      */
-    protected $treeLinks;
+    private $treeLinks;
 
     public function __construct(
         TagsService $tagsService,
@@ -100,7 +100,7 @@ class TreeController extends Controller
     /**
      * Generates data for root of the tree.
      */
-    protected function getRootTreeData(): array
+    private function getRootTreeData(): array
     {
         return [
             'id' => '0',
@@ -129,7 +129,7 @@ class TreeController extends Controller
     /**
      * Generates data, for given tag, which will be converted to JSON:.
      */
-    protected function getTagTreeData(Tag $tag, bool $isRoot = false): array
+    private function getTagTreeData(Tag $tag, bool $isRoot = false): array
     {
         $synonymCount = $this->tagsService->getTagSynonymCount($tag);
 

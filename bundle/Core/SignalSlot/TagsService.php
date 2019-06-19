@@ -23,12 +23,12 @@ class TagsService implements TagsServiceInterface
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $service;
+    private $service;
 
     /**
      * @var \eZ\Publish\Core\SignalSlot\SignalDispatcher
      */
-    protected $signalDispatcher;
+    private $signalDispatcher;
 
     /**
      * Constructor.

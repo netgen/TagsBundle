@@ -14,7 +14,7 @@ class LanguageValidator extends ConstraintValidator
     /**
      * @var \eZ\Publish\API\Repository\LanguageService
      */
-    protected $languageService;
+    private $languageService;
 
     public function __construct(LanguageService $languageService)
     {

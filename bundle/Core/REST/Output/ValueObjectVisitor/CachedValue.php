@@ -16,7 +16,7 @@ class CachedValue extends ValueObjectVisitor
     /**
      * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    protected $configResolver;
+    private $configResolver;
 
     /**
      * Constructor.
@@ -74,7 +74,7 @@ class CachedValue extends ValueObjectVisitor
      *
      * @return mixed
      */
-    protected function getParameter($parameterName, $namespace, $defaultValue = null)
+    private function getParameter($parameterName, $namespace, $defaultValue = null)
     {
         if ($this->configResolver->hasParameter($parameterName, $namespace)) {
             return $this->configResolver->getParameter($parameterName, $namespace);

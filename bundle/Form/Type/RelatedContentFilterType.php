@@ -19,17 +19,17 @@ class RelatedContentFilterType extends AbstractType
     /**
      * @var \Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader
      */
-    protected $relatedContentFacetsLoader;
+    private $relatedContentFacetsLoader;
 
     /**
      * @var \eZ\Publish\API\Repository\ContentTypeService
      */
-    protected $contentTypeService;
+    private $contentTypeService;
 
     /**
      * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
      */
-    protected $sortClauseMapper;
+    private $sortClauseMapper;
 
     public function __construct(
         RelatedContentFacetsLoader $relatedContentFacetsLoader,
@@ -79,7 +79,7 @@ class RelatedContentFilterType extends AbstractType
     /**
      * Extracts content type options from facets.
      */
-    protected function getContentTypeOptions(Tag $tag): array
+    private function getContentTypeOptions(Tag $tag): array
     {
         try {
             return $this->getContentTypeOptionsFromFacets($tag);
@@ -95,7 +95,7 @@ class RelatedContentFilterType extends AbstractType
      *
      * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
      */
-    protected function getContentTypeOptionsFromFacets(Tag $tag): array
+    private function getContentTypeOptionsFromFacets(Tag $tag): array
     {
         $facetBuilders = [
             new ContentTypeFacetBuilder(
@@ -131,7 +131,7 @@ class RelatedContentFilterType extends AbstractType
     /**
      * Get all content type options grouped by content type groups.
      */
-    protected function getAllContentTypeOptions(): array
+    private function getAllContentTypeOptions(): array
     {
         $groups = $this->contentTypeService->loadContentTypeGroups();
         $options = [];
@@ -153,7 +153,7 @@ class RelatedContentFilterType extends AbstractType
     /**
      * Prepares sort options for form.
      */
-    protected function getSortOptions(): array
+    private function getSortOptions(): array
     {
         $sortOptions = $this->sortClauseMapper->getSortOptions();
 

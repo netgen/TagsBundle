@@ -14,14 +14,14 @@ class Mapper
      *
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    private $languageHandler;
 
     /**
      * Language mask generator.
      *
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
-    protected $languageMaskGenerator;
+    private $languageMaskGenerator;
 
     /**
      * Constructor.

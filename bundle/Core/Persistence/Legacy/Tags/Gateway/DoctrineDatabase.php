@@ -19,21 +19,21 @@ class DoctrineDatabase extends Gateway
      *
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
-    protected $handler;
+    private $handler;
 
     /**
      * Caching language handler.
      *
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    private $languageHandler;
 
     /**
      * Language mask generator.
      *
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
-    protected $languageMaskGenerator;
+    private $languageMaskGenerator;
 
     /**
      * Constructor.
@@ -1030,7 +1030,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    protected function createTagIdsQuery(array $translations = null, $useAlwaysAvailable = true)
+    private function createTagIdsQuery(array $translations = null, $useAlwaysAvailable = true)
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
@@ -1106,7 +1106,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    protected function createTagFindQuery(array $translations = null, $useAlwaysAvailable = true)
+    private function createTagFindQuery(array $translations = null, $useAlwaysAvailable = true)
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
@@ -1196,7 +1196,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    protected function createTagCountQuery(array $translations = null, $useAlwaysAvailable = true)
+    private function createTagCountQuery(array $translations = null, $useAlwaysAvailable = true)
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
@@ -1270,7 +1270,7 @@ class DoctrineDatabase extends Gateway
      * @param string $mainLanguageCode
      * @param bool $alwaysAvailable
      */
-    protected function insertTagKeywords($tagId, array $keywords, $mainLanguageCode, $alwaysAvailable)
+    private function insertTagKeywords($tagId, array $keywords, $mainLanguageCode, $alwaysAvailable)
     {
         foreach ($keywords as $languageCode => $keyword) {
             $query = $this->handler->createInsertQuery();
@@ -1311,7 +1311,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return string
      */
-    protected function getSynonymPathString($synonymId, $mainTagPathString)
+    private function getSynonymPathString($synonymId, $mainTagPathString)
     {
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
@@ -1327,7 +1327,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return int
      */
-    protected function generateLanguageMask(array $keywords, $alwaysAvailable = true)
+    private function generateLanguageMask(array $keywords, $alwaysAvailable = true)
     {
         $languages = [];
 

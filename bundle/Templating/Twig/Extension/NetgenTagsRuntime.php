@@ -15,22 +15,22 @@ class NetgenTagsRuntime
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \eZ\Publish\Core\Helper\TranslationHelper
      */
-    protected $translationHelper;
+    private $translationHelper;
 
     /**
      * @var \eZ\Publish\API\Repository\LanguageService
      */
-    protected $languageService;
+    private $languageService;
 
     /**
      * @var \eZ\Publish\API\Repository\ContentTypeService
      */
-    protected $contentTypeService;
+    private $contentTypeService;
 
     public function __construct(
         TagsService $tagsService,

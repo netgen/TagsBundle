@@ -7,7 +7,7 @@ class AdminGlobalVariable
     /**
      * @var string
      */
-    protected $pageLayoutTemplate;
+    private $pageLayoutTemplate;
 
     /**
      * Sets the pagelayout template.

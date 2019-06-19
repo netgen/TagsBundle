@@ -10,7 +10,7 @@ class TagUpdateStructDataMapper implements DataMapperInterface
     /**
      * @var string
      */
-    protected $languageCode;
+    private $languageCode;
 
     public function __construct(string $languageCode)
     {

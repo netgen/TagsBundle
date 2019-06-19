@@ -17,7 +17,7 @@ class TagUpdateStructValidator extends ConstraintValidator
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

@@ -17,7 +17,7 @@ class TagsStorage extends GatewayBasedStorage
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * Constructor.
@@ -121,7 +121,7 @@ class TagsStorage extends GatewayBasedStorage
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected function createTag(array $tagData)
+    private function createTag(array $tagData)
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             $tagData['parent_id'],

@@ -20,27 +20,27 @@ class TagViewBuilder implements ViewBuilder
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \eZ\Publish\Core\MVC\Symfony\View\Configurator
      */
-    protected $viewConfigurator;
+    private $viewConfigurator;
 
     /**
      * @var \eZ\Publish\Core\MVC\Symfony\View\ParametersInjector
      */
-    protected $viewParametersInjector;
+    private $viewParametersInjector;
 
     /**
      * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    protected $configResolver;
+    private $configResolver;
 
     /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     public function __construct(
         TagsService $tagsService,

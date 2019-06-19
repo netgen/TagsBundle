@@ -14,7 +14,7 @@ class TagParamConverter implements ParamConverterInterface
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

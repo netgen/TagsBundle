@@ -13,17 +13,17 @@ class CachedViewResponseListener implements EventSubscriberInterface
     /**
      * @var bool
      */
-    protected $enableViewCache;
+    private $enableViewCache;
 
     /**
      * @var bool
      */
-    protected $enableTtlCache;
+    private $enableTtlCache;
 
     /**
      * @var int
      */
-    protected $defaultTtl;
+    private $defaultTtl;
 
     public function __construct(bool $enableViewCache, bool $enableTtlCache, int $defaultTtl)
     {

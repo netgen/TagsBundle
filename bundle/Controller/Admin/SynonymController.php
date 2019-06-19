@@ -14,12 +14,12 @@ class SynonymController extends Controller
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
-    protected $translator;
+    private $translator;
 
     public function __construct(TagsService $tagsService, TranslatorInterface $translator)
     {

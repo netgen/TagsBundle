@@ -11,12 +11,12 @@ class FieldController extends Controller
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var array
      */
-    protected $languages = [];
+    private $languages = [];
 
     public function __construct(TagsService $tagsService)
     {

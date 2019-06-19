@@ -18,7 +18,7 @@ class Tags extends RestController
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * Controller.
@@ -538,7 +538,7 @@ class Tags extends RestController
      *
      * @return mixed
      */
-    protected function extractTagIdFromPath($path)
+    private function extractTagIdFromPath($path)
     {
         $pathParts = explode('/', trim($path, '/'));
 

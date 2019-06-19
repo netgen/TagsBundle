@@ -15,21 +15,21 @@ abstract class Tags extends Field
      *
      * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
      */
-    protected $contentTypeHandler;
+    private $contentTypeHandler;
 
     /**
      * Identifier of the field type that criterion can handle.
      *
      * @var string
      */
-    protected $fieldTypeIdentifier;
+    private $fieldTypeIdentifier;
 
     /**
      * Name of the field type's indexed field that criterion can handle.
      *
      * @var string
      */
-    protected $fieldName;
+    private $fieldName;
 
     /**
      * Create from FieldNameResolver, FieldType identifier and field name.

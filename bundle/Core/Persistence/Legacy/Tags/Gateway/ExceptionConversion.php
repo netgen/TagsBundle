@@ -17,7 +17,7 @@ class ExceptionConversion extends Gateway
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
-    protected $innerGateway;
+    private $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.

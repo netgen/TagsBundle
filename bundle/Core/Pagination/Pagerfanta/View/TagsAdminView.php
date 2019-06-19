@@ -11,37 +11,37 @@ class TagsAdminView implements ViewInterface
     /**
      * @var \Twig\Environment
      */
-    protected $twig;
+    private $twig;
 
     /**
      * @var string
      */
-    protected $template;
+    private $template;
 
     /**
      * @var \Pagerfanta\Pagerfanta
      */
-    protected $pagerfanta;
+    private $pagerfanta;
 
     /**
      * @var \Closure
      */
-    protected $routeGenerator;
+    private $routeGenerator;
 
     /**
      * @var int
      */
-    protected $proximity;
+    private $proximity;
 
     /**
      * @var int
      */
-    protected $startPage;
+    private $startPage;
 
     /**
      * @var
      */
-    protected $endPage;
+    private $endPage;
 
     /**
      * Constructor.
@@ -108,7 +108,7 @@ class TagsAdminView implements ViewInterface
      *
      * @param array $options
      */
-    protected function initializeProximity($options)
+    private function initializeProximity($options)
     {
         $this->proximity = isset($options['proximity']) ?
             (int) $options['proximity'] :
@@ -118,7 +118,7 @@ class TagsAdminView implements ViewInterface
     /**
      * Calculates start and end page that will be shown in the middle of pager.
      */
-    protected function calculateStartAndEndPage()
+    private function calculateStartAndEndPage()
     {
         $currentPage = $this->pagerfanta->getCurrentPage();
         $nbPages = $this->pagerfanta->getNbPages();
@@ -149,7 +149,7 @@ class TagsAdminView implements ViewInterface
      *
      * @return int
      */
-    protected function calculateEndPageForStartPageUnderflow($startPage, $endPage, $nbPages)
+    private function calculateEndPageForStartPageUnderflow($startPage, $endPage, $nbPages)
     {
         return min($endPage + (1 - $startPage), $nbPages);
     }
@@ -163,7 +163,7 @@ class TagsAdminView implements ViewInterface
      *
      * @return int
      */
-    protected function calculateStartPageForEndPageOverflow($startPage, $endPage, $nbPages)
+    private function calculateStartPageForEndPageOverflow($startPage, $endPage, $nbPages)
     {
         return max($startPage - ($endPage - $nbPages), 1);
     }
@@ -173,7 +173,7 @@ class TagsAdminView implements ViewInterface
      *
      * @return array
      */
-    protected function getPages()
+    private function getPages()
     {
         $pages = [];
 
@@ -223,7 +223,7 @@ class TagsAdminView implements ViewInterface
      *
      * @return string
      */
-    protected function generateUrl($page)
+    private function generateUrl($page)
     {
         $routeGenerator = $this->routeGenerator;
 

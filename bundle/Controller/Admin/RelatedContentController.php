@@ -17,17 +17,17 @@ class RelatedContentController extends Controller
     /**
      * @var \Pagerfanta\Adapter\AdapterInterface
      */
-    protected $adapter;
+    private $adapter;
 
     /**
      * @var \eZ\Publish\API\Repository\ContentTypeService
      */
-    protected $contentTypeService;
+    private $contentTypeService;
 
     /**
      * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
      */
-    protected $sortClauseMapper;
+    private $sortClauseMapper;
 
     public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService, SortClauseMapper $sortClauseMapper)
     {

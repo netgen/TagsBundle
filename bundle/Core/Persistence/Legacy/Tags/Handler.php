@@ -15,12 +15,12 @@ class Handler implements BaseTagsHandler
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
-    protected $gateway;
+    private $gateway;
 
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
-    protected $mapper;
+    private $mapper;
 
     /**
      * @param \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway $gateway
@@ -448,7 +448,7 @@ class Handler implements BaseTagsHandler
      *
      * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag The newly created tag of the copied subtree
      */
-    protected function recursiveCopySubtree(Tag $sourceTag, $destinationParentTagId)
+    private function recursiveCopySubtree(Tag $sourceTag, $destinationParentTagId)
     {
         // First copy the root node
 

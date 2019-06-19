@@ -16,12 +16,12 @@ class TranslationListType extends AbstractType
     /**
      * @var \eZ\Publish\API\Repository\LanguageService
      */
-    protected $languageService;
+    private $languageService;
 
     /**
      * @var array
      */
-    protected $languages;
+    private $languages;
 
     public function __construct(LanguageService $languageService)
     {

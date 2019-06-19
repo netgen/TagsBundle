@@ -59,12 +59,12 @@ class Type extends FieldType
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var array
      */
-    protected $availableEditViews = [];
+    private $availableEditViews = [];
 
     /**
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService

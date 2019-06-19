@@ -87,7 +87,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
     /**
      * Processes semantic config and translates it to container parameters.
      */
-    protected function processSemanticConfig(ContainerBuilder $container, array $config): void
+    private function processSemanticConfig(ContainerBuilder $container, array $config): void
     {
         $processor = new ConfigurationProcessor($container, 'eztags');
         $processor->mapConfig(

@@ -15,32 +15,32 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected $tag;
+    private $tag;
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var bool
      */
-    protected $returnContentInfo;
+    private $returnContentInfo;
 
     /**
      * @var int
      */
-    protected $nbResults;
+    private $nbResults;
 
     /**
      * @var \eZ\Publish\API\Repository\Values\Content\Query\SortClause[]
      */
-    protected $sortClauses = [];
+    private $sortClauses = [];
 
     /**
      * @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
      */
-    protected $additionalCriteria = [];
+    private $additionalCriteria = [];
 
     /**
      * Constructor.

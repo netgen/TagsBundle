@@ -30,27 +30,27 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
-    protected $tagsService;
+    private $tagsService;
 
     /**
      * @var \Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
      */
-    protected $generator;
+    private $generator;
 
     /**
      * @var \Symfony\Component\Routing\RequestContext
      */
-    protected $requestContext;
+    private $requestContext;
 
     /**
      * @var \Psr\Log\LoggerInterface
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @var array
      */
-    protected $languages;
+    private $languages;
 
     public function __construct(
         TagsService $tagsService,
@@ -210,7 +210,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * Checks for presence of $prefix and removes it from $path if found.
      */
-    protected function removePathPrefix(string $path, string $prefix): string
+    private function removePathPrefix(string $path, string $prefix): string
     {
         if ($prefix !== '/' && mb_stripos($path, $prefix) === 0) {
             $path = mb_substr($path, mb_strlen($prefix));
