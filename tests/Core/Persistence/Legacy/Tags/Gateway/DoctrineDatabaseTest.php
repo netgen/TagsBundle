@@ -24,7 +24,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Sets up the test suite.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

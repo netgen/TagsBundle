@@ -40,7 +40,7 @@ class RedirectResponseListenerTest extends TestCase
      */
     protected $event;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->listener = new RedirectResponseListener();
 

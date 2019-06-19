@@ -24,7 +24,7 @@ class TagsTest extends TestCase
      */
     protected $converter;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->converter = new TagsConverter();

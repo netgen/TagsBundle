@@ -41,7 +41,7 @@ class TagsHandlerTest extends TestCase
      */
     protected $tagsHandler;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->tagsHandler = $this->getTagsHandler();
     }

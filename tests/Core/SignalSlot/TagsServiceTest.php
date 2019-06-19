@@ -36,7 +36,7 @@ class TagsServiceTest extends TestCase
     /**
      * Sets up the test.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

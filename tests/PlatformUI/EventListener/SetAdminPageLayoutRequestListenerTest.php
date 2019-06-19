@@ -38,7 +38,7 @@ class SetAdminPageLayoutRequestListenerTest extends TestCase
      */
     protected $pageLayoutTemplate;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->globalVariable = $this->getMockBuilder(AdminGlobalVariable::class)
             ->disableOriginalConstructor()

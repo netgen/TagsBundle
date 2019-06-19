@@ -29,7 +29,7 @@ class TagIdTest extends TestCase
      */
     protected $visitor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->fieldNameResolver = $this->createMock(FieldNameResolver::class);
 

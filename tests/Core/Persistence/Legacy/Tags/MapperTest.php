@@ -94,7 +94,7 @@ class MapperTest extends TestCase
         'languageIds' => [8],
     ];
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->tagsMapper = $this->getMapper();
     }

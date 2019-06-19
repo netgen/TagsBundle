@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Tests\API\Repository;
  */
 class TagsServiceTest extends BaseTagsServiceTest
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->repository = $this->getRepository();
         $this->repository->setCurrentUser($this->getStubbedUser(14));

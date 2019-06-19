@@ -17,7 +17,7 @@ class AdminGlobalVariableTest extends TestCase
      */
     protected $template;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->adminGlobalVariable = new AdminGlobalVariable();
         $this->template = '@Acme/pagelayout.html.twig';

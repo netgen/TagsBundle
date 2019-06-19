@@ -14,7 +14,7 @@ class NetgenTagsExtensionTest extends TestCase
      */
     protected $extension;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->extension = new NetgenTagsExtension();
     }

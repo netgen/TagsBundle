@@ -50,7 +50,7 @@ class NetgenTagsRuntimeTest extends TestCase
      */
     protected $contentType;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->tagsService = $this->getMockBuilder(TagsService::class)
             ->disableOriginalConstructor()

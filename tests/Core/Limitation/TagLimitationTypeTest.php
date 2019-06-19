@@ -39,7 +39,7 @@ class TagLimitationTypeTest extends Base
     /**
      * Setup Tags Handler mock.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -51,7 +51,7 @@ class TagLimitationTypeTest extends Base
     /**
      * Tear down Location Handler mock.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $this->tagsHandlerMock = null;
         parent::tearDown();
