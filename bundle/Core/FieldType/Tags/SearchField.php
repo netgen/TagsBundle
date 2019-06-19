@@ -23,7 +23,7 @@ class SearchField implements Indexable
         $parentTagIds = [];
         $tagIds = [];
 
-        if (!empty($field->value->externalData)) {
+        if (count($field->value->externalData ?? []) > 0) {
             foreach ($field->value->externalData as $tag) {
                 if (isset($tag['keywords'][$field->languageCode])) {
                     $tagKeywords[] = $tag['keywords'][$field->languageCode];

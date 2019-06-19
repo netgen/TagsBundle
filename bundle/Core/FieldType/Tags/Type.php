@@ -137,7 +137,7 @@ class Type extends FieldType
             }
         }
 
-        if (!empty($tagIds)) {
+        if (count($tagIds) > 0) {
             $loadedTags = $this->tagsService->loadTagList($tagIds);
         } else {
             $loadedTags = [];
@@ -183,7 +183,7 @@ class Type extends FieldType
         $hash = [];
 
         foreach ($value->tags as $tag) {
-            if (empty($tag->id)) {
+            if ($tag->id === null || $tag->id < 1) {
                 $hash[] = [
                     'parent_id' => $tag->parentTagId,
                     'keywords' => $tag->keywords,
@@ -394,7 +394,7 @@ class Type extends FieldType
 
         if (isset($constraints['subTreeLimit']) && $constraints['subTreeLimit'] > 0) {
             foreach ($fieldValue->tags as $tag) {
-                if (empty($tag->id)) {
+                if ($tag->id === null || $tag->id < 1) {
                     $tag = $this->tagsService->loadTag($tag->parentTagId);
                 }
 

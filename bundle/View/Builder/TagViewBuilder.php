@@ -68,7 +68,7 @@ class TagViewBuilder implements ViewBuilder
         }
 
         $view = new TagView();
-        if (!empty($parameters['viewType'])) {
+        if (is_string($parameters['viewType']) && $parameters['viewType'] !== '') {
             $view->setViewType($parameters['viewType']);
         }
 

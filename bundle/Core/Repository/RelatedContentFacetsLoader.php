@@ -55,7 +55,7 @@ class RelatedContentFacetsLoader
             throw new FacetingNotSupportedException('Faceting for related content is not supported');
         }
 
-        if (empty($facetBuilders)) {
+        if (count($facetBuilders) === 0) {
             return [];
         }
 

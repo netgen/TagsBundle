@@ -44,7 +44,7 @@ class TagsStorage extends GatewayBasedStorage
     public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
         $this->gateway->deleteFieldData($versionInfo, [$field->id]);
-        if (!empty($field->value->externalData)) {
+        if (count($field->value->externalData ?? []) > 0) {
             $externalData = $field->value->externalData;
             foreach ($externalData as $key => $tag) {
                 if (!isset($tag['id'])) {

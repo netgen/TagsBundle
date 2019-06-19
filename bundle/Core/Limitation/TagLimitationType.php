@@ -137,7 +137,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
             throw new InvalidArgumentException('$object', 'Must be of type: Tag');
         }
 
-        if (empty($value->limitationValues)) {
+        if (count($value->limitationValues ?? []) === 0) {
             return false;
         }
 
@@ -163,7 +163,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
      */
     public function getCriterion(APILimitationValue $value, UserReference $currentUser)
     {
-        if (empty($value->limitationValues)) {
+        if (count($value->limitationValues ?? []) === 0) {
             // no limitation values
             throw new RuntimeException('$value->limitationValues is empty, it should not have been stored in the first place');
         }
