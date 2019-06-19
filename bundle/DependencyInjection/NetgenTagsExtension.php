@@ -52,6 +52,8 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $loader->load('param_converters.yml');
         $loader->load('installer.yml');
         $loader->load('search/related_content.yml');
+        $loader->load('ezadminui/default_settings.yml');
+        $loader->load('ezadminui/services.yml');
 
         $persistenceCache = 'disabled';
         if ($container->getParameter('eztags.enable_persistence_cache')) {
@@ -61,16 +63,6 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         }
 
         $loader->load('storage/cache_' . $persistenceCache . '.yml');
-
-        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
-            $loader->load('platformui/default_settings.yml');
-            $loader->load('platformui/services.yml');
-        }
-
-        if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
-            $loader->load('ezadminui/default_settings.yml');
-            $loader->load('ezadminui/services.yml');
-        }
 
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
             $loader->load('search/solr.yml');
@@ -94,19 +86,8 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
             'netgen_tags.yml' => 'netgen_tags',
             'ezplatform.yml' => 'ezpublish',
             'framework/twig.yml' => 'twig',
+            'ezadminui/twig.yml' => 'twig',
         ];
-
-        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
-
-        if (in_array('eZPlatformUIBundle', $activatedBundles, true)) {
-            $configs['platformui/yui.yml'] = 'ez_platformui';
-            $configs['platformui/css.yml'] = 'ez_platformui';
-            $configs['platformui/javascript.yml'] = 'ez_platformui';
-        }
-
-        if (in_array('EzPlatformAdminUiBundle', $activatedBundles, true)) {
-            $configs['ezadminui/twig.yml'] = 'twig';
-        }
 
         foreach ($configs as $fileName => $extensionName) {
             $configFile = __DIR__ . '/../Resources/config/' . $fileName;
