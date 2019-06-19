@@ -4,7 +4,6 @@ services:
     eztags.admin.controller.base:
         class: Netgen\TagsBundle\Controller\Admin\Controller
         parent: ezpublish.controller.base
-        public: false
         abstract: true
         calls:
             - [performAccessChecks, []]

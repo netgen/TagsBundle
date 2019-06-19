@@ -1,7 +1,6 @@
 services:
     eztags.role.limitation_type.tag:
         class: Netgen\TagsBundle\Core\Limitation\TagLimitationType
-        public: false
         arguments:
             - "@ezpublish.api.persistence_handler"
             - "@eztags.api.persistence_handler.tags"

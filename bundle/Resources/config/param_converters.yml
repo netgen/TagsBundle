@@ -1,7 +1,6 @@
 services:
     eztags.param_converter.tag:
         class: Netgen\TagsBundle\ParamConverter\TagParamConverter
-        public: false
         arguments:
             - "@eztags.api.service.tags"
         tags:

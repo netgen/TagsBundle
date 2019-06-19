@@ -1,27 +1,23 @@
 services:
     eztags.field_type.eztags.converter:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
-        public: false
         tags:
             - {name: ezpublish.storageEngine.legacy.converter, alias: eztags, lazy: true, callback: "::create"}
 
     eztags.field_type.eztags.storage_gateway:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage
-        public: false
         arguments:
             - "@ezpublish.api.storage_engine.legacy.connection"
             - "@ezpublish.spi.persistence.legacy.language.handler"
 
     eztags.api.storage_engine.legacy.handler.tags.mapper:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
-        public: false
         arguments:
             - "@ezpublish.spi.persistence.legacy.language.handler"
             - "@ezpublish.persistence.legacy.language.mask_generator"
 
     eztags.api.storage_engine.legacy.handler.tags.gateway.inner:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
-        public: false
         arguments:
             - "@ezpublish.api.storage_engine.legacy.dbhandler"
             - "@ezpublish.spi.persistence.legacy.language.handler"
@@ -29,7 +25,6 @@ services:
 
     eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion
-        public: false
         arguments:
             - "@eztags.api.storage_engine.legacy.handler.tags.gateway.inner"
 

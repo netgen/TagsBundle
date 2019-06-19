@@ -23,13 +23,11 @@ services:
 
     eztags.field_type.eztags.indexable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
-        public: false
         tags:
             - {name: ezpublish.fieldType.indexable, alias: eztags}
 
     eztags.field_type.eztags.form_mapper:
         class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
-        public: false
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:

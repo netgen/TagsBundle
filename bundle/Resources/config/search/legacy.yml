@@ -2,7 +2,6 @@ services:
     eztags.search.legacy.gateway.criterion_handler.common.tag_id:
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId
         parent: ezpublish.search.legacy.gateway.criterion_handler.base
-        public: false
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
@@ -10,7 +9,6 @@ services:
     eztags.search.legacy.gateway.criterion_handler.common.tag_keyword:
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword
         parent: ezpublish.search.legacy.gateway.criterion_handler.base
-        public: false
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}

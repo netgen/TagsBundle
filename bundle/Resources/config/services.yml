@@ -7,7 +7,6 @@ services:
     eztags.routing.tag_url_generator:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
         parent: ezpublish.url_generator.base
-        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@router.default"
@@ -29,7 +28,6 @@ services:
 
     eztags.repository.related_content_facets_loader:
         class: Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader
-        public: true
         arguments:
             - "@eztags.api.service.tags.inner"
             - "@ezpublish.api.service.search"

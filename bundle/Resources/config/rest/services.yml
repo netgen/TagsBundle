@@ -13,7 +13,6 @@ services:
     eztags.rest.output.value_object_visitor.cached_value:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CachedValue
         parent: ezpublish_rest.output.value_object_visitor.base
-        public: false
         arguments:
             - "@ezpublish.config.resolver"
         calls:
@@ -24,14 +23,12 @@ services:
     eztags.rest.output.value_object_visitor.rest_tag:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\RestTag
         parent: ezpublish_rest.output.value_object_visitor.base
-        public: false
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\RestTag }
 
     eztags.rest.output.value_object_visitor.tag_list:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\TagList
         parent: ezpublish_rest.output.value_object_visitor.base
-        public: false
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\TagList }
 
@@ -39,14 +36,12 @@ services:
     eztags.rest.output.value_object_visitor.content_list:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\ContentList
         parent: ezpublish_rest.output.value_object_visitor.base
-        public: false
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\ContentList }
 
     eztags.rest.output.value_object_visitor.created_tag:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CreatedTag
         parent: ezpublish_rest.output.value_object_visitor.base
-        public: false
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CreatedTag }
 
@@ -55,7 +50,6 @@ services:
     eztags.rest.input.parser.tag_create:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagCreate
         parent: ezpublish_rest.input.parser
-        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish_rest.parser_tools"
@@ -65,7 +59,6 @@ services:
     eztags.rest.input.parser.tag_synonym_create:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagSynonymCreate
         parent: ezpublish_rest.input.parser
-        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish_rest.parser_tools"
@@ -75,7 +68,6 @@ services:
     eztags.rest.input.parser.tag_update:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagUpdate
         parent: ezpublish_rest.input.parser
-        public: false
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish_rest.parser_tools"
