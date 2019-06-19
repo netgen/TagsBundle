@@ -3,12 +3,12 @@
 namespace Netgen\TagsBundle\Core\REST\Controller;
 
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use EzSystems\EzPlatformRest\Controller as RestController;
+use EzSystems\EzPlatformRest\Server\Controller as RestController;
 use EzSystems\EzPlatformRest\Exceptions;
-use EzSystems\EzPlatformRest\Exceptions\BadRequestException;
+use EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException;
 use EzSystems\EzPlatformRest\Exceptions\ForbiddenException;
 use EzSystems\EzPlatformRest\Message;
-use EzSystems\EzPlatformRest\Values as BaseValues;
+use EzSystems\EzPlatformRest\Server\Values as BaseValues;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Values;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,9 +35,9 @@ class Tags extends RestController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\BadRequestException If the request does not have an ID or remote ID
+     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID
      *
-     * @return \EzSystems\EzPlatformRest\Values\TemporaryRedirect
+     * @return \EzSystems\EzPlatformRest\Server\Values\TemporaryRedirect
      */
     public function redirectTag(Request $request)
     {
@@ -343,9 +343,9 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
-     * @return \EzSystems\EzPlatformRest\Values\ResourceCreated
+     * @return \EzSystems\EzPlatformRest\Server\Values\ResourceCreated
      */
     public function copySubtree($tagPath, Request $request)
     {
@@ -388,9 +388,9 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
-     * @return \EzSystems\EzPlatformRest\Values\ResourceCreated
+     * @return \EzSystems\EzPlatformRest\Server\Values\ResourceCreated
      */
     public function moveSubtree($tagPath, Request $request)
     {
@@ -436,9 +436,9 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
-     * @return \EzSystems\EzPlatformRest\Values\ResourceCreated
+     * @return \EzSystems\EzPlatformRest\Server\Values\ResourceCreated
      */
     public function convertToSynonym($tagPath, Request $request)
     {
@@ -481,9 +481,9 @@ class Tags extends RestController
      * @param string $tagPath
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      *
-     * @return \EzSystems\EzPlatformRest\Values\NoContent
+     * @return \EzSystems\EzPlatformRest\Server\Values\NoContent
      */
     public function mergeTags($tagPath, Request $request)
     {
@@ -518,7 +518,7 @@ class Tags extends RestController
      *
      * @param string $tagPath
      *
-     * @return \EzSystems\EzPlatformRest\Values\NoContent
+     * @return \EzSystems\EzPlatformRest\Server\Values\NoContent
      */
     public function deleteTag($tagPath)
     {

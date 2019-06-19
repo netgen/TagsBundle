@@ -7,7 +7,7 @@ use EzSystems\EzPlatformRest\Value;
 class ContentList extends Value
 {
     /**
-     * @var \EzSystems\EzPlatformRest\Values\RestContent[]
+     * @var \EzSystems\EzPlatformRest\Server\Values\RestContent[]
      */
     public $contents;
 
@@ -19,7 +19,7 @@ class ContentList extends Value
     /**
      * Constructor.
      *
-     * @param \EzSystems\EzPlatformRest\Values\RestContent[] $contents
+     * @param \EzSystems\EzPlatformRest\Server\Values\RestContent[] $contents
      * @param string $path
      */
     public function __construct(array $contents, $path)
