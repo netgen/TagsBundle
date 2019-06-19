@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
@@ -13,11 +14,13 @@ use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCriterionHandler;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Handler;
 use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
 use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for legacy location search handler with Tags criteria.
@@ -216,11 +219,8 @@ class HandlerLocationTest extends LanguageAwareTestCase
 
     /**
      * Assert search results.
-     *
-     * @param int[] $expectedIds
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
      */
-    protected function assertSearchResults($expectedIds, $searchResult)
+    protected function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $ids = array_map(
             static function ($hit) {
@@ -239,10 +239,8 @@ class HandlerLocationTest extends LanguageAwareTestCase
      *
      * This method returns a fully functional search handler to perform tests
      * on.
-     *
-     * @return \eZ\Publish\Core\Search\Legacy\Content\Handler
      */
-    protected function getContentSearchHandler()
+    protected function getContentSearchHandler(): Handler
     {
         return new Content\Handler(
             $this->createMock(Content\Gateway::class),
@@ -275,15 +273,14 @@ class HandlerLocationTest extends LanguageAwareTestCase
 
     /**
      * Returns a location mapper mock.
-     *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected function getLocationMapperMock()
+    protected function getLocationMapperMock(): MockObject
     {
         $mapperMock = $this->createMock(
             LocationMapper::class,
             ['createLocationsFromRows']
         );
+
         $mapperMock
             ->expects(self::any())
             ->method('createLocationsFromRows')

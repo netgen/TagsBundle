@@ -24,7 +24,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected $tagRow = [
+    protected static $tagRow = [
         'id' => 42,
         'parent_id' => 21,
         'main_tag_id' => 0,
@@ -42,7 +42,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected $tagListRow = [
+    protected static $tagListRow = [
         'eztags_id' => 42,
         'eztags_parent_id' => 21,
         'eztags_main_tag_id' => 0,
@@ -62,7 +62,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected $tagValues = [
+    protected static $tagValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -80,7 +80,7 @@ class MapperTest extends TestCase
      *
      * @var array
      */
-    protected $tagListValues = [
+    protected static $tagListValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -106,7 +106,7 @@ class MapperTest extends TestCase
     public function testCreateTagInfoFromRow(): void
     {
         $tag = $this->tagsMapper->createTagInfoFromRow(
-            $this->tagRow
+            self::$tagRow
         );
 
         self::assertInstanceOf(
@@ -115,7 +115,7 @@ class MapperTest extends TestCase
         );
 
         $this->assertPropertiesCorrect(
-            $this->tagValues,
+            self::$tagValues,
             $tag
         );
     }
@@ -128,7 +128,7 @@ class MapperTest extends TestCase
     {
         $inputRows = [];
         for ($i = 0; $i < 3; ++$i) {
-            $row = $this->tagListRow;
+            $row = self::$tagListRow;
             $row['eztags_id'] += $i;
             $inputRows[] = $row;
         }
@@ -145,7 +145,7 @@ class MapperTest extends TestCase
             );
 
             $this->assertPropertiesCorrect(
-                ['id' => $this->tagListValues['id'] + $i] + $this->tagListValues,
+                ['id' => self::$tagListValues['id'] + $i] + self::$tagListValues,
                 $tag
             );
 
@@ -155,10 +155,8 @@ class MapperTest extends TestCase
 
     /**
      * Returns mapper instance for testing.
-     *
-     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
      */
-    protected function getMapper()
+    protected function getMapper(): Mapper
     {
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 

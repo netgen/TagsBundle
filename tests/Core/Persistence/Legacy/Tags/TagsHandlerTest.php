@@ -14,6 +14,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Tags Handler.
@@ -23,16 +24,14 @@ class TagsHandlerTest extends TestCase
     /**
      * Mocked tags gateway instance.
      *
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $gateway;
 
     /**
      * Mocked tags mapper instance.
      *
-     * @param array $mockedMethods
-     *
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
+     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $mapper;
 
@@ -899,7 +898,7 @@ class TagsHandlerTest extends TestCase
                 $tags
             );
 
-        array_push($tags, new Tag(['id' => 40]));
+        $tags[] = new Tag(['id' => 40]);
 
         foreach ($tags as $index => $tag) {
             $this->gateway
@@ -1034,7 +1033,7 @@ class TagsHandlerTest extends TestCase
         $handler->deleteTag(40);
     }
 
-    protected function getTagsHandler(array $mockedMethods = null)
+    protected function getTagsHandler(?array $mockedMethods = null): MockObject
     {
         $this->gateway = $this->createMock(Gateway::class);
 

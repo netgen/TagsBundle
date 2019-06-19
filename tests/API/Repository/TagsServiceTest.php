@@ -2,6 +2,8 @@
 
 namespace Netgen\TagsBundle\Tests\API\Repository;
 
+use Netgen\TagsBundle\API\Repository\TagsService;
+
 /**
  * Test case for Tags Service using Legacy storage class.
  */
@@ -14,16 +16,9 @@ class TagsServiceTest extends BaseTagsServiceTest
         $this->tagsService = $this->getTagsService();
     }
 
-    /**
-     * @param bool $initialInitializeFromScratch
-     *
-     * @return \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    protected function getTagsService($initialInitializeFromScratch = true)
+    protected function getTagsService(bool $initialInitializeFromScratch = true): TagsService
     {
-        if (null === $this->tagsService) {
-            $this->tagsService = $this->getSetupFactory()->getTagsService($initialInitializeFromScratch);
-        }
+        $this->tagsService = $this->tagsService ?? $this->getSetupFactory()->getTagsService($initialInitializeFromScratch);
 
         return $this->tagsService;
     }

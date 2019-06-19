@@ -4,12 +4,14 @@ namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use eZ\Publish\Core\Persistence\Legacy\Content\Mapper;
 use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
 use eZ\Publish\Core\Search\Legacy\Content;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Handler;
 use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway;
 use eZ\Publish\SPI\Persistence\Content as ContentObject;
 use eZ\Publish\SPI\Persistence\Content\ContentInfo;
@@ -17,6 +19,7 @@ use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for legacy content search handler with Tags criteria.
@@ -224,11 +227,8 @@ class HandlerContentTest extends LanguageAwareTestCase
 
     /**
      * Assert search results.
-     *
-     * @param int[] $expectedIds
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
      */
-    protected function assertSearchResults($expectedIds, $searchResult)
+    protected function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $result = array_map(
             static function ($hit) {
@@ -247,10 +247,8 @@ class HandlerContentTest extends LanguageAwareTestCase
      *
      * This method returns a fully functional search handler to perform tests
      * on.
-     *
-     * @return \eZ\Publish\Core\Search\Legacy\Content\Handler
      */
-    protected function getContentSearchHandler()
+    protected function getContentSearchHandler(): Handler
     {
         return new Content\Handler(
             new Content\Gateway\DoctrineDatabase(
@@ -292,10 +290,8 @@ class HandlerContentTest extends LanguageAwareTestCase
 
     /**
      * Returns a content mapper mock.
-     *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Mapper
      */
-    protected function getContentMapperMock()
+    protected function getContentMapperMock(): MockObject
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)
             ->setMethods(['extractContentFromRows'])
@@ -312,18 +308,18 @@ class HandlerContentTest extends LanguageAwareTestCase
             ->with(self::isType('array'))
             ->willReturnCallback(
                 static function ($rows) {
-                    $contentObjs = [];
+                    $contentObjects = [];
                     foreach ($rows as $row) {
                         $contentId = (int) $row['ezcontentobject_id'];
-                        if (!isset($contentObjs[$contentId])) {
-                            $contentObjs[$contentId] = new ContentObject();
-                            $contentObjs[$contentId]->versionInfo = new VersionInfo();
-                            $contentObjs[$contentId]->versionInfo->contentInfo = new ContentInfo();
-                            $contentObjs[$contentId]->versionInfo->contentInfo->id = $contentId;
+                        if (!isset($contentObjects[$contentId])) {
+                            $contentObjects[$contentId] = new ContentObject();
+                            $contentObjects[$contentId]->versionInfo = new VersionInfo();
+                            $contentObjects[$contentId]->versionInfo->contentInfo = new ContentInfo();
+                            $contentObjects[$contentId]->versionInfo->contentInfo->id = $contentId;
                         }
                     }
 
-                    return array_values($contentObjs);
+                    return array_values($contentObjects);
                 }
             );
 

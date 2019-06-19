@@ -8,7 +8,9 @@ use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
 use eZ\Publish\Core\FieldType\ValidationError;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
+use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use stdClass;
 
@@ -21,18 +23,14 @@ use stdClass;
 class TagsTest extends FieldTypeTest
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tagsService;
 
     /**
      * Returns values for TagsService::loadTag based on input value.
-     *
-     * @param array $tagIds
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function getTagsServiceLoadTagValues(array $tagIds)
+    public function getTagsServiceLoadTagValues(array $tagIds): array
     {
         $tags = [];
         foreach ($tagIds as $tagId) {
@@ -50,16 +48,7 @@ class TagsTest extends FieldTypeTest
         return $tags;
     }
 
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@see validateFieldSettings()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     *
-     * @return array
-     */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -88,13 +77,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provide data sets with validator configurations which are considered
-     * valid by the {@see validateValidatorConfiguration()} method.
-     *
-     * @return array
-     */
-    public function provideValidValidatorConfiguration()
+    public function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -136,17 +119,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered invalid by the
-     * {@see validateFieldSettings()} method. The method must return a
-     * non-empty array of validation error when receiving such field settings.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     *
-     * @return array
-     */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -170,15 +143,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provide data sets with validator configurations which are considered
-     * invalid by the {@see validateValidatorConfiguration()} method. The
-     * method must return a non-empty array of validation errors when receiving
-     * one of the provided values.
-     *
-     * @return array
-     */
-    public function provideInvalidValidatorConfiguration()
+    public function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -239,12 +204,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Data provider for invalid input to acceptValue().
-     *
-     * @return array
-     */
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -268,12 +228,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Data provider for valid input to acceptValue().
-     *
-     * @return array
-     */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -303,13 +258,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings and
-     * field value which are considered valid by the {@see validate()} method.
-     *
-     * @return array
-     */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -395,14 +344,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings,
-     * field value and corresponding validation errors returned by
-     * the {@see validate()} method.
-     *
-     * @return array
-     */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [
@@ -460,12 +402,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -489,12 +426,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -522,11 +454,6 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Provides data for the getName() test.
-     *
-     * @return array
-     */
     public function provideDataForGetName(): array
     {
         return [
@@ -566,22 +493,12 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Returns the identifier of the field type under test.
-     *
-     * @return string
-     */
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'eztags';
     }
 
-    /**
-     * Returns the field type under test.
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Type
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $this->tagsService = $this->createMock(TagsService::class);
 
@@ -600,12 +517,7 @@ class TagsTest extends FieldTypeTest
         return $tagsType;
     }
 
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'hideRootTag' => [
@@ -619,12 +531,7 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'TagsValueValidator' => [
@@ -640,22 +547,15 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    /**
-     * Returns the empty value expected from the field type.
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new TagsValue();
     }
 
     /**
      * Returns a tag for tests.
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected function getTag()
+    protected function getTag(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1308153110);
@@ -679,10 +579,8 @@ class TagsTest extends FieldTypeTest
 
     /**
      * Returns a hash version of tag for tests.
-     *
-     * @return array
      */
-    protected function getTagHash()
+    protected function getTagHash(): array
     {
         return [
             'id' => 40,

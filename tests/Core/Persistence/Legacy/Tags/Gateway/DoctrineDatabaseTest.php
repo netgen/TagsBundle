@@ -21,9 +21,6 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected $tagsGateway;
 
-    /**
-     * Sets up the test suite.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -42,31 +39,22 @@ class DoctrineDatabaseTest extends TestCase
         $this->tagsGateway = $this->getTagsGateway();
     }
 
-    /**
-     * Reset DB sequences.
-     */
-    public function resetSequences()
+    public function resetSequences(): void
     {
         parent::resetSequences();
 
-        switch ($this->db) {
-            case 'pgsql':
-                // Update PostgreSQL sequences
-                $handler = $this->getDatabaseHandler();
+        if ($this->db === 'pgsql') {
+            // Update PostgreSQL sequences
+            $handler = $this->getDatabaseHandler();
 
-                $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.pgsql.sql')));
-                foreach ($queries as $query) {
-                    $handler->exec($query);
-                }
-
-                break;
+            $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.pgsql.sql')));
+            foreach ($queries as $query) {
+                $handler->exec($query);
+            }
         }
     }
 
-    /**
-     * @return array
-     */
-    public static function getLoadTagValues()
+    public static function getLoadTagValues(): array
     {
         return [
             ['id', '40'],
@@ -82,10 +70,7 @@ class DoctrineDatabaseTest extends TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public static function getLoadFullTagValues()
+    public static function getLoadFullTagValues(): array
     {
         return [
             ['eztags_id', '40'],
@@ -111,7 +96,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetBasicTagData($field, $value): void
+    public function testGetBasicTagData(string $field, $value): void
     {
         $data = $this->tagsGateway->getBasicTagData(40);
 
@@ -139,7 +124,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetBasicTagDataByRemoteId($field, $value): void
+    public function testGetBasicTagDataByRemoteId(string $field, $value): void
     {
         $data = $this->tagsGateway->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
@@ -168,7 +153,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagData($field, $value): void
+    public function testGetFullTagData(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40);
 
@@ -197,7 +182,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataWithoutAlwaysAvailable($field, $value): void
+    public function testGetFullTagDataWithoutAlwaysAvailable(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40, ['eng-GB'], false);
 
@@ -226,7 +211,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByRemoteId($field, $value): void
+    public function testGetFullTagDataByRemoteId(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
@@ -255,7 +240,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable($field, $value): void
+    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['eng-GB'], false);
 
@@ -284,7 +269,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByKeywordIdAndParentId($field, $value): void
+    public function testGetFullTagDataByKeywordIdAndParentId(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7);
 
@@ -313,7 +298,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param string $field
      * @param mixed $value
      */
-    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable($field, $value): void
+    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['eng-GB'], false);
 
@@ -812,10 +797,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Returns gateway implementation for legacy storage.
-     *
-     * @return \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
      */
-    protected function getTagsGateway()
+    protected function getTagsGateway(): DoctrineDatabase
     {
         $dbHandler = $this->getDatabaseHandler();
 

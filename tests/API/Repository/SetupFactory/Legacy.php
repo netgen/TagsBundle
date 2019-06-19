@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
 use eZ\Publish\Core\Base\ServiceContainer;
+use Netgen\TagsBundle\API\Repository\TagsService as APITagsService;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
@@ -23,12 +24,7 @@ class Legacy extends BaseLegacy
      */
     protected static $tagsInitialData;
 
-    /**
-     * Returns the service container used for initialization of the repository.
-     *
-     * @return \eZ\Publish\Core\Base\ServiceContainer
-     */
-    public function getServiceContainer()
+    public function getServiceContainer(): ServiceContainer
     {
         /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
         $loader = null;
@@ -72,13 +68,8 @@ class Legacy extends BaseLegacy
 
     /**
      * Returns a configured tags service for testing.
-     *
-     * @param bool $initializeFromScratch if the back end should be initialized
-     *                                    from scratch or re-used
-     *
-     * @return \Netgen\TagsBundle\API\Repository\TagsService
      */
-    public function getTagsService($initializeFromScratch = true)
+    public function getTagsService(bool $initializeFromScratch = true): APITagsService
     {
         $repository = $this->getRepository($initializeFromScratch);
 
@@ -106,12 +97,7 @@ class Legacy extends BaseLegacy
         );
     }
 
-    /**
-     * Returns statements to be executed after data insert.
-     *
-     * @return string[]
-     */
-    protected function getPostInsertStatements()
+    protected function getPostInsertStatements(): array
     {
         $statements = parent::getPostInsertStatements();
 
@@ -124,12 +110,7 @@ class Legacy extends BaseLegacy
         return $statements;
     }
 
-    /**
-     * Returns the initial database data.
-     *
-     * @return array
-     */
-    protected function getInitialData()
+    protected function getInitialData(): array
     {
         parent::getInitialData();
 
@@ -143,20 +124,15 @@ class Legacy extends BaseLegacy
 
     /**
      * Returns the database schema as an array of SQL statements.
-     *
-     * @return string[]
      */
-    protected function getTagsSchemaStatements()
+    protected function getTagsSchemaStatements(): array
     {
         $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
 
         return array_filter(preg_split('(;\\s*$)m', file_get_contents($tagsSchemaPath)));
     }
 
-    /**
-     * Initializes the database schema.
-     */
-    protected function initializeSchema()
+    protected function initializeSchema(): void
     {
         parent::initializeSchema();
 

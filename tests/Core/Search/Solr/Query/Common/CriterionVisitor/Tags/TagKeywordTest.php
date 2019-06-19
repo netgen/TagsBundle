@@ -16,12 +16,12 @@ use Netgen\TagsBundle\Core\Search\Solr\Query;
 class TagKeywordTest extends TestCase
 {
     /**
-     * @var \eZ\Publish\Core\Search\Common\FieldNameResolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \eZ\Publish\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $fieldNameResolver;
 
     /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject
+     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $contentTypeHandler;
 

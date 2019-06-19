@@ -11,13 +11,10 @@ use PHPUnit\Framework\TestCase;
 class RelatedContentAdapterTest extends TestCase
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tagsService;
 
-    /**
-     * Sets up the test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -145,13 +142,8 @@ class RelatedContentAdapterTest extends TestCase
 
     /**
      * Returns the adapter to test.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     *
-     * @return \Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
      */
-    protected function getAdapter(Tag $tag, TagsService $tagsService)
+    protected function getAdapter(Tag $tag, TagsService $tagsService): RelatedContentAdapter
     {
         $adapter = new RelatedContentAdapter($tagsService);
         $adapter->setTag($tag);

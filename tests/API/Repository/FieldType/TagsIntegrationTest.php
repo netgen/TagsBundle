@@ -21,22 +21,12 @@ use stdClass;
  */
 class TagsIntegrationTest extends BaseIntegrationTest
 {
-    /**
-     * Get name of tested field type.
-     *
-     * @return string
-     */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'eztags';
     }
 
-    /**
-     * Get expected settings schema.
-     *
-     * @return array
-     */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'hideRootTag' => [
@@ -50,12 +40,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get expected validator schema.
-     *
-     * @return array
-     */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [
             'TagsValueValidator' => [
@@ -71,12 +56,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get a valid $fieldSettings value.
-     *
-     * @return array
-     */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'hideRootTag' => true,
@@ -84,24 +64,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get $fieldSettings value not accepted by the field type.
-     *
-     * @return array
-     */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'unknown' => 42,
         ];
     }
 
-    /**
-     * Get a valid $validatorConfiguration.
-     *
-     * @return array
-     */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [
             'TagsValueValidator' => [
@@ -111,24 +81,14 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get $validatorConfiguration not accepted by the field type.
-     *
-     * @return array
-     */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 42],
         ];
     }
 
-    /**
-     * Get initial field data for valid object creation.
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): TagsValue
     {
         return new TagsValue(
             [
@@ -137,15 +97,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         );
     }
 
-    /**
-     * Asserts that the field data was loaded correctly.
-     *
-     * Asserts that the data provided by {@see getValidCreationFieldData()}
-     * was stored and loaded correctly.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Field $field
-     */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             TagsValue::class,
@@ -156,28 +108,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         self::assertContainsEquals($this->getTag1(), $field->value->tags);
     }
 
-    /**
-     * Get field data which will result in errors during creation.
-     *
-     * This is a PHPUnit data provider.
-     *
-     * The returned records must contain of an error producing data value and
-     * the expected exception class (from the API or SPI, not implementation
-     * specific!) as the second element. For example:
-     *
-     * <code>
-     * array(
-     *      array(
-     *          new DoomedValue( true ),
-     *          "eZ\\Publish\\API\\Repository\\Exceptions\\ContentValidationException"
-     *      ),
-     *      // ...
-     * );
-     * </code>
-     *
-     * @return array[]
-     */
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -201,12 +132,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get valid field data for updating content.
-     *
-     * @return mixed
-     */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): TagsValue
     {
         return new TagsValue(
             [
@@ -216,15 +142,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         );
     }
 
-    /**
-     * Asserts the the field data was loaded correctly.
-     *
-     * Asserts that the data provided by {@see getValidUpdateFieldData()}
-     * was stored and loaded correctly.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Field $field
-     */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             TagsValue::class,
@@ -236,41 +154,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
         self::assertContainsEquals($this->getTag3(), $field->value->tags);
     }
 
-    /**
-     * Get field data which will result in errors during update.
-     *
-     * This is a PHPUnit data provider.
-     *
-     * The returned records must contain of an error producing data value and
-     * the expected exception class (from the API or SPI, not implementation
-     * specific!) as the second element. For example:
-     *
-     * <code>
-     * array(
-     *      array(
-     *          new DoomedValue( true ),
-     *          "eZ\\Publish\\API\\Repository\\Exceptions\\ContentValidationException"
-     *      ),
-     *      // ...
-     * );
-     * </code>
-     *
-     * @return array[]
-     */
-    public function provideInvalidUpdateFieldData()
+    public function provideInvalidUpdateFieldData(): array
     {
         return $this->provideInvalidCreationFieldData();
     }
 
-    /**
-     * Asserts the the field data was loaded correctly.
-     *
-     * Asserts that the data provided by {@see getValidCreationFieldData()}
-     * was copied and loaded correctly.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Field $field
-     */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             TagsValue::class,
@@ -281,27 +170,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         self::assertContainsEquals($this->getTag1(), $field->value->tags);
     }
 
-    /**
-     * Get data to test to hash method.
-     *
-     * This is a PHPUnit data provider
-     *
-     * The returned records must have the the original value assigned to the
-     * first index and the expected hash result to the second. For example:
-     *
-     * <code>
-     * array(
-     *      array(
-     *          new MyValue( true ),
-     *          array( "myValue" => true ),
-     *      ),
-     *      // ...
-     * );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -325,27 +194,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get hashes and their respective converted values.
-     *
-     * This is a PHPUnit data provider
-     *
-     * The returned records must have the the input hash assigned to the
-     * first index and the expected value result to the second. For example:
-     *
-     * <code>
-     * array(
-     *      array(
-     *          array( "myValue" => true ),
-     *          new MyValue( true ),
-     *      ),
-     *      // ...
-     * );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -369,12 +218,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Provides data for testing if field value is empty.
-     *
-     * @return array
-     */
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new TagsValue()],
@@ -382,12 +226,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Provides data for testing if field value is not empty.
-     *
-     * @return array
-     */
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -396,12 +235,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get name generated by the given field type (either via Nameable or fieldType->getName()).
-     *
-     * @return string
-     */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'eztags';
     }
@@ -426,10 +260,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
     /**
      * Returns a tag for tests.
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected function getTag1()
+    protected function getTag1(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1308153110);
@@ -453,10 +285,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
     /**
      * Returns a tag for tests.
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected function getTag2()
+    protected function getTag2(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1343169159);
@@ -480,10 +310,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
     /**
      * Returns a tag for tests.
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    protected function getTag3()
+    protected function getTag3(): Tag
     {
         $modificationDate = new DateTime();
         $modificationDate->setTimestamp(1343169159);
@@ -507,10 +335,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
     /**
      * Returns a hash version of tag for tests.
-     *
-     * @return array
      */
-    protected function getTagHash1()
+    protected function getTagHash1(): array
     {
         return [
             'id' => 40,

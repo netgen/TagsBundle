@@ -46,50 +46,44 @@ class LanguageHandlerMock
 
         $mock->expects($testCase::any())
             ->method('load')
-            ->will(
-                $testCase::returnValueMap(
-                    [
-                        [2, $this->languages['eng-US']],
-                        [4, $this->languages['ger-DE']],
-                        [8, $this->languages['eng-GB']],
-                        ['2', $this->languages['eng-US']],
-                        ['4', $this->languages['ger-DE']],
-                        ['8', $this->languages['eng-GB']],
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    [2, $this->languages['eng-US']],
+                    [4, $this->languages['ger-DE']],
+                    [8, $this->languages['eng-GB']],
+                    ['2', $this->languages['eng-US']],
+                    ['4', $this->languages['ger-DE']],
+                    ['8', $this->languages['eng-GB']],
+                ]
             );
 
         $mock->expects($testCase::any())
             ->method('loadByLanguageCode')
-            ->will(
-                $testCase::returnValueMap(
-                    [
-                        ['eng-US', $this->languages['eng-US']],
-                        ['ger-DE', $this->languages['ger-DE']],
-                        ['eng-GB', $this->languages['eng-GB']],
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    ['eng-US', $this->languages['eng-US']],
+                    ['ger-DE', $this->languages['ger-DE']],
+                    ['eng-GB', $this->languages['eng-GB']],
+                ]
             );
 
         $mock->expects($testCase::any())
             ->method('loadListByLanguageCodes')
-            ->will(
-                $testCase::returnCallback(
-                    function (array $languageCodes) {
-                        return iterator_to_array(
-                            (function () use ($languageCodes) {
-                                foreach ($languageCodes as $languageCode) {
-                                    yield $languageCode => $this->languages[$languageCode];
-                                }
-                            })()
-                        );
-                    }
-                )
+            ->willReturnCallback(
+                function (array $languageCodes) {
+                    return iterator_to_array(
+                        (function () use ($languageCodes) {
+                            foreach ($languageCodes as $languageCode) {
+                                yield $languageCode => $this->languages[$languageCode];
+                            }
+                        })()
+                    );
+                }
             );
 
         $mock->expects($testCase::any())
             ->method('loadAll')
-            ->will($testCase::returnValue(array_values($this->languages)));
+            ->willReturn(array_values($this->languages));
 
         return $mock;
     }

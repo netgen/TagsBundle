@@ -3,6 +3,7 @@
 namespace Netgen\TagsBundle\Tests\API\Repository;
 
 use DateTime;
+use DateTimeInterface;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
@@ -10,6 +11,7 @@ use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
 use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
+use eZ\Publish\API\Repository\Values\User\User as APIUser;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
@@ -67,7 +69,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         try {
             $tag = new Tag();
-            $value = $tag->notDefined;
+            $tag->notDefined;
             self::fail('Succeeded getting non existing property');
         } catch (PropertyNotFoundException $e) {
         }
@@ -134,7 +136,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'remoteId' => null,
                 'alwaysAvailable' => true,
-                'keywords' => null,
+                'keywords' => [],
             ],
             $tagCreateStruct
         );
@@ -155,7 +157,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'remoteId' => null,
                 'alwaysAvailable' => true,
-                'keywords' => null,
+                'keywords' => [],
             ],
             $synonymCreateStruct
         );
@@ -172,7 +174,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->assertPropertiesCorrect(
             [
-                'keywords' => null,
+                'keywords' => [],
                 'remoteId' => null,
                 'mainLanguageCode' => null,
                 'alwaysAvailable' => null,
@@ -696,7 +698,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $createdTag
         );
 
-        self::assertInstanceOf('\\DateTime', $createdTag->modificationDate);
+        self::assertInstanceOf(DateTimeInterface::class, $createdTag->modificationDate);
         self::assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
     }
 
@@ -731,7 +733,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $createdTag
         );
 
-        self::assertInstanceOf('\\DateTime', $createdTag->modificationDate);
+        self::assertInstanceOf(DateTimeInterface::class, $createdTag->modificationDate);
         self::assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
     }
 
@@ -829,7 +831,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $updatedTag
         );
 
-        self::assertInstanceOf('\\DateTime', $updatedTag->modificationDate);
+        self::assertInstanceOf(DateTimeInterface::class, $updatedTag->modificationDate);
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $updatedTag->modificationDate->getTimestamp());
     }
 
@@ -997,7 +999,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $createdSynonym
         );
 
-        self::assertInstanceOf('\\DateTime', $createdSynonym->modificationDate);
+        self::assertInstanceOf(DateTimeInterface::class, $createdSynonym->modificationDate);
         self::assertGreaterThan(0, $createdSynonym->modificationDate->getTimestamp());
     }
 
@@ -1084,7 +1086,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $convertedSynonym
         );
 
-        self::assertInstanceOf('\\DateTime', $convertedSynonym->modificationDate);
+        self::assertInstanceOf(DateTimeInterface::class, $convertedSynonym->modificationDate);
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp());
 
         $synonymsCount = $this->tagsService->getTagSynonymCount($mainTag);
@@ -1485,7 +1487,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             $movedTag
         );
 
-        self::assertInstanceOf('\\DateTime', $movedTag->modificationDate);
+        self::assertInstanceOf(DateTimeInterface::class, $movedTag->modificationDate);
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp());
 
         foreach ($this->tagsService->loadTagSynonyms($movedTag) as $synonym) {
@@ -1705,13 +1707,9 @@ abstract class BaseTagsServiceTest extends BaseTest
     }
 
     /**
-     * Creates and returns a \DateTime object with received timestamp.
-     *
-     * @param int $timestamp
-     *
-     * @return \DateTime
+     * Creates and returns a \DateTimeInterface object with received timestamp.
      */
-    protected function getDateTime($timestamp = null)
+    protected function getDateTime(?int $timestamp = null): DateTimeInterface
     {
         $timestamp = $timestamp ?: time();
 
@@ -1729,22 +1727,18 @@ abstract class BaseTagsServiceTest extends BaseTest
      *
      * @return string
      */
-    protected function getSynonymPathString($synonymId, $mainTagPathString)
+    protected function getSynonymPathString($synonymId, string $mainTagPathString): string
     {
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
 
-        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
+        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
     }
 
     /**
      * Returns User stub with $id as User/Content id.
-     *
-     * @param int $id
-     *
-     * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    protected function getStubbedUser($id)
+    protected function getStubbedUser(int $id): APIUser
     {
         return new User(
             [

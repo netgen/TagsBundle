@@ -24,18 +24,15 @@ use PHPUnit\Framework\TestCase;
 class TagsServiceTest extends TestCase
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tagsService;
 
     /**
-     * @var \eZ\Publish\Core\SignalSlot\SignalDispatcher|\PHPUnit_Framework_MockObject_MockObject
+     * @var \eZ\Publish\Core\SignalSlot\SignalDispatcher|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $signalDispatcher;
 
-    /**
-     * Sets up the test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -795,10 +792,8 @@ class TagsServiceTest extends TestCase
 
     /**
      * Returns signal slot service under test.
-     *
-     * @return \Netgen\TagsBundle\Core\SignalSlot\TagsService
      */
-    protected function getSignalSlotService()
+    protected function getSignalSlotService(): TagsService
     {
         return new TagsService($this->tagsService, $this->signalDispatcher);
     }

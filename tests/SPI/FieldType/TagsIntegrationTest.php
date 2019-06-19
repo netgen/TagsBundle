@@ -6,6 +6,7 @@ use eZ\Publish\Core\FieldType\FieldSettings;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
+use eZ\Publish\SPI\Persistence\Handler;
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
@@ -44,17 +45,10 @@ class TagsIntegrationTest extends BaseIntegrationTest
     protected static $tagsSetUp = false;
 
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tagsService;
 
-    /**
-     * Only set up once for these read only tests on a large fixture.
-     *
-     * Skipping the reset-up, since setting up for these tests takes quite some
-     * time, which is not required to spent, since we are only reading from the
-     * database anyways.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -72,44 +66,25 @@ class TagsIntegrationTest extends BaseIntegrationTest
         }
     }
 
-    /**
-     * Reset DB sequences.
-     */
-    public function resetSequences()
+    public function resetSequences(): void
     {
         parent::resetSequences();
 
-        switch ($this->handler->getName()) {
-            case 'pgsql':
-                // Update PostgreSQL sequences
-                $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql')));
-                foreach ($queries as $query) {
-                    $this->handler->exec($query);
-                }
-
-                break;
+        if ($this->handler->getName() === 'pgsql') {
+            // Update PostgreSQL sequences
+            $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql')));
+            foreach ($queries as $query) {
+                $this->handler->exec($query);
+            }
         }
     }
 
-    /**
-     * Returns the identifier of the FieldType under test.
-     *
-     * @return string
-     */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'eztags';
     }
 
-    /**
-     * Returns the Handler with all necessary objects registered.
-     *
-     * Returns an instance of the Persistence Handler where the
-     * FieldType\Storage has been registered.
-     *
-     * @return \eZ\Publish\SPI\Persistence\Handler
-     */
-    public function getCustomHandler()
+    public function getCustomHandler(): Handler
     {
         $this->tagsService = $this->createMock(TagsService::class);
 
@@ -137,26 +112,12 @@ class TagsIntegrationTest extends BaseIntegrationTest
         );
     }
 
-    /**
-     * Returns the FieldTypeConstraints to be used to create a field definition
-     * of the FieldType under test.
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints
-     */
-    public function getTypeConstraints()
+    public function getTypeConstraints(): FieldTypeConstraints
     {
         return new FieldTypeConstraints();
     }
 
-    /**
-     * Returns the field definition data expected after loading the newly
-     * created field definition with the FieldType under test.
-     *
-     * This is a PHPUnit data provider
-     *
-     * @return array
-     */
-    public function getFieldDefinitionData()
+    public function getFieldDefinitionData(): array
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
@@ -180,12 +141,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    /**
-     * Get initial field value.
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
-     */
-    public function getInitialValue()
+    public function getInitialValue(): FieldValue
     {
         return new FieldValue(
             [
@@ -198,16 +154,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         );
     }
 
-    /**
-     * Asserts that the loaded field data is correct.
-     *
-     * Performs assertions on the loaded field, mainly checking that the
-     * $field->value->externalData is loaded correctly. If the loading of
-     * external data manipulates other aspects of $field, their correctness
-     * also needs to be asserted. Make sure you implement this method agnostic
-     * to the used SPI\Persistence implementation!
-     */
-    public function assertLoadedFieldDataCorrect(Field $field)
+    public function assertLoadedFieldDataCorrect(Field $field): void
     {
         self::assertSame(
             $this->getInitialValue()->externalData,
@@ -218,14 +165,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         self::assertNull($field->value->sortKey);
     }
 
-    /**
-     * Get update field value.
-     *
-     * Use to update the field
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
-     */
-    public function getUpdatedValue()
+    public function getUpdatedValue(): FieldValue
     {
         return new FieldValue(
             [
@@ -239,17 +179,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
         );
     }
 
-    /**
-     * Asserts that the updated field data is loaded correct.
-     *
-     * Performs assertions on the loaded field after it has been updated,
-     * mainly checking that the $field->value->externalData is loaded
-     * correctly. If the loading of external data manipulates other aspects of
-     * $field, their correctness also needs to be asserted. Make sure you
-     * implement this method agnostic to the used SPI\Persistence
-     * implementation!
-     */
-    public function assertUpdatedFieldDataCorrect(Field $field)
+    public function assertUpdatedFieldDataCorrect(Field $field): void
     {
         self::assertSame(
             $this->getUpdatedValue()->externalData,
@@ -262,10 +192,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
     /**
      * Returns a hash version of tag for tests.
-     *
-     * @return array
      */
-    protected function getTagHash1()
+    protected function getTagHash1(): array
     {
         return [
             'id' => 40,
@@ -284,10 +212,8 @@ class TagsIntegrationTest extends BaseIntegrationTest
 
     /**
      * Returns a hash version of tag for tests.
-     *
-     * @return array
      */
-    protected function getTagHash2()
+    protected function getTagHash2(): array
     {
         return [
             'id' => 8,
