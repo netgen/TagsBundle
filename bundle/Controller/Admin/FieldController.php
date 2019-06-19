@@ -25,8 +25,6 @@ class FieldController extends Controller
 
     /**
      * Sets the list of available languages to controller.
-     *
-     * @param array $languages
      */
     public function setLanguages(?array $languages = null): void
     {
@@ -55,10 +53,6 @@ class FieldController extends Controller
 
     /**
      * Provides tag children data for tag field edit interface.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function childrenAction(Request $request): JsonResponse
     {

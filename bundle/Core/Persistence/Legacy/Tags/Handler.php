@@ -59,9 +59,6 @@ class Handler implements BaseTagsHandler
         return reset($tag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true)
     {
         // TODO: This can be optimized in the future by adding method on gateway to load several

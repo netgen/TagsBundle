@@ -36,8 +36,6 @@ abstract class MultipleValued implements ViewMatcherInterface, TagsServiceAwareI
 
     /**
      * Sets the translation helper.
-     *
-     * @param \eZ\Publish\Core\Helper\TranslationHelper $translationHelper
      */
     public function setTranslationHelper(TranslationHelper $translationHelper): void
     {

@@ -59,9 +59,6 @@ class TagsService implements TagsServiceInterface
         return $this->service->loadTag($tagId, $languages, $useAlwaysAvailable);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
     {
         return $this->service->loadTagList($tagIds, $languages, $useAlwaysAvailable);

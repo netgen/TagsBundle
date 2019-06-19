@@ -36,7 +36,7 @@ class Tag extends ValueObject
      * Returns the keywords in the available languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
-     * @return string[]
+     * @var string[]
      */
     public $keywords = [];
 

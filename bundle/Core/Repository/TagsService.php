@@ -97,9 +97,6 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($spiTag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
     {
         if ($this->hasAccess('tags', 'read') === false) {

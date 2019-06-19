@@ -10,8 +10,6 @@ class TagLimitation extends Limitation
 
     /**
      * Returns the limitation identifier.
-     *
-     * @return string
      */
     public function getIdentifier(): string
     {
