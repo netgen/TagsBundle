@@ -50,7 +50,7 @@ class Handler implements BaseTagsHandler
     public function load($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
         $rows = $this->gateway->getFullTagData($tagId, $translations, $useAlwaysAvailable);
-        if (empty($rows)) {
+        if (count($rows) === 0) {
             throw new NotFoundException('tag', $tagId);
         }
 
@@ -65,7 +65,7 @@ class Handler implements BaseTagsHandler
         $tags = [];
         foreach ($tagIds as $tagId) {
             $rows = $this->gateway->getFullTagData($tagId, $translations, $useAlwaysAvailable);
-            if (!empty($rows)) {
+            if (count($rows) > 0) {
                 $tags[(int) $tagId] = $this->mapper->extractTagListFromRows($rows)[0];
             }
         }
@@ -107,7 +107,7 @@ class Handler implements BaseTagsHandler
     public function loadByRemoteId($remoteId, array $translations = null, $useAlwaysAvailable = true)
     {
         $rows = $this->gateway->getFullTagDataByRemoteId($remoteId, $translations, $useAlwaysAvailable);
-        if (empty($rows)) {
+        if (count($rows) === 0) {
             throw new NotFoundException('tag', $remoteId);
         }
 
@@ -147,7 +147,7 @@ class Handler implements BaseTagsHandler
     public function loadTagByKeywordAndParentId($keyword, $parentTagId, array $translations = null, $useAlwaysAvailable = true)
     {
         $rows = $this->gateway->getFullTagDataByKeywordAndParentId($keyword, $parentTagId, $translations, $useAlwaysAvailable);
-        if (empty($rows)) {
+        if (count($rows) === 0) {
             throw new NotFoundException('tag', $keyword);
         }
 
@@ -294,7 +294,7 @@ class Handler implements BaseTagsHandler
     public function create(CreateStruct $createStruct)
     {
         $parentTagData = null;
-        if (!empty($createStruct->parentTagId)) {
+        if ($createStruct->parentTagId > 0) {
             $parentTagData = $this->gateway->getBasicTagData($createStruct->parentTagId);
         }
 

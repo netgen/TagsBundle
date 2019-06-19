@@ -85,7 +85,7 @@ class Tags extends RestController
         $childrenCount = 0;
         $synonymsCount = 0;
 
-        if (empty($tag->mainTagId)) {
+        if (in_array($tag->mainTagId, [null, 0], true)) {
             $childrenCount = $this->tagsService->getTagChildrenCount($tag);
             $synonymsCount = $this->tagsService->getTagSynonymCount($tag);
         }
@@ -325,7 +325,7 @@ class Tags extends RestController
         $childrenCount = 0;
         $synonymsCount = 0;
 
-        if (empty($updatedTag->mainTagId)) {
+        if (in_array($updatedTag->mainTagId, [null, 0], true)) {
             $childrenCount = $this->tagsService->getTagChildrenCount($updatedTag);
             $synonymsCount = $this->tagsService->getTagSynonymCount($updatedTag);
         }

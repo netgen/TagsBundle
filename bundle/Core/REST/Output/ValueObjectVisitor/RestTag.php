@@ -38,7 +38,7 @@ class RestTag extends ValueObjectVisitor
         $tagPath = explode('/', trim($tag->pathString, '/'));
         $parentPathString = implode('/', array_slice($tagPath, 0, count($tagPath) - 1));
 
-        if (!empty($tag->parentTagId)) {
+        if ($tag->parentTagId > 0) {
             $generator->startObjectElement('ParentTag', 'Tag');
             $generator->startAttribute(
                 'href',
@@ -53,7 +53,7 @@ class RestTag extends ValueObjectVisitor
             $generator->endObjectElement('ParentTag');
         }
 
-        if (!empty($tag->mainTagId)) {
+        if ($tag->mainTagId > 0) {
             $generator->startObjectElement('MainTag', 'Tag');
             $generator->startAttribute(
                 'href',
@@ -101,7 +101,7 @@ class RestTag extends ValueObjectVisitor
         );
         $generator->endValueElement('languageCodes');
 
-        if (empty($tag->mainTagId)) {
+        if (in_array($tag->mainTagId, [null, 0], true)) {
             $generator->startValueElement('childrenCount', $data->childrenCount);
             $generator->endValueElement('childrenCount');
 

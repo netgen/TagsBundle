@@ -56,7 +56,7 @@ abstract class Tags extends CriterionHandler
         $statement->execute();
         $fieldDefinitionIds = $statement->fetchAll(\PDO::FETCH_COLUMN);
 
-        if (empty($fieldDefinitionIds)) {
+        if (count($fieldDefinitionIds) === 0) {
             throw new InvalidArgumentException(
                 '$criterion->target',
                 "No searchable fields found for the given criterion target '{$fieldIdentifier}'."

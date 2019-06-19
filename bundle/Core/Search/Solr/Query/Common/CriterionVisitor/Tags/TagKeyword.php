@@ -39,7 +39,7 @@ class TagKeyword extends Tags
         $searchFields = $this->getSearchFields($criterion);
         $isLikeOperator = $criterion->operator === Operator::LIKE;
 
-        if (empty($searchFields)) {
+        if (count($searchFields) === 0) {
             throw new InvalidArgumentException(
                 '$criterion->target',
                 "No searchable fields found for the given criterion target '{$criterion->target}'."

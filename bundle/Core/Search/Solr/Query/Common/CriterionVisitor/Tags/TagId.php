@@ -37,7 +37,7 @@ class TagId extends Tags
         $criterion->value = (array) $criterion->value;
         $searchFields = $this->getSearchFields($criterion);
 
-        if (empty($searchFields)) {
+        if (count($searchFields) === 0) {
             throw new InvalidArgumentException(
                 '$criterion->target',
                 "No searchable fields found for the given criterion target '{$criterion->target}'."

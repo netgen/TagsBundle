@@ -232,7 +232,7 @@ class DoctrineDatabase extends Gateway
             $statement->fetchAll(PDO::FETCH_ASSOC)
         );
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return [];
         }
 
@@ -323,7 +323,7 @@ class DoctrineDatabase extends Gateway
             $statement->fetchAll(PDO::FETCH_ASSOC)
         );
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return [];
         }
 
@@ -413,7 +413,7 @@ class DoctrineDatabase extends Gateway
             $statement->fetchAll(PDO::FETCH_ASSOC)
         );
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return [];
         }
 
@@ -827,14 +827,14 @@ class DoctrineDatabase extends Gateway
 
             $targetRows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-            if (empty($targetRows)) {
+            if (count($targetRows) === 0) {
                 $updateLinkIds[] = $row['id'];
             } else {
                 $deleteLinkIds[] = $row['id'];
             }
         }
 
-        if (!empty($deleteLinkIds)) {
+        if (count($deleteLinkIds) > 0) {
             $query = $this->handler->createDeleteQuery();
             $query
                 ->deleteFrom($this->handler->quoteTable('eztags_attribute_link'))
@@ -848,7 +848,7 @@ class DoctrineDatabase extends Gateway
             $query->prepare()->execute();
         }
 
-        if (!empty($updateLinkIds)) {
+        if (count($updateLinkIds) > 0) {
             $query = $this->handler->createUpdateQuery();
             $query
                 ->update($this->handler->quoteTable('eztags_attribute_link'))
@@ -979,7 +979,7 @@ class DoctrineDatabase extends Gateway
             $tagIds[] = (int) $row['id'];
         }
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return;
         }
 
@@ -1056,7 +1056,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        if (!empty($translations)) {
+        if (count($translations ?? []) > 0) {
             if ($useAlwaysAvailable) {
                 $query->where(
                     $query->expr->lOr(
@@ -1146,7 +1146,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        if (!empty($translations)) {
+        if (count($translations ?? []) > 0) {
             if ($useAlwaysAvailable) {
                 $query->where(
                     $query->expr->lOr(
@@ -1223,7 +1223,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        if (!empty($translations)) {
+        if (count($translations ?? []) > 0) {
             if ($useAlwaysAvailable) {
                 $query->where(
                     $query->expr->lOr(
@@ -1316,7 +1316,7 @@ class DoctrineDatabase extends Gateway
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
 
-        return (!empty($pathStringElements) ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
+        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
     }
 
     /**

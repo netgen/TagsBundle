@@ -33,7 +33,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function load($tagId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
         return $this->getCacheValue(
@@ -59,7 +59,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function loadList(array $tagIds, array $translations = null, $useAlwaysAvailable = true)
     {
-        $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
         return $this->getMultipleCacheValues(
@@ -101,7 +101,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
 
     public function loadByRemoteId($remoteId, array $translations = null, $useAlwaysAvailable = true)
     {
-        $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
         $cacheItem = $this->cache->getItem("netgen-tag-byRemoteId-{$remoteId}-{$translationsKey}-{$alwaysAvailableKey}");
         if ($cacheItem->isHit()) {
@@ -178,7 +178,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
     public function loadSynonyms($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
     {
         // Method caches all synonyms in cache and only uses offset / limit to slice the cached result
-        $translationsKey = empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
         $cacheItem = $this->cache->getItem("netgen-tag-synonyms-{$tagId}-{$translationsKey}-{$alwaysAvailableKey}");
         if ($cacheItem->isHit()) {

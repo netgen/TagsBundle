@@ -157,16 +157,16 @@ class TagsService implements TagsServiceInterface
         }
 
         $keywordArray = explode('/', trim($url, '/'));
-        if (!is_array($keywordArray) || empty($keywordArray)) {
+        if (!is_array($keywordArray) || count($keywordArray) === 0) {
             throw new InvalidArgumentValue('url', $url);
         }
 
         $parentId = 0;
         $spiTag = null;
 
-        if (!empty($languages)) {
+        if (count($languages) > 0) {
             foreach ($keywordArray as $keyword) {
-                if (empty($keyword)) {
+                if ($keyword === '') {
                     continue;
                 }
 
@@ -188,7 +188,7 @@ class TagsService implements TagsServiceInterface
                 }
 
                 $spiTagKeywords = array_values($spiTagKeywords);
-                if (!empty($spiTagKeywords) && $spiTagKeywords[0] !== $keyword) {
+                if (count($spiTagKeywords) > 0 && $spiTagKeywords[0] !== $keyword) {
                     throw new BaseNotFoundException('tag', $url);
                 }
 
@@ -449,7 +449,7 @@ class TagsService implements TagsServiceInterface
         $criteria = [new TagId($tag->id)];
         $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
 
-        if (empty($sortClauses)) {
+        if (count($sortClauses) === 0) {
             $sortClauses = [
                 new Query\SortClause\DateModified(Query::SORT_DESC),
             ];
@@ -520,7 +520,7 @@ class TagsService implements TagsServiceInterface
     {
         $keywords = $tagCreateStruct->getKeywords();
 
-        if (!empty($tagCreateStruct->parentTagId)) {
+        if ($tagCreateStruct->parentTagId > 0) {
             if ($this->canUser('tags', 'add', $this->loadTag($tagCreateStruct->parentTagId)) !== true) {
                 throw new UnauthorizedException('tags', 'add');
             }
@@ -528,11 +528,11 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException('tags', 'add');
         }
 
-        if (empty($tagCreateStruct->mainLanguageCode) || !is_string($tagCreateStruct->mainLanguageCode)) {
+        if (!is_string($tagCreateStruct->mainLanguageCode) || $tagCreateStruct->mainLanguageCode === '') {
             throw new InvalidArgumentValue('mainLanguageCode', $tagCreateStruct->mainLanguageCode, 'TagCreateStruct');
         }
 
-        if (empty($keywords) || !is_array($keywords)) {
+        if (!is_array($keywords) || count($keywords) === 0) {
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
@@ -540,7 +540,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
-        if ($tagCreateStruct->remoteId !== null && (empty($tagCreateStruct->remoteId) || !is_string($tagCreateStruct->remoteId))) {
+        if ($tagCreateStruct->remoteId !== null && (!is_string($tagCreateStruct->remoteId) || $tagCreateStruct->remoteId === '')) {
             throw new InvalidArgumentValue('remoteId', $tagCreateStruct->remoteId, 'TagCreateStruct');
         }
 
@@ -562,7 +562,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $createStruct = new CreateStruct();
-        $createStruct->parentTagId = !empty($tagCreateStruct->parentTagId) ? $tagCreateStruct->parentTagId : 0;
+        $createStruct->parentTagId = $tagCreateStruct->parentTagId > 0 ? $tagCreateStruct->parentTagId : 0;
         $createStruct->mainLanguageCode = $tagCreateStruct->mainLanguageCode;
         $createStruct->keywords = $keywords;
         $createStruct->remoteId = $tagCreateStruct->remoteId;
@@ -608,19 +608,19 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ($keywords !== null && (!is_array($keywords) || empty($keywords))) {
+        if ($keywords !== null && (!is_array($keywords) || count($keywords) === 0)) {
             throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
         }
 
         if ($keywords !== null) {
             foreach ($keywords as $keyword) {
-                if (empty($keyword)) {
+                if (!is_string($keyword) || $keyword === '') {
                     throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
                 }
             }
         }
 
-        if ($tagUpdateStruct->remoteId !== null && (!is_string($tagUpdateStruct->remoteId) || empty($tagUpdateStruct->remoteId))) {
+        if ($tagUpdateStruct->remoteId !== null && (!is_string($tagUpdateStruct->remoteId) || $tagUpdateStruct->remoteId === '')) {
             throw new InvalidArgumentValue('remoteId', $tagUpdateStruct->remoteId, 'TagUpdateStruct');
         }
 
@@ -637,7 +637,7 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ($tagUpdateStruct->mainLanguageCode !== null && (!is_string($tagUpdateStruct->mainLanguageCode) || empty($tagUpdateStruct->mainLanguageCode))) {
+        if ($tagUpdateStruct->mainLanguageCode !== null && (!is_string($tagUpdateStruct->mainLanguageCode) || $tagUpdateStruct->mainLanguageCode === '')) {
             throw new InvalidArgumentValue('mainLanguageCode', $tagUpdateStruct->mainLanguageCode, 'TagUpdateStruct');
         }
 
@@ -702,11 +702,11 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('mainTagId', $synonymCreateStruct->mainTagId, 'SynonymCreateStruct');
         }
 
-        if (empty($synonymCreateStruct->mainLanguageCode) || !is_string($synonymCreateStruct->mainLanguageCode)) {
+        if (!is_string($synonymCreateStruct->mainLanguageCode) || $synonymCreateStruct->mainLanguageCode === '') {
             throw new InvalidArgumentValue('mainLanguageCode', $synonymCreateStruct->mainLanguageCode, 'SynonymCreateStruct');
         }
 
-        if (empty($keywords) || !is_array($keywords)) {
+        if (!is_array($keywords) || count($keywords) === 0) {
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
@@ -714,7 +714,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
-        if ($synonymCreateStruct->remoteId !== null && (empty($synonymCreateStruct->remoteId) || !is_string($synonymCreateStruct->remoteId))) {
+        if ($synonymCreateStruct->remoteId !== null && (!is_string($synonymCreateStruct->remoteId) || $synonymCreateStruct->remoteId === '')) {
             throw new InvalidArgumentValue('remoteId', $synonymCreateStruct->remoteId, 'SynonymCreateStruct');
         }
 
