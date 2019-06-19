@@ -22,11 +22,6 @@ class RelatedContentPager implements EventSubscriberInterface
      */
     protected $pagerLimit;
 
-    /**
-     * Constructor.
-     *
-     * @param \Pagerfanta\Adapter\AdapterInterface $adapter
-     */
     public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
@@ -34,30 +29,21 @@ class RelatedContentPager implements EventSubscriberInterface
 
     /**
      * Sets the pager limit.
-     *
-     * @param int $pagerLimit
      */
-    public function setPagerLimit($pagerLimit)
+    public function setPagerLimit(int $pagerLimit): void
     {
-        $this->pagerLimit = (int) $pagerLimit;
+        $this->pagerLimit = $pagerLimit;
     }
 
-    /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * @return array The event names to listen to
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectPager'];
     }
 
     /**
      * Injects the pager with related content into the view.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewParametersEvent $event
      */
-    public function injectPager(FilterViewParametersEvent $event)
+    public function injectPager(FilterViewParametersEvent $event): void
     {
         $view = $event->getView();
         if (!$view instanceof TagView) {

@@ -11,12 +11,8 @@ class ParentRemote extends MultipleValued
 {
     /**
      * Matches the $view against a set of matchers.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\View\View $view
-     *
-     * @return bool
      */
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof TagValueView) {
             return false;

@@ -8,10 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class TagType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(

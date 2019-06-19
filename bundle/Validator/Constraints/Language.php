@@ -11,12 +11,7 @@ class Language extends Constraint
      */
     public $message = 'eztags.language.no_language';
 
-    /**
-     * Returns the name of the class that validates this constraint.
-     *
-     * @return string
-     */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'eztags_language';
     }

@@ -26,14 +26,14 @@ class Tag extends ValueObject
     /**
      * Tag ID.
      *
-     * @var mixed
+     * @var int
      */
     protected $id;
 
     /**
      * Parent tag ID.
      *
-     * @var mixed
+     * @var int
      */
     protected $parentTagId;
 
@@ -42,7 +42,7 @@ class Tag extends ValueObject
      *
      * Zero if tag is not a synonym
      *
-     * @var mixed
+     * @var int
      */
     protected $mainTagId;
 
@@ -76,7 +76,7 @@ class Tag extends ValueObject
     /**
      * Tag modification date.
      *
-     * @var \DateTime
+     * @var \DateTimeInterface
      */
     protected $modificationDate;
 
@@ -113,8 +113,6 @@ class Tag extends ValueObject
      *
      * Readonly properties values must be set using $properties as they are not writable anymore
      * after object has been created.
-     *
-     * @param array $properties
      */
     public function __construct(array $properties = [])
     {
@@ -137,9 +135,8 @@ class Tag extends ValueObject
      */
     public function __get($property)
     {
-        switch ($property) {
-            case 'keyword':
-                return $this->getKeyword();
+        if ($property === 'keyword') {
+            return $this->getKeyword();
         }
 
         return parent::__get($property);
@@ -165,32 +162,20 @@ class Tag extends ValueObject
      * Returns the keyword in the given language.
      *
      * If no language is given, the keyword in main language of the tag if present, otherwise null
-     *
-     * @param string $languageCode
-     *
-     * @return string
      */
-    public function getKeyword($languageCode = null)
+    public function getKeyword(?string $languageCode = null): ?string
     {
-        if ($languageCode === null) {
-            $languageCode = $this->mainLanguageCode;
-        }
-
-        if (isset($this->keywords[$languageCode])) {
-            return $this->keywords[$languageCode];
-        }
-
-        return null;
+        return $this->keywords[$languageCode ?? $this->mainLanguageCode] ?? null;
     }
 
     /**
      * Returns tag translations sorted and filtered by provided list of language codes.
      *
-     * @param array $languageCodes
+     * @param string[] $languageCodes
      *
-     * @return array
+     * @return string[]
      */
-    public function getKeywords(array $languageCodes)
+    public function getKeywords(array $languageCodes): array
     {
         $keywords = [];
 
@@ -200,7 +185,7 @@ class Tag extends ValueObject
             }
         }
 
-        if (empty($keywords)) {
+        if (count($keywords) === 0) {
             return [
                 $this->mainLanguageCode => $this->getKeyword($this->mainLanguageCode),
             ];
@@ -211,20 +196,16 @@ class Tag extends ValueObject
 
     /**
      * Returns if the current tag has a parent or not.
-     *
-     * @return bool
      */
-    public function hasParent()
+    public function hasParent(): bool
     {
         return $this->parentTagId !== 0;
     }
 
     /**
      * Returns if the current tag is a synonym or not.
-     *
-     * @return bool
      */
-    public function isSynonym()
+    public function isSynonym(): bool
     {
         return $this->mainTagId > 0;
     }
@@ -234,13 +215,11 @@ class Tag extends ValueObject
      *
      * Override to add dynamic properties
      *
-     * @uses \parent::getProperties()
-     *
      * @param array $dynamicProperties
      *
      * @return array
      */
-    protected function getProperties($dynamicProperties = ['keyword'])
+    protected function getProperties($dynamicProperties = ['keyword']): array
     {
         return parent::getProperties($dynamicProperties);
     }

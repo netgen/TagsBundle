@@ -47,11 +47,11 @@ class NetgenTagsRuntime
     /**
      * Returns tag keyword for provided tag ID or tag object.
      *
-     * @param mixed|\Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|int $tag
      *
      * @return string
      */
-    public function getTagKeyword($tag)
+    public function getTagKeyword($tag): string
     {
         if (!$tag instanceof Tag) {
             try {
@@ -61,17 +61,13 @@ class NetgenTagsRuntime
             }
         }
 
-        return $this->translationHelper->getTranslatedByMethod($tag, 'getKeyword');
+        return $this->translationHelper->getTranslatedByMethod($tag, 'getKeyword') ?? '';
     }
 
     /**
      * Returns the language name for specified language code.
-     *
-     * @param string $languageCode
-     *
-     * @return string
      */
-    public function getLanguageName($languageCode)
+    public function getLanguageName(string $languageCode): string
     {
         return $this->languageService->loadLanguage($languageCode)->name;
     }
@@ -79,11 +75,11 @@ class NetgenTagsRuntime
     /**
      * Returns content type name for provided content type ID or content type object.
      *
-     * @param mixed|\eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
+     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType|int $contentType
      *
      * @return string
      */
-    public function getContentTypeName($contentType)
+    public function getContentTypeName($contentType): string
     {
         if (!$contentType instanceof ContentType) {
             try {
@@ -93,6 +89,6 @@ class NetgenTagsRuntime
             }
         }
 
-        return $contentType->getName();
+        return $contentType->getName() ?? '';
     }
 }

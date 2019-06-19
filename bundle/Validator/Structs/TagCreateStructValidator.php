@@ -11,15 +11,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class TagCreateStructValidator extends CreateStructValidator
 {
-    /**
-     * Checks if the passed value is valid.
-     *
-     * @param mixed $value The value that should be validated
-     * @param \Symfony\Component\Validator\Constraint $constraint The constraint for the validation
-     *
-     * @throws \Symfony\Component\Validator\Exception\UnexpectedTypeException If the type is unexpected
-     */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof TagCreateStructConstraint) {
             throw new UnexpectedTypeException(
@@ -37,7 +29,6 @@ class TagCreateStructValidator extends CreateStructValidator
 
         parent::validate($value, $constraint);
 
-        /** @var \Symfony\Component\Validator\Validator\ContextualValidatorInterface $validator */
         $validator = $this->context->getValidator()->inContext($this->context);
 
         $validator->atPath('parentTagId')->validate(

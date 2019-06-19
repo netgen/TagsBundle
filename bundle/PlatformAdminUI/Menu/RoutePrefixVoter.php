@@ -20,13 +20,13 @@ class RoutePrefixVoter implements VoterInterface
      */
     private $routePrefix;
 
-    public function __construct(RequestStack $requestStack, $routePrefix)
+    public function __construct(RequestStack $requestStack, string $routePrefix)
     {
         $this->requestStack = $requestStack;
         $this->routePrefix = $routePrefix;
     }
 
-    public function matchItem(ItemInterface $item)
+    public function matchItem(ItemInterface $item): ?bool
     {
         $request = $this->requestStack->getCurrentRequest();
         if (!$request instanceof Request) {
@@ -57,7 +57,7 @@ class RoutePrefixVoter implements VoterInterface
         return null;
     }
 
-    private function isMatchingRoutePrefix(array $testedRoute)
+    private function isMatchingRoutePrefix(array $testedRoute): bool
     {
         if (!isset($testedRoute['route'])) {
             return false;

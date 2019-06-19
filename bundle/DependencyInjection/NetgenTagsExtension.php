@@ -13,15 +13,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * This is the class that loads and manages the bundle configuration.
- */
 class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
 
@@ -73,12 +67,7 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
         $this->processSemanticConfig($container, $config);
     }
 
-    /**
-     * Allow an extension to prepend the extension configurations.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $configs = [
             'netgen_tags.yml' => 'netgen_tags',
@@ -97,11 +86,8 @@ class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 
     /**
      * Processes semantic config and translates it to container parameters.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
      */
-    protected function processSemanticConfig(ContainerBuilder $container, $config)
+    protected function processSemanticConfig(ContainerBuilder $container, array $config): void
     {
         $processor = new ConfigurationProcessor($container, 'eztags');
         $processor->mapConfig(

@@ -3,11 +3,11 @@
 namespace Netgen\TagsBundle\Core\REST\Controller;
 
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use EzSystems\EzPlatformRest\Server\Controller as RestController;
 use EzSystems\EzPlatformRest\Exceptions;
-use EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException;
 use EzSystems\EzPlatformRest\Exceptions\ForbiddenException;
 use EzSystems\EzPlatformRest\Message;
+use EzSystems\EzPlatformRest\Server\Controller as RestController;
+use EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException;
 use EzSystems\EzPlatformRest\Server\Values as BaseValues;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Values;

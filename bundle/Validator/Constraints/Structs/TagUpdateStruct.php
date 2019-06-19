@@ -11,12 +11,7 @@ class TagUpdateStruct extends Constraint
      */
     public $languageCode;
 
-    /**
-     * Returns the name of the class that validates this constraint.
-     *
-     * @return string
-     */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'eztags_tag_update_struct';
     }

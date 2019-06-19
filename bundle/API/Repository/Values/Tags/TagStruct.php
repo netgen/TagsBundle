@@ -30,14 +30,14 @@ abstract class TagStruct extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords;
+    protected $keywords = [];
 
     /**
      * Returns keywords available in the struct.
      *
      * @return string[]
      */
-    public function getKeywords()
+    public function getKeywords(): array
     {
         return $this->keywords;
     }
@@ -45,48 +45,25 @@ abstract class TagStruct extends ValueObject
     /**
      * Gets a keyword from keyword collection.
      *
-     * @param string $language If not given, the main language is used
-     *
-     * @return string
+     * If language is not given, the main language is used.
      */
-    public function getKeyword($language = null)
+    public function getKeyword(?string $language = null): ?string
     {
-        if (empty($language)) {
-            $language = $this->mainLanguageCode;
-        }
-
-        if (!is_array($this->keywords) || !array_key_exists($language, $this->keywords)) {
-            return null;
-        }
-
-        return $this->keywords[$language];
+        return $this->keywords[$language ?? $this->mainLanguageCode] ?? null;
     }
 
     /**
      * Adds a keyword to keyword collection.
-     *
-     * @param string $keyword Keyword to add
-     * @param string $language If not given, the main language is used
      */
-    public function setKeyword($keyword, $language = null)
+    public function setKeyword(string $keyword, ?string $language = null): void
     {
-        if (empty($language)) {
-            $language = $this->mainLanguageCode;
-        }
-
-        if (!is_array($this->keywords)) {
-            $this->keywords = [];
-        }
-
-        $this->keywords[$language] = $keyword;
+        $this->keywords[$language ?? $this->mainLanguageCode] = $keyword;
     }
 
     /**
      * Removes the keyword from keyword collection.
-     *
-     * @param string $language Language to remove the keyword for
      */
-    public function removeKeyword($language)
+    public function removeKeyword(string $language): void
     {
         if (!array_key_exists($language, $this->keywords)) {
             return;

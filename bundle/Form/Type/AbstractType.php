@@ -7,10 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractType extends BaseAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('translation_domain', 'eztags_admin');
     }

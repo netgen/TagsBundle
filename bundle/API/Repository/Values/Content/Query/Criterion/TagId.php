@@ -16,20 +16,15 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specificat
 class TagId extends Criterion
 {
     /**
-     * Creates a new TagId criterion.
-     *
      * @param int|int[] $value One or more tag IDs that must be matched
-     * @param string $target Field definition identifier to use
-     *
-     * @throws \InvalidArgumentException if a non numeric id is given
-     * @throws \InvalidArgumentException if the value type doesn't match the operator
+     * @param string|null $target Field definition identifier to use
      */
-    public function __construct($value, $target = null)
+    public function __construct($value, ?string $target = null)
     {
         parent::__construct($target, null, $value);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return [
             new Specifications(

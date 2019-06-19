@@ -8,10 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagMergeType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -20,10 +17,7 @@ class TagMergeType extends AbstractType
             ->setAllowedTypes('tag', Tag::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(

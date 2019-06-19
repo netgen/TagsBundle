@@ -7,15 +7,10 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class Configuration extends SiteAccessConfiguration
 {
-    /**
-     * Generates the configuration tree builder.
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('netgen_tags');
+        $treeBuilder = new TreeBuilder('netgen_tags');
+        $rootNode = $treeBuilder->getRootNode();
 
         $this->generateScopeBaseNode($rootNode)
             ->arrayNode('tag_view')

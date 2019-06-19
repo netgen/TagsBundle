@@ -19,20 +19,12 @@ class TagTreeType extends AbstractType
      */
     protected $tagsService;
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     */
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -57,10 +49,7 @@ class TagTreeType extends AbstractType
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $tag = null;
         if ($form->getData() !== null) {
@@ -78,10 +67,7 @@ class TagTreeType extends AbstractType
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
+    public function getParent(): string
     {
         return HiddenType::class;
     }

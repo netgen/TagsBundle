@@ -18,11 +18,6 @@ class FieldController extends Controller
      */
     protected $languages = [];
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService$translationHelper
-     */
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
@@ -33,24 +28,20 @@ class FieldController extends Controller
      *
      * @param array $languages
      */
-    public function setLanguages(array $languages = null)
+    public function setLanguages(?array $languages = null): void
     {
-        $this->languages = $languages !== null ? $languages : [];
+        $this->languages = $languages ?? [];
     }
 
     /**
-     * Provides autocomplete data for tag field edit interface.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * Provides auto-complete data for tag field edit interface.
      */
-    public function autoCompleteAction(Request $request)
+    public function autoCompleteAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $subTreeLimit = (int) $request->query->get('subTreeLimit');
-        $hideRootTag = (bool) $request->query->get('hideRootTag');
+        $subTreeLimit = $request->query->getInt('subTreeLimit');
+        $hideRootTag = $request->query->getBoolean('hideRootTag');
 
         $searchResult = $this->tagsService->searchTags(
             $request->query->get('searchString'),
@@ -69,16 +60,16 @@ class FieldController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function childrenAction(Request $request)
+    public function childrenAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $subTreeLimit = (int) $request->query->get('subTreeLimit', 0);
-        $hideRootTag = (bool) $request->query->get('hideRootTag', false);
+        $subTreeLimit = $request->query->getInt('subTreeLimit');
+        $hideRootTag = $request->query->getBoolean('hideRootTag');
         $locale = $request->query->get('locale');
 
         $tags = $this->tagsService->loadTagChildren(
-            !empty($subTreeLimit) ? $this->tagsService->loadTag($subTreeLimit) : null,
+            $subTreeLimit !== 0 ? $this->tagsService->loadTag($subTreeLimit) : null,
             0,
             -1,
             [$locale]
@@ -89,7 +80,7 @@ class FieldController extends Controller
         return new JsonResponse($data);
     }
 
-    private function filterTags(array $tags, $subTreeLimit, $hideRootTag)
+    private function filterTags(array $tags, int $subTreeLimit, bool $hideRootTag): array
     {
         $data = [];
         foreach ($tags as $tag) {
@@ -111,7 +102,7 @@ class FieldController extends Controller
 
             $data[] = [
                 'parent_id' => $tag->parentTagId,
-                'parent_name' => !empty($parentTagKeywords) ? array_values($parentTagKeywords)[0] : '',
+                'parent_name' => count($parentTagKeywords) > 0 ? array_values($parentTagKeywords)[0] : '',
                 'name' => array_values($tagKeywords)[0],
                 'id' => $tag->id,
                 'main_tag_id' => $tag->mainTagId,

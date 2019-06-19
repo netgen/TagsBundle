@@ -2,6 +2,7 @@
 
 namespace Netgen\TagsBundle\DependencyInjection\Factory;
 
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -11,12 +12,8 @@ class TagsHandlerFactory implements ContainerAwareInterface
 
     /**
      * Builds the tags handler.
-     *
-     * @param string $storageEngineIdentifier
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
-    public function buildTagsHandler($storageEngineIdentifier)
+    public function buildTagsHandler(string $storageEngineIdentifier): Handler
     {
         return $this->container->get(
             sprintf(

@@ -9,14 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class NetgenTagsBundle extends Bundle
 {
-    /**
-     * Builds the bundle.
-     *
-     * It is only ever called once when the cache is empty.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container A ContainerBuilder instance
-     */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 

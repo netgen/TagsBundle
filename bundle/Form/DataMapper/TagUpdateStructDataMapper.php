@@ -12,48 +12,27 @@ class TagUpdateStructDataMapper implements DataMapperInterface
      */
     protected $languageCode;
 
-    /**
-     * TagStructDataMapper constructor.
-     *
-     * @param string $languageCode
-     */
-    public function __construct($languageCode)
+    public function __construct(string $languageCode)
     {
         $this->languageCode = $languageCode;
     }
 
-    /**
-     * Maps properties of some data to a list of forms.
-     *
-     * @param mixed $data Structured data
-     * @param \Symfony\Component\Form\FormInterface[] $forms A list of {@see FormInterface} instances
-     *
-     * @throws \Symfony\Component\Form\Exception\UnexpectedTypeException if the type of the data parameter is not supported
-     */
-    public function mapDataToForms($data, $forms)
+    public function mapDataToForms($viewData, $forms): void
     {
-        if (!$data instanceof TagUpdateStruct) {
+        if (!$viewData instanceof TagUpdateStruct) {
             return;
         }
 
         $forms = iterator_to_array($forms);
 
-        $forms['keyword']->setData($data->getKeyword($this->languageCode));
-        $forms['alwaysAvailable']->setData($data->alwaysAvailable);
-        $forms['remoteId']->setData($data->remoteId);
+        $forms['keyword']->setData($viewData->getKeyword($this->languageCode));
+        $forms['alwaysAvailable']->setData($viewData->alwaysAvailable);
+        $forms['remoteId']->setData($viewData->remoteId);
     }
 
-    /**
-     * Maps the data of a list of forms into the properties of some data.
-     *
-     * @param \Symfony\Component\Form\FormInterface[] $forms A list of {@see FormInterface} instances
-     * @param mixed $data Structured data
-     *
-     * @throws \Symfony\Component\Form\Exception\UnexpectedTypeException if the type of the data parameter is not supported
-     */
-    public function mapFormsToData($forms, &$data)
+    public function mapFormsToData($forms, &$viewData): void
     {
-        if (!$data instanceof TagUpdateStruct) {
+        if (!$viewData instanceof TagUpdateStruct) {
             return;
         }
 
@@ -62,10 +41,10 @@ class TagUpdateStructDataMapper implements DataMapperInterface
         $keyword = $forms['keyword']->getData();
 
         $keyword !== null ?
-            $data->setKeyword($keyword, $this->languageCode) :
-            $data->removeKeyword($this->languageCode);
+            $viewData->setKeyword($keyword, $this->languageCode) :
+            $viewData->removeKeyword($this->languageCode);
 
-        $data->alwaysAvailable = $forms['alwaysAvailable']->getData();
-        $data->remoteId = $forms['remoteId']->getData();
+        $viewData->alwaysAvailable = $forms['alwaysAvailable']->getData();
+        $viewData->remoteId = $forms['remoteId']->getData();
     }
 }

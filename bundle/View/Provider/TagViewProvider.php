@@ -17,11 +17,6 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
      */
     protected $matcherFactory;
 
-    /**
-     * Constructor.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface $matcherFactory
-     */
     public function __construct(MatcherFactoryInterface $matcherFactory)
     {
         $this->matcherFactory = $matcherFactory;
@@ -29,12 +24,8 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
 
     /**
      * Matches the view with the matching config.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\View\View $view
-     *
-     * @return \eZ\Publish\Core\MVC\Symfony\View\View
      */
-    public function getView(View $view)
+    public function getView(View $view): View
     {
         if (($configHash = $this->matcherFactory->match($view)) === null) {
             return null;
@@ -45,10 +36,8 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
 
     /**
      * Changes the site access.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\SiteAccess $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         if ($this->matcherFactory instanceof SiteAccessAware) {
             $this->matcherFactory->setSiteAccess($siteAccess);
@@ -57,12 +46,8 @@ class TagViewProvider implements ViewProvider, SiteAccessAware
 
     /**
      * Builds a TagView object from $viewConfig.
-     *
-     * @param array $viewConfig
-     *
-     * @return \Netgen\TagsBundle\View\TagView
      */
-    protected function buildTagView(array $viewConfig)
+    protected function buildTagView(array $viewConfig): TagView
     {
         $view = new TagView();
         $view->setConfigHash($viewConfig);

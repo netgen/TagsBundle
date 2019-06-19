@@ -12,10 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagUpdateType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -40,18 +37,12 @@ class TagUpdateType extends AbstractType
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setDataMapper(new TagUpdateStructDataMapper($options['languageCode']));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
+    public function getParent(): string
     {
         return TagType::class;
     }

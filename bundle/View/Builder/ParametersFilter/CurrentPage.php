@@ -3,19 +3,14 @@
 namespace Netgen\TagsBundle\View\Builder\ParametersFilter;
 
 use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
-use eZ\Publish\Core\MVC\Symfony\View\ViewEvents as ViewEvents;
+use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Netgen\TagsBundle\Routing\TagRouter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CurrentPage implements EventSubscriberInterface
 {
-    /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * @return array The event names to listen to
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             ViewEvents::FILTER_BUILDER_PARAMETERS => 'addCurrentPage',
@@ -24,10 +19,8 @@ class CurrentPage implements EventSubscriberInterface
 
     /**
      * Adds the current page to the parameters.
-     *
-     * @param \eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent $event
      */
-    public function addCurrentPage(FilterViewBuilderParametersEvent $event)
+    public function addCurrentPage(FilterViewBuilderParametersEvent $event): void
     {
         $parameterBag = $event->getParameters();
 

@@ -20,17 +20,15 @@ class MainMenuBuilderListener implements EventSubscriberInterface
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [ConfigureMenuEvent::MAIN_MENU => 'onMainMenuBuild'];
     }
 
     /**
      * This method adds Netgen Tags menu items to eZ Platform admin interface.
-     *
-     * @param \EzSystems\EzPlatformAdminUi\Menu\Event\ConfigureMenuEvent $event
      */
-    public function onMainMenuBuild(ConfigureMenuEvent $event)
+    public function onMainMenuBuild(ConfigureMenuEvent $event): void
     {
         if (!$this->authorizationChecker->isGranted('ez:tags:read')) {
             return;
@@ -41,10 +39,8 @@ class MainMenuBuilderListener implements EventSubscriberInterface
 
     /**
      * Adds the Netgen Tags submenu to eZ Platform admin interface.
-     *
-     * @param \Knp\Menu\ItemInterface $menu
      */
-    private function addTagsSubMenu(ItemInterface $menu)
+    private function addTagsSubMenu(ItemInterface $menu): void
     {
         $menuOrder = $this->getNewMenuOrder($menu);
 
@@ -58,12 +54,8 @@ class MainMenuBuilderListener implements EventSubscriberInterface
 
     /**
      * Returns the new menu order.
-     *
-     * @param \Knp\Menu\ItemInterface $menu
-     *
-     * @return array
      */
-    private function getNewMenuOrder(ItemInterface $menu)
+    private function getNewMenuOrder(ItemInterface $menu): array
     {
         $menuOrder = array_keys($menu->getChildren());
         $configMenuIndex = array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true);

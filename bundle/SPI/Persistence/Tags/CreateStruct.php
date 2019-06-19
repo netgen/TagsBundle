@@ -14,7 +14,7 @@ class CreateStruct extends ValueObject
      *
      * @required
      *
-     * @var mixed
+     * @var int
      */
     public $parentTagId;
 

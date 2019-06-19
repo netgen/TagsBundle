@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\View;
 
-interface CachableView
+interface CacheableView
 {
     /**
      * Sets the cache as enabled/disabled.

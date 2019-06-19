@@ -7,7 +7,10 @@ use Twig\TwigFunction;
 
 class NetgenTagsExtension extends AbstractExtension
 {
-    public function getFunctions()
+    /**
+     * @return \Twig\TwigFunction[]
+     */
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(

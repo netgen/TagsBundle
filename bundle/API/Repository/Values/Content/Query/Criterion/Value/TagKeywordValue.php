@@ -12,7 +12,7 @@ class TagKeywordValue extends Value
     /**
      * One or more languages to match in. If empty, Criterion will match in all available languages.
      *
-     * @var string[]
+     * @var string[]|null
      */
     public $languages;
 
@@ -23,13 +23,7 @@ class TagKeywordValue extends Value
      */
     public $useAlwaysAvailable = true;
 
-    /**
-     * Constructor.
-     *
-     * @param string[] $languages
-     * @param bool $useAlwaysAvailable
-     */
-    public function __construct(array $languages = null, $useAlwaysAvailable = true)
+    public function __construct(?array $languages = null, bool $useAlwaysAvailable = true)
     {
         $this->languages = $languages;
         $this->useAlwaysAvailable = $useAlwaysAvailable;

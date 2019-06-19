@@ -26,13 +26,6 @@ class TagMatcherFactory extends ClassNameMatcherFactory
      */
     protected $translationHelper;
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \eZ\Publish\Core\Helper\TranslationHelper $translationHelper
-     * @param \eZ\Publish\API\Repository\Repository $repository
-     */
     public function __construct(
         TagsService $tagsService,
         TranslationHelper $translationHelper,
@@ -55,7 +48,7 @@ class TagMatcherFactory extends ClassNameMatcherFactory
      *
      * @return \eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface
      */
-    protected function getMatcher($matcherIdentifier)
+    protected function getMatcher($matcherIdentifier): ViewMatcherInterface
     {
         if ($this->container->has($matcherIdentifier)) {
             return $this->container->get($matcherIdentifier);

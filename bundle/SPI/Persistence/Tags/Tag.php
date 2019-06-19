@@ -12,14 +12,14 @@ class Tag extends ValueObject
     /**
      * Tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $id;
 
     /**
      * Parent tag ID.
      *
-     * @var mixed
+     * @var int
      */
     public $parentTagId;
 
@@ -28,7 +28,7 @@ class Tag extends ValueObject
      *
      * Zero if tag is not a synonym
      *
-     * @var mixed
+     * @var int
      */
     public $mainTagId;
 

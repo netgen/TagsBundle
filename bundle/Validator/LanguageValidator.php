@@ -16,25 +16,12 @@ class LanguageValidator extends ConstraintValidator
      */
     protected $languageService;
 
-    /**
-     * LanguageValidator constructor.
-     *
-     * @param \eZ\Publish\API\Repository\LanguageService $languageService
-     */
     public function __construct(LanguageService $languageService)
     {
         $this->languageService = $languageService;
     }
 
-    /**
-     * Checks if the passed value is valid.
-     *
-     * @param mixed $value The value that should be validated
-     * @param \Symfony\Component\Validator\Constraint $constraint The constraint for the validation
-     *
-     * @throws \Symfony\Component\Validator\Exception\UnexpectedTypeException If the type is unexpected
-     */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if ($value === null) {
             return;

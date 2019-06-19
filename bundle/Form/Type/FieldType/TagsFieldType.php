@@ -21,13 +21,13 @@ class TagsFieldType extends AbstractType
         $this->fieldTypeService = $fieldTypeService;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(['field']);
         $resolver->setAllowedTypes('field', Field::class);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('ids', HiddenType::class)
@@ -42,7 +42,7 @@ class TagsFieldType extends AbstractType
             );
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'ezplatform_fieldtype_eztags';
     }

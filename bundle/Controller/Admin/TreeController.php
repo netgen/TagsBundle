@@ -6,7 +6,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TreeController extends Controller
 {
@@ -16,7 +16,7 @@ class TreeController extends Controller
     protected $tagsService;
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     protected $translator;
 
@@ -35,13 +35,6 @@ class TreeController extends Controller
      */
     protected $treeLinks;
 
-    /**
-     * TreeController constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * @param \Symfony\Component\Routing\RouterInterface $router
-     */
     public function __construct(
         TagsService $tagsService,
         TranslatorInterface $translator,
@@ -79,25 +72,25 @@ class TreeController extends Controller
      * It supports lazy loading; when a tag is clicked in a tree, it calls this method to fetch it's children.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null $tag
-     * @param int
      * @param bool $isRoot
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function getChildrenAction(Tag $tag = null, $isRoot = false)
+    public function getChildrenAction(?Tag $tag = null, $isRoot = false): JsonResponse
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
+        $isRoot = (bool) $isRoot;
         $result = [];
 
-        if ((bool) $isRoot) {
+        if ($isRoot) {
             $result[] = $tag instanceof Tag ?
                 $this->getTagTreeData($tag, $isRoot) :
                 $this->getRootTreeData();
         } else {
             $childrenTags = $this->tagsService->loadTagChildren($tag);
-            foreach ($childrenTags as $tag) {
-                $result[] = $this->getTagTreeData($tag, $isRoot);
+            foreach ($childrenTags as $childTag) {
+                $result[] = $this->getTagTreeData($childTag, $isRoot);
             }
         }
 
@@ -106,10 +99,8 @@ class TreeController extends Controller
 
     /**
      * Generates data for root of the tree.
-     *
-     * @return array
      */
-    protected function getRootTreeData()
+    protected function getRootTreeData(): array
     {
         return [
             'id' => '0',
@@ -137,13 +128,8 @@ class TreeController extends Controller
 
     /**
      * Generates data, for given tag, which will be converted to JSON:.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param bool $isRoot
-     *
-     * @return array
      */
-    protected function getTagTreeData(Tag $tag, $isRoot = false)
+    protected function getTagTreeData(Tag $tag, bool $isRoot = false): array
     {
         $synonymCount = $this->tagsService->getTagSynonymCount($tag);
 

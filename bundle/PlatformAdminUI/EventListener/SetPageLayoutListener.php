@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\PlatformAdminUI\EventListener;
 use EzSystems\EzPlatformAdminUiBundle\EzPlatformAdminUiBundle;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class SetPageLayoutListener implements EventSubscriberInterface
@@ -25,32 +25,25 @@ class SetPageLayoutListener implements EventSubscriberInterface
      */
     private $pageLayoutTemplate;
 
-    /**
-     * @param \Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable $globalVariable
-     * @param array $groupsBySiteAccess
-     * @param string $pageLayoutTemplate
-     */
     public function __construct(
         AdminGlobalVariable $globalVariable,
         array $groupsBySiteAccess,
-        $pageLayoutTemplate
+        string $pageLayoutTemplate
     ) {
         $this->globalVariable = $globalVariable;
         $this->groupsBySiteAccess = $groupsBySiteAccess;
         $this->pageLayoutTemplate = $pageLayoutTemplate;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [KernelEvents::REQUEST => ['onKernelRequest', 10]];
     }
 
     /**
      * Sets the pagelayout template for admin interface.
-     *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

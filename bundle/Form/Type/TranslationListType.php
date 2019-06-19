@@ -22,30 +22,20 @@ class TranslationListType extends AbstractType
      */
     protected $languages;
 
-    /**
-     * LanguageSelectType constructor.
-     *
-     * @param \eZ\Publish\API\Repository\LanguageService $languageService
-     */
     public function __construct(LanguageService $languageService)
     {
         $this->languageService = $languageService;
     }
 
     /**
-     * Setter method for array with languages.
-     *
-     * @param array|null $languages
+     * Sets the currently used languages.
      */
-    public function setLanguages(array $languages = null)
+    public function setLanguages(?array $languages = null): void
     {
-        $this->languages = $languages;
+        $this->languages = $languages ?? [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -83,7 +73,7 @@ class TranslationListType extends AbstractType
                             return $options['tag']->mainLanguageCode;
                         }
 
-                        return isset($this->languages[0]) ? $this->languages[0] : null;
+                        return $this->languages[0] ?? null;
                     },
                     'preferred_choices' => static function (Options $options) {
                         if ($options['tag'] instanceof Tag) {
@@ -96,20 +86,14 @@ class TranslationListType extends AbstractType
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars += [
             'tag' => $options['tag'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

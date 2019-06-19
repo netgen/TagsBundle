@@ -6,13 +6,7 @@ use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\Ya
 
 class TagsPolicyProvider extends YamlPolicyProvider
 {
-    /**
-     * Returns an array of files where the policy configuration lies.
-     * Each file path MUST be absolute.
-     *
-     * @return array
-     */
-    public function getFiles()
+    public function getFiles(): array
     {
         return [
             __DIR__ . '/../../../Resources/config/policies.yml',

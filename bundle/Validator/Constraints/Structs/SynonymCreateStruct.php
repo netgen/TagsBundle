@@ -6,12 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class SynonymCreateStruct extends Constraint
 {
-    /**
-     * Returns the name of the class that validates this constraint.
-     *
-     * @return string
-     */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'eztags_synonym_create_struct';
     }

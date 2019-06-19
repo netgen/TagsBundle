@@ -16,9 +16,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class TagUrlGenerator extends Generator
 {
-    const INTERNAL_TAG_ROUTE = '_eztagsTag';
+    public const INTERNAL_TAG_ROUTE = '_eztagsTag';
 
-    const DEFAULT_PATH_PREFIX = '/tags/view';
+    public const DEFAULT_PATH_PREFIX = '/tags/view';
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -35,13 +35,6 @@ class TagUrlGenerator extends Generator
      */
     protected $configResolver;
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \Symfony\Component\Routing\RouterInterface $defaultRouter
-     * @param \eZ\Publish\Core\MVC\ConfigResolverInterface $configResolver
-     */
     public function __construct(
         TagsService $tagsService,
         RouterInterface $defaultRouter,
@@ -61,7 +54,7 @@ class TagUrlGenerator extends Generator
      *
      * @return string
      */
-    public function doGenerate($tag, array $parameters)
+    public function doGenerate($tag, array $parameters): string
     {
         if (isset($parameters['siteaccess'])) {
             // We generate for a different siteaccess, so potentially in a different language.
@@ -82,17 +75,17 @@ class TagUrlGenerator extends Generator
                 $tagKeyword = null;
                 foreach ($languages as $language) {
                     $tagKeyword = $tag->getKeyword($language);
-                    if (!empty($tagKeyword)) {
+                    if ($tagKeyword !== null) {
                         break;
                     }
                 }
 
-                if (empty($tagKeyword)) {
+                if ($tagKeyword === null) {
                     if ($tag->alwaysAvailable) {
                         $tagKeyword = $tag->getKeyword();
                     }
 
-                    if (empty($tagKeyword)) {
+                    if ($tagKeyword === null) {
                         throw new LogicException("Unknown error when generating URL for tag ID #{$originalTagId}");
                     }
                 }
@@ -124,7 +117,7 @@ class TagUrlGenerator extends Generator
         }
 
         $queryString = '';
-        if (!empty($parameters)) {
+        if (count($parameters) > 0) {
             $queryString = '?' . http_build_query($parameters, '', '&');
         }
 
@@ -133,15 +126,13 @@ class TagUrlGenerator extends Generator
 
     /**
      * Returns a configured path prefix for tag view page.
-     *
-     * @return string
      */
-    public function getPathPrefix()
+    public function getPathPrefix(): string
     {
         $pathPrefix = $this->configResolver->getParameter('tag_view.path_prefix', 'eztags');
         $pathPrefix = trim($pathPrefix, '/');
 
-        if (empty($pathPrefix)) {
+        if ($pathPrefix === '') {
             return self::DEFAULT_PATH_PREFIX;
         }
 

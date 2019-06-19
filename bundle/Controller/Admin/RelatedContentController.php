@@ -10,6 +10,7 @@ use Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper;
 use Netgen\TagsBundle\Form\Type\RelatedContentFilterType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RelatedContentController extends Controller
 {
@@ -28,13 +29,6 @@ class RelatedContentController extends Controller
      */
     protected $sortClauseMapper;
 
-    /**
-     * Constructor.
-     *
-     * @param \Pagerfanta\Adapter\AdapterInterface $adapter
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
-     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper $sortClauseMapper
-     */
     public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService, SortClauseMapper $sortClauseMapper)
     {
         $this->adapter = $adapter;
@@ -44,13 +38,8 @@ class RelatedContentController extends Controller
 
     /**
      * Rendering a view which shows related content of tag.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function relatedContentAction(Request $request, Tag $tag)
+    public function relatedContentAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
@@ -73,7 +62,7 @@ class RelatedContentController extends Controller
             $sortOption = $form->get('sort')->getData();
 
             if ($this->adapter instanceof RelatedContentAdapter) {
-                if (!empty($contentTypeFilter)) {
+                if (count($contentTypeFilter) > 0) {
                     $additionalCriteria = [
                         new ContentTypeIdentifier($contentTypeFilter),
                     ];

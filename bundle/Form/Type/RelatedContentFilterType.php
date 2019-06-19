@@ -31,21 +31,17 @@ class RelatedContentFilterType extends AbstractType
      */
     protected $sortClauseMapper;
 
-    /**
-     * ContentTypeFilterType constructor.
-     *
-     * @param \Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader $relatedContentFacetsLoader
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
-     * @param \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper $sortClauseMapper
-     */
-    public function __construct(RelatedContentFacetsLoader $relatedContentFacetsLoader, ContentTypeService $contentTypeService, SortClauseMapper $sortClauseMapper)
-    {
+    public function __construct(
+        RelatedContentFacetsLoader $relatedContentFacetsLoader,
+        ContentTypeService $contentTypeService,
+        SortClauseMapper $sortClauseMapper
+    ) {
         $this->relatedContentFacetsLoader = $relatedContentFacetsLoader;
         $this->contentTypeService = $contentTypeService;
         $this->sortClauseMapper = $sortClauseMapper;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -54,7 +50,7 @@ class RelatedContentFilterType extends AbstractType
             ->setAllowedTypes('tag', Tag::class);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -82,16 +78,13 @@ class RelatedContentFilterType extends AbstractType
 
     /**
      * Extracts content type options from facets.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return array
      */
-    protected function getContentTypeOptions(Tag $tag)
+    protected function getContentTypeOptions(Tag $tag): array
     {
         try {
             return $this->getContentTypeOptionsFromFacets($tag);
         } catch (FacetingNotSupportedException $e) {
+            // Do nothing
         }
 
         return $this->getAllContentTypeOptions();
@@ -100,13 +93,9 @@ class RelatedContentFilterType extends AbstractType
     /**
      * Extracts options for content type filter form select from facets.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
      * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
-     *
-     * @return array
      */
-    protected function getContentTypeOptionsFromFacets(Tag $tag)
+    protected function getContentTypeOptionsFromFacets(Tag $tag): array
     {
         $facetBuilders = [
             new ContentTypeFacetBuilder(
@@ -141,10 +130,8 @@ class RelatedContentFilterType extends AbstractType
 
     /**
      * Get all content type options grouped by content type groups.
-     *
-     * @return array
      */
-    protected function getAllContentTypeOptions()
+    protected function getAllContentTypeOptions(): array
     {
         $groups = $this->contentTypeService->loadContentTypeGroups();
         $options = [];
@@ -165,10 +152,8 @@ class RelatedContentFilterType extends AbstractType
 
     /**
      * Prepares sort options for form.
-     *
-     * @return array
      */
-    protected function getSortOptions()
+    protected function getSortOptions(): array
     {
         $sortOptions = $this->sortClauseMapper->getSortOptions();
 

@@ -7,6 +7,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class Controller extends BaseController
 {
@@ -17,19 +18,15 @@ abstract class Controller extends BaseController
      *
      * @see eztags.admin.controller.base service definition
      */
-    public function performAccessChecks()
+    public function performAccessChecks(): void
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
     }
 
     /**
      * Redirects to tag page or dashboard if tag is not provided.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    protected function redirectToTag(Tag $tag = null)
+    protected function redirectToTag(?Tag $tag = null): RedirectResponse
     {
         if (!$tag instanceof Tag) {
             return $this->redirectToRoute('netgen_tags_admin_root');
@@ -45,12 +42,8 @@ abstract class Controller extends BaseController
 
     /**
      * Adds a flash message with specified parameters.
-     *
-     * @param string $messageType
-     * @param string $message
-     * @param array $parameters
      */
-    protected function addFlashMessage($messageType, $message, array $parameters = [])
+    protected function addFlashMessage(string $messageType, string $message, array $parameters = []): void
     {
         $this->addFlash(
             'tags.' . $messageType,
@@ -64,15 +57,8 @@ abstract class Controller extends BaseController
 
     /**
      * Creates a pager for use with various pages.
-     *
-     * @param \Pagerfanta\Adapter\AdapterInterface $adapter
-     * @param int $currentPage
-     * @param int $maxPerPage
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Pagerfanta\Pagerfanta
      */
-    protected function createPager(AdapterInterface $adapter, $currentPage, $maxPerPage, Tag $tag = null)
+    protected function createPager(AdapterInterface $adapter, int $currentPage, int $maxPerPage, ?Tag $tag = null): Pagerfanta
     {
         if ($adapter instanceof TagAdapterInterface && $tag instanceof Tag) {
             $adapter->setTag($tag);

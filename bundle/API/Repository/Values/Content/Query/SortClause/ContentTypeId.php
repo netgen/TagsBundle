@@ -10,12 +10,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
  */
 class ContentTypeId extends SortClause
 {
-    /**
-     * Constructs a new ContentTypeId SortClause.
-     *
-     * @param string $sortDirection
-     */
-    public function __construct($sortDirection = Query::SORT_ASC)
+    public function __construct(string $sortDirection = Query::SORT_ASC)
     {
         parent::__construct('content_type_id', $sortDirection);
     }

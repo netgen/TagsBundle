@@ -10,15 +10,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 abstract class CreateStructValidator extends ConstraintValidator
 {
-    /**
-     * Checks if the passed value is valid.
-     *
-     * @param mixed $value The value that should be validated
-     * @param \Symfony\Component\Validator\Constraint $constraint The constraint for the validation
-     */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
-        /** @var \Symfony\Component\Validator\Validator\ContextualValidatorInterface $validator */
         $validator = $this->context->getValidator()->inContext($this->context);
 
         $validator->atPath('alwaysAvailable')->validate(

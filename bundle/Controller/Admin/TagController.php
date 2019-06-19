@@ -16,7 +16,8 @@ use Netgen\TagsBundle\Form\Type\TagMergeType;
 use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TagController extends Controller
 {
@@ -36,7 +37,7 @@ class TagController extends Controller
     protected $searchService;
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     protected $translator;
 
@@ -45,15 +46,6 @@ class TagController extends Controller
      */
     protected $tagChildrenAdapter;
 
-    /**
-     * TagController constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
-     * @param \eZ\Publish\API\Repository\SearchService $searchService
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * @param \Pagerfanta\Adapter\AdapterInterface $tagChildrenAdapter
-     */
     public function __construct(
         TagsService $tagsService,
         ContentTypeService $contentTypeService,
@@ -70,13 +62,8 @@ class TagController extends Controller
 
     /**
      * Rendering a view which shows tag or synonym details.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showTagAction(Request $request, Tag $tag = null)
+    public function showTagAction(Request $request, ?Tag $tag = null): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
@@ -126,13 +113,8 @@ class TagController extends Controller
     /**
      * This method is called for add new tag action without selected language.
      * It renders a form to select language for the keyword of new tag.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addTagSelectAction(Request $request, Tag $parentTag = null)
+    public function addTagSelectAction(Request $request, ?Tag $parentTag = null): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
 
@@ -178,14 +160,8 @@ class TagController extends Controller
     /**
      * This method renders view with a form for adding new tag.
      * After form is being submitted, it stores new tag and redirects to it.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $languageCode
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addTagAction(Request $request, $languageCode, Tag $parentTag = null)
+    public function addTagAction(Request $request, string $languageCode, ?Tag $parentTag = null): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
 
@@ -224,13 +200,8 @@ class TagController extends Controller
     /**
      * This method is called for update tag or synonym action without selected language.
      * It renders a form to select language for which the user wants to update keyword of the tag or synonym.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function updateTagSelectAction(Request $request, Tag $tag)
+    public function updateTagSelectAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
@@ -278,14 +249,8 @@ class TagController extends Controller
     /**
      * This method renders view with a form for updating a tag or synonym.
      * After form is being submitted, it updates the tag or synonym and redirects to it.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param string $languageCode
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateTagAction(Request $request, Tag $tag, $languageCode)
+    public function updateTagAction(Request $request, Tag $tag, string $languageCode): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
@@ -330,13 +295,8 @@ class TagController extends Controller
      * This method is called for delete tag or synonym action.
      * It shows a confirmation view.
      * If form has been submitted, it deletes the tag or synonym and redirects to dashboard.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function deleteTagAction(Request $request, Tag $tag)
+    public function deleteTagAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''));
 
@@ -366,13 +326,8 @@ class TagController extends Controller
      * This method is called for merge tag action.
      * It shows a confirmation view.
      * If form has been submitted, it merges tags and redirects to source tag.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function mergeTagAction(Request $request, Tag $tag)
+    public function mergeTagAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:merge');
 
@@ -417,13 +372,8 @@ class TagController extends Controller
      * This method is called for convert tag to synonym action.
      * It shows a confirmation view.
      * If form has been submitted, it converts the tag to synonym and redirects to newly created synonym.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function convertToSynonymAction(Request $request, Tag $tag)
+    public function convertToSynonymAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:makesynonym');
 
@@ -468,13 +418,8 @@ class TagController extends Controller
      * This method is called from a form with each tag or synonym's translations table.
      * An action is defined with one of the three buttons in form which can be pressed.
      * It can remove selected translation, set it as main language, or set AlwaysAvailable property of a tag.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function translationAction(Request $request, Tag $tag)
+    public function translationAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
@@ -487,7 +432,7 @@ class TagController extends Controller
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
         if ($request->request->has('RemoveTranslationButton')) {
-            if (empty($request->request->get('Locale'))) {
+            if (($request->request->get('Locale') ?? '') === '') {
                 $this->addFlashMessage('errors', 'no_translation_selected');
 
                 return $this->redirectToTag($tag);
@@ -539,15 +484,10 @@ class TagController extends Controller
 
     /**
      * Action that handles redirection for actions on multiple tags children.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function childrenAction(Request $request, Tag $tag = null)
+    public function childrenAction(Request $request, ?Tag $tag = null): Response
     {
-        if (empty($request->request->get('Tags'))) {
+        if (count($request->request->get('Tags') ?? []) === 0) {
             $this->addFlashMessage('errors', 'no_selected_tags');
 
             return $this->redirectToTag($tag);
@@ -592,13 +532,8 @@ class TagController extends Controller
      * This method is called from a form containing all children tags of a tag.
      * It shows a confirmation view.
      * If form has been submitted, it moves selected children and all its children tags to a new parent.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function moveTagsAction(Request $request, Tag $parentTag = null)
+    public function moveTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:edit');
 
@@ -606,7 +541,7 @@ class TagController extends Controller
             $request->request->get('Tags') :
             $this->get('session')->get('ngtags_tag_ids');
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
         }
 
@@ -658,13 +593,8 @@ class TagController extends Controller
      * This method is called from a form containing all children tags of a tag.
      * It shows a confirmation view.
      * If form has been submitted, it copies selected children and all its children tags to a new parent.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function copyTagsAction(Request $request, Tag $parentTag = null)
+    public function copyTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
@@ -672,7 +602,7 @@ class TagController extends Controller
             $request->request->get('Tags') :
             $this->get('session')->get('ngtags_tag_ids');
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
         }
 
@@ -724,13 +654,8 @@ class TagController extends Controller
      * This method is called from a form containing all children tags of a tag.
      * It shows a confirmation view.
      * If form has been submitted, it deletes selected children tags.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $parentTag
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteTagsAction(Request $request, Tag $parentTag = null)
+    public function deleteTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:delete');
 
@@ -738,7 +663,7 @@ class TagController extends Controller
             $request->request->get('Tags') :
             $this->get('session')->get('ngtags_tag_ids');
 
-        if (empty($tagIds)) {
+        if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
         }
 
@@ -774,12 +699,8 @@ class TagController extends Controller
 
     /**
      * Returns an array with subtree limitations for given tag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return array
      */
-    protected function getSubtreeLimitations(Tag $tag)
+    protected function getSubtreeLimitations(Tag $tag): array
     {
         $result = [];
 

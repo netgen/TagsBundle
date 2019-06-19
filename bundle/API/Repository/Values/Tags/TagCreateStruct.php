@@ -12,7 +12,7 @@ class TagCreateStruct extends TagStruct
      *
      * Required
      *
-     * @var mixed
+     * @var int
      */
     public $parentTagId;
 

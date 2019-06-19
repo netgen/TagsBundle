@@ -16,11 +16,6 @@ class TagParamConverter implements ParamConverterInterface
      */
     protected $tagsService;
 
-    /**
-     * TagParamConverter constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     */
     public function __construct(TagsService $tagsService)
     {
         $this->tagsService = $tagsService;
@@ -29,14 +24,9 @@ class TagParamConverter implements ParamConverterInterface
     /**
      * For given tag ID in the request, it loads a tag and passes it as a parameter to called action method.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request The request
-     * @param \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration Contains the name, class and options of the object
-     *
      * @throws \Netgen\TagsBundle\Exception\InvalidArgumentException If the required argument is empty
-     *
-     * @return bool True if the object has been successfully set, else false
      */
-    public function apply(Request $request, ParamConverterConfiguration $configuration)
+    public function apply(Request $request, ParamConverterConfiguration $configuration): bool
     {
         $supportedParameters = [
             'tagId' => 'tag',
@@ -48,7 +38,7 @@ class TagParamConverter implements ParamConverterInterface
                 continue;
             }
 
-            if (empty($request->attributes->get($source))) {
+            if (in_array($request->attributes->get($source), [0, 0.0, '', null, false], true)) {
                 if ($configuration->isOptional()) {
                     continue;
                 }
@@ -71,12 +61,8 @@ class TagParamConverter implements ParamConverterInterface
 
     /**
      * Checks if the object is supported.
-     *
-     * @param \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration Should be an instance of ParamConverter
-     *
-     * @return bool True if the object is supported, else false
      */
-    public function supports(ParamConverterConfiguration $configuration)
+    public function supports(ParamConverterConfiguration $configuration): bool
     {
         return is_a($configuration->getClass(), Tag::class, true);
     }

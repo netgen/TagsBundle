@@ -8,8 +8,6 @@ interface TagsServiceAwareInterface
 {
     /**
      * Sets the tags service.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
      */
-    public function setTagsService(TagsService $tagsService);
+    public function setTagsService(TagsService $tagsService): void;
 }

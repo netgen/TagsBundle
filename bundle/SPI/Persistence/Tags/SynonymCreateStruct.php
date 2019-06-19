@@ -14,7 +14,7 @@ class SynonymCreateStruct extends ValueObject
      *
      * @required
      *
-     * @var mixed
+     * @var int
      */
     public $mainTagId;
 

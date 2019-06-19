@@ -6,14 +6,14 @@ use eZ\Publish\API\Repository\Values\User\Limitation;
 
 class TagLimitation extends Limitation
 {
-    const TAG = 'Tag';
+    public const TAG = 'Tag';
 
     /**
      * Returns the limitation identifier.
      *
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return self::TAG;
     }

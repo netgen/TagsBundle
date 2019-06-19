@@ -4,7 +4,7 @@ namespace Netgen\TagsBundle\Form\Type\FieldType;
 
 use eZ\Publish\API\Repository\FieldType;
 use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\SPI\FieldType\Value;
+use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class FieldValueTransformer implements DataTransformerInterface
@@ -25,12 +25,7 @@ class FieldValueTransformer implements DataTransformerInterface
         $this->field = $field;
     }
 
-    /**
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     *
-     * @return array|null
-     */
-    public function transform($value)
+    public function transform($value): ?array
     {
         if (!$value instanceof Value) {
             return null;
@@ -47,7 +42,7 @@ class FieldValueTransformer implements DataTransformerInterface
 
             $ids[] = $tag->id;
             $parentIds[] = $tag->parentTagId;
-            $keywords[] = $tagKeyword !== null ? $tagKeyword : $mainKeyword;
+            $keywords[] = $tagKeyword ?? $mainKeyword;
             $locales[] = $tagKeyword !== null ? $this->field->languageCode : $tag->mainLanguageCode;
         }
 
@@ -59,12 +54,7 @@ class FieldValueTransformer implements DataTransformerInterface
         ];
     }
 
-    /**
-     * @param array|null $value
-     *
-     * @return \Netgen\TagsBundle\Core\FieldType\Tags\Value
-     */
-    public function reverseTransform($value)
+    public function reverseTransform($value): Value
     {
         if ($value === null) {
             return $this->fieldType->getEmptyValue();

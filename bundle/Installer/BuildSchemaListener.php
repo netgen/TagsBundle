@@ -18,14 +18,14 @@ class BuildSchemaListener implements EventSubscriberInterface
         $this->schemaPath = $schemaPath;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SchemaBuilderEvents::BUILD_SCHEMA => 'onBuildSchema',
         ];
     }
 
-    public function onBuildSchema(SchemaBuilderEvent $event)
+    public function onBuildSchema(SchemaBuilderEvent $event): void
     {
         $event
             ->getSchemaBuilder()

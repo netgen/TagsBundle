@@ -8,10 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LanguageSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -21,10 +18,7 @@ class LanguageSelectType extends AbstractType
             ->setAllowedTypes('tag', [Tag::class, 'null']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
             'languageCode',
