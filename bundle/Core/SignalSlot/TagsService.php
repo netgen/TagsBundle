@@ -245,7 +245,7 @@ class TagsService implements TagsServiceInterface
         return $this->service->newTagUpdateStruct();
     }
 
-    public function sudo(callable $callback, TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null)
     {
         return $this->service->sudo($callback, $outerTagsService ?? $this);
     }

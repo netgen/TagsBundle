@@ -80,7 +80,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         return new APITagLimitation(['limitationValues' => array_map('intval', $limitationValues)]);
     }
 
-    public function evaluate(APILimitationValue $value, UserReference $currentUser, ValueObject $object, array $targets = null): bool
+    public function evaluate(APILimitationValue $value, UserReference $currentUser, ValueObject $object, ?array $targets = null): bool
     {
         if (!$value instanceof APITagLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: TagLimitation');

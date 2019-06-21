@@ -16,7 +16,7 @@ abstract class Tags extends CriterionHandler
      *
      * @return int[]|null
      */
-    protected function getSearchableFields(?string $fieldIdentifier): ?array
+    protected function getSearchableFields(?string $fieldIdentifier = null): ?array
     {
         if ($fieldIdentifier === null) {
             return null;

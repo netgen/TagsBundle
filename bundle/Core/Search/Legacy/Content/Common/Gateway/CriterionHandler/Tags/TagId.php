@@ -15,7 +15,7 @@ class TagId extends Tags
         return $criterion instanceof TagIdCriterion;
     }
 
-    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, array $fieldFilters = null): string
+    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, ?array $fieldFilters = null): string
     {
         $subSelect = $query->subSelect();
         $subSelect

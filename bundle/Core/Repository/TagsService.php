@@ -787,7 +787,7 @@ class TagsService implements TagsServiceInterface
         return new TagUpdateStruct();
     }
 
-    public function sudo(callable $callback, TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null)
     {
         ++$this->sudoNestingLevel;
 

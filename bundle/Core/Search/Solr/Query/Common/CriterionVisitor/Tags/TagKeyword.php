@@ -16,7 +16,7 @@ class TagKeyword extends Tags
         return $criterion instanceof APITagKeyword;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $criterion->value = (array) $criterion->value;
         $searchFields = $this->getSearchFields($criterion);

@@ -15,7 +15,7 @@ class TagId extends Tags
         return $criterion instanceof APITagId;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $criterion->value = (array) $criterion->value;
         $searchFields = $this->getSearchFields($criterion);

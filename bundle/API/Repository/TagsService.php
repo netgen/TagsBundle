@@ -296,13 +296,10 @@ interface TagsService
      *         }
      *     );
      *
-     * @param callable $callback
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $outerTagsService
-     *
      * @throws \RuntimeException Thrown on recursive sudo() use
      * @throws \Exception Re throws exceptions thrown inside $callback
      *
      * @return mixed
      */
-    public function sudo(callable $callback, self $outerTagsService = null);
+    public function sudo(callable $callback, ?self $outerTagsService = null);
 }
