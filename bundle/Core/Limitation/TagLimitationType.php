@@ -46,6 +46,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
         }
 
         foreach ($limitationValue->limitationValues as $key => $value) {
+            /* Check for ctype_digit for BC with previous tags versions */
             if (!is_int($value) && !ctype_digit($value)) {
                 throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $value);
             }
@@ -58,7 +59,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
 
         foreach ($limitationValue->limitationValues as $key => $id) {
             try {
-                $this->tagsPersistence->loadTagInfo($id);
+                $this->tagsPersistence->loadTagInfo((int) $id);
             } catch (NotFoundException $e) {
                 $validationErrors[] = new ValidationError(
                     "limitationValues[%key%] => '%value%' does not exist in the backend",
@@ -76,7 +77,7 @@ class TagLimitationType extends AbstractPersistenceLimitationType implements SPI
 
     public function buildValue(array $limitationValues): Limitation
     {
-        return new APITagLimitation(['limitationValues' => $limitationValues]);
+        return new APITagLimitation(['limitationValues' => array_map('intval', $limitationValues)]);
     }
 
     public function evaluate(APILimitationValue $value, UserReference $currentUser, ValueObject $object, array $targets = null): bool

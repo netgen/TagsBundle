@@ -2,9 +2,9 @@
 
 namespace Netgen\TagsBundle\Core\SignalSlot;
 
-use Closure;
 use eZ\Publish\Core\SignalSlot\SignalDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
@@ -36,72 +36,72 @@ class TagsService implements TagsServiceInterface
         $this->signalDispatcher = $signalDispatcher;
     }
 
-    public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
     {
         return $this->service->loadTag($tagId, $languages, $useAlwaysAvailable);
     }
 
-    public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): array
     {
         return $this->service->loadTagList($tagIds, $languages, $useAlwaysAvailable);
     }
 
-    public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagByRemoteId(string $remoteId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
     {
         return $this->service->loadTagByRemoteId($remoteId, $languages, $useAlwaysAvailable);
     }
 
-    public function loadTagByUrl($url, array $languages)
+    public function loadTagByUrl(string $url, array $languages): Tag
     {
         return $this->service->loadTagByUrl($url, $languages);
     }
 
-    public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
     {
         return $this->service->loadTagChildren($tag, $offset, $limit, $languages, $useAlwaysAvailable);
     }
 
-    public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true)
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true): int
     {
         return $this->service->getTagChildrenCount($tag, $languages, $useAlwaysAvailable);
     }
 
-    public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array
     {
         return $this->service->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit);
     }
 
-    public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true)
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true): int
     {
         return $this->service->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable);
     }
 
-    public function searchTags($searchString, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult
     {
         return $this->service->searchTags($searchString, $language, $useAlwaysAvailable, $offset, $limit);
     }
 
-    public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
     {
         return $this->service->loadTagSynonyms($tag, $offset, $limit, $languages, $useAlwaysAvailable);
     }
 
-    public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true)
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true): int
     {
         return $this->service->getTagSynonymCount($tag, $languages, $useAlwaysAvailable);
     }
 
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = [])
+    public function getRelatedContent(Tag $tag, int $offset = 0, int $limit = -1, bool $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = []): array
     {
         return $this->service->getRelatedContent($tag, $offset, $limit, $returnContentInfo, $additionalCriteria, $sortClauses);
     }
 
-    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = [])
+    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = []): int
     {
         return $this->service->getRelatedContentCount($tag, $additionalCriteria);
     }
 
-    public function createTag(TagCreateStruct $tagCreateStruct)
+    public function createTag(TagCreateStruct $tagCreateStruct): Tag
     {
         $returnValue = $this->service->createTag($tagCreateStruct);
         $this->signalDispatcher->emit(
@@ -119,7 +119,7 @@ class TagsService implements TagsServiceInterface
         return $returnValue;
     }
 
-    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct)
+    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct): Tag
     {
         $returnValue = $this->service->updateTag($tag, $tagUpdateStruct);
         $this->signalDispatcher->emit(
@@ -137,7 +137,7 @@ class TagsService implements TagsServiceInterface
         return $returnValue;
     }
 
-    public function addSynonym(SynonymCreateStruct $synonymCreateStruct)
+    public function addSynonym(SynonymCreateStruct $synonymCreateStruct): Tag
     {
         $returnValue = $this->service->addSynonym($synonymCreateStruct);
         $this->signalDispatcher->emit(
@@ -155,7 +155,7 @@ class TagsService implements TagsServiceInterface
         return $returnValue;
     }
 
-    public function convertToSynonym(Tag $tag, Tag $mainTag)
+    public function convertToSynonym(Tag $tag, Tag $mainTag): Tag
     {
         $returnValue = $this->service->convertToSynonym($tag, $mainTag);
         $this->signalDispatcher->emit(
@@ -170,7 +170,7 @@ class TagsService implements TagsServiceInterface
         return $returnValue;
     }
 
-    public function mergeTags(Tag $tag, Tag $targetTag)
+    public function mergeTags(Tag $tag, Tag $targetTag): void
     {
         $this->service->mergeTags($tag, $targetTag);
         $this->signalDispatcher->emit(
@@ -183,7 +183,7 @@ class TagsService implements TagsServiceInterface
         );
     }
 
-    public function copySubtree(Tag $tag, Tag $targetParentTag = null)
+    public function copySubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
         $returnValue = $this->service->copySubtree($tag, $targetParentTag);
         $this->signalDispatcher->emit(
@@ -201,7 +201,7 @@ class TagsService implements TagsServiceInterface
         return $returnValue;
     }
 
-    public function moveSubtree(Tag $tag, Tag $targetParentTag = null)
+    public function moveSubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
         $returnValue = $this->service->moveSubtree($tag, $targetParentTag);
         $this->signalDispatcher->emit(
@@ -218,7 +218,7 @@ class TagsService implements TagsServiceInterface
         return $returnValue;
     }
 
-    public function deleteTag(Tag $tag)
+    public function deleteTag(Tag $tag): void
     {
         $this->service->deleteTag($tag);
         $this->signalDispatcher->emit(
@@ -230,23 +230,23 @@ class TagsService implements TagsServiceInterface
         );
     }
 
-    public function newTagCreateStruct($parentTagId, $mainLanguageCode)
+    public function newTagCreateStruct(int $parentTagId, string $mainLanguageCode): TagCreateStruct
     {
         return $this->service->newTagCreateStruct($parentTagId, $mainLanguageCode);
     }
 
-    public function newSynonymCreateStruct($mainTagId, $mainLanguageCode)
+    public function newSynonymCreateStruct(int $mainTagId, string $mainLanguageCode): SynonymCreateStruct
     {
         return $this->service->newSynonymCreateStruct($mainTagId, $mainLanguageCode);
     }
 
-    public function newTagUpdateStruct()
+    public function newTagUpdateStruct(): TagUpdateStruct
     {
         return $this->service->newTagUpdateStruct();
     }
 
-    public function sudo(Closure $callback, TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, TagsServiceInterface $outerTagsService = null)
     {
-        return $this->service->sudo($callback, $outerTagsService !== null ? $outerTagsService : $this);
+        return $this->service->sudo($callback, $outerTagsService ?? $this);
     }
 }

@@ -965,8 +965,7 @@ class TagsHandlerTest extends TestCase
         $this->gateway
             ->expects(self::once())
             ->method('moveSubtree')
-            ->with($sourceData, $destinationData)
-            ->willReturn($movedData);
+            ->with($sourceData, $destinationData);
 
         $handler
             ->expects(self::once())

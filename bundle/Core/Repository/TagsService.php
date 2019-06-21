@@ -2,14 +2,13 @@
 
 namespace Netgen\TagsBundle\Core\Repository;
 
-use Closure;
 use DateTime;
 use Exception;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\User\User;
+use eZ\Publish\API\Repository\Values\User\UserReference;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
@@ -63,7 +62,7 @@ class TagsService implements TagsServiceInterface
         $this->languageHandler = $languageHandler;
     }
 
-    public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -78,7 +77,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($spiTag);
     }
 
-    public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): array
     {
         if ($this->hasAccess('tags', 'read') === false) {
             return [];
@@ -93,7 +92,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainList($spiTags);
     }
 
-    public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagByRemoteId(string $remoteId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -108,7 +107,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($spiTag);
     }
 
-    public function loadTagByUrl($url, array $languages)
+    public function loadTagByUrl(string $url, array $languages): Tag
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -161,7 +160,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($spiTag);
     }
 
-    public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -183,7 +182,7 @@ class TagsService implements TagsServiceInterface
         return $tags;
     }
 
-    public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true)
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -196,7 +195,7 @@ class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -212,7 +211,7 @@ class TagsService implements TagsServiceInterface
         return $tags;
     }
 
-    public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true)
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -221,7 +220,7 @@ class TagsService implements TagsServiceInterface
         return $this->tagsHandler->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable);
     }
 
-    public function searchTags($searchString, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1)
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -248,7 +247,7 @@ class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true)
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -274,7 +273,7 @@ class TagsService implements TagsServiceInterface
         return $tags;
     }
 
-    public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true)
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -291,7 +290,7 @@ class TagsService implements TagsServiceInterface
         );
     }
 
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = [])
+    public function getRelatedContent(Tag $tag, int $offset = 0, int $limit = -1, bool $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = []): array
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -330,7 +329,7 @@ class TagsService implements TagsServiceInterface
         return $content;
     }
 
-    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = [])
+    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = []): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -351,7 +350,7 @@ class TagsService implements TagsServiceInterface
         return $searchResult->totalCount;
     }
 
-    public function createTag(TagCreateStruct $tagCreateStruct)
+    public function createTag(TagCreateStruct $tagCreateStruct): Tag
     {
         $keywords = $tagCreateStruct->getKeywords();
 
@@ -417,7 +416,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($newTag);
     }
 
-    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct)
+    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct): Tag
     {
         $keywords = $tagUpdateStruct->getKeywords();
 
@@ -425,10 +424,8 @@ class TagsService implements TagsServiceInterface
             if ($this->hasAccess('tags', 'edit') === false) {
                 throw new UnauthorizedException('tags', 'edit');
             }
-        } else {
-            if ($this->hasAccess('tags', 'editsynonym') === false) {
-                throw new UnauthorizedException('tags', 'editsynonym');
-            }
+        } elseif ($this->hasAccess('tags', 'editsynonym') === false) {
+            throw new UnauthorizedException('tags', 'editsynonym');
         }
 
         if ($keywords !== null && (!is_array($keywords) || count($keywords) === 0)) {
@@ -483,10 +480,10 @@ class TagsService implements TagsServiceInterface
         }
 
         $updateStruct = new UpdateStruct();
-        $updateStruct->keywords = $newKeywords !== null ? $newKeywords : $spiTag->keywords;
+        $updateStruct->keywords = $newKeywords ?? $spiTag->keywords;
         $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim($tagUpdateStruct->remoteId) : $spiTag->remoteId;
         $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim($tagUpdateStruct->mainLanguageCode) : $spiTag->mainLanguageCode;
-        $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable !== null ? $tagUpdateStruct->alwaysAvailable : $spiTag->alwaysAvailable;
+        $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable ?? $spiTag->alwaysAvailable;
 
         $this->repository->beginTransaction();
 
@@ -502,7 +499,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($updatedTag);
     }
 
-    public function addSynonym(SynonymCreateStruct $synonymCreateStruct)
+    public function addSynonym(SynonymCreateStruct $synonymCreateStruct): Tag
     {
         $keywords = $synonymCreateStruct->getKeywords();
 
@@ -569,7 +566,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($newTag);
     }
 
-    public function convertToSynonym(Tag $tag, Tag $mainTag)
+    public function convertToSynonym(Tag $tag, Tag $mainTag): Tag
     {
         if ($this->hasAccess('tags', 'makesynonym') === false) {
             throw new UnauthorizedException('tags', 'makesynonym');
@@ -608,7 +605,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($convertedTag);
     }
 
-    public function mergeTags(Tag $tag, Tag $targetTag)
+    public function mergeTags(Tag $tag, Tag $targetTag): void
     {
         if ($this->hasAccess('tags', 'merge') === false) {
             throw new UnauthorizedException('tags', 'merge');
@@ -645,7 +642,7 @@ class TagsService implements TagsServiceInterface
         }
     }
 
-    public function copySubtree(Tag $tag, Tag $targetParentTag = null)
+    public function copySubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -695,7 +692,7 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($copiedTag);
     }
 
-    public function moveSubtree(Tag $tag, Tag $targetParentTag = null)
+    public function moveSubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
         if ($this->hasAccess('tags', 'edit') === false) {
             throw new UnauthorizedException('tags', 'edit');
@@ -745,16 +742,14 @@ class TagsService implements TagsServiceInterface
         return $this->buildTagDomainObject($movedTag);
     }
 
-    public function deleteTag(Tag $tag)
+    public function deleteTag(Tag $tag): void
     {
         if ($tag->mainTagId > 0) {
             if ($this->hasAccess('tags', 'deletesynonym') === false) {
                 throw new UnauthorizedException('tags', 'deletesynonym');
             }
-        } else {
-            if ($this->hasAccess('tags', 'delete') === false) {
-                throw new UnauthorizedException('tags', 'delete');
-            }
+        } elseif ($this->hasAccess('tags', 'delete') === false) {
+            throw new UnauthorizedException('tags', 'delete');
         }
 
         $this->repository->beginTransaction();
@@ -769,7 +764,7 @@ class TagsService implements TagsServiceInterface
         }
     }
 
-    public function newTagCreateStruct($parentTagId, $mainLanguageCode)
+    public function newTagCreateStruct(int $parentTagId, string $mainLanguageCode): TagCreateStruct
     {
         $tagCreateStruct = new TagCreateStruct();
         $tagCreateStruct->parentTagId = $parentTagId;
@@ -778,7 +773,7 @@ class TagsService implements TagsServiceInterface
         return $tagCreateStruct;
     }
 
-    public function newSynonymCreateStruct($mainTagId, $mainLanguageCode)
+    public function newSynonymCreateStruct(int $mainTagId, string $mainLanguageCode): SynonymCreateStruct
     {
         $synonymCreateStruct = new SynonymCreateStruct();
         $synonymCreateStruct->mainTagId = $mainTagId;
@@ -787,17 +782,17 @@ class TagsService implements TagsServiceInterface
         return $synonymCreateStruct;
     }
 
-    public function newTagUpdateStruct()
+    public function newTagUpdateStruct(): TagUpdateStruct
     {
         return new TagUpdateStruct();
     }
 
-    public function sudo(Closure $callback, TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, TagsServiceInterface $outerTagsService = null)
     {
         ++$this->sudoNestingLevel;
 
         try {
-            $returnValue = $callback($outerTagsService !== null ? $outerTagsService : $this);
+            $returnValue = $callback($outerTagsService ?? $this);
         } catch (Exception $e) {
             --$this->sudoNestingLevel;
 
@@ -810,22 +805,25 @@ class TagsService implements TagsServiceInterface
     }
 
     /**
-     * Checks if user has access to specified module and function.
+     * Low level permission function: Returns boolean value, or an array of limitations that user permission depends on.
+     *
+     * Note: boolean value describes full access (true) or no access at all (false), array can be seen as a maybe..
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \eZ\Publish\API\Repository\Values\User\User $user
+     * @param \eZ\Publish\API\Repository\Values\User\UserReference|null $userReference User for
+     *        which the information is returned, current user will be used if null
      *
      * @return bool|array if limitations are on this function an array of limitations is returned
      */
-    public function hasAccess($module, $function, User $user = null)
+    public function hasAccess(string $module, string $function, ?UserReference $userReference = null)
     {
         // Full access if sudo nesting level is set by sudo method
         if ($this->sudoNestingLevel > 0) {
             return true;
         }
 
-        return $this->repository->hasAccess($module, $function, $user);
+        return $this->repository->getPermissionResolver()->hasAccess($module, $function, $userReference);
     }
 
     /**
@@ -835,47 +833,40 @@ class TagsService implements TagsServiceInterface
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
-     * @param mixed $targets The location, parent or "assignment" value object, or an array of the same
+     * @param \eZ\Publish\API\Repository\Values\ValueObject[] $targets An array of location, parent or "assignment" value objects
      *
      * @return bool
      */
-    public function canUser($module, $function, ValueObject $object, $targets = null)
+    public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
     {
         $permissionSets = $this->hasAccess($module, $function);
         if ($permissionSets === false || $permissionSets === true) {
             return $permissionSets;
         }
 
-        return $this->repository->canUser($module, $function, $object, $targets);
+        return $this->repository->getPermissionResolver()->canUser($module, $function, $object, $targets);
     }
 
-    private function buildTagDomainObject(SPITag $spiTag)
+    private function buildTagDomainObject(SPITag $spiTag): Tag
     {
         return $this->buildTagDomainList([$spiTag])[$spiTag->id];
     }
 
-    private function buildTagDomainList(array $spiTags)
+    private function buildTagDomainList(array $spiTags): array
     {
-        // Optimization for 2.5+ to load all languages at once:
-        if (\method_exists($this->languageHandler, 'loadList')) {
-            $languageIds = [[]];
-            foreach ($spiTags as $spiTag) {
-                $languageIds[] = $spiTag->languageIds;
-            }
-
-            $languages = $this->languageHandler->loadList(\array_unique(\array_merge(...$languageIds)));
+        $languageIds = [[]];
+        foreach ($spiTags as $spiTag) {
+            $languageIds[] = $spiTag->languageIds;
         }
+
+        $languages = $this->languageHandler->loadList(array_unique(array_merge(...$languageIds)));
 
         $tags = [];
         foreach ($spiTags as $spiTag) {
             $languageCodes = [];
             foreach ($spiTag->languageIds as $languageId) {
                 if (isset($languages[$languageId])) {
-                    // 2.5+
                     $languageCodes[] = $languages[$languageId]->languageCode;
-                } elseif (!isset($languages)) {
-                    // @deprecated Compat code for eZ Platform 1.x
-                    $languageCodes[] = $this->languageHandler->load($languageId)->languageCode;
                 }
             }
 

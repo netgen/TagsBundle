@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\API\Repository;
 
-use Closure;
+use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
@@ -22,7 +22,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTag($tagId, array $languages = null, $useAlwaysAvailable = true);
+    public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag;
 
     /**
      * Loads a tag object from array of $tagIds.
@@ -36,7 +36,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] Key of array is the corresponding tag id
      */
-    public function loadTagList(array $tagIds, array $languages = null, $useAlwaysAvailable = true);
+    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): array;
 
     /**
      * Loads a tag object from its $remoteId.
@@ -50,20 +50,15 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByRemoteId($remoteId, array $languages = null, $useAlwaysAvailable = true);
+    public function loadTagByRemoteId(string $remoteId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag;
 
     /**
      * Loads a tag object from its URL.
      *
-     * @param string $url
-     * @param string[] $languages
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
-    public function loadTagByUrl($url, array $languages);
+    public function loadTagByUrl(string $url, array $languages): Tag;
 
     /**
      * Loads children of a tag object.
@@ -78,7 +73,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagChildren(Tag $tag = null, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true);
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array;
 
     /**
      * Returns the number of children of a tag object.
@@ -91,7 +86,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagChildrenCount(Tag $tag = null, array $languages = null, $useAlwaysAvailable = true);
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true): int;
 
     /**
      * Loads tags by specified keyword.
@@ -106,7 +101,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagsByKeyword($keyword, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1);
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array;
 
     /**
      * Returns the number of tags by specified keyword.
@@ -119,7 +114,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable = true);
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true): int;
 
     /**
      * Search for tags.
@@ -134,7 +129,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult
      */
-    public function searchTags($searchString, $language, $useAlwaysAvailable = true, $offset = 0, $limit = -1);
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult;
 
     /**
      * Loads synonyms of a tag object.
@@ -150,7 +145,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public function loadTagSynonyms(Tag $tag, $offset = 0, $limit = -1, array $languages = null, $useAlwaysAvailable = true);
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array;
 
     /**
      * Returns the number of synonyms of a tag object.
@@ -164,7 +159,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagSynonymCount(Tag $tag, array $languages = null, $useAlwaysAvailable = true);
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true): int;
 
     /**
      * Loads content related to $tag.
@@ -181,7 +176,7 @@ interface TagsService
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
      */
-    public function getRelatedContent(Tag $tag, $offset = 0, $limit = -1, $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = []);
+    public function getRelatedContent(Tag $tag, int $offset = 0, int $limit = -1, bool $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = []): array;
 
     /**
      * Returns the number of content objects related to $tag.
@@ -194,144 +189,99 @@ interface TagsService
      *
      * @return int
      */
-    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = []);
+    public function getRelatedContentCount(Tag $tag, array $additionalCriteria = []): int;
 
     /**
      * Creates the new tag.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct $tagCreateStruct
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag
      */
-    public function createTag(TagCreateStruct $tagCreateStruct);
+    public function createTag(TagCreateStruct $tagCreateStruct): Tag;
 
     /**
      * Updates $tag.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct $tagUpdateStruct
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated tag
      */
-    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct);
+    public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct): Tag;
 
     /**
      * Creates a synonym for $tag.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct $synonymCreateStruct
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The created synonym
      */
-    public function addSynonym(SynonymCreateStruct $synonymCreateStruct);
+    public function addSynonym(SynonymCreateStruct $synonymCreateStruct): Tag;
 
     /**
      * Converts $tag to a synonym of $mainTag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $mainTag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *                                                                        If the main tag is a sub tag of the given tag
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The converted synonym
      */
-    public function convertToSynonym(Tag $tag, Tag $mainTag);
+    public function convertToSynonym(Tag $tag, Tag $mainTag): Tag;
 
     /**
      * Merges the $tag into the $targetTag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetTag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to merge tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *                                                                        If the target tag is a sub tag of the given tag
      */
-    public function mergeTags(Tag $tag, Tag $targetTag);
+    public function mergeTags(Tag $tag, Tag $targetTag): void;
 
     /**
      * Copies the subtree starting from $tag as a new subtree of $targetParentTag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag The subtree denoted by the tag to copy
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag The target parent tag for the copy operation
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The newly created tag of the copied subtree
      */
-    public function copySubtree(Tag $tag, Tag $targetParentTag = null);
+    public function copySubtree(Tag $tag, ?Tag $targetParentTag = null): Tag;
 
     /**
      * Moves the subtree to $targetParentTag.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $targetParentTag
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag The updated root tag of the moved subtree
      */
-    public function moveSubtree(Tag $tag, Tag $targetParentTag = null);
+    public function moveSubtree(Tag $tag, ?Tag $targetParentTag = null): Tag;
 
     /**
      * Deletes $tag and all its descendants and synonyms.
      *
      * If $tag is a synonym, only the synonym is deleted
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function deleteTag(Tag $tag);
+    public function deleteTag(Tag $tag): void;
 
     /**
      * Instantiates a new tag create struct.
-     *
-     * @param int $parentTagId
-     * @param string $mainLanguageCode
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
      */
-    public function newTagCreateStruct($parentTagId, $mainLanguageCode);
+    public function newTagCreateStruct(int $parentTagId, string $mainLanguageCode): TagCreateStruct;
 
     /**
      * Instantiates a new synonym create struct.
-     *
-     * @param int $mainTagId
-     * @param string $mainLanguageCode
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
      */
-    public function newSynonymCreateStruct($mainTagId, $mainLanguageCode);
+    public function newSynonymCreateStruct(int $mainTagId, string $mainLanguageCode): SynonymCreateStruct;
 
     /**
      * Instantiates a new tag update struct.
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
      */
-    public function newTagUpdateStruct();
+    public function newTagUpdateStruct(): TagUpdateStruct;
 
     /**
      * Allows tags API execution to be performed with full access sand-boxed.
@@ -346,7 +296,7 @@ interface TagsService
      *         }
      *     );
      *
-     * @param \Closure $callback
+     * @param callable $callback
      * @param \Netgen\TagsBundle\API\Repository\TagsService $outerTagsService
      *
      * @throws \RuntimeException Thrown on recursive sudo() use
@@ -354,5 +304,5 @@ interface TagsService
      *
      * @return mixed
      */
-    public function sudo(Closure $callback, self $outerTagsService = null);
+    public function sudo(callable $callback, self $outerTagsService = null);
 }

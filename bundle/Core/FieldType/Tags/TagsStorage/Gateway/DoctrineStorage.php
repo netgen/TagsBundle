@@ -148,7 +148,7 @@ class DoctrineStorage extends Gateway
                 $tagList[$tagId]['path_string'] = $row['eztags_path_string'];
                 $tagList[$tagId]['modified'] = (int) $row['eztags_modified'];
                 $tagList[$tagId]['remote_id'] = $row['eztags_remote_id'];
-                $tagList[$tagId]['always_available'] = ((int) $row['eztags_language_mask'] & 1) ? true : false;
+                $tagList[$tagId]['always_available'] = (bool) ((int) $row['eztags_language_mask'] & 1);
                 $tagList[$tagId]['main_language_code'] = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
                 $tagList[$tagId]['language_codes'] = [];
             }

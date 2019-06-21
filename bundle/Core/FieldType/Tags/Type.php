@@ -17,7 +17,7 @@ class Type extends FieldType
     /**
      * Default edit view interface for content field.
      */
-    const EDIT_VIEW_DEFAULT_VALUE = 'Default';
+    public const EDIT_VIEW_DEFAULT_VALUE = 'Default';
 
     protected $settingsSchema = [
         'hideRootTag' => [
@@ -61,12 +61,12 @@ class Type extends FieldType
     /**
      * Sets the available edit views.
      */
-    public function setEditViews(array $availableEditViews)
+    public function setEditViews(array $availableEditViews): void
     {
         $this->availableEditViews = $availableEditViews;
     }
 
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'eztags';
     }
@@ -76,12 +76,12 @@ class Type extends FieldType
         return (string) $value;
     }
 
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
 
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         if (!is_array($hash)) {
             return new Value();
@@ -112,12 +112,8 @@ class Type extends FieldType
                         'parentTagId' => $hashItem['parent_id'],
                         'keywords' => $hashItem['keywords'],
                         'mainLanguageCode' => $hashItem['main_language_code'],
-                        'remoteId' => isset($hashItem['remote_id']) ?
-                            $hashItem['remote_id'] :
-                            null,
-                        'alwaysAvailable' => isset($hashItem['always_available']) ?
-                            $hashItem['always_available'] :
-                            true,
+                        'remoteId' => $hashItem['remote_id'] ?? null,
+                        'alwaysAvailable' => $hashItem['always_available'] ?? true,
                     ]
                 );
             } elseif (isset($loadedTags[$hashItem['id']])) {
@@ -129,7 +125,7 @@ class Type extends FieldType
         return new Value($tags);
     }
 
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         $hash = [];
 
@@ -162,7 +158,7 @@ class Type extends FieldType
         return $hash;
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         return new FieldValue(
             [
@@ -173,17 +169,17 @@ class Type extends FieldType
         );
     }
 
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         return $this->fromHash($fieldValue->externalData);
     }
 
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value === null || $value->tags === $this->getEmptyValue()->tags;
     }
 
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration($validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -290,7 +286,7 @@ class Type extends FieldType
         return $validationErrors;
     }
 
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $validationErrors = [];
 
@@ -299,13 +295,11 @@ class Type extends FieldType
         }
 
         $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
-        $constraints = isset($validatorConfiguration['TagsValueValidator']) ?
-            $validatorConfiguration['TagsValueValidator'] :
-            [];
+        $constraints = $validatorConfiguration['TagsValueValidator'] ?? [];
 
         $validationErrors = [];
 
-        if (isset($constraints['subTreeLimit']) && $constraints['subTreeLimit'] > 0) {
+        if (($constraints['subTreeLimit'] ?? 0) > 0) {
             foreach ($fieldValue->tags as $tag) {
                 if ($tag->id === null || $tag->id < 1) {
                     $tag = $this->tagsService->loadTag($tag->parentTagId);
@@ -327,23 +321,21 @@ class Type extends FieldType
             }
         }
 
-        if (isset($constraints['maxTags']) && $constraints['maxTags'] > 0) {
-            if (count($fieldValue->tags) > $constraints['maxTags']) {
-                $validationErrors[] = new ValidationError(
-                    'Number of tags must be lower or equal to %maxTags%',
-                    null,
-                    [
-                        '%maxTags%' => $constraints['maxTags'],
-                    ],
-                    'value'
-                );
-            }
+        if (($constraints['maxTags'] ?? 0) > 0 && count($fieldValue->tags) > $constraints['maxTags']) {
+            $validationErrors[] = new ValidationError(
+                'Number of tags must be lower or equal to %maxTags%',
+                null,
+                [
+                    '%maxTags%' => $constraints['maxTags'],
+                ],
+                'value'
+            );
         }
 
         return $validationErrors;
     }
 
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
@@ -420,7 +412,7 @@ class Type extends FieldType
         return $validationErrors;
     }
 
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }
@@ -440,7 +432,7 @@ class Type extends FieldType
         return $inputValue;
     }
 
-    protected function checkValueStructure(BaseValue $value)
+    protected function checkValueStructure(BaseValue $value): void
     {
         if (!is_array($value->tags)) {
             throw new InvalidArgumentType(
@@ -453,7 +445,7 @@ class Type extends FieldType
         foreach ($value->tags as $tag) {
             if (!$tag instanceof Tag) {
                 throw new InvalidArgumentType(
-                    "{$tag}",
+                    var_export($tag, true),
                     Value::class,
                     $tag
                 );
@@ -461,7 +453,7 @@ class Type extends FieldType
         }
     }
 
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): bool
     {
         return false;
     }

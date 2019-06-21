@@ -169,7 +169,7 @@ class TagLimitationTypeTest extends Base
                         'limitationValues' => ['1', '2', '3'],
                     ]
                 ),
-                0,
+                3,
             ],
             [
                 new TagLimitation(
@@ -177,7 +177,7 @@ class TagLimitationTypeTest extends Base
                         'limitationValues' => ['1', 2, 3],
                     ]
                 ),
-                0,
+                1,
             ],
             [
                 new TagLimitation(
@@ -193,20 +193,12 @@ class TagLimitationTypeTest extends Base
                         'limitationValues' => ['1', false],
                     ]
                 ),
-                1,
+                2,
             ],
             [
                 new TagLimitation(
                     [
                         'limitationValues' => ['1', 2, false],
-                    ]
-                ),
-                1,
-            ],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => [null, []],
                     ]
                 ),
                 2,
@@ -222,7 +214,7 @@ class TagLimitationTypeTest extends Base
     {
         if (is_array($limitation->limitationValues) && count($limitation->limitationValues) > 0) {
             foreach ($limitation->limitationValues as $key => $value) {
-                if (is_int($value) || ctype_digit($value)) {
+                if (is_int($value)) {
                     $this->tagsHandlerMock
                         ->expects(self::at($key))
                         ->method('loadTagInfo')
@@ -256,12 +248,11 @@ class TagLimitationTypeTest extends Base
      */
     public function testBuildValue(TagLimitationType $limitationType): void
     {
-        $expected = ['1', 2, '3'];
-        $value = $limitationType->buildValue($expected);
+        $value = $limitationType->buildValue(['1', 2, '3']);
 
         self::assertInstanceOf(TagLimitation::class, $value);
         self::assertIsArray($value->limitationValues);
-        self::assertSame($expected, $value->limitationValues);
+        self::assertSame([1, 2, 3], $value->limitationValues);
     }
 
     public function providerForTestEvaluate(): array

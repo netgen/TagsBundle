@@ -4,6 +4,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
+use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
@@ -15,34 +16,31 @@ use PDO;
 class DoctrineDatabase extends Gateway
 {
     /**
-     * Database handler.
-     *
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
     private $handler;
 
     /**
-     * Caching language handler.
-     *
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
      */
     private $languageHandler;
 
     /**
-     * Language mask generator.
-     *
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
     private $languageMaskGenerator;
 
-    public function __construct(DatabaseHandler $handler, LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator)
-    {
+    public function __construct(
+        DatabaseHandler $handler,
+        LanguageHandler $languageHandler,
+        LanguageMaskGenerator $languageMaskGenerator
+    ) {
         $this->handler = $handler;
         $this->languageHandler = $languageHandler;
         $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
-    public function getBasicTagData($tagId)
+    public function getBasicTagData(int $tagId): array
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -65,7 +63,7 @@ class DoctrineDatabase extends Gateway
         throw new NotFoundException('tag', $tagId);
     }
 
-    public function getBasicTagDataByRemoteId($remoteId)
+    public function getBasicTagDataByRemoteId(string $remoteId): array
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -88,7 +86,7 @@ class DoctrineDatabase extends Gateway
         throw new NotFoundException('tag', $remoteId);
     }
 
-    public function getFullTagData($tagId, array $translations = null, $useAlwaysAvailable = true)
+    public function getFullTagData(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
@@ -104,7 +102,7 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getFullTagDataByRemoteId($remoteId, array $translations = null, $useAlwaysAvailable = true)
+    public function getFullTagDataByRemoteId(string $remoteId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
@@ -120,7 +118,7 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getFullTagDataByKeywordAndParentId($keyword, $parentId, array $translations = null, $useAlwaysAvailable = true)
+    public function getFullTagDataByKeywordAndParentId(string $keyword, int $parentId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
@@ -140,7 +138,7 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getChildren($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->where(
@@ -190,7 +188,7 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getChildrenCount($tagId, array $translations = null, $useAlwaysAvailable = true)
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
         $query->where(
@@ -211,7 +209,7 @@ class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
+    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array
     {
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
         $tagIdsQuery->where(
@@ -262,7 +260,7 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int
     {
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
@@ -286,7 +284,7 @@ class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function getSynonyms($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
+    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->where(
@@ -325,7 +323,7 @@ class DoctrineDatabase extends Gateway
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getSynonymCount($tagId, array $translations = null, $useAlwaysAvailable = true)
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
         $query->where(
@@ -343,7 +341,7 @@ class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function moveSynonym($synonymId, $mainTagData)
+    public function moveSynonym(int $synonymId, array $mainTagData): void
     {
         $query = $this->handler->createUpdateQuery();
         $query
@@ -370,7 +368,7 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
     }
 
-    public function create(CreateStruct $createStruct, array $parentTag = null)
+    public function create(CreateStruct $createStruct, ?array $parentTag = null): int
     {
         $query = $this->handler->createInsertQuery();
         $query
@@ -450,7 +448,7 @@ class DoctrineDatabase extends Gateway
         return $tagId;
     }
 
-    public function update(UpdateStruct $updateStruct, $tagId)
+    public function update(UpdateStruct $updateStruct, int $tagId): void
     {
         $query = $this->handler->createUpdateQuery();
         $query
@@ -512,7 +510,7 @@ class DoctrineDatabase extends Gateway
         );
     }
 
-    public function createSynonym(SynonymCreateStruct $createStruct, array $tag)
+    public function createSynonym(SynonymCreateStruct $createStruct, array $tag): int
     {
         $query = $this->handler->createInsertQuery();
         $query
@@ -592,7 +590,7 @@ class DoctrineDatabase extends Gateway
         return $synonymId;
     }
 
-    public function convertToSynonym($tagId, $mainTagData)
+    public function convertToSynonym(int $tagId, array $mainTagData): void
     {
         $query = $this->handler->createUpdateQuery();
         $query
@@ -622,7 +620,7 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
     }
 
-    public function transferTagAttributeLinks($tagId, $targetTagId)
+    public function transferTagAttributeLinks(int $tagId, int $targetTagId): void
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -711,7 +709,7 @@ class DoctrineDatabase extends Gateway
         }
     }
 
-    public function moveSubtree(array $sourceTagData, array $destinationParentTagData = null)
+    public function moveSubtree(array $sourceTagData, ?array $destinationParentTagData = null): void
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -784,7 +782,7 @@ class DoctrineDatabase extends Gateway
         }
     }
 
-    public function deleteTag($tagId)
+    public function deleteTag(int $tagId): void
     {
         $query = $this->handler->createSelectQuery();
         $query
@@ -852,7 +850,7 @@ class DoctrineDatabase extends Gateway
         $query->prepare()->execute();
     }
 
-    private function createTagIdsQuery(array $translations = null, $useAlwaysAvailable = true)
+    private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): SelectQuery
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
@@ -922,13 +920,8 @@ class DoctrineDatabase extends Gateway
      *
      * Creates a select query with all necessary joins to fetch a complete
      * tag. Does not apply any WHERE conditions.
-     *
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    private function createTagFindQuery(array $translations = null, $useAlwaysAvailable = true)
+    private function createTagFindQuery(?array $translations = null, bool $useAlwaysAvailable = true): SelectQuery
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
@@ -1012,13 +1005,8 @@ class DoctrineDatabase extends Gateway
      *
      * Creates a select query with all necessary joins to fetch a complete
      * tag. Does not apply any WHERE conditions.
-     *
-     * @param string[] $translations
-     * @param bool $useAlwaysAvailable
-     *
-     * @return \eZ\Publish\Core\Persistence\Database\SelectQuery
      */
-    private function createTagCountQuery(array $translations = null, $useAlwaysAvailable = true)
+    private function createTagCountQuery(?array $translations = null, bool $useAlwaysAvailable = true): SelectQuery
     {
         /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
         $query = $this->handler->createSelectQuery();
@@ -1086,13 +1074,8 @@ class DoctrineDatabase extends Gateway
 
     /**
      * Inserts keywords for tag with provided tag ID.
-     *
-     * @param int $tagId
-     * @param array $keywords
-     * @param string $mainLanguageCode
-     * @param bool $alwaysAvailable
      */
-    private function insertTagKeywords($tagId, array $keywords, $mainLanguageCode, $alwaysAvailable)
+    private function insertTagKeywords(int $tagId, array $keywords, string $mainLanguageCode, bool $alwaysAvailable): void
     {
         foreach ($keywords as $languageCode => $keyword) {
             $query = $this->handler->createInsertQuery();
@@ -1127,29 +1110,19 @@ class DoctrineDatabase extends Gateway
 
     /**
      * Returns the path string of a synonym for main tag path string.
-     *
-     * @param int $synonymId
-     * @param string $mainTagPathString
-     *
-     * @return string
      */
-    private function getSynonymPathString($synonymId, $mainTagPathString)
+    private function getSynonymPathString(int $synonymId, string $mainTagPathString): string
     {
         $pathStringElements = explode('/', trim($mainTagPathString, '/'));
         array_pop($pathStringElements);
 
-        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . (int) $synonymId . '/';
+        return (count($pathStringElements) > 0 ? '/' . implode('/', $pathStringElements) : '') . '/' . $synonymId . '/';
     }
 
     /**
      * Generates a language mask for provided keywords.
-     *
-     * @param string[] $keywords
-     * @param bool $alwaysAvailable
-     *
-     * @return int
      */
-    private function generateLanguageMask(array $keywords, $alwaysAvailable = true)
+    private function generateLanguageMask(array $keywords, bool $alwaysAvailable = true): int
     {
         $languages = [];
 

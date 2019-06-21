@@ -42,16 +42,10 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      */
     private $additionalCriteria = [];
 
-    /**
-     * Constructor.
-     *
-     * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
-     * @param bool $returnContentInfo
-     */
-    public function __construct(TagsService $tagsService, $returnContentInfo = true)
+    public function __construct(TagsService $tagsService, bool $returnContentInfo = true)
     {
         $this->tagsService = $tagsService;
-        $this->returnContentInfo = (bool) $returnContentInfo;
+        $this->returnContentInfo = $returnContentInfo;
     }
 
     public function setTag(Tag $tag): void
@@ -68,8 +62,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     }
 
     /**
-     * Sets additional criteria to be used in search.
-     *
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria
      */
     public function setAdditionalCriteria(array $additionalCriteria = []): void
@@ -77,9 +69,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
         $this->additionalCriteria = $additionalCriteria;
     }
 
-    /**
-     * Returns the number of results.
-     */
     public function getNbResults(): int
     {
         if (!$this->tag instanceof Tag) {
@@ -93,14 +82,6 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
         return $this->nbResults;
     }
 
-    /**
-     * Returns an slice of the results.
-     *
-     * @param int $offset The offset
-     * @param int $length The length
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
-     */
     public function getSlice($offset, $length): iterable
     {
         if (!$this->tag instanceof Tag) {

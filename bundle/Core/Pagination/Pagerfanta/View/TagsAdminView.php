@@ -43,17 +43,11 @@ class TagsAdminView implements ViewInterface
      */
     private $endPage;
 
-    /**
-     * @param \Twig\Environment $twig
-     */
     public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
 
-    /**
-     * Sets the default template.
-     */
     public function setDefaultTemplate(string $template): void
     {
         $this->template = $template;
@@ -64,19 +58,6 @@ class TagsAdminView implements ViewInterface
         return 'eztags_admin';
     }
 
-    /**
-     * Renders a Pagerfanta.
-     *
-     * The route generator can be any callable to generate
-     * the routes receiving the page number as first and
-     * unique argument.
-     *
-     * @param \Pagerfanta\PagerfantaInterface $pagerfanta A pagerfanta
-     * @param \Closure $routeGenerator A callable to generate the routes
-     * @param array $options An array of options (optional)
-     *
-     * @return string
-     */
     public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = []): string
     {
         $this->pagerfanta = $pagerfanta;
@@ -94,14 +75,9 @@ class TagsAdminView implements ViewInterface
         );
     }
 
-    /**
-     * Initializes the proximity.
-     */
     private function initializeProximity(array $options): void
     {
-        $this->proximity = isset($options['proximity']) ?
-            (int) $options['proximity'] :
-            2;
+        $this->proximity = (int) ($options['proximity'] ?? 2);
     }
 
     /**

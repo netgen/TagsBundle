@@ -13,8 +13,6 @@ use RuntimeException;
 class ExceptionConversion extends Gateway
 {
     /**
-     * The wrapped gateway.
-     *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
      */
     private $innerGateway;
@@ -24,7 +22,7 @@ class ExceptionConversion extends Gateway
         $this->innerGateway = $innerGateway;
     }
 
-    public function getBasicTagData($tagId)
+    public function getBasicTagData(int $tagId): array
     {
         try {
             return $this->innerGateway->getBasicTagData($tagId);
@@ -35,7 +33,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getBasicTagDataByRemoteId($remoteId)
+    public function getBasicTagDataByRemoteId(string $remoteId): array
     {
         try {
             return $this->innerGateway->getBasicTagDataByRemoteId($remoteId);
@@ -46,7 +44,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getFullTagData($tagId, array $translations = null, $useAlwaysAvailable = true)
+    public function getFullTagData(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         try {
             return $this->innerGateway->getFullTagData($tagId, $translations, $useAlwaysAvailable);
@@ -57,7 +55,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getFullTagDataByRemoteId($remoteId, array $translations = null, $useAlwaysAvailable = true)
+    public function getFullTagDataByRemoteId(string $remoteId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         try {
             return $this->innerGateway->getFullTagDataByRemoteId($remoteId, $translations, $useAlwaysAvailable);
@@ -68,7 +66,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getFullTagDataByKeywordAndParentId($keyword, $parentId, array $translations = null, $useAlwaysAvailable = true)
+    public function getFullTagDataByKeywordAndParentId(string $keyword, int $parentId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         try {
             return $this->innerGateway->getFullTagDataByKeywordAndParentId($keyword, $parentId, $translations, $useAlwaysAvailable);
@@ -79,7 +77,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getChildren($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         try {
             return $this->innerGateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
@@ -90,7 +88,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getChildrenCount($tagId, array $translations = null, $useAlwaysAvailable = true)
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
     {
         try {
             return $this->innerGateway->getChildrenCount($tagId, $translations, $useAlwaysAvailable);
@@ -101,7 +99,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
+    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array
     {
         try {
             return $this->innerGateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $exactMatch, $offset, $limit);
@@ -112,7 +110,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int
     {
         try {
             return $this->innerGateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, $exactMatch);
@@ -123,7 +121,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSynonyms($tagId, $offset = 0, $limit = -1, array $translations = null, $useAlwaysAvailable = true)
+    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         try {
             return $this->innerGateway->getSynonyms($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
@@ -134,7 +132,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSynonymCount($tagId, array $translations = null, $useAlwaysAvailable = true)
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
     {
         try {
             return $this->innerGateway->getSynonymCount($tagId, $translations, $useAlwaysAvailable);
@@ -145,10 +143,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function moveSynonym($synonymId, $mainTagData)
+    public function moveSynonym(int $synonymId, array $mainTagData): void
     {
         try {
-            return $this->innerGateway->moveSynonym($synonymId, $mainTagData);
+            $this->innerGateway->moveSynonym($synonymId, $mainTagData);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -156,7 +154,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function create(CreateStruct $createStruct, array $parentTag = null)
+    public function create(CreateStruct $createStruct, ?array $parentTag = null): int
     {
         try {
             return $this->innerGateway->create($createStruct, $parentTag);
@@ -167,7 +165,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function update(UpdateStruct $updateStruct, $tagId)
+    public function update(UpdateStruct $updateStruct, int $tagId): void
     {
         try {
             $this->innerGateway->update($updateStruct, $tagId);
@@ -178,7 +176,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function createSynonym(SynonymCreateStruct $createStruct, array $tag)
+    public function createSynonym(SynonymCreateStruct $createStruct, array $tag): int
     {
         try {
             return $this->innerGateway->createSynonym($createStruct, $tag);
@@ -189,10 +187,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function convertToSynonym($tagId, $mainTagData)
+    public function convertToSynonym(int $tagId, array $mainTagData): void
     {
         try {
-            return $this->innerGateway->convertToSynonym($tagId, $mainTagData);
+            $this->innerGateway->convertToSynonym($tagId, $mainTagData);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -200,7 +198,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function transferTagAttributeLinks($tagId, $targetTagId)
+    public function transferTagAttributeLinks(int $tagId, int $targetTagId): void
     {
         try {
             $this->innerGateway->transferTagAttributeLinks($tagId, $targetTagId);
@@ -211,7 +209,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function moveSubtree(array $sourceTagData, array $destinationParentTagData = null)
+    public function moveSubtree(array $sourceTagData, ?array $destinationParentTagData = null): void
     {
         try {
             $this->innerGateway->moveSubtree($sourceTagData, $destinationParentTagData);
@@ -222,7 +220,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function deleteTag($tagId)
+    public function deleteTag(int $tagId): void
     {
         try {
             $this->innerGateway->deleteTag($tagId);

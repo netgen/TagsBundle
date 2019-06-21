@@ -10,15 +10,11 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 class Mapper
 {
     /**
-     * Caching language handler.
-     *
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
      */
     private $languageHandler;
 
     /**
-     * Language mask generator.
-     *
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
     private $languageMaskGenerator;
@@ -43,7 +39,7 @@ class Mapper
         $tagInfo->pathString = $row['path_string'];
         $tagInfo->modificationDate = (int) $row['modified'];
         $tagInfo->remoteId = $row['remote_id'];
-        $tagInfo->alwaysAvailable = ((int) $row['language_mask'] & 1) ? true : false;
+        $tagInfo->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
 
@@ -52,10 +48,6 @@ class Mapper
 
     /**
      * Extracts a Tag object from $row.
-     *
-     * @param array $rows
-     *
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
     public function extractTagListFromRows(array $rows): array
     {
@@ -72,7 +64,7 @@ class Mapper
                 $tag->pathString = $row['eztags_path_string'];
                 $tag->modificationDate = (int) $row['eztags_modified'];
                 $tag->remoteId = $row['eztags_remote_id'];
-                $tag->alwaysAvailable = ((int) $row['eztags_language_mask'] & 1) ? true : false;
+                $tag->alwaysAvailable = (bool) ((int) $row['eztags_language_mask'] & 1);
                 $tag->mainLanguageCode = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
                 $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['eztags_language_mask']);
                 $tagList[$tagId] = $tag;

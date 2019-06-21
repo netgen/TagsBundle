@@ -60,6 +60,6 @@ abstract class Tags extends CriterionHandler
             );
         }
 
-        return $fieldDefinitionIds;
+        return array_map('intval', $fieldDefinitionIds);
     }
 }

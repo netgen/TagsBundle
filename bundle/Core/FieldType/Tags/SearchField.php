@@ -9,12 +9,6 @@ use eZ\Publish\SPI\Search;
 
 class SearchField implements Indexable
 {
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param \eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition $fieldDefinition
-     *
-     * @return \eZ\Publish\SPI\Search\Field[]
-     */
     public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         $tagKeywords = [];
@@ -67,9 +61,6 @@ class SearchField implements Indexable
         ];
     }
 
-    /**
-     * @return \eZ\Publish\SPI\Search\FieldType[]
-     */
     public function getIndexDefinition(): array
     {
         return [
