@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\Core\Repository;
 
-use DateTime;
+use DateTimeImmutable;
 use Exception;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository;
@@ -870,9 +870,6 @@ class TagsService implements TagsServiceInterface
                 }
             }
 
-            $modificationDate = new DateTime();
-            $modificationDate->setTimestamp($spiTag->modificationDate);
-
             $tags[$spiTag->id] = new Tag(
                 [
                     'id' => $spiTag->id,
@@ -881,7 +878,7 @@ class TagsService implements TagsServiceInterface
                     'keywords' => $spiTag->keywords,
                     'depth' => $spiTag->depth,
                     'pathString' => $spiTag->pathString,
-                    'modificationDate' => $modificationDate,
+                    'modificationDate' => new DateTimeImmutable('@' . $spiTag->modificationDate),
                     'remoteId' => $spiTag->remoteId,
                     'alwaysAvailable' => $spiTag->alwaysAvailable,
                     'mainLanguageCode' => $spiTag->mainLanguageCode,

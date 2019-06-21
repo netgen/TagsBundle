@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
-use DateTime;
+use DateTimeImmutable;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
 use eZ\Publish\Core\FieldType\ValidationError;
@@ -551,9 +551,6 @@ class TagsTest extends FieldTypeTest
      */
     private function getTag(): Tag
     {
-        $modificationDate = new DateTime();
-        $modificationDate->setTimestamp(1308153110);
-
         return new Tag(
             [
                 'id' => 40,
@@ -562,7 +559,7 @@ class TagsTest extends FieldTypeTest
                 'keywords' => ['eng-GB' => 'eztags'],
                 'depth' => 3,
                 'pathString' => '/8/7/40/',
-                'modificationDate' => $modificationDate,
+                'modificationDate' => new DateTimeImmutable('@' . 1308153110),
                 'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',

@@ -12,23 +12,25 @@ return PhpCsFixer\Config::create()
         'multiline_whitespace_before_semicolons' => false,
         'native_function_invocation' => false,
         'php_unit_internal_class' => false,
-        'php_unit_set_up_tear_down_visibility' => false,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_align' => false,
         'phpdoc_no_alias_tag' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'single_line_comment_style' => false,
+        'visibility_required' => ['elements' => ['property', 'method', 'const']],
         'yoda_style' => false,
 
         // Additional rules
+        'date_time_immutable' => true,
+        'list_syntax' => ['syntax' => 'short'],
         'mb_str_functions' => true,
         'static_lambda' => true,
+        'ternary_to_null_coalescing' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->exclude(['vendor', 'node_modules'])
-            ->notPath('bootstrap.php')
             ->in(__DIR__)
     )
 ;

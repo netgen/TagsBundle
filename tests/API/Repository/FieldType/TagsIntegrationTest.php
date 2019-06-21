@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\API\Repository\FieldType;
 
-use DateTime;
+use DateTimeImmutable;
 use eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest;
 use eZ\Publish\API\Repository\Values\Content\Field;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
@@ -257,9 +257,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     private function getTag1(): Tag
     {
-        $modificationDate = new DateTime();
-        $modificationDate->setTimestamp(1308153110);
-
         return new Tag(
             [
                 'id' => 40,
@@ -268,7 +265,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 'keywords' => ['eng-GB' => 'eztags'],
                 'depth' => 3,
                 'pathString' => '/8/7/40/',
-                'modificationDate' => $modificationDate,
+                'modificationDate' => new DateTimeImmutable('@' . 1308153110),
                 'remoteId' => '182be0c5cdcd5072bb1864cdee4d3d6e',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
@@ -282,9 +279,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     private function getTag2(): Tag
     {
-        $modificationDate = new DateTime();
-        $modificationDate->setTimestamp(1343169159);
-
         return new Tag(
             [
                 'id' => 8,
@@ -293,7 +287,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 'keywords' => ['eng-GB' => 'ez publish'],
                 'depth' => 1,
                 'pathString' => '/8/',
-                'modificationDate' => $modificationDate,
+                'modificationDate' => new DateTimeImmutable('@' . 1343169159),
                 'remoteId' => 'eccbc87e4b5ce2fe28308fd9f2a7baf3',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
@@ -307,9 +301,6 @@ class TagsIntegrationTest extends BaseIntegrationTest
      */
     private function getTag3(): Tag
     {
-        $modificationDate = new DateTime();
-        $modificationDate->setTimestamp(1343169159);
-
         return new Tag(
             [
                 'id' => 9,
@@ -318,7 +309,7 @@ class TagsIntegrationTest extends BaseIntegrationTest
                 'keywords' => ['eng-GB' => 'php'],
                 'depth' => 2,
                 'pathString' => '/47/9/',
-                'modificationDate' => $modificationDate,
+                'modificationDate' => new DateTimeImmutable('@' . 1343169159),
                 'remoteId' => 'a87ff679a2f3e71d9181a67b7542122c',
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',

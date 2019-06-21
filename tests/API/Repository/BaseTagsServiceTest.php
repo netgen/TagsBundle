@@ -2,7 +2,7 @@
 
 namespace Netgen\TagsBundle\Tests\API\Repository;
 
-use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
@@ -1722,12 +1722,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      */
     private function getDateTime(?int $timestamp = null): DateTimeInterface
     {
-        $timestamp = $timestamp ?: time();
-
-        $dateTime = new DateTime();
-        $dateTime->setTimestamp($timestamp);
-
-        return $dateTime;
+        return new DateTimeImmutable('@' . ($timestamp ?? time()));
     }
 
     /**
