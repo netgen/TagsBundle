@@ -7,6 +7,7 @@ namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content;
 use eZ\Publish\SPI\Persistence\Content\Language;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Generator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
  */
 final class LanguageHandlerMock
 {
+    /**
+     * @var \eZ\Publish\SPI\Persistence\Content\Language[]
+     */
     private $languages = [];
 
     public function __construct()
@@ -41,7 +45,10 @@ final class LanguageHandlerMock
         );
     }
 
-    public function __invoke(TestCase $testCase)
+    /**
+     * @return \eZ\Publish\SPI\Persistence\Content\Language\Handler&\PHPUnit\Framework\MockObject\MockObject
+     */
+    public function __invoke(TestCase $testCase): MockObject
     {
         $mock = $testCase->getMockBuilder(LanguageHandler::class)
             ->disableOriginalConstructor()

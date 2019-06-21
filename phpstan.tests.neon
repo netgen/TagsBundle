@@ -1,0 +1,18 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+    ignoreErrors:
+        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\SelectQuery::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
+        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
+        - '#eZ\\Publish\\Core\\Persistence\\Database\\Expression::eq\(\) expects string, int given.#'
+        - '#Access to protected property eZ\\Publish\\API\\Repository\\Values\\Content\\Field::\$value.#'
+        - '#Access to an undefined property eZ\\Publish\\API\\Repository\\Values\\ValueObject::\$id.#'
+        - '#Access to an undefined property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$notDefined.#'
+        - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id is not writable.#'
+        - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id \(int\) does not accept null.#'
+        -
+            message: '#should be covariant with return type#'
+            path: tests/Core/FieldType/TagsTest.php

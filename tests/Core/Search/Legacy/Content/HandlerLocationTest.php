@@ -31,7 +31,10 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 final class HandlerLocationTest extends LanguageAwareTestCase
 {
-    private static $setUp = false;
+    /**
+     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
+     */
+    private static $dbHandler;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -42,16 +45,18 @@ final class HandlerLocationTest extends LanguageAwareTestCase
      */
     protected function setUp(): void
     {
-        if (!self::$setUp) {
+        if (self::$dbHandler === null) {
             parent::setUp();
             $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezpublish-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
-            self::$setUp = $this->handler;
+            self::$dbHandler = $this->handler;
 
             $handler = $this->getDatabaseHandler();
 
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
-            $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents($schema)));
+            /** @var array $queries */
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
+            $queries = array_filter($queries);
             foreach ($queries as $query) {
                 $handler->exec($query);
             }
@@ -60,7 +65,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/object_attributes.php');
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/class_attributes.php');
         } else {
-            $this->handler = self::$setUp;
+            $this->handler = self::$dbHandler;
         }
     }
 
@@ -269,12 +274,12 @@ final class HandlerLocationTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper&\PHPUnit\Framework\MockObject\MockObject
+     */
     private function getLocationMapperMock(): MockObject
     {
-        $mapperMock = $this->createMock(
-            LocationMapper::class,
-            ['createLocationsFromRows']
-        );
+        $mapperMock = $this->createMock(LocationMapper::class);
 
         $mapperMock
             ->expects(self::any())

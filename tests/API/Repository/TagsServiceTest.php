@@ -20,7 +20,9 @@ final class TagsServiceTest extends BaseTagsServiceTest
 
     private function getTagsService(bool $initialInitializeFromScratch = true): TagsService
     {
-        $this->tagsService = $this->tagsService ?? $this->getSetupFactory()->getTagsService($initialInitializeFromScratch);
+        /** @var \Netgen\TagsBundle\Tests\API\Repository\SetupFactory\Legacy $setUpFactory */
+        $setUpFactory = $this->getSetupFactory();
+        $this->tagsService = $this->tagsService ?? $setUpFactory->getTagsService($initialInitializeFromScratch);
 
         return $this->tagsService;
     }

@@ -15,7 +15,13 @@ final class TagTest extends TestCase
     public function testObjectProperties(): void
     {
         $object = new Tag();
-        $properties = $object->attributes();
+
+        $properties = array_keys(
+            (function (): array {
+                return get_object_vars($this);
+            })->call($object)
+        );
+
         self::assertContains('id', $properties, 'Property not found');
         self::assertContains('parentTagId', $properties, 'Property not found');
         self::assertContains('mainTagId', $properties, 'Property not found');
@@ -27,17 +33,5 @@ final class TagTest extends TestCase
         self::assertContains('mainLanguageCode', $properties, 'Property not found');
         self::assertContains('alwaysAvailable', $properties, 'Property not found');
         self::assertContains('languageCodes', $properties, 'Property not found');
-
-        // check for duplicates and double check existence of property
-        $propertiesHash = [];
-        foreach ($properties as $property) {
-            if (isset($propertiesHash[$property])) {
-                self::fail("Property \"{$property}\" exists several times in properties list");
-            } elseif (!isset($object->{$property})) {
-                self::fail("Property \"{$property}\" does not exist on object, even though it was hinted to be there");
-            }
-
-            $propertiesHash[$property] = 1;
-        }
     }
 }

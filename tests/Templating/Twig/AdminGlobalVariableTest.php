@@ -14,28 +14,17 @@ final class AdminGlobalVariableTest extends TestCase
      */
     private $adminGlobalVariable;
 
-    /**
-     * @var string
-     */
-    private $template;
-
     protected function setUp(): void
     {
         $this->adminGlobalVariable = new AdminGlobalVariable();
-        $this->template = '@Acme/pagelayout.html.twig';
-    }
-
-    public function testInstanceOfGlobalAdminVariable(): void
-    {
-        self::assertInstanceOf(AdminGlobalVariable::class, $this->adminGlobalVariable);
     }
 
     public function testGetAndSetPageLayoutTemplate(): void
     {
         self::assertNull($this->adminGlobalVariable->getPageLayoutTemplate());
 
-        $this->adminGlobalVariable->setPageLayoutTemplate($this->template);
-        self::assertSame($this->template, $this->adminGlobalVariable->getPageLayoutTemplate());
+        $this->adminGlobalVariable->setPageLayoutTemplate('@Acme/pagelayout.html.twig');
+        self::assertSame('@Acme/pagelayout.html.twig', $this->adminGlobalVariable->getPageLayoutTemplate());
 
         $this->adminGlobalVariable->setPageLayoutTemplate();
         self::assertNull($this->adminGlobalVariable->getPageLayoutTemplate());

@@ -18,10 +18,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
 use eZ\Publish\Core\Repository\Values\User\User;
-use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
-use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 abstract class BaseTagsServiceTest extends BaseTest
 {
@@ -120,8 +117,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(42, 'eng-GB');
 
-        self::assertInstanceOf(TagCreateStruct::class, $tagCreateStruct);
-
         $this->assertPropertiesCorrect(
             [
                 'parentTagId' => 42,
@@ -140,8 +135,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testNewSynonymCreateStruct(): void
     {
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(42, 'eng-GB');
-
-        self::assertInstanceOf(SynonymCreateStruct::class, $synonymCreateStruct);
 
         $this->assertPropertiesCorrect(
             [
@@ -162,8 +155,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
-        self::assertInstanceOf(TagUpdateStruct::class, $tagUpdateStruct);
-
         $this->assertPropertiesCorrect(
             [
                 'keywords' => [],
@@ -181,8 +172,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testLoadTag(): void
     {
         $tag = $this->tagsService->loadTag(40);
-
-        self::assertInstanceOf(Tag::class, $tag);
 
         $this->assertPropertiesCorrect(
             [
@@ -232,8 +221,6 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $tag = $this->tagsService->loadTagByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
 
-        self::assertInstanceOf(Tag::class, $tag);
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 40,
@@ -279,8 +266,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testLoadTagByUrl(): void
     {
         $tag = $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', ['eng-GB']);
-
-        self::assertInstanceOf(Tag::class, $tag);
 
         $this->assertPropertiesCorrect(
             [
@@ -330,11 +315,10 @@ abstract class BaseTagsServiceTest extends BaseTest
         $tag = $this->tagsService->loadTag(16);
         $children = $this->tagsService->loadTagChildren($tag);
 
-        self::assertIsArray($children);
         self::assertCount(6, $children);
+        self::assertContainsOnlyInstancesOf(Tag::class, $children);
 
         foreach ($children as $child) {
-            self::assertInstanceOf(Tag::class, $child);
             self::assertSame($tag->id, $child->parentTagId);
         }
     }
@@ -347,11 +331,10 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $children = $this->tagsService->loadTagChildren();
 
-        self::assertIsArray($children);
         self::assertCount(9, $children);
+        self::assertContainsOnlyInstancesOf(Tag::class, $children);
 
         foreach ($children as $child) {
-            self::assertInstanceOf(Tag::class, $child);
             self::assertSame(0, $child->parentTagId);
         }
     }
@@ -418,11 +401,10 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $tags = $this->tagsService->loadTagsByKeyword('eztags', 'eng-GB');
 
-        self::assertIsArray($tags);
         self::assertCount(2, $tags);
+        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
 
         foreach ($tags as $tag) {
-            self::assertInstanceOf(Tag::class, $tag);
             self::assertSame(['eng-GB' => 'eztags'], $tag->keywords);
         }
     }
@@ -469,11 +451,10 @@ abstract class BaseTagsServiceTest extends BaseTest
         $tag = $this->tagsService->loadTag(16);
         $synonyms = $this->tagsService->loadTagSynonyms($tag);
 
-        self::assertIsArray($synonyms);
         self::assertCount(2, $synonyms);
+        self::assertContainsOnlyInstancesOf(Tag::class, $synonyms);
 
         foreach ($synonyms as $synonym) {
-            self::assertInstanceOf(Tag::class, $synonym);
             self::assertSame($tag->id, $synonym->mainTagId);
         }
     }
@@ -556,12 +537,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $tag = $this->tagsService->loadTag(16);
         $content = $this->tagsService->getRelatedContent($tag);
 
-        self::assertIsArray($content);
         self::assertCount(3, $content);
-
-        foreach ($content as $contentItem) {
-            self::assertInstanceOf(ContentInfo::class, $contentItem);
-        }
+        self::assertContainsOnlyInstancesOf(ContentInfo::class, $content);
     }
 
     /**
@@ -573,7 +550,6 @@ abstract class BaseTagsServiceTest extends BaseTest
         $tag = $this->tagsService->loadTag(42);
         $content = $this->tagsService->getRelatedContent($tag);
 
-        self::assertIsArray($content);
         self::assertCount(0, $content);
     }
 
@@ -672,8 +648,6 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $createdTag = $this->tagsService->createTag($createStruct);
 
-        self::assertInstanceOf(Tag::class, $createdTag);
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 97,
@@ -690,7 +664,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $createdTag
         );
 
-        self::assertInstanceOf(DateTimeInterface::class, $createdTag->modificationDate);
         self::assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
     }
 
@@ -706,8 +679,6 @@ abstract class BaseTagsServiceTest extends BaseTest
         $createStruct->remoteId = 'New remote ID';
 
         $createdTag = $this->tagsService->createTag($createStruct);
-
-        self::assertInstanceOf(Tag::class, $createdTag);
 
         $this->assertPropertiesCorrect(
             [
@@ -725,7 +696,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $createdTag
         );
 
-        self::assertInstanceOf(DateTimeInterface::class, $createdTag->modificationDate);
         self::assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
     }
 
@@ -750,7 +720,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(InvalidArgumentValue::class);
 
         $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
-        $createStruct->remoteId = 42;
+        $createStruct->remoteId = 'remoteId';
         $this->tagsService->createTag($createStruct);
     }
 
@@ -805,8 +775,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $updateStruct
         );
 
-        self::assertInstanceOf(Tag::class, $updatedTag);
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 40,
@@ -823,7 +791,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $updatedTag
         );
 
-        self::assertInstanceOf(DateTimeInterface::class, $updatedTag->modificationDate);
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $updatedTag->modificationDate->getTimestamp());
     }
 
@@ -883,7 +850,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
         $updateStruct->setKeyword('New keyword');
-        $updateStruct->remoteId = 42;
+        $updateStruct->remoteId = 'remoteId';
 
         $this->tagsService->updateTag(
             $tag,
@@ -973,8 +940,6 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $createdSynonym = $this->tagsService->addSynonym($createStruct);
 
-        self::assertInstanceOf(Tag::class, $createdSynonym);
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 97,
@@ -991,7 +956,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $createdSynonym
         );
 
-        self::assertInstanceOf(DateTimeInterface::class, $createdSynonym->modificationDate);
         self::assertGreaterThan(0, $createdSynonym->modificationDate->getTimestamp());
     }
 
@@ -1063,8 +1027,6 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $convertedSynonym = $this->tagsService->convertToSynonym($tag, $mainTag);
 
-        self::assertInstanceOf(Tag::class, $convertedSynonym);
-
         $this->assertPropertiesCorrect(
             [
                 'id' => $tag->id,
@@ -1078,7 +1040,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $convertedSynonym
         );
 
-        self::assertInstanceOf(DateTimeInterface::class, $convertedSynonym->modificationDate);
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp());
 
         $synonymsCount = $this->tagsService->getTagSynonymCount($mainTag);
@@ -1464,8 +1425,6 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $movedTag = $this->tagsService->moveSubtree($tag, $targetParentTag);
 
-        self::assertInstanceOf(Tag::class, $movedTag);
-
         $this->assertPropertiesCorrect(
             [
                 'id' => $tag->id,
@@ -1479,7 +1438,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             $movedTag
         );
 
-        self::assertInstanceOf(DateTimeInterface::class, $movedTag->modificationDate);
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp());
 
         foreach ($this->tagsService->loadTagSynonyms($movedTag) as $synonym) {

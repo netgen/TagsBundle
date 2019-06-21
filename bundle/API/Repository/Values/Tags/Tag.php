@@ -17,7 +17,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  * @property-read int $depth The depth tag has in tag tree
  * @property-read string $pathString The path to this tag e.g. /1/6/21/42 where 42 is the current ID
  * @property-read array $path The IDs of all parents and tag itself
- * @property-read \DateTime $modificationDate Tag modification date
+ * @property-read \DateTimeInterface $modificationDate Tag modification date
  * @property-read string $remoteId A global unique ID of the tag
  * @property-read bool $alwaysAvailable Indicates if the Tag object is shown in the main language if it is not present in an other requested language
  * @property-read string $mainLanguageCode The main language code of the Tag object
@@ -120,12 +120,14 @@ final class Tag extends ValueObject
     {
         parent::__construct($properties);
 
-        $this->path = array_map(
-            static function ($id): int {
-                return (int) $id;
-            },
-            explode('/', trim($this->pathString ?? '', '/'))
-        );
+        if (is_string($this->pathString) && $this->pathString !== '') {
+            $this->path = array_map(
+                static function ($id): int {
+                    return (int) $id;
+                },
+                explode('/', trim($this->pathString, '/'))
+            );
+        }
     }
 
     public function __get($property)

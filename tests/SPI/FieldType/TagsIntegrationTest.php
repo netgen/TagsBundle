@@ -20,11 +20,9 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 final class TagsIntegrationTest extends BaseIntegrationTest
 {
     /**
-     * Property indicating whether the DB already has been set up.
-     *
-     * @var bool
+     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
-    private static $tagsSetUp = false;
+    private static $dbHandler;
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
@@ -35,16 +33,18 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        if (!self::$tagsSetUp) {
+        if (self::$dbHandler === null) {
             $schema = __DIR__ . '/../../_fixtures/schema/schema.' . $this->handler->getName() . '.sql';
 
-            $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents($schema)));
+            /** @var array $queries */
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
+            $queries = array_filter($queries);
             foreach ($queries as $query) {
                 $this->handler->exec($query);
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../_fixtures/tags_tree.php');
-            self::$tagsSetUp = $this->handler;
+            self::$dbHandler = $this->handler;
         }
     }
 
@@ -54,7 +54,9 @@ final class TagsIntegrationTest extends BaseIntegrationTest
 
         if ($this->handler->getName() === 'pgsql') {
             // Update PostgreSQL sequences
-            $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql')));
+            /** @var array $queries */
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql'));
+            $queries = array_filter($queries);
             foreach ($queries as $query) {
                 $this->handler->exec($query);
             }

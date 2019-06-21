@@ -48,12 +48,6 @@ final class TagLimitationTypeTest extends Base
         $this->tagsHandlerMock = $this->createMock(Handler::class);
     }
 
-    protected function tearDown(): void
-    {
-        $this->tagsHandlerMock = null;
-        parent::tearDown();
-    }
-
     public function testConstruct(): TagLimitationType
     {
         return new TagLimitationType(
@@ -214,7 +208,7 @@ final class TagLimitationTypeTest extends Base
      */
     public function testValidate(TagLimitation $limitation, int $errorCount): void
     {
-        if (is_array($limitation->limitationValues) && count($limitation->limitationValues) > 0) {
+        if ($limitation->limitationValues !== null && count($limitation->limitationValues) > 0) {
             foreach ($limitation->limitationValues as $key => $value) {
                 if (is_int($value)) {
                     $this->tagsHandlerMock
@@ -253,7 +247,6 @@ final class TagLimitationTypeTest extends Base
         $value = $limitationType->buildValue(['1', 2, '3']);
 
         self::assertInstanceOf(TagLimitation::class, $value);
-        self::assertIsArray($value->limitationValues);
         self::assertSame([1, 2, 3], $value->limitationValues);
     }
 
@@ -296,7 +289,6 @@ final class TagLimitationTypeTest extends Base
 
         $value = $limitationType->evaluate($limitation, $this->userMock, $object);
 
-        self::assertIsBool($value);
         self::assertSame($expected, $value);
     }
 
@@ -347,15 +339,12 @@ final class TagLimitationTypeTest extends Base
      */
     public function testGetCriterionSingleValue(TagLimitationType $limitationType): void
     {
-        /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId $criterion */
         $criterion = $limitationType->getCriterion(
             new TagLimitation(['limitationValues' => [1]]),
             $this->userMock
         );
 
         self::assertInstanceOf(TagId::class, $criterion);
-        self::assertIsArray($criterion->value);
-        self::assertIsString($criterion->operator);
         self::assertSame(Operator::EQ, $criterion->operator);
         self::assertSame([1], $criterion->value);
     }
@@ -365,15 +354,12 @@ final class TagLimitationTypeTest extends Base
      */
     public function testGetCriterionMultipleValues(TagLimitationType $limitationType): void
     {
-        /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId $criterion */
         $criterion = $limitationType->getCriterion(
             new TagLimitation(['limitationValues' => [1, 2]]),
             $this->userMock
         );
 
         self::assertInstanceOf(TagId::class, $criterion);
-        self::assertIsArray($criterion->value);
-        self::assertIsString($criterion->operator);
         self::assertSame(Operator::IN, $criterion->operator);
         self::assertSame([1, 2], $criterion->value);
     }

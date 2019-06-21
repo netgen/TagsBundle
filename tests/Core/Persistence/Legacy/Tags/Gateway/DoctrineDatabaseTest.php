@@ -28,7 +28,9 @@ final class DoctrineDatabaseTest extends TestCase
 
         $schema = __DIR__ . '/../../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
-        $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents($schema)));
+        /** @var array $queries */
+        $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
+        $queries = array_filter($queries);
         foreach ($queries as $query) {
             $handler->exec($query);
         }
@@ -46,7 +48,9 @@ final class DoctrineDatabaseTest extends TestCase
             // Update PostgreSQL sequences
             $handler = $this->getDatabaseHandler();
 
-            $queries = array_filter(preg_split('(;\\s*$)m', file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.pgsql.sql')));
+            /** @var array $queries */
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.pgsql.sql'));
+            $queries = array_filter($queries);
             foreach ($queries as $query) {
                 $handler->exec($query);
             }

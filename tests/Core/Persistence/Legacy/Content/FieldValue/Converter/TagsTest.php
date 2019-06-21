@@ -49,9 +49,9 @@ final class TagsTest extends TestCase
 
         $this->converter->toStorageValue($value, $storageFieldValue);
 
-        self::assertNull($storageFieldValue->dataText);
-        self::assertNull($storageFieldValue->dataInt);
-        self::assertNull($storageFieldValue->dataFloat);
+        self::assertEmpty($storageFieldValue->dataText);
+        self::assertEmpty($storageFieldValue->dataInt);
+        self::assertEmpty($storageFieldValue->dataFloat);
 
         self::assertSame(0, $storageFieldValue->sortKeyInt);
         self::assertSame('', $storageFieldValue->sortKeyString);

@@ -85,11 +85,6 @@ final class NetgenTagsRuntimeTest extends TestCase
         $this->contentType = new ContentType(['names' => ['eng-GB' => 'Translated name']]);
     }
 
-    public function testInstanceOfTwigExtension(): void
-    {
-        self::assertInstanceOf(NetgenTagsRuntime::class, $this->runtime);
-    }
-
     public function testGetTagKeywordWithNotFoundException(): void
     {
         $this->tagsService->expects(self::once())
@@ -152,26 +147,22 @@ final class NetgenTagsRuntimeTest extends TestCase
 
     public function testGetContentTypeNameWithNotFoundException(): void
     {
-        $contentType = 'content_type';
-
         $this->contentTypeService->expects(self::once())
             ->method('loadContentType')
-            ->with($contentType)
-            ->willThrowException(new NotFoundException($contentType, $contentType));
+            ->with(42)
+            ->willThrowException(new NotFoundException('content type', 42));
 
-        self::assertEmpty($this->runtime->getContentTypeName('content_type'));
+        self::assertEmpty($this->runtime->getContentTypeName(42));
     }
 
     public function testGetContentTypeNameWithNonContentTypeAsArgument(): void
     {
-        $contentType = 'content_type';
-
         $this->contentTypeService->expects(self::once())
             ->method('loadContentType')
-            ->with($contentType)
+            ->with(42)
             ->willReturn($this->contentType);
 
-        self::assertSame('Translated name', $this->runtime->getContentTypeName('content_type'));
+        self::assertSame('Translated name', $this->runtime->getContentTypeName(42));
     }
 
     public function testGetContentTypeNameWithContentTypeAsArgument(): void

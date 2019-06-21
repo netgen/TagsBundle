@@ -35,7 +35,7 @@ final class TagsHandlerTest extends TestCase
     private $mapper;
 
     /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
+     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler&\PHPUnit\Framework\MockObject\MockObject
      */
     private $tagsHandler;
 
@@ -62,18 +62,15 @@ final class TagsHandlerTest extends TestCase
                 ]
             );
 
+        $tag = new Tag(['id' => 42]);
+
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
             ->with([['eztags_id' => 42]])
-            ->willReturn([new Tag(['id' => 42])]);
+            ->willReturn([$tag]);
 
-        $tag = $this->tagsHandler->load(42);
-
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
-        );
+        self::assertSame($tag, $this->tagsHandler->load(42));
     }
 
     /**
@@ -112,18 +109,15 @@ final class TagsHandlerTest extends TestCase
                 ]
             );
 
+        $tag = new TagInfo(['id' => 42]);
+
         $this->mapper
             ->expects(self::once())
             ->method('createTagInfoFromRow')
             ->with(['id' => 42])
-            ->willReturn(new TagInfo(['id' => 42]));
+            ->willReturn($tag);
 
-        $tagInfo = $this->tagsHandler->loadTagInfo(42);
-
-        self::assertInstanceOf(
-            TagInfo::class,
-            $tagInfo
-        );
+        self::assertSame($tag, $this->tagsHandler->loadTagInfo(42));
     }
 
     /**
@@ -143,18 +137,15 @@ final class TagsHandlerTest extends TestCase
                 ]
             );
 
+        $tag = new Tag(['remoteId' => 'abcdef']);
+
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
             ->with([['eztags_remote_id' => 'abcdef']])
-            ->willReturn([new Tag(['remoteId' => 'abcdef'])]);
+            ->willReturn([$tag]);
 
-        $tag = $this->tagsHandler->loadByRemoteId('abcdef');
-
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
-        );
+        self::assertSame($tag, $this->tagsHandler->loadByRemoteId('abcdef'));
     }
 
     /**
@@ -192,18 +183,15 @@ final class TagsHandlerTest extends TestCase
                 ]
             );
 
+        $tag = new TagInfo(['remoteId' => '12345']);
+
         $this->mapper
             ->expects(self::once())
             ->method('createTagInfoFromRow')
             ->with(['remote_id' => '12345'])
-            ->willReturn(new TagInfo(['remoteId' => '12345']));
+            ->willReturn($tag);
 
-        $tagInfo = $this->tagsHandler->loadTagInfoByRemoteId('12345');
-
-        self::assertInstanceOf(
-            TagInfo::class,
-            $tagInfo
-        );
+        self::assertSame($tag, $this->tagsHandler->loadTagInfoByRemoteId('12345'));
     }
 
     /**
@@ -225,18 +213,15 @@ final class TagsHandlerTest extends TestCase
                 ]
             );
 
+        $tag = new Tag(['id' => 42, 'keywords' => ['eng-GB' => 'eztags']]);
+
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
             ->with([['eztags_id' => 42, 'eztags_keyword' => 'eztags', 'eztags_keyword_keyword' => 'eztags']])
-            ->willReturn([new Tag(['id' => 42, 'keywords' => ['eng-GB' => 'eztags']])]);
+            ->willReturn([$tag]);
 
-        $tag = $this->tagsHandler->loadTagByKeywordAndParentId('eztags', 42);
-
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
-        );
+        self::assertSame($tag, $this->tagsHandler->loadTagByKeywordAndParentId('eztags', 42));
     }
 
     /**
@@ -299,13 +284,7 @@ final class TagsHandlerTest extends TestCase
         $tags = $this->tagsHandler->loadChildren(42);
 
         self::assertCount(3, $tags);
-
-        foreach ($tags as $tag) {
-            self::assertInstanceOf(
-                Tag::class,
-                $tag
-            );
-        }
+        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
     }
 
     /**
@@ -365,13 +344,7 @@ final class TagsHandlerTest extends TestCase
         $tags = $this->tagsHandler->loadTagsByKeyword('eztags', 'eng-GB');
 
         self::assertCount(2, $tags);
-
-        foreach ($tags as $tag) {
-            self::assertInstanceOf(
-                Tag::class,
-                $tag
-            );
-        }
+        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
     }
 
     /**
@@ -434,13 +407,7 @@ final class TagsHandlerTest extends TestCase
         $tags = $this->tagsHandler->loadSynonyms(42);
 
         self::assertCount(3, $tags);
-
-        foreach ($tags as $tag) {
-            self::assertInstanceOf(
-                Tag::class,
-                $tag
-            );
-        }
+        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
     }
 
     /**
@@ -533,11 +500,6 @@ final class TagsHandlerTest extends TestCase
             )
         );
 
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
-        );
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 95,
@@ -609,11 +571,6 @@ final class TagsHandlerTest extends TestCase
             )
         );
 
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
-        );
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 95,
@@ -677,11 +634,6 @@ final class TagsHandlerTest extends TestCase
                 ]
             ),
             40
-        );
-
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
         );
 
         $this->assertPropertiesCorrect(
@@ -774,11 +726,6 @@ final class TagsHandlerTest extends TestCase
             )
         );
 
-        self::assertInstanceOf(
-            Tag::class,
-            $tag
-        );
-
         $this->assertPropertiesCorrect(
             [
                 'id' => 95,
@@ -864,11 +811,6 @@ final class TagsHandlerTest extends TestCase
             );
 
         $synonym = $handler->convertToSynonym(16, 66);
-
-        self::assertInstanceOf(
-            Tag::class,
-            $synonym
-        );
 
         $this->assertPropertiesCorrect(
             [
@@ -987,11 +929,6 @@ final class TagsHandlerTest extends TestCase
 
         $movedTag = $handler->moveSubtree(42, 66);
 
-        self::assertInstanceOf(
-            Tag::class,
-            $movedTag
-        );
-
         $this->assertPropertiesCorrect(
             [
                 'id' => $movedData['id'],
@@ -1032,6 +969,9 @@ final class TagsHandlerTest extends TestCase
         $handler->deleteTag(40);
     }
 
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject&\Netgen\TagsBundle\SPI\Persistence\Tags\Handler
+     */
     private function getTagsHandler(?array $mockedMethods = null): MockObject
     {
         $this->gateway = $this->createMock(Gateway::class);

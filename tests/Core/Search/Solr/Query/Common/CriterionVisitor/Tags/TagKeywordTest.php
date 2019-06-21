@@ -61,7 +61,7 @@ final class TagKeywordTest extends TestCase
      */
     public function testCanVisitReturnsFalse(): void
     {
-        $criterion = new LocationId(['tag1', 'tag2']);
+        $criterion = new LocationId([42, 24]);
         self::assertFalse($this->visitor->canVisit($criterion));
     }
 

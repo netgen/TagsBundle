@@ -8,7 +8,6 @@ use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
-use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
 final class MapperTest extends TestCase
@@ -106,11 +105,6 @@ final class MapperTest extends TestCase
     {
         $tag = $this->tagsMapper->createTagInfoFromRow(
             self::$tagRow
-        );
-
-        self::assertInstanceOf(
-            TagInfo::class,
-            $tag
         );
 
         $this->assertPropertiesCorrect(

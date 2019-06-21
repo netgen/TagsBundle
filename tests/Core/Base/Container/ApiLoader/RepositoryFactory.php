@@ -10,7 +10,7 @@ use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepository
 final class RepositoryFactory extends BaseRepositoryFactory
 {
     public function __construct(
-        $repositoryClass,
+        string $repositoryClass,
         FieldTypeCollectionFactory $fieldTypeCollectionFactory,
         array $policyMap
     ) {

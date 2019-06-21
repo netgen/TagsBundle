@@ -139,7 +139,7 @@ final class RelatedContentAdapterTest extends TestCase
 
         $adapter = new RelatedContentAdapter($this->tagsService);
 
-        self::assertSame([], $adapter->getSlice(2, 2));
+        self::assertCount(0, $adapter->getSlice(2, 2));
     }
 
     /**

@@ -75,7 +75,10 @@ final class Legacy extends BaseLegacy
     {
         $repository = $this->getRepository($initializeFromScratch);
 
+        /** @var \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler */
         $languageHandler = $this->getServiceContainer()->get('eztags.ezpublish.spi.persistence.legacy.language.handler');
+
+        /** @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator */
         $languageMaskGenerator = $this->getServiceContainer()->get('eztags.ezpublish.persistence.legacy.language.mask_generator');
 
         $tagsHandler = new Handler(
@@ -106,7 +109,10 @@ final class Legacy extends BaseLegacy
         if (self::$db === 'pgsql') {
             $setvalPath = __DIR__ . '/../../../_fixtures/schema/setval.pgsql.sql';
 
-            return array_merge($statements, array_filter(preg_split('(;\\s*$)m', file_get_contents($setvalPath))));
+            /** @var array $queries */
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents($setvalPath));
+
+            return array_merge($statements, array_filter($queries));
         }
 
         return $statements;
@@ -139,6 +145,9 @@ final class Legacy extends BaseLegacy
     {
         $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
 
-        return array_filter(preg_split('(;\\s*$)m', file_get_contents($tagsSchemaPath)));
+        /** @var array $queries */
+        $queries = preg_split('(;\\s*$)m', (string) file_get_contents($tagsSchemaPath));
+
+        return array_filter($queries);
     }
 }
