@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Templating\Twig\Extension;
 
 use eZ\Publish\API\Repository\ContentTypeService;

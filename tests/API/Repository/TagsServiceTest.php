@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\API\Repository;
 
 use Netgen\TagsBundle\API\Repository\TagsService;

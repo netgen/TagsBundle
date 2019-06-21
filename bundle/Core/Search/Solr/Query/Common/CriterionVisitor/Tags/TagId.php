@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;

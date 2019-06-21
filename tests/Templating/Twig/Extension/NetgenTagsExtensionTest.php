@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Templating\Twig\Extension;
 
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;

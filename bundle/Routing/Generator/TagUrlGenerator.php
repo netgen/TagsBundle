@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Routing\Generator;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;

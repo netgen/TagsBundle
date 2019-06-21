@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content;
 
 use eZ\Publish\SPI\Persistence\Content\Language;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\REST\Values;
 
 use EzSystems\EzPlatformRest\Value;

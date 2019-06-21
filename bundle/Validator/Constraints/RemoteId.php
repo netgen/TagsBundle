@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;

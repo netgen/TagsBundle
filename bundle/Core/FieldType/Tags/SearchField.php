@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\SPI\FieldType\Indexable;

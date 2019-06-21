@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\View;
 
 use eZ\Publish\Core\MVC\Symfony\View\BaseView;

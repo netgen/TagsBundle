@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\API\Repository;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;

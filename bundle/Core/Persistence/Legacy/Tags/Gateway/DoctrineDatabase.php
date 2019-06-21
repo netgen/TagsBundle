@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
@@ -420,7 +422,7 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        $tagId = $this->handler->lastInsertId($this->handler->getSequenceName('eztags', 'id'));
+        $tagId = (int) $this->handler->lastInsertId($this->handler->getSequenceName('eztags', 'id'));
         $pathString = ($parentTag !== null ? $parentTag['path_string'] : '/') . $tagId . '/';
 
         $query = $this->handler->createUpdateQuery();
@@ -562,7 +564,7 @@ class DoctrineDatabase extends Gateway
 
         $query->prepare()->execute();
 
-        $synonymId = $this->handler->lastInsertId($this->handler->getSequenceName('eztags', 'id'));
+        $synonymId = (int) $this->handler->lastInsertId($this->handler->getSequenceName('eztags', 'id'));
         $synonymPathString = $this->getSynonymPathString($synonymId, $tag['path_string']);
 
         $query = $this->handler->createUpdateQuery();

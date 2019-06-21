@@ -23,6 +23,7 @@ return PhpCsFixer\Config::create()
 
         // Additional rules
         'date_time_immutable' => true,
+        'declare_strict_types' => true,
         'list_syntax' => ['syntax' => 'short'],
         'mb_str_functions' => true,
         'static_lambda' => true,

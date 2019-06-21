@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Persistence\Cache;
 
 use eZ\Publish\Core\Persistence\Cache\AbstractInMemoryHandler;

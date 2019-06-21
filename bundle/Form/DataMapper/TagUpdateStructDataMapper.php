@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Form\DataMapper;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;

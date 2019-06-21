@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
 use eZ\Publish\Core\FieldType\FieldSettings;

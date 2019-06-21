@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta\View;
 
 use Pagerfanta\PagerfantaInterface;

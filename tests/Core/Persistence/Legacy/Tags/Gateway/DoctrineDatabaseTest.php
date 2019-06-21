@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;

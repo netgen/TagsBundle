@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;

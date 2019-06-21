@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * File containing the bootstrapping of eZ Publish API for unit test use.
  *

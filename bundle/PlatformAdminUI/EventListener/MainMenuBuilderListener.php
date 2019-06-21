@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\PlatformAdminUI\EventListener;
 
 use EzSystems\EzPlatformAdminUi\Menu\Event\ConfigureMenuEvent;

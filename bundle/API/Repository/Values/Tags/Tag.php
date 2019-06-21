@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
@@ -122,7 +124,7 @@ class Tag extends ValueObject
             static function ($id): int {
                 return (int) $id;
             },
-            explode('/', trim($this->pathString, '/'))
+            explode('/', trim($this->pathString ?? '', '/'))
         );
     }
 

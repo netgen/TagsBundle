@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Limitation;
 
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;

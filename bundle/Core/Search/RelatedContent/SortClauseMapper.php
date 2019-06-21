@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Search\RelatedContent;
 
 use eZ\Publish\API\Repository\Values\Content\Query;

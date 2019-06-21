@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Matcher\Tag;
 
 use eZ\Publish\Core\Helper\TranslationHelper;

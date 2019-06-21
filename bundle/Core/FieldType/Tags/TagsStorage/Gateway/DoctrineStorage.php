@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 
 use Doctrine\DBAL\Connection;

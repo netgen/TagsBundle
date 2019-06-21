@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\API\Repository\Values\User\Limitation;
 
 use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;

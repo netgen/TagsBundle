@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Validator\Structs;
 
 use Netgen\TagsBundle\Validator\Constraints\Language;

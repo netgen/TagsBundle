@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Installer;
 
 use EzSystems\DoctrineSchema\API\Event\SchemaBuilderEvent;

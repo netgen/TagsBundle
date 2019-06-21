@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Templating\Twig;
 
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;

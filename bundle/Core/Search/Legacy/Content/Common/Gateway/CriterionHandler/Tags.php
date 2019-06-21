@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;

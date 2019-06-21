@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;

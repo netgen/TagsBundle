@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\Core\Repository\Values\Content\Content;

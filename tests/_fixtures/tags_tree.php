@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'eztags' => [
         ['id' => 5, 'parent_id' => 47, 'main_tag_id' => 0, 'keyword' => 'memcache', 'depth' => 2, 'path_string' => '/47/5/', 'modified' => 1308152828, 'remote_id' => 'cfcd208495d565ef66e7dff9f98764da', 'main_language_id' => 8, 'language_mask' => 8],

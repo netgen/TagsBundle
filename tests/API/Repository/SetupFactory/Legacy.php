@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;

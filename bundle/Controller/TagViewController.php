@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Controller;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller;

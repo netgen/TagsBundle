@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Matcher\Tag\Id;
 
 use eZ\Publish\Core\MVC\Symfony\View\View;

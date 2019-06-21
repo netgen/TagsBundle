@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use eZ\Publish\Core\FieldType\FieldSettings;
