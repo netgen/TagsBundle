@@ -47,6 +47,8 @@ class TagsStorage extends GatewayBasedStorage
 
             $this->gateway->storeFieldData($versionInfo, $field);
         }
+
+        return null;
     }
 
     public function getFieldData(VersionInfo $versionInfo, Field $field, array $context): void
@@ -64,9 +66,9 @@ class TagsStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
-        return false;
+        return [];
     }
 
     /**

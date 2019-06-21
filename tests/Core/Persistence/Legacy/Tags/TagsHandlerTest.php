@@ -247,7 +247,8 @@ class TagsHandlerTest extends TestCase
         $this->gateway
             ->expects(self::once())
             ->method('getFullTagDataByKeywordAndParentId')
-            ->with('unknown', 999);
+            ->with('unknown', 999)
+            ->willReturn([]);
 
         $this->tagsHandler->loadTagByKeywordAndParentId('unknown', 999);
     }
