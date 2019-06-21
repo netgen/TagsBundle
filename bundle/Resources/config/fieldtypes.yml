@@ -9,7 +9,7 @@ services:
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:
-            - {name: ezpublish.fieldType, alias: eztags}
+            - {name: ezplatform.field_type, alias: eztags}
 
     eztags.field_type.eztags.external_storage:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
@@ -24,12 +24,12 @@ services:
     eztags.field_type.eztags.indexable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
         tags:
-            - {name: ezpublish.fieldType.indexable, alias: eztags}
+            - {name: ezplatform.field_type.indexable, alias: eztags}
 
     eztags.field_type.eztags.form_mapper:
         class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
         calls:
             - [setEditViews, [$edit_views;eztags$]]
         tags:
-            - { name: ez.fieldFormMapper.definition, fieldType: eztags }
-            - { name: ez.fieldFormMapper.value, fieldType: eztags }
+            - { name: ezplatform.field_type.form_mapper.definition, fieldType: eztags }
+            - { name: ezplatform.field_type.form_mapper.value, fieldType: eztags }

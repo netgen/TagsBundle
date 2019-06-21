@@ -8,7 +8,7 @@ services:
         calls:
             - [setEditViews, [{ default: { identifier: Default } }]]
         tags:
-            - {name: ezpublish.fieldType, alias: eztags}
+            - {name: ezplatform.field_type, alias: eztags}
 
     eztags.ezpublish.spi.persistence.legacy.language.handler:
         alias: ezpublish.spi.persistence.legacy.language.handler
