@@ -30,13 +30,19 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^4.3",
-        "phpunit/phpunit": "^8.2"
+        "phpunit/phpunit": "^8.2",
+        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-strict-rules": "^0.11",
+        "phpstan/phpstan-symfony": "^0.11",
+        "phpstan/phpstan-phpunit": "^0.11"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
         "test": "@php vendor/bin/phpunit --colors=always",
-        "test-integration": "@php vendor/bin/phpunit -c phpunit-integration-legacy.xml --colors=always"
+        "test-integration": "@php vendor/bin/phpunit -c phpunit-integration-legacy.xml --colors=always",
+        "phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon --level=7 --ansi bundle",
+        "phpstan-tests": "@php vendor/bin/phpstan analyse -c phpstan.tests.neon --level=7 --ansi tests"
     },
     "suggest": {
         "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
