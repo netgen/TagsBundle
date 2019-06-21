@@ -24,7 +24,7 @@ final class TagViewProvider implements ViewProvider, SiteAccessAware
         $this->matcherFactory = $matcherFactory;
     }
 
-    public function getView(View $view): View
+    public function getView(View $view): ?View
     {
         if (($configHash = $this->matcherFactory->match($view)) === null) {
             return null;

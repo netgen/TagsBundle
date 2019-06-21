@@ -86,7 +86,7 @@ final class TagViewBuilder implements ViewBuilder
 
         // We want to have a default template for full tag view
         if (!$view->getControllerReference() instanceof ControllerReference) {
-            if ($view->getViewType() === 'full' && $view->getTemplateIdentifier() === null) {
+            if ($view->getViewType() === 'full' && !is_string($view->getTemplateIdentifier())) {
                 $view->setTemplateIdentifier(
                     $this->configResolver->getParameter('tag_view.template', 'eztags')
                 );

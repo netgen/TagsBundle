@@ -42,7 +42,14 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
     protected function getMatcher($matcherIdentifier): ViewMatcherInterface
     {
         if ($this->container->has($matcherIdentifier)) {
-            return $this->container->get($matcherIdentifier);
+            $matcher = $this->container->get($matcherIdentifier);
+            if ($matcher instanceof ViewMatcherInterface) {
+                return $matcher;
+            }
+
+            throw new InvalidArgumentException(
+                'Matcher for tags must implement ' . ViewMatcherInterface::class . '.'
+            );
         }
 
         $matcher = parent::getMatcher($matcherIdentifier);

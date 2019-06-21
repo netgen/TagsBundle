@@ -14,7 +14,7 @@ final class TagKeywordValue extends Value
     /**
      * One or more languages to match in. If empty, Criterion will match in all available languages.
      *
-     * @var string[]|null
+     * @var array|null
      */
     public $languages;
 

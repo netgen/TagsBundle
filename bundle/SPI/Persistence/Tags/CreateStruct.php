@@ -42,14 +42,14 @@ final class CreateStruct extends ValueObject
     /**
      * A global unique ID of the tag.
      *
-     * @var string
+     * @var string|null
      */
     public $remoteId;
 
     /**
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
      *
-     * @var bool
+     * @var bool|null
      */
     public $alwaysAvailable;
 }

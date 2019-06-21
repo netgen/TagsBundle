@@ -52,8 +52,10 @@ abstract class Tags extends CriterionHandler
                 )
             );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
+
         $fieldDefinitionIds = $statement->fetchAll(PDO::FETCH_COLUMN);
 
         if (count($fieldDefinitionIds) === 0) {

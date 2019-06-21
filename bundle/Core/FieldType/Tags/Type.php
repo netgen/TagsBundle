@@ -73,6 +73,11 @@ final class Type extends FieldType
         return 'eztags';
     }
 
+    /**
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param string $languageCode
+     */
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {
         return (string) $value;
@@ -127,6 +132,9 @@ final class Type extends FieldType
         return new Value($tags);
     }
 
+    /**
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     */
     public function toHash(SPIValue $value): array
     {
         $hash = [];
@@ -160,6 +168,9 @@ final class Type extends FieldType
         return $hash;
     }
 
+    /**
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     */
     public function toPersistenceValue(SPIValue $value): FieldValue
     {
         return new FieldValue(
@@ -176,9 +187,12 @@ final class Type extends FieldType
         return $this->fromHash($fieldValue->externalData);
     }
 
+    /**
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     */
     public function isEmptyValue(SPIValue $value): bool
     {
-        return $value === null || $value->tags === $this->getEmptyValue()->tags;
+        return $value->tags === $this->getEmptyValue()->tags;
     }
 
     public function validateValidatorConfiguration($validatorConfiguration): array
@@ -288,6 +302,10 @@ final class Type extends FieldType
         return $validationErrors;
     }
 
+    /**
+     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $fieldValue
+     */
     public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $validationErrors = [];
@@ -434,6 +452,9 @@ final class Type extends FieldType
         return $inputValue;
     }
 
+    /**
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
+     */
     protected function checkValueStructure(BaseValue $value): void
     {
         if (!is_array($value->tags)) {

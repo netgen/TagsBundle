@@ -15,7 +15,7 @@ final class TagsHandlerFactory implements ContainerAwareInterface
     /**
      * Builds the tags handler.
      */
-    public function buildTagsHandler(string $storageEngineIdentifier): Handler
+    public function buildTagsHandler(string $storageEngineIdentifier): object
     {
         return $this->container->get(
             sprintf(

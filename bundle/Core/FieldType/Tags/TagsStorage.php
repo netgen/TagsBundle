@@ -58,9 +58,11 @@ final class TagsStorage extends GatewayBasedStorage
         $this->gateway->getFieldData($versionInfo, $field);
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context): void
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context): bool
     {
         $this->gateway->deleteFieldData($versionInfo, $fieldIds);
+
+        return true;
     }
 
     public function hasFieldData(): bool

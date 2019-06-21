@@ -119,7 +119,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         }
 
         // several limitation values: IN operation
-        return new TagId($value->limitationValues);
+        return new TagId(array_map('intval', $value->limitationValues));
     }
 
     public function valueSchema()

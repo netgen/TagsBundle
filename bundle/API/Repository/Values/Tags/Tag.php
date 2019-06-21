@@ -163,7 +163,7 @@ final class Tag extends ValueObject
      *
      * @param string[] $languageCodes
      *
-     * @return string[]
+     * @return array
      */
     public function getKeywords(array $languageCodes): array
     {

@@ -1,0 +1,19 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    ignoreErrors:
+        # Symfony:
+        - '#Cannot call method booleanNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
+
+        # eZ Platform
+        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
+        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
+        - '#eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) expects string, int given.#'
+        - '#eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) expects string, int given.#'
+
+        # Doctrine DBAL
+        - '#Cannot call method fetchAll\(\) on Doctrine\\DBAL\\Driver\\Statement\|int#'
+
+        # Tags Bundle specifics
+        - '#Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value::__construct\(\) does not call parent constructor#'

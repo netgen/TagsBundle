@@ -17,6 +17,7 @@ final class NetgenTagsBundle extends Bundle
 
         $container->addCompilerPass(new TagViewBuilderPass());
 
+        /** @var \eZ\Bundle\EzPublishCoreBundle\DependencyInjection\EzPublishCoreExtension $eZExtension */
         $eZExtension = $container->getExtension('ezpublish');
         $eZExtension->addPolicyProvider(new TagsPolicyProvider());
     }

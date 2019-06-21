@@ -447,7 +447,7 @@ final class TagController extends Controller
                     $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
                     foreach ($newKeywords as $languageCode => $keyword) {
-                        $tagUpdateStruct->setKeyword($keyword, $languageCode);
+                        $tagUpdateStruct->setKeyword($keyword, (string) $languageCode);
                     }
 
                     $this->tagsService->updateTag($tag, $tagUpdateStruct);
@@ -487,10 +487,13 @@ final class TagController extends Controller
             return $this->redirectToTag($tag);
         }
 
-        $this->get('session')->set(
-            'ngtags_tag_ids',
-            $request->request->get('Tags')
-        );
+        $session = $request->getSession();
+        if ($session !== null) {
+            $session->set(
+                'ngtags_tag_ids',
+                $request->request->get('Tags')
+            );
+        }
 
         if ($request->request->has('MoveTagsAction')) {
             return $this->redirectToRoute(
@@ -531,9 +534,8 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:edit');
 
-        $tagIds = $request->request->has('Tags') ?
-            $request->request->get('Tags') :
-            $this->get('session')->get('ngtags_tag_ids');
+        $session = $request->getSession();
+        $tagIds = $request->request->get('Tags', $session !== null ? $session->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -592,9 +594,8 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $tagIds = $request->request->has('Tags') ?
-            $request->request->get('Tags') :
-            $this->get('session')->get('ngtags_tag_ids');
+        $session = $request->getSession();
+        $tagIds = $request->request->get('Tags', $session !== null ? $session->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -653,9 +654,8 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:delete');
 
-        $tagIds = $request->request->has('Tags') ?
-            $request->request->get('Tags') :
-            $this->get('session')->get('ngtags_tag_ids');
+        $session = $request->getSession();
+        $tagIds = $request->request->get('Tags', $session !== null ? $session->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);

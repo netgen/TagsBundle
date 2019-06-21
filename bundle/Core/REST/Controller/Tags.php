@@ -131,7 +131,7 @@ final class Tags extends RestController
 
         $tagId = $this->extractTagIdFromPath($tagPath);
         $children = $this->tagsService->loadTagChildren(
-            $tagId !== '0' ?
+            $tagId !== 0 ?
                 $this->tagsService->loadTag($tagId) :
                 null,
             $offset >= 0 ? $offset : 0,
@@ -197,6 +197,7 @@ final class Tags extends RestController
         );
 
         $restContent = [];
+        /** @var \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo */
         foreach ($relatedContent as $contentInfo) {
             $restContent[] = new BaseValues\RestContent($contentInfo);
         }
@@ -302,7 +303,7 @@ final class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
-        $destinationHref = $request->headers->get('Destination');
+        $destinationHref = $request->headers->get('Destination', '');
 
         try {
             /** @var string $parsedDestinationHref */
@@ -343,7 +344,7 @@ final class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
-        $destinationHref = $request->headers->get('Destination');
+        $destinationHref = $request->headers->get('Destination', '');
 
         try {
             /** @var string $parsedDestinationHref */
@@ -387,7 +388,7 @@ final class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
-        $destinationHref = $request->headers->get('Destination');
+        $destinationHref = $request->headers->get('Destination', '');
 
         try {
             /** @var string $parsedDestinationHref */
@@ -428,7 +429,7 @@ final class Tags extends RestController
             $this->extractTagIdFromPath($tagPath)
         );
 
-        $destinationHref = $request->headers->get('Destination');
+        $destinationHref = $request->headers->get('Destination', '');
 
         try {
             /** @var string $parsedDestinationHref */

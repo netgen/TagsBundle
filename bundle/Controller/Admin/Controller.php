@@ -47,9 +47,12 @@ abstract class Controller extends BaseController
      */
     protected function addFlashMessage(string $messageType, string $message, array $parameters = []): void
     {
+        /** @var \Symfony\Contracts\Translation\TranslatorInterface $translator */
+        $translator = $this->get('translator');
+
         $this->addFlash(
             'tags.' . $messageType,
-            $this->get('translator')->trans(
+            $translator->trans(
                 $messageType . '.' . $message,
                 $parameters,
                 'eztags_admin_flash'

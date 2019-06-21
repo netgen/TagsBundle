@@ -61,8 +61,8 @@ final class MainMenuBuilderListener implements EventSubscriberInterface
     {
         $menuOrder = array_keys($menu->getChildren());
         $configMenuIndex = array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true);
-        if ($configMenuIndex !== false) {
-            array_splice($menuOrder, array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true), 0, ['eztags']);
+        if (is_int($configMenuIndex)) {
+            array_splice($menuOrder, $configMenuIndex, 0, ['eztags']);
 
             return $menuOrder;
         }

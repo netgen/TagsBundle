@@ -12,6 +12,8 @@ final class Configuration extends SiteAccessConfiguration
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('netgen_tags');
+
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->getRootNode();
 
         $this->generateScopeBaseNode($rootNode)
@@ -61,11 +63,11 @@ final class Configuration extends SiteAccessConfiguration
                 ->info('Template selection settings when displaying a tag')
                 ->useAttributeAsKey('key')
                 ->normalizeKeys(false)
-                ->prototype('array')
+                ->arrayPrototype()
                     ->useAttributeAsKey('key')
                     ->normalizeKeys(false)
                     ->info("View selection rule sets, grouped by view type. Key is the view type (e.g. 'full', 'line', ...)")
-                    ->prototype('array')
+                    ->arrayPrototype()
                         ->children()
                             ->scalarNode('template')->info('Your template path, as @My/subdir/my_template.html.twig')->end()
                             ->scalarNode('controller')
@@ -76,7 +78,7 @@ final class Configuration extends SiteAccessConfiguration
                                 ->info('Condition matchers configuration')
                                 ->isRequired()
                                 ->useAttributeAsKey('key')
-                                ->prototype('variable')->end()
+                                ->variablePrototype()->end()
                             ->end()
                             ->arrayNode('params')
                                 ->info('Arbitrary params that will be passed in the TagView object, manageable by tag view provider. Those params will NOT be passed to the resulting view template by default.')
@@ -87,7 +89,7 @@ final class Configuration extends SiteAccessConfiguration
                                     ]
                                 )
                                 ->useAttributeAsKey('key')
-                                ->prototype('variable')->end()
+                                ->variablePrototype()->end()
                             ->end()
                         ->end()
                     ->end()
@@ -97,7 +99,7 @@ final class Configuration extends SiteAccessConfiguration
                 ->info('List of available edit views in field edit interface')
                 ->useAttributeAsKey('key')
                 ->normalizeKeys(false)
-                ->prototype('array')
+                ->arrayPrototype()
                     ->children()
                         ->scalarNode('identifier')
                             ->isRequired()

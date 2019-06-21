@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Templating\Twig;
 
-final class AdminGlobalVariable
+/**
+ * @final
+ */
+class AdminGlobalVariable
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $pageLayoutTemplate;
 

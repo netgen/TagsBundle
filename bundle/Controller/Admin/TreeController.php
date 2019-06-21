@@ -120,7 +120,7 @@ final class TreeController extends Controller
                 'context_menu' => [
                     [
                         'name' => 'add_child',
-                        'url' => str_replace(':parentId', 0, $this->treeLinks['add_child']),
+                        'url' => str_replace(':parentId', '0', $this->treeLinks['add_child']),
                         'text' => $this->treeLabels['add_child'],
                     ],
                 ],
@@ -141,7 +141,7 @@ final class TreeController extends Controller
             'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'a_attr' => [
-                'href' => str_replace(':tagId', $tag->id, $this->treeLinks['show_tag']),
+                'href' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['show_tag']),
                 'rel' => $tag->id,
             ],
             'state' => [
@@ -151,32 +151,32 @@ final class TreeController extends Controller
                 'context_menu' => [
                     [
                         'name' => 'add_child',
-                        'url' => str_replace(':parentId', $tag->id, $this->treeLinks['add_child']),
+                        'url' => str_replace(':parentId', (string) $tag->id, $this->treeLinks['add_child']),
                         'text' => $this->treeLabels['add_child'],
                     ],
                     [
                         'name' => 'update_tag',
-                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['update_tag']),
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['update_tag']),
                         'text' => $this->treeLabels['update_tag'],
                     ],
                     [
                         'name' => 'delete_tag',
-                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['delete_tag']),
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['delete_tag']),
                         'text' => $this->treeLabels['delete_tag'],
                     ],
                     [
                         'name' => 'merge_tag',
-                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['merge_tag']),
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['merge_tag']),
                         'text' => $this->treeLabels['merge_tag'],
                     ],
                     [
                         'name' => 'add_synonym',
-                        'url' => str_replace(':mainTagId', $tag->id, $this->treeLinks['add_synonym']),
+                        'url' => str_replace(':mainTagId', (string) $tag->id, $this->treeLinks['add_synonym']),
                         'text' => $this->treeLabels['add_synonym'],
                     ],
                     [
                         'name' => 'convert_tag',
-                        'url' => str_replace(':tagId', $tag->id, $this->treeLinks['convert_tag']),
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['convert_tag']),
                         'text' => $this->treeLabels['convert_tag'],
                     ],
                 ],

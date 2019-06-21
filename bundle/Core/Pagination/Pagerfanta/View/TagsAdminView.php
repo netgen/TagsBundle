@@ -8,7 +8,10 @@ use Pagerfanta\PagerfantaInterface;
 use Pagerfanta\View\ViewInterface;
 use Twig\Environment;
 
-final class TagsAdminView implements ViewInterface
+/**
+ * @final
+ */
+class TagsAdminView implements ViewInterface
 {
     /**
      * @var \Twig\Environment
@@ -26,7 +29,7 @@ final class TagsAdminView implements ViewInterface
     private $pagerfanta;
 
     /**
-     * @var \Closure
+     * @var callable
      */
     private $routeGenerator;
 
@@ -41,7 +44,7 @@ final class TagsAdminView implements ViewInterface
     private $startPage;
 
     /**
-     * @var
+     * @var int
      */
     private $endPage;
 
@@ -60,6 +63,11 @@ final class TagsAdminView implements ViewInterface
         return 'eztags_admin';
     }
 
+    /**
+     * @param \Pagerfanta\Pagerfanta $pagerfanta
+     * @param callable $routeGenerator
+     * @param array $options
+     */
     public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = []): string
     {
         $this->pagerfanta = $pagerfanta;

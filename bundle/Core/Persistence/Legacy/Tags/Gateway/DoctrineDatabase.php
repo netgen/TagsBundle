@@ -98,6 +98,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -114,6 +115,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -134,6 +136,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -158,6 +161,7 @@ final class DoctrineDatabase extends Gateway
         )
         ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $tagIdsQuery->prepare();
         $statement->execute();
 
@@ -184,6 +188,7 @@ final class DoctrineDatabase extends Gateway
             $query::ASC
         );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -228,6 +233,7 @@ final class DoctrineDatabase extends Gateway
 
         $tagIdsQuery->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $tagIdsQuery->prepare();
         $statement->execute();
 
@@ -256,6 +262,7 @@ final class DoctrineDatabase extends Gateway
             $query::ASC
         );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -297,6 +304,7 @@ final class DoctrineDatabase extends Gateway
         )
         ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $tagIdsQuery->prepare();
         $statement->execute();
 
@@ -319,6 +327,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -444,7 +453,7 @@ final class DoctrineDatabase extends Gateway
             $tagId,
             $createStruct->keywords,
             $createStruct->mainLanguageCode,
-            $createStruct->alwaysAvailable
+            $createStruct->alwaysAvailable ?? true
         );
 
         return $tagId;
@@ -468,7 +477,7 @@ final class DoctrineDatabase extends Gateway
                 $this->handler->quoteColumn('main_language_id'),
                 $query->bindValue(
                     $this->languageHandler->loadByLanguageCode(
-                        $updateStruct->mainLanguageCode
+                        $updateStruct->mainLanguageCode ?? ''
                     )->id,
                     null,
                     PDO::PARAM_INT
@@ -477,7 +486,7 @@ final class DoctrineDatabase extends Gateway
                 $this->handler->quoteColumn('language_mask'),
                 $query->bindValue(
                     $this->generateLanguageMask(
-                        $updateStruct->keywords,
+                        $updateStruct->keywords ?? [],
                         is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true
                     ),
                     null,
@@ -506,9 +515,9 @@ final class DoctrineDatabase extends Gateway
 
         $this->insertTagKeywords(
             $tagId,
-            $updateStruct->keywords,
-            $updateStruct->mainLanguageCode,
-            $updateStruct->alwaysAvailable
+            $updateStruct->keywords ?? [],
+            $updateStruct->mainLanguageCode ?? '',
+            $updateStruct->alwaysAvailable ?? true
         );
     }
 
@@ -586,7 +595,7 @@ final class DoctrineDatabase extends Gateway
             $synonymId,
             $createStruct->keywords,
             $createStruct->mainLanguageCode,
-            $createStruct->alwaysAvailable
+            $createStruct->alwaysAvailable ?? true
         );
 
         return $synonymId;
@@ -635,6 +644,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 
@@ -667,6 +677,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 );
 
+            /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
             $statement = $query->prepare();
             $statement->execute();
 
@@ -735,6 +746,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
+        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
         $statement = $query->prepare();
         $statement->execute();
 

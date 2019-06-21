@@ -57,7 +57,7 @@ final class CachedViewResponseListener implements EventSubscriberInterface
         $response = $event->getResponse();
 
         $response->setPublic();
-        $response->headers->set('X-Tag-Id', $tag->id, false);
+        $response->headers->set('X-Tag-Id', (string) $tag->id, false);
 
         if ($this->enableTtlCache && !$response->headers->hasCacheControlDirective('s-maxage')) {
             $response->setSharedMaxAge($this->defaultTtl);

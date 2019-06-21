@@ -21,9 +21,6 @@ parameters:
     # Default template used to generate tag view page
     eztags.default.tag_view.template: '@@NetgenTags/tag/view.html.twig'
 
-    # Default pagelayout used in tag view page
-    eztags.default.tag_view.pagelayout: '@@eZDemo/pagelayout.html.twig'
-
     # Default path prefix to use when generating tag view links
     # Since it's NOT recommended to use empty path prefix here,
     # it will fallback to /tags/view if not specified

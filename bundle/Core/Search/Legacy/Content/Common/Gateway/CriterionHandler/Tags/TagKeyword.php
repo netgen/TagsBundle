@@ -61,7 +61,7 @@ final class TagKeyword extends Tags
                 )
             );
 
-        if ($valueData !== null && count($valueData->languages) > 0) {
+        if ($valueData !== null && count($valueData->languages ?? []) > 0) {
             if ($valueData->useAlwaysAvailable) {
                 $subSelect->where(
                     $subSelect->expr->lOr(

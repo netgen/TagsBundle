@@ -38,10 +38,14 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function load(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag
     {
-        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ?
+            self::ALL_TRANSLATIONS_KEY :
+            implode('|', $translations ?? []);
+
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
-        return $this->getCacheValue(
+        /** @var \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $cacheValue */
+        $cacheValue = $this->getCacheValue(
             $tagId,
             'netgen-tag-',
             function (int $tagId) use ($translations, $useAlwaysAvailable): Tag {
@@ -60,11 +64,16 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
             },
             $keySuffix
         );
+
+        return $cacheValue;
     }
 
     public function loadList(array $tagIds, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
-        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ?
+            self::ALL_TRANSLATIONS_KEY :
+            implode('|', $translations ?? []);
+
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
         return $this->getMultipleCacheValues(
@@ -90,6 +99,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function loadTagInfo(int $tagId): TagInfo
     {
+        /** @var \Symfony\Component\Cache\CacheItem $cacheItem */
         $cacheItem = $this->cache->getItem("netgen-tag-info-{$tagId}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
@@ -106,8 +116,13 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function loadByRemoteId(string $remoteId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag
     {
-        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ?
+            self::ALL_TRANSLATIONS_KEY :
+            implode('|', $translations ?? []);
+
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
+
+        /** @var \Symfony\Component\Cache\CacheItem $cacheItem */
         $cacheItem = $this->cache->getItem("netgen-tag-byRemoteId-{$remoteId}-{$translationsKey}-{$alwaysAvailableKey}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
@@ -124,6 +139,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function loadTagInfoByRemoteId(string $remoteId): TagInfo
     {
+        /** @var \Symfony\Component\Cache\CacheItem $cacheItem */
         $cacheItem = $this->cache->getItem("netgen-tag-info-byRemoteId-{$remoteId}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
@@ -183,8 +199,13 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
     public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         // Method caches all synonyms in cache and only uses offset / limit to slice the cached result
-        $translationsKey = count($translations ?? []) === 0 ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0 ?
+            self::ALL_TRANSLATIONS_KEY :
+            implode('|', $translations ?? []);
+
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
+
+        /** @var \Symfony\Component\Cache\CacheItem $cacheItem */
         $cacheItem = $this->cache->getItem("netgen-tag-synonyms-{$tagId}-{$translationsKey}-{$alwaysAvailableKey}");
         if ($cacheItem->isHit()) {
             return array_slice($cacheItem->get(), $offset, $limit > -1 ? $limit : null);

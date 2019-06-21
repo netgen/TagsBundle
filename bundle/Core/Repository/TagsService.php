@@ -352,7 +352,7 @@ class TagsService implements TagsServiceInterface
             )
         );
 
-        return $searchResult->totalCount;
+        return $searchResult->totalCount ?? 0;
     }
 
     public function createTag(TagCreateStruct $tagCreateStruct): Tag

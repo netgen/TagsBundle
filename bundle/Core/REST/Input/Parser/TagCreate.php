@@ -46,7 +46,7 @@ final class TagCreate extends BaseParser
         $tagHrefParts = explode('/', $this->requestParser->parseHref($data['ParentTag']['_href'], 'tagPath'));
 
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
-            array_pop($tagHrefParts),
+            (int) array_pop($tagHrefParts),
             $data['mainLanguageCode']
         );
 

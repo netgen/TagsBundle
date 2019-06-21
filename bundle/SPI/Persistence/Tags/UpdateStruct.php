@@ -15,28 +15,28 @@ final class UpdateStruct extends ValueObject
      * Tag keywords in the target languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
-     * @var string[]
+     * @var string[]|null
      */
     public $keywords;
 
     /**
      * A global unique ID of the tag.
      *
-     * @var string
+     * @var string|null
      */
     public $remoteId;
 
     /**
      * The main language code for the tag.
      *
-     * @var string
+     * @var string|null
      */
     public $mainLanguageCode;
 
     /**
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
      *
-     * @var bool
+     * @var bool|null
      */
     public $alwaysAvailable;
 }
