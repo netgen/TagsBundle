@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\View;
 use eZ\Publish\Core\MVC\Symfony\View\BaseView;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-class TagView extends BaseView implements TagValueView, CacheableView
+final class TagView extends BaseView implements TagValueView, CacheableView
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Tests\Templating\Twig;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use PHPUnit\Framework\TestCase;
 
-class AdminGlobalVariableTest extends TestCase
+final class AdminGlobalVariableTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable

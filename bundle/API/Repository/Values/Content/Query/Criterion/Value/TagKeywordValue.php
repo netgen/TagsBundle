@@ -9,7 +9,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
 /**
  * Struct that stores extra value information for a TagKeyword criterion object.
  */
-class TagKeywordValue extends Value
+final class TagKeywordValue extends Value
 {
     /**
      * One or more languages to match in. If empty, Criterion will match in all available languages.

@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Templating\Twig\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class NetgenTagsExtension extends AbstractExtension
+final class NetgenTagsExtension extends AbstractExtension
 {
     /**
      * @return \Twig\TwigFunction[]

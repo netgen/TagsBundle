@@ -12,7 +12,7 @@ use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 
-class Tags implements Converter
+final class Tags implements Converter
 {
     private const TAGS_VALIDATOR_IDENTIFIER = 'TagsValueValidator';
 

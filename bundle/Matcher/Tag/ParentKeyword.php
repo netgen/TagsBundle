@@ -9,7 +9,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\View\TagValueView;
 
-class ParentKeyword extends MultipleValued
+final class ParentKeyword extends MultipleValued
 {
     public function match(View $view): bool
     {

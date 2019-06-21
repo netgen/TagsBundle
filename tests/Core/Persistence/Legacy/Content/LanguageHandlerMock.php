@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Simple mock provider for a Language\Handler.
  */
-class LanguageHandlerMock
+final class LanguageHandlerMock
 {
     private $languages = [];
 

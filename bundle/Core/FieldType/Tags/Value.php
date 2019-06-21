@@ -10,7 +10,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 /**
  * Value for Tags field type.
  */
-class Value extends BaseValue
+final class Value extends BaseValue
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]

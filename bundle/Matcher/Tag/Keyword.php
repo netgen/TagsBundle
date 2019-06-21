@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Matcher\Tag;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use Netgen\TagsBundle\View\TagValueView;
 
-class Keyword extends MultipleValued
+final class Keyword extends MultipleValued
 {
     public function match(View $view): bool
     {

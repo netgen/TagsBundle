@@ -76,10 +76,10 @@ abstract class Tags extends Field
                     $this->fieldName
                 );
 
-                $targetFieldTypes = array_merge($targetFieldTypes, $fieldTypes);
+                $targetFieldTypes[] = $fieldTypes;
             }
         }
 
-        return $targetFieldTypes;
+        return array_merge(...$targetFieldTypes);
     }
 }

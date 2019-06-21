@@ -11,7 +11,7 @@ use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as APITagKeyword;
 use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
-class TagKeyword extends Tags
+final class TagKeyword extends Tags
 {
     public function canVisit(Criterion $criterion): bool
     {

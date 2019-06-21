@@ -8,7 +8,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MoveTagsType extends AbstractType
+final class MoveTagsType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

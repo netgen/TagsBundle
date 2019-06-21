@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RelatedContentFilterType extends AbstractType
+final class RelatedContentFilterType extends AbstractType
 {
     /**
      * @var \Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader

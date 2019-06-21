@@ -14,7 +14,7 @@ use EzSystems\EzPlatformSolrSearchEngine\Tests\Search\TestCase;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Solr\Query;
 
-class TagIdTest extends TestCase
+final class TagIdTest extends TestCase
 {
     /**
      * @var \eZ\Publish\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject

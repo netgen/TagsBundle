@@ -8,7 +8,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class TagsHandlerFactory implements ContainerAwareInterface
+final class TagsHandlerFactory implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 

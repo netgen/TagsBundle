@@ -9,7 +9,7 @@ use eZ\Publish\API\Repository\Values\Content\Field;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Symfony\Component\Form\DataTransformerInterface;
 
-class FieldValueTransformer implements DataTransformerInterface
+final class FieldValueTransformer implements DataTransformerInterface
 {
     /**
      * @var \eZ\Publish\API\Repository\FieldType

@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionH
 
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use PDO;
 
 abstract class Tags extends CriterionHandler
 {
@@ -35,7 +36,7 @@ abstract class Tags extends CriterionHandler
                             'is_searchable',
                             'ezcontentclass_attribute'
                         ),
-                        $query->bindValue(1, null, \PDO::PARAM_INT)
+                        $query->bindValue(1, null, PDO::PARAM_INT)
                     ),
                     $query->expr->eq(
                         $this->dbHandler->quoteColumn(
@@ -53,7 +54,7 @@ abstract class Tags extends CriterionHandler
 
         $statement = $query->prepare();
         $statement->execute();
-        $fieldDefinitionIds = $statement->fetchAll(\PDO::FETCH_COLUMN);
+        $fieldDefinitionIds = $statement->fetchAll(PDO::FETCH_COLUMN);
 
         if (count($fieldDefinitionIds) === 0) {
             throw new InvalidArgumentException(

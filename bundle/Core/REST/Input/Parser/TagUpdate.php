@@ -11,7 +11,7 @@ use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
-class TagUpdate extends BaseParser
+final class TagUpdate extends BaseParser
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

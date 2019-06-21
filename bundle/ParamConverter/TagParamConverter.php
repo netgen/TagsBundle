@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter as ParamConv
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class TagParamConverter implements ParamConverterInterface
+final class TagParamConverter implements ParamConverterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

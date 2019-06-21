@@ -16,7 +16,7 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use stdClass;
 
-class TagsTest extends FieldTypeTest
+final class TagsTest extends FieldTypeTest
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject

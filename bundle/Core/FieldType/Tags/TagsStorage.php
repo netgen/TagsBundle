@@ -15,7 +15,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 /**
  * @property \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway
  */
-class TagsStorage extends GatewayBasedStorage
+final class TagsStorage extends GatewayBasedStorage
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

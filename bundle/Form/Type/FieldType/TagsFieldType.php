@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TagsFieldType extends AbstractType
+final class TagsFieldType extends AbstractType
 {
     /**
      * @var \eZ\Publish\API\Repository\FieldTypeService

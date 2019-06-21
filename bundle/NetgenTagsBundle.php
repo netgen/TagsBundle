@@ -9,7 +9,7 @@ use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProv
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class NetgenTagsBundle extends Bundle
+final class NetgenTagsBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {

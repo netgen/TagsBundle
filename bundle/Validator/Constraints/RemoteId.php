@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-class RemoteId extends Constraint
+final class RemoteId extends Constraint
 {
     /**
      * @var string

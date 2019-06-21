@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Form\DataMapper;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Symfony\Component\Form\DataMapperInterface;
 
-class TagUpdateStructDataMapper implements DataMapperInterface
+final class TagUpdateStructDataMapper implements DataMapperInterface
 {
     /**
      * @var string

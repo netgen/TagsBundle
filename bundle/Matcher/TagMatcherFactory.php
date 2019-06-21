@@ -14,7 +14,7 @@ use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class TagMatcherFactory extends ClassNameMatcherFactory
+final class TagMatcherFactory extends ClassNameMatcherFactory
 {
     use ContainerAwareTrait;
 

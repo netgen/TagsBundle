@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TagUpdateType extends AbstractType
+final class TagUpdateType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

@@ -20,7 +20,7 @@ use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
 use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 
-class TagsService implements TagsServiceInterface
+final class TagsService implements TagsServiceInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

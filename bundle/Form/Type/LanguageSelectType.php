@@ -8,7 +8,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LanguageSelectType extends AbstractType
+final class LanguageSelectType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

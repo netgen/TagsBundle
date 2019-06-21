@@ -22,7 +22,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use RuntimeException;
 
-class TagLimitationTypeTest extends Base
+final class TagLimitationTypeTest extends Base
 {
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler|\PHPUnit\Framework\MockObject\MockObject

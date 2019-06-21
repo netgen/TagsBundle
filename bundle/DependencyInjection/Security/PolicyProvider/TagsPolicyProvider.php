@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\YamlPolicyProvider;
 
-class TagsPolicyProvider extends YamlPolicyProvider
+final class TagsPolicyProvider extends YamlPolicyProvider
 {
     public function getFiles(): array
     {

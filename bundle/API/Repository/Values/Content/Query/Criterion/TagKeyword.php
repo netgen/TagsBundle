@@ -17,7 +17,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
  * - EQ: matches against one tag keyword
  * - LIKE: matches against a part of tag keyword
  */
-class TagKeyword extends Criterion
+final class TagKeyword extends Criterion
 {
     /**
      * @param string|null $operator

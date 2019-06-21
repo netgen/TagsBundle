@@ -10,7 +10,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 /**
  * Sets sort direction on Content Type ID for a content query.
  */
-class ContentTypeId extends SortClause
+final class ContentTypeId extends SortClause
 {
     public function __construct(string $sortDirection = Query::SORT_ASC)
     {

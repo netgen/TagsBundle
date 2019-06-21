@@ -8,7 +8,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Structs\SynonymCreateStruct as SynonymCreateStructConstraint;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SynonymCreateType extends AbstractType
+final class SynonymCreateType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

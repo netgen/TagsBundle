@@ -15,7 +15,7 @@ use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime;
 use PHPUnit\Framework\TestCase;
 
-class NetgenTagsRuntimeTest extends TestCase
+final class NetgenTagsRuntimeTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime

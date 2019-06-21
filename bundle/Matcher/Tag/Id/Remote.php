@@ -8,7 +8,7 @@ use eZ\Publish\Core\MVC\Symfony\View\View;
 use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\View\TagValueView;
 
-class Remote extends MultipleValued
+final class Remote extends MultipleValued
 {
     public function match(View $view): bool
     {

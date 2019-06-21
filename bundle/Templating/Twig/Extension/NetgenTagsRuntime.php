@@ -12,7 +12,7 @@ use eZ\Publish\Core\Helper\TranslationHelper;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-class NetgenTagsRuntime
+final class NetgenTagsRuntime
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

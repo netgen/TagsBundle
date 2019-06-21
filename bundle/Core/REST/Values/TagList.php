@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Core\REST\Values;
 
 use EzSystems\EzPlatformRest\Value;
 
-class TagList extends Value
+final class TagList extends Value
 {
     /**
      * @var \Netgen\TagsBundle\Core\REST\Values\RestTag[]

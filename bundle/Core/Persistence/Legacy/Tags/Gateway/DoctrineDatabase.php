@@ -15,7 +15,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use PDO;
 
-class DoctrineDatabase extends Gateway
+final class DoctrineDatabase extends Gateway
 {
     /**
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler

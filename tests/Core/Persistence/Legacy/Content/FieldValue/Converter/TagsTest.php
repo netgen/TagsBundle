@@ -14,7 +14,7 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use PHPUnit\Framework\TestCase;
 
-class TagsTest extends TestCase
+final class TagsTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
@@ -14,7 +13,7 @@ use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RelatedContentController extends Controller
+final class RelatedContentController extends Controller
 {
     /**
      * @var \Pagerfanta\Adapter\AdapterInterface
@@ -22,19 +21,13 @@ class RelatedContentController extends Controller
     private $adapter;
 
     /**
-     * @var \eZ\Publish\API\Repository\ContentTypeService
-     */
-    private $contentTypeService;
-
-    /**
      * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
      */
     private $sortClauseMapper;
 
-    public function __construct(AdapterInterface $adapter, ContentTypeService $contentTypeService, SortClauseMapper $sortClauseMapper)
+    public function __construct(AdapterInterface $adapter, SortClauseMapper $sortClauseMapper)
     {
         $this->adapter = $adapter;
-        $this->contentTypeService = $contentTypeService;
         $this->sortClauseMapper = $sortClauseMapper;
     }
 

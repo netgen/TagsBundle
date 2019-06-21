@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Validator\Constraints\Structs;
 
 use Symfony\Component\Validator\Constraint;
 
-class SynonymCreateStruct extends Constraint
+final class SynonymCreateStruct extends Constraint
 {
     public function validatedBy(): string
     {

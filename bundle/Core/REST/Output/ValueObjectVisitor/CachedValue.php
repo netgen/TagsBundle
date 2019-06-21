@@ -11,7 +11,7 @@ use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Visitor;
 use Symfony\Component\HttpFoundation\Request;
 
-class CachedValue extends ValueObjectVisitor
+final class CachedValue extends ValueObjectVisitor
 {
     use RequestStackAware;
 

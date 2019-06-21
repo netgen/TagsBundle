@@ -6,7 +6,6 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\SearchService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
@@ -21,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TagController extends Controller
+final class TagController extends Controller
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -32,11 +31,6 @@ class TagController extends Controller
      * @var \eZ\Publish\API\Repository\ContentTypeService
      */
     private $contentTypeService;
-
-    /**
-     * @var \eZ\Publish\API\Repository\SearchService
-     */
-    private $searchService;
 
     /**
      * @var \Symfony\Contracts\Translation\TranslatorInterface
@@ -51,13 +45,11 @@ class TagController extends Controller
     public function __construct(
         TagsService $tagsService,
         ContentTypeService $contentTypeService,
-        SearchService $searchService,
         TranslatorInterface $translator,
         AdapterInterface $tagChildrenAdapter
     ) {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
-        $this->searchService = $searchService;
         $this->translator = $translator;
         $this->tagChildrenAdapter = $tagChildrenAdapter;
     }

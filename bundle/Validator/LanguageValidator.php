@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class LanguageValidator extends ConstraintValidator
+final class LanguageValidator extends ConstraintValidator
 {
     /**
      * @var \eZ\Publish\API\Repository\LanguageService

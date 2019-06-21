@@ -15,7 +15,6 @@ services:
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.api.service.content_type"
-            - "@ezpublish.api.service.search"
             - "@translator"
             - "@eztags.pagerfanta.children_tags_adapter"
 
@@ -25,7 +24,6 @@ services:
         public: true
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
-            - "@ezpublish.api.service.content_type"
             - "@eztags.search.related_content.sort_service"
 
     eztags.admin.controller.synonym:

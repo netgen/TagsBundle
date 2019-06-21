@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Templating\Twig;
 
-class AdminGlobalVariable
+final class AdminGlobalVariable
 {
     /**
      * @var string

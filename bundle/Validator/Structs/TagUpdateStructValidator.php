@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Validator\Structs;
 
-use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Validator\Constraints\Language;
 use Netgen\TagsBundle\Validator\Constraints\RemoteId;
@@ -14,18 +13,8 @@ use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class TagUpdateStructValidator extends ConstraintValidator
+final class TagUpdateStructValidator extends ConstraintValidator
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
-
-    public function __construct(TagsService $tagsService)
-    {
-        $this->tagsService = $tagsService;
-    }
-
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof TagUpdateStructConstraint) {

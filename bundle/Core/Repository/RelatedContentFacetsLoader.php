@@ -11,7 +11,7 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
 
-class RelatedContentFacetsLoader
+final class RelatedContentFacetsLoader
 {
     /**
      * @var \Netgen\TagsBundle\Core\Repository\TagsService

@@ -9,7 +9,7 @@ use eZ\Publish\SPI\Persistence\ValueObject;
 /**
  * This class represents a value for updating a tag.
  */
-class UpdateStruct extends ValueObject
+final class UpdateStruct extends ValueObject
 {
     /**
      * Tag keywords in the target languages

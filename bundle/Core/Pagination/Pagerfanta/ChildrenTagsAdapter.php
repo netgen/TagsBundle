@@ -8,7 +8,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
 
-class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
+final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

@@ -12,7 +12,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use PDOException;
 use RuntimeException;
 
-class ExceptionConversion extends Gateway
+final class ExceptionConversion extends Gateway
 {
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway

@@ -12,7 +12,7 @@ use Pagerfanta\Adapter\AdapterInterface;
  * Pagerfanta adapter for content related to a tag.
  * Will return results as content objects.
  */
-class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
+final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

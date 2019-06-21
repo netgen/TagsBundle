@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\API\Repository\Values\User\Limitation;
 
 use eZ\Publish\API\Repository\Values\User\Limitation;
 
-class TagLimitation extends Limitation
+final class TagLimitation extends Limitation
 {
     public const TAG = 'Tag';
 

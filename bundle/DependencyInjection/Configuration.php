@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\DependencyInjection;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-class Configuration extends SiteAccessConfiguration
+final class Configuration extends SiteAccessConfiguration
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -35,11 +35,6 @@ class Configuration extends SiteAccessConfiguration
                         ->info('Default template used to generate tag view page')
                         ->cannotBeEmpty()
                         ->defaultValue('@NetgenTags/tag/view.html.twig')
-                    ->end()
-                    ->scalarNode('pagelayout')
-                        ->info('Default pagelayout used in tag view page. DEPRECATED in Tags Bundle 3.4 (and will be removed in 4.0) in favor of using the pagelayout configured in eZ Platform.')
-                        ->cannotBeEmpty()
-                        ->defaultValue('@eZDemo/pagelayout.html.twig')
                     ->end()
                     ->scalarNode('path_prefix')
                         ->info('Default path prefix to use when generating tag view links')

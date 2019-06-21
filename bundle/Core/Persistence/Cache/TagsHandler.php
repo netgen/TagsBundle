@@ -16,7 +16,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
-class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterface
+final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterface
 {
     private const ALL_TRANSLATIONS_KEY = '0';
 

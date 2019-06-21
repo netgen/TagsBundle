@@ -28,7 +28,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @todo Test with criterion target
  * @todo Test TagKeyword criterion with languages/translations
  */
-class HandlerContentTest extends LanguageAwareTestCase
+final class HandlerContentTest extends LanguageAwareTestCase
 {
     private static $setUp = false;
 

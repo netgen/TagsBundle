@@ -8,7 +8,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class FieldController extends Controller
+final class FieldController extends Controller
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

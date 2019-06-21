@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints;
 
-class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
+final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
 {
     /**
      * @var array

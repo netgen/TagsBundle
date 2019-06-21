@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService;
 
 use eZ\Publish\Core\SignalSlot\Signal;
 
-class DeleteTagSignal extends Signal
+final class DeleteTagSignal extends Signal
 {
     /**
      * Tag ID.

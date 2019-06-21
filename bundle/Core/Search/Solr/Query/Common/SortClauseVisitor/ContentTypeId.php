@@ -11,7 +11,7 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause\ContentType
 /**
  * Visits the sortClause tree into a Solr query.
  */
-class ContentTypeId extends SortClauseVisitor
+final class ContentTypeId extends SortClauseVisitor
 {
     public function canVisit(SortClause $sortClause): bool
     {

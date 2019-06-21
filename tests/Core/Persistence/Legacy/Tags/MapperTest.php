@@ -11,7 +11,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
-class MapperTest extends TestCase
+final class MapperTest extends TestCase
 {
     /**
      * Tags data from the database.

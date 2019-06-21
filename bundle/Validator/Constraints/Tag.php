@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-class Tag extends Constraint
+final class Tag extends Constraint
 {
     /**
      * @var string

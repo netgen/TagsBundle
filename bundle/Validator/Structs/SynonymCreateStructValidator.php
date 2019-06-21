@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class SynonymCreateStructValidator extends CreateStructValidator
+final class SynonymCreateStructValidator extends CreateStructValidator
 {
     public function validate($value, Constraint $constraint): void
     {

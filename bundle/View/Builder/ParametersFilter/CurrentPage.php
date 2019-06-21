@@ -10,7 +10,7 @@ use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Netgen\TagsBundle\Routing\TagRouter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CurrentPage implements EventSubscriberInterface
+final class CurrentPage implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {

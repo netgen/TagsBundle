@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Tests\Core\Repository\Values\Tags;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use PHPUnit\Framework\TestCase;
 
-class TagTest extends TestCase
+final class TagTest extends TestCase
 {
     /**
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::getProperties

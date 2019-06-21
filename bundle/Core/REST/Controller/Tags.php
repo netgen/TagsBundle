@@ -15,7 +15,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Values;
 use Symfony\Component\HttpFoundation\Request;
 
-class Tags extends RestController
+final class Tags extends RestController
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -305,6 +305,7 @@ class Tags extends RestController
         $destinationHref = $request->headers->get('Destination');
 
         try {
+            /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
@@ -345,6 +346,7 @@ class Tags extends RestController
         $destinationHref = $request->headers->get('Destination');
 
         try {
+            /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
@@ -388,6 +390,7 @@ class Tags extends RestController
         $destinationHref = $request->headers->get('Destination');
 
         try {
+            /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'
@@ -428,6 +431,7 @@ class Tags extends RestController
         $destinationHref = $request->headers->get('Destination');
 
         try {
+            /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
                 'tagPath'

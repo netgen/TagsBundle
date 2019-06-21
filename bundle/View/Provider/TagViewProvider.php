@@ -12,7 +12,7 @@ use eZ\Publish\Core\MVC\Symfony\View\ViewProvider;
 use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
-class TagViewProvider implements ViewProvider, SiteAccessAware
+final class TagViewProvider implements ViewProvider, SiteAccessAware
 {
     /**
      * @var \eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface

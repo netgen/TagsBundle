@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TranslationListType extends AbstractType
+final class TranslationListType extends AbstractType
 {
     /**
      * @var \eZ\Publish\API\Repository\LanguageService

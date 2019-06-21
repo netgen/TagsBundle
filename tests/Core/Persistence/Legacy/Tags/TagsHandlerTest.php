@@ -18,7 +18,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class TagsHandlerTest extends TestCase
+final class TagsHandlerTest extends TestCase
 {
     /**
      * Mocked tags gateway instance.

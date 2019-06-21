@@ -10,7 +10,7 @@ use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class RoutePrefixVoter implements VoterInterface
+final class RoutePrefixVoter implements VoterInterface
 {
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack

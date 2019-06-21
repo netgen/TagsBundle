@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Core\REST\Values;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use EzSystems\EzPlatformRest\Value;
 
-class CachedValue extends Value
+final class CachedValue extends Value
 {
     /**
      * Actual value object.

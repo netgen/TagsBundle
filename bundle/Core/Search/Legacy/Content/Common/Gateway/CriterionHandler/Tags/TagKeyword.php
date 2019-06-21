@@ -9,8 +9,9 @@ use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as TagKeywordCriterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
+use PDO;
 
-class TagKeyword extends Tags
+final class TagKeyword extends Tags
 {
     public function accept(Criterion $criterion): bool
     {
@@ -55,7 +56,7 @@ class TagKeyword extends Tags
                     ),
                     $subSelect->expr->eq(
                         $this->dbHandler->quoteColumn('status', 'eztags_keyword'),
-                        $subSelect->bindValue(1, null, \PDO::PARAM_INT)
+                        $subSelect->bindValue(1, null, PDO::PARAM_INT)
                     )
                 )
             );

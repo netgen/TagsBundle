@@ -8,7 +8,7 @@ use Pagerfanta\PagerfantaInterface;
 use Pagerfanta\View\ViewInterface;
 use Twig\Environment;
 
-class TagsAdminView implements ViewInterface
+final class TagsAdminView implements ViewInterface
 {
     /**
      * @var \Twig\Environment

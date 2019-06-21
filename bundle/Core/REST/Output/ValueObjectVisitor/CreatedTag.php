@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\Visitor;
 
-class CreatedTag extends RestTag
+final class CreatedTag extends RestTag
 {
     public function visit(Visitor $visitor, Generator $generator, $data): void
     {

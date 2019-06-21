@@ -14,7 +14,7 @@ use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-class Type extends FieldType
+final class Type extends FieldType
 {
     /**
      * Default edit view interface for content field.

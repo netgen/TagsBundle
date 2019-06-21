@@ -15,7 +15,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specificat
  * - IN: matches against a list of tag IDs (with OR operator)
  * - EQ: matches against one tag ID
  */
-class TagId extends Criterion
+final class TagId extends Criterion
 {
     /**
      * @param int|int[] $value One or more tag IDs that must be matched

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SynonymController extends Controller
+final class SynonymController extends Controller
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

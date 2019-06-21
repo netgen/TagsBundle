@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService;
 
 use eZ\Publish\Core\SignalSlot\Signal;
 
-class MoveSubtreeSignal extends Signal
+final class MoveSubtreeSignal extends Signal
 {
     /**
      * Source tag ID.

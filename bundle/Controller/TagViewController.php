@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Controller;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
 use Netgen\TagsBundle\View\TagView;
 
-class TagViewController extends Controller
+final class TagViewController extends Controller
 {
     /**
      * Action for rendering a tag view.

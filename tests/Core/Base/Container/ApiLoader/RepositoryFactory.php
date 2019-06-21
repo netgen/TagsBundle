@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
 
-class RepositoryFactory extends BaseRepositoryFactory
+final class RepositoryFactory extends BaseRepositoryFactory
 {
     public function __construct(
         $repositoryClass,

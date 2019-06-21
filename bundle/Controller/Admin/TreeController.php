@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TreeController extends Controller
+final class TreeController extends Controller
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

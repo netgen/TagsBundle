@@ -23,7 +23,7 @@ use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation as API
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as SPITagsPersistenceHandler;
 use RuntimeException;
 
-class TagLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
+final class TagLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
 {
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler

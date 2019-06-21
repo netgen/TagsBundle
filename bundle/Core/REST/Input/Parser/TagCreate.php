@@ -11,7 +11,7 @@ use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 
-class TagCreate extends BaseParser
+final class TagCreate extends BaseParser
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

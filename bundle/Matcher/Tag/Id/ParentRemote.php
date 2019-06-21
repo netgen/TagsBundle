@@ -10,7 +10,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\View\TagValueView;
 
-class ParentRemote extends MultipleValued
+final class ParentRemote extends MultipleValued
 {
     public function match(View $view): bool
     {

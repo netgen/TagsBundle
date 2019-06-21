@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
 use eZ\Publish\SPI\Persistence\ValueObject;
 
-class SearchResult extends ValueObject
+final class SearchResult extends ValueObject
 {
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]

@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class TagViewBuilder implements ViewBuilder
+final class TagViewBuilder implements ViewBuilder
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

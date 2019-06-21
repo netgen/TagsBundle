@@ -10,7 +10,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
 use PHPUnit\Framework\TestCase;
 
-class RelatedContentAdapterTest extends TestCase
+final class RelatedContentAdapterTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject

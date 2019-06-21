@@ -13,7 +13,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
-class DoctrineDatabaseTest extends TestCase
+final class DoctrineDatabaseTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway

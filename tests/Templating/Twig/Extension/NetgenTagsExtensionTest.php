@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class NetgenTagsExtensionTest extends TestCase
+final class NetgenTagsExtensionTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension

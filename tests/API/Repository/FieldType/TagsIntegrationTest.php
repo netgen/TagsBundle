@@ -15,7 +15,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Constraint\TraversableContains;
 use stdClass;
 
-class TagsIntegrationTest extends BaseIntegrationTest
+final class TagsIntegrationTest extends BaseIntegrationTest
 {
     public function getTypeName(): string
     {

@@ -12,7 +12,7 @@ use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RelatedContentPager implements EventSubscriberInterface
+final class RelatedContentPager implements EventSubscriberInterface
 {
     /**
      * @var \Pagerfanta\Adapter\AdapterInterface

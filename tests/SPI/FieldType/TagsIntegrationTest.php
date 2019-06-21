@@ -17,7 +17,7 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags as TagsConverter;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 
-class TagsIntegrationTest extends BaseIntegrationTest
+final class TagsIntegrationTest extends BaseIntegrationTest
 {
     /**
      * Property indicating whether the DB already has been set up.

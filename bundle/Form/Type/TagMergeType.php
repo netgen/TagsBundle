@@ -8,7 +8,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TagMergeType extends AbstractType
+final class TagMergeType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

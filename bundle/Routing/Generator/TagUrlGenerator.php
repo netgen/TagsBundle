@@ -16,7 +16,7 @@ use Symfony\Component\Routing\RouterInterface;
  *
  * @see \Netgen\TagsBundle\Routing\TagRouter
  */
-class TagUrlGenerator extends Generator
+final class TagUrlGenerator extends Generator
 {
     public const INTERNAL_TAG_ROUTE = '_eztagsTag';
 

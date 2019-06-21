@@ -8,7 +8,7 @@ use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use eZ\Publish\API\Repository\Tests\Values\User\Limitation\BaseLimitationTest;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 
-class TagLimitationTest extends BaseLimitationTest
+final class TagLimitationTest extends BaseLimitationTest
 {
     public function testTagLimitationAllow(): void
     {

@@ -10,7 +10,7 @@ use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as TagIdCriterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
-class TagId extends Tags
+final class TagId extends Tags
 {
     public function accept(Criterion $criterion): bool
     {

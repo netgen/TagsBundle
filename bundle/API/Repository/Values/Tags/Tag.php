@@ -23,7 +23,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  * @property-read string $mainLanguageCode The main language code of the Tag object
  * @property-read string[] $languageCodes List of languages in this Tag object
  */
-class Tag extends ValueObject
+final class Tag extends ValueObject
 {
     /**
      * Tag ID.

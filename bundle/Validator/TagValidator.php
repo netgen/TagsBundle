@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class TagValidator extends ConstraintValidator
+final class TagValidator extends ConstraintValidator
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

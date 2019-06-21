@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class SetPageLayoutListener implements EventSubscriberInterface
+final class SetPageLayoutListener implements EventSubscriberInterface
 {
     /**
      * @var \Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable

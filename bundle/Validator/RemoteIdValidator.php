@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class RemoteIdValidator extends ConstraintValidator
+final class RemoteIdValidator extends ConstraintValidator
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

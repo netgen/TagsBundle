@@ -8,7 +8,7 @@ use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Visitor;
 
-class TagList extends ValueObjectVisitor
+final class TagList extends ValueObjectVisitor
 {
     public function visit(Visitor $visitor, Generator $generator, $data): void
     {

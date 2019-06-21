@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class TagViewBuilderPass implements CompilerPassInterface
+final class TagViewBuilderPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

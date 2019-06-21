@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection;
 
-class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
+final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
     public const TAG_URL_ROUTE_NAME = 'eztags_tag_url';
 
@@ -80,14 +80,14 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         $pathPrefix = $this->generator->getPathPrefix();
 
         if (mb_stripos($requestedPath, $pathPrefix) !== 0) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException('Route not found');
         }
 
         $requestedPath = $this->removePathPrefix($requestedPath, $pathPrefix);
         $requestedPath = trim($requestedPath, '/');
 
         if ($requestedPath === '') {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException('Route not found');
         }
 
         $tag = $this->tagsService->sudo(

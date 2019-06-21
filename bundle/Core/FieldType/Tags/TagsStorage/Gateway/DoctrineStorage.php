@@ -11,7 +11,7 @@ use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use PDO;
 
-class DoctrineStorage extends Gateway
+final class DoctrineStorage extends Gateway
 {
     /**
      * Connection.

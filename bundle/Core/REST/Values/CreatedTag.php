@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Core\REST\Values;
 
 use EzSystems\EzPlatformRest\Value;
 
-class CreatedTag extends Value
+final class CreatedTag extends Value
 {
     /**
      * @var \Netgen\TagsBundle\Core\REST\Values\RestTag

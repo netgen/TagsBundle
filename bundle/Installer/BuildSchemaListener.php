@@ -8,7 +8,7 @@ use EzSystems\DoctrineSchema\API\Event\SchemaBuilderEvent;
 use EzSystems\DoctrineSchema\API\Event\SchemaBuilderEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class BuildSchemaListener implements EventSubscriberInterface
+final class BuildSchemaListener implements EventSubscriberInterface
 {
     /**
      * @var string

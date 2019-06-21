@@ -9,7 +9,7 @@ use eZ\Publish\SPI\Persistence\ValueObject;
 /**
  * Class representing a tag info (basically a tag without keywords).
  */
-class TagInfo extends ValueObject
+final class TagInfo extends ValueObject
 {
     /**
      * Tag ID.

@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints;
 
-class TagTreeType extends AbstractType
+final class TagTreeType extends AbstractType
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

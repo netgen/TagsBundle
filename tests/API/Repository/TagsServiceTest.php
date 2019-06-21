@@ -9,7 +9,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 /**
  * Test case for Tags Service using Legacy storage class.
  */
-class TagsServiceTest extends BaseTagsServiceTest
+final class TagsServiceTest extends BaseTagsServiceTest
 {
     protected function setUp(): void
     {

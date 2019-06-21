@@ -17,7 +17,7 @@ use Netgen\TagsBundle\Core\Repository\TagsService;
  * A Test Factory is used to setup the infrastructure for a tests, based on a
  * specific repository implementation to test.
  */
-class Legacy extends BaseLegacy
+final class Legacy extends BaseLegacy
 {
     /**
      * Initial data for eztags field type.

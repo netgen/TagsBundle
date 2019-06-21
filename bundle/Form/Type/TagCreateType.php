@@ -9,7 +9,7 @@ use Netgen\TagsBundle\Validator\Constraints\Structs\TagCreateStruct as TagCreate
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TagCreateType extends AbstractType
+final class TagCreateType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

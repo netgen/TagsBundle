@@ -11,7 +11,7 @@ use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 
-class TagSynonymCreate extends BaseParser
+final class TagSynonymCreate extends BaseParser
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -36,7 +36,7 @@ class TagSynonymCreate extends BaseParser
         }
 
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(
-            null,
+            0,
             $data['mainLanguageCode']
         );
 

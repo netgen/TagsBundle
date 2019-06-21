@@ -6,8 +6,6 @@ services:
 
     eztags.validator.tag_update_struct:
         class: Netgen\TagsBundle\Validator\Structs\TagUpdateStructValidator
-        arguments:
-            - "@eztags.api.service.tags"
         tags:
             - { name: validator.constraint_validator, alias: eztags_tag_update_struct }
 

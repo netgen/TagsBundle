@@ -23,7 +23,7 @@ use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
 use Netgen\TagsBundle\Core\SignalSlot\TagsService;
 use PHPUnit\Framework\TestCase;
 
-class TagsServiceTest extends TestCase
+final class TagsServiceTest extends TestCase
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
