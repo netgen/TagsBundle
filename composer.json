@@ -25,7 +25,7 @@
         "ezsystems/ezplatform-rest": "^1.0",
         "ezsystems/repository-forms": "^3.0",
         "ezsystems/ezplatform-solr-search-engine": "^2.0",
-        "lolautruche/ez-core-extra-bundle": "dev-master",
+        "lolautruche/ez-core-extra-bundle": "^2.2.2",
         "twig/twig": "^2.11.2"
     },
     "require-dev": {
