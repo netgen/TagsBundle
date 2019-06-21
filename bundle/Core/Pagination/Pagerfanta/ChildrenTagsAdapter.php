@@ -37,9 +37,7 @@ final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 
     public function getNbResults(): int
     {
-        if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getTagChildrenCount($this->tag);
-        }
+        $this->nbResults = $this->nbResults ?? $this->tagsService->getTagChildrenCount($this->tag);
 
         return $this->nbResults;
     }
@@ -48,9 +46,7 @@ final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
     {
         $childrenTags = $this->tagsService->loadTagChildren($this->tag, $offset, $length);
 
-        if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getTagChildrenCount($this->tag);
-        }
+        $this->nbResults = $this->nbResults ?? $this->tagsService->getTagChildrenCount($this->tag);
 
         return $childrenTags;
     }

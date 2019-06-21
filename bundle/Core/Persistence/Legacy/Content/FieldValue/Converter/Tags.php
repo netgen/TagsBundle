@@ -31,18 +31,9 @@ final class Tags implements Converter
 
     public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
-        $storageDef->dataInt1 = isset($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit']) ?
-            (int) $fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit'] :
-            0;
-
-        $storageDef->dataInt3 = isset($fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag']) ?
-            (int) $fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] :
-            0;
-
-        $storageDef->dataInt4 = isset($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags']) ?
-            (int) $fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags'] :
-            0;
-
+        $storageDef->dataInt1 = (int) ($fieldDef->fieldTypeConstraints->validators[self::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit'] ?? 0);
+        $storageDef->dataInt3 = (int) ($fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] ?? 0);
+        $storageDef->dataInt4 = (int) ($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags'] ?? 0);
         $storageDef->dataText1 = $fieldDef->fieldTypeConstraints->fieldSettings['editView'] ?? Type::EDIT_VIEW_DEFAULT_VALUE;
     }
 

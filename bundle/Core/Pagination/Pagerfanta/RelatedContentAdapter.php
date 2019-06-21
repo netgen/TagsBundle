@@ -77,9 +77,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
             return 0;
         }
 
-        if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
-        }
+        $this->nbResults = $this->nbResults ?? $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
 
         return $this->nbResults;
     }
@@ -99,9 +97,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
             $this->sortClauses
         );
 
-        if (!isset($this->nbResults)) {
-            $this->nbResults = $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
-        }
+        $this->nbResults = $this->nbResults ?? $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);
 
         return $relatedContent;
     }
