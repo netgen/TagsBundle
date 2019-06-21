@@ -193,7 +193,7 @@ class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterfac
         $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         $tagInfo = $this->loadTagInfo($tagId);
-        $synonyms = $this->tagsHandler->loadSynonyms($tagId, 0, null, $translations, $useAlwaysAvailable);
+        $synonyms = $this->tagsHandler->loadSynonyms($tagId, 0, -1, $translations, $useAlwaysAvailable);
 
         $cacheItem->set($synonyms);
         $cacheTags = [$this->getCacheTags($tagInfo->id, $tagInfo->pathString)];

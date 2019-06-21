@@ -549,7 +549,7 @@ class TagController extends Controller
 
         $tags = [];
         foreach ($tagIds as $tagId) {
-            $tags[] = $this->tagsService->loadTag($tagId);
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
         }
 
         $form = $this->createForm(
@@ -610,7 +610,7 @@ class TagController extends Controller
 
         $tags = [];
         foreach ($tagIds as $tagId) {
-            $tags[] = $this->tagsService->loadTag($tagId);
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
         }
 
         $form = $this->createForm(
@@ -671,7 +671,7 @@ class TagController extends Controller
 
         $tags = [];
         foreach ($tagIds as $tagId) {
-            $tags[] = $this->tagsService->loadTag($tagId);
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
         }
 
         if ($request->request->has('DeleteTagsButton')) {

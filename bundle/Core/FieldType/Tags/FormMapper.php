@@ -106,7 +106,6 @@ class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMa
                 ChoiceType::class,
                 [
                     'choices' => $editViewChoices,
-                    'choices_as_values' => true,
                     'required' => true,
                     'property_path' => 'fieldSettings[editView]',
                     'label' => 'field_definition.eztags.settings.edit_view',

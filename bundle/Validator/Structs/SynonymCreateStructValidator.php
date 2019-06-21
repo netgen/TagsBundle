@@ -36,7 +36,7 @@ class SynonymCreateStructValidator extends CreateStructValidator
         $validator->atPath('mainTagId')->validate(
             $value->mainTagId,
             [
-                new Constraints\Type(['type' => 'numeric']),
+                new Constraints\Type(['type' => 'int']),
                 new Constraints\NotBlank(),
                 new Tag(['allowRootTag' => false]),
             ]

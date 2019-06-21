@@ -57,7 +57,7 @@ class NetgenTagsRuntime
     {
         if (!$tag instanceof Tag) {
             try {
-                $tag = $this->tagsService->loadTag($tag);
+                $tag = $this->tagsService->loadTag((int) $tag);
             } catch (NotFoundException $e) {
                 return '';
             }

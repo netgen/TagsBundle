@@ -67,7 +67,6 @@ class TranslationListType extends AbstractType
                 [
                     'tag' => null,
                     'choices' => $choices,
-                    'choices_as_values' => true,
                     'expanded' => true,
                     'multiple' => false,
                     'label' => false,

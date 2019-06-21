@@ -214,9 +214,9 @@ class Type extends FieldType
             foreach ($constraints as $name => $value) {
                 switch ($name) {
                     case 'subTreeLimit':
-                        if (!is_numeric($value)) {
+                        if (!is_int($value)) {
                             $validationErrors[] = new ValidationError(
-                                "Validator parameter '%parameter%' value must be of numeric type",
+                                "Validator parameter '%parameter%' value must be of int type",
                                 null,
                                 [
                                     '%parameter%' => $name,

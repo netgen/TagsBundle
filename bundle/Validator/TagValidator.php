@@ -49,7 +49,7 @@ class TagValidator extends ConstraintValidator
         try {
             $tag = $this->tagsService->sudo(
                 static function (TagsService $tagsService) use ($value): APITag {
-                    return $tagsService->loadTag($value);
+                    return $tagsService->loadTag((int) $value);
                 }
             );
 

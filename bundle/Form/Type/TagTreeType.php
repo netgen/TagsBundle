@@ -7,7 +7,9 @@ namespace Netgen\TagsBundle\Form\Type;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Validator\Constraints\Tag as TagConstraint;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
@@ -42,7 +44,7 @@ class TagTreeType extends AbstractType
                     'disableSubtree' => [],
                     'constraints' => static function (Options $options): array {
                         return [
-                            new Constraints\Type(['type' => 'numeric']),
+                            new Constraints\Type(['type' => 'int']),
                             new Constraints\NotBlank(),
                             new TagConstraint(['allowRootTag' => $options['allowRootTag']]),
                         ];
@@ -51,12 +53,29 @@ class TagTreeType extends AbstractType
             );
     }
 
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->addModelTransformer(
+            new class() implements DataTransformerInterface {
+                public function transform($value)
+                {
+                    return $value;
+                }
+
+                public function reverseTransform($value)
+                {
+                    return (int) $value;
+                }
+            }
+        );
+    }
+
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $tag = null;
         if ($form->getData() !== null) {
             try {
-                $tag = $this->tagsService->loadTag($form->getData());
+                $tag = $this->tagsService->loadTag((int) $form->getData());
             } catch (NotFoundException $e) {
                 // Do nothing
             }

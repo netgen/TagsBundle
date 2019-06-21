@@ -40,7 +40,7 @@ class TagParamConverter implements ParamConverterInterface
                 continue;
             }
 
-            if (in_array($request->attributes->get($source), [0, 0.0, '', null, false], true)) {
+            if (in_array($request->attributes->get($source), ['0', 0, 0.0, '', null, false], true)) {
                 if ($configuration->isOptional()) {
                     continue;
                 }
@@ -53,7 +53,7 @@ class TagParamConverter implements ParamConverterInterface
             $request->attributes->set(
                 $destination,
                 $this->tagsService->loadTag(
-                    $request->attributes->get($source)
+                    (int) $request->attributes->get($source)
                 )
             );
         }
