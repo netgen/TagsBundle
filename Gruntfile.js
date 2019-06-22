@@ -81,11 +81,17 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('serve', 'Start the server and preview your app', function () {
+    grunt.registerTask('build', 'Builds the app', function () {
         grunt.task.run([
             'lockfile',
             'sass:dist',
-            'postcss',
+            'postcss'
+        ]);
+    });
+
+    grunt.registerTask('serve', 'Start the server and preview your app', function () {
+        grunt.task.run([
+            'build',
             'watch'
         ]);
     });
