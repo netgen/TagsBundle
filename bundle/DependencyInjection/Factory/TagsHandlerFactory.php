@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\DependencyInjection\Factory;
 
-use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
