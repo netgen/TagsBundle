@@ -20,7 +20,7 @@ final class TagKeyword extends Tags
 
     public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, ?array $fieldFilters = null): string
     {
-        /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue $valueData */
+        /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue|null $valueData */
         $valueData = $criterion->valueData;
 
         $subSelect = $query->subSelect();

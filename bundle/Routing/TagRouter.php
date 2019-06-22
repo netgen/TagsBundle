@@ -72,7 +72,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * Sets the currently available languages to the router.
      */
-    public function setLanguages(?array $languages = null)
+    public function setLanguages(?array $languages = null): void
     {
         $this->languages = $languages ?? [];
     }

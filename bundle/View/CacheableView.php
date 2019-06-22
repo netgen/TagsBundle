@@ -11,12 +11,10 @@ interface CacheableView
      *
      * @param bool $cacheEnabled
      */
-    public function setCacheEnabled($cacheEnabled);
+    public function setCacheEnabled($cacheEnabled): void;
 
     /**
      * Indicates if cache is enabled or not.
-     *
-     * @return bool
      */
-    public function isCacheEnabled();
+    public function isCacheEnabled(): bool;
 }

@@ -34,7 +34,7 @@ final class SynonymController extends Controller
      * It renders a form to select language for the keyword of new synonym.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param int $mainTagId
+     * @param mixed $mainTagId
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -86,7 +86,7 @@ final class SynonymController extends Controller
      * After form is being submitted, it stores new synonym and redirects to it.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param int $mainTagId
+     * @param mixed $mainTagId
      * @param string $languageCode
      *
      * @return \Symfony\Component\HttpFoundation\Response

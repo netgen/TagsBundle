@@ -1,5 +1,6 @@
 includes:
     - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
     ignoreErrors:
@@ -17,3 +18,15 @@ parameters:
 
         # Tags Bundle specifics
         - '#Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value::__construct\(\) does not call parent constructor#'
+        - '#Method .*::getRelatedContent\(\) should return .* but returns .*#'
+
+        # Errors caused by public properties in eZ Platform
+        - '#Call to function is_string\(\) with string will always evaluate to true.#'
+        - '#Call to function is_array\(\) with array(<.*>)? will always evaluate to true.#'
+        - '#Call to function is_bool\(\) with bool will always evaluate to true.#'
+        - '#Instanceof between (.*) and (.*) will always evaluate to true.#'
+        - "#Casting to array something that's already array.#"
+        - "#Casting to bool something that's already bool.#"
+        - "#Casting to int something that's already int.#"
+        - '#should be contravariant with parameter#'
+        - '#should be covariant with return type#'

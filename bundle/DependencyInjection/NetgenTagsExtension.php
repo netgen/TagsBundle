@@ -52,7 +52,7 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         $loader->load('ezadminui/services.yml');
 
         $persistenceCache = 'disabled';
-        if ($container->getParameter('eztags.enable_persistence_cache')) {
+        if ($container->getParameter('eztags.enable_persistence_cache') === true) {
             $persistenceCache = 'psr6';
         }
 

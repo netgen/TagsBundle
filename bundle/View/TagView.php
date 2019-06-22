@@ -14,6 +14,11 @@ final class TagView extends BaseView implements TagValueView, CacheableView
      */
     private $tag;
 
+    /**
+     * @var bool
+     */
+    private $isCacheEnabled = true;
+
     public function setTag(Tag $tag): void
     {
         $this->tag = $tag;
@@ -22,6 +27,16 @@ final class TagView extends BaseView implements TagValueView, CacheableView
     public function getTag(): Tag
     {
         return $this->tag;
+    }
+
+    public function setCacheEnabled($cacheEnabled): void
+    {
+        $this->isCacheEnabled = (bool) $cacheEnabled;
+    }
+
+    public function isCacheEnabled(): bool
+    {
+        return $this->isCacheEnabled;
     }
 
     protected function getInternalParameters(): array

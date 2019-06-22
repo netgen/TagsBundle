@@ -17,7 +17,7 @@ use Pagerfanta\Adapter\AdapterInterface;
 class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
      */
     private $tag;
 

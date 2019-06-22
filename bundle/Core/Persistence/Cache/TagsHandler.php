@@ -52,7 +52,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
                 return $this->tagsHandler->load($tagId, $translations, $useAlwaysAvailable);
             },
             static function (Tag $tag): array {
-                $tags[] = 'tag-' . $tag->id;
+                $tags = ['tag-' . $tag->id];
                 foreach (explode('/', trim($tag->pathString, '/')) as $pathId) {
                     $tags[] = 'tag-path-' . $pathId;
                 }
@@ -83,7 +83,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
                 return $this->tagsHandler->loadList($tagIds, $translations, $useAlwaysAvailable);
             },
             static function (Tag $tag): array {
-                $tags[] = 'tag-' . $tag->id;
+                $tags = ['tag-' . $tag->id];
                 foreach (explode('/', trim($tag->pathString, '/')) as $pathId) {
                     $tags[] = 'tag-path-' . $pathId;
                 }

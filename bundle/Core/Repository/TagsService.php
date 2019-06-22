@@ -28,6 +28,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
+use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
 /**
@@ -119,7 +120,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $keywordArray = explode('/', trim($url, '/'));
-        if (!is_array($keywordArray) || count($keywordArray) === 0) {
+        if (count($keywordArray) === 0) {
             throw new InvalidArgumentValue('url', $url);
         }
 
@@ -301,11 +302,6 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException('tags', 'read');
         }
 
-        $method = 'findContent';
-        if ($returnContentInfo) {
-            $method = 'findContentInfo';
-        }
-
         $criteria = [new TagId($tag->id)];
         $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
 
@@ -315,16 +311,18 @@ class TagsService implements TagsServiceInterface
             ];
         }
 
-        $searchResult = $this->repository->getSearchService()->{$method}(
-            new Query(
-                [
-                    'offset' => $offset,
-                    'limit' => $limit > 0 ? $limit : 1000000,
-                    'filter' => $filter,
-                    'sortClauses' => $sortClauses,
-                ]
-            )
+        $query = new Query(
+            [
+                'offset' => $offset,
+                'limit' => $limit > 0 ? $limit : 1000000,
+                'filter' => $filter,
+                'sortClauses' => $sortClauses,
+            ]
         );
+
+        $searchResult = $returnContentInfo ?
+            $this->repository->getSearchService()->findContentInfo($query) :
+            $this->repository->getSearchService()->findContent($query);
 
         $content = [];
         foreach ($searchResult->searchHits as $searchHit) {
@@ -371,7 +369,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('mainLanguageCode', $tagCreateStruct->mainLanguageCode, 'TagCreateStruct');
         }
 
-        if (!is_array($keywords) || count($keywords) === 0) {
+        if (count($keywords) === 0) {
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
@@ -433,15 +431,9 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException('tags', 'editsynonym');
         }
 
-        if ($keywords !== null && (!is_array($keywords) || count($keywords) === 0)) {
-            throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
-        }
-
-        if ($keywords !== null) {
-            foreach ($keywords as $keyword) {
-                if (!is_string($keyword) || $keyword === '') {
-                    throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
-                }
+        foreach ($keywords as $keyword) {
+            if (!is_string($keyword) || $keyword === '') {
+                throw new InvalidArgumentValue('keywords', $keywords, 'TagUpdateStruct');
             }
         }
 
@@ -472,7 +464,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $newKeywords = $spiTag->keywords;
-        if ($keywords !== null) {
+        if (count($keywords) > 0) {
             $newKeywords = $keywords;
         }
 
@@ -485,7 +477,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $updateStruct = new UpdateStruct();
-        $updateStruct->keywords = $newKeywords ?? $spiTag->keywords;
+        $updateStruct->keywords = $newKeywords;
         $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim($tagUpdateStruct->remoteId) : $spiTag->remoteId;
         $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim($tagUpdateStruct->mainLanguageCode) : $spiTag->mainLanguageCode;
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable ?? $spiTag->alwaysAvailable;
@@ -521,7 +513,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('mainLanguageCode', $synonymCreateStruct->mainLanguageCode, 'SynonymCreateStruct');
         }
 
-        if (!is_array($keywords) || count($keywords) === 0) {
+        if (count($keywords) === 0) {
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
@@ -685,7 +677,7 @@ class TagsService implements TagsServiceInterface
         try {
             $copiedTag = $this->tagsHandler->copySubtree(
                 $spiTagInfo->id,
-                $spiParentTagInfo ? $spiParentTagInfo->id : 0
+                $spiParentTagInfo instanceof TagInfo ? $spiParentTagInfo->id : 0
             );
             $this->repository->commit();
         } catch (Exception $e) {
@@ -735,7 +727,7 @@ class TagsService implements TagsServiceInterface
         try {
             $movedTag = $this->tagsHandler->moveSubtree(
                 $spiTagInfo->id,
-                $spiParentTagInfo ? $spiParentTagInfo->id : 0
+                $spiParentTagInfo instanceof TagInfo ? $spiParentTagInfo->id : 0
             );
             $this->repository->commit();
         } catch (Exception $e) {

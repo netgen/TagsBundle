@@ -42,23 +42,13 @@ final class TranslationListType extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $choices = [];
-
-        if (method_exists($this->languageService, 'loadLanguageListByCode')) {
-            $choices = iterator_to_array(
-                (function (): Generator {
-                    foreach ($this->languageService->loadLanguageListByCode($this->languages) as $language) {
-                        yield $language->name => $language->languageCode;
-                    }
-                })()
-            );
-        } else {
-            foreach ($this->languages as $language) {
-                $choices += [
-                    $this->languageService->loadLanguage($language)->name => $language,
-                ];
-            }
-        }
+        $choices = iterator_to_array(
+            (function (): Generator {
+                foreach ($this->languageService->loadLanguageListByCode($this->languages) as $language) {
+                    yield $language->name => $language->languageCode;
+                }
+            })()
+        );
 
         $resolver
             ->setRequired('tag')

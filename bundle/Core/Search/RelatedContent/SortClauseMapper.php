@@ -10,6 +10,9 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause\ContentType
 
 final class SortClauseMapper
 {
+    /**
+     * @var array
+     */
     private static $allowedSortOptions = [
         'content_id_ascending',
         'content_id_descending',

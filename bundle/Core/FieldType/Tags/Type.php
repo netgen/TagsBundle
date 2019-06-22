@@ -250,7 +250,7 @@ final class Type extends FieldType
                             );
                         }
 
-                        if ($value > 0 && !$this->tagsService->loadTagList([$value])) {
+                        if ($value > 0 && count($this->tagsService->loadTagList([$value])) === 0) {
                             $validationErrors[] = new ValidationError(
                                 "Validator parameter '%parameter%' value must be an existing tag ID",
                                 null,

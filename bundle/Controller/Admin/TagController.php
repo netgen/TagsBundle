@@ -160,7 +160,7 @@ final class TagController extends Controller
         $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
 
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
-            $parentTag ? $parentTag->id : 0,
+            $parentTag instanceof Tag ? $parentTag->id : 0,
             $languageCode
         );
 

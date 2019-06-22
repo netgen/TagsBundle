@@ -49,7 +49,7 @@ final class NetgenTagsRuntime
     /**
      * Returns tag keyword for provided tag ID or tag object.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|int $tag
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|int|string $tag
      *
      * @return string
      */

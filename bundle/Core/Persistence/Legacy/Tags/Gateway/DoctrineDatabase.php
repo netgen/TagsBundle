@@ -58,7 +58,9 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        if ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if (is_array($row)) {
             return $row;
         }
 
@@ -81,7 +83,9 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
-        if ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if (is_array($row)) {
             return $row;
         }
 
@@ -757,7 +761,7 @@ final class DoctrineDatabase extends Gateway
             // Prefixing ensures correct replacement when there is no parent
             $newPathString = str_replace(
                 'prefix' . $oldParentPathString,
-                $destinationParentTagData ?
+                is_array($destinationParentTagData) ?
                     $destinationParentTagData['path_string'] :
                     '/',
                 'prefix' . $row['path_string']
@@ -806,7 +810,7 @@ final class DoctrineDatabase extends Gateway
                 $query->expr->lOr(
                     $query->expr->like(
                         $this->handler->quoteColumn('path_string'),
-                        $query->bindValue('%/' . (int) $tagId . '/%', null, PDO::PARAM_STR)
+                        $query->bindValue('%/' . $tagId . '/%', null, PDO::PARAM_STR)
                     ),
                     $query->expr->eq(
                         $this->handler->quoteColumn('main_tag_id'),

@@ -195,7 +195,7 @@ class TagsService implements TagsServiceInterface
             new CopySubtreeSignal(
                 [
                     'sourceTagId' => $tag->id,
-                    'targetParentTagId' => $targetParentTag ?
+                    'targetParentTagId' => $targetParentTag instanceof Tag ?
                         $targetParentTag->id :
                         0,
                     'newTagId' => $returnValue->id,
@@ -213,7 +213,7 @@ class TagsService implements TagsServiceInterface
             new MoveSubtreeSignal(
                 [
                     'sourceTagId' => $tag->id,
-                    'targetParentTagId' => $targetParentTag ?
+                    'targetParentTagId' => $targetParentTag instanceof Tag ?
                         $targetParentTag->id :
                         0,
                 ]
