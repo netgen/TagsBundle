@@ -19,7 +19,6 @@ final class RelatedContentAdapterTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->tagsService = $this->createMock(TagsService::class);
     }
 

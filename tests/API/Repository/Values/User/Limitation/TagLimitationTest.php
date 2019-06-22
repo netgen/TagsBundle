@@ -24,8 +24,6 @@ final class TagLimitationTest extends BaseLimitationTest
         $roleService = $repository->getRoleService();
 
         $role = $roleService->createRole($roleService->newRoleCreateStruct('Tags editor'));
-        $roleService->publishRoleDraft($role);
-        $role = $roleService->loadRole($role->id);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'add');
         $policyCreateStruct->addLimitation(
@@ -36,13 +34,16 @@ final class TagLimitationTest extends BaseLimitationTest
             )
         );
 
-        $role = $roleService->addPolicy($role, $policyCreateStruct);
+        $role = $roleService->addPolicyByRoleDraft($role, $policyCreateStruct);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'read');
-        $role = $roleService->addPolicy($role, $policyCreateStruct);
+        $role = $roleService->addPolicyByRoleDraft($role, $policyCreateStruct);
+
+        $roleService->publishRoleDraft($role);
+        $role = $roleService->loadRole($role->id);
 
         $roleService->assignRoleToUser($role, $user);
-        $repository->setCurrentUser($user);
+        $repository->getPermissionResolver()->setCurrentUserReference($user);
 
         $tagCreateStruct = $tagsService->newTagCreateStruct(
             $tagsService->loadTag(47)->id,
@@ -76,8 +77,6 @@ final class TagLimitationTest extends BaseLimitationTest
         $roleService = $repository->getRoleService();
 
         $role = $roleService->createRole($roleService->newRoleCreateStruct('Tags editor'));
-        $roleService->publishRoleDraft($role);
-        $role = $roleService->loadRole($role->id);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'add');
         $policyCreateStruct->addLimitation(
@@ -87,13 +86,16 @@ final class TagLimitationTest extends BaseLimitationTest
                 ]
             )
         );
-        $role = $roleService->addPolicy($role, $policyCreateStruct);
+        $role = $roleService->addPolicyByRoleDraft($role, $policyCreateStruct);
 
         $policyCreateStruct = $roleService->newPolicyCreateStruct('tags', 'read');
-        $role = $roleService->addPolicy($role, $policyCreateStruct);
+        $role = $roleService->addPolicyByRoleDraft($role, $policyCreateStruct);
+
+        $roleService->publishRoleDraft($role);
+        $role = $roleService->loadRole($role->id);
 
         $roleService->assignRoleToUser($role, $user);
-        $repository->setCurrentUser($user);
+        $repository->getPermissionResolver()->setCurrentUserReference($user);
 
         $tagCreateStruct = $tagsService->newTagCreateStruct(
             $tagsService->loadTag(50)->id,

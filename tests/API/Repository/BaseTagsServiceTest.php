@@ -208,7 +208,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTag(40);
     }
 
@@ -256,7 +256,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
     }
 
@@ -302,7 +302,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagByUrl('ez publish/extensions/eztags', ['eng-GB']);
     }
 
@@ -346,7 +346,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagChildren(
             new Tag(
                 ['id' => 16]
@@ -385,7 +385,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getTagChildrenCount(
             new Tag(
                 ['id' => 16]
@@ -416,7 +416,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagsByKeyword('eztags', 'eng-GB');
     }
 
@@ -438,7 +438,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getTagsByKeywordCount('eztags', 'eng-GB');
     }
 
@@ -479,7 +479,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagSynonyms(
             new Tag(
                 ['id' => 94]
@@ -520,7 +520,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getTagSynonymCount(
             new Tag(
                 ['id' => 94]
@@ -573,7 +573,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getRelatedContent(
             new Tag(
                 ['id' => 40]
@@ -627,7 +627,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getRelatedContentCount(
             new Tag(
                 ['id' => 40]
@@ -746,7 +746,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
 
         $createStruct = $this->tagsService->newTagCreateStruct(40, 'eng-GB');
         $createStruct->remoteId = 'New remote ID';
@@ -887,7 +887,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
         $updateStruct->setKeyword('New keyword');
@@ -911,7 +911,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
         $updateStruct->setKeyword('New keyword');
@@ -1010,7 +1010,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $createStruct = $this->tagsService->newSynonymCreateStruct(40, 'eng-GB');
         $createStruct->setKeyword('New synonym');
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->addSynonym($createStruct);
     }
 
@@ -1139,7 +1139,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->convertToSynonym(
             new Tag(
                 [
@@ -1271,7 +1271,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->mergeTags(
             new Tag(
                 [
@@ -1398,7 +1398,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->copySubtree(
             new Tag(
                 [
@@ -1551,7 +1551,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->moveSubtree(
             new Tag(
                 [
@@ -1629,7 +1629,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->deleteTag(
             new Tag(
                 [
@@ -1646,7 +1646,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $this->repository->setCurrentUser($this->getStubbedUser(10));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->deleteTag(
             new Tag(
                 [

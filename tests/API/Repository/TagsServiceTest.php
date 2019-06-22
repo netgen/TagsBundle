@@ -14,7 +14,7 @@ final class TagsServiceTest extends BaseTagsServiceTest
     protected function setUp(): void
     {
         $this->repository = $this->getRepository();
-        $this->repository->setCurrentUser($this->getStubbedUser(14));
+        $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(14));
         $this->tagsService = $this->getTagsService();
     }
 

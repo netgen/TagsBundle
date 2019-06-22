@@ -23,17 +23,7 @@ final class TagsTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->converter = new TagsConverter();
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags::create
-     */
-    public function testCreate(): void
-    {
-        $converter = TagsConverter::create();
-        self::assertInstanceOf(get_class($this->converter), $converter);
     }
 
     /**

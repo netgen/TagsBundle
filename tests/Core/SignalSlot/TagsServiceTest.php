@@ -37,10 +37,7 @@ final class TagsServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->tagsService = $this->createMock(CoreTagsService::class);
-
         $this->signalDispatcher = $this->createMock(SignalDispatcher::class);
     }
 
