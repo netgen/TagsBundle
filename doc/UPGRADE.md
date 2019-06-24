@@ -18,6 +18,11 @@ ALTER TABLE `eztags_keyword` DROP PRIMARY KEY;
 ALTER TABLE `eztags_keyword` ADD PRIMARY KEY (`keyword_id`, `locale`(191));
 ```
 
+Upgrade from 3.4.0 to 3.4.1
+---------------------------
+
+If using PostgreSQL, import the `bundle/Resources/sql/upgrade/postgresql/3.4/dbupdate-3.3-to-3.4.sql` script to your database. The script updates the sequence names to be inline with eZ Platform.
+
 Upgrade from 3.3 to 3.4
 -----------------------
 
