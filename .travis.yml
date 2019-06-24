@@ -12,12 +12,10 @@ cache:
 env:
   - CONFIG="phpunit.xml" COVERAGE="unit"
   - CONFIG="phpunit-integration-legacy.xml" COVERAGE="integration"
+  - RUN_PHPSTAN="yes"
 
 matrix:
   include:
-    -
-      php: 7.3
-      env: RUN_PHPSTAN="yes"
     -
       env: ~
       php: ~
@@ -58,4 +56,4 @@ git:
 
 # send coverage to codecov.io
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -F $COVERAGE
+  - if [ "$COVERAGE" != "" ] ; then bash <(curl -s https://codecov.io/bash) -F $COVERAGE ; fi
