@@ -1,10 +1,15 @@
 Netgen Tags Bundle 3.4 changelog
 ================================
 
-3.4.1
------
+3.4.1 (24.06.2019)
+------------------
 
 * Use siteaccess aware repository in tags service (thanks @RandyCupic)
+* Renamed sequences in PostgreSQL to be inline with eZ Platform
+* Added support for eZ Platform Doctrine schema builder
+* Implement Nameable interface for the field type
+* Added French translation file (thanks @peninonwilliam)
+* Add support for advanced content filtering (thanks @RandyCupic)
 
 3.4.0 (03.04.2019)
 ------------------
