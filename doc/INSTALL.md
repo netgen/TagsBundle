@@ -4,7 +4,7 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Platform 1.11+ / 2.0+
+* eZ Platform 3.0+
 
 Installation steps
 ------------------
@@ -19,23 +19,20 @@ $ composer require netgen/tagsbundle
 
 ### Activate the bundle
 
-Activate the bundle in `app/AppKernel.php` file by adding it to the `$bundles` array in `registerBundles` method, together with other required bundles:
+Activate the bundle in `config/bundles.php` file by adding it to the array, together with other required bundles:
 
 ```php
-public function registerBundles()
-{
+return [
     ...
 
-    $bundles[] = new Lolautruche\EzCoreExtraBundle\EzCoreExtraBundle();
-    $bundles[] = new Netgen\TagsBundle\NetgenTagsBundle();
-
-    return $bundles;
-}
+    Lolautruche\EzCoreExtraBundle\EzCoreExtraBundle::class => ['all' => true],
+    Netgen\TagsBundle\NetgenTagsBundle::class => ['all' => true],
+];
 ```
 
-### Edit configuration
+### Add routing configuration
 
-Put the following in your `app/config/routing.yml` file to be able to display tag view pages:
+Add the file `config/routes/netgen_tags.yaml` with the following content to activate Netgen Tags routes:
 
 ```yml
 netgen_tags:
@@ -43,9 +40,6 @@ netgen_tags:
 ```
 
 ### Import database tables
-
-Note: Netgen Tags supports eZ Platform schema builder, making it possible to automatically install its database tables when installing
-clean/demo data of eZ Platform. In that case, there's no need to install the tables manually.
 
 Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Platform database:
 
@@ -55,9 +49,12 @@ $ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/bund
 
 PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/bundle/Resources/sql/postgresql/schema.sql`
 
+Note: Netgen Tags supports eZ Platform schema builder, making it possible to automatically install its database tables when installing
+clean/demo data of eZ Platform. In that case, there's no need to install the tables manually.
+
 ### Update Anonymous Role permissions
 
-Give 'Read' permisions to the 'Tags' module for the `Anonymous` role.
+Give 'Read' permissions to the 'Tags' module for the `Anonymous` role.
 
 ### Clear the caches
 
@@ -69,7 +66,7 @@ $ php bin/console cache:clear
 
 ### Install assets
 
-Run the following to correctly install assets for admin UI:
+Run the following to correctly install assets for eZ Platform Admin UI:
 
 ```bash
 $ php bin/console assets:install --symlink --relative
