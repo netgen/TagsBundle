@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
-    backupGlobals="false"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.0/phpunit.xsd"
     bootstrap="bootstrap.php"
     colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     forceCoversAnnotation="true"
     beStrictAboutOutputDuringTests="true"
+    beStrictAboutTodoAnnotatedTests="true"
     beStrictAboutChangesToGlobalState="true"
     beStrictAboutTestsThatDoNotTestAnything="false"
 >
-
     <testsuites>
         <testsuite name="Netgen\TagsBundle\Tests\Core">
             <directory>tests/Core</directory>
         </testsuite>
         <testsuite name="Netgen\TagsBundle\Tests\SPI">
             <directory>tests/SPI</directory>
-        </testsuite>
-        <testsuite name="Netgen\TagsBundle\Tests\PlatformUI">
-            <directory>tests/PlatformUI</directory>
         </testsuite>
         <testsuite name="Netgen\TagsBundle\Tests\Templating">
             <directory>tests/Templating</directory>
@@ -32,19 +24,12 @@
 
     <filter>
         <whitelist>
-            <directory>.</directory>
+            <directory>bundle</directory>
             <exclude>
-                <directory>API</directory>
-                <directory>SPI</directory>
-                <directory>Controller</directory>
-                <directory>DependencyInjection</directory>
-                <directory>Resources</directory>
-                <directory>Tests</directory>
-                <directory>vendor</directory>
-                <directory>var</directory>
-                <directory>extension</directory>
-                <file>bootstrap.php</file>
-                <file>NetgenTagsBundle.php</file>
+                <directory>bundle/Controller</directory>
+                <directory>bundle/DependencyInjection</directory>
+                <directory>bundle/Resources</directory>
+                <file>bundle/NetgenTagsBundle.php</file>
             </exclude>
         </whitelist>
     </filter>

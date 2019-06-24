@@ -39,6 +39,11 @@ final class TagLimitationTypeTest extends Base
      */
     private $userMock;
 
+    /**
+     * @var \Netgen\TagsBundle\Core\Limitation\TagLimitationType
+     */
+    private $limitationType;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,11 +51,8 @@ final class TagLimitationTypeTest extends Base
         $this->persistenceHandlerMock = $this->createMock(SPIHandler::class);
         $this->userMock = $this->createMock(User::class);
         $this->tagsHandlerMock = $this->createMock(Handler::class);
-    }
 
-    public function testConstruct(): TagLimitationType
-    {
-        return new TagLimitationType(
+        $this->limitationType = new TagLimitationType(
             $this->persistenceHandlerMock,
             $this->tagsHandlerMock
         );
@@ -98,12 +100,14 @@ final class TagLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
      * @dataProvider providerForTestAcceptValue
      */
-    public function testAcceptValue(TagLimitation $limitation, TagLimitationType $limitationType): void
+    public function testAcceptValue(TagLimitation $limitation): void
     {
-        $limitationType->acceptValue($limitation);
+        $this->limitationType->acceptValue($limitation);
+
+        // Fake assertion count to remove the risky flag
+        $this->addToAssertionCount(1);
     }
 
     public function providerForTestAcceptValueException(): array
@@ -128,14 +132,13 @@ final class TagLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
      * @dataProvider providerForTestAcceptValueException
      */
-    public function testAcceptValueException(Limitation $limitation, TagLimitationType $limitationType): void
+    public function testAcceptValueException(Limitation $limitation): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $limitationType->acceptValue($limitation);
+        $this->limitationType->acceptValue($limitation);
     }
 
     public function providerForTestValidate(): array
@@ -204,7 +207,6 @@ final class TagLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestValidate
-     * @depends testConstruct
      */
     public function testValidate(TagLimitation $limitation, int $errorCount): void
     {
@@ -232,19 +234,13 @@ final class TagLimitationTypeTest extends Base
                 ->method(self::anything());
         }
 
-        // Need to create inline instead of depending on testConstruct() to get correct mock instance
-        $limitationType = $this->testConstruct();
-
-        $validationErrors = $limitationType->validate($limitation);
+        $validationErrors = $this->limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testBuildValue(TagLimitationType $limitationType): void
+    public function testBuildValue(): void
     {
-        $value = $limitationType->buildValue(['1', 2, '3']);
+        $value = $this->limitationType->buildValue(['1', 2, '3']);
 
         self::assertInstanceOf(TagLimitation::class, $value);
         self::assertSame([1, 2, 3], $value->limitationValues);
@@ -275,19 +271,17 @@ final class TagLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
      * @dataProvider providerForTestEvaluate
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation $limitation
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object
      * @param mixed $expected
-     * @param \Netgen\TagsBundle\Core\Limitation\TagLimitationType $limitationType
      */
-    public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected, TagLimitationType $limitationType): void
+    public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected): void
     {
         $this->userMock->expects(self::never())->method(self::anything());
 
-        $value = $limitationType->evaluate($limitation, $this->userMock, $object);
+        $value = $this->limitationType->evaluate($limitation, $this->userMock, $object);
 
         self::assertSame($expected, $value);
     }
@@ -309,37 +303,30 @@ final class TagLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
      * @dataProvider providerForTestEvaluateInvalidArgument
      */
-    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, TagLimitationType $limitationType): void
+    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->userMock->expects(self::never())->method(self::anything());
 
-        $limitationType->evaluate($limitation, $this->userMock, $object);
+        $this->limitationType->evaluate($limitation, $this->userMock, $object);
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testGetCriterionInvalidValue(TagLimitationType $limitationType): void
+    public function testGetCriterionInvalidValue(): void
     {
         $this->expectException(RuntimeException::class);
 
-        $limitationType->getCriterion(
+        $this->limitationType->getCriterion(
             new TagLimitation([]),
             $this->userMock
         );
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testGetCriterionSingleValue(TagLimitationType $limitationType): void
+    public function testGetCriterionSingleValue(): void
     {
-        $criterion = $limitationType->getCriterion(
+        $criterion = $this->limitationType->getCriterion(
             new TagLimitation(['limitationValues' => [1]]),
             $this->userMock
         );
@@ -349,12 +336,9 @@ final class TagLimitationTypeTest extends Base
         self::assertSame([1], $criterion->value);
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testGetCriterionMultipleValues(TagLimitationType $limitationType): void
+    public function testGetCriterionMultipleValues(): void
     {
-        $criterion = $limitationType->getCriterion(
+        $criterion = $this->limitationType->getCriterion(
             new TagLimitation(['limitationValues' => [1, 2]]),
             $this->userMock
         );
@@ -364,13 +348,10 @@ final class TagLimitationTypeTest extends Base
         self::assertSame([1, 2], $criterion->value);
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testValueSchema(TagLimitationType $limitationType): void
+    public function testValueSchema(): void
     {
         $this->expectException(NotImplementedException::class);
 
-        $limitationType->valueSchema();
+        $this->limitationType->valueSchema();
     }
 }
