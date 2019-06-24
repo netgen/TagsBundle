@@ -1,6 +1,6 @@
 <?php
 
-$kernelDir = __DIR__ . '/vendor/ezsystems/ezpublish-kernel';
+$kernelDir = __DIR__ . '/../vendor/ezsystems/ezpublish-kernel';
 
 return array(
     // The installation directory

@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-$kernelDir = __DIR__ . '/vendor/ezsystems/ezpublish-kernel';
+$kernelDir = __DIR__ . '/../vendor/ezsystems/ezpublish-kernel';
 
 // Get global config.php settings
 if (!file_exists($kernelDir . '/config.php')) {
@@ -23,4 +23,4 @@ if (!($settings = include($kernelDir . '/config.php'))) {
     throw new \RuntimeException('Could not read config.php, please copy config.php-DEVELOPMENT to config.php & customize to your needs!');
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
