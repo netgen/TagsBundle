@@ -5,7 +5,7 @@
 {% form_theme form '@NetgenTags/form/eztags.html.twig' %}
 
 {% block content %}
-    <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+    <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ tag.keyword }} [{{ tag.id }}]</h2>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

@@ -103,16 +103,6 @@ final class NetgenTagsRuntimeTest extends TestCase
         self::assertSame($translated, $this->runtime->getTagKeyword(1));
     }
 
-    public function testGetTagKeywordWithTagArgument(): void
-    {
-        $translated = 'translated';
-
-        $this->tagsService->expects(self::never())
-            ->method('loadTag');
-
-        self::assertSame($translated, $this->runtime->getTagKeyword($this->tag));
-    }
-
     public function testGetLanguageName(): void
     {
         $language = new Language(

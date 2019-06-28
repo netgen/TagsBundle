@@ -39,20 +39,18 @@ final class NetgenTagsRuntime
     }
 
     /**
-     * Returns tag keyword for provided tag ID or tag object.
+     * Returns tag keyword for provided tag ID.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|int|string $tag
+     * @param int|string $tagId
      *
      * @return string
      */
-    public function getTagKeyword($tag): string
+    public function getTagKeyword($tagId): string
     {
-        if (!$tag instanceof Tag) {
-            try {
-                $tag = $this->tagsService->loadTag((int) $tag);
-            } catch (NotFoundException $e) {
-                return '';
-            }
+        try {
+            $tag = $this->tagsService->loadTag((int) $tagId);
+        } catch (NotFoundException $e) {
+            return '';
         }
 
         return $tag->getKeyword() ?? '';

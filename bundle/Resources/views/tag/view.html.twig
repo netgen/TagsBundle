@@ -1,9 +1,7 @@
 {% extends ezplatform.configResolver.parameter('page_layout') %}
 
-{% set tag_keyword = netgen_tags_tag_keyword(tag) %}
-
 {% block page_head %}
-    {% set title = tag_keyword %}
+    {% set title = tag.keyword %}
     {{ parent() }}
 {% endblock %}
 
@@ -12,7 +10,7 @@
         <div class="row">
             <div class="span8">
                 <div class="attribute-header">
-                    <h1>{{ tag_keyword }}</h1>
+                    <h1>{{ tag.keyword }}</h1>
                 </div>
 
                 {% if related_content|length > 0 %}

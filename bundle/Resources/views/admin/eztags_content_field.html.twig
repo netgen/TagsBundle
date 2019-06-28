@@ -1,5 +1,5 @@
 {% block eztags_field %}
     {% for tag in field.value.tags %}
-        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ netgen_tags_tag_keyword( tag ) }}</a>{% if not loop.last %}, {% endif %}
+        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a>{% if not loop.last %}, {% endif %}
     {% endfor %}
 {% endblock %}

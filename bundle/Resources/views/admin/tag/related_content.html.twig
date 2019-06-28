@@ -2,12 +2,11 @@
 
 {% trans_default_domain 'eztags_admin' %}
 
-{% set tag_keyword = netgen_tags_tag_keyword( tag ) %}
 {% set filter_applied = filter_applied|default(false) %}
 
 {% block content %}
     <h2 class="tag-title">
-        {{ 'tag.related_content.title'|trans }}: <a href="{{ path( 'netgen_tags_admin_tag_show', {tagId: tag.id} ) }}">{{ netgen_tags_tag_keyword( tag ) }}</a>
+        {{ 'tag.related_content.title'|trans }}: <a href="{{ path( 'netgen_tags_admin_tag_show', {tagId: tag.id} ) }}">{{ tag.keyword }}</a>
     </h2>
 
     {% if related_content|length > 0 or filter_applied %}

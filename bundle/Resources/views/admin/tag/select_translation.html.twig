@@ -6,7 +6,7 @@
 
 {% block content %}
     {% if tag is defined %}
-        <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }} [{{ tag.id }}]</h2>
+        <h2 class="tag-title">{{ 'tag.edit.title'|trans }}: {{ tag.keyword }} [{{ tag.id }}]</h2>
     {% else %}
         <h2 class="tag-title">{{ 'tag.add.title'|trans }}</h2>
     {% endif %}

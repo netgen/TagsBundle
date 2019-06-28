@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2 class="tag-title">
-        {{ 'tag.title'|trans }}: {{ netgen_tags_tag_keyword(tag) }}
+        {{ 'tag.title'|trans }}: {{ tag.keyword }}
 
         {% if tag.isSynonym %}
             ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)

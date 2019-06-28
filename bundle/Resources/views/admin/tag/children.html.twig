@@ -35,7 +35,7 @@
                             {% endif %}
                         </td>
                         <td>{{ child.id }}</td>
-                        <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': child.id}) }}">{{ netgen_tags_tag_keyword(child) }}</a></td>
+                        <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': child.id}) }}">{{ child.keyword }}</a></td>
                         <td>
                             {% for languageCode in child.keywords|keys %}
                                 {% if can_edit %}<a href="{{ path('netgen_tags_admin_tag_update', {'tagId': child.id, 'languageCode': languageCode}) }}">{% endif %}

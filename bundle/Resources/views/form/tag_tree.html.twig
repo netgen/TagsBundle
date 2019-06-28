@@ -6,7 +6,7 @@
             {{- form_label(form) -}}
 
             <input type="hidden" class="tag-id" {{ block('widget_attributes') }} value="{% if tag is not null %}{{ tag.id }}{% else %}0{% endif %}" />
-            <span class="tag-keyword">{% if tag is not null %}{{ netgen_tags_tag_keyword(tag) }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
+            <span class="tag-keyword">{% if tag is not null %}{{ tag.keyword }}{% else %}({{ 'tag.tree.no_tag_selected'|trans }}){% endif %}</span>
             <button type="button" class="tags-btn modal-tree-button">{{ 'tag.tree.select_tag'|trans }}</button>
 
             {# Renders a tree inside modal window, for selecting tag inside forms. #}

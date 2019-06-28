@@ -20,7 +20,7 @@
                     <tr>
                         <td>
                             <input type="hidden" name="Tags[]" value="{{ tag.id }}"/>
-                            {% if parentTag is not null %}{{ netgen_tags_tag_keyword(parentTag) }} / {% endif %}{{ netgen_tags_tag_keyword(tag) }}
+                            {% if parentTag is not null %}{{ parentTag.keyword }} / {% endif %}{{ tag.keyword }}
                         </td>
                     </tr>
                 {% endfor %}
