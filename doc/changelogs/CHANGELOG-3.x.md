@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.x changelog
 ================================
 
+3.4.6 (xx.xx.xxxx)
+------------------
+
+* Fix translations for roles in eZ Platform Admin UI
+
 3.4.5 (19.12.2019)
 ------------------
 
