@@ -1,6 +1,6 @@
-{% extends ezplatform.configResolver.parameter( 'page_layout' ) %}
+{% extends ezplatform.configResolver.parameter('page_layout') %}
 
-{% set tag_keyword = netgen_tags_tag_keyword( tag ) %}
+{% set tag_keyword = netgen_tags_tag_keyword(tag) %}
 
 {% block page_head %}
     {% set title = tag_keyword %}
@@ -33,7 +33,7 @@
 
                     {% if related_content.haveToPaginate() %}
                         <div class="pagination-centered">
-                            {{ pagerfanta( related_content, 'twitter_bootstrap_translated' ) }}
+                            {{ pagerfanta(related_content, 'twitter_bootstrap_translated') }}
                         </div>
                     {% endif %}
                 {% endif %}

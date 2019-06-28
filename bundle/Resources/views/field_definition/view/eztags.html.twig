@@ -2,14 +2,14 @@
 
 {% block eztags_settings %}
 
-{% set available_edit_views = ezplatform.configResolver.parameter( 'edit_views', 'eztags' ) %}
+{% set available_edit_views = ezplatform.configResolver.parameter('edit_views', 'eztags') %}
 {% set validator_config = fielddefinition.validatorConfiguration.TagsValueValidator %}
 
 <ul class="fielddef-settings {{ fielddefinition.fieldTypeIdentifier }}-settings">
     <li class="subtree-limit">
         <span>{{ 'field_definition.eztags.validator.subtree_limit'|trans }}:</span>
         {% if validator_config.subTreeLimit > 0 %}
-            <a href="{{ path( 'netgen_tags_admin_tag_show', { 'tagId': validator_config.subTreeLimit } ) }}">{{ netgen_tags_tag_keyword( validator_config.subTreeLimit ) }}</a>
+            <a href="{{ path('netgen_tags_admin_tag_show', { 'tagId': validator_config.subTreeLimit }) }}">{{ netgen_tags_tag_keyword(validator_config.subTreeLimit) }}</a>
         {% else %}
             {{ 'field_definition.eztags.validator.subtree_limit.no_limit'|trans }}
         {% endif %}
