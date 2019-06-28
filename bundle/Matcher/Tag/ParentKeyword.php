@@ -25,11 +25,6 @@ final class ParentKeyword extends MultipleValued
             }
         );
 
-        $keyword = $this->translationHelper->getTranslatedByMethod(
-            $parentTag,
-            'getKeyword'
-        );
-
-        return isset($this->values[$keyword]);
+        return isset($this->values[$parentTag->getKeyword()]);
     }
 }

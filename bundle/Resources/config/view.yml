@@ -33,7 +33,6 @@ services:
         class: Netgen\TagsBundle\Matcher\TagMatcherFactory
         arguments:
             - "@eztags.api.service.tags"
-            - "@ezpublish.translation_helper"
             - "@ezpublish.api.repository"
             - "@ezpublish.config.resolver"
             - "@service_container"

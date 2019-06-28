@@ -6,7 +6,6 @@ namespace Netgen\TagsBundle\Tests\Templating\Twig\Extension;
 
 use eZ\Publish\API\Repository\Values\Content\Language;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\Repository\ContentTypeService;
 use eZ\Publish\Core\Repository\LanguageService;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
@@ -26,11 +25,6 @@ final class NetgenTagsRuntimeTest extends TestCase
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $tagsService;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $translationHelper;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
@@ -59,11 +53,6 @@ final class NetgenTagsRuntimeTest extends TestCase
             ->setMethods(['loadTag'])
             ->getMock();
 
-        $this->translationHelper = $this->getMockBuilder(TranslationHelper::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getTranslatedByMethod'])
-            ->getMock();
-
         $this->languageService = $this->getMockBuilder(LanguageService::class)
             ->disableOriginalConstructor()
             ->setMethods(['loadLanguage'])
@@ -76,12 +65,21 @@ final class NetgenTagsRuntimeTest extends TestCase
 
         $this->runtime = new NetgenTagsRuntime(
             $this->tagsService,
-            $this->translationHelper,
             $this->languageService,
             $this->contentTypeService
         );
 
-        $this->tag = new Tag();
+        $this->tag = new Tag(
+            [
+                'keywords' => [
+                    'eng-GB' => 'default',
+                    'cro-HR' => 'translated',
+                ],
+                'mainLanguageCode' => 'eng-GB',
+                'prioritizedLanguageCode' => 'cro-HR',
+            ]
+        );
+
         $this->contentType = new ContentType(['names' => ['eng-GB' => 'Translated name']]);
     }
 
@@ -102,11 +100,6 @@ final class NetgenTagsRuntimeTest extends TestCase
             ->method('loadTag')
             ->willReturn($this->tag);
 
-        $this->translationHelper->expects(self::once())
-            ->method('getTranslatedByMethod')
-            ->with($this->tag)
-            ->willReturn($translated);
-
         self::assertSame($translated, $this->runtime->getTagKeyword(1));
     }
 
@@ -117,11 +110,6 @@ final class NetgenTagsRuntimeTest extends TestCase
         $this->tagsService->expects(self::never())
             ->method('loadTag');
 
-        $this->translationHelper->expects(self::once())
-            ->method('getTranslatedByMethod')
-            ->with($this->tag)
-            ->willReturn($translated);
-
         self::assertSame($translated, $this->runtime->getTagKeyword($this->tag));
     }
 
@@ -130,7 +118,7 @@ final class NetgenTagsRuntimeTest extends TestCase
         $language = new Language(
             [
                 'id' => 123,
-                'languageCode' => 'eng-EU',
+                'languageCode' => 'eng-GB',
                 'name' => 'English',
             ]
         );

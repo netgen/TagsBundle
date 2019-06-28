@@ -8,7 +8,6 @@ services:
         class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime
         arguments:
             - "@eztags.api.service.tags"
-            - "@ezpublish.translation_helper"
             - "@ezpublish.api.service.language"
             - "@ezpublish.api.service.content_type"
         tags:

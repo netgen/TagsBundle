@@ -8,7 +8,6 @@ use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LanguageService;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\Helper\TranslationHelper;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
@@ -18,11 +17,6 @@ final class NetgenTagsRuntime
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
     private $tagsService;
-
-    /**
-     * @var \eZ\Publish\Core\Helper\TranslationHelper
-     */
-    private $translationHelper;
 
     /**
      * @var \eZ\Publish\API\Repository\LanguageService
@@ -36,12 +30,10 @@ final class NetgenTagsRuntime
 
     public function __construct(
         TagsService $tagsService,
-        TranslationHelper $translationHelper,
         LanguageService $languageService,
         ContentTypeService $contentTypeService
     ) {
         $this->tagsService = $tagsService;
-        $this->translationHelper = $translationHelper;
         $this->languageService = $languageService;
         $this->contentTypeService = $contentTypeService;
     }
@@ -63,7 +55,7 @@ final class NetgenTagsRuntime
             }
         }
 
-        return $this->translationHelper->getTranslatedByMethod($tag, 'getKeyword') ?? '';
+        return $tag->getKeyword() ?? '';
     }
 
     /**

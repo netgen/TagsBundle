@@ -15,11 +15,6 @@ final class Keyword extends MultipleValued
             return false;
         }
 
-        $keyword = $this->translationHelper->getTranslatedByMethod(
-            $view->getTag(),
-            'getKeyword'
-        );
-
-        return isset($this->values[$keyword]);
+        return isset($this->values[$view->getTag()->getKeyword()]);
     }
 }

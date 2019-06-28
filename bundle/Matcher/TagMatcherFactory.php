@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Matcher;
 
 use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\TagsService;
-use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,11 +20,6 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
     private $tagsService;
-
-    /**
-     * @var \eZ\Publish\Core\Helper\TranslationHelper
-     */
-    private $translationHelper;
 
     /**
      * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
@@ -40,13 +33,11 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
 
     public function __construct(
         TagsService $tagsService,
-        TranslationHelper $translationHelper,
         Repository $repository,
         ConfigResolverInterface $configResolver,
         ContainerInterface $container
     ) {
         $this->tagsService = $tagsService;
-        $this->translationHelper = $translationHelper;
         $this->configResolver = $configResolver;
         $this->container = $container;
 
@@ -82,10 +73,6 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
 
         if ($matcher instanceof TagsServiceAwareInterface) {
             $matcher->setTagsService($this->tagsService);
-        }
-
-        if ($matcher instanceof MultipleValued) {
-            $matcher->setTranslationHelper($this->translationHelper);
         }
 
         return $matcher;
