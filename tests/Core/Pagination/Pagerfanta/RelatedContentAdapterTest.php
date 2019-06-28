@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Pagination\Pagerfanta;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -13,13 +14,19 @@ use PHPUnit\Framework\TestCase;
 final class RelatedContentAdapterTest extends TestCase
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
      */
     private $tagsService;
+
+    /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $configResolver;
 
     protected function setUp(): void
     {
         $this->tagsService = $this->createMock(TagsService::class);
+        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
     }
 
     /**
@@ -61,7 +68,7 @@ final class RelatedContentAdapterTest extends TestCase
             ->expects(self::never())
             ->method('getRelatedContentCount');
 
-        $adapter = new RelatedContentAdapter($this->tagsService);
+        $adapter = new RelatedContentAdapter($this->tagsService, $this->configResolver);
         self::assertSame(0, $adapter->getNbResults());
     }
 
@@ -101,8 +108,7 @@ final class RelatedContentAdapterTest extends TestCase
             ->with(self::equalTo($tag))
             ->willReturn($nbResults);
 
-        $this
-            ->tagsService
+        $this->tagsService
             ->expects(self::once())
             ->method('getRelatedContent')
             ->with(
@@ -110,9 +116,16 @@ final class RelatedContentAdapterTest extends TestCase
                 self::equalTo($offset),
                 self::equalTo($limit)
             )
-            ->willReturn(
-                $relatedContent
-            );
+            ->willReturn($relatedContent);
+
+        $this->configResolver
+            ->expects(self::any())
+            ->method('getParameter')
+            ->with(
+                self::identicalTo('tag_view.related_content_list.return_content_info'),
+                self::identicalTo('eztags')
+            )
+            ->willReturn(true);
 
         $adapter = $this->getAdapter($tag, $this->tagsService);
 
@@ -136,7 +149,7 @@ final class RelatedContentAdapterTest extends TestCase
             ->expects(self::never())
             ->method('getRelatedContent');
 
-        $adapter = new RelatedContentAdapter($this->tagsService);
+        $adapter = new RelatedContentAdapter($this->tagsService, $this->configResolver);
 
         self::assertCount(0, $adapter->getSlice(2, 2));
     }
@@ -146,7 +159,7 @@ final class RelatedContentAdapterTest extends TestCase
      */
     private function getAdapter(Tag $tag, TagsService $tagsService): RelatedContentAdapter
     {
-        $adapter = new RelatedContentAdapter($tagsService);
+        $adapter = new RelatedContentAdapter($tagsService, $this->configResolver);
         $adapter->setTag($tag);
 
         return $adapter;

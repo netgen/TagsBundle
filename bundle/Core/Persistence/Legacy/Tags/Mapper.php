@@ -9,7 +9,10 @@ use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
-final class Mapper
+/**
+ * @final
+ */
+class Mapper
 {
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler

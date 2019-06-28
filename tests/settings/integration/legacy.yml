@@ -1,5 +1,5 @@
 services:
-    eztags.config_resolver_stub:
+    ezpublish.config.resolver:
         class: Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub
         arguments:
             - { eztags: { edit_views: { default: { identifier: Default } } } }
@@ -10,7 +10,7 @@ services:
         public: true
         arguments:
             - "@eztags.api.service.tags"
-            - "@eztags.config_resolver_stub"
+            - "@ezpublish.config.resolver"
         tags:
             - { name: ezplatform.field_type, alias: eztags }
 

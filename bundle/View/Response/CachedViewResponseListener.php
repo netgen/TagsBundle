@@ -45,7 +45,8 @@ final class CachedViewResponseListener implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->configResolver->getParameter('tag_view.cache', 'eztags') || !$view->isCacheEnabled()) {
+        $cacheEnabled = (bool) $this->configResolver->getParameter('tag_view.cache', 'eztags');
+        if (!$cacheEnabled || !$view->isCacheEnabled()) {
             return;
         }
 
@@ -55,7 +56,8 @@ final class CachedViewResponseListener implements EventSubscriberInterface
         $response->setPublic();
         $this->responseTagger->addTags(['ngtags-tag-' . $tag->id]);
 
-        if ($this->configResolver->getParameter('tag_view.ttl_cache', 'eztags') && !$response->headers->hasCacheControlDirective('s-maxage')) {
+        $ttlCacheEnabled = (bool) $this->configResolver->getParameter('tag_view.ttl_cache', 'eztags');
+        if ($ttlCacheEnabled && !$response->headers->hasCacheControlDirective('s-maxage')) {
             $response->setSharedMaxAge($this->configResolver->getParameter('tag_view.default_ttl', 'eztags'));
         }
     }
