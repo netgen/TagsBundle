@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\Response;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use FOS\HttpCache\ResponseTagger;
 use Netgen\TagsBundle\View\CacheableView;
 use Netgen\TagsBundle\View\TagView;
@@ -19,30 +20,14 @@ final class CachedViewResponseListener implements EventSubscriberInterface
     private $responseTagger;
 
     /**
-     * @var bool
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $enableViewCache;
+    private $configResolver;
 
-    /**
-     * @var bool
-     */
-    private $enableTtlCache;
-
-    /**
-     * @var int
-     */
-    private $defaultTtl;
-
-    public function __construct(
-        ResponseTagger $responseTagger,
-        bool $enableViewCache,
-        bool $enableTtlCache,
-        int $defaultTtl
-    ) {
+    public function __construct(ResponseTagger $responseTagger, ConfigResolverInterface $configResolver)
+    {
         $this->responseTagger = $responseTagger;
-        $this->enableViewCache = $enableViewCache;
-        $this->enableTtlCache = $enableTtlCache;
-        $this->defaultTtl = $defaultTtl;
+        $this->configResolver = $configResolver;
     }
 
     public static function getSubscribedEvents(): array
@@ -60,7 +45,7 @@ final class CachedViewResponseListener implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->enableViewCache || !$view->isCacheEnabled()) {
+        if (!$this->configResolver->getParameter('tag_view.cache', 'eztags') || !$view->isCacheEnabled()) {
             return;
         }
 
@@ -70,8 +55,8 @@ final class CachedViewResponseListener implements EventSubscriberInterface
         $response->setPublic();
         $this->responseTagger->addTags(['ngtags-tag-' . $tag->id]);
 
-        if ($this->enableTtlCache && !$response->headers->hasCacheControlDirective('s-maxage')) {
-            $response->setSharedMaxAge($this->defaultTtl);
+        if ($this->configResolver->getParameter('tag_view.ttl_cache', 'eztags') && !$response->headers->hasCacheControlDirective('s-maxage')) {
+            $response->setSharedMaxAge($this->configResolver->getParameter('tag_view.default_ttl', 'eztags'));
         }
     }
 }
