@@ -5,7 +5,6 @@ services:
 
     eztags.signalslot.service.tags:
         class: Netgen\TagsBundle\Core\SignalSlot\TagsService
-        lazy: true
         arguments:
             - "@eztags.api.service.tags.inner"
             - "@ezpublish.signalslot.signal_dispatcher"

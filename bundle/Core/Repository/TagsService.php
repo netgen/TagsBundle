@@ -31,10 +31,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
-/**
- * @final
- */
-class TagsService implements TagsServiceInterface
+final class TagsService implements TagsServiceInterface
 {
     /**
      * @var \eZ\Publish\API\Repository\Repository

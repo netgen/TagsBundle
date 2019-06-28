@@ -13,10 +13,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
-/**
- * @final
- */
-class Handler implements BaseTagsHandler
+final class Handler implements BaseTagsHandler
 {
     /**
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
