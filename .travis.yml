@@ -34,7 +34,6 @@ branches:
     - /^\d.\d+-release$/
 
 before_script:
-  - phpenv config-rm xdebug.ini || true
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
   # Read-only OAuth token to work around GitHub API rate limits
