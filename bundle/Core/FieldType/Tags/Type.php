@@ -9,6 +9,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\Core\FieldType\ValidationError;
 use eZ\Publish\Core\FieldType\Value as BaseValue;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\SPI\FieldType\Value as SPIValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -51,21 +52,14 @@ final class Type extends FieldType
     private $tagsService;
 
     /**
-     * @var array
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $availableEditViews = [];
+    private $configResolver;
 
-    public function __construct(TagsService $tagsService)
+    public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
     {
         $this->tagsService = $tagsService;
-    }
-
-    /**
-     * Sets the available edit views.
-     */
-    public function setEditViews(array $availableEditViews): void
-    {
-        $this->availableEditViews = $availableEditViews;
+        $this->configResolver = $configResolver;
     }
 
     public function getFieldTypeIdentifier(): string
@@ -406,7 +400,7 @@ final class Type extends FieldType
                     }
 
                     $editViewExists = false;
-                    foreach ($this->availableEditViews as $editView) {
+                    foreach ($this->configResolver->getParameter('edit_views', 'eztags') as $editView) {
                         if ($editView['identifier'] === $value) {
                             $editViewExists = true;
 

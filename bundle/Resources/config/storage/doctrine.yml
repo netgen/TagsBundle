@@ -2,7 +2,7 @@ services:
     eztags.field_type.eztags.converter:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: eztags, lazy: true, callback: "::create"}
+            - { name: ezplatform.field_type.legacy_storage.converter, alias: eztags }
 
     eztags.field_type.eztags.storage_gateway:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage

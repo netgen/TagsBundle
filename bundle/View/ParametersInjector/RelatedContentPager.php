@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\ParametersInjector;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewParametersEvent;
 use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
@@ -20,21 +21,14 @@ final class RelatedContentPager implements EventSubscriberInterface
     private $adapter;
 
     /**
-     * @var int
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $pagerLimit;
+    private $configResolver;
 
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(AdapterInterface $adapter, ConfigResolverInterface $configResolver)
     {
         $this->adapter = $adapter;
-    }
-
-    /**
-     * Sets the pager limit.
-     */
-    public function setPagerLimit(int $pagerLimit): void
-    {
-        $this->pagerLimit = $pagerLimit;
+        $this->configResolver = $configResolver;
     }
 
     public static function getSubscribedEvents(): array
@@ -57,12 +51,13 @@ final class RelatedContentPager implements EventSubscriberInterface
         }
 
         $pager = new Pagerfanta($this->adapter);
-
         $pager->setNormalizeOutOfRangePages(true);
 
         $builderParameters = $event->getBuilderParameters();
 
-        $pager->setMaxPerPage($this->pagerLimit > 0 ? $this->pagerLimit : 10);
+        $pagerLimit = $this->configResolver->getParameter('tag_view.related_content_list.limit', 'eztags');
+
+        $pager->setMaxPerPage($pagerLimit > 0 ? $pagerLimit : 10);
         $pager->setCurrentPage($builderParameters['page'] > 0 ? $builderParameters['page'] : 1);
 
         $event->getParameterBag()->set('related_content', $pager);

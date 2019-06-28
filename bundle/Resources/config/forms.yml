@@ -10,8 +10,7 @@ services:
         class: Netgen\TagsBundle\Form\Type\TranslationListType
         arguments:
             - "@ezpublish.api.service.language"
-        calls:
-            - [setLanguages, [$languages$]]
+            - "@ezpublish.config.resolver"
         tags:
             - { name: form.type }
 

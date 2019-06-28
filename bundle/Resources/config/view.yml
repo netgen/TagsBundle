@@ -2,16 +2,15 @@ services:
     eztags.view.builder_parameter_collector.current_page:
         class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
         tags:
-            - {name: kernel.event_subscriber}
+            - { name: kernel.event_subscriber }
 
     eztags.view.view_parameters_injector.related_content_pager:
         class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
         arguments:
             - "@eztags.pagerfanta.related_content_adapter"
-        calls:
-            - [setPagerLimit, [$tag_view.related_content_list.limit;eztags$]]
+            - "@ezpublish.config.resolver"
         tags:
-            - {name: kernel.event_subscriber}
+            - { name: kernel.event_subscriber }
 
     eztags.view.cache_response_listener:
         class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
@@ -21,7 +20,7 @@ services:
             - $tag_view.ttl_cache;eztags$
             - $tag_view.default_ttl;eztags$
         tags:
-            - {name: kernel.event_subscriber}
+            - { name: kernel.event_subscriber }
 
     eztags.view.tag_view_builder:
         class: Netgen\TagsBundle\View\Builder\TagViewBuilder
@@ -38,13 +37,12 @@ services:
             - "@eztags.api.service.tags"
             - "@ezpublish.translation_helper"
             - "@ezpublish.api.repository"
-        calls:
-            - [setContainer, ["@service_container"]]
-            - [setMatchConfig, [$tag_view_match;eztags$]]
+            - "@ezpublish.config.resolver"
+            - "@service_container"
 
     eztags.view.tag_view_provider:
         class: Netgen\TagsBundle\View\Provider\TagViewProvider
         arguments:
             - "@eztags.view.tag_matcher_factory"
         tags:
-            - {name: ezpublish.view_provider, type: 'Netgen\TagsBundle\View\TagView', priority: 10}
+            - { name: ezpublish.view_provider, type: 'Netgen\TagsBundle\View\TagView', priority: 10 }

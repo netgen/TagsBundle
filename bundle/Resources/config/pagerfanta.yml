@@ -1,10 +1,9 @@
 services:
     eztags.pagerfanta.related_content_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
-        lazy: true
         arguments:
             - "@eztags.api.service.tags"
-            - $tag_view.related_content_list.return_content_info;eztags$
+            - "@ezpublish.config.resolver"
 
     eztags.pagerfanta.children_tags_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter
@@ -18,7 +17,6 @@ services:
         lazy: true
         arguments:
             - "@twig"
-        calls:
-            - [setDefaultTemplate, ['@@NetgenTags/admin/pagerfanta.html.twig']]
+            - "%eztags.admin.default_pager_template%"
         tags:
-            - {name: pagerfanta.view, alias: eztags_admin}
+            - { name: pagerfanta.view, alias: eztags_admin }

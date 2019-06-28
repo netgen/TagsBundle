@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Routing;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use InvalidArgumentException;
 use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -23,10 +24,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection;
 
-/**
- * @final
- */
-class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
+final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
     public const TAG_URL_ROUTE_NAME = 'eztags_tag_url';
 
@@ -43,6 +41,11 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     private $generator;
 
     /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     */
+    private $configResolver;
+
+    /**
      * @var \Symfony\Component\Routing\RequestContext
      */
     private $requestContext;
@@ -52,29 +55,18 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     private $logger;
 
-    /**
-     * @var array
-     */
-    private $languages;
-
     public function __construct(
         TagsService $tagsService,
         TagUrlGenerator $generator,
+        ConfigResolverInterface $configResolver,
         ?RequestContext $requestContext = null,
         ?LoggerInterface $logger = null
     ) {
         $this->tagsService = $tagsService;
         $this->generator = $generator;
+        $this->configResolver = $configResolver;
         $this->requestContext = $requestContext ?: new RequestContext();
         $this->logger = $logger ?: new NullLogger();
-    }
-
-    /**
-     * Sets the currently available languages to the router.
-     */
-    public function setLanguages(?array $languages = null): void
-    {
-        $this->languages = $languages ?? [];
     }
 
     public function matchRequest(Request $request): array
@@ -97,7 +89,7 @@ class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             function (TagsService $tagsService) use ($requestedPath): Tag {
                 return $tagsService->loadTagByUrl(
                     $requestedPath,
-                    $this->languages
+                    $this->configResolver->getParameter('languages')
                 );
             }
         );

@@ -6,18 +6,18 @@ namespace Netgen\TagsBundle\Matcher;
 
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\Helper\TranslationHelper;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
+use eZ\Publish\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Matcher\Tag\MultipleValued;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class TagMatcherFactory extends ClassNameMatcherFactory
 {
-    use ContainerAwareTrait;
-
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
      */
@@ -28,15 +28,36 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
      */
     private $translationHelper;
 
+    /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     */
+    private $configResolver;
+
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    private $container;
+
     public function __construct(
         TagsService $tagsService,
         TranslationHelper $translationHelper,
-        Repository $repository
+        Repository $repository,
+        ConfigResolverInterface $configResolver,
+        ContainerInterface $container
     ) {
         $this->tagsService = $tagsService;
         $this->translationHelper = $translationHelper;
+        $this->configResolver = $configResolver;
+        $this->container = $container;
 
         parent::__construct($repository, 'Netgen\TagsBundle\Matcher\Tag');
+    }
+
+    public function match(View $view): ?array
+    {
+        $this->setMatchConfig($this->configResolver->getParameter('tag_view_match', 'eztags'));
+
+        return parent::match($view);
     }
 
     protected function getMatcher($matcherIdentifier): ViewMatcherInterface

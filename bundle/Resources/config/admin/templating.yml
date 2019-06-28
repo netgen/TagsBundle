@@ -1,8 +1,5 @@
 services:
     eztags.templating.admin_global_variable:
         class: Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable
-        public: true
-        # We need the lazy flag due to usage of dynamic parameters
-        lazy: true
-        calls:
-            - [setPageLayoutTemplate, ["$admin.pagelayout;eztags$"]]
+        arguments:
+            - "@ezpublish.config.resolver"

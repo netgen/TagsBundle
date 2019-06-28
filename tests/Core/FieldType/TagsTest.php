@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
 use eZ\Publish\Core\FieldType\ValidationError;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
@@ -502,15 +503,22 @@ final class TagsTest extends FieldTypeTest
             ->method('loadTagList')
             ->willReturnCallback([$this, 'getTagsServiceLoadTagValues']);
 
-        $tagsType = new TagsType($this->tagsService);
-        $tagsType->setEditViews(
-            [
-                'default' => ['identifier' => 'Default'],
-                'select' => ['identifier' => 'Select'],
-            ]
-        );
+        $configResolverMock = $this->createMock(ConfigResolverInterface::class);
+        $configResolverMock
+            ->expects(self::any())
+            ->method('getParameter')
+            ->with(
+                self::identicalTo('edit_views'),
+                self::identicalTo('eztags')
+            )
+            ->willReturn(
+                [
+                    'default' => ['identifier' => 'Default'],
+                    'select' => ['identifier' => 'Select'],
+                ]
+            );
 
-        return $tagsType;
+        return new TagsType($this->tagsService, $configResolverMock);
     }
 
     protected function getSettingsSchemaExpectation(): array

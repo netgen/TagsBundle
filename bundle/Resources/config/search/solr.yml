@@ -8,8 +8,8 @@ services:
             - "eztags"
             - "tag_ids"
         tags:
-            - {name: ezpublish.search.solr.query.content.criterion_visitor}
-            - {name: ezpublish.search.solr.query.location.criterion_visitor}
+            - { name: ezpublish.search.solr.query.content.criterion_visitor }
+            - { name: ezpublish.search.solr.query.location.criterion_visitor }
 
     eztags.search.solr.query.common.criterion_visitor.tag_keyword:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword
@@ -20,10 +20,10 @@ services:
             - "eztags"
             - "tag_keywords"
         tags:
-            - {name: ezpublish.search.solr.query.content.criterion_visitor}
-            - {name: ezpublish.search.solr.query.location.criterion_visitor}
+            - { name: ezpublish.search.solr.query.content.criterion_visitor }
+            - { name: ezpublish.search.solr.query.location.criterion_visitor }
 
     eztags.search.solr.query.common.sort_clause_visitor.content_type_id:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\SortClauseVisitor\ContentTypeId
         tags:
-            - {name: ezpublish.search.solr.query.content.sort_clause_visitor}
+            - { name: ezpublish.search.solr.query.content.sort_clause_visitor }

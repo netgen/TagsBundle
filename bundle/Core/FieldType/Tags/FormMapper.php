@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use EzSystems\RepositoryForms\Data\Content\FieldData;
 use EzSystems\RepositoryForms\Data\FieldDefinitionData;
 use EzSystems\RepositoryForms\FieldType\FieldDefinitionFormMapperInterface;
@@ -19,16 +20,13 @@ use Symfony\Component\Validator\Constraints;
 final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
 {
     /**
-     * @var array
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $availableEditViews = [];
+    private $configResolver;
 
-    /**
-     * Sets the available edit views.
-     */
-    public function setEditViews(array $availableEditViews): void
+    public function __construct(ConfigResolverInterface $configResolver)
     {
-        $this->availableEditViews = $availableEditViews;
+        $this->configResolver = $configResolver;
     }
 
     public function mapFieldValueForm(FormInterface $fieldForm, FieldData $data): void
@@ -53,7 +51,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
     public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data): void
     {
         $editViewChoices = [];
-        foreach ($this->availableEditViews as $editView) {
+        foreach ($this->configResolver->getParameter('edit_views', 'eztags') as $editView) {
             $editViewChoices[$editView['name']] = $editView['identifier'];
         }
 

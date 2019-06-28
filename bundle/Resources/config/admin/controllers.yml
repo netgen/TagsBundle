@@ -47,11 +47,9 @@ services:
         class: Netgen\TagsBundle\Controller\Admin\FieldController
         parent: eztags.admin.controller.base
         public: true
-        lazy: true
         arguments:
             - "@eztags.api.service.tags"
-        calls:
-            - [setLanguages, ["$languages$"]]
+            - "@ezpublish.config.resolver"
 
     eztags.admin.controller.access:
         class: Netgen\TagsBundle\Controller\Admin\AccessController

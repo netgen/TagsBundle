@@ -1,14 +1,18 @@
 services:
+    eztags.config_resolver_stub:
+        class: Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub
+        arguments:
+            - { eztags: { edit_views: { default: { identifier: Default } } } }
+
     eztags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
         public: true
         arguments:
             - "@eztags.api.service.tags"
-        calls:
-            - [setEditViews, [{ default: { identifier: Default } }]]
+            - "@eztags.config_resolver_stub"
         tags:
-            - {name: ezplatform.field_type, alias: eztags}
+            - { name: ezplatform.field_type, alias: eztags }
 
     eztags.ezpublish.spi.persistence.legacy.language.handler:
         alias: ezpublish.spi.persistence.legacy.language.handler

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Form\Type;
 
 use eZ\Publish\API\Repository\LanguageService;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Generator;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,30 +22,25 @@ final class TranslationListType extends AbstractType
     private $languageService;
 
     /**
-     * @var array
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $languages;
+    private $configResolver;
 
-    public function __construct(LanguageService $languageService)
+    public function __construct(LanguageService $languageService, ConfigResolverInterface $configResolver)
     {
         $this->languageService = $languageService;
-    }
-
-    /**
-     * Sets the currently used languages.
-     */
-    public function setLanguages(?array $languages = null): void
-    {
-        $this->languages = $languages ?? [];
+        $this->configResolver = $configResolver;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
+        $languages = $this->configResolver->getParameter('languages');
+
         $choices = iterator_to_array(
-            (function (): Generator {
-                foreach ($this->languageService->loadLanguageListByCode($this->languages) as $language) {
+            (function () use ($languages): Generator {
+                foreach ($this->languageService->loadLanguageListByCode($languages) as $language) {
                     yield $language->name => $language->languageCode;
                 }
             })()
@@ -60,12 +56,12 @@ final class TranslationListType extends AbstractType
                     'expanded' => true,
                     'multiple' => false,
                     'label' => false,
-                    'data' => function (Options $options): ?string {
+                    'data' => static function (Options $options) use ($languages): ?string {
                         if ($options['tag'] instanceof Tag) {
                             return $options['tag']->mainLanguageCode;
                         }
 
-                        return $this->languages[0] ?? null;
+                        return $languages[0] ?? null;
                     },
                     'preferred_choices' => static function (Options $options): array {
                         if ($options['tag'] instanceof Tag) {

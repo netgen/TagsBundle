@@ -16,11 +16,6 @@ final class Tags implements Converter
 {
     private const TAGS_VALIDATOR_IDENTIFIER = 'TagsValueValidator';
 
-    public static function create(): self
-    {
-        return new self();
-    }
-
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
     }

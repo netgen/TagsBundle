@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -11,10 +12,8 @@ use Pagerfanta\Adapter\AdapterInterface;
 /**
  * Pagerfanta adapter for content related to a tag.
  * Will return results as content objects.
- *
- * @final
  */
-class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
+final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
@@ -27,9 +26,9 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
     private $tagsService;
 
     /**
-     * @var bool
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $returnContentInfo;
+    private $configResolver;
 
     /**
      * @var int
@@ -46,10 +45,10 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
      */
     private $additionalCriteria = [];
 
-    public function __construct(TagsService $tagsService, bool $returnContentInfo = true)
+    public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
     {
         $this->tagsService = $tagsService;
-        $this->returnContentInfo = $returnContentInfo;
+        $this->configResolver = $configResolver;
     }
 
     public function setTag(Tag $tag): void
@@ -94,7 +93,7 @@ class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
             $this->tag,
             $offset,
             $length,
-            $this->returnContentInfo,
+            $this->configResolver->getParameter('tag_view.related_content_list.return_content_info', 'eztags'),
             $this->additionalCriteria,
             $this->sortClauses
         );

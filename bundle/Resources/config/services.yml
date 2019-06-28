@@ -15,16 +15,14 @@ services:
     eztags.routing.tag_router:
         class: Netgen\TagsBundle\Routing\TagRouter
         public: true
-        lazy: true
         arguments:
             - "@eztags.api.service.tags"
             - "@eztags.routing.tag_url_generator"
+            - "@ezpublish.config.resolver"
             - "@?router.request_context"
             - "@?logger"
-        calls:
-            - [setLanguages, [$languages$]]
         tags:
-            - {name: router, priority: 200}
+            - { name: router, priority: 200 }
 
     eztags.repository.related_content_facets_loader:
         class: Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader

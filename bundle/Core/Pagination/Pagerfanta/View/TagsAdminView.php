@@ -48,13 +48,9 @@ class TagsAdminView implements ViewInterface
      */
     private $endPage;
 
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig, string $template)
     {
         $this->twig = $twig;
-    }
-
-    public function setDefaultTemplate(string $template): void
-    {
         $this->template = $template;
     }
 

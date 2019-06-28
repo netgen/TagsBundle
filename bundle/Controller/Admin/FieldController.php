@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,21 +20,14 @@ class FieldController extends Controller
     private $tagsService;
 
     /**
-     * @var array
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $languages = [];
+    private $configResolver;
 
-    public function __construct(TagsService $tagsService)
+    public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
     {
         $this->tagsService = $tagsService;
-    }
-
-    /**
-     * Sets the list of available languages to controller.
-     */
-    public function setLanguages(?array $languages = null): void
-    {
-        $this->languages = $languages ?? [];
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -82,6 +76,8 @@ class FieldController extends Controller
     private function filterTags(array $tags, int $subTreeLimit, bool $hideRootTag): array
     {
         $data = [];
+        $languages = $this->configResolver->getParameter('languages');
+
         foreach ($tags as $tag) {
             if ($subTreeLimit > 0 && !in_array($subTreeLimit, $tag->path, true)) {
                 continue;
@@ -91,12 +87,12 @@ class FieldController extends Controller
                 continue;
             }
 
-            $tagKeywords = $tag->getKeywords($this->languages);
+            $tagKeywords = $tag->getKeywords($languages);
 
             $parentTagKeywords = [];
             if ($tag->hasParent()) {
                 $parentTag = $this->tagsService->loadTag($tag->parentTagId);
-                $parentTagKeywords = $parentTag->getKeywords($this->languages);
+                $parentTagKeywords = $parentTag->getKeywords($languages);
             }
 
             $data[] = [

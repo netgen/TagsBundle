@@ -5,4 +5,4 @@ services:
             - "@ezpublish.api.persistence_handler"
             - "@eztags.api.persistence_handler.tags"
         tags:
-            - {name: ezpublish.limitationType, alias: Tag}
+            - { name: ezpublish.limitationType, alias: Tag }

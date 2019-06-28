@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\RequestStackAware;
 use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Visitor;
 use FOS\HttpCache\ResponseTagger;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class CachedValue extends ValueObjectVisitor
 {
-    use RequestStackAware;
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    private $requestStack;
 
     /**
      * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
@@ -26,8 +29,12 @@ final class CachedValue extends ValueObjectVisitor
      */
     private $responseTagger;
 
-    public function __construct(ConfigResolverInterface $configResolver, ResponseTagger $responseTagger)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        ConfigResolverInterface $configResolver,
+        ResponseTagger $responseTagger
+    ) {
+        $this->requestStack = $requestStack;
         $this->configResolver = $configResolver;
         $this->responseTagger = $responseTagger;
     }
@@ -47,7 +54,7 @@ final class CachedValue extends ValueObjectVisitor
         if ($this->getParameter('tag_view.ttl_cache', 'eztags') === true) {
             $response->setSharedMaxAge($this->getParameter('tag_view.default_ttl', 'eztags'));
 
-            $request = $this->getCurrentRequest();
+            $request = $this->requestStack->getCurrentRequest();
             if ($request instanceof Request && $request->headers->has('X-User-Hash')) {
                 $response->setVary('X-User-Hash', false);
             }

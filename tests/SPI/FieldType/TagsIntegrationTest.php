@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
 use eZ\Publish\Core\FieldType\FieldSettings;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
@@ -72,15 +73,23 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         $this->tagsService = $this->createMock(TagsService::class);
 
-        $fieldType = new TagsType($this->tagsService);
+        $configResolverMock = $this->createMock(ConfigResolverInterface::class);
+        $configResolverMock
+            ->expects(self::any())
+            ->method('getParameter')
+            ->with(
+                self::identicalTo('edit_views'),
+                self::identicalTo('eztags')
+            )
+            ->willReturn(
+                [
+                    'default' => ['identifier' => 'Default'],
+                    'select' => ['identifier' => 'Select'],
+                ]
+            );
 
+        $fieldType = new TagsType($this->tagsService, $configResolverMock);
         $fieldType->setTransformationProcessor($this->getTransformationProcessor());
-        $fieldType->setEditViews(
-            [
-                'default' => ['identifier' => 'Default'],
-                'select' => ['identifier' => 'Select'],
-            ]
-        );
 
         return $this->getHandler(
             'eztags',

@@ -14,10 +14,9 @@ services:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CachedValue
         parent: ezpublish_rest.output.value_object_visitor.base
         arguments:
+            - "@request_stack"
             - "@ezpublish.config.resolver"
             - "@fos_http_cache.http.symfony_response_tagger"
-        calls:
-            - [setRequestStack, ["@request_stack"]]
         tags:
             - { name: ezpublish_rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CachedValue }
 
