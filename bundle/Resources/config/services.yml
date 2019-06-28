@@ -14,7 +14,6 @@ services:
 
     eztags.routing.tag_router:
         class: Netgen\TagsBundle\Routing\TagRouter
-        public: true
         arguments:
             - "@eztags.api.service.tags"
             - "@eztags.routing.tag_url_generator"

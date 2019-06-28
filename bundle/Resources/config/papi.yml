@@ -1,7 +1,6 @@
 services:
     eztags.api.service.tags:
         alias: eztags.signalslot.service.tags
-        public: true
 
     eztags.signalslot.service.tags:
         class: Netgen\TagsBundle\Core\SignalSlot\TagsService
