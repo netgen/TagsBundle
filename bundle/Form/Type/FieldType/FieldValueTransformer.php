@@ -40,7 +40,7 @@ final class FieldValueTransformer implements DataTransformerInterface
 
         foreach ($value->tags as $tag) {
             $tagKeyword = $tag->getKeyword($this->field->languageCode);
-            $mainKeyword = $tag->getKeyword();
+            $mainKeyword = $tag->getKeyword($tag->mainLanguageCode);
 
             $ids[] = $tag->id;
             $parentIds[] = $tag->parentTagId;

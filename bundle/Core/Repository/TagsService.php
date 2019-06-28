@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Repository;
 
-use DateTimeImmutable;
 use Exception;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository;
@@ -16,7 +15,6 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
 use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
@@ -47,9 +45,9 @@ class TagsService implements TagsServiceInterface
     private $tagsHandler;
 
     /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     * @var \Netgen\TagsBundle\Core\Repository\TagsMapper
      */
-    private $languageHandler;
+    private $mapper;
 
     /**
      * Counter for the current sudo nesting level.
@@ -58,14 +56,11 @@ class TagsService implements TagsServiceInterface
      */
     private $sudoNestingLevel = 0;
 
-    public function __construct(
-        Repository $repository,
-        TagsHandler $tagsHandler,
-        LanguageHandler $languageHandler
-    ) {
+    public function __construct(Repository $repository, TagsHandler $tagsHandler, TagsMapper $mapper)
+    {
         $this->repository = $repository;
         $this->tagsHandler = $tagsHandler;
-        $this->languageHandler = $languageHandler;
+        $this->mapper = $mapper;
     }
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
@@ -80,7 +75,7 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        return $this->buildTagDomainObject($spiTag);
+        return $this->mapper->buildTagDomainObject($spiTag, $languages ?? []);
     }
 
     public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): array
@@ -95,7 +90,7 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        return $this->buildTagDomainList($spiTags);
+        return $this->mapper->buildTagDomainList($spiTags, $languages ?? []);
     }
 
     public function loadTagByRemoteId(string $remoteId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
@@ -110,7 +105,7 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable
         );
 
-        return $this->buildTagDomainObject($spiTag);
+        return $this->mapper->buildTagDomainObject($spiTag, $languages ?? []);
     }
 
     public function loadTagByUrl(string $url, array $languages): Tag
@@ -163,7 +158,7 @@ class TagsService implements TagsServiceInterface
             throw new BaseNotFoundException('tag', $url);
         }
 
-        return $this->buildTagDomainObject($spiTag);
+        return $this->mapper->buildTagDomainObject($spiTag, $languages);
     }
 
     public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
@@ -182,7 +177,7 @@ class TagsService implements TagsServiceInterface
 
         $tags = [];
         foreach ($spiTags as $spiTag) {
-            $tags[] = $this->buildTagDomainObject($spiTag);
+            $tags[] = $this->mapper->buildTagDomainObject($spiTag, $languages ?? []);
         }
 
         return $tags;
@@ -211,7 +206,7 @@ class TagsService implements TagsServiceInterface
 
         $tags = [];
         foreach ($spiTags as $spiTag) {
-            $tags[] = $this->buildTagDomainObject($spiTag);
+            $tags[] = $this->mapper->buildTagDomainObject($spiTag, [$language]);
         }
 
         return $tags;
@@ -242,7 +237,7 @@ class TagsService implements TagsServiceInterface
 
         $tags = [];
         foreach ($spiSearchResult->tags as $spiTag) {
-            $tags[] = $this->buildTagDomainObject($spiTag);
+            $tags[] = $this->mapper->buildTagDomainObject($spiTag, [$language]);
         }
 
         return new SearchResult(
@@ -273,7 +268,7 @@ class TagsService implements TagsServiceInterface
 
         $tags = [];
         foreach ($spiTags as $spiTag) {
-            $tags[] = $this->buildTagDomainObject($spiTag);
+            $tags[] = $this->mapper->buildTagDomainObject($spiTag, $languages ?? []);
         }
 
         return $tags;
@@ -416,7 +411,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject($newTag);
+        return $this->mapper->buildTagDomainObject($newTag);
     }
 
     public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct): Tag
@@ -493,7 +488,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject($updatedTag);
+        return $this->mapper->buildTagDomainObject($updatedTag);
     }
 
     public function addSynonym(SynonymCreateStruct $synonymCreateStruct): Tag
@@ -560,7 +555,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject($newTag);
+        return $this->mapper->buildTagDomainObject($newTag);
     }
 
     public function convertToSynonym(Tag $tag, Tag $mainTag): Tag
@@ -599,7 +594,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject($convertedTag);
+        return $this->mapper->buildTagDomainObject($convertedTag);
     }
 
     public function mergeTags(Tag $tag, Tag $targetTag): void
@@ -686,7 +681,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject($copiedTag);
+        return $this->mapper->buildTagDomainObject($copiedTag);
     }
 
     public function moveSubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
@@ -736,7 +731,7 @@ class TagsService implements TagsServiceInterface
             throw $e;
         }
 
-        return $this->buildTagDomainObject($movedTag);
+        return $this->mapper->buildTagDomainObject($movedTag);
     }
 
     public function deleteTag(Tag $tag): void
@@ -842,48 +837,5 @@ class TagsService implements TagsServiceInterface
         }
 
         return $this->repository->getPermissionResolver()->canUser($module, $function, $object, $targets);
-    }
-
-    private function buildTagDomainObject(SPITag $spiTag): Tag
-    {
-        return $this->buildTagDomainList([$spiTag])[$spiTag->id];
-    }
-
-    private function buildTagDomainList(array $spiTags): array
-    {
-        $languageIds = [[]];
-        foreach ($spiTags as $spiTag) {
-            $languageIds[] = $spiTag->languageIds;
-        }
-
-        $languages = $this->languageHandler->loadList(array_unique(array_merge(...$languageIds)));
-
-        $tags = [];
-        foreach ($spiTags as $spiTag) {
-            $languageCodes = [];
-            foreach ($spiTag->languageIds as $languageId) {
-                if (isset($languages[$languageId])) {
-                    $languageCodes[] = $languages[$languageId]->languageCode;
-                }
-            }
-
-            $tags[$spiTag->id] = new Tag(
-                [
-                    'id' => $spiTag->id,
-                    'parentTagId' => $spiTag->parentTagId,
-                    'mainTagId' => $spiTag->mainTagId,
-                    'keywords' => $spiTag->keywords,
-                    'depth' => $spiTag->depth,
-                    'pathString' => $spiTag->pathString,
-                    'modificationDate' => new DateTimeImmutable('@' . $spiTag->modificationDate),
-                    'remoteId' => $spiTag->remoteId,
-                    'alwaysAvailable' => $spiTag->alwaysAvailable,
-                    'mainLanguageCode' => $spiTag->mainLanguageCode,
-                    'languageCodes' => $languageCodes,
-                ]
-            );
-        }
-
-        return $tags;
     }
 }

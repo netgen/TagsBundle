@@ -252,6 +252,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => 'eng-GB',
             ]
         );
     }
@@ -274,6 +275,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => 'eng-GB',
             ]
         );
     }
@@ -296,6 +298,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => 'eng-GB',
             ]
         );
     }

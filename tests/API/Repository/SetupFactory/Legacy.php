@@ -11,6 +11,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
+use Netgen\TagsBundle\Core\Repository\TagsMapper;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 
 /**
@@ -98,7 +99,7 @@ final class Legacy extends BaseLegacy
         return new TagsService(
             $repository,
             $tagsHandler,
-            $languageHandler
+            new TagsMapper($languageHandler)
         );
     }
 

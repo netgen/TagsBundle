@@ -111,6 +111,14 @@ final class Tag extends ValueObject
     protected $languageCodes = [];
 
     /**
+     * The first matched keyword language among user provided prioritized languages on tag retrieval, or null
+     * if none provided (all languages) or on main fallback.
+     *
+     * @var string|null
+     */
+    protected $prioritizedLanguageCode;
+
+    /**
      * Construct object optionally with a set of properties.
      *
      * Readonly properties values must be set using $properties as they are not writable anymore
@@ -155,7 +163,7 @@ final class Tag extends ValueObject
      */
     public function getKeyword(?string $languageCode = null): ?string
     {
-        return $this->keywords[$languageCode ?? $this->mainLanguageCode] ?? null;
+        return $this->keywords[$languageCode ?? $this->prioritizedLanguageCode ?? $this->mainLanguageCode] ?? null;
     }
 
     /**

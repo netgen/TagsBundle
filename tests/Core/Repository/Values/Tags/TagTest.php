@@ -33,5 +33,6 @@ final class TagTest extends TestCase
         self::assertContains('mainLanguageCode', $properties, 'Property not found');
         self::assertContains('alwaysAvailable', $properties, 'Property not found');
         self::assertContains('languageCodes', $properties, 'Property not found');
+        self::assertContains('prioritizedLanguageCode', $properties, 'Property not found');
     }
 }

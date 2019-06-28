@@ -52,6 +52,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => null,
                 'alwaysAvailable' => null,
                 'languageCodes' => [],
+                'prioritizedLanguageCode' => null,
             ],
             $tag
         );
@@ -179,6 +180,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => false,
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => null,
             ],
             $tag
         );
@@ -227,6 +229,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => false,
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => null,
             ],
             $tag
         );
@@ -273,6 +276,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => false,
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => 'eng-GB',
             ],
             $tag
         );
@@ -653,6 +657,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => null,
             ],
             $createdTag
         );
@@ -685,6 +690,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => null,
             ],
             $createdTag
         );
@@ -780,6 +786,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-US',
                 'alwaysAvailable' => true,
                 'languageCodes' => ['eng-US', 'eng-GB'],
+                'prioritizedLanguageCode' => null,
             ],
             $updatedTag
         );
@@ -945,6 +952,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => null,
             ],
             $createdSynonym
         );

@@ -324,7 +324,7 @@ final class Type extends FieldType
                         'Tag "%keyword%" is not below tag with ID %subTreeLimit% as specified by field definition',
                         null,
                         [
-                            '%keyword%' => $tag->getKeyword(),
+                            '%keyword%' => $tag->getKeyword($tag->mainLanguageCode),
                             '%subTreeLimit%' => $constraints['subTreeLimit'],
                         ],
                         'value'

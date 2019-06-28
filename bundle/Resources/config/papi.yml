@@ -1,6 +1,6 @@
 services:
     eztags.api.service.tags:
-        alias: eztags.signalslot.service.tags
+        alias: eztags.site_access_aware.service.tags
 
     eztags.signalslot.service.tags:
         class: Netgen\TagsBundle\Core\SignalSlot\TagsService
@@ -8,9 +8,20 @@ services:
             - "@eztags.api.service.tags.inner"
             - "@ezpublish.signalslot.signal_dispatcher"
 
+    eztags.site_access_aware.service.tags:
+        class: Netgen\TagsBundle\Core\SiteAccessAware\TagsService
+        arguments:
+            - "@eztags.signalslot.service.tags"
+            - "@ezpublish.helper.language_resolver"
+
+    eztags.api.service.tags.mapper:
+        class: Netgen\TagsBundle\Core\Repository\TagsMapper
+        arguments:
+            - "@ezpublish.spi.persistence.cache.contentLanguageHandler"
+
     eztags.api.service.tags.inner:
         class: Netgen\TagsBundle\Core\Repository\TagsService
         arguments:
             - "@ezpublish.siteaccessaware.repository"
             - "@eztags.api.persistence_handler.tags"
-            - "@ezpublish.spi.persistence.cache.contentLanguageHandler"
+            - "@eztags.api.service.tags.mapper"

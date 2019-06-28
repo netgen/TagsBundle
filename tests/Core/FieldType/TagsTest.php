@@ -574,6 +574,7 @@ final class TagsTest extends FieldTypeTest
                 'alwaysAvailable' => false,
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
+                'prioritizedLanguageCode' => 'eng-GB',
             ]
         );
     }

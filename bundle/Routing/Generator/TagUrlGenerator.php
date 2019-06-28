@@ -84,7 +84,7 @@ final class TagUrlGenerator extends Generator
 
                 if ($tagKeyword === null) {
                     if ($tag->alwaysAvailable) {
-                        $tagKeyword = $tag->getKeyword();
+                        $tagKeyword = $tag->getKeyword($tag->mainLanguageCode);
                     }
 
                     if ($tagKeyword === null) {
