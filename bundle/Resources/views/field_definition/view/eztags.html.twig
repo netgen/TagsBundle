@@ -2,7 +2,7 @@
 
 {% block eztags_settings %}
 
-{% set available_edit_views = ezpublish.configResolver.parameter( 'edit_views', 'eztags' ) %}
+{% set available_edit_views = ezplatform.configResolver.parameter( 'edit_views', 'eztags' ) %}
 {% set validator_config = fielddefinition.validatorConfiguration.TagsValueValidator %}
 
 <ul class="fielddef-settings {{ fielddefinition.fieldTypeIdentifier }}-settings">

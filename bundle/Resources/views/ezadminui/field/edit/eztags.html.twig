@@ -11,7 +11,7 @@
                 data-autocomplete-url="{{ path('netgen_tags_admin_field_autocomplete') }}"
                 data-children-url="{{ path('netgen_tags_admin_field_children') }}"
                 data-builder="{{ edit_view }}"
-                data-max-results="{{ ezpublish.configResolver.parameter('field.autocomplete_limit', 'eztags') }}"
+                data-max-results="{{ ezplatform.configResolver.parameter('field.autocomplete_limit', 'eztags') }}"
                 data-has-add-access="{% if is_granted('ez:tags:add') %}1{% else %}0{% endif %}"
                 data-subtree-limit="{{ field_definition.validatorConfiguration.TagsValueValidator.subTreeLimit|default(0) }}"
                 data-hide-root-tag="{% if field_definition.fieldSettings.hideRootTag|default(false) %}1{% else %}0{% endif %}"
@@ -28,7 +28,7 @@
 
             {% set edit_view_template = null %}
 
-            {% for edit_view_config in ezpublish.configResolver.parameter('edit_views', 'eztags') %}
+            {% for edit_view_config in ezplatform.configResolver.parameter('edit_views', 'eztags') %}
                 {% if edit_view_config.identifier == edit_view %}
                     {% set edit_view_template = edit_view_config.template %}
                 {% endif %}
