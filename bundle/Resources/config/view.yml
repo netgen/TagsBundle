@@ -16,6 +16,7 @@ services:
     eztags.view.cache_response_listener:
         class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
         arguments:
+            - "@fos_http_cache.http.symfony_response_tagger"
             - $tag_view.cache;eztags$
             - $tag_view.ttl_cache;eztags$
             - $tag_view.default_ttl;eztags$

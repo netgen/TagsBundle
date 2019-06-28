@@ -9,6 +9,7 @@ use eZ\Publish\Core\MVC\Symfony\RequestStackAware;
 use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Visitor;
+use FOS\HttpCache\ResponseTagger;
 use Symfony\Component\HttpFoundation\Request;
 
 final class CachedValue extends ValueObjectVisitor
@@ -20,9 +21,15 @@ final class CachedValue extends ValueObjectVisitor
      */
     private $configResolver;
 
-    public function __construct(ConfigResolverInterface $configResolver)
+    /**
+     * @var \FOS\HttpCache\ResponseTagger
+     */
+    private $responseTagger;
+
+    public function __construct(ConfigResolverInterface $configResolver, ResponseTagger $responseTagger)
     {
         $this->configResolver = $configResolver;
+        $this->responseTagger = $responseTagger;
     }
 
     public function visit(Visitor $visitor, Generator $generator, $data): void
@@ -47,11 +54,11 @@ final class CachedValue extends ValueObjectVisitor
         }
 
         if (isset($data->cacheTags['tagId'])) {
-            $response->headers->set('X-Tag-Id', $data->cacheTags['tagId']);
+            $this->responseTagger->addTags(['ngtags-tag-' . $data->cacheTags['tagId']]);
         }
 
         if (isset($data->cacheTags['tagKeyword'])) {
-            $response->headers->set('X-Tag-Keyword', $data->cacheTags['tagKeyword']);
+            $this->responseTagger->addTags(['ngtags-tag-keyword-' . $data->cacheTags['tagKeyword']]);
         }
     }
 

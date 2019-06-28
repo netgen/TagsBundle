@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\Response;
 
+use FOS\HttpCache\ResponseTagger;
 use Netgen\TagsBundle\View\CacheableView;
 use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,6 +13,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class CachedViewResponseListener implements EventSubscriberInterface
 {
+    /**
+     * @var \FOS\HttpCache\ResponseTagger
+     */
+    private $responseTagger;
+
     /**
      * @var bool
      */
@@ -27,8 +33,13 @@ final class CachedViewResponseListener implements EventSubscriberInterface
      */
     private $defaultTtl;
 
-    public function __construct(bool $enableViewCache, bool $enableTtlCache, int $defaultTtl)
-    {
+    public function __construct(
+        ResponseTagger $responseTagger,
+        bool $enableViewCache,
+        bool $enableTtlCache,
+        int $defaultTtl
+    ) {
+        $this->responseTagger = $responseTagger;
         $this->enableViewCache = $enableViewCache;
         $this->enableTtlCache = $enableTtlCache;
         $this->defaultTtl = $defaultTtl;
@@ -57,7 +68,7 @@ final class CachedViewResponseListener implements EventSubscriberInterface
         $response = $event->getResponse();
 
         $response->setPublic();
-        $response->headers->set('X-Tag-Id', (string) $tag->id, false);
+        $this->responseTagger->addTags(['ngtags-tag-' . $tag->id]);
 
         if ($this->enableTtlCache && !$response->headers->hasCacheControlDirective('s-maxage')) {
             $response->setSharedMaxAge($this->defaultTtl);
