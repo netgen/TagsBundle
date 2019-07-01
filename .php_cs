@@ -17,6 +17,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_align' => false,
         'phpdoc_no_alias_tag' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
+        'self_accessor' => false,
         'single_line_comment_style' => false,
         'visibility_required' => ['elements' => ['property', 'method', 'const']],
         'yoda_style' => false,
