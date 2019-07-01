@@ -1,43 +1,44 @@
 {% trans_default_domain "ezrepoforms_content_type" %}
 
 {% block eztags_settings %}
+    {% set available_edit_views = ezplatform.configResolver.parameter('edit_views', 'eztags') %}
+    {% set validator_config = fielddefinition.validatorConfiguration.TagsValueValidator %}
 
-{% set available_edit_views = ezplatform.configResolver.parameter('edit_views', 'eztags') %}
-{% set validator_config = fielddefinition.validatorConfiguration.TagsValueValidator %}
-
-<ul class="fielddef-settings {{ fielddefinition.fieldTypeIdentifier }}-settings">
-    <li class="subtree-limit">
-        <span>{{ 'field_definition.eztags.validator.subtree_limit'|trans }}:</span>
-        {% if validator_config.subTreeLimit > 0 %}
-            <a href="{{ path('netgen_tags_admin_tag_show', { 'tagId': validator_config.subTreeLimit }) }}">{{ netgen_tags_tag_keyword(validator_config.subTreeLimit) }}</a>
-        {% else %}
-            {{ 'field_definition.eztags.validator.subtree_limit.no_limit'|trans }}
-        {% endif %}
-    </li>
-
-    <li class="max-tags">
-        <span>{{ 'field_definition.eztags.validator.max_tags'|trans }}:</span>
-        {{ validator_config.maxTags > 0 ?
-            validator_config.maxTags :
-            'field_definition.eztags.validator.max_tags.no_limit'|trans
-        }}
-    </li>
-
-    <li class="hide-root-tag">
-        <span>{{ 'field_definition.eztags.settings.hide_root_tag'|trans }}:</span>
-        {{ settings.hideRootTag ?
-            'field_definition.eztags.settings.yes'|trans :
-            'field_definition.eztags.settings.no'|trans
-        }}
-    </li>
-
-    <li class="edit-view">
-        <span>{{ 'field_definition.eztags.settings.edit_view'|trans }}:</span>
-        {% for edit_view in available_edit_views %}
-            {% if edit_view.identifier == settings.editView %}
-                {{ edit_view.name|trans }}
+    <ul class="fielddef-settings {{ fielddefinition.fieldTypeIdentifier }}-settings">
+        <li class="subtree-limit">
+            <span>{{ 'field_definition.eztags.validator.subtree_limit'|trans }}:</span>
+            {% if validator_config.subTreeLimit > 0 %}
+                <a href="{{ path('netgen_tags_admin_tag_show', { 'tagId': validator_config.subTreeLimit }) }}">
+                    {{ netgen_tags_tag_keyword(validator_config.subTreeLimit) }}
+                </a>
+            {% else %}
+                {{ 'field_definition.eztags.validator.subtree_limit.no_limit'|trans }}
             {% endif %}
-        {% endfor %}
-    </li>
-</ul>
+        </li>
+
+        <li class="max-tags">
+            <span>{{ 'field_definition.eztags.validator.max_tags'|trans }}:</span>
+            {{ validator_config.maxTags > 0 ?
+                validator_config.maxTags :
+                'field_definition.eztags.validator.max_tags.no_limit'|trans
+            }}
+        </li>
+
+        <li class="hide-root-tag">
+            <span>{{ 'field_definition.eztags.settings.hide_root_tag'|trans }}:</span>
+            {{ settings.hideRootTag ?
+                'field_definition.eztags.settings.yes'|trans :
+                'field_definition.eztags.settings.no'|trans
+            }}
+        </li>
+
+        <li class="edit-view">
+            <span>{{ 'field_definition.eztags.settings.edit_view'|trans }}:</span>
+            {% for edit_view in available_edit_views %}
+                {% if edit_view.identifier == settings.editView %}
+                    {{ edit_view.name|trans }}
+                {% endif %}
+            {% endfor %}
+        </li>
+    </ul>
 {% endblock %}

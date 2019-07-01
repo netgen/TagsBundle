@@ -6,7 +6,7 @@
 
 {% block content %}
     <h2 class="tag-title">
-        {{ 'tag.related_content.title'|trans }}: <a href="{{ path( 'netgen_tags_admin_tag_show', {tagId: tag.id} ) }}">{{ tag.keyword }}</a>
+        {{ 'tag.related_content.title'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {tagId: tag.id}) }}">{{ tag.keyword }}</a>
     </h2>
 
     {% if related_content|length > 0 or filter_applied %}
@@ -33,7 +33,7 @@
                 {% for content in related_content %}
                     <tr>
                         <td>{{ content.id }}</td>
-                        <td><a href="{{ path( "ez_urlalias", {"contentId": content.id} ) }}" target="_blank">{{ content.name }}</a></td>
+                        <td><a href="{{ path('ez_urlalias', {'contentId': content.id}) }}" target="_blank">{{ content.name }}</a></td>
                         <td>{{ content.modificationDate|date }}</td>
                         <td>{{ netgen_tags_content_type_name(content.contentTypeId) }}</td>
                     </tr>
@@ -42,7 +42,7 @@
         </table>
 
         {% if related_content.haveToPaginate() %}
-            {{ pagerfanta( related_content, 'eztags_admin' ) }}
+            {{ pagerfanta(related_content, 'eztags_admin') }}
         {% endif %}
     {% endif %}
 {% endblock %}
