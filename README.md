@@ -16,7 +16,7 @@ Implemented features
 
 * `eztags` field type
 * Tags service and legacy SPI handler
-* Signal slot tags service
+* Event dispatching tags service
 * `/tags/id/{tagId}` and `/tags/view/{tagUrl}` pages
 * `TagId` and `TagKeyword` search criteria
 * Solr indexing of `eztags` field type
