@@ -1,4 +1,6 @@
-{% extends ezplatform.configResolver.parameter('page_layout') %}
+{% extends ezplatform.configResolver.hasParameter('page_layout') ?
+    ezplatform.configResolver.parameter('page_layout') :
+    ezplatform.configResolver.parameter('pagelayout') %}
 
 {% block page_head %}
     {% set title = tag.keyword %}
