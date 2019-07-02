@@ -77,8 +77,8 @@ final class TagKeywordTest extends TestCase
             ->expects(self::once())
             ->method('getFieldTypes')
             ->with(
-                self::equalTo($criterion),
-                self::equalTo('tags_field'),
+                self::identicalTo($criterion),
+                self::identicalTo('tags_field'),
                 'eztags',
                 'tag_keywords'
             )
@@ -129,8 +129,8 @@ final class TagKeywordTest extends TestCase
             ->expects(self::at(0))
             ->method('getFieldTypes')
             ->with(
-                self::equalTo($criterion),
-                self::equalTo('tags_field'),
+                self::identicalTo($criterion),
+                self::identicalTo('tags_field'),
                 'eztags',
                 'tag_keywords'
             )
@@ -144,8 +144,8 @@ final class TagKeywordTest extends TestCase
             ->expects(self::at(1))
             ->method('getFieldTypes')
             ->with(
-                self::equalTo($criterion),
-                self::equalTo('tags_field2'),
+                self::identicalTo($criterion),
+                self::identicalTo('tags_field2'),
                 'eztags',
                 'tag_keywords'
             )
@@ -175,8 +175,8 @@ final class TagKeywordTest extends TestCase
             ->expects(self::once())
             ->method('getFieldTypes')
             ->with(
-                self::equalTo($criterion),
-                self::equalTo('tags_field'),
+                self::identicalTo($criterion),
+                self::identicalTo('tags_field'),
                 'eztags',
                 'tag_keywords'
             )

@@ -47,7 +47,7 @@ final class RelatedContentAdapterTest extends TestCase
         $this->tagsService
             ->expects(self::once())
             ->method('getRelatedContentCount')
-            ->with(self::equalTo($tag))
+            ->with(self::identicalTo($tag))
             ->willReturn($nbResults);
 
         $adapter = $this->getAdapter($tag, $this->tagsService);
@@ -105,16 +105,16 @@ final class RelatedContentAdapterTest extends TestCase
         $this->tagsService
             ->expects(self::once())
             ->method('getRelatedContentCount')
-            ->with(self::equalTo($tag))
+            ->with(self::identicalTo($tag))
             ->willReturn($nbResults);
 
         $this->tagsService
             ->expects(self::once())
             ->method('getRelatedContent')
             ->with(
-                self::equalTo($tag),
-                self::equalTo($offset),
-                self::equalTo($limit)
+                self::identicalTo($tag),
+                self::identicalTo($offset),
+                self::identicalTo($limit)
             )
             ->willReturn($relatedContent);
 
