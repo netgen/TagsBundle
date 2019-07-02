@@ -2,23 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Netgen\TagsBundle\Core\SignalSlot;
+namespace Netgen\TagsBundle\Core\Event;
 
-use eZ\Publish\Core\SignalSlot\SignalDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\AddSynonymSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\ConvertToSynonymSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CopySubtreeSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\CreateTagSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\DeleteTagSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MergeTagsSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\MoveSubtreeSignal;
-use Netgen\TagsBundle\Core\SignalSlot\Signal\TagsService\UpdateTagSignal;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsService implements TagsServiceInterface
 {
@@ -28,14 +20,14 @@ final class TagsService implements TagsServiceInterface
     private $service;
 
     /**
-     * @var \eZ\Publish\Core\SignalSlot\SignalDispatcher
+     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
      */
-    private $signalDispatcher;
+    private $eventDispatcher;
 
-    public function __construct(TagsServiceInterface $service, SignalDispatcher $signalDispatcher)
+    public function __construct(TagsServiceInterface $service, EventDispatcherInterface $eventDispatcher)
     {
         $this->service = $service;
-        $this->signalDispatcher = $signalDispatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
@@ -105,131 +97,130 @@ final class TagsService implements TagsServiceInterface
 
     public function createTag(TagCreateStruct $tagCreateStruct): Tag
     {
-        $returnValue = $this->service->createTag($tagCreateStruct);
-        $this->signalDispatcher->emit(
-            new CreateTagSignal(
-                [
-                    'tagId' => $returnValue->id,
-                    'parentTagId' => $returnValue->parentTagId,
-                    'keywords' => $returnValue->keywords,
-                    'mainLanguageCode' => $returnValue->mainLanguageCode,
-                    'alwaysAvailable' => $returnValue->alwaysAvailable,
-                ]
-            )
-        );
+        $beforeEvent = new Tags\BeforeCreateTagEvent($tagCreateStruct);
 
-        return $returnValue;
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return $beforeEvent->getTag();
+        }
+
+        $tag = $beforeEvent->hasTag() ?
+            $beforeEvent->getTag() :
+            $this->service->createTag($tagCreateStruct);
+
+        $this->eventDispatcher->dispatch(new Tags\CreateTagEvent($tagCreateStruct, $tag));
+
+        return $tag;
     }
 
     public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct): Tag
     {
-        $returnValue = $this->service->updateTag($tag, $tagUpdateStruct);
-        $this->signalDispatcher->emit(
-            new UpdateTagSignal(
-                [
-                    'tagId' => $returnValue->id,
-                    'keywords' => $returnValue->keywords,
-                    'remoteId' => $returnValue->remoteId,
-                    'mainLanguageCode' => $returnValue->mainLanguageCode,
-                    'alwaysAvailable' => $returnValue->alwaysAvailable,
-                ]
-            )
-        );
+        $beforeEvent = new Tags\BeforeUpdateTagEvent($tagUpdateStruct, $tag);
 
-        return $returnValue;
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return $beforeEvent->getUpdatedTag();
+        }
+
+        $updatedTag = $beforeEvent->hasUpdatedTag() ?
+            $beforeEvent->getUpdatedTag() :
+            $this->service->updateTag($tag, $tagUpdateStruct);
+
+        $this->eventDispatcher->dispatch(new Tags\UpdateTagEvent($tagUpdateStruct, $updatedTag));
+
+        return $updatedTag;
     }
 
     public function addSynonym(SynonymCreateStruct $synonymCreateStruct): Tag
     {
-        $returnValue = $this->service->addSynonym($synonymCreateStruct);
-        $this->signalDispatcher->emit(
-            new AddSynonymSignal(
-                [
-                    'tagId' => $returnValue->id,
-                    'mainTagId' => $returnValue->mainTagId,
-                    'keywords' => $returnValue->keywords,
-                    'mainLanguageCode' => $returnValue->mainLanguageCode,
-                    'alwaysAvailable' => $returnValue->alwaysAvailable,
-                ]
-            )
-        );
+        $beforeEvent = new Tags\BeforeAddSynonymEvent($synonymCreateStruct);
 
-        return $returnValue;
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return $beforeEvent->getSynonym();
+        }
+
+        $synonym = $beforeEvent->hasSynonym() ?
+            $beforeEvent->getSynonym() :
+            $this->service->addSynonym($synonymCreateStruct);
+
+        $this->eventDispatcher->dispatch(new Tags\AddSynonymEvent($synonymCreateStruct, $synonym));
+
+        return $synonym;
     }
 
     public function convertToSynonym(Tag $tag, Tag $mainTag): Tag
     {
-        $returnValue = $this->service->convertToSynonym($tag, $mainTag);
-        $this->signalDispatcher->emit(
-            new ConvertToSynonymSignal(
-                [
-                    'tagId' => $returnValue->id,
-                    'mainTagId' => $returnValue->mainTagId,
-                ]
-            )
-        );
+        $beforeEvent = new Tags\BeforeConvertToSynonymEvent($tag, $mainTag);
 
-        return $returnValue;
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return $beforeEvent->getSynonym();
+        }
+
+        $synonym = $beforeEvent->hasSynonym() ?
+            $beforeEvent->getSynonym() :
+            $this->service->convertToSynonym($tag, $mainTag);
+
+        $this->eventDispatcher->dispatch(new Tags\ConvertToSynonymEvent($synonym, $mainTag));
+
+        return $synonym;
     }
 
     public function mergeTags(Tag $tag, Tag $targetTag): void
     {
+        $beforeEvent = new Tags\BeforeMergeTagsEvent($tag, $targetTag);
+
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return;
+        }
+
         $this->service->mergeTags($tag, $targetTag);
-        $this->signalDispatcher->emit(
-            new MergeTagsSignal(
-                [
-                    'tagId' => $tag->id,
-                    'targetTagId' => $targetTag->id,
-                ]
-            )
-        );
+
+        $this->eventDispatcher->dispatch(new Tags\MergeTagsEvent($targetTag));
     }
 
     public function copySubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
-        $returnValue = $this->service->copySubtree($tag, $targetParentTag);
-        $this->signalDispatcher->emit(
-            new CopySubtreeSignal(
-                [
-                    'sourceTagId' => $tag->id,
-                    'targetParentTagId' => $targetParentTag instanceof Tag ?
-                        $targetParentTag->id :
-                        0,
-                    'newTagId' => $returnValue->id,
-                ]
-            )
-        );
+        $beforeEvent = new Tags\BeforeCopySubtreeEvent($tag, $targetParentTag);
 
-        return $returnValue;
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return $beforeEvent->getCopiedTag();
+        }
+
+        $copiedTag = $beforeEvent->hasCopiedTag() ?
+            $beforeEvent->getCopiedTag() :
+            $this->service->copySubtree($tag, $targetParentTag);
+
+        $this->eventDispatcher->dispatch(new Tags\CopySubtreeEvent($tag, $copiedTag, $targetParentTag));
+
+        return $copiedTag;
     }
 
     public function moveSubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
-        $returnValue = $this->service->moveSubtree($tag, $targetParentTag);
-        $this->signalDispatcher->emit(
-            new MoveSubtreeSignal(
-                [
-                    'sourceTagId' => $tag->id,
-                    'targetParentTagId' => $targetParentTag instanceof Tag ?
-                        $targetParentTag->id :
-                        0,
-                ]
-            )
-        );
+        $beforeEvent = new Tags\BeforeMoveSubtreeEvent($tag, $targetParentTag);
 
-        return $returnValue;
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return $beforeEvent->getMovedTag();
+        }
+
+        $movedTag = $beforeEvent->hasMovedTag() ?
+            $beforeEvent->getMovedTag() :
+            $this->service->moveSubtree($tag, $targetParentTag);
+
+        $this->eventDispatcher->dispatch(new Tags\MoveSubtreeEvent($movedTag, $targetParentTag));
+
+        return $movedTag;
     }
 
     public function deleteTag(Tag $tag): void
     {
+        $beforeEvent = new Tags\BeforeDeleteTagEvent($tag);
+
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return;
+        }
+
         $this->service->deleteTag($tag);
-        $this->signalDispatcher->emit(
-            new DeleteTagSignal(
-                [
-                    'tagId' => $tag->id,
-                ]
-            )
-        );
+
+        $this->eventDispatcher->dispatch(new Tags\DeleteTagEvent($tag));
     }
 
     public function newTagCreateStruct(int $parentTagId, string $mainLanguageCode): TagCreateStruct

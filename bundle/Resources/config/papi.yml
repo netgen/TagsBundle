@@ -2,16 +2,16 @@ services:
     eztags.api.service.tags:
         alias: eztags.site_access_aware.service.tags
 
-    eztags.signalslot.service.tags:
-        class: Netgen\TagsBundle\Core\SignalSlot\TagsService
+    eztags.event.service.tags:
+        class: Netgen\TagsBundle\Core\Event\TagsService
         arguments:
             - "@eztags.api.service.tags.inner"
-            - "@ezpublish.signalslot.signal_dispatcher"
+            - "@event_dispatcher"
 
     eztags.site_access_aware.service.tags:
         class: Netgen\TagsBundle\Core\SiteAccessAware\TagsService
         arguments:
-            - "@eztags.signalslot.service.tags"
+            - "@eztags.event.service.tags"
             - "@ezpublish.helper.language_resolver"
 
     eztags.api.service.tags.mapper:

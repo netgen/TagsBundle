@@ -1,4 +1,7 @@
 services:
+    event_dispatcher:
+        class: Netgen\TagsBundle\Tests\Stubs\EventDispatcherStub
+
     ezpublish.config.resolver:
         class: Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub
         arguments:
