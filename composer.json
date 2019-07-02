@@ -46,13 +46,6 @@
         "phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon --level=7 --ansi bundle",
         "phpstan-tests": "@php vendor/bin/phpstan analyse -c phpstan.tests.neon --level=7 --ansi tests"
     },
-    "suggest": {
-        "ezsystems/eztags-ls": "For editing eZ Tags content object and content class attributes in eZ Publish Legacy"
-    },
-    "conflict": {
-        "ezsystems/platform-ui-bundle": "*",
-        "ezsystems/eztags-ls": "<2.1"
-    },
     "autoload": {
         "psr-4": {
             "Netgen\\TagsBundle\\": "bundle/"
