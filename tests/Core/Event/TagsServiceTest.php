@@ -111,13 +111,13 @@ final class TagsServiceTest extends TestCase
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
-        $tags = $eventDispatchingService->loadTagChildren($tag);
+        $childrenTags = $eventDispatchingService->loadTagChildren($tag);
 
-        self::assertCount(2, $tags);
-        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
+        self::assertCount(2, $childrenTags);
+        self::assertContainsOnlyInstancesOf(Tag::class, $childrenTags);
 
-        foreach ($tags as $tag) {
-            self::assertSame(42, $tag->parentTagId);
+        foreach ($childrenTags as $childTag) {
+            self::assertSame(42, $childTag->parentTagId);
         }
     }
 
@@ -203,13 +203,13 @@ final class TagsServiceTest extends TestCase
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
-        $tags = $eventDispatchingService->loadTagSynonyms($tag);
+        $synonyms = $eventDispatchingService->loadTagSynonyms($tag);
 
-        self::assertCount(2, $tags);
-        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
+        self::assertCount(2, $synonyms);
+        self::assertContainsOnlyInstancesOf(Tag::class, $synonyms);
 
-        foreach ($tags as $tag) {
-            self::assertSame(42, $tag->mainTagId);
+        foreach ($synonyms as $synonym) {
+            self::assertSame(42, $synonym->mainTagId);
         }
     }
 

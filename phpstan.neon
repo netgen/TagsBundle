@@ -6,6 +6,9 @@ parameters:
     ignoreErrors:
         # Symfony:
         - '#Cannot call method booleanNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
+        -
+            message: '#Call to an undefined method object::isPropagationStopped\(\)#'
+            path: bundle/Core/Event/TagsService.php
 
         # eZ Platform
         - '#Method eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) invoked with \d+ parameters?, \d+ required.#'

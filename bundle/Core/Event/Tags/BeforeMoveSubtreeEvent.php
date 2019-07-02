@@ -43,7 +43,7 @@ final class BeforeMoveSubtreeEvent extends BeforeEvent
 
     public function getMovedTag(): Tag
     {
-        if (!$this->hasMovedTag()) {
+        if ($this->movedTag === null) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasMovedTag() or set it with setMovedTag() before you call the getter.', Tag::class));
         }
 
