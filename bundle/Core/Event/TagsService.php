@@ -9,6 +9,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -35,7 +36,7 @@ final class TagsService implements TagsServiceInterface
         return $this->service->loadTag($tagId, $languages, $useAlwaysAvailable);
     }
 
-    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): array
+    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->service->loadTagList($tagIds, $languages, $useAlwaysAvailable);
     }
@@ -50,7 +51,7 @@ final class TagsService implements TagsServiceInterface
         return $this->service->loadTagByUrl($url, $languages);
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->service->loadTagChildren($tag, $offset, $limit, $languages, $useAlwaysAvailable);
     }
@@ -60,7 +61,7 @@ final class TagsService implements TagsServiceInterface
         return $this->service->getTagChildrenCount($tag, $languages, $useAlwaysAvailable);
     }
 
-    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): TagList
     {
         return $this->service->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit);
     }
@@ -75,7 +76,7 @@ final class TagsService implements TagsServiceInterface
         return $this->service->searchTags($searchString, $language, $useAlwaysAvailable, $offset, $limit);
     }
 
-    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->service->loadTagSynonyms($tag, $offset, $limit, $languages, $useAlwaysAvailable);
     }

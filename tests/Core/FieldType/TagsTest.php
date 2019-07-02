@@ -11,6 +11,7 @@ use eZ\Publish\Core\FieldType\ValidationError;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
@@ -27,7 +28,7 @@ final class TagsTest extends FieldTypeTest
     /**
      * Returns values for TagsService::loadTag based on input value.
      */
-    public function getTagsServiceLoadTagValues(array $tagIds): array
+    public function getTagsServiceLoadTagValues(array $tagIds): TagList
     {
         $tags = [];
         foreach ($tagIds as $tagId) {
@@ -42,7 +43,7 @@ final class TagsTest extends FieldTypeTest
             );
         }
 
-        return $tags;
+        return new TagList($tags);
     }
 
     public function provideValidFieldSettings(): array

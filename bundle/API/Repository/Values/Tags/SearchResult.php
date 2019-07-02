@@ -7,13 +7,13 @@ namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 use eZ\Publish\API\Repository\Values\ValueObject;
 
 /**
- * @property-read \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags Found tags
+ * @property-read \Netgen\TagsBundle\API\Repository\Values\Tags\TagList $tags Found tags
  * @property-read int $totalCount Total count of the search
  */
 final class SearchResult extends ValueObject
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
     protected $tags;
 

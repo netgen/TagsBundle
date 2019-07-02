@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -70,7 +71,7 @@ final class FieldController extends Controller
         return new JsonResponse($data);
     }
 
-    private function filterTags(array $tags, int $subTreeLimit, bool $hideRootTag): array
+    private function filterTags(TagList $tags, int $subTreeLimit, bool $hideRootTag): array
     {
         $data = [];
         $languages = $this->configResolver->getParameter('languages');

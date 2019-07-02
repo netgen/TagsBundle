@@ -10,6 +10,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 final class TagsService implements TagsServiceInterface
@@ -39,7 +40,7 @@ final class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): array
+    public function loadTagList(array $tagIds, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->innerService->loadTagList(
             $tagIds,
@@ -65,7 +66,7 @@ final class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->innerService->loadTagChildren(
             $tag,
@@ -85,7 +86,7 @@ final class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): TagList
     {
         return $this->innerService->loadTagsByKeyword(
             $keyword,
@@ -116,7 +117,7 @@ final class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): array
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->innerService->loadTagSynonyms(
             $tag,

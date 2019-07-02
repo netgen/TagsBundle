@@ -96,10 +96,9 @@ final class Type extends FieldType
             }
         }
 
+        $loadedTags = [];
         if (count($tagIds) > 0) {
-            $loadedTags = $this->tagsService->loadTagList($tagIds);
-        } else {
-            $loadedTags = [];
+            $loadedTags = $this->tagsService->loadTagList($tagIds)->toArray();
         }
 
         foreach ($hash as $hashItem) {

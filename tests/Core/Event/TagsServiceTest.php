@@ -9,6 +9,7 @@ use eZ\Publish\Core\Repository\Values\Content\Content;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Core\Event\Tags;
 use Netgen\TagsBundle\Core\Event\TagsService;
@@ -104,19 +105,21 @@ final class TagsServiceTest extends TestCase
             ->method('loadTagChildren')
             ->with(self::identicalTo($tag))
             ->willReturn(
-                [
-                    new Tag(['parentTagId' => 42]),
-                    new Tag(['parentTagId' => 42]),
-                ]
+                new TagList(
+                    [
+                        new Tag(['parentTagId' => 42]),
+                        new Tag(['parentTagId' => 42]),
+                    ]
+                )
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
         $childrenTags = $eventDispatchingService->loadTagChildren($tag);
 
         self::assertCount(2, $childrenTags);
-        self::assertContainsOnlyInstancesOf(Tag::class, $childrenTags);
+        self::assertContainsOnlyInstancesOf(Tag::class, $childrenTags->toArray());
 
-        foreach ($childrenTags as $childTag) {
+        foreach ($childrenTags->toArray() as $childTag) {
             self::assertSame(42, $childTag->parentTagId);
         }
     }
@@ -150,19 +153,21 @@ final class TagsServiceTest extends TestCase
             ->method('loadTagsByKeyword')
             ->with('netgen', 'eng-GB')
             ->willReturn(
-                [
-                    new Tag(['keywords' => ['eng-GB' => 'netgen']]),
-                    new Tag(['keywords' => ['eng-GB' => 'netgen']]),
-                ]
+                new TagList(
+                    [
+                        new Tag(['keywords' => ['eng-GB' => 'netgen']]),
+                        new Tag(['keywords' => ['eng-GB' => 'netgen']]),
+                    ]
+                )
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
         $tags = $eventDispatchingService->loadTagsByKeyword('netgen', 'eng-GB');
 
         self::assertCount(2, $tags);
-        self::assertContainsOnlyInstancesOf(Tag::class, $tags);
+        self::assertContainsOnlyInstancesOf(Tag::class, $tags->toArray());
 
-        foreach ($tags as $tag) {
+        foreach ($tags->toArray() as $tag) {
             self::assertSame(['eng-GB' => 'netgen'], $tag->keywords);
         }
     }
@@ -196,19 +201,21 @@ final class TagsServiceTest extends TestCase
             ->method('loadTagSynonyms')
             ->with(self::identicalTo($tag))
             ->willReturn(
-                [
-                    new Tag(['mainTagId' => 42]),
-                    new Tag(['mainTagId' => 42]),
-                ]
+                new TagList(
+                    [
+                        new Tag(['mainTagId' => 42]),
+                        new Tag(['mainTagId' => 42]),
+                    ]
+                )
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
         $synonyms = $eventDispatchingService->loadTagSynonyms($tag);
 
         self::assertCount(2, $synonyms);
-        self::assertContainsOnlyInstancesOf(Tag::class, $synonyms);
+        self::assertContainsOnlyInstancesOf(Tag::class, $synonyms->toArray());
 
-        foreach ($synonyms as $synonym) {
+        foreach ($synonyms->toArray() as $synonym) {
             self::assertSame(42, $synonym->mainTagId);
         }
     }
