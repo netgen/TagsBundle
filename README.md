@@ -38,7 +38,7 @@ License and installation instructions
 
 [Upgrade instructions](doc/UPGRADE.md)
 
-[Changelogs](doc/)
+[Changelogs](doc/changelogs/)
 
 Unit tests
 ----------
