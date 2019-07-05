@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.4 changelog
 ================================
 
+3.4.2 (05.07.2019)
+------------------
+
+* `eztags.installer.listener.build_schema` event subscriber needs to be public on Symfony 2.8
+
 3.4.1 (24.06.2019)
 ------------------
 

@@ -1,7 +1,7 @@
 services:
     eztags.installer.listener.build_schema:
         class: Netgen\TagsBundle\Installer\BuildSchemaListener
-        public: false
+        public: true
         arguments:
             - '@=service("kernel").locateResource("@NetgenTagsBundle/Resources/schema/legacy.yml")'
         tags:
