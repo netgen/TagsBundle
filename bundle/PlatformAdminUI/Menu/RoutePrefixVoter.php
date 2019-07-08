@@ -35,7 +35,7 @@ final class RoutePrefixVoter implements VoterInterface
             return null;
         }
 
-        $currentRoute = $request->attributes->get('_route');
+        $currentRoute = $request->attributes->get('_route') ?? '';
         if (mb_strpos($currentRoute, $this->routePrefix) !== 0) {
             return null;
         }
