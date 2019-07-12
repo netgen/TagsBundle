@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\BeforeEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\BeforeMoveSubtreeEvent as BeforeMoveSubtreeEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 use UnexpectedValueException;
 
-final class BeforeMoveSubtreeEvent extends BeforeEvent
+final class BeforeMoveSubtreeEvent extends Event implements BeforeMoveSubtreeEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

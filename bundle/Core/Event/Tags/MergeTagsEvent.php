@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\AfterEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\MergeTagsEvent as MergeTagsEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 
-final class MergeTagsEvent extends AfterEvent
+final class MergeTagsEvent extends Event implements MergeTagsEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

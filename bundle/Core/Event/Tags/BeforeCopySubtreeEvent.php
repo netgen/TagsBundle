@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\BeforeEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\BeforeCopySubtreeEvent as BeforeCopySubtreeEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 use UnexpectedValueException;
 
-final class BeforeCopySubtreeEvent extends BeforeEvent
+final class BeforeCopySubtreeEvent extends Event implements BeforeCopySubtreeEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

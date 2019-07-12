@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\AfterEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\CopySubtreeEvent as CopySubtreeEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 
-final class CopySubtreeEvent extends AfterEvent
+final class CopySubtreeEvent extends Event implements CopySubtreeEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

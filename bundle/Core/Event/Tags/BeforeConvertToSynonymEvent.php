@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\BeforeEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\BeforeConvertToSynonymEvent as BeforeConvertToSynonymEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 use UnexpectedValueException;
 
-final class BeforeConvertToSynonymEvent extends BeforeEvent
+final class BeforeConvertToSynonymEvent extends Event implements BeforeConvertToSynonymEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\AfterEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\CreateTagEvent as CreateTagEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Symfony\Contracts\EventDispatcher\Event;
 
-final class CreateTagEvent extends AfterEvent
+final class CreateTagEvent extends Event implements CreateTagEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct

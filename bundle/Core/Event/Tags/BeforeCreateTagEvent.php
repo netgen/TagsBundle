@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\BeforeEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\BeforeCreateTagEvent as BeforeCreateTagEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use Symfony\Contracts\EventDispatcher\Event;
 use UnexpectedValueException;
 
-final class BeforeCreateTagEvent extends BeforeEvent
+final class BeforeCreateTagEvent extends Event implements BeforeCreateTagEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct

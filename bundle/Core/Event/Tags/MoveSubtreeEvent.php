@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event\Tags;
 
-use eZ\Publish\Core\Event\AfterEvent;
+use Netgen\TagsBundle\API\Repository\Events\Tags\MoveSubtreeEvent as MoveSubtreeEventInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 
-final class MoveSubtreeEvent extends AfterEvent
+final class MoveSubtreeEvent extends Event implements MoveSubtreeEventInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
