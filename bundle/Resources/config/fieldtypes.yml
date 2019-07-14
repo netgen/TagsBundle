@@ -18,7 +18,7 @@ services:
             - "@eztags.field_type.eztags.storage_gateway"
             - "@eztags.api.service.tags"
         tags:
-            - { name: ezpublish.fieldType.externalStorageHandler, alias: eztags }
+            - { name: ezplatform.field_type.external_storage_handler, alias: eztags }
 
     eztags.field_type.eztags.indexable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
