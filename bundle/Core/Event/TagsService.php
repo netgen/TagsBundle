@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Event;
 
+use Netgen\TagsBundle\API\Repository\Events\Tags as APIEvents;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
@@ -100,7 +101,7 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeCreateTagEvent($tagCreateStruct);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeCreateTagEvent::class)->isPropagationStopped()) {
             return $beforeEvent->getTag();
         }
 
@@ -108,7 +109,7 @@ final class TagsService implements TagsServiceInterface
             $beforeEvent->getTag() :
             $this->service->createTag($tagCreateStruct);
 
-        $this->eventDispatcher->dispatch(new Tags\CreateTagEvent($tagCreateStruct, $tag));
+        $this->eventDispatcher->dispatch(new Tags\CreateTagEvent($tagCreateStruct, $tag), APIEvents\CreateTagEvent::class);
 
         return $tag;
     }
@@ -117,7 +118,7 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeUpdateTagEvent($tagUpdateStruct, $tag);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeUpdateTagEvent::class)->isPropagationStopped()) {
             return $beforeEvent->getUpdatedTag();
         }
 
@@ -125,7 +126,7 @@ final class TagsService implements TagsServiceInterface
             $beforeEvent->getUpdatedTag() :
             $this->service->updateTag($tag, $tagUpdateStruct);
 
-        $this->eventDispatcher->dispatch(new Tags\UpdateTagEvent($tagUpdateStruct, $updatedTag));
+        $this->eventDispatcher->dispatch(new Tags\UpdateTagEvent($tagUpdateStruct, $updatedTag), APIEvents\UpdateTagEvent::class);
 
         return $updatedTag;
     }
@@ -134,7 +135,7 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeAddSynonymEvent($synonymCreateStruct);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeAddSynonymEvent::class)->isPropagationStopped()) {
             return $beforeEvent->getSynonym();
         }
 
@@ -142,7 +143,7 @@ final class TagsService implements TagsServiceInterface
             $beforeEvent->getSynonym() :
             $this->service->addSynonym($synonymCreateStruct);
 
-        $this->eventDispatcher->dispatch(new Tags\AddSynonymEvent($synonymCreateStruct, $synonym));
+        $this->eventDispatcher->dispatch(new Tags\AddSynonymEvent($synonymCreateStruct, $synonym), APIEvents\AddSynonymEvent::class);
 
         return $synonym;
     }
@@ -151,7 +152,7 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeConvertToSynonymEvent($tag, $mainTag);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeConvertToSynonymEvent::class)->isPropagationStopped()) {
             return $beforeEvent->getSynonym();
         }
 
@@ -159,7 +160,7 @@ final class TagsService implements TagsServiceInterface
             $beforeEvent->getSynonym() :
             $this->service->convertToSynonym($tag, $mainTag);
 
-        $this->eventDispatcher->dispatch(new Tags\ConvertToSynonymEvent($synonym, $mainTag));
+        $this->eventDispatcher->dispatch(new Tags\ConvertToSynonymEvent($synonym, $mainTag), APIEvents\ConvertToSynonymEvent::class);
 
         return $synonym;
     }
@@ -168,20 +169,20 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeMergeTagsEvent($tag, $targetTag);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeMergeTagsEvent::class)->isPropagationStopped()) {
             return;
         }
 
         $this->service->mergeTags($tag, $targetTag);
 
-        $this->eventDispatcher->dispatch(new Tags\MergeTagsEvent($targetTag));
+        $this->eventDispatcher->dispatch(new Tags\MergeTagsEvent($targetTag), APIEvents\MergeTagsEvent::class);
     }
 
     public function copySubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
     {
         $beforeEvent = new Tags\BeforeCopySubtreeEvent($tag, $targetParentTag);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeCopySubtreeEvent::class)->isPropagationStopped()) {
             return $beforeEvent->getCopiedTag();
         }
 
@@ -189,7 +190,7 @@ final class TagsService implements TagsServiceInterface
             $beforeEvent->getCopiedTag() :
             $this->service->copySubtree($tag, $targetParentTag);
 
-        $this->eventDispatcher->dispatch(new Tags\CopySubtreeEvent($tag, $copiedTag, $targetParentTag));
+        $this->eventDispatcher->dispatch(new Tags\CopySubtreeEvent($tag, $copiedTag, $targetParentTag), APIEvents\CopySubtreeEvent::class);
 
         return $copiedTag;
     }
@@ -198,7 +199,7 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeMoveSubtreeEvent($tag, $targetParentTag);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeMoveSubtreeEvent::class)->isPropagationStopped()) {
             return $beforeEvent->getMovedTag();
         }
 
@@ -206,7 +207,7 @@ final class TagsService implements TagsServiceInterface
             $beforeEvent->getMovedTag() :
             $this->service->moveSubtree($tag, $targetParentTag);
 
-        $this->eventDispatcher->dispatch(new Tags\MoveSubtreeEvent($movedTag, $targetParentTag));
+        $this->eventDispatcher->dispatch(new Tags\MoveSubtreeEvent($movedTag, $targetParentTag), APIEvents\MoveSubtreeEvent::class);
 
         return $movedTag;
     }
@@ -215,13 +216,13 @@ final class TagsService implements TagsServiceInterface
     {
         $beforeEvent = new Tags\BeforeDeleteTagEvent($tag);
 
-        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+        if ($this->eventDispatcher->dispatch($beforeEvent, APIEvents\BeforeDeleteTagEvent::class)->isPropagationStopped()) {
             return;
         }
 
         $this->service->deleteTag($tag);
 
-        $this->eventDispatcher->dispatch(new Tags\DeleteTagEvent($tag));
+        $this->eventDispatcher->dispatch(new Tags\DeleteTagEvent($tag), APIEvents\DeleteTagEvent::class);
     }
 
     public function newTagCreateStruct(int $parentTagId, string $mainLanguageCode): TagCreateStruct
