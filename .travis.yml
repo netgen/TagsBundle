@@ -42,7 +42,7 @@ before_script:
   - composer update --no-suggest --prefer-dist
 
 script:
-  - composer validate --strict
+  # - composer validate --strict
   - if [ "$CONFIG" != "" ] ; then vendor/bin/phpunit -c $CONFIG --coverage-clover=coverage.xml --colors=always ; fi
   - if [ "$RUN_PHPSTAN" != "" ] ; then composer phpstan ; fi
   - if [ "$RUN_PHPSTAN" != "" ] ; then composer phpstan-tests ; fi
