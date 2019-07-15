@@ -10,6 +10,8 @@ parameters:
             message: '#Call to an undefined method object::isPropagationStopped\(\)#'
             path: bundle/Core/Event/TagsService.php
 
+        - '#Method Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch\(\) invoked with 2 parameters, 1 required.#'
+
         # eZ Platform
         - '#Method eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
         - '#Method eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
