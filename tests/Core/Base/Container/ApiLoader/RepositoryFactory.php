@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 
-use eZ\Publish\Core\Base\Container\ApiLoader\FieldTypeCollectionFactory;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
 
 final class RepositoryFactory extends BaseRepositoryFactory
 {
-    public function __construct(
-        string $repositoryClass,
-        FieldTypeCollectionFactory $fieldTypeCollectionFactory,
-        array $policyMap
-    ) {
+    public function __construct(string $repositoryClass, array $policyMap)
+    {
         $policyMap['tags'] = [
             'add' => ['Tag' => true],
             'read' => [],
@@ -25,10 +21,6 @@ final class RepositoryFactory extends BaseRepositoryFactory
             'delete' => [],
         ];
 
-        parent::__construct(
-            $repositoryClass,
-            $fieldTypeCollectionFactory,
-            $policyMap
-        );
+        parent::__construct($repositoryClass, $policyMap);
     }
 }
