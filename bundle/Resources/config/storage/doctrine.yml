@@ -30,7 +30,6 @@ services:
 
     eztags.api.storage_engine.legacy.handler.tags:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
-        public: true
         arguments:
             - "@eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion"
             - "@eztags.api.storage_engine.legacy.handler.tags.mapper"
