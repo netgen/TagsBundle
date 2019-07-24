@@ -13,6 +13,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Repository\TagsMapper;
 use Netgen\TagsBundle\Core\Repository\TagsService;
+use Netgen\TagsBundle\DependencyInjection\Compiler\DefaultStorageEnginePass;
 
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
@@ -56,6 +57,8 @@ final class Legacy extends BaseLegacy
                 'legacy_dsn',
                 self::$dsn
             );
+
+            $containerBuilder->addCompilerPass(new DefaultStorageEnginePass());
 
             self::$serviceContainer = new ServiceContainer(
                 $containerBuilder,
