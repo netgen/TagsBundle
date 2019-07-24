@@ -41,12 +41,17 @@ final class NetgenTagsRuntime
     /**
      * Returns tag keyword for provided tag ID.
      *
-     * @param int|string $tagId
+     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|int|string $tagId
      *
      * @return string
      */
     public function getTagKeyword($tagId): string
     {
+        if ($tagId instanceof Tag) {
+            // BC with Tags Bundle v3
+            return $tagId->getKeyword() ?? '';
+        }
+
         try {
             $tag = $this->tagsService->loadTag((int) $tagId);
         } catch (NotFoundException $e) {
