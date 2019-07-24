@@ -2,8 +2,6 @@ services:
     eztags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
-        # Field type services need to be public in eZ Platform
-        public: true
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.config.resolver"
