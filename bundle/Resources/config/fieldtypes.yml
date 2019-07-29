@@ -10,8 +10,6 @@ services:
 
     eztags.field_type.eztags.external_storage:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
-        # External storage services need to be public in eZ Platform
-        public: true
         arguments:
             - "@eztags.field_type.eztags.storage_gateway"
             - "@eztags.api.service.tags"
