@@ -407,12 +407,12 @@ final class TagsServiceTest extends TestCase
         $synonymCreateStruct->mainTagId = 42;
         $synonymCreateStruct->mainLanguageCode = 'eng-GB';
         $synonymCreateStruct->alwaysAvailable = true;
-        $synonymCreateStruct->setKeyword('netgenlabs');
+        $synonymCreateStruct->setKeyword('netgen');
 
         $synonym = new Tag(
             [
                 'id' => 24,
-                'keywords' => ['eng-GB' => 'netgenlabs'],
+                'keywords' => ['eng-GB' => 'netgen'],
                 'mainTagId' => 42,
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
@@ -445,7 +445,7 @@ final class TagsServiceTest extends TestCase
 
         self::assertSame(24, $synonym->id);
         self::assertSame(42, $synonym->mainTagId);
-        self::assertSame(['eng-GB' => 'netgenlabs'], $synonym->keywords);
+        self::assertSame(['eng-GB' => 'netgen'], $synonym->keywords);
         self::assertSame('eng-GB', $synonym->mainLanguageCode);
         self::assertTrue($synonym->alwaysAvailable);
     }

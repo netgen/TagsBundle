@@ -15,7 +15,7 @@
     "authors": [
         {
             "name": "Netgen",
-            "homepage": "https://www.netgenlabs.com"
+            "homepage": "https://netgen.io"
         }
     ],
     "require": {
