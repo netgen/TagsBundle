@@ -295,7 +295,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
     private function getContentMapperMock(): MockObject
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)
-            ->setMethods(['extractContentFromRows'])
+            ->onlyMethods(['extractContentFromRows'])
             ->setConstructorArgs(
                 [
                     $this->fieldRegistry,

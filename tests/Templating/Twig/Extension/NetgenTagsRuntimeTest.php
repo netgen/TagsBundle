@@ -50,17 +50,17 @@ final class NetgenTagsRuntimeTest extends TestCase
     {
         $this->tagsService = $this->getMockBuilder(TagsService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadTag'])
+            ->onlyMethods(['loadTag'])
             ->getMock();
 
         $this->languageService = $this->getMockBuilder(LanguageService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadLanguage'])
+            ->onlyMethods(['loadLanguage'])
             ->getMock();
 
         $this->contentTypeService = $this->getMockBuilder(ContentTypeService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadContentType'])
+            ->onlyMethods(['loadContentType'])
             ->getMock();
 
         $this->runtime = new NetgenTagsRuntime(

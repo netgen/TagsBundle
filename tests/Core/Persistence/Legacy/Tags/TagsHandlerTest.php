@@ -11,6 +11,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as HandlerInterface;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
@@ -431,7 +432,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testCreate(): void
     {
-        $handler = $this->getTagsHandler(['load']);
+        $handler = $this->getMockedTagsHandler(['load']);
 
         $this->gateway
             ->expects(self::once())
@@ -519,7 +520,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testCreateWithNoParent(): void
     {
-        $handler = $this->getTagsHandler(['load']);
+        $handler = $this->getMockedTagsHandler(['load']);
 
         $this->gateway
             ->expects(self::once())
@@ -590,7 +591,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $handler = $this->getTagsHandler(['load']);
+        $handler = $this->getMockedTagsHandler(['load']);
 
         $this->gateway
             ->expects(self::once())
@@ -654,7 +655,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testAddSynonym(): void
     {
-        $handler = $this->getTagsHandler(['load']);
+        $handler = $this->getMockedTagsHandler(['load']);
 
         $this->gateway
             ->expects(self::once())
@@ -748,7 +749,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testConvertToSynonym(): void
     {
-        $handler = $this->getTagsHandler(['loadTagInfo', 'loadSynonyms', 'load']);
+        $handler = $this->getMockedTagsHandler(['loadTagInfo', 'loadSynonyms', 'load']);
 
         $tag = new TagInfo(
             [
@@ -825,7 +826,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testMerge(): void
     {
-        $handler = $this->getTagsHandler(['loadTagInfo', 'loadSynonyms']);
+        $handler = $this->getMockedTagsHandler(['loadSynonyms']);
 
         $tags = [
             new Tag(['id' => 50]),
@@ -871,7 +872,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testMoveSubtree(): void
     {
-        $handler = $this->getTagsHandler(['load']);
+        $handler = $this->getMockedTagsHandler(['load']);
 
         $sourceData = [
             'id' => 42,
@@ -946,7 +947,7 @@ final class TagsHandlerTest extends TestCase
      */
     public function testDeleteTag(): void
     {
-        $handler = $this->getTagsHandler(['loadTagInfo']);
+        $handler = $this->getMockedTagsHandler(['loadTagInfo']);
 
         $handler
             ->expects(self::once())
@@ -969,10 +970,27 @@ final class TagsHandlerTest extends TestCase
         $handler->deleteTag(40);
     }
 
+    private function getTagsHandler(): HandlerInterface
+    {
+        $this->gateway = $this->createMock(Gateway::class);
+
+        $languageHandlerMock = (new LanguageHandlerMock())($this);
+
+        $this->mapper = $this->getMockBuilder(Mapper::class)
+            ->setConstructorArgs(
+                [
+                    $languageHandlerMock,
+                    new MaskGenerator($languageHandlerMock),
+                ]
+            )->getMock();
+
+        return new Handler($this->gateway, $this->mapper);
+    }
+
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject&\Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
-    private function getTagsHandler(?array $mockedMethods = null): MockObject
+    private function getMockedTagsHandler(array $mockedMethods): MockObject
     {
         $this->gateway = $this->createMock(Gateway::class);
 
@@ -987,7 +1005,7 @@ final class TagsHandlerTest extends TestCase
             )->getMock();
 
         return $this->getMockBuilder(Handler::class)
-            ->setMethods($mockedMethods)
+            ->onlyMethods($mockedMethods)
             ->setConstructorArgs([$this->gateway, $this->mapper])
             ->getMock();
     }
