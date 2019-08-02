@@ -36,7 +36,7 @@ final class TagsHandlerTest extends TestCase
     private $mapper;
 
     /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler&\PHPUnit\Framework\MockObject\MockObject
+     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
     private $tagsHandler;
 
