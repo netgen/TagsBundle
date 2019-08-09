@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
+use eZ\Publish\Core\Base\Container\Compiler\Search\FieldRegistryPass;
 use eZ\Publish\Core\Base\ServiceContainer;
 use Netgen\TagsBundle\API\Repository\TagsService as APITagsService;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
@@ -58,6 +59,7 @@ final class Legacy extends BaseLegacy
                 self::$dsn
             );
 
+            $containerBuilder->addCompilerPass(new FieldRegistryPass());
             $containerBuilder->addCompilerPass(new DefaultStorageEnginePass());
 
             self::$serviceContainer = new ServiceContainer(
