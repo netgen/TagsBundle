@@ -7,11 +7,42 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\AfterEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-interface CopySubtreeEvent extends AfterEvent
+final class CopySubtreeEvent extends AfterEvent
 {
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
 
-    public function getCopiedTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $copiedTag;
 
-    public function getParentTag(): ?Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $parentTag;
+
+    public function __construct(Tag $tag, Tag $copiedTag, ?Tag $parentTag = null)
+    {
+        $this->tag = $tag;
+        $this->copiedTag = $copiedTag;
+        $this->parentTag = $parentTag;
+    }
+
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
+
+    public function getCopiedTag(): Tag
+    {
+        return $this->copiedTag;
+    }
+
+    public function getParentTag(): ?Tag
+    {
+        return $this->parentTag;
+    }
 }

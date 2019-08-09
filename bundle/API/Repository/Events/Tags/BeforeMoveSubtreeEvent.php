@@ -6,16 +6,57 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 
 use eZ\Publish\SPI\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use UnexpectedValueException;
 
-interface BeforeMoveSubtreeEvent extends BeforeEvent
+final class BeforeMoveSubtreeEvent extends BeforeEvent
 {
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
 
-    public function getParentTag(): ?Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $parentTag;
 
-    public function getMovedTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $movedTag;
 
-    public function setMovedTag(?Tag $movedTag): void;
+    public function __construct(Tag $tag, ?Tag $parentTag = null)
+    {
+        $this->tag = $tag;
+        $this->parentTag = $parentTag;
+    }
 
-    public function hasMovedTag(): bool;
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
+
+    public function getParentTag(): ?Tag
+    {
+        return $this->parentTag;
+    }
+
+    public function getMovedTag(): Tag
+    {
+        if ($this->movedTag === null) {
+            throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasMovedTag() or set it with setMovedTag() before you call the getter.', Tag::class));
+        }
+
+        return $this->movedTag;
+    }
+
+    public function setMovedTag(?Tag $movedTag): void
+    {
+        $this->movedTag = $movedTag;
+    }
+
+    public function hasMovedTag(): bool
+    {
+        return $this->movedTag instanceof Tag;
+    }
 }

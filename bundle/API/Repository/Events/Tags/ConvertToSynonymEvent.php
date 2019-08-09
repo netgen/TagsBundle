@@ -7,9 +7,31 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\AfterEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-interface ConvertToSynonymEvent extends AfterEvent
+final class ConvertToSynonymEvent extends AfterEvent
 {
-    public function getSynonym(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $synonym;
 
-    public function getMainTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $mainTag;
+
+    public function __construct(Tag $synonym, Tag $mainTag)
+    {
+        $this->synonym = $synonym;
+        $this->mainTag = $mainTag;
+    }
+
+    public function getSynonym(): Tag
+    {
+        return $this->synonym;
+    }
+
+    public function getMainTag(): Tag
+    {
+        return $this->mainTag;
+    }
 }

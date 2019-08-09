@@ -6,16 +6,57 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 
 use eZ\Publish\SPI\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use UnexpectedValueException;
 
-interface BeforeCopySubtreeEvent extends BeforeEvent
+final class BeforeCopySubtreeEvent extends BeforeEvent
 {
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
 
-    public function getParentTag(): ?Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $parentTag;
 
-    public function getCopiedTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $copiedTag;
 
-    public function setCopiedTag(?Tag $copiedTag): void;
+    public function __construct(Tag $tag, ?Tag $parentTag = null)
+    {
+        $this->tag = $tag;
+        $this->parentTag = $parentTag;
+    }
 
-    public function hasCopiedTag(): bool;
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
+
+    public function getParentTag(): ?Tag
+    {
+        return $this->parentTag;
+    }
+
+    public function getCopiedTag(): Tag
+    {
+        if ($this->copiedTag === null) {
+            throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasCopiedTag() or set it with setCopiedTag() before you call the getter.', Tag::class));
+        }
+
+        return $this->copiedTag;
+    }
+
+    public function setCopiedTag(?Tag $copiedTag): void
+    {
+        $this->copiedTag = $copiedTag;
+    }
+
+    public function hasCopiedTag(): bool
+    {
+        return $this->copiedTag instanceof Tag;
+    }
 }

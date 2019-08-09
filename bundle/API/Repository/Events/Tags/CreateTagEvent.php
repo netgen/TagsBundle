@@ -8,9 +8,31 @@ use eZ\Publish\SPI\Repository\Event\AfterEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 
-interface CreateTagEvent extends AfterEvent
+final class CreateTagEvent extends AfterEvent
 {
-    public function getTagCreateStruct(): TagCreateStruct;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
+     */
+    private $tagCreateStruct;
 
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
+
+    public function __construct(TagCreateStruct $tagCreateStruct, Tag $tag)
+    {
+        $this->tagCreateStruct = $tagCreateStruct;
+        $this->tag = $tag;
+    }
+
+    public function getTagCreateStruct(): TagCreateStruct
+    {
+        return $this->tagCreateStruct;
+    }
+
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
 }

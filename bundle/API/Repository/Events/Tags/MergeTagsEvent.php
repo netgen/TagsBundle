@@ -7,7 +7,20 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\AfterEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-interface MergeTagsEvent extends AfterEvent
+final class MergeTagsEvent extends AfterEvent
 {
-    public function getTargetTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $targetTag;
+
+    public function __construct(Tag $targetTag)
+    {
+        $this->targetTag = $targetTag;
+    }
+
+    public function getTargetTag(): Tag
+    {
+        return $this->targetTag;
+    }
 }

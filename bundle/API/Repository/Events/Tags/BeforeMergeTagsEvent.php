@@ -7,9 +7,31 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-interface BeforeMergeTagsEvent extends BeforeEvent
+final class BeforeMergeTagsEvent extends BeforeEvent
 {
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
 
-    public function getTargetTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $targetTag;
+
+    public function __construct(Tag $tag, Tag $targetTag)
+    {
+        $this->tag = $tag;
+        $this->targetTag = $targetTag;
+    }
+
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
+
+    public function getTargetTag(): Tag
+    {
+        return $this->targetTag;
+    }
 }

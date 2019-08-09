@@ -7,9 +7,31 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\AfterEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-interface MoveSubtreeEvent extends AfterEvent
+final class MoveSubtreeEvent extends AfterEvent
 {
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
 
-    public function getParentTag(): ?Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $parentTag;
+
+    public function __construct(Tag $tag, ?Tag $parentTag = null)
+    {
+        $this->tag = $tag;
+        $this->parentTag = $parentTag;
+    }
+
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
+
+    public function getParentTag(): ?Tag
+    {
+        return $this->parentTag;
+    }
 }

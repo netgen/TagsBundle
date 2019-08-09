@@ -7,14 +7,46 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use UnexpectedValueException;
 
-interface BeforeCreateTagEvent extends BeforeEvent
+final class BeforeCreateTagEvent extends BeforeEvent
 {
-    public function getTagCreateStruct(): TagCreateStruct;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
+     */
+    private $tagCreateStruct;
 
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
+     */
+    private $tag;
 
-    public function setTag(?Tag $tag): void;
+    public function __construct(TagCreateStruct $tagCreateStruct)
+    {
+        $this->tagCreateStruct = $tagCreateStruct;
+    }
 
-    public function hasTag(): bool;
+    public function getTagCreateStruct(): TagCreateStruct
+    {
+        return $this->tagCreateStruct;
+    }
+
+    public function getTag(): Tag
+    {
+        if ($this->tag === null) {
+            throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasTag() or set it with setTag() before you call the getter.', Tag::class));
+        }
+
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): void
+    {
+        $this->tag = $tag;
+    }
+
+    public function hasTag(): bool
+    {
+        return $this->tag instanceof Tag;
+    }
 }

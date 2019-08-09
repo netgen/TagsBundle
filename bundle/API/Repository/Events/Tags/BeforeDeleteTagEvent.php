@@ -7,7 +7,20 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use eZ\Publish\SPI\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
-interface BeforeDeleteTagEvent extends BeforeEvent
+final class BeforeDeleteTagEvent extends BeforeEvent
 {
-    public function getTag(): Tag;
+    /**
+     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
+     */
+    private $tag;
+
+    public function __construct(Tag $tag)
+    {
+        $this->tag = $tag;
+    }
+
+    public function getTag(): Tag
+    {
+        return $this->tag;
+    }
 }
