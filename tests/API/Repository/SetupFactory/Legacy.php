@@ -41,8 +41,11 @@ final class Legacy extends BaseLegacy
             /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
             $containerBuilder = include $config['container_builder_path'];
 
-            $loader->load('search_engines/legacy.yaml');
-            $loader->load('tests/integration_legacy.yaml');
+            // eZ Publish kernel config
+            $loader->load('search_engines/legacy.yml');
+            $loader->load('tests/integration_legacy.yml');
+
+            // Netgen Tags config
             $loader->load(__DIR__ . '/../../../../bundle/Resources/config/papi.yaml');
             $loader->load(__DIR__ . '/../../../../bundle/Resources/config/limitations.yaml');
             $loader->load(__DIR__ . '/../../../../bundle/Resources/config/fieldtypes.yaml');
