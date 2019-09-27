@@ -41,18 +41,18 @@ final class Legacy extends BaseLegacy
             /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
             $containerBuilder = include $config['container_builder_path'];
 
-            $loader->load('search_engines/legacy.yml');
-            $loader->load('tests/integration_legacy.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/papi.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/limitations.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/fieldtypes.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/persistence.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/storage/doctrine.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/storage/cache_disabled.yml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/search/legacy.yml');
+            $loader->load('search_engines/legacy.yaml');
+            $loader->load('tests/integration_legacy.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/papi.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/limitations.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/fieldtypes.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/persistence.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/storage/doctrine.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/storage/cache_disabled.yaml');
+            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/search/legacy.yaml');
 
-            $loader->load(__DIR__ . '/../../../../tests/settings/settings.yml');
-            $loader->load(__DIR__ . '/../../../../tests/settings/integration/legacy.yml');
+            $loader->load(__DIR__ . '/../../../../tests/settings/settings.yaml');
+            $loader->load(__DIR__ . '/../../../../tests/settings/integration/legacy.yaml');
 
             $containerBuilder->setParameter(
                 'legacy_dsn',

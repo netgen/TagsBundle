@@ -11,7 +11,7 @@ final class TagsPolicyProvider extends YamlPolicyProvider
     public function getFiles(): array
     {
         return [
-            __DIR__ . '/../../../Resources/config/policies.yml',
+            __DIR__ . '/../../../Resources/config/policies.yaml',
         ];
     }
 }

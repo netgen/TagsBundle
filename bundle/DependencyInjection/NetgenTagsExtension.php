@@ -30,40 +30,40 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
-        $loader->load('services.yml');
-        $loader->load('rest/services.yml');
-        $loader->load('fieldtypes.yml');
-        $loader->load('persistence.yml');
-        $loader->load('papi.yml');
-        $loader->load('default_settings.yml');
-        $loader->load('pagerfanta.yml');
-        $loader->load('templating.yml');
-        $loader->load('view.yml');
-        $loader->load('limitations.yml');
-        $loader->load('storage/doctrine.yml');
-        $loader->load('admin/controllers.yml');
-        $loader->load('admin/templating.yml');
-        $loader->load('forms.yml');
-        $loader->load('validators.yml');
-        $loader->load('param_converters.yml');
-        $loader->load('installer.yml');
-        $loader->load('search/related_content.yml');
-        $loader->load('ezadminui/default_settings.yml');
-        $loader->load('ezadminui/services.yml');
+        $loader->load('services.yaml');
+        $loader->load('rest/services.yaml');
+        $loader->load('fieldtypes.yaml');
+        $loader->load('persistence.yaml');
+        $loader->load('papi.yaml');
+        $loader->load('default_settings.yaml');
+        $loader->load('pagerfanta.yaml');
+        $loader->load('templating.yaml');
+        $loader->load('view.yaml');
+        $loader->load('limitations.yaml');
+        $loader->load('storage/doctrine.yaml');
+        $loader->load('admin/controllers.yaml');
+        $loader->load('admin/templating.yaml');
+        $loader->load('forms.yaml');
+        $loader->load('validators.yaml');
+        $loader->load('param_converters.yaml');
+        $loader->load('installer.yaml');
+        $loader->load('search/related_content.yaml');
+        $loader->load('ezadminui/default_settings.yaml');
+        $loader->load('ezadminui/services.yaml');
 
         $persistenceCache = 'disabled';
         if ($container->getParameter('eztags.enable_persistence_cache') === true) {
             $persistenceCache = 'psr6';
         }
 
-        $loader->load('storage/cache_' . $persistenceCache . '.yml');
+        $loader->load('storage/cache_' . $persistenceCache . '.yaml');
 
         if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
-            $loader->load('search/solr.yml');
+            $loader->load('search/solr.yaml');
         }
 
         if (in_array('EzPublishLegacySearchEngineBundle', $activatedBundles, true)) {
-            $loader->load('search/legacy.yml');
+            $loader->load('search/legacy.yaml');
         }
 
         $this->processSemanticConfig($container, $config);
@@ -72,10 +72,10 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
     public function prepend(ContainerBuilder $container): void
     {
         $configs = [
-            'netgen_tags.yml' => 'netgen_tags',
-            'ezplatform.yml' => 'ezpublish',
-            'framework/twig.yml' => 'twig',
-            'ezadminui/twig.yml' => 'twig',
+            'netgen_tags.yaml' => 'netgen_tags',
+            'ezplatform.yaml' => 'ezpublish',
+            'framework/twig.yaml' => 'twig',
+            'ezadminui/twig.yaml' => 'twig',
         ];
 
         foreach ($configs as $fileName => $extensionName) {

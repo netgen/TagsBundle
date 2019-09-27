@@ -1,15 +1,15 @@
 netgen_tags_admin_tag:
-    resource: "admin/tag.yml"
+    resource: "admin/tag.yaml"
     prefix: /tag
 
 netgen_tags_admin_synonym:
-    resource: "admin/synonym.yml"
+    resource: "admin/synonym.yaml"
     prefix: /synonym
 
 netgen_tags_admin_tree:
-    resource: "admin/tree.yml"
+    resource: "admin/tree.yaml"
     prefix: /tree
 
 netgen_tags_admin_field:
-    resource: "admin/field.yml"
+    resource: "admin/field.yaml"
     prefix: /field

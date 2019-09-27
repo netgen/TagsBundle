@@ -1,14 +1,14 @@
 netgen_tags_rest:
-    resource: "routing/rest.yml"
+    resource: "routing/rest.yaml"
     prefix: "%ezpublish_rest.path_prefix%"
 
 netgen_tags_internal:
-    resource: "routing/internal.yml"
+    resource: "routing/internal.yaml"
 
 netgen_tags_admin_redirects:
-    resource: "routing/admin/redirects.yml"
+    resource: "routing/admin/redirects.yaml"
     prefix: /tags
 
 netgen_tags_admin:
-    resource: "routing/admin.yml"
+    resource: "routing/admin.yaml"
     prefix: /tags/admin

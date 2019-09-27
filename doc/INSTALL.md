@@ -36,7 +36,7 @@ Add the file `config/routes/netgen_tags.yaml` with the following content to acti
 
 ```yml
 netgen_tags:
-    resource: "@NetgenTagsBundle/Resources/config/routing.yml"
+    resource: "@NetgenTagsBundle/Resources/config/routing.yaml"
 ```
 
 ### Import database tables
