@@ -24,7 +24,7 @@
         "ezsystems/ezplatform-admin-ui": "^2.0",
         "ezsystems/ezplatform-rest": "^1.0",
         "ezsystems/repository-forms": "^3.0",
-        "ezsystems/ezplatform-solr-search-engine": "^2.0",
+        "ezsystems/ezplatform-solr-search-engine": "^3.0",
         "lolautruche/ez-core-extra-bundle": "^2.2.2",
         "symfony/translation-contracts": "^1.1.5",
         "doctrine/collections": "^1.6",
