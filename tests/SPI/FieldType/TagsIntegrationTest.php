@@ -53,13 +53,15 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         parent::resetSequences();
 
-        if ($this->handler->getName() === 'pgsql') {
+        $dbHandler = $this->getDatabaseHandler();
+
+        if ($dbHandler->getName() === 'pgsql') {
             // Update PostgreSQL sequences
             /** @var array $queries */
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql'));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
-                $this->handler->exec($query);
+                $dbHandler->exec($query);
             }
         }
     }
