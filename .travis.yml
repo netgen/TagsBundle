@@ -13,17 +13,19 @@ cache:
 env:
   - CONFIG="phpunit.xml" COVERAGE="unit"
   - CONFIG="phpunit-integration-legacy.xml" COVERAGE="integration"
-  - RUN_PHPSTAN="yes"
 
 matrix:
   include:
+    - php: 7.3
+      env: RUN_PHPSTAN="yes"
     -
       env: ~
       php: ~
       cache: ~
       language: node_js
       node_js: node
-      before_script: npm install -g grunt-cli
+      install: yarn install
+      before_script: yarn global add grunt-cli
       script:
         - grunt build
   allow_failures:
