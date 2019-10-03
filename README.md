@@ -1,7 +1,7 @@
 Netgen Tags Bundle
 ==================
 
-[![Build Status](https://img.shields.io/travis/netgen/TagsBundle.svg?style=flat-square)](https://travis-ci.org/netgen/TagsBundle)
+[![Build Status](https://img.shields.io/travis/netgen/TagsBundle.svg?style=flat-square)](https://travis-ci.com/netgen/TagsBundle)
 [![Code Coverage](https://img.shields.io/codecov/c/github/netgen/TagsBundle.svg?style=flat-square)](https://codecov.io/gh/netgen/TagsBundle)
 [![Downloads](https://img.shields.io/packagist/dt/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
 [![Latest stable](https://img.shields.io/packagist/v/netgen/tagsbundle.svg?style=flat-square)](https://packagist.org/packages/netgen/tagsbundle)
