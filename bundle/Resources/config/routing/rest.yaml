@@ -1,57 +1,49 @@
 ezpublish_rest_eztags_redirectTag:
     path: /tags
-    defaults:
-        _controller: eztags.rest.controller.tags:redirectTag
+    controller: eztags.rest.controller.tags:redirectTag
     methods: [GET]
 
 ezpublish_rest_eztags_loadTag:
     path: /tags/{tagPath}
-    defaults:
-        _controller: eztags.rest.controller.tags:loadTag
+    controller: eztags.rest.controller.tags:loadTag
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_loadTagsByKeyword:
     path: /tags/keyword/{keyword}/{language}
-    defaults:
-        _controller: eztags.rest.controller.tags:loadTagsByKeyword
+    controller: eztags.rest.controller.tags:loadTagsByKeyword
     methods: [GET]
 
 ezpublish_rest_eztags_loadTagChildren:
     path: /tags/{tagPath}/children
-    defaults:
-        _controller: eztags.rest.controller.tags:loadTagChildren
+    controller: eztags.rest.controller.tags:loadTagChildren
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_loadTagSynonyms:
     path: /tags/{tagPath}/synonyms
-    defaults:
-        _controller: eztags.rest.controller.tags:loadTagSynonyms
+    controller: eztags.rest.controller.tags:loadTagSynonyms
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_getRelatedContent:
     path: /tags/{tagPath}/content
-    defaults:
-        _controller: eztags.rest.controller.tags:getRelatedContent
+    controller: eztags.rest.controller.tags:getRelatedContent
     methods: [GET]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_createTag:
     path: /tags
-    defaults:
-        _controller: eztags.rest.controller.tags:createTag
+    controller: eztags.rest.controller.tags:createTag
     methods: [POST]
 
 ezpublish_rest_eztags_createSynonym:
     path: /tags/{tagPath}/synonyms
-    defaults:
-        _controller: eztags.rest.controller.tags:createSynonym
+    controller: eztags.rest.controller.tags:createSynonym
     methods: [POST]
     requirements:
         tagPath: "[0-9/]+"
@@ -59,47 +51,42 @@ ezpublish_rest_eztags_createSynonym:
 ezpublish_rest_eztags_updateTag:
     path: /tags/{tagPath}
     defaults:
-        _controller: eztags.rest.controller.tags:updateTag
+    controller: eztags.rest.controller.tags:updateTag
     methods: [PATCH]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_copySubtree:
     path: /tags/{tagPath}
-    defaults:
-        _controller: eztags.rest.controller.tags:copySubtree
+    controller: eztags.rest.controller.tags:copySubtree
     methods: [COPY]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_moveSubtree:
     path: /tags/{tagPath}
-    defaults:
-        _controller: eztags.rest.controller.tags:moveSubtree
+    controller: eztags.rest.controller.tags:moveSubtree
     methods: [MOVE]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_convertToSynonym:
     path: /tags/{tagPath}/convert
-    defaults:
-        _controller: eztags.rest.controller.tags:convertToSynonym
+    controller: eztags.rest.controller.tags:convertToSynonym
     methods: [POST]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_mergeTags:
     path: /tags/{tagPath}/merge
-    defaults:
-        _controller: eztags.rest.controller.tags:mergeTags
+    controller: eztags.rest.controller.tags:mergeTags
     methods: [POST]
     requirements:
         tagPath: "[0-9/]+"
 
 ezpublish_rest_eztags_deleteTag:
     path: /tags/{tagPath}
-    defaults:
-        _controller: eztags.rest.controller.tags:deleteTag
+    controller: eztags.rest.controller.tags:deleteTag
     methods: [DELETE]
     requirements:
         tagPath: "[0-9/]+"

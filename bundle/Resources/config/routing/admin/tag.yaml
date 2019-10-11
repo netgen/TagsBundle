@@ -1,83 +1,71 @@
 netgen_tags_admin_tag_show:
     path: /show/{tagId}
-    defaults:
-        _controller: eztags.admin.controller.tag:showTagAction
-        _method: GET
+    controller: eztags.admin.controller.tag:showTagAction
+    methods: [GET]
 
 netgen_tags_admin_tag_related_content:
     path: /{tagId}/content
-    defaults:
-        _controller: eztags.admin.controller.related_content:relatedContentAction
-        _method: GET
+    controller: eztags.admin.controller.related_content:relatedContentAction
+    methods: [GET]
 
 netgen_tags_admin_tag_add_select:
     path: /add/{parentId}
-    defaults:
-        _controller: eztags.admin.controller.tag:addTagSelectAction
-        _method: [GET, POST]
+    controller: eztags.admin.controller.tag:addTagSelectAction
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_add:
     path: /add/{parentId}/{languageCode}
-    defaults:
-        _controller: eztags.admin.controller.tag:addTagAction
-        _method: [GET, POST]
+    controller: eztags.admin.controller.tag:addTagAction
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_move_tags:
     path: /move/{parentId}
-    defaults:
-        _controller: eztags.admin.controller.tag:moveTagsAction
-        _method: POST
+    controller: eztags.admin.controller.tag:moveTagsAction
+    methods: [POST]
 
 netgen_tags_admin_tag_copy_tags:
     path: /copy/{parentId}
-    defaults:
-        _controller: eztags.admin.controller.tag:copyTagsAction
-        _method: POST
+    controller: eztags.admin.controller.tag:copyTagsAction
+    methods: [POST]
 
 netgen_tags_admin_tag_delete_tags:
     path: /delete/{parentId}
+    controller: eztags.admin.controller.tag:deleteTagsAction
     defaults:
-        _controller: eztags.admin.controller.tag:deleteTagsAction
-        _method: POST
+    methods: [POST]
 
 netgen_tags_admin_tag_update_select:
     path: /{tagId}/update
-    defaults:
-        _controller: eztags.admin.controller.tag:updateTagSelectAction
-        _method: [GET, POST]
+    controller: eztags.admin.controller.tag:updateTagSelectAction
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_update:
     path: /{tagId}/update/{languageCode}
-    defaults:
-        _controller: eztags.admin.controller.tag:updateTagAction
-        _method: [GET, POST]
+    controller: eztags.admin.controller.tag:updateTagAction
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_delete:
     path: /{tagId}/delete
-    defaults:
-        _controller: eztags.admin.controller.tag:deleteTagAction
-        _method: [GET, POST]
+    controller: eztags.admin.controller.tag:deleteTagAction
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_merge:
     path: /{tagId}/merge
+    controller: eztags.admin.controller.tag:mergeTagAction
     defaults:
-        _controller: eztags.admin.controller.tag:mergeTagAction
-        _method: [GET, POST]
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_convert:
     path: /{tagId}/convert
-    defaults:
-        _controller: eztags.admin.controller.tag:convertToSynonymAction
-        _method: [GET, POST]
+    controller: eztags.admin.controller.tag:convertToSynonymAction
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_translation:
     path: /{tagId}/translation
-    defaults:
-        _controller: eztags.admin.controller.tag:translationAction
-        _method: POST
+    controller: eztags.admin.controller.tag:translationAction
+    methods: [POST]
 
 netgen_tags_admin_tag_children:
     path: /{tagId}/children
-    defaults:
-        _controller: eztags.admin.controller.tag:childrenAction
-        _method: POST
+    controller: eztags.admin.controller.tag:childrenAction
+    methods: [POST]

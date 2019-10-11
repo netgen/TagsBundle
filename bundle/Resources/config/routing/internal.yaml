@@ -1,7 +1,7 @@
 _eztagsTag:
     path: /tags/id/{tagId}/{viewType}/{layout}
+    controller: eztags.controller.tag_view:viewAction
     defaults:
-        _controller: eztags.controller.tag_view:viewAction
         viewType: full
         layout: true
     methods: [GET]
