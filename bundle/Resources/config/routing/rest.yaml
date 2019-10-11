@@ -50,7 +50,6 @@ ezpublish_rest_eztags_createSynonym:
 
 ezpublish_rest_eztags_updateTag:
     path: /tags/{tagPath}
-    defaults:
     controller: eztags.rest.controller.tags:updateTag
     methods: [PATCH]
     requirements:

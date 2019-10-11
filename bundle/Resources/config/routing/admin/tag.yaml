@@ -31,7 +31,6 @@ netgen_tags_admin_tag_copy_tags:
 netgen_tags_admin_tag_delete_tags:
     path: /delete/{parentId}
     controller: eztags.admin.controller.tag:deleteTagsAction
-    defaults:
     methods: [POST]
 
 netgen_tags_admin_tag_update_select:
@@ -52,7 +51,6 @@ netgen_tags_admin_tag_delete:
 netgen_tags_admin_tag_merge:
     path: /{tagId}/merge
     controller: eztags.admin.controller.tag:mergeTagAction
-    defaults:
     methods: [GET, POST]
 
 netgen_tags_admin_tag_convert:
