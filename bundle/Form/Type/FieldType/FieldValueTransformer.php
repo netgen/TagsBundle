@@ -63,7 +63,7 @@ final class FieldValueTransformer implements DataTransformerInterface
         }
 
         $ids = explode('|#', $value['ids'] ?? '');
-        $parentIds = explode('|#', $value['parent_ids' ?? '']);
+        $parentIds = explode('|#', $value['parent_ids'] ?? '');
         $keywords = explode('|#', $value['keywords'] ?? '');
         $locales = explode('|#', $value['locales'] ?? '');
 
