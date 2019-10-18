@@ -1,6 +1,11 @@
 Netgen Tags Bundle 3.x changelog
 ================================
 
+3.4.3 (18.10.2019)
+------------------
+
+* Updated logo and colors to new Netgen branding
+
 3.4.2 (05.07.2019)
 ------------------
 
