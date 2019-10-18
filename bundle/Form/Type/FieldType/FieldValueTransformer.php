@@ -62,10 +62,10 @@ final class FieldValueTransformer implements DataTransformerInterface
             return $this->fieldType->getEmptyValue();
         }
 
-        $ids = explode('|#', $value['ids']);
-        $parentIds = explode('|#', $value['parent_ids']);
-        $keywords = explode('|#', $value['keywords']);
-        $locales = explode('|#', $value['locales']);
+        $ids = explode('|#', $value['ids'] ?? '');
+        $parentIds = explode('|#', $value['parent_ids'] ?? '');
+        $keywords = explode('|#', $value['keywords'] ?? '');
+        $locales = explode('|#', $value['locales'] ?? '');
 
         $hash = [];
         for ($i = 0, $count = count($ids); $i < $count; ++$i) {
