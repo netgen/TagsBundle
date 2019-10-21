@@ -1,14 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 82 82">
-  <defs>
-    <path id="tags-mark_color-a" d="M0.0004,41.4057 C0.0004,63.8257 18.1754,81.9997 40.5954,81.9997 C63.0154,81.9997 81.1904,63.8257 81.1904,41.4057 C81.1904,18.9857 63.0154,0.8097 40.5954,0.8097 C18.1754,0.8097 0.0004,18.9857 0.0004,41.4057 Z"/>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 127 134">
   <g fill="none" fill-rule="evenodd">
-    <path fill="#34BFE0" d="M81.19,41.405 C81.19,63.825 63.015,82 40.595,82 C18.175,82 2.84217094e-14,63.825 2.84217094e-14,41.405 C2.84217094e-14,18.985 18.175,0.81 40.595,0.81 C63.015,0.81 81.19,18.985 81.19,41.405"/>
-    <mask id="tags-mark_color-b" fill="#fff">
-      <use xlink:href="#tags-mark_color-a"/>
-    </mask>
-    <polygon fill="#000" points="41.12 86.272 61.03 86.272 61.03 42.569 41.12 42.569" mask="url(#tags-mark_color-b)"/>
-    <polygon fill="#FFF" points="20.96 26.638 81.19 26.638 81.19 18.672 20.96 18.672" mask="url(#tags-mark_color-b)"/>
-    <polygon fill="#FFF" points="20.96 42.57 81.19 42.57 81.19 34.604 20.96 34.604" mask="url(#tags-mark_color-b)"/>
+    <polygon fill="#34BFE0" points="42.39 133.152 84.258 133.152 84.258 50.252 42.39 50.252"/>
+    <polygon fill="#FFF" points="0 16.75 126.649 16.75 126.649 0 0 0"/>
+    <polygon fill="#FFF" points="0 50.252 126.649 50.252 126.649 33.503 0 33.503"/>
   </g>
 </svg>
