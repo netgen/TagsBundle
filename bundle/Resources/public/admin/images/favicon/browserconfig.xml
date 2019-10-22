@@ -3,7 +3,7 @@
     <msapplication>
         <tile>
             <square150x150logo src="/bundles/netgentags/admin/images/favicon/mstile-150x150.png"/>
-            <TileColor>#da532c</TileColor>
+            <TileColor>#34bfe0</TileColor>
         </tile>
     </msapplication>
 </browserconfig>
