@@ -55,3 +55,4 @@ There are two sets of tests available, unit tests and legacy integration tests.
     $ composer install
     $ composer test-integration
 This is some content for testing purpose by khadar
+This is a new add on Khadar
