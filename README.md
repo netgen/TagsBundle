@@ -56,3 +56,4 @@ There are two sets of tests available, unit tests and legacy integration tests.
     $ composer test-integration
 This is some content for testing purpose by khadar
 This is a new add on Khadar
+what is new people of the mountains
