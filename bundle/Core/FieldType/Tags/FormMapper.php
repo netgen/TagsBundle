@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use EzSystems\RepositoryForms\Data\Content\FieldData;
-use EzSystems\RepositoryForms\Data\FieldDefinitionData;
-use EzSystems\RepositoryForms\FieldType\FieldDefinitionFormMapperInterface;
-use EzSystems\RepositoryForms\FieldType\FieldValueFormMapperInterface;
+use EzSystems\EzPlatformAdminUi\FieldType\FieldDefinitionFormMapperInterface;
+use EzSystems\EzPlatformAdminUi\Form\Data\FieldDefinitionData;
+use EzSystems\EzPlatformContentForms\Data\Content\FieldData;
+use EzSystems\EzPlatformContentForms\FieldType\FieldValueFormMapperInterface;
 use Netgen\TagsBundle\Form\Type\FieldType\TagsFieldType;
 use Netgen\TagsBundle\Form\Type\TagTreeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
