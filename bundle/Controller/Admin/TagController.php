@@ -487,9 +487,8 @@ final class TagController extends Controller
             return $this->redirectToTag($tag);
         }
 
-        $session = $request->getSession();
-        if ($session !== null) {
-            $session->set(
+        if ($request->hasSession()) {
+            $request->getSession()->set(
                 'ngtags_tag_ids',
                 $request->request->get('Tags')
             );
@@ -534,8 +533,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:edit');
 
-        $session = $request->getSession();
-        $tagIds = $request->request->get('Tags', $session !== null ? $session->get('ngtags_tag_ids') : []);
+        $tagIds = $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -594,8 +592,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $session = $request->getSession();
-        $tagIds = $request->request->get('Tags', $session !== null ? $session->get('ngtags_tag_ids') : []);
+        $tagIds = $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -654,8 +651,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:delete');
 
-        $session = $request->getSession();
-        $tagIds = $request->request->get('Tags', $session !== null ? $session->get('ngtags_tag_ids') : []);
+        $tagIds = $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
