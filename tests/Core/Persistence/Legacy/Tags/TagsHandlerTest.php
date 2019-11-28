@@ -486,7 +486,7 @@ final class TagsHandlerTest extends TestCase
                         'mainLanguageCode' => 'eng-GB',
                         'languageIds' => [4],
                     ]
-                    )
+                )
             );
 
         $tag = $handler->create(
@@ -557,7 +557,7 @@ final class TagsHandlerTest extends TestCase
                         'mainLanguageCode' => 'eng-GB',
                         'languageIds' => [4],
                     ]
-                    )
+                )
             );
 
         $tag = $handler->create(
@@ -622,7 +622,7 @@ final class TagsHandlerTest extends TestCase
                         'alwaysAvailable' => true,
                         'languageIds' => [2, 4],
                     ]
-                    )
+                )
             );
 
         $tag = $handler->update(
@@ -712,7 +712,7 @@ final class TagsHandlerTest extends TestCase
                         'alwaysAvailable' => true,
                         'languageIds' => [4],
                     ]
-                    )
+                )
             );
 
         $tag = $handler->addSynonym(
@@ -808,7 +808,7 @@ final class TagsHandlerTest extends TestCase
                     [
                         'id' => 16,
                     ]
-                    )
+                )
             );
 
         $synonym = $handler->convertToSynonym(16, 66);
@@ -925,7 +925,7 @@ final class TagsHandlerTest extends TestCase
                         'pathString' => $movedData['path_string'],
                         'modificationDate' => $movedData['modified'],
                     ]
-                    )
+                )
             );
 
         $movedTag = $handler->moveSubtree(42, 66);
@@ -959,7 +959,7 @@ final class TagsHandlerTest extends TestCase
                         'id' => 40,
                         'parentTagId' => 21,
                     ]
-                    )
+                )
             );
 
         $this->gateway

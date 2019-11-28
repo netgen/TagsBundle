@@ -11,6 +11,7 @@ return PhpCsFixer\Config::create()
         'method_chaining_indentation' => false,
         'multiline_whitespace_before_semicolons' => false,
         'native_function_invocation' => false,
+        'no_superfluous_phpdoc_tags' => false,
         'php_unit_internal_class' => false,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false,
