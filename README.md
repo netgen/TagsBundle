@@ -54,3 +54,4 @@ There are two sets of tests available, unit tests and legacy integration tests.
 
     $ composer install
     $ composer test-integration
+This is some content added for testing purposes by Staman.
