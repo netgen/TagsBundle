@@ -29,7 +29,7 @@ services:
 
     eztags.field_type.eztags.nameable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\NameableField
-        public: false
+        public: true
         tags:
             - { name: ezpublish.fieldType.nameable, alias: eztags }
 
