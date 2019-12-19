@@ -1,7 +1,13 @@
 Netgen Tags Bundle 3.x changelog
 ================================
 
+3.4.5 (19.12.2019)
+------------------
+
+* Field type nameable services need to be public (thanks @RandyCupic)
+
 3.4.4 (22.10.2019)
+------------------
 
 * Update logo and colors to new Netgen branding, vol2
 
