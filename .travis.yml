@@ -11,8 +11,8 @@ cache:
     - $HOME/.cache/composer
 
 env:
-  - CONFIG="phpunit.xml" COVERAGE="unit"
-  - CONFIG="phpunit-integration-legacy.xml" COVERAGE="integration"
+  - CONFIG="phpunit.xml"
+  - CONFIG="phpunit-integration-legacy.xml"
 
 matrix:
   include:
@@ -38,6 +38,7 @@ branches:
     - /^\d.\d+-release$/
 
 before_script:
+  - phpenv config-rm xdebug.ini || true
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
   # Read-only OAuth token to work around GitHub API rate limits
@@ -47,7 +48,7 @@ before_script:
 
 script:
   # - composer validate --strict
-  - if [ "$CONFIG" != "" ] ; then vendor/bin/phpunit -c $CONFIG --coverage-clover=coverage.xml --colors=always ; fi
+  - if [ "$CONFIG" != "" ] ; then vendor/bin/phpunit -c $CONFIG --colors=always ; fi
   - if [ "$RUN_PHPSTAN" != "" ] ; then composer phpstan ; fi
   - if [ "$RUN_PHPSTAN" != "" ] ; then composer phpstan-tests ; fi
 
