@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^7.3",
-        "ezsystems/ezpublish-kernel": "dev-master",
+        "ezsystems/ezpublish-kernel": "^8.0",
         "ezsystems/ezplatform-admin-ui": "^2.0",
         "ezsystems/ezplatform-rest": "^1.0",
         "ezsystems/ezplatform-content-forms": "^1.0",
