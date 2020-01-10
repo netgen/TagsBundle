@@ -576,7 +576,7 @@ final class TagController extends Controller
         return $this->render(
             '@NetgenTags/admin/tag/move_tags.html.twig',
             [
-                'parentTag' => $parentTag ?: null,
+                'parentTag' => $parentTag,
                 'tags' => $tags,
                 'form' => $form->createView(),
             ]
@@ -635,7 +635,7 @@ final class TagController extends Controller
         return $this->render(
             '@NetgenTags/admin/tag/copy_tags.html.twig',
             [
-                'parentTag' => $parentTag ?: null,
+                'parentTag' => $parentTag,
                 'tags' => $tags,
                 'form' => $form->createView(),
             ]
@@ -681,7 +681,7 @@ final class TagController extends Controller
         return $this->render(
             '@NetgenTags/admin/tag/delete_tags.html.twig',
             [
-                'parentTag' => $parentTag ?: null,
+                'parentTag' => $parentTag,
                 'tags' => $tags,
             ]
         );

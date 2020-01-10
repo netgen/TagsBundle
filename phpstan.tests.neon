@@ -4,6 +4,8 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
+    checkMissingIterableValueType: false
+
     ignoreErrors:
         - '#Method eZ\\Publish\\Core\\Persistence\\Database\\SelectQuery::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
         - '#Method eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) invoked with \d+ parameters?, \d+ required.#'

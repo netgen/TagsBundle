@@ -65,8 +65,8 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         $this->tagsService = $tagsService;
         $this->generator = $generator;
         $this->configResolver = $configResolver;
-        $this->requestContext = $requestContext ?: new RequestContext();
-        $this->logger = $logger ?: new NullLogger();
+        $this->requestContext = $requestContext ?? new RequestContext();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public function matchRequest(Request $request): array

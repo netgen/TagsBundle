@@ -6,6 +6,9 @@ namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @extends \Doctrine\Common\Collections\ArrayCollection<array-key, \Netgen\TagsBundle\API\Repository\Values\Tags\Tag>
+ */
 final class TagList extends ArrayCollection
 {
     public function __construct(array $tags = [])
@@ -21,7 +24,7 @@ final class TagList extends ArrayCollection
     }
 
     /**
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
+     * @return array<array-key, \Netgen\TagsBundle\API\Repository\Values\Tags\Tag>
      */
     public function getTags(): array
     {
@@ -34,8 +37,8 @@ final class TagList extends ArrayCollection
     public function getTagIds(): array
     {
         return array_map(
-            static function (Tag $tag) {
-                return $tag->id;
+            static function (Tag $tag): int {
+                return (int) $tag->id;
             },
             $this->getTags()
         );

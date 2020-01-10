@@ -215,6 +215,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
+        /** @var array $rows */
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return (int) $rows[0]['count'];
@@ -292,6 +293,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
+        /** @var array $rows */
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return (int) $rows[0]['count'];
@@ -351,6 +353,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->prepare();
         $statement->execute();
 
+        /** @var array $rows */
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return (int) $rows[0]['count'];

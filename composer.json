@@ -33,10 +33,10 @@
     "require-dev": {
         "symfony/var-dumper": "^4.3",
         "phpunit/phpunit": "^8.3",
-        "phpstan/phpstan": "^0.11",
-        "phpstan/phpstan-strict-rules": "^0.11",
-        "phpstan/phpstan-symfony": "^0.11",
-        "phpstan/phpstan-phpunit": "^0.11"
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-strict-rules": "^0.12",
+        "phpstan/phpstan-symfony": "^0.12",
+        "phpstan/phpstan-phpunit": "^0.12"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

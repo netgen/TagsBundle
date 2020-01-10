@@ -3,12 +3,16 @@ includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
+    checkMissingIterableValueType: false
+
     ignoreErrors:
         # Symfony:
-        - '#Cannot call method booleanNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::booleanNode\(\).#'
         -
             message: '#Call to an undefined method object::isPropagationStopped\(\)#'
             path: bundle/Core/Event/TagsService.php
+
+        - '#Call to method Symfony\\Component\\HttpFoundation\\Request::hasSession\(\) will always evaluate to true.#'
 
         # eZ Platform
         - '#Method eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) invoked with \d+ parameters?, \d+ required.#'

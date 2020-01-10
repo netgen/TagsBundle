@@ -66,7 +66,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(PropertyNotFoundException::class);
 
         $tag = new Tag();
-        $tag->notDefined;
+        $tag->notDefined = 42;
     }
 
     /**
