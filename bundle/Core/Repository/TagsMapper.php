@@ -33,6 +33,7 @@ final class TagsMapper
             $languageIds[] = $spiTag->languageIds;
         }
 
+        /** @var \eZ\Publish\SPI\Persistence\Content\Language[] $languages */
         $languages = $this->languageHandler->loadList(array_unique(array_merge(...$languageIds)));
 
         $tags = [];
