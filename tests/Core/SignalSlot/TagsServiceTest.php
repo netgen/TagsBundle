@@ -298,14 +298,14 @@ class TagsServiceTest extends TestCase
             ->with(self::equalTo($tagCreateStruct))
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 24,
-                            'parentTagId' => 42,
-                            'keywords' => ['eng-GB' => 'netgen'],
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                        ]
-                    )
+                    [
+                        'id' => 24,
+                        'parentTagId' => 42,
+                        'keywords' => ['eng-GB' => 'netgen'],
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                    ]
+                )
             );
 
         $this->signalDispatcher
@@ -365,14 +365,14 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 42,
-                            'keywords' => ['eng-GB' => 'netgen'],
-                            'remoteId' => '123456',
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                        ]
-                    )
+                    [
+                        'id' => 42,
+                        'keywords' => ['eng-GB' => 'netgen'],
+                        'remoteId' => '123456',
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                    ]
+                )
             );
 
         $this->signalDispatcher
@@ -425,14 +425,14 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 24,
-                            'keywords' => ['eng-GB' => 'netgenlabs'],
-                            'mainTagId' => 42,
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                        ]
-                    )
+                    [
+                        'id' => 24,
+                        'keywords' => ['eng-GB' => 'netgenlabs'],
+                        'mainTagId' => 42,
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                    ]
+                )
             );
 
         $this->signalDispatcher
@@ -490,11 +490,11 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 42,
-                            'mainTagId' => 24,
-                        ]
-                    )
+                    [
+                        'id' => 42,
+                        'mainTagId' => 24,
+                    ]
+                )
             );
 
         $this->signalDispatcher
@@ -590,12 +590,12 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 42,
-                            'parentTagId' => 25,
-                            'keywords' => ['eng-GB' => 'netgen'],
-                        ]
-                    )
+                    [
+                        'id' => 42,
+                        'parentTagId' => 25,
+                        'keywords' => ['eng-GB' => 'netgen'],
+                    ]
+                )
             );
 
         $this->signalDispatcher
@@ -649,11 +649,11 @@ class TagsServiceTest extends TestCase
             )
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 24,
-                            'parentTagId' => 25,
-                        ]
-                    )
+                    [
+                        'id' => 24,
+                        'parentTagId' => 25,
+                    ]
+                )
             );
 
         $this->signalDispatcher

@@ -503,19 +503,19 @@ class TagsHandlerTest extends TestCase
             ->with(95)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 95,
-                            'parentTagId' => 21,
-                            'mainTagId' => 0,
-                            'keywords' => ['eng-GB' => 'New tag'],
-                            'depth' => 3,
-                            'pathString' => '/1/2/95/',
-                            'remoteId' => '123456abcdef',
-                            'alwaysAvailable' => true,
-                            'mainLanguageCode' => 'eng-GB',
-                            'languageIds' => [4],
-                        ]
-                    )
+                    [
+                        'id' => 95,
+                        'parentTagId' => 21,
+                        'mainTagId' => 0,
+                        'keywords' => ['eng-GB' => 'New tag'],
+                        'depth' => 3,
+                        'pathString' => '/1/2/95/',
+                        'remoteId' => '123456abcdef',
+                        'alwaysAvailable' => true,
+                        'mainLanguageCode' => 'eng-GB',
+                        'languageIds' => [4],
+                    ]
+                )
             );
 
         $tag = $handler->create(
@@ -579,19 +579,19 @@ class TagsHandlerTest extends TestCase
             ->with(95)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 95,
-                            'parentTagId' => 0,
-                            'mainTagId' => 0,
-                            'keywords' => ['eng-GB' => 'New tag'],
-                            'depth' => 3,
-                            'pathString' => '/1/2/95/',
-                            'remoteId' => '123456abcdef',
-                            'alwaysAvailable' => true,
-                            'mainLanguageCode' => 'eng-GB',
-                            'languageIds' => [4],
-                        ]
-                    )
+                    [
+                        'id' => 95,
+                        'parentTagId' => 0,
+                        'mainTagId' => 0,
+                        'keywords' => ['eng-GB' => 'New tag'],
+                        'depth' => 3,
+                        'pathString' => '/1/2/95/',
+                        'remoteId' => '123456abcdef',
+                        'alwaysAvailable' => true,
+                        'mainLanguageCode' => 'eng-GB',
+                        'languageIds' => [4],
+                    ]
+                )
             );
 
         $tag = $handler->create(
@@ -653,15 +653,15 @@ class TagsHandlerTest extends TestCase
             ->with(40)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 40,
-                            'keywords' => ['eng-US' => 'Updated tag US', 'eng-GB' => 'Updated tag'],
-                            'remoteId' => '123456abcdef',
-                            'mainLanguageCode' => 'eng-US',
-                            'alwaysAvailable' => true,
-                            'languageIds' => [2, 4],
-                        ]
-                    )
+                    [
+                        'id' => 40,
+                        'keywords' => ['eng-US' => 'Updated tag US', 'eng-GB' => 'Updated tag'],
+                        'remoteId' => '123456abcdef',
+                        'mainLanguageCode' => 'eng-US',
+                        'alwaysAvailable' => true,
+                        'languageIds' => [2, 4],
+                    ]
+                )
             );
 
         $tag = $handler->update(
@@ -744,19 +744,19 @@ class TagsHandlerTest extends TestCase
             ->with(95)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 95,
-                            'parentTagId' => 1,
-                            'mainTagId' => 21,
-                            'keywords' => ['eng-GB' => 'New synonym'],
-                            'depth' => 2,
-                            'pathString' => '/1/95/',
-                            'remoteId' => '12345',
-                            'mainLanguageCode' => 'eng-GB',
-                            'alwaysAvailable' => true,
-                            'languageIds' => [4],
-                        ]
-                    )
+                    [
+                        'id' => 95,
+                        'parentTagId' => 1,
+                        'mainTagId' => 21,
+                        'keywords' => ['eng-GB' => 'New synonym'],
+                        'depth' => 2,
+                        'pathString' => '/1/95/',
+                        'remoteId' => '12345',
+                        'mainLanguageCode' => 'eng-GB',
+                        'alwaysAvailable' => true,
+                        'languageIds' => [4],
+                    ]
+                )
             );
 
         $tag = $handler->addSynonym(
@@ -854,10 +854,10 @@ class TagsHandlerTest extends TestCase
             ->with(16)
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => 16,
-                        ]
-                    )
+                    [
+                        'id' => 16,
+                    ]
+                )
             );
 
         $synonym = $handler->convertToSynonym(16, 66);
@@ -973,14 +973,14 @@ class TagsHandlerTest extends TestCase
             ->with($movedData['id'])
             ->willReturn(
                 new Tag(
-                        [
-                            'id' => $movedData['id'],
-                            'parentTagId' => $movedData['parent_id'],
-                            'depth' => $movedData['depth'],
-                            'pathString' => $movedData['path_string'],
-                            'modificationDate' => $movedData['modified'],
-                        ]
-                    )
+                    [
+                        'id' => $movedData['id'],
+                        'parentTagId' => $movedData['parent_id'],
+                        'depth' => $movedData['depth'],
+                        'pathString' => $movedData['path_string'],
+                        'modificationDate' => $movedData['modified'],
+                    ]
+                )
             );
 
         $movedTag = $handler->moveSubtree(42, 66);
@@ -1015,11 +1015,11 @@ class TagsHandlerTest extends TestCase
             ->with(40)
             ->willReturn(
                 new TagInfo(
-                        [
-                            'id' => 40,
-                            'parentTagId' => 21,
-                        ]
-                    )
+                    [
+                        'id' => 40,
+                        'parentTagId' => 21,
+                    ]
+                )
             );
 
         $this->gateway
