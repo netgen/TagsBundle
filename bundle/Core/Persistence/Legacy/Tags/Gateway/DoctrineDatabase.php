@@ -223,7 +223,9 @@ final class DoctrineDatabase extends Gateway
 
     public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array
     {
+        $databasePlatform = $this->handler->getConnection()->getDatabasePlatform();
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
+
         $tagIdsQuery->where(
             $exactMatch ?
                 $tagIdsQuery->expr->eq(
@@ -231,8 +233,8 @@ final class DoctrineDatabase extends Gateway
                     $tagIdsQuery->bindValue($keyword, null, PDO::PARAM_STR)
                 ) :
                 $tagIdsQuery->expr->like(
-                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $tagIdsQuery->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                    $databasePlatform->getLowerExpression($this->handler->quoteColumn('keyword', 'eztags_keyword')),
+                    $tagIdsQuery->bindValue(mb_strtolower($keyword) . '%', null, PDO::PARAM_STR)
                 )
         );
 
@@ -276,6 +278,7 @@ final class DoctrineDatabase extends Gateway
 
     public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int
     {
+        $databasePlatform = $this->handler->getConnection()->getDatabasePlatform();
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
         $query->where(
@@ -285,8 +288,8 @@ final class DoctrineDatabase extends Gateway
                     $query->bindValue($keyword, null, PDO::PARAM_STR)
                 ) :
                 $query->expr->like(
-                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $query->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                    $databasePlatform->getLowerExpression($this->handler->quoteColumn('keyword', 'eztags_keyword')),
+                    $query->bindValue(mb_strtolower($keyword) . '%', null, PDO::PARAM_STR)
                 )
         );
 
