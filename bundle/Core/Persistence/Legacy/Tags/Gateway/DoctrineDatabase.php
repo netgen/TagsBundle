@@ -298,7 +298,9 @@ class DoctrineDatabase extends Gateway
      */
     public function getTagsByKeyword($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true, $offset = 0, $limit = -1)
     {
+        $databasePlatform = $this->handler->getConnection()->getDatabasePlatform();
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
+
         $tagIdsQuery->where(
             $exactMatch ?
                 $tagIdsQuery->expr->eq(
@@ -306,8 +308,8 @@ class DoctrineDatabase extends Gateway
                     $tagIdsQuery->bindValue($keyword, null, PDO::PARAM_STR)
                 ) :
                 $tagIdsQuery->expr->like(
-                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $tagIdsQuery->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                    $databasePlatform->getLowerExpression($this->handler->quoteColumn('keyword', 'eztags_keyword')),
+                    $tagIdsQuery->bindValue(mb_strtolower($keyword) . '%', null, PDO::PARAM_STR)
                 )
         );
 
@@ -359,6 +361,7 @@ class DoctrineDatabase extends Gateway
      */
     public function getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable = true, $exactMatch = true)
     {
+        $databasePlatform = $this->handler->getConnection()->getDatabasePlatform();
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
         $query->where(
@@ -368,8 +371,8 @@ class DoctrineDatabase extends Gateway
                     $query->bindValue($keyword, null, PDO::PARAM_STR)
                 ) :
                 $query->expr->like(
-                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $query->bindValue($keyword . '%', null, PDO::PARAM_STR)
+                    $databasePlatform->getLowerExpression($this->handler->quoteColumn('keyword', 'eztags_keyword')),
+                    $query->bindValue(mb_strtolower($keyword) . '%', null, PDO::PARAM_STR)
                 )
         );
 
