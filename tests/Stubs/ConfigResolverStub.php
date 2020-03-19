@@ -25,7 +25,7 @@ final class ConfigResolverStub implements ConfigResolverInterface
 
     public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
     {
-        return $this->parameters[$namespace ?? $this->defaultNamespace][$paramName];
+        return $this->parameters[$namespace ?? $this->defaultNamespace][$paramName] ?? null;
     }
 
     public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
