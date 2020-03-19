@@ -23,17 +23,17 @@ final class ConfigResolverStub implements ConfigResolverInterface
         $this->parameters = $parameters;
     }
 
-    public function getParameter($paramName, $namespace = null, $scope = null)
+    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
     {
         return $this->parameters[$namespace ?? $this->defaultNamespace][$paramName];
     }
 
-    public function hasParameter($paramName, $namespace = null, $scope = null): bool
+    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
     {
         return isset($this->parameters[$namespace ?? $this->defaultNamespace][$paramName]);
     }
 
-    public function setDefaultNamespace($defaultNamespace): void
+    public function setDefaultNamespace(string $defaultNamespace): void
     {
         $this->defaultNamespace = $defaultNamespace;
     }

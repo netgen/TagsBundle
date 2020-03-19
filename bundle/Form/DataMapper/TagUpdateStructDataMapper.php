@@ -19,6 +19,10 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
         $this->languageCode = $languageCode;
     }
 
+    /**
+     * @param mixed $viewData
+     * @param \Traversable $forms
+     */
     public function mapDataToForms($viewData, $forms): void
     {
         if (!$viewData instanceof TagUpdateStruct) {
@@ -32,6 +36,10 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
         $forms['remoteId']->setData($viewData->remoteId);
     }
 
+    /**
+     * @param \Traversable $forms
+     * @param mixed $viewData
+     */
     public function mapFormsToData($forms, &$viewData): void
     {
         if (!$viewData instanceof TagUpdateStruct) {
