@@ -25,14 +25,13 @@
         "ezsystems/ezplatform-rest": "^1.0",
         "ezsystems/ezplatform-content-forms": "^1.0",
         "ezsystems/ezplatform-solr-search-engine": "^3.0",
-        "lolautruche/ez-core-extra-bundle": "^2.2.2",
-        "symfony/translation-contracts": "^1.1.5",
+        "symfony/translation-contracts": "^2.0.1",
         "doctrine/collections": "^1.6",
-        "twig/twig": "^2.11.2"
+        "twig/twig": "^3.0.3"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.3",
-        "phpunit/phpunit": "^8.3",
+        "symfony/var-dumper": "^5.0",
+        "phpunit/phpunit": "^9.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-strict-rules": "^0.12",
         "phpstan/phpstan-symfony": "^0.12",
