@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as TagKeywordCriterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
-use PDO;
 
 final class TagKeyword extends Tags
 {
@@ -18,61 +17,47 @@ final class TagKeyword extends Tags
         return $criterion instanceof TagKeywordCriterion;
     }
 
-    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, ?array $fieldFilters = null): string
+    public function handle(CriteriaConverter $converter, QueryBuilder $queryBuilder, Criterion $criterion, array $languageSettings): string
     {
         /** @var \Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value\TagKeywordValue|null $valueData */
         $valueData = $criterion->valueData;
 
-        $subSelect = $query->subSelect();
+        $subSelect = $this->connection->createQueryBuilder();
         $subSelect
-            ->select($this->dbHandler->quoteColumn('id', 'ezcontentobject'))
-            ->from($this->dbHandler->quoteTable('ezcontentobject'))
+            ->select('t1.id')
+            ->from('ezcontentobject', 't1')
             ->innerJoin(
-                $this->dbHandler->quoteTable('eztags_attribute_link'),
-                $subSelect->expr->lAnd(
-                    [
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link'),
-                            $this->dbHandler->quoteColumn('current_version', 'ezcontentobject')
-                        ),
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('object_id', 'eztags_attribute_link'),
-                            $this->dbHandler->quoteColumn('id', 'ezcontentobject')
-                        ),
-                    ]
+                't1',
+                'eztags_attribute_link',
+                't2',
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('t2.objectattribute_version', 't1.current_version'),
+                    $queryBuilder->expr()->eq('t2.object_id', 't1.id')
                 )
             )->innerJoin(
-                $this->dbHandler->quoteTable('eztags'),
-                $subSelect->expr->eq(
-                    $this->dbHandler->quoteColumn('keyword_id', 'eztags_attribute_link'),
-                    $this->dbHandler->quoteColumn('id', 'eztags')
-                )
+                't2',
+                'eztags',
+                't3',
+                $queryBuilder->expr()->eq('t2.keyword_id', 't3.id')
             )->leftJoin(
-                $this->dbHandler->quoteTable('eztags_keyword'),
-                $subSelect->expr->lAnd(
-                    $subSelect->expr->eq(
-                        $this->dbHandler->quoteColumn('id', 'eztags'),
-                        $this->dbHandler->quoteColumn('keyword_id', 'eztags_keyword')
-                    ),
-                    $subSelect->expr->eq(
-                        $this->dbHandler->quoteColumn('status', 'eztags_keyword'),
-                        $subSelect->bindValue(1, null, PDO::PARAM_INT)
-                    )
+                't3',
+                'eztags_keyword',
+                't4',
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('t3.id', 't4.keyword_id'),
+                    $queryBuilder->expr()->eq('t4.status', 1)
                 )
             );
 
         if ($valueData !== null && count($valueData->languages ?? []) > 0) {
             if ($valueData->useAlwaysAvailable) {
                 $subSelect->where(
-                    $subSelect->expr->lOr(
-                        $subSelect->expr->in(
-                            $this->dbHandler->quoteColumn('locale', 'eztags_keyword'),
-                            $valueData->languages
-                        ),
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('main_language_id', 'eztags'),
-                            $subSelect->expr->bitAnd(
-                                $this->dbHandler->quoteColumn('language_id', 'eztags_keyword'),
+                    $queryBuilder->expr()->orX(
+                        $queryBuilder->expr()->in('t4.locale', $valueData->languages),
+                        $queryBuilder->expr()->eq(
+                            't3.main_language_id',
+                            $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                't4.language_id',
                                 -2 // -2 == PHP_INT_MAX << 1
                             )
                         )
@@ -80,59 +65,38 @@ final class TagKeyword extends Tags
                 );
             } else {
                 $subSelect->where(
-                    $subSelect->expr->in(
-                        $this->dbHandler->quoteColumn('locale', 'eztags_keyword'),
-                        $valueData->languages
-                    )
+                    $queryBuilder->expr()->in('t4.locale', $valueData->languages)
                 );
             }
         }
 
         if ($criterion->operator === Criterion\Operator::LIKE) {
             $subSelect->where(
-                $subSelect->expr->like(
-                    $this->dbHandler->quoteColumn('keyword', 'eztags_keyword'),
-                    $subSelect->bindValue($criterion->value[0])
-                )
+                $queryBuilder->expr()->like('t4.keyword', $criterion->value[0])
             );
         } else {
             $subSelect->where(
-                $subSelect->expr->in(
-                    $this->dbHandler->quoteColumn('keyword', 'eztags_keyword'),
-                    $criterion->value
-                )
+                $queryBuilder->expr()->in('t4.keyword', $criterion->value)
             );
         }
 
         $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
         if ($fieldDefinitionIds !== null) {
             $subSelect->innerJoin(
-                $this->dbHandler->quoteTable('ezcontentobject_attribute'),
-                $subSelect->expr->lAnd(
-                    [
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('id', 'ezcontentobject_attribute'),
-                            $this->dbHandler->quoteColumn('objectattribute_id', 'eztags_attribute_link')
-                        ),
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('version', 'ezcontentobject_attribute'),
-                            $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link')
-                        ),
-                    ]
+                't2',
+                'ezcontentobject_attribute',
+                't5',
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('t5.id', 't2.objectattribute_id'),
+                    $queryBuilder->expr()->eq('t5.version', 't2.objectattribute_version'),
                 )
             );
 
             $subSelect->where(
-                $query->expr->in(
-                    $this->dbHandler->quoteColumn('contentclassattribute_id', 'ezcontentobject_attribute'),
-                    $fieldDefinitionIds
-                )
+                $queryBuilder->expr()->in('t5.contentclassattribute_id', $fieldDefinitionIds)
             );
         }
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subSelect
-        );
+        return $queryBuilder->expr()->in('c.id', $subSelect->getSQL());
     }
 }

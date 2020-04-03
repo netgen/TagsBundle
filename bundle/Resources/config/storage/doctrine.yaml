@@ -19,7 +19,7 @@ services:
     eztags.api.storage_engine.legacy.handler.tags.gateway.inner:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
         arguments:
-            - "@ezpublish.api.storage_engine.legacy.dbhandler"
+            - "@ezpublish.persistence.connection"
             - "@ezpublish.spi.persistence.legacy.language.handler"
             - "@ezpublish.persistence.legacy.language.mask_generator"
 

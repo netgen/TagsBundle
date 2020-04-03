@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use PDO;
 
 final class DoctrineDatabase extends Gateway
 {
     /**
-     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
+     * @var \Doctrine\DBAL\Connection
      */
-    private $handler;
+    private $connection;
 
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
@@ -33,32 +34,26 @@ final class DoctrineDatabase extends Gateway
     private $languageMaskGenerator;
 
     public function __construct(
-        DatabaseHandler $handler,
+        Connection $connection,
         LanguageHandler $languageHandler,
         LanguageMaskGenerator $languageMaskGenerator
     ) {
-        $this->handler = $handler;
+        $this->connection = $connection;
         $this->languageHandler = $languageHandler;
         $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     public function getBasicTagData(int $tagId): array
     {
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from($this->handler->quoteTable('eztags'))
+            ->from('eztags')
             ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('id'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
-                )
-            );
+                $query->expr()->eq('id', ':id')
+            )->setParameter('id', $tagId, Types::INTEGER);
 
-        $statement = $query->prepare();
-        $statement->execute();
-
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $row = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
 
         if (is_array($row)) {
             return $row;
@@ -69,21 +64,18 @@ final class DoctrineDatabase extends Gateway
 
     public function getBasicTagDataByRemoteId(string $remoteId): array
     {
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from($this->handler->quoteTable('eztags'))
+            ->from('eztags')
             ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('remote_id'),
-                    $query->bindValue($remoteId, null, PDO::PARAM_STR)
+                $query->expr()->eq(
+                    'remote_id',
+                    ':remote_id'
                 )
-            );
+            )->setParameter('remote_id', $remoteId, Types::STRING);
 
-        $statement = $query->prepare();
-        $statement->execute();
-
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $row = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
 
         if (is_array($row)) {
             return $row;
@@ -96,84 +88,70 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->eq(
-                $this->handler->quoteColumn('id', 'eztags'),
-                $query->bindValue($tagId, null, PDO::PARAM_INT)
+            $query->expr()->eq(
+                'eztags.id',
+                ':id'
             )
-        );
+        )->setParameter('id', $tagId, Types::INTEGER);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function getFullTagDataByRemoteId(string $remoteId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->eq(
-                $this->handler->quoteColumn('remote_id', 'eztags'),
-                $query->bindValue($remoteId, null, PDO::PARAM_STR)
+            $query->expr()->eq(
+                'eztags.remote_id',
+                ':remote_id'
             )
-        );
+        )
+        ->setParameter('remote_id', $remoteId, Types::STRING);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function getFullTagDataByKeywordAndParentId(string $keyword, int $parentId, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->eq(
-                $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                $query->bindValue($keyword, null, PDO::PARAM_STR)
+            $query->expr()->eq(
+                'eztags_keyword.keyword',
+                ':keyword'
             ),
-            $query->expr->eq(
-                $this->handler->quoteColumn('parent_id', 'eztags'),
-                $query->bindValue($parentId, null, PDO::PARAM_INT)
+            $query->expr()->eq(
+                'eztags.parent_id',
+                ':parent_id'
             )
-        );
+        )->setParameter('keyword', $keyword, Types::STRING)
+        ->setParameter('parent_id', $parentId, Types::INTEGER);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->where(
-            $tagIdsQuery->expr->lAnd(
-                $tagIdsQuery->expr->eq(
-                    $this->handler->quoteColumn('parent_id', 'eztags'),
-                    $tagIdsQuery->bindValue($tagId, null, PDO::PARAM_INT)
+            $tagIdsQuery->expr()->andX(
+                $tagIdsQuery->expr()->eq(
+                    'eztags.parent_id',
+                    ':parent_id'
                 ),
-                $tagIdsQuery->expr->eq($this->handler->quoteColumn('main_tag_id', 'eztags'), 0)
+                $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0)
             )
-        )
-        ->orderBy(
-            $this->handler->quoteColumn('keyword', 'eztags'),
-            $tagIdsQuery::ASC
-        )
-        ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+        )->setParameter('parent_id', $tagId, Types::INTEGER)
+        ->orderBy('eztags.keyword', 'ASC')
+        ->setFirstResult($offset)
+        ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $tagIdsQuery->prepare();
-        $statement->execute();
+        $statement = $tagIdsQuery->execute();
 
         $tagIds = array_map(
             static function (array $row): int {
                 return (int) $row['id'];
             },
-            $statement->fetchAll(PDO::FETCH_ASSOC)
+            $statement->fetchAll(FetchMode::ASSOCIATIVE)
         );
 
         if (count($tagIds) === 0) {
@@ -182,73 +160,66 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->in(
-                $this->handler->quoteColumn('id', 'eztags'),
+            $query->expr()->in(
+                'eztags.id',
                 $tagIds
             )
         )
-        ->orderBy(
-            $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-            $query::ASC
-        );
+        ->orderBy('eztags_keyword.keyword', 'ASC');
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->lAnd(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('parent_id', 'eztags'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
+            $query->expr()->andX(
+                $query->expr()->eq(
+                    'eztags.parent_id',
+                    ':parent_id'
                 ),
-                $query->expr->eq($this->handler->quoteColumn('main_tag_id', 'eztags'), 0)
+                $query->expr()->eq('eztags.main_tag_id', 0)
             )
-        );
+        )->setParameter('parent_id', $tagId, Types::INTEGER);
 
-        $statement = $query->prepare();
-        $statement->execute();
-
-        /** @var array $rows */
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
         return (int) $rows[0]['count'];
     }
 
     public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array
     {
-        $databasePlatform = $this->handler->getConnection()->getDatabasePlatform();
+        $databasePlatform = $this->connection->getDatabasePlatform();
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
 
         $tagIdsQuery->where(
             $exactMatch ?
-                $tagIdsQuery->expr->eq(
-                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $tagIdsQuery->bindValue($keyword, null, PDO::PARAM_STR)
+                $tagIdsQuery->expr()->eq(
+                    'eztags_keyword.keyword',
+                    ':keyword'
                 ) :
-                $tagIdsQuery->expr->like(
-                    $databasePlatform->getLowerExpression($this->handler->quoteColumn('keyword', 'eztags_keyword')),
-                    $tagIdsQuery->bindValue(mb_strtolower($keyword) . '%', null, PDO::PARAM_STR)
+                $tagIdsQuery->expr()->like(
+                    $databasePlatform->getLowerExpression('eztags_keyword.keyword'),
+                    ':keyword'
                 )
         );
 
-        $tagIdsQuery->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+        $exactMatch ?
+            $tagIdsQuery->setParameter('keyword', $keyword, Types::STRING) :
+            $tagIdsQuery->setParameter('keyword', mb_strtolower($keyword) . '%', Types::STRING);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $tagIdsQuery->prepare();
-        $statement->execute();
+        $tagIdsQuery
+            ->setFirstResult($offset)
+            ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
+
+        $statement = $tagIdsQuery->execute();
 
         $tagIds = array_map(
             static function (array $row): int {
                 return (int) $row['id'];
             },
-            $statement->fetchAll(PDO::FETCH_ASSOC)
+            $statement->fetchAll(FetchMode::ASSOCIATIVE)
         );
 
         if (count($tagIds) === 0) {
@@ -258,46 +229,39 @@ final class DoctrineDatabase extends Gateway
         $query = $this->createTagFindQuery([$translation], $useAlwaysAvailable);
 
         $query->where(
-            $query->expr->in(
-                $this->handler->quoteColumn('id', 'eztags'),
+            $query->expr()->in(
+                'eztags.id',
                 $tagIds
             )
         );
 
-        $query->orderBy(
-            $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-            $query::ASC
-        );
+        $query->orderBy('eztags_keyword.keyword', 'ASC');
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int
     {
-        $databasePlatform = $this->handler->getConnection()->getDatabasePlatform();
+        $databasePlatform = $this->connection->getDatabasePlatform();
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
         $query->where(
             $exactMatch ?
-                $query->expr->eq(
-                    $this->handler->quoteColumn('keyword', 'eztags_keyword'),
-                    $query->bindValue($keyword, null, PDO::PARAM_STR)
+                $query->expr()->eq(
+                    'eztags_keyword.keyword',
+                    ':keyword'
                 ) :
-                $query->expr->like(
-                    $databasePlatform->getLowerExpression($this->handler->quoteColumn('keyword', 'eztags_keyword')),
-                    $query->bindValue(mb_strtolower($keyword) . '%', null, PDO::PARAM_STR)
+                $query->expr()->like(
+                    $databasePlatform->getLowerExpression('eztags_keyword.keyword'),
+                    ':keyword'
                 )
         );
 
-        $statement = $query->prepare();
-        $statement->execute();
+        $exactMatch ?
+            $query->setParameter('keyword', $keyword, Types::STRING) :
+            $query->setParameter('keyword', mb_strtolower($keyword) . '%', Types::STRING);
 
-        /** @var array $rows */
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
         return (int) $rows[0]['count'];
     }
@@ -306,22 +270,21 @@ final class DoctrineDatabase extends Gateway
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->where(
-            $tagIdsQuery->expr->eq(
-                $this->handler->quoteColumn('main_tag_id', 'eztags'),
-                $tagIdsQuery->bindValue($tagId, null, PDO::PARAM_INT)
+            $tagIdsQuery->expr()->eq(
+                'eztags.main_tag_id',
+                ':main_tag_id'
             )
-        )
-        ->limit($limit > 0 ? $limit : PHP_INT_MAX, $offset);
+        )->setParameter('main_tag_id', $tagId, Types::INTEGER)
+        ->setFirstResult($offset)
+        ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $tagIdsQuery->prepare();
-        $statement->execute();
+        $statement = $tagIdsQuery->execute();
 
         $tagIds = array_map(
             static function (array $row): int {
                 return (int) $row['id'];
             },
-            $statement->fetchAll(PDO::FETCH_ASSOC)
+            $statement->fetchAll(FetchMode::ASSOCIATIVE)
         );
 
         if (count($tagIds) === 0) {
@@ -330,134 +293,138 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->in(
-                $this->handler->quoteColumn('id', 'eztags'),
+            $query->expr()->in(
+                'eztags.id',
                 $tagIds
             )
         );
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
         $query->where(
-            $query->expr->eq(
-                $this->handler->quoteColumn('main_tag_id', 'eztags'),
-                $query->bindValue($tagId, null, PDO::PARAM_INT)
+            $query->expr()->eq(
+                'eztags.main_tag_id',
+                ':main_tag_id'
             )
-        );
+        )->setParameter('main_tag_id', $tagId, Types::INTEGER);
 
-        $statement = $query->prepare();
-        $statement->execute();
-
-        /** @var array $rows */
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
         return (int) $rows[0]['count'];
     }
 
     public function moveSynonym(int $synonymId, array $mainTagData): void
     {
-        $query = $this->handler->createUpdateQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->handler->quoteTable('eztags'))
+            ->update('eztags')
             ->set(
-                $this->handler->quoteColumn('parent_id'),
-                $query->bindValue($mainTagData['parent_id'], null, PDO::PARAM_INT)
+                'parent_id',
+                ':parent_id'
             )->set(
-                $this->handler->quoteColumn('main_tag_id'),
-                $query->bindValue($mainTagData['id'], null, PDO::PARAM_INT)
+                'main_tag_id',
+                ':main_tag_id'
             )->set(
-                $this->handler->quoteColumn('depth'),
-                $query->bindValue($mainTagData['depth'], null, PDO::PARAM_INT)
+                'depth',
+                ':depth'
             )->set(
-                $this->handler->quoteColumn('path_string'),
-                $query->bindValue($this->getSynonymPathString($synonymId, $mainTagData['path_string']), null, PDO::PARAM_STR)
+                'path_string',
+                ':path_string'
             )->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('id'),
-                    $query->bindValue($synonymId, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'id',
+                    ':id'
                 )
-            );
+            )->setParameter('parent_id', $mainTagData['parent_id'], Types::INTEGER)
+            ->setParameter('main_tag_id', $mainTagData['id'], Types::INTEGER)
+            ->setParameter('depth', $mainTagData['depth'], Types::INTEGER)
+            ->setParameter('path_string', $this->getSynonymPathString($synonymId, $mainTagData['path_string']), Types::STRING)
+            ->setParameter('id', $synonymId, Types::INTEGER);
 
-        $query->prepare()->execute();
+        $query->execute();
     }
 
     public function create(CreateStruct $createStruct, ?array $parentTag = null): int
     {
-        $query = $this->handler->createInsertQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->insertInto($this->handler->quoteTable('eztags'))
+            ->insert('eztags')
             ->set(
-                $this->handler->quoteColumn('id'),
-                $this->handler->getAutoIncrementValue('eztags', 'id')
+                'parent_id',
+                ':parent_id'
             )->set(
-                $this->handler->quoteColumn('parent_id'),
-                $query->bindValue($parentTag !== null ? (int) $parentTag['id'] : 0, null, PDO::PARAM_INT)
+                'main_tag_id',
+                ':main_tag_id'
             )->set(
-                $this->handler->quoteColumn('main_tag_id'),
-                $query->bindValue(0, null, PDO::PARAM_INT)
+                'modified',
+                ':modified'
             )->set(
-                $this->handler->quoteColumn('modified'),
-                $query->bindValue(time(), null, PDO::PARAM_INT)
+                'keyword',
+                ':keyword'
             )->set(
-                $this->handler->quoteColumn('keyword'),
-                $query->bindValue($createStruct->keywords[$createStruct->mainLanguageCode], null, PDO::PARAM_STR)
+                'depth',
+                ':depth'
             )->set(
-                $this->handler->quoteColumn('depth'),
-                $query->bindValue($parentTag !== null ? (int) $parentTag['depth'] + 1 : 1, null, PDO::PARAM_INT)
+                'path_string',
+                ':path_string'
             )->set(
-                $this->handler->quoteColumn('path_string'),
-                $query->bindValue('dummy') // Set later
+                'remote_id',
+                ':remote_id'
             )->set(
-                $this->handler->quoteColumn('remote_id'),
-                $query->bindValue($createStruct->remoteId, null, PDO::PARAM_STR)
+                'main_language_id',
+                ':main_language_id'
             )->set(
-                $this->handler->quoteColumn('main_language_id'),
-                $query->bindValue(
-                    $this->languageHandler->loadByLanguageCode(
-                        $createStruct->mainLanguageCode
-                    )->id,
-                    null,
-                    PDO::PARAM_INT
-                )
-            )->set(
-                $this->handler->quoteColumn('language_mask'),
-                $query->bindValue(
-                    $this->generateLanguageMask(
-                        $createStruct->keywords,
-                        is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true
-                    ),
-                    null,
-                    PDO::PARAM_INT
-                )
+                'language_mask',
+                ':language_mask'
+            )->setParameter('parent_id', $parentTag !== null ? (int) $parentTag['id'] : 0, Types::INTEGER)
+            ->setParameter('main_tag_id', 0, Types::INTEGER)
+            ->setParameter('modified', time(), Types::INTEGER)
+            ->setParameter('keyword', $createStruct->keywords[$createStruct->mainLanguageCode], Types::STRING)
+            ->setParameter('depth', $parentTag !== null ? (int) $parentTag['depth'] + 1 : 1, Types::INTEGER)
+            ->setParameter('path_string', 'dummy', Types::STRING) // Set later
+            ->setParameter('remote_id', $createStruct->remoteId, Types::STRING)
+            ->setParameter(
+                ':main_language_id',
+                $this->languageHandler->loadByLanguageCode(
+                    $createStruct->mainLanguageCode
+                )->id,
+                Types::INTEGER
+            )->setParameter(
+                ':language_mask',
+                $this->generateLanguageMask(
+                    $createStruct->keywords,
+                    is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true
+                ),
+                Types::INTEGER
             );
 
-        $query->prepare()->execute();
+        $query->execute();
 
-        $tagId = (int) $this->handler->lastInsertId($this->handler->getSequenceName('eztags', 'id'));
+        $tagId = (int) $this->connection->lastInsertId(
+            $this->connection->getDatabasePlatform()->getIdentitySequenceName('eztags', 'id')
+        );
+
         $pathString = ($parentTag !== null ? $parentTag['path_string'] : '/') . $tagId . '/';
 
-        $query = $this->handler->createUpdateQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->handler->quoteTable('eztags'))
+            ->update('eztags')
             ->set(
-                $this->handler->quoteColumn('path_string'),
-                $query->bindValue($pathString, null, PDO::PARAM_STR)
+                'path_string',
+                ':path_string'
             )->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('id'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'id',
+                    ':id'
                 )
-            );
+            )->setParameter('path_string', $pathString, Types::STRING)
+            ->setParameter('id', $tagId, Types::INTEGER);
 
-        $query->prepare()->execute();
+        $query->execute();
 
         $this->insertTagKeywords(
             $tagId,
@@ -471,57 +438,62 @@ final class DoctrineDatabase extends Gateway
 
     public function update(UpdateStruct $updateStruct, int $tagId): void
     {
-        $query = $this->handler->createUpdateQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->handler->quoteTable('eztags'))
+            ->update('eztags')
             ->set(
-                $this->handler->quoteColumn('modified'),
-                $query->bindValue(time(), null, PDO::PARAM_INT)
+                'modified',
+                ':modified'
             )->set(
-                $this->handler->quoteColumn('keyword'),
-                $query->bindValue($updateStruct->keywords[$updateStruct->mainLanguageCode], null, PDO::PARAM_STR)
+                'keyword',
+                ':keyword'
             )->set(
-                $this->handler->quoteColumn('remote_id'),
-                $query->bindValue($updateStruct->remoteId, null, PDO::PARAM_STR)
+                'remote_id',
+                ':remote_id'
             )->set(
-                $this->handler->quoteColumn('main_language_id'),
-                $query->bindValue(
-                    $this->languageHandler->loadByLanguageCode(
-                        $updateStruct->mainLanguageCode ?? ''
-                    )->id,
-                    null,
-                    PDO::PARAM_INT
-                )
+                'main_language_id',
+                ':main_language_id'
             )->set(
-                $this->handler->quoteColumn('language_mask'),
-                $query->bindValue(
-                    $this->generateLanguageMask(
-                        $updateStruct->keywords ?? [],
-                        is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true
-                    ),
-                    null,
-                    PDO::PARAM_INT
-                )
+                'language_mask',
+                ':language_mask'
             )->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('id'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'id',
+                    ':id'
                 )
+            )->setParameter('id', $tagId, Types::INTEGER)
+            ->setParameter('modified', time(), Types::INTEGER)
+            ->setParameter('keyword', $updateStruct->keywords[$updateStruct->mainLanguageCode], Types::STRING)
+            ->setParameter('remote_id', $updateStruct->remoteId, Types::STRING)
+            ->setParameter(
+                'main_language_id',
+                $this->languageHandler->loadByLanguageCode(
+                    $updateStruct->mainLanguageCode ?? ''
+                )->id,
+                Types::INTEGER
+            )
+            ->setParameter(
+                'language_mask',
+                $this->generateLanguageMask(
+                    $updateStruct->keywords ?? [],
+                    is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true
+                ),
+                Types::INTEGER
             );
 
-        $query->prepare()->execute();
+        $query->execute();
 
-        $query = $this->handler->createDeleteQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->deleteFrom($this->handler->quoteTable('eztags_keyword'))
+            ->delete('eztags_keyword')
             ->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn('keyword_id'),
+                $query->expr()->in(
+                    'keyword_id',
                     $tagId
                 )
             );
 
-        $query->prepare()->execute();
+        $query->execute();
 
         $this->insertTagKeywords(
             $tagId,
@@ -533,73 +505,82 @@ final class DoctrineDatabase extends Gateway
 
     public function createSynonym(SynonymCreateStruct $createStruct, array $tag): int
     {
-        $query = $this->handler->createInsertQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->insertInto($this->handler->quoteTable('eztags'))
+            ->insert('eztags')
             ->set(
-                $this->handler->quoteColumn('id'),
-                $this->handler->getAutoIncrementValue('eztags', 'id')
+                'parent_id',
+                ':parent_id'
             )->set(
-                $this->handler->quoteColumn('parent_id'),
-                $query->bindValue($tag['parent_id'], null, PDO::PARAM_INT)
+                'main_tag_id',
+                ':main_tag_id'
             )->set(
-                $this->handler->quoteColumn('main_tag_id'),
-                $query->bindValue($createStruct->mainTagId, null, PDO::PARAM_INT)
+                'modified',
+                ':modified'
             )->set(
-                $this->handler->quoteColumn('modified'),
-                $query->bindValue(time(), null, PDO::PARAM_INT)
+                'keyword',
+                ':keyword'
             )->set(
-                $this->handler->quoteColumn('keyword'),
-                $query->bindValue($createStruct->keywords[$createStruct->mainLanguageCode], null, PDO::PARAM_STR)
+                'depth',
+                ':depth'
             )->set(
-                $this->handler->quoteColumn('depth'),
-                $query->bindValue($tag['depth'], null, PDO::PARAM_INT)
+                'path_string',
+                ':path_string'
             )->set(
-                $this->handler->quoteColumn('path_string'),
-                $query->bindValue('dummy') // Set later
+                'remote_id',
+                ':remote_id'
             )->set(
-                $this->handler->quoteColumn('remote_id'),
-                $query->bindValue($createStruct->remoteId, null, PDO::PARAM_STR)
+                'main_language_id',
+                ':main_language_id'
             )->set(
-                $this->handler->quoteColumn('main_language_id'),
-                $query->bindValue(
-                    $this->languageHandler->loadByLanguageCode(
-                        $createStruct->mainLanguageCode
-                    )->id,
-                    null,
-                    PDO::PARAM_INT
-                )
-            )->set(
-                $this->handler->quoteColumn('language_mask'),
-                $query->bindValue(
-                    $this->generateLanguageMask(
-                        $createStruct->keywords,
-                        is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true
-                    ),
-                    null,
-                    PDO::PARAM_INT
-                )
+                'language_mask',
+                ':language_mask'
+            )->setParameter('parent_id', $tag['parent_id'], Types::INTEGER)
+            ->setParameter('main_tag_id', $createStruct->mainTagId, Types::INTEGER)
+            ->setParameter('modified', time(), Types::INTEGER)
+            ->setParameter('keyword', $createStruct->keywords[$createStruct->mainLanguageCode], Types::STRING)
+            ->setParameter('depth', $tag['depth'], Types::INTEGER)
+            ->setParameter('path_string', 'dummy', Types::STRING) // Set later
+            ->setParameter('remote_id', $createStruct->remoteId, Types::STRING)
+            ->setParameter(
+                'main_language_id',
+                $this->languageHandler->loadByLanguageCode(
+                    $createStruct->mainLanguageCode
+                )->id,
+                Types::INTEGER
+            )
+            ->setParameter(
+                'language_mask',
+                $this->generateLanguageMask(
+                    $createStruct->keywords,
+                    is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true
+                ),
+                Types::INTEGER
             );
 
-        $query->prepare()->execute();
+        $query->execute();
 
-        $synonymId = (int) $this->handler->lastInsertId($this->handler->getSequenceName('eztags', 'id'));
+        $synonymId = (int) $this->connection->lastInsertId(
+            $this->connection->getDatabasePlatform()->getIdentitySequenceName('eztags', 'id')
+        );
+
         $synonymPathString = $this->getSynonymPathString($synonymId, $tag['path_string']);
 
-        $query = $this->handler->createUpdateQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->handler->quoteTable('eztags'))
+            ->update('eztags')
             ->set(
-                $this->handler->quoteColumn('path_string'),
-                $query->bindValue($synonymPathString, null, PDO::PARAM_STR)
+                'path_string',
+                ':path_string'
             )->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('id'),
-                    $query->bindValue($synonymId, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'id',
+                    ':id'
                 )
-            );
+            )->setParameter('path_string', $synonymPathString, Types::STRING)
+            ->setParameter('id', $synonymId, Types::INTEGER);
 
-        $query->prepare()->execute();
+        $query->execute();
 
         $this->insertTagKeywords(
             $synonymId,
@@ -613,85 +594,84 @@ final class DoctrineDatabase extends Gateway
 
     public function convertToSynonym(int $tagId, array $mainTagData): void
     {
-        $query = $this->handler->createUpdateQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->handler->quoteTable('eztags'))
+            ->update('eztags')
             ->set(
-                $this->handler->quoteColumn('parent_id'),
-                $query->bindValue($mainTagData['parent_id'], null, PDO::PARAM_INT)
+                'parent_id',
+                ':parent_id'
             )->set(
-                $this->handler->quoteColumn('main_tag_id'),
-                $query->bindValue($mainTagData['id'], null, PDO::PARAM_INT)
+                'main_tag_id',
+                ':main_tag_id'
             )->set(
-                $this->handler->quoteColumn('modified'),
-                $query->bindValue(time(), null, PDO::PARAM_INT)
+                'modified',
+                ':modified'
             )->set(
-                $this->handler->quoteColumn('depth'),
-                $query->bindValue($mainTagData['depth'], null, PDO::PARAM_INT)
+                'depth',
+                ':depth'
             )->set(
-                $this->handler->quoteColumn('path_string'),
-                $query->bindValue($this->getSynonymPathString($tagId, $mainTagData['path_string']), null, PDO::PARAM_STR)
+                'path_string',
+                ':path_string'
             )->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('id'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'id',
+                    ':id'
                 )
-            );
+            )->setParameter('id', $tagId, Types::INTEGER)
+            ->setParameter('parent_id', $mainTagData['parent_id'], Types::INTEGER)
+            ->setParameter('main_tag_id', $mainTagData['id'], Types::INTEGER)
+            ->setParameter('modified', time(), Types::INTEGER)
+            ->setParameter('depth', $mainTagData['depth'], Types::INTEGER)
+            ->setParameter('path_string', $this->getSynonymPathString($tagId, $mainTagData['path_string']), Types::STRING);
 
-        $query->prepare()->execute();
+        $query->execute();
     }
 
     public function transferTagAttributeLinks(int $tagId, int $targetTagId): void
     {
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from($this->handler->quoteTable('eztags_attribute_link'))
+            ->from('eztags_attribute_link')
             ->where(
-                $query->expr->eq(
-                    $this->handler->quoteColumn('keyword_id'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'keyword_id',
+                    ':keyword_id'
                 )
-            );
+            )->setParameter('keyword_id', $tagId, Types::INTEGER);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
         $updateLinkIds = [];
         $deleteLinkIds = [];
 
         foreach ($rows as $row) {
-            $query = $this->handler->createSelectQuery();
+            $query = $this->connection->createQueryBuilder();
             $query
                 ->select(
-                    $this->handler->quoteColumn('id')
+                    'id'
                 )
-                ->from($this->handler->quoteTable('eztags_attribute_link'))
+                ->from('eztags_attribute_link')
                 ->where(
-                    $query->expr->lAnd(
-                        $query->expr->eq(
-                            $this->handler->quoteColumn('objectattribute_id'),
-                            $query->bindValue($row['objectattribute_id'], null, PDO::PARAM_INT)
+                    $query->expr()->andX(
+                        $query->expr()->eq(
+                            'objectattribute_id',
+                            ':objectattribute_id'
                         ),
-                        $query->expr->eq(
-                            $this->handler->quoteColumn('objectattribute_version'),
-                            $query->bindValue($row['objectattribute_version'], null, PDO::PARAM_INT)
+                        $query->expr()->eq(
+                            'objectattribute_version',
+                            ':objectattribute_version'
                         ),
-                        $query->expr->eq(
-                            $this->handler->quoteColumn('keyword_id'),
-                            $query->bindValue($targetTagId, null, PDO::PARAM_INT)
+                        $query->expr()->eq(
+                            'keyword_id',
+                            ':keyword_id'
                         )
                     )
-                );
+                )->setParameter('objectattribute_id', $row['objectattribute_id'], Types::INTEGER)
+                ->setParameter('objectattribute_version', $row['objectattribute_version'], Types::INTEGER)
+                ->setParameter('keyword_id', $targetTagId, Types::INTEGER);
 
-            /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-            $statement = $query->prepare();
-            $statement->execute();
-
-            $targetRows = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $targetRows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
             if (count($targetRows) === 0) {
                 $updateLinkIds[] = $row['id'];
@@ -701,66 +681,63 @@ final class DoctrineDatabase extends Gateway
         }
 
         if (count($deleteLinkIds) > 0) {
-            $query = $this->handler->createDeleteQuery();
+            $query = $this->connection->createQueryBuilder();
             $query
-                ->deleteFrom($this->handler->quoteTable('eztags_attribute_link'))
+                ->delete('eztags_attribute_link')
                 ->where(
-                    $query->expr->in(
-                        $this->handler->quoteColumn('id'),
+                    $query->expr()->in(
+                        'id',
                         $deleteLinkIds
                     )
                 );
 
-            $query->prepare()->execute();
+            $query->execute();
         }
 
         if (count($updateLinkIds) > 0) {
-            $query = $this->handler->createUpdateQuery();
+            $query = $this->connection->createQueryBuilder();
             $query
-                ->update($this->handler->quoteTable('eztags_attribute_link'))
+                ->update('eztags_attribute_link')
                 ->set(
-                    $this->handler->quoteColumn('keyword_id'),
-                    $query->bindValue($targetTagId)
+                    'keyword_id',
+                    ':keyword_id'
                 )->where(
-                    $query->expr->in(
-                        $this->handler->quoteColumn('id'),
+                    $query->expr()->in(
+                        'id',
                         $updateLinkIds
                     )
-                );
+                )->setParameter('keyword_id', $targetTagId, Types::INTEGER);
 
-            $query->prepare()->execute();
+            $query->execute();
         }
     }
 
     public function moveSubtree(array $sourceTagData, ?array $destinationParentTagData = null): void
     {
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->handler->quoteColumn('id'),
-                $this->handler->quoteColumn('parent_id'),
-                $this->handler->quoteColumn('main_tag_id'),
-                $this->handler->quoteColumn('path_string')
+                'id',
+                'parent_id',
+                'main_tag_id',
+                'path_string'
             )
-            ->from($this->handler->quoteTable('eztags'))
+            ->from('eztags')
             ->where(
-                $query->expr->lOr(
-                    $query->expr->like(
-                        $this->handler->quoteColumn('path_string'),
-                        $query->bindValue($sourceTagData['path_string'] . '%', null, PDO::PARAM_STR)
+                $query->expr()->orX(
+                    $query->expr()->like(
+                        'path_string',
+                        ':path_string'
                     ),
-                    $query->expr->eq(
-                        $this->handler->quoteColumn('main_tag_id'),
-                        $query->bindValue($sourceTagData['id'], null, PDO::PARAM_INT)
+                    $query->expr()->eq(
+                        'main_tag_id',
+                        ':main_tag_id'
                     )
                 )
-            );
+            )->setParameter('path_string', $sourceTagData['path_string'] . '%', Types::STRING)
+            ->setParameter('main_tag_id', $sourceTagData['id'], Types::INTEGER);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
         $oldParentPathString = implode('/', array_slice(explode('/', $sourceTagData['path_string']), 0, -2)) . '/';
         foreach ($rows as $row) {
@@ -780,56 +757,60 @@ final class DoctrineDatabase extends Gateway
 
             $newDepth = mb_substr_count($newPathString, '/') - 1;
 
-            $query = $this->handler->createUpdateQuery();
+            $query = $this->connection->createQueryBuilder();
             $query
-                ->update($this->handler->quoteTable('eztags'))
+                ->update('eztags')
                 ->set(
-                    $this->handler->quoteColumn('path_string'),
-                    $query->bindValue($newPathString, null, PDO::PARAM_STR)
+                    'path_string',
+                    ':path_string'
                 )->set(
-                    $this->handler->quoteColumn('depth'),
-                    $query->bindValue($newDepth, null, PDO::PARAM_INT)
+                    'depth',
+                    ':depth'
                 )->set(
-                    $this->handler->quoteColumn('modified'),
-                    $query->bindValue(time(), null, PDO::PARAM_INT)
+                    'modified',
+                    ':modified'
                 )->set(
-                    $this->handler->quoteColumn('parent_id'),
-                    $query->bindValue($newParentId, null, PDO::PARAM_INT)
+                    'parent_id',
+                    ':parent_id'
                 )->where(
-                    $query->expr->eq(
-                        $this->handler->quoteColumn('id'),
-                        $query->bindValue($row['id'], null, PDO::PARAM_INT)
+                    $query->expr()->eq(
+                        'id',
+                        ':id'
                     )
-                );
+                )->setParameter('path_string', $newPathString, Types::STRING)
+                ->setParameter('depth', $newDepth, Types::INTEGER)
+                ->setParameter('modified', time(), Types::INTEGER)
+                ->setParameter('parent_id', $newParentId, Types::INTEGER)
+                ->setParameter('id', $row['id'], Types::INTEGER);
 
-            $query->prepare()->execute();
+            $query->execute();
         }
     }
 
     public function deleteTag(int $tagId): void
     {
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
             ->select('id')
-            ->from($this->handler->quoteTable('eztags'))
+            ->from('eztags')
             ->where(
-                $query->expr->lOr(
-                    $query->expr->like(
-                        $this->handler->quoteColumn('path_string'),
-                        $query->bindValue('%/' . $tagId . '/%', null, PDO::PARAM_STR)
+                $query->expr()->orX(
+                    $query->expr()->like(
+                        'path_string',
+                        ':path_string'
                     ),
-                    $query->expr->eq(
-                        $this->handler->quoteColumn('main_tag_id'),
-                        $query->bindValue($tagId, null, PDO::PARAM_INT)
+                    $query->expr()->eq(
+                        'main_tag_id',
+                        ':tag_id'
                     )
                 )
-            );
+            )->setParameter('tag_id', $tagId, Types::INTEGER)
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
 
-        $statement = $query->prepare();
-        $statement->execute();
+        $statement = $query->execute();
 
         $tagIds = [];
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
             $tagIds[] = (int) $row['id'];
         }
 
@@ -837,89 +818,88 @@ final class DoctrineDatabase extends Gateway
             return;
         }
 
-        $query = $this->handler->createDeleteQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->deleteFrom($this->handler->quoteTable('eztags_attribute_link'))
+            ->delete('eztags_attribute_link')
             ->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn('keyword_id'),
+                $query->expr()->in(
+                    'keyword_id',
                     $tagIds
                 )
             );
 
-        $query->prepare()->execute();
+        $query->execute();
 
-        $query = $this->handler->createDeleteQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->deleteFrom($this->handler->quoteTable('eztags_keyword'))
+            ->delete('eztags_keyword')
             ->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn('keyword_id'),
+                $query->expr()->in(
+                    'keyword_id',
                     $tagIds
                 )
             );
 
-        $query->prepare()->execute();
+        $query->execute();
 
-        $query = $this->handler->createDeleteQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->deleteFrom($this->handler->quoteTable('eztags'))
+            ->delete('eztags')
             ->where(
-                $query->expr->in(
-                    $this->handler->quoteColumn('id'),
+                $query->expr()->in(
+                    'id',
                     $tagIds
                 )
             );
 
-        $query->prepare()->execute();
+        $query->execute();
     }
 
-    private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): SelectQuery
+    private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
-        /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query->select('DISTINCT eztags.id, eztags.keyword')
-        ->from(
-            $this->handler->quoteTable('eztags')
-        )
+        ->from('eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.
         ->leftJoin(
-            $this->handler->quoteTable('eztags_keyword'),
-            $query->expr->lAnd(
+            'eztags',
+            'eztags_keyword',
+            'eztags_keyword',
+            $query->expr()->andX(
                 // eztags_keyword.locale is also part of the PK but can't be
                 // easily joined with something at this level
-                $query->expr->eq(
-                    $this->handler->quoteColumn('keyword_id', 'eztags_keyword'),
-                    $this->handler->quoteColumn('id', 'eztags')
+                $query->expr()->eq(
+                    'eztags_keyword.keyword_id',
+                    'eztags.id'
                 ),
-                $query->expr->eq(
-                    $this->handler->quoteColumn('status', 'eztags_keyword'),
-                    $query->bindValue(1, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'eztags_keyword.status',
+                    ':status'
                 )
             )
-        );
+        )->setParameter('status', 1, Types::INTEGER);
 
         if (count($translations ?? []) > 0) {
             if ($useAlwaysAvailable) {
                 $query->where(
-                    $query->expr->lOr(
-                        $query->expr->in(
-                            $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                    $query->expr()->orX(
+                        $query->expr()->in(
+                            'eztags_keyword.locale',
                             $translations
                         ),
-                        $query->expr->lAnd(
-                            $query->expr->gt(
-                                $query->expr->bitAnd(
-                                    $this->handler->quoteColumn('language_mask', 'eztags'),
+                        $query->expr()->andX(
+                            $query->expr()->gt(
+                                $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                    'eztags.language_mask',
                                     1
                                 ),
                                 0
                             ),
-                            $query->expr->eq(
-                                $this->handler->quoteColumn('main_language_id', 'eztags'),
-                                $query->expr->bitAnd(
-                                    $this->handler->quoteColumn('language_id', 'eztags_keyword'),
+                            $query->expr()->eq(
+                                'eztags.main_language_id',
+                                $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                    'eztags_keyword.language_id',
                                     -2 // -2 == PHP_INT_MAX << 1
                                 )
                             )
@@ -928,8 +908,8 @@ final class DoctrineDatabase extends Gateway
                 );
             } else {
                 $query->where(
-                    $query->expr->in(
-                        $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                    $query->expr()->in(
+                        'eztags_keyword.locale',
                         $translations
                     )
                 );
@@ -945,66 +925,64 @@ final class DoctrineDatabase extends Gateway
      * Creates a select query with all necessary joins to fetch a complete
      * tag. Does not apply any WHERE conditions.
      */
-    private function createTagFindQuery(?array $translations = null, bool $useAlwaysAvailable = true): SelectQuery
+    private function createTagFindQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
-        /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query->select(
             // Tag
-            $this->handler->aliasedColumn($query, 'id', 'eztags'),
-            $this->handler->aliasedColumn($query, 'parent_id', 'eztags'),
-            $this->handler->aliasedColumn($query, 'main_tag_id', 'eztags'),
-            $this->handler->aliasedColumn($query, 'keyword', 'eztags'),
-            $this->handler->aliasedColumn($query, 'depth', 'eztags'),
-            $this->handler->aliasedColumn($query, 'path_string', 'eztags'),
-            $this->handler->aliasedColumn($query, 'modified', 'eztags'),
-            $this->handler->aliasedColumn($query, 'remote_id', 'eztags'),
-            $this->handler->aliasedColumn($query, 'main_language_id', 'eztags'),
-            $this->handler->aliasedColumn($query, 'language_mask', 'eztags'),
+            'eztags.id',
+            'eztags.parent_id',
+            'eztags.main_tag_id',
+            'eztags.depth',
+            'eztags.path_string',
+            'eztags.modified',
+            'eztags.remote_id',
+            'eztags.main_language_id',
+            'eztags.language_mask',
             // Tag keywords
-            $this->handler->aliasedColumn($query, 'keyword', 'eztags_keyword'),
-            $this->handler->aliasedColumn($query, 'locale', 'eztags_keyword')
-        )->from(
-            $this->handler->quoteTable('eztags')
-        )
+            'eztags_keyword.keyword',
+            'eztags_keyword.locale'
+        )->from('eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.
         ->leftJoin(
-            $this->handler->quoteTable('eztags_keyword'),
-            $query->expr->lAnd(
+            'eztags',
+            'eztags_keyword',
+            'eztags_keyword',
+            $query->expr()->andX(
                 // eztags_keyword.locale is also part of the PK but can't be
                 // easily joined with something at this level
-                $query->expr->eq(
-                    $this->handler->quoteColumn('keyword_id', 'eztags_keyword'),
-                    $this->handler->quoteColumn('id', 'eztags')
+                $query->expr()->eq(
+                    'eztags_keyword.keyword_id',
+                    'eztags.id'
                 ),
-                $query->expr->eq(
-                    $this->handler->quoteColumn('status', 'eztags_keyword'),
-                    $query->bindValue(1, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'eztags_keyword.status',
+                    ':status'
                 )
             )
-        );
+        )->setParameter('status', 1, Types::INTEGER);
 
         if (count($translations ?? []) > 0) {
             if ($useAlwaysAvailable) {
                 $query->where(
-                    $query->expr->lOr(
-                        $query->expr->in(
-                            $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                    $query->expr()->orX(
+                        $query->expr()->in(
+                            'eztags_keyword.locale',
                             $translations
                         ),
-                        $query->expr->lAnd(
-                            $query->expr->gt(
-                                $query->expr->bitAnd(
-                                    $this->handler->quoteColumn('language_mask', 'eztags'),
+                        $query->expr()->andX(
+                            $query->expr()->gt(
+                                $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                    'eztags.language_mask',
                                     1
                                 ),
                                 0
                             ),
-                            $query->expr->eq(
-                                $this->handler->quoteColumn('main_language_id', 'eztags'),
-                                $query->expr->bitAnd(
-                                    $this->handler->quoteColumn('language_id', 'eztags_keyword'),
+                            $query->expr()->eq(
+                                'eztags.main_language_id',
+                                $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                    'eztags_keyword.language_id',
                                     -2 // -2 == PHP_INT_MAX << 1
                                 )
                             )
@@ -1013,8 +991,8 @@ final class DoctrineDatabase extends Gateway
                 );
             } else {
                 $query->where(
-                    $query->expr->in(
-                        $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                    $query->expr()->in(
+                        'eztags_keyword.locale',
                         $translations
                     )
                 );
@@ -1030,53 +1008,52 @@ final class DoctrineDatabase extends Gateway
      * Creates a select query with all necessary joins to fetch a complete
      * tag. Does not apply any WHERE conditions.
      */
-    private function createTagCountQuery(?array $translations = null, bool $useAlwaysAvailable = true): SelectQuery
+    private function createTagCountQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
-        /** @var \eZ\Publish\Core\Persistence\Database\SelectQuery $query */
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query->select(
-            $query->alias($query->expr->count('DISTINCT eztags.id'), 'count')
-        )->from(
-            $this->handler->quoteTable('eztags')
-        )
+            $this->connection->getDatabasePlatform()->getCountExpression('DISTINCT eztags.id AS count')
+        )->from('eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.
         ->leftJoin(
-            $this->handler->quoteTable('eztags_keyword'),
-            $query->expr->lAnd(
+            'eztags',
+            'eztags_keyword',
+            'eztags_keyword',
+            $query->expr()->andX(
                 // eztags_keyword.locale is also part of the PK but can't be
                 // easily joined with something at this level
-                $query->expr->eq(
-                    $this->handler->quoteColumn('keyword_id', 'eztags_keyword'),
-                    $this->handler->quoteColumn('id', 'eztags')
+                $query->expr()->eq(
+                    'eztags_keyword.keyword_id',
+                    'eztags.id'
                 ),
-                $query->expr->eq(
-                    $this->handler->quoteColumn('status', 'eztags_keyword'),
-                    $query->bindValue(1, null, PDO::PARAM_INT)
+                $query->expr()->eq(
+                    'eztags_keyword.status',
+                    ':status'
                 )
             )
-        );
+        )->setParameter('status', 1, Types::INTEGER);
 
         if (count($translations ?? []) > 0) {
             if ($useAlwaysAvailable) {
                 $query->where(
-                    $query->expr->lOr(
-                        $query->expr->in(
-                            $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                    $query->expr()->orX(
+                        $query->expr()->in(
+                            'eztags_keyword.locale',
                             $translations
                         ),
-                        $query->expr->lAnd(
-                            $query->expr->gt(
-                                $query->expr->bitAnd(
-                                    $this->handler->quoteColumn('language_mask', 'eztags'),
+                        $query->expr()->andX(
+                            $query->expr()->gt(
+                                $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                    'eztags.language_mask',
                                     1
                                 ),
                                 0
                             ),
-                            $query->expr->eq(
-                                $this->handler->quoteColumn('main_language_id', 'eztags'),
-                                $query->expr->bitAnd(
-                                    $this->handler->quoteColumn('language_id', 'eztags_keyword'),
+                            $query->expr()->eq(
+                                'eztags.main_language_id',
+                                $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+                                    'eztags_keyword.language_id',
                                     -2 // -2 == PHP_INT_MAX << 1
                                 )
                             )
@@ -1085,8 +1062,8 @@ final class DoctrineDatabase extends Gateway
                 );
             } else {
                 $query->where(
-                    $query->expr->in(
-                        $this->handler->quoteColumn('locale', 'eztags_keyword'),
+                    $query->expr()->in(
+                        'eztags_keyword.locale',
                         $translations
                     )
                 );
@@ -1102,33 +1079,37 @@ final class DoctrineDatabase extends Gateway
     private function insertTagKeywords(int $tagId, array $keywords, string $mainLanguageCode, bool $alwaysAvailable): void
     {
         foreach ($keywords as $languageCode => $keyword) {
-            $query = $this->handler->createInsertQuery();
+            $query = $this->connection->createQueryBuilder();
             $query
-                ->insertInto($this->handler->quoteTable('eztags_keyword'))
+                ->insert('eztags_keyword')
                 ->set(
-                    $this->handler->quoteColumn('keyword_id'),
-                    $query->bindValue($tagId, null, PDO::PARAM_INT)
+                    'keyword_id',
+                    ':keyword_id'
                 )->set(
-                    $this->handler->quoteColumn('language_id'),
-                    $query->bindValue(
-                        $this->languageHandler->loadByLanguageCode(
-                            $languageCode
-                        )->id + (int) ($languageCode === $mainLanguageCode && $alwaysAvailable),
-                        null,
-                        PDO::PARAM_INT
-                    )
+                    'language_id',
+                    ':language_id'
                 )->set(
-                    $this->handler->quoteColumn('keyword'),
-                    $query->bindValue($keyword, null, PDO::PARAM_STR)
+                    'keyword',
+                    ':keyword'
                 )->set(
-                    $this->handler->quoteColumn('locale'),
-                    $query->bindValue($languageCode, null, PDO::PARAM_STR)
+                    'locale',
+                    ':locale'
                 )->set(
-                    $this->handler->quoteColumn('status'),
-                    $query->bindValue(1, null, PDO::PARAM_INT)
-                );
+                    'status',
+                    ':status'
+                )->setParameter('keyword_id', $tagId, Types::INTEGER)
+                ->setParameter(
+                    'language_id',
+                    $this->languageHandler->loadByLanguageCode(
+                        $languageCode
+                    )->id + (int) ($languageCode === $mainLanguageCode && $alwaysAvailable),
+                    Types::INTEGER
+                )
+                ->setParameter('keyword', $keyword, Types::STRING)
+                ->setParameter('locale', $languageCode, Types::STRING)
+                ->setParameter('status', 1, Types::INTEGER);
 
-            $query->prepare()->execute();
+            $query->execute();
         }
     }
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as TagIdCriterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
@@ -17,62 +17,39 @@ final class TagId extends Tags
         return $criterion instanceof TagIdCriterion;
     }
 
-    public function handle(CriteriaConverter $converter, SelectQuery $query, Criterion $criterion, ?array $fieldFilters = null): string
+    public function handle(CriteriaConverter $converter, QueryBuilder $queryBuilder, Criterion $criterion, array $languageSettings): string
     {
-        $subSelect = $query->subSelect();
+        $subSelect = $this->connection->createQueryBuilder();
         $subSelect
-            ->select($this->dbHandler->quoteColumn('id', 'ezcontentobject'))
-            ->from($this->dbHandler->quoteTable('ezcontentobject'))
+            ->select('t1.id')
+            ->from('ezcontentobject', 't1')
             ->innerJoin(
-                $this->dbHandler->quoteTable('eztags_attribute_link'),
-                $subSelect->expr->lAnd(
-                    [
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link'),
-                            $this->dbHandler->quoteColumn('current_version', 'ezcontentobject')
-                        ),
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('object_id', 'eztags_attribute_link'),
-                            $this->dbHandler->quoteColumn('id', 'ezcontentobject')
-                        ),
-                    ]
+                't1',
+                'eztags_attribute_link',
+                't2',
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('t2.objectattribute_version', 't1.current_version'),
+                    $queryBuilder->expr()->eq('t2.object_id', 't1.id')
                 )
             )->where(
-                $query->expr->in(
-                    $this->dbHandler->quoteColumn('keyword_id', 'eztags_attribute_link'),
-                    $criterion->value
-                )
+                $queryBuilder->expr()->in('eztags_attribute_link.keyword_id', $criterion->value)
             );
 
         $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
         if ($fieldDefinitionIds !== null) {
             $subSelect->innerJoin(
-                $this->dbHandler->quoteTable('ezcontentobject_attribute'),
-                $subSelect->expr->lAnd(
-                    [
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('id', 'ezcontentobject_attribute'),
-                            $this->dbHandler->quoteColumn('objectattribute_id', 'eztags_attribute_link')
-                        ),
-                        $subSelect->expr->eq(
-                            $this->dbHandler->quoteColumn('version', 'ezcontentobject_attribute'),
-                            $this->dbHandler->quoteColumn('objectattribute_version', 'eztags_attribute_link')
-                        ),
-                    ]
+                't2',
+                'ezcontentobject_attribute',
+                't3',
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('t3.id', 't2.objectattribute_id'),
+                    $queryBuilder->expr()->eq('t3.version', 't2.objectattribute_version')
                 )
-            );
-
-            $subSelect->where(
-                $query->expr->in(
-                    $this->dbHandler->quoteColumn('contentclassattribute_id', 'ezcontentobject_attribute'),
-                    $fieldDefinitionIds
-                )
+            )->where(
+                $queryBuilder->expr()->in('t3.contentclassattribute_id', $fieldDefinitionIds)
             );
         }
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subSelect
-        );
+        return $queryBuilder->expr()->in('c.id', $subSelect->getSQL());
     }
 }
