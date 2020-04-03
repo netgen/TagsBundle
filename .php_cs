@@ -33,7 +33,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->exclude(['vendor', 'node_modules'])
+            ->exclude(['vendor', 'node_modules', 'var'])
             ->in(__DIR__)
     )
 ;
