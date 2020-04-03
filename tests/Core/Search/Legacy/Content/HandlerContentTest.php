@@ -51,7 +51,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
     {
         if (self::$dbHandler === null) {
             parent::setUp();
-            $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezpublish-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezplatform-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
             self::$dbHandler = $this->handler;
 
             $handler = $this->getDatabaseHandler();
