@@ -70,7 +70,7 @@ final class DoctrineStorage extends Gateway
             ->delete($this->connection->quoteIdentifier('eztags_attribute_link'))
             ->where(
                 $query->expr()->andX(
-                    $query->expr()->in('objectattribute_id', [':objectattribute_id']),
+                    $query->expr()->in('objectattribute_id', ':objectattribute_id'),
                     $query->expr()->eq('objectattribute_version', ':objectattribute_version')
                 )
             )

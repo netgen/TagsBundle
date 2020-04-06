@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -32,7 +33,10 @@ final class TagId extends Tags
                     $queryBuilder->expr()->eq('t2.object_id', 't1.id')
                 )
             )->where(
-                $queryBuilder->expr()->in('eztags_attribute_link.keyword_id', $criterion->value)
+                $queryBuilder->expr()->in(
+                    't2.keyword_id',
+                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY)
+                )
             );
 
         $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
@@ -46,7 +50,10 @@ final class TagId extends Tags
                     $queryBuilder->expr()->eq('t3.version', 't2.objectattribute_version')
                 )
             )->where(
-                $queryBuilder->expr()->in('t3.contentclassattribute_id', $fieldDefinitionIds)
+                $queryBuilder->expr()->in(
+                    't3.contentclassattribute_id',
+                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
+                )
             );
         }
 

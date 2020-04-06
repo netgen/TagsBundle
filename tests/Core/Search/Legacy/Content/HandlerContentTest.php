@@ -31,9 +31,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class HandlerContentTest extends LanguageAwareTestCase
 {
     /**
-     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
+     * @var \Doctrine\DBAL\Connection
      */
-    private static $dbHandler;
+    private static $dbConnection;
 
     /**
      * @var \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
@@ -49,12 +49,12 @@ final class HandlerContentTest extends LanguageAwareTestCase
      */
     protected function setUp(): void
     {
-        if (self::$dbHandler === null) {
+        if (self::$dbConnection === null) {
             parent::setUp();
             $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezplatform-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
-            self::$dbHandler = $this->handler;
+            self::$dbConnection = $this->getDatabaseConnection();
 
-            $handler = $this->getDatabaseHandler();
+            $dbConnection = $this->getDatabaseConnection();
 
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
@@ -62,14 +62,12 @@ final class HandlerContentTest extends LanguageAwareTestCase
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
-                $handler->exec($query);
+                $dbConnection->exec($query);
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/tags_tree.php');
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/object_attributes.php');
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/class_attributes.php');
-        } else {
-            $this->handler = self::$dbHandler;
         }
 
         $this->fieldRegistry = new ConverterRegistry();
@@ -253,29 +251,29 @@ final class HandlerContentTest extends LanguageAwareTestCase
     {
         return new Content\Handler(
             new Content\Gateway\DoctrineDatabase(
-                $this->getDatabaseHandler(),
+                $this->getDatabaseConnection(),
                 new Content\Common\Gateway\CriteriaConverter(
                     [
                         new TagIdCriterionHandler(
-                            $this->getDatabaseHandler()
+                            $this->getDatabaseConnection()
                         ),
                         new TagKeywordCriterionHandler(
-                            $this->getDatabaseHandler()
+                            $this->getDatabaseConnection()
                         ),
                         new CriterionHandler\ContentId(
-                            $this->getDatabaseHandler()
+                            $this->getDatabaseConnection()
                         ),
                         new CriterionHandler\LogicalAnd(
-                            $this->getDatabaseHandler()
+                            $this->getDatabaseConnection()
                         ),
                         new CriterionHandler\MatchAll(
-                            $this->getDatabaseHandler()
+                            $this->getDatabaseConnection()
                         ),
                     ]
                 ),
                 new Content\Common\Gateway\SortClauseConverter(
                     [
-                        new Content\Common\Gateway\SortClauseHandler\ContentId($this->getDatabaseHandler()),
+                        new Content\Common\Gateway\SortClauseHandler\ContentId($this->getDatabaseConnection()),
                     ]
                 ),
                 $this->getLanguageHandler()

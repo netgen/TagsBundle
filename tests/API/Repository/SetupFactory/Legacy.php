@@ -116,7 +116,7 @@ final class Legacy extends BaseLegacy
         $statements = parent::getPostInsertStatements();
 
         if (self::$db === 'pgsql') {
-            $setvalPath = __DIR__ . '/../../../_fixtures/schema/setval.pgsql.sql';
+            $setvalPath = __DIR__ . '/../../../_fixtures/schema/setval.postgresql.sql';
 
             /** @var array $queries */
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents($setvalPath));

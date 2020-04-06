@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as TagKeywordCriterion;
@@ -53,7 +55,10 @@ final class TagKeyword extends Tags
             if ($valueData->useAlwaysAvailable) {
                 $subSelect->where(
                     $queryBuilder->expr()->orX(
-                        $queryBuilder->expr()->in('t4.locale', $valueData->languages),
+                        $queryBuilder->expr()->in(
+                            't4.locale',
+                            $queryBuilder->createNamedParameter($valueData->languages, Connection::PARAM_STR_ARRAY)
+                        ),
                         $queryBuilder->expr()->eq(
                             't3.main_language_id',
                             $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
@@ -65,18 +70,27 @@ final class TagKeyword extends Tags
                 );
             } else {
                 $subSelect->where(
-                    $queryBuilder->expr()->in('t4.locale', $valueData->languages)
+                    $queryBuilder->expr()->in(
+                        't4.locale',
+                        $queryBuilder->createNamedParameter($valueData->languages, Connection::PARAM_STR_ARRAY)
+                    )
                 );
             }
         }
 
         if ($criterion->operator === Criterion\Operator::LIKE) {
             $subSelect->where(
-                $queryBuilder->expr()->like('t4.keyword', $criterion->value[0])
+                $queryBuilder->expr()->like(
+                    't4.keyword',
+                    $queryBuilder->createNamedParameter($criterion->value[0], Types::STRING)
+                )
             );
         } else {
             $subSelect->where(
-                $queryBuilder->expr()->in('t4.keyword', $criterion->value)
+                $queryBuilder->expr()->in(
+                    't4.keyword',
+                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY)
+                )
             );
         }
 
@@ -93,7 +107,10 @@ final class TagKeyword extends Tags
             );
 
             $subSelect->where(
-                $queryBuilder->expr()->in('t5.contentclassattribute_id', $fieldDefinitionIds)
+                $queryBuilder->expr()->in(
+                    't5.contentclassattribute_id',
+                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
+                )
             );
         }
 

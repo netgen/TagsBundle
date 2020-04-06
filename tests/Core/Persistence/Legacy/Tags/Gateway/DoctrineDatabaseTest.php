@@ -24,7 +24,7 @@ final class DoctrineDatabaseTest extends TestCase
     {
         parent::setUp();
 
-        $handler = $this->getDatabaseHandler();
+        $dbConnection = $this->getDatabaseConnection();
 
         $schema = __DIR__ . '/../../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
@@ -32,7 +32,7 @@ final class DoctrineDatabaseTest extends TestCase
         $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
         $queries = array_filter($queries);
         foreach ($queries as $query) {
-            $handler->exec($query);
+            $dbConnection->exec($query);
         }
 
         $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
@@ -46,13 +46,13 @@ final class DoctrineDatabaseTest extends TestCase
 
         if ($this->db === 'pgsql') {
             // Update PostgreSQL sequences
-            $handler = $this->getDatabaseHandler();
+            $dbConnection = $this->getDatabaseConnection();
 
             /** @var array $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.pgsql.sql'));
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.postgresql.sql'));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
-                $handler->exec($query);
+                $dbConnection->exec($query);
             }
         }
     }
@@ -76,18 +76,17 @@ final class DoctrineDatabaseTest extends TestCase
     public static function getLoadFullTagValues(): array
     {
         return [
-            ['eztags_id', '40'],
-            ['eztags_parent_id', '7'],
-            ['eztags_main_tag_id', '0'],
-            ['eztags_keyword', 'eztags'],
-            ['eztags_depth', '3'],
-            ['eztags_path_string', '/8/7/40/'],
-            ['eztags_modified', '1308153110'],
-            ['eztags_remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['eztags_main_language_id', '8'],
-            ['eztags_language_mask', '8'],
-            ['eztags_keyword_keyword', 'eztags'],
-            ['eztags_keyword_locale', 'eng-GB'],
+            ['id', '40'],
+            ['parent_id', '7'],
+            ['main_tag_id', '0'],
+            ['depth', '3'],
+            ['path_string', '/8/7/40/'],
+            ['modified', '1308153110'],
+            ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
+            ['main_language_id', '8'],
+            ['language_mask', '8'],
+            ['keyword', 'eztags'],
+            ['locale', 'eng-GB'],
         ];
     }
 
@@ -331,12 +330,12 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getChildren(16);
 
         self::assertCount(6, $data);
-        self::assertSame('20', $data[0]['eztags_id']);
-        self::assertSame('15', $data[1]['eztags_id']);
-        self::assertSame('72', $data[2]['eztags_id']);
-        self::assertSame('71', $data[3]['eztags_id']);
-        self::assertSame('18', $data[4]['eztags_id']);
-        self::assertSame('19', $data[5]['eztags_id']);
+        self::assertSame('20', $data[0]['id']);
+        self::assertSame('15', $data[1]['id']);
+        self::assertSame('72', $data[2]['id']);
+        self::assertSame('71', $data[3]['id']);
+        self::assertSame('18', $data[4]['id']);
+        self::assertSame('19', $data[5]['id']);
     }
 
     /**
@@ -359,12 +358,12 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getChildren(16, 0, -1, ['eng-GB'], false);
 
         self::assertCount(6, $data);
-        self::assertSame('20', $data[0]['eztags_id']);
-        self::assertSame('15', $data[1]['eztags_id']);
-        self::assertSame('72', $data[2]['eztags_id']);
-        self::assertSame('71', $data[3]['eztags_id']);
-        self::assertSame('18', $data[4]['eztags_id']);
-        self::assertSame('19', $data[5]['eztags_id']);
+        self::assertSame('20', $data[0]['id']);
+        self::assertSame('15', $data[1]['id']);
+        self::assertSame('72', $data[2]['id']);
+        self::assertSame('71', $data[3]['id']);
+        self::assertSame('18', $data[4]['id']);
+        self::assertSame('19', $data[5]['id']);
     }
 
     /**
@@ -409,8 +408,8 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB');
 
         self::assertCount(2, $data);
-        self::assertSame('eztags', $data[0]['eztags_keyword_keyword']);
-        self::assertSame('eztags', $data[1]['eztags_keyword_keyword']);
+        self::assertSame('eztags', $data[0]['keyword']);
+        self::assertSame('eztags', $data[1]['keyword']);
     }
 
     /**
@@ -433,8 +432,8 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getTagsByKeyword('eztags', 'eng-GB', false);
 
         self::assertCount(2, $data);
-        self::assertSame('eztags', $data[0]['eztags_keyword_keyword']);
-        self::assertSame('eztags', $data[1]['eztags_keyword_keyword']);
+        self::assertSame('eztags', $data[0]['keyword']);
+        self::assertSame('eztags', $data[1]['keyword']);
     }
 
     /**
@@ -457,8 +456,8 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getSynonyms(16);
 
         self::assertCount(2, $data);
-        self::assertSame('95', $data[0]['eztags_id']);
-        self::assertSame('96', $data[1]['eztags_id']);
+        self::assertSame('95', $data[0]['id']);
+        self::assertSame('96', $data[1]['id']);
     }
 
     /**
@@ -481,8 +480,8 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getSynonyms(16, 0, -1, ['eng-GB'], false);
 
         self::assertCount(2, $data);
-        self::assertSame('95', $data[0]['eztags_id']);
-        self::assertSame('96', $data[1]['eztags_id']);
+        self::assertSame('95', $data[0]['id']);
+        self::assertSame('96', $data[1]['id']);
     }
 
     /**
@@ -534,7 +533,7 @@ final class DoctrineDatabaseTest extends TestCase
             ]
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [95, 7, 40, 'project 2', 3, '/8/7/95/', 'fe9fc289c3ff0af142b6d3bead98a924'],
@@ -542,7 +541,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id')
                 ->from('eztags')
-                ->where($query->expr->eq('id', 95))
+                ->where($query->expr()->eq('id', 95))
         );
     }
 
@@ -570,7 +569,7 @@ final class DoctrineDatabaseTest extends TestCase
             ]
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [97, 40, 0, 'New tag', 4, '/8/7/40/97/', 'newRemoteId', 8, 8],
@@ -579,7 +578,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id', 'main_language_id', 'language_mask')
                 ->from('eztags')
-                ->where($query->expr->eq('id', 97))
+                ->where($query->expr()->eq('id', 97))
         );
     }
 
@@ -602,7 +601,7 @@ final class DoctrineDatabaseTest extends TestCase
             )
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [97, 0, 0, 'New tag', 1, '/97/', 'newRemoteId', 8, 8],
@@ -611,7 +610,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id', 'main_language_id', 'language_mask')
                 ->from('eztags')
-                ->where($query->expr->eq('id', 97))
+                ->where($query->expr()->eq('id', 97))
         );
     }
 
@@ -634,7 +633,7 @@ final class DoctrineDatabaseTest extends TestCase
             40
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [40, 7, 0, 'Updated tag', 3, '/8/7/40/', 'updatedRemoteId', 2, 11],
@@ -642,7 +641,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id, parent_id, main_tag_id, keyword, depth, path_string, remote_id, main_language_id, language_mask')
                 ->from('eztags')
-                ->where($query->expr->eq('id', 40))
+                ->where($query->expr()->eq('id', 40))
         );
     }
 
@@ -671,7 +670,7 @@ final class DoctrineDatabaseTest extends TestCase
             ]
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [97, 7, 40, 'New synonym', 3, '/8/7/97/', 'newRemoteId', 8, 9],
@@ -680,7 +679,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id', 'main_language_id', 'language_mask')
                 ->from('eztags')
-                ->where($query->expr->eq('id', 97))
+                ->where($query->expr()->eq('id', 97))
         );
     }
 
@@ -700,7 +699,7 @@ final class DoctrineDatabaseTest extends TestCase
             ]
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [80, 7, 40, 'fetch', 3, '/8/7/80/'],
@@ -708,7 +707,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string')
                 ->from('eztags')
-                ->where($query->expr->eq('id', 80))
+                ->where($query->expr()->eq('id', 80))
         );
     }
 
@@ -719,7 +718,7 @@ final class DoctrineDatabaseTest extends TestCase
     {
         $this->tagsGateway->transferTagAttributeLinks(16, 40);
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [1285, 40, 242, 1, 58],
@@ -729,7 +728,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'keyword_id', 'objectattribute_id', 'objectattribute_version', 'object_id')
                 ->from('eztags_attribute_link')
-                ->where($query->expr->in('id', [1284, 1285, 1286, 1287]))
+                ->where($query->expr()->in('id', [1284, 1285, 1286, 1287]))
         );
     }
 
@@ -749,7 +748,7 @@ final class DoctrineDatabaseTest extends TestCase
             ]
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [7, 78, 3, '/8/78/7/'],
@@ -764,7 +763,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'depth', 'path_string')
                 ->from('eztags')
-                ->where($query->expr->in('id', [7, 13, 14, 27, 40, 53, 54, 55]))
+                ->where($query->expr()->in('id', [7, 13, 14, 27, 40, 53, 54, 55]))
         );
     }
 
@@ -775,7 +774,7 @@ final class DoctrineDatabaseTest extends TestCase
     {
         $this->tagsGateway->deleteTag(7);
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [],
@@ -783,10 +782,10 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id')
                 ->from('eztags')
-                ->where($query->expr->in('id', [7, 13, 14, 27, 40, 53, 54, 55]))
+                ->where($query->expr()->in('id', [7, 13, 14, 27, 40, 53, 54, 55]))
         );
 
-        $query = $this->handler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
                 [],
@@ -794,7 +793,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('keyword_id')
                 ->from('eztags_attribute_link')
-                ->where($query->expr->in('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55]))
+                ->where($query->expr()->in('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55]))
         );
     }
 
@@ -803,12 +802,12 @@ final class DoctrineDatabaseTest extends TestCase
      */
     private function getTagsGateway(): DoctrineDatabase
     {
-        $dbHandler = $this->getDatabaseHandler();
+        $dbConnection = $this->getDatabaseConnection();
 
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
         return new DoctrineDatabase(
-            $dbHandler,
+            $dbConnection,
             $languageHandlerMock,
             new MaskGenerator($languageHandlerMock)
         );

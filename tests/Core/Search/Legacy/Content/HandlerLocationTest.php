@@ -32,9 +32,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class HandlerLocationTest extends LanguageAwareTestCase
 {
     /**
-     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
+     * @var \Doctrine\DBAL\Connection
      */
-    private static $dbHandler;
+    private static $dbConnection;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -45,12 +45,12 @@ final class HandlerLocationTest extends LanguageAwareTestCase
      */
     protected function setUp(): void
     {
-        if (self::$dbHandler === null) {
+        if (self::$dbConnection === null) {
             parent::setUp();
             $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezplatform-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
-            self::$dbHandler = $this->handler;
+            self::$dbConnection = $this->getDatabaseConnection();
 
-            $handler = $this->getDatabaseHandler();
+            $dbConnection = $this->getDatabaseConnection();
 
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
@@ -58,14 +58,12 @@ final class HandlerLocationTest extends LanguageAwareTestCase
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
-                $handler->exec($query);
+                $dbConnection->exec($query);
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/tags_tree.php');
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/object_attributes.php');
             $this->insertDatabaseFixture(__DIR__ . '/../../../../_fixtures/class_attributes.php');
-        } else {
-            $this->handler = self::$dbHandler;
         }
     }
 
@@ -248,20 +246,20 @@ final class HandlerLocationTest extends LanguageAwareTestCase
         return new Content\Handler(
             $this->createMock(Content\Gateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
-                $this->getDatabaseHandler(),
+                $this->getDatabaseConnection(),
                 new CriteriaConverter(
                     [
-                        new TagIdCriterionHandler($this->getDatabaseHandler()),
-                        new TagKeywordCriterionHandler($this->getDatabaseHandler()),
-                        new CommonCriterionHandler\ContentId($this->getDatabaseHandler()),
-                        new CommonCriterionHandler\LogicalAnd($this->getDatabaseHandler()),
-                        new CommonCriterionHandler\MatchAll($this->getDatabaseHandler()),
+                        new TagIdCriterionHandler($this->getDatabaseConnection()),
+                        new TagKeywordCriterionHandler($this->getDatabaseConnection()),
+                        new CommonCriterionHandler\ContentId($this->getDatabaseConnection()),
+                        new CommonCriterionHandler\LogicalAnd($this->getDatabaseConnection()),
+                        new CommonCriterionHandler\MatchAll($this->getDatabaseConnection()),
                     ]
                 ),
                 new SortClauseConverter(
                     [
-                        new LocationSortClauseHandler\Location\Id($this->getDatabaseHandler()),
-                        new CommonSortClauseHandler\ContentId($this->getDatabaseHandler()),
+                        new LocationSortClauseHandler\Location\Id($this->getDatabaseConnection()),
+                        new CommonSortClauseHandler\ContentId($this->getDatabaseConnection()),
                     ]
                 ),
                 $this->getLanguageHandler()

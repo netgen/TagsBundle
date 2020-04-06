@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use PDO;
 
 abstract class Tags extends CriterionHandler
 {
@@ -25,38 +26,30 @@ abstract class Tags extends CriterionHandler
             return null;
         }
 
-        $query = $this->dbHandler->createSelectQuery();
+        $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbHandler->quoteColumn('id', 'ezcontentclass_attribute'))
-            ->from($this->dbHandler->quoteTable('ezcontentclass_attribute'))
+            ->select('ezcontentclass_attribute.id')
+            ->from('ezcontentclass_attribute')
             ->where(
-                $query->expr->lAnd(
-                    $query->expr->eq(
-                        $this->dbHandler->quoteColumn(
-                            'is_searchable',
-                            'ezcontentclass_attribute'
-                        ),
-                        $query->bindValue(1, null, PDO::PARAM_INT)
+                $query->expr()->andX(
+                    $query->expr()->eq(
+                        'ezcontentclass_attribute.is_searchable',
+                        ':is_searchable'
                     ),
-                    $query->expr->eq(
-                        $this->dbHandler->quoteColumn(
-                            'data_type_string',
-                            'ezcontentclass_attribute'
-                        ),
-                        $query->bindValue('eztags')
+                    $query->expr()->eq(
+                        'ezcontentclass_attribute.data_type_string',
+                        ':data_type_string'
                     ),
-                    $query->expr->eq(
-                        $this->dbHandler->quoteColumn('identifier', 'ezcontentclass_attribute'),
-                        $query->bindValue($fieldIdentifier)
+                    $query->expr()->eq(
+                        'ezcontentclass_attribute.identifier',
+                        ':identifier'
                     )
                 )
-            );
+            )->setParameter('is_searchable', 1, Types::INTEGER)
+            ->setParameter('data_type_string', 'eztags', Types::STRING)
+            ->setParameter('identifier', $fieldIdentifier, Types::STRING);
 
-        /** @var \Doctrine\DBAL\Driver\PDOStatement $statement */
-        $statement = $query->prepare();
-        $statement->execute();
-
-        $fieldDefinitionIds = $statement->fetchAll(PDO::FETCH_COLUMN);
+        $fieldDefinitionIds = $query->execute()->fetchAll(FetchMode::COLUMN);
 
         if (count($fieldDefinitionIds) === 0) {
             throw new InvalidArgumentException(

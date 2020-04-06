@@ -21,9 +21,9 @@ use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 final class TagsIntegrationTest extends BaseIntegrationTest
 {
     /**
-     * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
+     * @var \Doctrine\DBAL\Connection
      */
-    private static $dbHandler;
+    private static $dbConnection;
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
@@ -34,18 +34,19 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        if (self::$dbHandler === null) {
-            $schema = __DIR__ . '/../../_fixtures/schema/schema.' . $this->handler->getName() . '.sql';
+        if (self::$dbConnection === null) {
+            $dbName = $this->getDatabaseConnection()->getDatabasePlatform()->getName();
+            $schema = __DIR__ . '/../../_fixtures/schema/schema.' . $dbName . '.sql';
 
             /** @var array $queries */
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
-                $this->handler->exec($query);
+                $this->getDatabaseConnection()->exec($query);
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../_fixtures/tags_tree.php');
-            self::$dbHandler = $this->handler;
+            self::$dbConnection = $this->getDatabaseConnection();
         }
     }
 
@@ -53,15 +54,17 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         parent::resetSequences();
 
-        $dbHandler = $this->getDatabaseHandler();
+        $connection = $this->getDatabaseConnection();
 
-        if ($dbHandler->getName() === 'pgsql') {
+        if ($connection->getDatabasePlatform()->getName() === 'postgresql') {
             // Update PostgreSQL sequences
             /** @var array $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../_fixtures/schema/setval.pgsql.sql'));
+            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(
+                __DIR__ . '/../../_fixtures/schema/setval.postgresql.sql'
+            ));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
-                $dbHandler->exec($query);
+                $connection->exec($query);
             }
         }
     }
@@ -99,7 +102,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
             new TagsConverter(),
             new TagsStorage(
                 new TagsDoctrineStorage(
-                    $this->handler->getConnection(),
+                    $this->getDatabaseConnection(),
                     (new LanguageHandlerMock())($this)
                 ),
                 $this->tagsService
