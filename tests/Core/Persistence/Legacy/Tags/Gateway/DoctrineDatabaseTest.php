@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags\Gateway;
 
+use Doctrine\DBAL\Connection;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
@@ -36,24 +37,25 @@ final class DoctrineDatabaseTest extends TestCase
         }
 
         $this->insertDatabaseFixture(__DIR__ . '/../../../../../_fixtures/tags_tree.php');
+        $this->resetSequences();
 
         $this->tagsGateway = $this->getTagsGateway();
     }
 
     public function resetSequences(): void
     {
-        parent::resetSequences();
+        if ($this->db !== 'pgsql') {
+            return;
+        }
 
-        if ($this->db === 'pgsql') {
-            // Update PostgreSQL sequences
-            $dbConnection = $this->getDatabaseConnection();
+        // Update PostgreSQL sequences
+        $dbConnection = $this->getDatabaseConnection();
 
-            /** @var array $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.postgresql.sql'));
-            $queries = array_filter($queries);
-            foreach ($queries as $query) {
-                $dbConnection->exec($query);
-            }
+        /** @var array $queries */
+        $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.postgresql.sql'));
+        $queries = array_filter($queries);
+        foreach ($queries as $query) {
+            $dbConnection->exec($query);
         }
     }
 
@@ -728,7 +730,8 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'keyword_id', 'objectattribute_id', 'objectattribute_version', 'object_id')
                 ->from('eztags_attribute_link')
-                ->where($query->expr()->in('id', [1284, 1285, 1286, 1287]))
+                ->where($query->expr()->in('id', [':id']))
+                ->setParameter('id', [1284, 1285, 1286, 1287], Connection::PARAM_INT_ARRAY)
         );
     }
 
@@ -763,7 +766,8 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'depth', 'path_string')
                 ->from('eztags')
-                ->where($query->expr()->in('id', [7, 13, 14, 27, 40, 53, 54, 55]))
+                ->where($query->expr()->in('id', [':id']))
+                ->setParameter('id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY)
         );
     }
 
@@ -782,7 +786,8 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id')
                 ->from('eztags')
-                ->where($query->expr()->in('id', [7, 13, 14, 27, 40, 53, 54, 55]))
+                ->where($query->expr()->in('id', [':id']))
+                ->setParameter('id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY)
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -793,7 +798,8 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('keyword_id')
                 ->from('eztags_attribute_link')
-                ->where($query->expr()->in('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55]))
+                ->where($query->expr()->in('keyword_id', [':keyword_id']))
+                ->setParameter('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY)
         );
     }
 

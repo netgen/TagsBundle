@@ -7,9 +7,6 @@ parameters:
     checkMissingIterableValueType: false
 
     ignoreErrors:
-        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\SelectQuery::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
-        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
-        - '#eZ\\Publish\\Core\\Persistence\\Database\\Expression::eq\(\) expects string, int given.#'
         - '#Access to an undefined property eZ\\Publish\\API\\Repository\\Values\\ValueObject::\$id.#'
         - '#Access to an undefined property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$notDefined.#'
         - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id is not writable.#'

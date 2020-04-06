@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader;
 
+use eZ\Publish\API\Repository\LanguageResolver;
 use eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory as BaseRepositoryFactory;
 
 final class RepositoryFactory extends BaseRepositoryFactory
 {
-    public function __construct(string $repositoryClass, array $policyMap)
-    {
+    public function __construct(
+        string $repositoryClass,
+        array $policyMap,
+        LanguageResolver $languageResolver
+    ) {
         $policyMap['tags'] = [
             'add' => ['Tag' => true],
             'read' => [],
@@ -21,6 +25,6 @@ final class RepositoryFactory extends BaseRepositoryFactory
             'delete' => [],
         ];
 
-        parent::__construct($repositoryClass, $policyMap);
+        parent::__construct($repositoryClass, $policyMap, $languageResolver);
     }
 }

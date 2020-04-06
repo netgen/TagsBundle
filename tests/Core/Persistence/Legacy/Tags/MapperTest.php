@@ -36,18 +36,17 @@ final class MapperTest extends TestCase
      * @var array
      */
     private static $tagListRow = [
-        'eztags_id' => 42,
-        'eztags_parent_id' => 21,
-        'eztags_main_tag_id' => 0,
-        'eztags_keyword' => 'Croatia',
-        'eztags_depth' => 3,
-        'eztags_path_string' => '/1/21/42/',
-        'eztags_modified' => 1234567,
-        'eztags_remote_id' => '123456abcdef',
-        'eztags_main_language_id' => 8,
-        'eztags_language_mask' => 9,
-        'eztags_keyword_keyword' => 'Croatia',
-        'eztags_keyword_locale' => 'eng-GB',
+        'id' => 42,
+        'parent_id' => 21,
+        'main_tag_id' => 0,
+        'depth' => 3,
+        'path_string' => '/1/21/42/',
+        'modified' => 1234567,
+        'remote_id' => '123456abcdef',
+        'main_language_id' => 8,
+        'language_mask' => 9,
+        'keyword' => 'Croatia',
+        'locale' => 'eng-GB',
     ];
 
     /**
@@ -122,7 +121,7 @@ final class MapperTest extends TestCase
         $inputRows = [];
         for ($i = 0; $i < 3; ++$i) {
             $row = self::$tagListRow;
-            $row['eztags_id'] += $i;
+            $row['id'] += $i;
             $inputRows[] = $row;
         }
 

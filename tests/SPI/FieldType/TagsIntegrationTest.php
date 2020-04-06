@@ -46,26 +46,28 @@ final class TagsIntegrationTest extends BaseIntegrationTest
             }
 
             $this->insertDatabaseFixture(__DIR__ . '/../../_fixtures/tags_tree.php');
+            $this->resetSequences();
+
             self::$dbConnection = $this->getDatabaseConnection();
         }
     }
 
     public function resetSequences(): void
     {
-        parent::resetSequences();
-
         $connection = $this->getDatabaseConnection();
 
-        if ($connection->getDatabasePlatform()->getName() === 'postgresql') {
-            // Update PostgreSQL sequences
-            /** @var array $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents(
-                __DIR__ . '/../../_fixtures/schema/setval.postgresql.sql'
-            ));
-            $queries = array_filter($queries);
-            foreach ($queries as $query) {
-                $connection->exec($query);
-            }
+        if ($connection->getDatabasePlatform()->getName() !== 'postgresql') {
+            return;
+        }
+
+        // Update PostgreSQL sequences
+        /** @var array $queries */
+        $queries = preg_split('(;\\s*$)m', (string) file_get_contents(
+            __DIR__ . '/../../_fixtures/schema/setval.postgresql.sql'
+        ));
+        $queries = array_filter($queries);
+        foreach ($queries as $query) {
+            $connection->exec($query);
         }
     }
 

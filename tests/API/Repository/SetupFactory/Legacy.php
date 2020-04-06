@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
+use Doctrine\DBAL\Connection;
 use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
 use eZ\Publish\Core\Base\Container\Compiler\Search\FieldRegistryPass;
 use eZ\Publish\Core\Base\ServiceContainer;
+use eZ\Publish\SPI\Tests\Persistence\Fixture;
+use eZ\Publish\SPI\Tests\Persistence\FixtureImporter;
+use eZ\Publish\SPI\Tests\Persistence\PhpArrayFileFixture;
 use Netgen\TagsBundle\API\Repository\TagsService as APITagsService;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
@@ -25,9 +29,14 @@ final class Legacy extends BaseLegacy
     /**
      * Initial data for eztags field type.
      *
-     * @var array
+     * @var \eZ\Publish\SPI\Tests\Persistence\Fixture
      */
     private static $tagsInitialData;
+
+    /**
+     * @var \Doctrine\DBAL\Connection
+     */
+    private $connection;
 
     public function getServiceContainer(): ServiceContainer
     {
@@ -93,7 +102,7 @@ final class Legacy extends BaseLegacy
         $tagsHandler = new Handler(
             new ExceptionConversion(
                 new DoctrineDatabase(
-                    $this->getDatabaseHandler(),
+                    $this->getDatabaseConnection(),
                     $languageHandler,
                     $languageMaskGenerator
                 )
@@ -111,32 +120,43 @@ final class Legacy extends BaseLegacy
         );
     }
 
-    protected function getPostInsertStatements(): array
+    public function insertData(): void
     {
-        $statements = parent::getPostInsertStatements();
+        parent::insertData();
 
-        if (self::$db === 'pgsql') {
-            $setvalPath = __DIR__ . '/../../../_fixtures/schema/setval.postgresql.sql';
+        $connection = $this->getDatabaseConnection();
 
-            /** @var array $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents($setvalPath));
+        $fixtureImporter = new FixtureImporter($connection);
+        $fixtureImporter->import($this->getInitialTagsDataFixture());
 
-            return array_merge($statements, array_filter($queries));
-        }
-
-        return $statements;
+        $this->execPostInsertStatements();
     }
 
-    protected function getInitialData(): array
+    protected function execPostInsertStatements(): void
     {
-        parent::getInitialData();
-
-        if (!isset(self::$tagsInitialData)) {
-            self::$tagsInitialData = include __DIR__ . '/../../../_fixtures/tags_tree.php';
-            self::$initialData = array_merge(self::$initialData, self::$tagsInitialData);
+        if (self::$db !== 'pgsql') {
+            return;
         }
 
-        return self::$initialData;
+        $setValPath = __DIR__ . '/../../../_fixtures/schema/setval.postgresql.sql';
+
+        /** @var array $queries */
+        $queries = preg_split('(;\\s*$)m', (string) file_get_contents($setValPath));
+
+        foreach ($queries as $query) {
+            $this->getDatabaseConnection()->exec($query);
+        }
+    }
+
+    protected function getInitialTagsDataFixture(): Fixture
+    {
+        if (!isset(self::$tagsInitialData)) {
+            self::$tagsInitialData = new PhpArrayFileFixture(
+                __DIR__ . '/../../../_fixtures/tags_tree.php'
+            );
+        }
+
+        return self::$tagsInitialData;
     }
 
     protected function initializeSchema(): void
@@ -144,7 +164,10 @@ final class Legacy extends BaseLegacy
         parent::initializeSchema();
 
         $statements = $this->getTagsSchemaStatements();
-        $this->applyStatements($statements);
+
+        foreach ($statements as $statement) {
+            $this->getDatabaseConnection()->exec($statement);
+        }
     }
 
     /**
@@ -158,5 +181,16 @@ final class Legacy extends BaseLegacy
         $queries = preg_split('(;\\s*$)m', (string) file_get_contents($tagsSchemaPath));
 
         return array_filter($queries);
+    }
+
+    private function getDatabaseConnection(): Connection
+    {
+        if (null === $this->connection) {
+            /** @var \Doctrine\DBAL\Connection $connection */
+            $connection = $this->getServiceContainer()->get('ezpublish.persistence.connection');
+            $this->connection = $connection;
+        }
+
+        return $this->connection;
     }
 }

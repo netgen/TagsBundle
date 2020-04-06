@@ -14,14 +14,10 @@ parameters:
 
         - '#Call to method Symfony\\Component\\HttpFoundation\\Request::hasSession\(\) will always evaluate to true.#'
 
-        # eZ Platform
-        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
-        - '#Method eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) invoked with \d+ parameters?, \d+ required.#'
-        - '#eZ\\Publish\\Core\\Persistence\\Database\\\w+Query::\w+\(\) expects string, int given.#'
-        - '#eZ\\Publish\\Core\\Persistence\\Database\\Expression::\w+\(\) expects string, int given.#'
-
         # Doctrine DBAL
-        - '#Cannot call method fetchAll\(\) on Doctrine\\DBAL\\Driver\\Statement\|int#'
+        - '#Cannot call method fetch(All)?\(\) on Doctrine\\DBAL\\Driver\\Statement\|int#'
+        - '#expects string\|null, Doctrine\\DBAL\\Query\\Expression\\CompositeExpression given#'
+        - '#\$value2 of method Doctrine\\DBAL\\Platforms\\AbstractPlatform::getBitAndComparisonExpression\(\) expects string, int given.#'
 
         # Tags Bundle specifics
         - '#Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value::__construct\(\) does not call parent constructor#'

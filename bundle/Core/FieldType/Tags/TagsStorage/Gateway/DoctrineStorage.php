@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
-use PDO;
 
 final class DoctrineStorage extends Gateway
 {
@@ -38,7 +39,7 @@ final class DoctrineStorage extends Gateway
         foreach ($field->value->externalData as $priority => $tag) {
             $insertQuery = $this->connection->createQueryBuilder();
             $insertQuery
-                ->insert($this->connection->quoteIdentifier('eztags_attribute_link'))
+                ->insert('eztags_attribute_link')
                 ->values(
                     [
                         'keyword_id' => ':keyword_id',
@@ -48,11 +49,11 @@ final class DoctrineStorage extends Gateway
                         'priority' => ':priority',
                     ]
                 )
-                ->setParameter(':keyword_id', $tag['id'], PDO::PARAM_INT)
-                ->setParameter(':objectattribute_id', $field->id, PDO::PARAM_INT)
-                ->setParameter(':objectattribute_version', $versionInfo->versionNo, PDO::PARAM_INT)
-                ->setParameter(':object_id', $versionInfo->contentInfo->id, PDO::PARAM_INT)
-                ->setParameter(':priority', $priority, PDO::PARAM_INT);
+                ->setParameter(':keyword_id', $tag['id'], Types::INTEGER)
+                ->setParameter(':objectattribute_id', $field->id, Types::INTEGER)
+                ->setParameter(':objectattribute_version', $versionInfo->versionNo, Types::INTEGER)
+                ->setParameter(':object_id', $versionInfo->contentInfo->id, Types::INTEGER)
+                ->setParameter(':priority', $priority, Types::INTEGER);
 
             $insertQuery->execute();
         }
@@ -67,15 +68,15 @@ final class DoctrineStorage extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete($this->connection->quoteIdentifier('eztags_attribute_link'))
+            ->delete('eztags_attribute_link')
             ->where(
                 $query->expr()->andX(
-                    $query->expr()->in('objectattribute_id', ':objectattribute_id'),
+                    $query->expr()->in('objectattribute_id', [':objectattribute_id']),
                     $query->expr()->eq('objectattribute_version', ':objectattribute_version')
                 )
             )
             ->setParameter(':objectattribute_id', $fieldIds, Connection::PARAM_INT_ARRAY)
-            ->setParameter(':objectattribute_version', $versionInfo->versionNo, PDO::PARAM_INT);
+            ->setParameter(':objectattribute_version', $versionInfo->versionNo, Types::INTEGER);
 
         $query->execute();
     }
@@ -105,23 +106,23 @@ final class DoctrineStorage extends Gateway
                 // Tag attribute links
                 'tal.priority AS eztags_attribute_link_priority'
             )
-            ->from($this->connection->quoteIdentifier('eztags'), 't')
+            ->from('eztags', 't')
             ->innerJoin(
                 't',
-                $this->connection->quoteIdentifier('eztags_attribute_link'),
+                'eztags_attribute_link',
                 'tal',
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('t.id'),
-                    $this->connection->quoteIdentifier('tal.keyword_id')
+                    't.id',
+                    'tal.keyword_id'
                 )
             )
             ->innerJoin(
                 't',
-                $this->connection->quoteIdentifier('eztags_keyword'),
+                'eztags_keyword',
                 'k',
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('t.id'),
-                    $this->connection->quoteIdentifier('k.keyword_id')
+                    't.id',
+                    'k.keyword_id'
                 )
             )->where(
                 $query->expr()->andX(
@@ -129,13 +130,13 @@ final class DoctrineStorage extends Gateway
                     $query->expr()->eq('tal.objectattribute_version', ':objectattribute_version')
                 )
             )
-            ->setParameter(':objectattribute_id', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':objectattribute_version', $versionNo, PDO::PARAM_INT)
-            ->orderBy($this->connection->quoteIdentifier('tal.priority'), 'ASC');
+            ->setParameter(':objectattribute_id', $fieldId, Types::INTEGER)
+            ->setParameter(':objectattribute_version', $versionNo, Types::INTEGER)
+            ->orderBy('tal.priority', 'ASC');
 
         $statement = $query->execute();
 
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
 
         $tagList = [];
         foreach ($rows as $row) {

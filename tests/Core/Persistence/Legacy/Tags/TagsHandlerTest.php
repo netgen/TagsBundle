@@ -58,7 +58,7 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     [
-                        'eztags_id' => 42,
+                        'id' => 42,
                     ],
                 ]
             );
@@ -68,7 +68,7 @@ final class TagsHandlerTest extends TestCase
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
-            ->with([['eztags_id' => 42]])
+            ->with([['id' => 42]])
             ->willReturn([$tag]);
 
         self::assertSame($tag, $this->tagsHandler->load(42));
@@ -133,7 +133,7 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     [
-                        'eztags_remote_id' => 'abcdef',
+                        'remote_id' => 'abcdef',
                     ],
                 ]
             );
@@ -143,7 +143,7 @@ final class TagsHandlerTest extends TestCase
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
-            ->with([['eztags_remote_id' => 'abcdef']])
+            ->with([['remote_id' => 'abcdef']])
             ->willReturn([$tag]);
 
         self::assertSame($tag, $this->tagsHandler->loadByRemoteId('abcdef'));
@@ -207,9 +207,8 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     [
-                        'eztags_id' => 42,
-                        'eztags_keyword' => 'eztags',
-                        'eztags_keyword_keyword' => 'eztags',
+                        'id' => 42,
+                        'keyword' => 'eztags',
                     ],
                 ]
             );
@@ -219,7 +218,7 @@ final class TagsHandlerTest extends TestCase
         $this->mapper
             ->expects(self::once())
             ->method('extractTagListFromRows')
-            ->with([['eztags_id' => 42, 'eztags_keyword' => 'eztags', 'eztags_keyword_keyword' => 'eztags']])
+            ->with([['id' => 42, 'keyword' => 'eztags']])
             ->willReturn([$tag]);
 
         self::assertSame($tag, $this->tagsHandler->loadTagByKeywordAndParentId('eztags', 42));
@@ -253,13 +252,13 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     [
-                        'eztags_id' => 43,
+                        'id' => 43,
                     ],
                     [
-                        'eztags_id' => 44,
+                        'id' => 44,
                     ],
                     [
-                        'eztags_id' => 45,
+                        'id' => 45,
                     ],
                 ]
             );
@@ -269,9 +268,9 @@ final class TagsHandlerTest extends TestCase
             ->method('extractTagListFromRows')
             ->with(
                 [
-                    ['eztags_id' => 43],
-                    ['eztags_id' => 44],
-                    ['eztags_id' => 45],
+                    ['id' => 43],
+                    ['id' => 44],
+                    ['id' => 45],
                 ]
             )
             ->willReturn(
@@ -316,12 +315,12 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     [
-                        'eztags_keyword' => 'eztags',
-                        'eztags_main_language_id' => 4,
+                        'keyword' => 'eztags',
+                        'main_language_id' => 4,
                     ],
                     [
-                        'eztags_keyword' => 'eztags',
-                        'eztags_main_language_id' => 4,
+                        'keyword' => 'eztags',
+                        'main_language_id' => 4,
                     ],
                 ]
             );
@@ -331,8 +330,8 @@ final class TagsHandlerTest extends TestCase
             ->method('extractTagListFromRows')
             ->with(
                 [
-                    ['eztags_keyword' => 'eztags', 'eztags_main_language_id' => 4],
-                    ['eztags_keyword' => 'eztags', 'eztags_main_language_id' => 4],
+                    ['keyword' => 'eztags', 'main_language_id' => 4],
+                    ['keyword' => 'eztags', 'main_language_id' => 4],
                 ]
             )
             ->willReturn(
@@ -376,13 +375,13 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     [
-                        'eztags_id' => 43,
+                        'id' => 43,
                     ],
                     [
-                        'eztags_id' => 44,
+                        'id' => 44,
                     ],
                     [
-                        'eztags_id' => 45,
+                        'id' => 45,
                     ],
                 ]
             );
@@ -392,9 +391,9 @@ final class TagsHandlerTest extends TestCase
             ->method('extractTagListFromRows')
             ->with(
                 [
-                    ['eztags_id' => 43],
-                    ['eztags_id' => 44],
-                    ['eztags_id' => 45],
+                    ['id' => 43],
+                    ['id' => 44],
+                    ['id' => 45],
                 ]
             )
             ->willReturn(

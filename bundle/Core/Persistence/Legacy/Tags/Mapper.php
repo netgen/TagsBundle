@@ -58,25 +58,25 @@ class Mapper
     {
         $tagList = [];
         foreach ($rows as $row) {
-            $tagId = (int) $row['eztags_id'];
+            $tagId = (int) $row['id'];
             if (!isset($tagList[$tagId])) {
                 $tag = new Tag();
-                $tag->id = (int) $row['eztags_id'];
-                $tag->parentTagId = (int) $row['eztags_parent_id'];
-                $tag->mainTagId = (int) $row['eztags_main_tag_id'];
+                $tag->id = (int) $row['id'];
+                $tag->parentTagId = (int) $row['parent_id'];
+                $tag->mainTagId = (int) $row['main_tag_id'];
                 $tag->keywords = [];
-                $tag->depth = (int) $row['eztags_depth'];
-                $tag->pathString = $row['eztags_path_string'];
-                $tag->modificationDate = (int) $row['eztags_modified'];
-                $tag->remoteId = $row['eztags_remote_id'];
-                $tag->alwaysAvailable = (bool) ((int) $row['eztags_language_mask'] & 1);
-                $tag->mainLanguageCode = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
-                $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['eztags_language_mask']);
+                $tag->depth = (int) $row['depth'];
+                $tag->pathString = $row['path_string'];
+                $tag->modificationDate = (int) $row['modified'];
+                $tag->remoteId = $row['remote_id'];
+                $tag->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
+                $tag->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
+                $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
                 $tagList[$tagId] = $tag;
             }
 
-            if (!isset($tagList[$tagId]->keywords[$row['eztags_keyword_locale']])) {
-                $tagList[$tagId]->keywords[$row['eztags_keyword_locale']] = $row['eztags_keyword_keyword'];
+            if (!isset($tagList[$tagId]->keywords[$row['locale']])) {
+                $tagList[$tagId]->keywords[$row['locale']] = $row['keyword'];
             }
         }
 
