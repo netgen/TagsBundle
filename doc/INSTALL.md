@@ -76,4 +76,4 @@ $ php bin/console assets:install --symlink --relative
 
 1) You can now load and create content with `eztags` field type
 
-2) Use `TagsService` in your controllers to work with tags. The service is accessible through Symfony2 DIC, with ID `eztags.api.service.tags`
+2) Use `TagsService` in your controllers to work with tags. The service is accessible through Symfony DIC, with ID `eztags.api.service.tags`
