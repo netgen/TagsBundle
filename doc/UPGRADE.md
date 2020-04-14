@@ -1,6 +1,24 @@
 Netgen Tags Bundle upgrade instructions
 =======================================
 
+Upgrade from 3.4 to 4.0
+-----------------------
+
+Tags Bundle 4.0 is a major release, with a number of breaking changes. Most of these breaking changes are needed for proper eZ Platform 3.0 support and they will not be listed here due to sheer number of them and the fact that they are listed in eZ Platform 3.0 upgrade instructions anyhow.
+
+* Minimum supported version of PHP is now PHP 7.3
+* Minimum supported version of eZ Platform is now 3.0
+* Most of the classes in the codebase are now `final`
+* Scalar and return typehints have been implemented
+* The entire codebase now uses strict type checking
+* Most protected properties and methods are now private
+* Tag IDs are now considered as integers across the board. No more `int|string` or `mixed` typehint
+* TagsService methods which previously returned arrays now return an instance of TagList object
+* Most of the Symfony services are now private
+* Old `ezpublish.api.service.tags` service name for Tags service has been removed. Use `eztags.api.service.tags` instead
+* Removed support for `X-Tag-ID` header in Varnish. The bundle now uses `xkey` header, just like eZ Platform
+* Using the tag object with `netgen_tags_tag_keyword` Twig function has been deprecated. Use `tag.keyword` in Twig templates instead
+
 Notes on upgrading to eZ Platform 2.2
 -------------------------------------
 
