@@ -389,7 +389,7 @@ class TagsService implements TagsServiceInterface
                 // Do nothing
             }
         } else {
-            $tagCreateStruct->remoteId = md5(uniqid(get_class($this), true));
+            $tagCreateStruct->remoteId = md5(uniqid(static::class, true));
         }
 
         if (!is_bool($tagCreateStruct->alwaysAvailable)) {
@@ -533,7 +533,7 @@ class TagsService implements TagsServiceInterface
                 // Do nothing
             }
         } else {
-            $synonymCreateStruct->remoteId = md5(uniqid(get_class($this), true));
+            $synonymCreateStruct->remoteId = md5(uniqid(static::class, true));
         }
 
         if (!is_bool($synonymCreateStruct->alwaysAvailable)) {
