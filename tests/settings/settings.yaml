@@ -2,12 +2,33 @@ parameters:
     storage_dir: vendor/ezsystems/ezplatform-kernel/var/ezdemo_site/storage
     ezpublish.api.storage_engine.default: legacy
 
-services:
-    ezpublish.api.repository.factory:
-        class: Netgen\TagsBundle\Tests\Core\Base\Container\ApiLoader\RepositoryFactory
-        arguments:
-            - "%ezpublish.api.inner_repository.class%"
-            - "%ezpublish.api.role.policy_map%"
-            - "@eZ\\Publish\\API\\Repository\\LanguageResolver"
-        calls:
-            - [setContainer, ["@service_container"]]
+    ezpublish.api.role.policy_map:
+        tags:
+            add: { Tag: true }
+            read: ~
+            editsynonym: ~
+            addsynonym: ~
+            makesynonym: ~
+            merge: ~
+            edit: ~
+            delete: ~
+
+        content:
+            read: ~
+            create: ~
+            edit: ~
+            publish: ~
+            manage_locations: ~
+            remove: ~
+            versionread: ~
+            versionremove: ~
+
+        class:
+            update: ~
+            create: ~
+
+        role:
+            assign: ~
+            update: ~
+            create: ~
+            read: ~
