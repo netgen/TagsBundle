@@ -111,31 +111,19 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         return $params;
     }
 
-    /**
-     * Generates a URL for a tag, from the given parameters.
-     *
-     * It is possible to directly pass a Tag object as the route name, as the ChainRouter allows it through ChainedRouterInterface
-     *
-     * If $name is a route name, the "tag" key in $parameters must be set to a valid Netgen\TagsBundle\API\Repository\Values\Tags\Tag object.
-     * "tagId" can also be provided.
-     *
-     * If the generator is not able to generate the URL, it must throw the RouteNotFoundException as documented below.
-     *
-     * @param string|\Netgen\TagsBundle\API\Repository\Values\Tags\Tag $name The name of the route or a Tag instance
-     * @param mixed $parameters An array of parameters
-     * @param int $referenceType The type of reference to be generated (one of the constants)
-     *
-     * @throws \LogicException
-     * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
-     * @throws \InvalidArgumentException
-     *
-     * @return string The generated URL
-     */
-    public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
+    public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         // Direct access to Tag
         if ($name instanceof Tag) {
             return $this->generator->generate($name, $parameters, $referenceType);
+        }
+
+        // Support using Tag object with ez_url / ez_path Twig functions
+        if ($name === '' && ($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null) instanceof Tag) {
+            $tag = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+            unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+
+            return $this->generator->generate($tag, $parameters, $referenceType);
         }
 
         // Normal route name
@@ -179,7 +167,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         return $this->requestContext;
     }
 
-    public function match($pathinfo): array
+    public function match(string $pathinfo): array
     {
         throw new RuntimeException("The TagRouter doesn't support the match() method. Please use matchRequest() instead.");
     }
