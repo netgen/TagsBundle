@@ -15,7 +15,7 @@ parameters:
         - '#Call to method Symfony\\Component\\HttpFoundation\\Request::hasSession\(\) will always evaluate to true.#'
 
         # Doctrine DBAL
-        - '#Cannot call method fetch(All)?\(\) on Doctrine\\DBAL\\Driver\\(Result)?Statement\|int#'
+        - '#Cannot call method fetch(All)?\(\) on Doctrine\\DBAL\\Driver\\ResultStatement\|int#'
         - '#expects string\|null, Doctrine\\DBAL\\Query\\Expression\\CompositeExpression given#'
         - '#\$value2 of method Doctrine\\DBAL\\Platforms\\AbstractPlatform::getBitAndComparisonExpression\(\) expects string, int given.#'
 
