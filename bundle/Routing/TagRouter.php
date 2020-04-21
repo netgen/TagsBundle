@@ -113,11 +113,6 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-        // Direct access to Tag
-        if ($name instanceof Tag) {
-            return $this->generator->generate($name, $parameters, $referenceType);
-        }
-
         // Support using Tag object with ez_url / ez_path Twig functions
         if ($name === '' && ($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null) instanceof Tag) {
             $tag = $parameters[RouteObjectInterface::ROUTE_OBJECT];
