@@ -1,6 +1,11 @@
 Netgen Tags Bundle 4.x changelog
 ================================
 
+4.0.1 (21.04.2020)
+------------------
+
+* Support using Tag object with `ez_url` / `ez_path` Twig functions
+
 4.0.0 (14.04.2020)
 ------------------
 
