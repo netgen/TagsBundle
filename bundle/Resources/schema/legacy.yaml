@@ -116,10 +116,14 @@ tables:
             keyword_id:
                 type: integer
                 nullable: false
+                options:
+                    default: '0'
             locale:
                 type: string
                 nullable: false
                 length: 20
+                options:
+                    default: ''
         fields:
             language_id:
                 type: bigint
