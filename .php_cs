@@ -35,6 +35,7 @@ return PhpCsFixer\Config::create()
         'list_syntax' => ['syntax' => 'short'],
         'mb_str_functions' => true,
         'native_constant_invocation' => true,
+        'nullable_type_declaration_for_default_null_value' => true,
         'static_lambda' => true,
         'ternary_to_null_coalescing' => true,
     ])
