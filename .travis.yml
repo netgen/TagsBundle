@@ -27,8 +27,6 @@ matrix:
       install: yarn install
       before_script: yarn global add grunt-cli
       script: grunt build
-  allow_failures:
-    - php: 7.4
   fast_finish: true
 
 branches:
