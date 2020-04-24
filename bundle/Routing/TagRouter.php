@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection;
+use function is_object;
 use function mb_stripos;
 use function mb_strlen;
 use function mb_substr;
@@ -119,7 +120,10 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         // Support using Tag object with ez_url / ez_path Twig functions
-        if ($name === '' && ($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null) instanceof Tag) {
+        if (
+            ($name === '' || $name === 'cmf_routing_object') &&
+            $this->supportsObject($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null)
+        ) {
             $tag = $parameters[RouteObjectInterface::ROUTE_OBJECT];
             unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
 
@@ -174,7 +178,16 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public function supports($name): bool
     {
-        return $name instanceof Tag || $name === self::TAG_URL_ROUTE_NAME;
+        if (is_object($name)) {
+            return $this->supportsObject($name);
+        }
+
+        return $name === '' || $name === 'cmf_routing_object' || $name === self::TAG_URL_ROUTE_NAME;
+    }
+
+    public function supportsObject($object): bool
+    {
+        return $object instanceof Tag;
     }
 
     public function getRouteDebugMessage($name, array $parameters = []): string
