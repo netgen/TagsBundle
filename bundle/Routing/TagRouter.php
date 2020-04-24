@@ -185,7 +185,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         return $name === '' || $name === 'cmf_routing_object' || $name === self::TAG_URL_ROUTE_NAME;
     }
 
-    public function supportsObject($object): bool
+    public function supportsObject(?object $object): bool
     {
         return $object instanceof Tag;
     }
