@@ -23,6 +23,11 @@ use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection;
+use function mb_stripos;
+use function mb_strlen;
+use function mb_substr;
+use function rawurldecode;
+use function trim;
 
 final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {

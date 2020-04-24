@@ -9,6 +9,8 @@ use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Generator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use function array_values;
+use function iterator_to_array;
 
 /**
  * Simple mock provider for a Language\Handler.

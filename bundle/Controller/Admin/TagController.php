@@ -19,6 +19,8 @@ use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function count;
+use function in_array;
 
 final class TagController extends Controller
 {

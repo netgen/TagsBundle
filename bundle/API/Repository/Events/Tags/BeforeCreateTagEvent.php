@@ -8,6 +8,7 @@ use eZ\Publish\SPI\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use UnexpectedValueException;
+use function sprintf;
 
 final class BeforeCreateTagEvent extends BeforeEvent
 {

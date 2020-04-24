@@ -6,6 +6,10 @@ namespace Netgen\TagsBundle\Core\REST\Values;
 
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use EzSystems\EzPlatformRest\Value;
+use function array_diff;
+use function array_keys;
+use function count;
+use function implode;
 
 final class CachedValue extends Value
 {

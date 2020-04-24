@@ -6,6 +6,8 @@ namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use eZ\Publish\Core\FieldType\Value as BaseValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use function array_map;
+use function implode;
 
 /**
  * Value for Tags field type.

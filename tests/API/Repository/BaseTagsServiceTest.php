@@ -19,6 +19,13 @@ use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
 use eZ\Publish\Core\Repository\Values\User\User;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use function array_pop;
+use function count;
+use function explode;
+use function implode;
+use function time;
+use function trim;
+use const PHP_INT_MAX;
 
 abstract class BaseTagsServiceTest extends BaseTest
 {

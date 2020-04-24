@@ -10,6 +10,9 @@ use eZ\Publish\Core\MVC\Symfony\Routing\Generator;
 use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Symfony\Component\Routing\RouterInterface;
+use function count;
+use function http_build_query;
+use function trim;
 
 /**
  * URL generator for Tag based links.

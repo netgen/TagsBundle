@@ -10,6 +10,10 @@ use EzSystems\EzPlatformRest\Input\ParserTools;
 use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+use function array_key_exists;
+use function array_pop;
+use function explode;
+use function is_array;
 
 final class TagCreate extends BaseParser
 {

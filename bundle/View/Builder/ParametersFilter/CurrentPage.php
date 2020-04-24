@@ -9,6 +9,7 @@ use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Netgen\TagsBundle\Routing\TagRouter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function in_array;
 
 final class CurrentPage implements EventSubscriberInterface
 {

@@ -9,6 +9,7 @@ use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use function in_array;
 
 final class SetPageLayoutListener implements EventSubscriberInterface
 {

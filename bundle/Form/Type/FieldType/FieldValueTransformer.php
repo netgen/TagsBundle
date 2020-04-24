@@ -8,6 +8,10 @@ use eZ\Publish\API\Repository\FieldType;
 use eZ\Publish\API\Repository\Values\Content\Field;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Symfony\Component\Form\DataTransformerInterface;
+use function array_key_exists;
+use function count;
+use function explode;
+use function implode;
 
 final class FieldValueTransformer implements DataTransformerInterface
 {

@@ -7,6 +7,8 @@ namespace Netgen\TagsBundle\Matcher\Tag;
 use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
 use Netgen\TagsBundle\TagsServiceAwareTrait;
+use function array_fill_keys;
+use function is_array;
 
 abstract class MultipleValued implements ViewMatcherInterface, TagsServiceAwareInterface
 {

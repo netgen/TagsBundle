@@ -10,8 +10,9 @@ return PhpCsFixer\Config::create()
         'concat_space' => ['spacing' => 'one'],
         'method_chaining_indentation' => false,
         'multiline_whitespace_before_semicolons' => false,
-        'native_function_invocation' => false,
+        'native_function_invocation' => ['include' => ['@all']],
         'no_superfluous_phpdoc_tags' => false,
+        'ordered_imports' => ['imports_order' => ['class', 'function', 'const']],
         'php_unit_internal_class' => false,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false,
@@ -26,8 +27,14 @@ return PhpCsFixer\Config::create()
         // Additional rules
         'date_time_immutable' => true,
         'declare_strict_types' => true,
+        'global_namespace_import' => [
+            'import_classes' => null,
+            'import_constants' => true,
+            'import_functions' => true,
+        ],
         'list_syntax' => ['syntax' => 'short'],
         'mb_str_functions' => true,
+        'native_constant_invocation' => true,
         'static_lambda' => true,
         'ternary_to_null_coalescing' => true,
     ])

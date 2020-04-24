@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\Form\DataMapper;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Symfony\Component\Form\DataMapperInterface;
+use function iterator_to_array;
 
 final class TagUpdateStructDataMapper implements DataMapperInterface
 {

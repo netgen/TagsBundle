@@ -12,6 +12,7 @@ use Netgen\TagsBundle\Form\Type\RelatedContentFilterType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function count;
 
 final class RelatedContentController extends Controller
 {

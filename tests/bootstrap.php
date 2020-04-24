@@ -13,8 +13,8 @@ declare(strict_types=1);
 $kernelDir = __DIR__ . '/../vendor/ezsystems/ezplatform-kernel';
 
 // Get global config.php settings
-if (!file_exists($kernelDir . '/config.php')) {
-    if (!symlink(__DIR__ . '/config.php-DEVELOPMENT', $kernelDir . '/config.php')) {
+if (!\file_exists($kernelDir . '/config.php')) {
+    if (!\symlink(__DIR__ . '/config.php-DEVELOPMENT', $kernelDir . '/config.php')) {
         throw new \RuntimeException('Could not symlink config.php-DEVELOPMENT to config.php, please copy config.php-DEVELOPMENT to config.php & customize to your needs!');
     }
 }

@@ -7,6 +7,7 @@ namespace Netgen\TagsBundle\Form\Type;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_map;
 
 final class CopyTagsType extends AbstractType
 {

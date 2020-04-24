@@ -10,6 +10,7 @@ use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
+use function count;
 
 final class RelatedContentFacetsLoader
 {

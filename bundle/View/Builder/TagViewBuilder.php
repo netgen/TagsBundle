@@ -16,6 +16,8 @@ use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use function is_string;
+use function mb_strpos;
 
 final class TagViewBuilder implements ViewBuilder
 {

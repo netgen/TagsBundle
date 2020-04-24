@@ -19,6 +19,9 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Repository\TagsMapper;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\DependencyInjection\Compiler\DefaultStorageEnginePass;
+use function array_filter;
+use function file_get_contents;
+use function preg_split;
 
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a

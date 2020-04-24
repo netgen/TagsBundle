@@ -10,6 +10,8 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as APITagKeyword;
 use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
+use function count;
+use function implode;
 
 final class TagKeyword extends Tags
 {

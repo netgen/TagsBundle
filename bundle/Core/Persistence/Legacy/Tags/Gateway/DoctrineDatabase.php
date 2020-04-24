@@ -15,6 +15,20 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+use function array_map;
+use function array_pop;
+use function array_slice;
+use function count;
+use function explode;
+use function implode;
+use function is_array;
+use function is_bool;
+use function mb_strtolower;
+use function mb_substr_count;
+use function str_replace;
+use function time;
+use function trim;
+use const PHP_INT_MAX;
 
 final class DoctrineDatabase extends Gateway
 {

@@ -11,6 +11,7 @@ use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use function count;
 
 /**
  * @property \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway

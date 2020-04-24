@@ -9,6 +9,10 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use function array_keys;
+use function array_values;
+use function count;
+use function in_array;
 
 final class FieldController extends Controller
 {

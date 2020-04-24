@@ -15,6 +15,13 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
+use function array_merge;
+use function array_slice;
+use function array_unique;
+use function count;
+use function explode;
+use function implode;
+use function trim;
 
 final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerInterface
 {

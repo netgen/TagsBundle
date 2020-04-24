@@ -7,6 +7,12 @@ namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Visitor;
+use function array_slice;
+use function count;
+use function explode;
+use function implode;
+use function in_array;
+use function trim;
 
 class RestTag extends ValueObjectVisitor
 {

@@ -10,6 +10,8 @@ use EzSystems\EzPlatformRest\Input\ParserTools;
 use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
+use function array_key_exists;
+use function is_array;
 
 final class TagSynonymCreate extends BaseParser
 {

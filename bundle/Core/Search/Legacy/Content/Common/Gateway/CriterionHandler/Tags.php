@@ -8,6 +8,8 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Types\Types;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use function array_map;
+use function count;
 
 abstract class Tags extends CriterionHandler
 {
