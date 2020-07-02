@@ -43,7 +43,7 @@ final class Tags extends RestController
         }
 
         if ($request->query->has('id')) {
-            $tag = $this->tagsService->loadTag($request->query->get('id'));
+            $tag = $this->tagsService->loadTag($request->query->getInt('id'));
         } else {
             $tag = $this->tagsService->loadTagByRemoteId($request->query->get('remoteId'));
         }

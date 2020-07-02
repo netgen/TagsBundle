@@ -12,7 +12,7 @@ final class TagUpdateStruct extends TagStruct
     /**
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
      *
-     * @var bool
+     * @var bool|null
      */
     public $alwaysAvailable;
 }
