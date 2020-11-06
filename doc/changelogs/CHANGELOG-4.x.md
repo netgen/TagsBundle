@@ -1,6 +1,11 @@
 Netgen Tags Bundle 4.x changelog
 ================================
 
+4.0.4 (06.11.2020)
+------------------
+
+* Fixed missing browser validation for required field (thanks @hgiesenow)
+
 4.0.1 (21.04.2020)
 ------------------
 
