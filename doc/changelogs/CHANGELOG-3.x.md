@@ -1,7 +1,12 @@
 Netgen Tags Bundle 3.x changelog
 ================================
 
-3.4.6 (xx.xx.xxxx)
+3.4.7 (06.11.2020)
+------------------
+
+* Fixed missing browser validation for required field (thanks @hgiesenow)
+
+3.4.6 (16.03.2020)
 ------------------
 
 * Fix translations for roles in eZ Platform Admin UI
