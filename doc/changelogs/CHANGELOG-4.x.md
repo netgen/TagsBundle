@@ -6,6 +6,17 @@ Netgen Tags Bundle 4.x changelog
 
 * Fixed missing browser validation for required field (thanks @hgiesenow)
 
+4.0.3 (10.07.2020)
+------------------
+
+* Support `cmf_routing_object` as the route name for tag objects
+* Fix move/copy/delete routes in admin
+
+4.0.2 (10.07.2020)
+------------------
+
+* General fixes and cleanup
+
 4.0.1 (21.04.2020)
 ------------------
 
