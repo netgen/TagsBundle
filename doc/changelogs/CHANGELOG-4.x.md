@@ -1,6 +1,11 @@
 Netgen Tags Bundle 4.x changelog
 ================================
 
+4.0.5 (09.11.2020)
+------------------
+
+* Make sure siteaccess exists in request before using it in `SetPageLayoutListener`
+
 4.0.4 (06.11.2020)
 ------------------
 

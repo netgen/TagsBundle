@@ -52,7 +52,12 @@ final class SetPageLayoutListener implements EventSubscriberInterface
             return;
         }
 
-        $siteAccess = $event->getRequest()->attributes->get('siteaccess')->name;
+        $request = $event->getRequest();
+        if (!$request->attributes->has('siteaccess')) {
+            return;
+        }
+
+        $siteAccess = $request->attributes->get('siteaccess')->name;
         if (!isset($this->groupsBySiteAccess[$siteAccess])) {
             return;
         }
