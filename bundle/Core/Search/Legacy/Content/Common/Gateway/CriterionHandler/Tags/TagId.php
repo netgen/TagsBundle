@@ -49,7 +49,7 @@ final class TagId extends Tags
                     $queryBuilder->expr()->eq('t3.id', 't2.objectattribute_id'),
                     $queryBuilder->expr()->eq('t3.version', 't2.objectattribute_version')
                 )
-            )->where(
+            )->andWhere(
                 $queryBuilder->expr()->in(
                     't3.contentclassattribute_id',
                     $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
