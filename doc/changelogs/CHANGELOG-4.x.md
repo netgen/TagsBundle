@@ -1,6 +1,11 @@
 Netgen Tags Bundle 4.x changelog
 ================================
 
+4.0.6 (23.11.2020)
+------------------
+
+* Fix filtering when using the target argument (thanks @Plopix)
+
 4.0.5 (09.11.2020)
 ------------------
 
