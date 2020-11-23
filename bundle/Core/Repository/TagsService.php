@@ -128,7 +128,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $keywordArray = explode('/', trim($url, '/'));
-        if (count($keywordArray) === 0) {
+        if ($keywordArray[0] === '') {
             throw new InvalidArgumentValue('url', $url);
         }
 
