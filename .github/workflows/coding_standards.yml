@@ -1,0 +1,23 @@
+name: Coding standards
+
+on:
+  push:
+    branches:
+      - 'master'
+      - '[0-9].[0-9]+-release'
+  pull_request: ~
+
+jobs:
+  php-cs-fixer:
+    name: PHP CS Fixer
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          repository: netgen-layouts/layouts-coding-standard
+          path: vendor/netgen/layouts-coding-standard
+      - uses: OskarStark/php-cs-fixer-ga@master
+        with:
+          args: --diff --dry-run

@@ -63,18 +63,25 @@ final class SortClauseMapper
         switch ($sortOption) {
             case 'content_id_ascending':
                 return new SortClause\ContentId(Query::SORT_ASC);
+
             case 'content_id_desc':
                 return new SortClause\ContentId(Query::SORT_DESC);
+
             case 'name_ascending':
                 return new SortClause\ContentName(Query::SORT_ASC);
+
             case 'name_descending':
                 return new SortClause\ContentName(Query::SORT_DESC);
+
             case 'content_type_id_ascending':
                 return new ContentTypeId(Query::SORT_ASC);
+
             case 'content_type_id_descending':
                 return new ContentTypeId(Query::SORT_DESC);
+
             case 'date_modified_ascending':
                 return new SortClause\DateModified(Query::SORT_ASC);
+
             case 'date_modified_descending':
             default:
                 return new SortClause\DateModified(Query::SORT_DESC);

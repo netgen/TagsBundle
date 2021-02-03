@@ -1,0 +1,33 @@
+name: Static analysis
+
+on:
+  push:
+    branches:
+      - 'master'
+      - '[0-9].[0-9]+-release'
+  pull_request: ~
+
+jobs:
+  static-analysis:
+    name: ${{ matrix.script }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        script: ['phpstan', 'phpstan-tests']
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      # Install Flex as a global dependency to enable usage of extra.symfony.require
+      # while keeping Flex recipes from applying
+      - run: composer global require --no-scripts symfony/flex
+
+      - run: composer update --prefer-dist
+
+      - run: composer ${{ matrix.script }}
