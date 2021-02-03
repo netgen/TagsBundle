@@ -121,8 +121,8 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     {
         // Support using Tag object with ez_url / ez_path Twig functions
         if (
-            ($name === '' || $name === 'cmf_routing_object') &&
-            $this->supportsObject($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null)
+            ($name === '' || $name === 'cmf_routing_object')
+            && $this->supportsObject($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null)
         ) {
             $tag = $parameters[RouteObjectInterface::ROUTE_OBJECT];
             unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);

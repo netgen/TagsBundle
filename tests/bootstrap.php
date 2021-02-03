@@ -19,7 +19,7 @@ if (!\file_exists($kernelDir . '/config.php')) {
     }
 }
 
-if (!($settings = include($kernelDir . '/config.php'))) {
+if (!($settings = include ($kernelDir . '/config.php'))) {
     throw new \RuntimeException('Could not read config.php, please copy config.php-DEVELOPMENT to config.php & customize to your needs!');
 }
 
