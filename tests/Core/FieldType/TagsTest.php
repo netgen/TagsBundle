@@ -522,30 +522,6 @@ class TagsTest extends FieldTypeTest
         ];
     }
 
-    public function provideInputForValuesEqual(): array
-    {
-        return [
-            [
-                null,
-                new TagsValue(),
-            ],
-            [
-                [],
-                new TagsValue(),
-            ],
-            [
-                [
-                    $this->getTagHash(),
-                ],
-                new TagsValue(
-                    [
-                        $this->getTag(),
-                    ]
-                ),
-            ],
-        ];
-    }
-
     /**
      * Provides data for the getName() test.
      *
