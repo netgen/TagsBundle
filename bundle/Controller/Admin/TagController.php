@@ -789,8 +789,8 @@ class TagController extends Controller
                     if ($fieldDefinition->fieldTypeIdentifier === 'eztags') {
                         $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
                         if (
-                            !empty($validatorConfiguration['TagsValueValidator']['subTreeLimit']) &&
-                            $validatorConfiguration['TagsValueValidator']['subTreeLimit'] === $tag->id
+                            !empty($validatorConfiguration['TagsValueValidator']['subTreeLimit'])
+                            && $validatorConfiguration['TagsValueValidator']['subTreeLimit'] === $tag->id
                         ) {
                             $result[] = [
                                 'contentTypeId' => $contentType->id,

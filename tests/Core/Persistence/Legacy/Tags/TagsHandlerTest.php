@@ -895,7 +895,7 @@ class TagsHandlerTest extends TestCase
                 $tags
             );
 
-        array_push($tags, new Tag(['id' => 40]));
+        $tags[] = new Tag(['id' => 40]);
 
         foreach ($tags as $index => $tag) {
             $this->gateway

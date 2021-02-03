@@ -330,6 +330,7 @@ class Type extends FieldType
                         }
 
                         break;
+
                     case 'maxTags':
                         if (!is_int($value)) {
                             $validationErrors[] = new ValidationError(
@@ -354,6 +355,7 @@ class Type extends FieldType
                         }
 
                         break;
+
                     default:
                         $validationErrors[] = new ValidationError(
                             "Validator parameter '%parameter%' is unknown",
@@ -478,6 +480,7 @@ class Type extends FieldType
                     }
 
                     break;
+
                 case 'editView':
                     if (!is_string($value)) {
                         $validationErrors[] = new ValidationError(

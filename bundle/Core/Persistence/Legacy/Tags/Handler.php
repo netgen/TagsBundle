@@ -458,7 +458,7 @@ class Handler implements BaseTagsHandler
         $createStruct = new CreateStruct();
         $createStruct->parentTagId = $destinationParentTagId;
         $createStruct->keywords = $sourceTag->keywords;
-        $createStruct->remoteId = md5(uniqid(get_class($this), true));
+        $createStruct->remoteId = md5(uniqid(static::class, true));
         $createStruct->alwaysAvailable = $sourceTag->alwaysAvailable;
         $createStruct->mainLanguageCode = $sourceTag->mainLanguageCode;
 
@@ -466,7 +466,7 @@ class Handler implements BaseTagsHandler
         foreach ($this->loadSynonyms($sourceTag->id) as $synonym) {
             $synonymCreateStruct = new SynonymCreateStruct();
             $synonymCreateStruct->keywords = $synonym->keywords;
-            $synonymCreateStruct->remoteId = md5(uniqid(get_class($this), true));
+            $synonymCreateStruct->remoteId = md5(uniqid(static::class, true));
             $synonymCreateStruct->mainTagId = $createdTag->id;
             $synonymCreateStruct->alwaysAvailable = $synonym->alwaysAvailable;
             $synonymCreateStruct->mainLanguageCode = $synonym->mainLanguageCode;
