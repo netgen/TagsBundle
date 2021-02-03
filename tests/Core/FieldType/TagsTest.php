@@ -511,7 +511,35 @@ class TagsTest extends FieldTypeTest
                 ],
                 new TagsValue(
                     [
-                        $this->getTag()
+                        new Tag(
+                            [
+                                'id' => 40,
+                            ]
+                        ),
+                    ]
+                ),
+            ],
+        ];
+    }
+
+    public function provideInputForValuesEqual(): array
+    {
+        return [
+            [
+                null,
+                new TagsValue(),
+            ],
+            [
+                [],
+                new TagsValue(),
+            ],
+            [
+                [
+                    $this->getTagHash(),
+                ],
+                new TagsValue(
+                    [
+                        $this->getTag(),
                     ]
                 ),
             ],
