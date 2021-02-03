@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - 'master'
+      - '[0-9].[0-9]+-release'
+  pull_request: ~
+
+jobs:
+  tests:
+    name: ${{ matrix.php }} / ${{ matrix.phpunit }} / ${{ matrix.coverage }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.1', '7.2', '7.3', '7.4']
+        phpunit: ['phpunit.xml', 'phpunit-integration-legacy.xml']
+        coverage: ['unit', 'integration']
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - run: composer --version
+      - run: composer validate --strict
+
+      # Install Flex as a global dependency to enable usage of extra.symfony.require
+      # while keeping Flex recipes from applying
+      - run: composer global require --no-scripts symfony/flex
+
+      - run: composer update --prefer-dist
+
+      - run: vendor/bin/phpunit -c ${{ matrix.phpunit }} --colors=always --coverage-clover=coverage.xml
+
+      # Send coverage to codecov.io
+      - run: bash <(curl -s https://codecov.io/bash) -F ${{ matrix.coverage }}
+        if: ${{ success() }}
