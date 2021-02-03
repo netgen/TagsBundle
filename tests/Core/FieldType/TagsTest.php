@@ -511,11 +511,7 @@ class TagsTest extends FieldTypeTest
                 ],
                 new TagsValue(
                     [
-                        new Tag(
-                            [
-                                'id' => 40,
-                            ]
-                        ),
+                        $this->getTag()
                     ]
                 ),
             ],
