@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
-use function array_keys;
+use function array_key_exists;
 use function file_get_contents;
 use function in_array;
 
@@ -22,9 +22,10 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $activatedBundles = array_keys($container->getParameter('kernel.bundles'));
+        /** @var array<string, string> $activatedBundles */
+        $activatedBundles = $container->getParameter('kernel.bundles');
 
-        if (!in_array('EzCoreExtraBundle', $activatedBundles, true)) {
+        if (!array_key_exists('EzCoreExtraBundle', $activatedBundles)) {
             throw new RuntimeException('Netgen Tags Bundle requires EzCoreExtraBundle (lolautruche/ez-core-extra-bundle) to be activated to work properly.');
         }
 

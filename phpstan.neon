@@ -6,6 +6,10 @@ parameters:
     checkMissingIterableValueType: false
 
     ignoreErrors:
+        -
+            message: '#Else branch is unreachable because ternary operator condition is always true.#'
+            path: bundle/Core/FieldType/Tags/Type.php
+
         # Symfony:
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::booleanNode\(\).#'
         -

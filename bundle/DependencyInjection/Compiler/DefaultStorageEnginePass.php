@@ -16,11 +16,14 @@ final class DefaultStorageEnginePass implements CompilerPassInterface
             return;
         }
 
+        /** @var string $defaultStorageEngine */
+        $defaultStorageEngine = $container->getParameter('ezpublish.api.storage_engine.default');
+
         $container->setAlias(
             'eztags.api.persistence_handler.tags.storage',
             sprintf(
                 'eztags.api.storage_engine.%s.handler.tags',
-                $container->getParameter('ezpublish.api.storage_engine.default')
+                $defaultStorageEngine
             )
         );
     }
