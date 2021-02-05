@@ -29,10 +29,6 @@ jobs:
       - run: composer --version
       - run: composer validate --strict
 
-      # Install Flex as a global dependency to enable usage of extra.symfony.require
-      # while keeping Flex recipes from applying
-      - run: composer global require --no-scripts symfony/flex
-
       - run: composer update --prefer-dist
 
       - run: vendor/bin/phpunit -c ${{ matrix.phpunit }} --colors=always --coverage-clover=coverage.xml
