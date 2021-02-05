@@ -24,10 +24,6 @@ jobs:
           php-version: '7.4'
           coverage: none
 
-      # Install Flex as a global dependency to enable usage of extra.symfony.require
-      # while keeping Flex recipes from applying
-      - run: composer global require --no-scripts symfony/flex
-
       - run: composer update --prefer-dist
 
       - run: composer ${{ matrix.script }}
