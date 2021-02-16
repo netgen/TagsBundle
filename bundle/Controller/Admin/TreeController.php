@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,6 +30,11 @@ final class TreeController extends Controller
     private $router;
 
     /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     */
+    private $configResolver;
+
+    /**
      * @var array
      */
     private $treeLabels;
@@ -41,11 +47,13 @@ final class TreeController extends Controller
     public function __construct(
         TagsService $tagsService,
         TranslatorInterface $translator,
-        RouterInterface $router
+        RouterInterface $router,
+        ConfigResolverInterface $configResolver
     ) {
         $this->tagsService = $tagsService;
         $this->translator = $translator;
         $this->router = $router;
+        $this->configResolver = $configResolver;
 
         $this->treeLabels = [
             'top_level_tags' => $this->translator->trans('tag.tree.top_level_tags', [], 'eztags_admin'),
@@ -91,7 +99,8 @@ final class TreeController extends Controller
                 $this->getTagTreeData($tag, $isRoot) :
                 $this->getRootTreeData();
         } else {
-            $childrenTags = $this->tagsService->loadTagChildren($tag);
+            $treeLimit = $this->configResolver->getParameter('admin.tree_limit', 'eztags');
+            $childrenTags = $this->tagsService->loadTagChildren($tag, 0, $treeLimit > 0 ? $treeLimit : -1);
             foreach ($childrenTags as $childTag) {
                 $result[] = $this->getTagTreeData($childTag, $isRoot);
             }
