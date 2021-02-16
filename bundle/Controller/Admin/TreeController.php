@@ -95,7 +95,9 @@ class TreeController extends Controller
                 $this->getTagTreeData($tag, $isRoot) :
                 $this->getRootTreeData();
         } else {
-            $childrenTags = $this->tagsService->loadTagChildren($tag);
+            $configResolver = $this->getConfigResolver();
+            $treeLimit = $configResolver->getParameter('admin.tree_limit', 'eztags');
+            $childrenTags = $this->tagsService->loadTagChildren($tag, 0 , $treeLimit > 0 ? $treeLimit : -1);
             foreach ($childrenTags as $tag) {
                 $result[] = $this->getTagTreeData($tag, $isRoot);
             }
