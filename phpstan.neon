@@ -11,7 +11,6 @@ parameters:
             path: bundle/Core/FieldType/Tags/Type.php
 
         # Symfony:
-        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::booleanNode\(\).#'
         -
             message: '#Call to an undefined method object::isPropagationStopped\(\)#'
             path: bundle/Core/Event/TagsService.php
