@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
 use function array_key_exists;
 use function file_get_contents;
-use function in_array;
 
 final class NetgenTagsExtension extends Extension implements PrependExtensionInterface
 {
@@ -62,11 +61,11 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
 
         $loader->load('storage/cache_' . $persistenceCache . '.yaml');
 
-        if (in_array('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles, true)) {
+        if (array_key_exists('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles)) {
             $loader->load('search/solr.yaml');
         }
 
-        if (in_array('EzPublishLegacySearchEngineBundle', $activatedBundles, true)) {
+        if (array_key_exists('EzPublishLegacySearchEngineBundle', $activatedBundles)) {
             $loader->load('search/legacy.yaml');
         }
 
