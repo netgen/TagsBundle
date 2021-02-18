@@ -41,6 +41,9 @@ parameters:
     # Limit to tag children list in admin interface
     eztags.default.admin.children_limit: 25
 
+    # Limit to tag search result list in admin interface
+    eztags.default.admin.search_limit: 25
+
     # Limit to tag tree children in admin interface
     eztags.default.admin.tree_limit: 0
 

@@ -1,47 +1,81 @@
 {% extends eztags_admin.pageLayoutTemplate %}
 
+{% set show_path = false %}
+
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <h1 class="context-title">{{ 'tag.search.search_tags'|trans }}</h1>
+    <form action="{{ path('netgen_tags_admin_search') }}" method="get" class="form-search">
+        <header class="full-page-header full-search-header no-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" value="{{ search_text }}" name="searchText" id="searchText" class="form-control" placeholder="{{ 'tag.search.search_tags'|trans }}" />
+                            <span class="input-group-btn">
+                                <input type="submit" class="btn btn-default" value="{{ 'tag.search.search'|trans }}" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="panel">
-        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-            {{ form_errors(form.searchTerm) }}
-            {{ form_widget(form.searchTerm) }}
-            <button type="submit">{{ 'tag.search.search'|trans }}</button>
-        {{ form_end(form) }}
+                {% if search_text is not empty %}
+                    {% if pager.nbResults == 0 %}
+                        <div class="result-message result-message-error">
+                            <h2>{{ 'tag.search.no_results'|trans({'%searchText%': search_text}) }}</h2>
+                        </div>
+                    {% else %}
+                        <div class="result-message result-message-success">
+                            <h2>{{ 'tag.search.results'|trans({'%searchText%': search_text, '%searchCount%': pager.nbResults}) }}</h2>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </header>
 
-        {% if tags and tags|length > 0 %}
-            <h2 class="context-title">{{ 'tag.search.search_result_label'|trans({'%searchTerm%': searchTerm, '%numberOfMatches%': tags.nbResults}) }}</h2>
+        <div class="container">
+            {% if search_text is not empty %}
+                {% if pager.getNbResults() > 0 %}
+                    <div class="container">
+                        <table class="list">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'tag.tag_id'|trans }}</th>
+                                    <th>{{ 'tag.tag_name'|trans }}</th>
+                                    <th>{{ 'tag.parent_tag'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tag in pager %}
+                                    <tr>
+                                        <td>{{ tag.id }}</td>
+                                        <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a></td>
+                                        <td>
+                                            {% if tag.hasParent() %}
+                                                {% set parentTag = netgen_tags_parent_tag(tag) %}
+                                                {% if parentTag %}
+                                                    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}">{{ parentTag.keyword }}</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
-            <table class="list">
-                <tbody>
-                <tr>
-                    <th>{{ 'tag.search.tag_id'|trans }}</th>
-                    <th>{{ 'tag.search.keyword'|trans }}</th>
-                    <th>{{ 'tag.search.parent_tag'|trans }}</th>
-                </tr>
-                {% for tag in tags %}
-                    <tr>
-                        <td>{{ tag.id }}</td>
-                        <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a></td>
-                        <td>
-                            {% if tag.hasParent() %}
-                                {% set parentTag = netgen_tags_parent_tag(tag) %}
-                                {% if parentTag %}
-                                    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}">{{ parentTag.keyword }}</a>
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-            {% if tags.haveToPaginate %}
-                {{ pagerfanta(tags, 'ngsite') }}
+                    {% if pager.haveToPaginate() %}
+                        {{ pagerfanta(pager, 'eztags_admin') }}
+                    {% endif %}
+                {% else %}
+                    <ul class="full-no-results-list">
+                        <li>{{ 'tag.search.no_results.check_spelling'|trans }}</li>
+                        <li>{{ 'tag.search.no_results.change_keywords'|trans }}</li>
+                        <li>{{ 'tag.search.no_results.less_specific_keywords'|trans }}</li>
+                        <li>{{ 'tag.search.no_results.reduce_keywords'|trans }}</li>
+                    </ul>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    </div>
+        </div>
+    </form>
 {% endblock %}

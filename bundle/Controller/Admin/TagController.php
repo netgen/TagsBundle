@@ -11,7 +11,6 @@ use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\MoveTagsType;
-use Netgen\TagsBundle\Form\Type\SearchTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
@@ -53,11 +52,6 @@ class TagController extends Controller
     protected $searchTagsAdapter;
 
     /**
-     * @var array
-     */
-    protected $languages;
-
-    /**
      * TagController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -81,14 +75,6 @@ class TagController extends Controller
         $this->translator = $translator;
         $this->tagChildrenAdapter = $tagChildrenAdapter;
         $this->searchTagsAdapter = $searchTagsAdapter;
-    }
-
-    /**
-     * @param array $languages
-     */
-    public function setLanguages(array $languages)
-    {
-        $this->languages = $languages;
     }
 
     /**
@@ -799,19 +785,16 @@ class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $tags = null;
-        $searchTerm = null;
+        $tags = [];
 
-        $form = $this->createForm(SearchTagsType::class, null);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $searchTerm = \urlencode($form->getData()['searchTerm']);
+        $searchText = $request->query->get('searchText');
+        if (!empty($searchText)) {
             $page = $request->query->getInt('page', 1);
-            $limit = 10;
-            $lang = $this->languages[0];
+            $configResolver = $this->getConfigResolver();
+            $limit = $configResolver->getParameter('admin.search_limit', 'eztags');
+            $lang = $configResolver->getParameter('languages')[0];
 
-            $this->searchTagsAdapter->setSearchTerm($searchTerm);
+            $this->searchTagsAdapter->setSearchText($searchText);
             $this->searchTagsAdapter->setLanguage($lang);
             $tags = $this->createPager(
                 $this->searchTagsAdapter,
@@ -821,9 +804,8 @@ class TagController extends Controller
         }
 
         return $this->render('@NetgenTags/admin/tag/search.html.twig', [
-            'form' => $form->createView(),
-            'tags' => $tags,
-            'searchTerm' => $searchTerm,
+            'pager' => $tags,
+            'search_text' => $searchText,
         ]);
     }
 

@@ -5,12 +5,12 @@ namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 interface SearchTagsAdapterInterface
 {
     /**
-     * @param string $searchTerm
+     * @param string $searchText
      */
-    public function setSearchTerm(string $searchTerm);
+    public function setSearchText($searchText);
 
     /**
      * @param string $language
      */
-    public function setLanguage(string $language);
+    public function setLanguage($language);
 }

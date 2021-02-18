@@ -2,7 +2,6 @@
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Pagerfanta\Adapter\AdapterInterface;
 
@@ -16,7 +15,7 @@ class SearchTagsAdapter implements AdapterInterface, SearchTagsAdapterInterface
     /**
      * @var string
      */
-    protected $searchTerm;
+    protected $searchText;
 
     /**
      * @var string
@@ -37,17 +36,17 @@ class SearchTagsAdapter implements AdapterInterface, SearchTagsAdapterInterface
     }
 
     /**
-     * @param string $searchTerm
+     * @param string $searchText
      */
-    public function setSearchTerm(string $searchTerm)
+    public function setSearchText($searchText)
     {
-        $this->searchTerm = $searchTerm;
+        $this->searchText = $searchText;
     }
 
     /**
      * @param string $language
      */
-    public function setLanguage(string $language)
+    public function setLanguage($language)
     {
         $this->language = $language;
     }
@@ -60,7 +59,7 @@ class SearchTagsAdapter implements AdapterInterface, SearchTagsAdapterInterface
     public function getNbResults()
     {
         if ($this->nbResults === null) {
-            $this->getSlice(0, 0);
+            $this->getSlice(0, 1);
         }
 
         return $this->nbResults;
@@ -76,15 +75,9 @@ class SearchTagsAdapter implements AdapterInterface, SearchTagsAdapterInterface
      */
     public function getSlice($offset, $length)
     {
-        try {
-            $searchResult = $this->tagsService->searchTags($this->searchTerm, $this->language, true,$offset, $length);
-            $this->nbResults = $searchResult->totalCount;
+        $searchResult = $this->tagsService->searchTags($this->searchText, $this->language, true, $offset, $length === 0 ? -1 : $length);
+        $this->nbResults = $searchResult->totalCount;
 
-            return $searchResult->tags;
-        } catch (UnauthorizedException $e) {
-            $this->nbResults = 0;
-
-            return [];
-        }
+        return $searchResult->tags;
     }
 }
