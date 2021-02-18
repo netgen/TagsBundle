@@ -12,6 +12,12 @@ services:
         public: false
         arguments:
             - "@eztags.api.service.tags"
+            -
+    eztags.pagerfanta.search_tags_adapter:
+        class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter
+        public: false
+        arguments:
+            - "@eztags.api.service.tags"
 
     eztags.pagerfanta.view.eztags_admin:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\View\TagsAdminView

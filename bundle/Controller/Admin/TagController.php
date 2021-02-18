@@ -7,9 +7,11 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\SearchService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\MoveTagsType;
+use Netgen\TagsBundle\Form\Type\SearchTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
@@ -46,6 +48,16 @@ class TagController extends Controller
     protected $tagChildrenAdapter;
 
     /**
+     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface
+     */
+    protected $searchTagsAdapter;
+
+    /**
+     * @var array
+     */
+    protected $languages;
+
+    /**
      * TagController constructor.
      *
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagsService
@@ -53,19 +65,30 @@ class TagController extends Controller
      * @param \eZ\Publish\API\Repository\SearchService $searchService
      * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * @param \Pagerfanta\Adapter\AdapterInterface $tagChildrenAdapter
+     * @param \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface $searchTagsAdapter
      */
     public function __construct(
         TagsService $tagsService,
         ContentTypeService $contentTypeService,
         SearchService $searchService,
         TranslatorInterface $translator,
-        AdapterInterface $tagChildrenAdapter
+        AdapterInterface $tagChildrenAdapter,
+        SearchTagsAdapterInterface $searchTagsAdapter
     ) {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
         $this->searchService = $searchService;
         $this->translator = $translator;
         $this->tagChildrenAdapter = $tagChildrenAdapter;
+        $this->searchTagsAdapter = $searchTagsAdapter;
+    }
+
+    /**
+     * @param array $languages
+     */
+    public function setLanguages(array $languages)
+    {
+        $this->languages = $languages;
     }
 
     /**
@@ -770,6 +793,38 @@ class TagController extends Controller
                 'tags' => $tags,
             ]
         );
+    }
+
+    public function searchTagsAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted('ez:tags:read');
+
+        $tags = null;
+        $searchTerm = null;
+
+        $form = $this->createForm(SearchTagsType::class, null);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchTerm = \urlencode($form->getData()['searchTerm']);
+            $page = $request->query->getInt('page', 1);
+            $limit = 10;
+            $lang = $this->languages[0];
+
+            $this->searchTagsAdapter->setSearchTerm($searchTerm);
+            $this->searchTagsAdapter->setLanguage($lang);
+            $tags = $this->createPager(
+                $this->searchTagsAdapter,
+                $page,
+                $limit
+            );
+        }
+
+        return $this->render('@NetgenTags/admin/tag/search.html.twig', [
+            'form' => $form->createView(),
+            'tags' => $tags,
+            'searchTerm' => $searchTerm,
+        ]);
     }
 
     /**

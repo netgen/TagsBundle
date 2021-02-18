@@ -1,0 +1,47 @@
+{% extends eztags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'eztags_admin' %}
+
+{% block content %}
+    <h1 class="context-title">{{ 'tag.search.search_tags'|trans }}</h1>
+
+    <div class="panel">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_errors(form.searchTerm) }}
+            {{ form_widget(form.searchTerm) }}
+            <button type="submit">{{ 'tag.search.search'|trans }}</button>
+        {{ form_end(form) }}
+
+        {% if tags and tags|length > 0 %}
+            <h2 class="context-title">{{ 'tag.search.search_result_label'|trans({'%searchTerm%': searchTerm, '%numberOfMatches%': tags.nbResults}) }}</h2>
+
+            <table class="list">
+                <tbody>
+                <tr>
+                    <th>{{ 'tag.search.tag_id'|trans }}</th>
+                    <th>{{ 'tag.search.keyword'|trans }}</th>
+                    <th>{{ 'tag.search.parent_tag'|trans }}</th>
+                </tr>
+                {% for tag in tags %}
+                    <tr>
+                        <td>{{ tag.id }}</td>
+                        <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a></td>
+                        <td>
+                            {% if tag.hasParent() %}
+                                {% set parentTag = netgen_tags_parent_tag(tag) %}
+                                {% if parentTag %}
+                                    <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}">{{ parentTag.keyword }}</a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if tags.haveToPaginate %}
+                {{ pagerfanta(tags, 'ngsite') }}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

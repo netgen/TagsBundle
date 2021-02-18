@@ -13,12 +13,16 @@ services:
         class: Netgen\TagsBundle\Controller\Admin\TagController
         parent: eztags.admin.controller.base
         public: true
+        lazy: true
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.api.service.content_type"
             - "@ezpublish.api.service.search"
             - "@translator"
             - "@eztags.pagerfanta.children_tags_adapter"
+            - "@eztags.pagerfanta.search_tags_adapter"
+        calls:
+            - [ setLanguages, [ "$languages$" ] ]
 
     eztags.admin.controller.related_content:
         class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
