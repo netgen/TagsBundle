@@ -1,3 +1,8 @@
+netgen_tags_admin_tag_search:
+    path: /search
+    controller: eztags.admin.controller.tag:searchTagsAction
+    methods: [GET]
+
 netgen_tags_admin_tag_show:
     path: /show/{tagId}
     controller: eztags.admin.controller.tag:showTagAction
@@ -67,8 +72,3 @@ netgen_tags_admin_tag_children:
     path: /{tagId}/children
     controller: eztags.admin.controller.tag:childrenAction
     methods: [POST]
-
-netgen_tags_admin_tag_search:
-    path: /search
-    controller: eztags.admin.controller.tag:searchTagsAction
-    methods: [GET]
