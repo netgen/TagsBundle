@@ -45,7 +45,7 @@
                                 <td>
                                     {% if tag.hasParent() %}
                                         {% set parentTag = netgen_tags_parent_tag(tag) %}
-                                        {% if parentTag %}
+                                        {% if parentTag is not empty %}
                                             <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag.id}) }}">{{ parentTag.keyword }}</a>
                                         {% endif %}
                                     {% endif %}
