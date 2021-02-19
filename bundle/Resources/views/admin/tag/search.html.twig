@@ -21,7 +21,7 @@
             </div>
 
             {% if search_text is not empty %}
-                <div class="ng-tags-container">
+                <div class="col-md-12">
                     {% if pager|length == 0 %}
                         <div class="result-message result-message-error">
                             <h2>{{ 'tag.search.no_results'|trans({'%searchText%': search_text}) }}</h2>
