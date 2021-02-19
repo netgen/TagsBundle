@@ -19,6 +19,7 @@ services:
             - "@ezpublish.api.service.search"
             - "@translator"
             - "@eztags.pagerfanta.children_tags_adapter"
+            - "@eztags.pagerfanta.search_tags_adapter"
 
     eztags.admin.controller.related_content:
         class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
