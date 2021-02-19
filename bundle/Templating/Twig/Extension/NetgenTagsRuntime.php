@@ -98,7 +98,7 @@ final class NetgenTagsRuntime
         try {
             return $this->tagsService->loadTag($tag->parentTagId);
         } catch (NotFoundException $e) {
-           return null;
+            return null;
         }
     }
 }

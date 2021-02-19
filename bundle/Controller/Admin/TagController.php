@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 use function in_array;
+use function trim;
 
 final class TagController extends Controller
 {
