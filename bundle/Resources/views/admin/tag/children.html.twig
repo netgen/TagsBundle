@@ -8,11 +8,13 @@
 
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
-{% if can_add %}
+
     <div class="tags-btn-group">
-        <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
+        <a href="{{ path('netgen_tags_admin_tag_search') }}" class="tags-btn tags-btn-primary"><i class="md-icon">search</i>{{ 'tag.search.search_tags'|trans }}</a>
+        {% if can_add %}
+            <a href="{{ path('netgen_tags_admin_tag_add_select', {'parentId': tag is defined ? tag.id : 0}) }}" class="tags-btn"><i class="md-icon">add</i>{{ 'tag.add.title'|trans }}</a>
+        {% endif %}
     </div>
-{% endif %}
 
 {% if childrenTags is not empty %}
     <form method="post" action="{{ path('netgen_tags_admin_tag_children', {'tagId': tag is defined ? tag.id : 0}) }}">

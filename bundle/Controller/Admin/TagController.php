@@ -725,7 +725,6 @@ final class TagController extends Controller
             '@NetgenTags/admin/tag/search.html.twig',
             [
                 'pager' => $tags,
-                'search_text' => $searchText,
             ]
         );
     }
