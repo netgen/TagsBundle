@@ -5,7 +5,7 @@
 {% trans_default_domain 'eztags_admin' %}
 
 {% block content %}
-    <form action="{{ path('netgen_tags_admin_search') }}" method="get" class="form-search">
+    <form action="{{ path('netgen_tags_admin_tag_search') }}" method="get" class="form-search">
         <header class="full-page-header full-search-header no-breadcrumbs">
             <div class="input-group">
                 <input type="search" value="{{ search_text }}" name="searchText" id="searchText" class="form-control" placeholder="{{ 'tag.search.search_tags'|trans }}" required="required" />
