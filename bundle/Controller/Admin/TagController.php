@@ -697,7 +697,7 @@ final class TagController extends Controller
         );
     }
 
-    public function searchTagsAction(Request $request)
+    public function searchTagsAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
