@@ -22,10 +22,6 @@ class NetgenTagsExtension extends AbstractExtension
                 'netgen_tags_content_type_name',
                 [NetgenTagsRuntime::class, 'getContentTypeName']
             ),
-            new TwigFunction(
-                'netgen_tags_parent_tag',
-                [NetgenTagsRuntime::class, 'getParentTag']
-            ),
         ];
     }
 }

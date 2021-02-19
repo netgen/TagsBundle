@@ -95,22 +95,4 @@ class NetgenTagsRuntime
 
         return $contentType->getName();
     }
-
-    /**
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     *
-     * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    public function getParentTag(Tag $tag)
-    {
-        if (!$tag->hasParent()) {
-            return null;
-        }
-
-        try {
-            return $this->tagsService->loadTag($tag->parentTagId);
-        } catch (NotFoundException $e) {
-           return null;
-        }
-    }
 }
