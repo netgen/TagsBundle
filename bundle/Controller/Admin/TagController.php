@@ -7,7 +7,7 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\SearchService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\MoveTagsType;
@@ -47,7 +47,7 @@ class TagController extends Controller
     protected $tagChildrenAdapter;
 
     /**
-     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface
+     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter
      */
     protected $searchTagsAdapter;
 
@@ -59,7 +59,7 @@ class TagController extends Controller
      * @param \eZ\Publish\API\Repository\SearchService $searchService
      * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * @param \Pagerfanta\Adapter\AdapterInterface $tagChildrenAdapter
-     * @param \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapterInterface $searchTagsAdapter
+     * @param \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter $searchTagsAdapter
      */
     public function __construct(
         TagsService $tagsService,
@@ -67,7 +67,7 @@ class TagController extends Controller
         SearchService $searchService,
         TranslatorInterface $translator,
         AdapterInterface $tagChildrenAdapter,
-        SearchTagsAdapterInterface $searchTagsAdapter
+        SearchTagsAdapter $searchTagsAdapter
     ) {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
@@ -792,10 +792,10 @@ class TagController extends Controller
             $page = $request->query->getInt('page', 1);
             $configResolver = $this->getConfigResolver();
             $limit = $configResolver->getParameter('admin.search_limit', 'eztags');
-            $lang = $configResolver->getParameter('languages')[0];
+            $language = $configResolver->getParameter('languages')[0];
 
             $this->searchTagsAdapter->setSearchText($searchText);
-            $this->searchTagsAdapter->setLanguage($lang);
+            $this->searchTagsAdapter->setLanguage($language);
             $tags = $this->createPager(
                 $this->searchTagsAdapter,
                 $page,

@@ -5,7 +5,7 @@ namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Pagerfanta\Adapter\AdapterInterface;
 
-class SearchTagsAdapter implements AdapterInterface, SearchTagsAdapterInterface
+class SearchTagsAdapter implements AdapterInterface
 {
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService

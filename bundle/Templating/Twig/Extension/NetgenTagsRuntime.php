@@ -100,8 +100,6 @@ class NetgenTagsRuntime
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
     public function getParentTag(Tag $tag)
     {

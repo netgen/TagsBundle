@@ -103,7 +103,7 @@ tag.tree.select_tag: 'Select tag'
 
 tag.search.search_tags: 'Search tags'
 tag.search.search: 'Search'
-tag.search.results: 'Search for <%searchText%> returned %searchCount% matches'
+tag.search.results: 'Search for "%searchText%" returned %searchCount% matches'
 tag.search.no_results: 'No results were found when searching for "%searchText%".'
 tag.search.no_results.check_spelling: 'Check spelling of keywords.'
 tag.search.no_results.change_keywords: 'Try changing some keywords (eg, "car" instead of "cars").'
