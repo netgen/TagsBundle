@@ -8,6 +8,7 @@ use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\MoveTagsType;
@@ -44,16 +45,23 @@ final class TagController extends Controller
      */
     private $tagChildrenAdapter;
 
+    /**
+     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter
+     */
+    private $searchTagsAdapter;
+
     public function __construct(
         TagsService $tagsService,
         ContentTypeService $contentTypeService,
         TranslatorInterface $translator,
-        AdapterInterface $tagChildrenAdapter
+        AdapterInterface $tagChildrenAdapter,
+        SearchTagsAdapter $searchTagsAdapter
     ) {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
         $this->translator = $translator;
         $this->tagChildrenAdapter = $tagChildrenAdapter;
+        $this->searchTagsAdapter = $searchTagsAdapter;
     }
 
     /**
@@ -685,6 +693,38 @@ final class TagController extends Controller
             [
                 'parentTag' => $parentTag,
                 'tags' => $tags,
+            ]
+        );
+    }
+
+    public function searchTagsAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted('ez:tags:read');
+
+        $tags = [];
+        $searchText = trim($request->query->get('searchText', ''));
+
+        if ($searchText !== '') {
+            $page = $request->query->getInt('page', 1);
+            $configResolver = $this->getConfigResolver();
+            $limit = $configResolver->getParameter('admin.search_limit', 'eztags');
+            $language = $configResolver->getParameter('languages')[0];
+
+            $this->searchTagsAdapter->setSearchText($searchText);
+            $this->searchTagsAdapter->setLanguage($language);
+
+            $tags = $this->createPager(
+                $this->searchTagsAdapter,
+                $page,
+                $limit
+            );
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/search.html.twig',
+            [
+                'pager' => $tags,
+                'search_text' => $searchText,
             ]
         );
     }

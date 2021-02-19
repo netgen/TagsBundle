@@ -88,4 +88,17 @@ final class NetgenTagsRuntime
 
         return $contentType->getName() ?? '';
     }
+
+    public function getParentTag(Tag $tag): ?Tag
+    {
+        if (!$tag->hasParent()) {
+            return null;
+        }
+
+        try {
+            return $this->tagsService->loadTag($tag->parentTagId);
+        } catch (NotFoundException $e) {
+           return null;
+        }
+    }
 }
