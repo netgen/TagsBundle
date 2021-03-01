@@ -34,6 +34,7 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.yaml');
+        $loader->load('autowiring.yaml');
         $loader->load('rest/services.yaml');
         $loader->load('fieldtypes.yaml');
         $loader->load('persistence.yaml');

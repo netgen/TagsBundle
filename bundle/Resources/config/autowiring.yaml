@@ -1,0 +1,3 @@
+services:
+    Netgen\TagsBundle\API\Repository\TagsService:
+        alias: eztags.api.service.tags
