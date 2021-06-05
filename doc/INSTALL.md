@@ -54,7 +54,7 @@ clean/demo data of eZ Platform. In that case, there's no need to install the tab
 
 ### Update Anonymous Role permissions
 
-Give 'Read' permissions to the 'Tags' module for the `Anonymous` role.
+Give 'Read' permissions to the 'Tags' module for the `Anonymous` role otherwise the field value is **empty**
 
 ### Clear the caches
 
