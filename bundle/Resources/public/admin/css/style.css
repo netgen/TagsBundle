@@ -82,11 +82,6 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased; }
 
-html,
-body {
-  height: 100%;
-  margin: 0; }
-
 body.tags-resizing {
   cursor: ew-resize; }
 
