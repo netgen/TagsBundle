@@ -306,7 +306,7 @@ final class TagController extends Controller
         $this->denyAccessUnlessGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''));
 
         if ($request->request->has('DeleteTagButton')) {
-            if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+            if (!$this->isCsrfTokenValid('eztags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
                 $this->addFlashMessage('errors', 'invalid_csrf_token');
 
                 return $this->redirectToTag($tag);
@@ -428,7 +428,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
-        if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+        if (!$this->isCsrfTokenValid('eztags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
             $this->addFlashMessage('errors', 'invalid_csrf_token');
 
             return $this->redirectToTag($tag);
@@ -443,7 +443,7 @@ final class TagController extends Controller
                 return $this->redirectToTag($tag);
             }
 
-            $locales = $request->request->get('Locale');
+            $locales = (array) $request->request->get('Locale');
 
             $newKeywords = $tag->keywords;
 
@@ -492,7 +492,7 @@ final class TagController extends Controller
      */
     public function childrenAction(Request $request, ?Tag $tag = null): Response
     {
-        if (count($request->request->get('Tags') ?? []) === 0) {
+        if (count((array) $request->request->get('Tags') ?? []) === 0) {
             $this->addFlashMessage('errors', 'no_selected_tags');
 
             return $this->redirectToTag($tag);
@@ -544,7 +544,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:edit');
 
-        $tagIds = $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
+        $tagIds = (array) $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -603,7 +603,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:read');
 
-        $tagIds = $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
+        $tagIds = (array) $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -662,7 +662,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:delete');
 
-        $tagIds = $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
+        $tagIds = (array) $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
         if (count($tagIds) === 0) {
             return $this->redirectToTag($parentTag);
@@ -674,7 +674,7 @@ final class TagController extends Controller
         }
 
         if ($request->request->has('DeleteTagsButton')) {
-            if (!$this->isCsrfTokenValid('eztags_admin', $request->request->get('_csrf_token'))) {
+            if (!$this->isCsrfTokenValid('eztags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
                 $this->addFlashMessage('errors', 'invalid_csrf_token');
 
                 return $this->redirectToTag($parentTag);
@@ -703,7 +703,7 @@ final class TagController extends Controller
         $this->denyAccessUnlessGranted('ez:tags:read');
 
         $tags = [];
-        $searchText = trim($request->query->get('searchText', ''));
+        $searchText = trim((string) ($request->query->get('searchText') ?? ''));
 
         if ($searchText !== '') {
             $page = $request->query->getInt('page', 1);
