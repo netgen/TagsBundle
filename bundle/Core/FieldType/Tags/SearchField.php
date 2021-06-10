@@ -59,7 +59,7 @@ class SearchField implements Indexable
             new Search\Field(
                 'tag_text',
                 implode(' ', $tagKeywords),
-                new Search\FieldType\TextField()
+                new Search\FieldType\StringField()
             ),
             new Search\Field(
                 'fulltext',
@@ -80,7 +80,7 @@ class SearchField implements Indexable
             'tag_keywords' => new Search\FieldType\MultipleStringField(),
             'parent_tag_ids' => new Search\FieldType\MultipleIntegerField(),
             'tag_ids' => new Search\FieldType\MultipleIntegerField(),
-            'tag_text' => new Search\FieldType\TextField(),
+            'tag_text' => new Search\FieldType\StringField(),
             'fulltext' => new Search\FieldType\FullTextField(),
         ];
     }

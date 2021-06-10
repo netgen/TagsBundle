@@ -8,7 +8,6 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 $kernelDir = __DIR__ . '/vendor/ezsystems/ezpublish-kernel';
 
 // Get global config.php settings
