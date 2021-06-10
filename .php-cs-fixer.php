@@ -1,6 +1,6 @@
 <?php
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
@@ -20,6 +20,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_no_alias_tag' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'single_line_comment_style' => false,
+        'visibility_required' => ['elements' => ['property', 'method']],
         'yoda_style' => false,
 
         // Additional rules
@@ -28,8 +29,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->exclude(['vendor', 'node_modules'])
-            ->notPath('bootstrap.php')
+            ->exclude(['vendor', 'node_modules', 'var'])
             ->in(__DIR__)
     )
 ;
