@@ -1,3 +1,5 @@
+.ez-content-edit .ez-field-edit.ez-field-edit--eztags:after {clear: both; content: ' '; display: block;}
+
 .ng-tags-input-ui .tagssuggestfieldwrap {float:left; position:relative; width:300px; margin:0 6px 0 0; vertical-align:top;}
 .ng-tags-input-ui .tags-output {display:block;}
 .ng-tags-input-ui .tags-input {clear: both; display:block;}
@@ -7,6 +9,7 @@
     position:relative;
     width: 100%;
     padding: 0.375rem 0.75rem;
+    margin-bottom: 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
     color: #333333;
