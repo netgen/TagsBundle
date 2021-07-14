@@ -10,13 +10,6 @@ parameters:
             message: '#Else branch is unreachable because ternary operator condition is always true.#'
             path: bundle/Core/FieldType/Tags/Type.php
 
-        # Symfony:
-        -
-            message: '#Call to an undefined method object::isPropagationStopped\(\)#'
-            path: bundle/Core/Event/TagsService.php
-
-        - '#Call to method Symfony\\Component\\HttpFoundation\\Request::hasSession\(\) will always evaluate to true.#'
-
         # Doctrine DBAL
         - '#Cannot call method fetch(All)?\(\) on Doctrine\\DBAL\\ForwardCompatibility\\DriverStatement\|int#'
         - '#expects string\|null, Doctrine\\DBAL\\Query\\Expression\\CompositeExpression given#'

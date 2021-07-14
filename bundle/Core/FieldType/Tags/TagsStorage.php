@@ -15,6 +15,8 @@ use function count;
 
 /**
  * @property \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway
+ *
+ * @extends \eZ\Publish\SPI\FieldType\GatewayBasedStorage<\Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway>
  */
 final class TagsStorage extends GatewayBasedStorage
 {
