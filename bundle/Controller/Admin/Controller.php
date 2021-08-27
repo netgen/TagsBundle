@@ -9,6 +9,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class Controller extends BaseController
@@ -63,7 +64,7 @@ abstract class Controller extends BaseController
     /**
      * Creates a pager for use with various pages.
      */
-    protected function createPager(AdapterInterface $adapter, int $currentPage, int $maxPerPage, ?Tag $tag = null): Pagerfanta
+    protected function createPager(AdapterInterface $adapter, int $currentPage, int $maxPerPage, ?Tag $tag = null): PagerfantaInterface
     {
         if ($adapter instanceof TagAdapterInterface && $tag instanceof Tag) {
             $adapter->setTag($tag);

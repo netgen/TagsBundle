@@ -27,7 +27,7 @@ class TagsAdminView implements ViewInterface
     private $template;
 
     /**
-     * @var \Pagerfanta\Pagerfanta
+     * @var \Pagerfanta\PagerfantaInterface
      */
     private $pagerfanta;
 
@@ -63,7 +63,6 @@ class TagsAdminView implements ViewInterface
     }
 
     /**
-     * @param \Pagerfanta\Pagerfanta $pagerfanta
      * @param callable $routeGenerator
      * @param array $options
      */
