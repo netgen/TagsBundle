@@ -11,7 +11,7 @@ netgen_tags_admin_tag_show:
 netgen_tags_admin_tag_related_content:
     path: /{tagId}/content
     controller: eztags.admin.controller.related_content:relatedContentAction
-    methods: [GET]
+    methods: [GET, POST]
 
 netgen_tags_admin_tag_add_select:
     path: /add/{parentId}
