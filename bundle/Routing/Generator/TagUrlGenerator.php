@@ -13,6 +13,7 @@ use Symfony\Component\Routing\RouterInterface;
 use function count;
 use function http_build_query;
 use function trim;
+use function urlencode;
 
 /**
  * URL generator for Tag based links.
@@ -95,7 +96,7 @@ final class TagUrlGenerator extends Generator
                     }
                 }
 
-                $tagUrl = '/' . $tagKeyword . $tagUrl;
+                $tagUrl = '/' . urlencode($tagKeyword) . $tagUrl;
 
                 $tagId = $tag->parentTagId;
             } while ($tagId > 0);
