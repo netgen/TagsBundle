@@ -43,8 +43,8 @@ final class FieldController extends Controller
         $hideRootTag = $request->query->getBoolean('hideRootTag');
 
         $searchResult = $this->tagsService->searchTags(
-            (string) ($request->query->get('searchString') ?? ''),
-            (string) ($request->query->get('locale') ?? '')
+            $request->query->get('searchString') ?? '',
+            $request->query->get('locale') ?? ''
         );
 
         $data = $data = $this->filterTags($searchResult->tags, $subTreeLimit, $hideRootTag);

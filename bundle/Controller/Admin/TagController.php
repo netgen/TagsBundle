@@ -703,7 +703,7 @@ final class TagController extends Controller
         $this->denyAccessUnlessGranted('ez:tags:read');
 
         $tags = [];
-        $searchText = trim((string) ($request->query->get('searchText') ?? ''));
+        $searchText = trim($request->query->get('searchText') ?? '');
 
         if ($searchText !== '') {
             $page = $request->query->getInt('page', 1);

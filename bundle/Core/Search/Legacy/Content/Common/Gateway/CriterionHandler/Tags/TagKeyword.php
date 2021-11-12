@@ -79,18 +79,21 @@ final class TagKeyword extends Tags
             }
         }
 
+        /** @var mixed[] $criterionValue */
+        $criterionValue = $criterion->value;
+
         if ($criterion->operator === Criterion\Operator::LIKE) {
             $subSelect->where(
                 $queryBuilder->expr()->like(
                     't4.keyword',
-                    $queryBuilder->createNamedParameter($criterion->value[0], Types::STRING)
+                    $queryBuilder->createNamedParameter($criterionValue[0], Types::STRING)
                 )
             );
         } else {
             $subSelect->where(
                 $queryBuilder->expr()->in(
                     't4.keyword',
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY)
+                    $queryBuilder->createNamedParameter($criterionValue, Connection::PARAM_STR_ARRAY)
                 )
             );
         }
