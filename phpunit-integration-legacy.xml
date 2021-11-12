@@ -20,15 +20,15 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory>bundle</directory>
-            <exclude>
-                <directory>bundle/Controller</directory>
-                <directory>bundle/DependencyInjection</directory>
-                <directory>bundle/Resources</directory>
-                <file>bundle/NetgenTagsBundle.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <directory>bundle/Controller</directory>
+            <directory>bundle/DependencyInjection</directory>
+            <directory>bundle/Resources</directory>
+            <file>bundle/NetgenTagsBundle.php</file>
+        </exclude>
+    </coverage>
 </phpunit>
