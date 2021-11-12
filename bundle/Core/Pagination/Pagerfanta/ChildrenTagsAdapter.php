@@ -21,7 +21,7 @@ final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
     private $tagsService;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $nbResults;
 

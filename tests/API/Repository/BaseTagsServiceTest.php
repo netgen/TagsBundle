@@ -35,7 +35,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     protected $repository;
 
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
+     * @var \Netgen\TagsBundle\API\Repository\TagsService|null
      */
     protected $tagsService;
 

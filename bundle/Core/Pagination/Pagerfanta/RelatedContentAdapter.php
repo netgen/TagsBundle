@@ -31,7 +31,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
     private $configResolver;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $nbResults;
 

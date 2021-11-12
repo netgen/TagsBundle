@@ -57,12 +57,20 @@ final class TagTreeType extends AbstractType
     {
         $builder->addModelTransformer(
             new class() implements DataTransformerInterface {
+                /**
+                 * @param mixed $value
+                 *
+                 * @return mixed
+                 */
                 public function transform($value)
                 {
                     return $value;
                 }
 
-                public function reverseTransform($value)
+                /**
+                 * @param mixed $value
+                 */
+                public function reverseTransform($value): int
                 {
                     return (int) $value;
                 }

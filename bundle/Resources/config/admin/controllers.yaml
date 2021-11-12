@@ -15,7 +15,6 @@ services:
         arguments:
             - "@eztags.api.service.tags"
             - "@ezpublish.api.service.content_type"
-            - "@translator"
             - "@eztags.pagerfanta.children_tags_adapter"
             - "@eztags.pagerfanta.search_tags_adapter"
 
@@ -33,7 +32,6 @@ services:
         public: true
         arguments:
             - "@eztags.api.service.tags"
-            - "@translator"
 
     eztags.admin.controller.tree:
         class: Netgen\TagsBundle\Controller\Admin\TreeController

@@ -32,7 +32,7 @@ final class Legacy extends BaseLegacy
     /**
      * Initial data for eztags field type.
      *
-     * @var \eZ\Publish\SPI\Tests\Persistence\Fixture
+     * @var \eZ\Publish\SPI\Tests\Persistence\Fixture|null
      */
     private static $tagsInitialData;
 

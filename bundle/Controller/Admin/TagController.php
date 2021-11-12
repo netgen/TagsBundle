@@ -19,7 +19,6 @@ use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 use function in_array;
 use function trim;
@@ -37,11 +36,6 @@ final class TagController extends Controller
     private $contentTypeService;
 
     /**
-     * @var \Symfony\Contracts\Translation\TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * @var \Pagerfanta\Adapter\AdapterInterface
      */
     private $tagChildrenAdapter;
@@ -54,13 +48,11 @@ final class TagController extends Controller
     public function __construct(
         TagsService $tagsService,
         ContentTypeService $contentTypeService,
-        TranslatorInterface $translator,
         AdapterInterface $tagChildrenAdapter,
         SearchTagsAdapter $searchTagsAdapter
     ) {
         $this->tagsService = $tagsService;
         $this->contentTypeService = $contentTypeService;
-        $this->translator = $translator;
         $this->tagChildrenAdapter = $tagChildrenAdapter;
         $this->searchTagsAdapter = $searchTagsAdapter;
     }
@@ -492,7 +484,7 @@ final class TagController extends Controller
      */
     public function childrenAction(Request $request, ?Tag $tag = null): Response
     {
-        if (count((array) $request->request->get('Tags') ?? []) === 0) {
+        if (count((array) $request->request->get('Tags')) === 0) {
             $this->addFlashMessage('errors', 'no_selected_tags');
 
             return $this->redirectToTag($tag);

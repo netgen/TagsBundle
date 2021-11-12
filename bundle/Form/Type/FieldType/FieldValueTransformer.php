@@ -31,6 +31,9 @@ final class FieldValueTransformer implements DataTransformerInterface
         $this->field = $field;
     }
 
+    /**
+     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value|null $value
+     */
     public function transform($value): ?array
     {
         if (!$value instanceof Value) {
@@ -60,6 +63,9 @@ final class FieldValueTransformer implements DataTransformerInterface
         ];
     }
 
+    /**
+     * @param mixed[]|null $value
+     */
     public function reverseTransform($value): Value
     {
         if ($value === null) {
