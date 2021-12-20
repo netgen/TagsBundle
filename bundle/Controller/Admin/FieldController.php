@@ -12,7 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use function array_keys;
 use function array_values;
 use function count;
+use function htmlspecialchars;
 use function in_array;
+use const ENT_HTML401;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
 
 final class FieldController extends Controller
 {
@@ -99,8 +103,8 @@ final class FieldController extends Controller
 
             $data[] = [
                 'parent_id' => $tag->parentTagId,
-                'parent_name' => count($parentTagKeywords) > 0 ? array_values($parentTagKeywords)[0] : '',
-                'name' => array_values($tagKeywords)[0],
+                'parent_name' => count($parentTagKeywords) > 0 ? $this->escape(array_values($parentTagKeywords)[0]) : '',
+                'name' => $this->escape(array_values($tagKeywords)[0]),
                 'id' => $tag->id,
                 'main_tag_id' => $tag->mainTagId,
                 'locale' => array_keys($tagKeywords)[0],
@@ -108,5 +112,10 @@ final class FieldController extends Controller
         }
 
         return $data;
+    }
+
+    private function escape($string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
 }

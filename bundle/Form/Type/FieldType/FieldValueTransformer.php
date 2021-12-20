@@ -11,7 +11,11 @@ use Symfony\Component\Form\DataTransformerInterface;
 use function array_key_exists;
 use function count;
 use function explode;
+use function htmlspecialchars;
 use function implode;
+use const ENT_HTML401;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
 
 final class FieldValueTransformer implements DataTransformerInterface
 {
@@ -51,7 +55,7 @@ final class FieldValueTransformer implements DataTransformerInterface
 
             $ids[] = $tag->id;
             $parentIds[] = $tag->parentTagId;
-            $keywords[] = $tagKeyword ?? $mainKeyword;
+            $keywords[] = $this->escape($tagKeyword ?? $mainKeyword);
             $locales[] = $tagKeyword !== null ? $this->field->languageCode : $tag->mainLanguageCode;
         }
 
@@ -91,11 +95,16 @@ final class FieldValueTransformer implements DataTransformerInterface
 
             $hash[] = [
                 'parent_id' => (int) $parentIds[$i],
-                'keywords' => [$locales[$i] => $keywords[$i]],
+                'keywords' => [$locales[$i] => $this->escape($keywords[$i])],
                 'main_language_code' => $locales[$i],
             ];
         }
 
         return $this->fieldType->fromHash($hash);
+    }
+
+    private function escape($string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
 }

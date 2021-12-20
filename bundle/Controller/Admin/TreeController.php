@@ -10,7 +10,11 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function htmlspecialchars;
 use function str_replace;
+use const ENT_HTML401;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
 
 final class TreeController extends Controller
 {
@@ -148,7 +152,7 @@ final class TreeController extends Controller
         return [
             'id' => $tag->id,
             'parent' => $isRoot ? '#' : $tag->parentTagId,
-            'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
+            'text' => $synonymCount > 0 ? $this->escape($tag->keyword) . ' (+' . $synonymCount . ')' : $this->escape($tag->keyword),
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'a_attr' => [
                 'href' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['show_tag']),
@@ -192,5 +196,10 @@ final class TreeController extends Controller
                 ],
             ],
         ];
+    }
+
+    private function escape($string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
 }
