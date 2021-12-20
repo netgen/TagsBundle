@@ -47,7 +47,7 @@ class FieldValueTransformer implements DataTransformerInterface
 
             $ids[] = $tag->id;
             $parentIds[] = $tag->parentTagId;
-            $keywords[] = $tagKeyword !== null ? $tagKeyword : $mainKeyword;
+            $keywords[] = $tagKeyword !== null ? $this->escape($tagKeyword) : $this->escape($mainKeyword);
             $locales[] = $tagKeyword !== null ? $this->field->languageCode : $tag->mainLanguageCode;
         }
 
@@ -89,11 +89,16 @@ class FieldValueTransformer implements DataTransformerInterface
 
             $hash[] = [
                 'parent_id' => (int) $parentIds[$i],
-                'keywords' => [$locales[$i] => $keywords[$i]],
+                'keywords' => [$locales[$i] => $this->escape($keywords[$i])],
                 'main_language_code' => $locales[$i],
             ];
         }
 
         return $this->fieldType->fromHash($hash);
+    }
+
+    private function escape($string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
 }

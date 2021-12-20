@@ -111,8 +111,8 @@ class FieldController extends Controller
 
             $data[] = [
                 'parent_id' => $tag->parentTagId,
-                'parent_name' => !empty($parentTagKeywords) ? array_values($parentTagKeywords)[0] : '',
-                'name' => array_values($tagKeywords)[0],
+                'parent_name' => !empty($parentTagKeywords) ? $this->escape(array_values($parentTagKeywords)[0]) : '',
+                'name' => $this->escape(array_values($tagKeywords)[0]),
                 'id' => $tag->id,
                 'main_tag_id' => $tag->mainTagId,
                 'locale' => array_keys($tagKeywords)[0],
@@ -120,5 +120,10 @@ class FieldController extends Controller
         }
 
         return $data;
+    }
+
+    private function escape($string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
 }

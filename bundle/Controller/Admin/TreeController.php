@@ -152,7 +152,7 @@ class TreeController extends Controller
         return [
             'id' => $tag->id,
             'parent' => $isRoot ? '#' : $tag->parentTagId,
-            'text' => $synonymCount > 0 ? $tag->keyword . ' (+' . $synonymCount . ')' : $tag->keyword,
+            'text' => $synonymCount > 0 ? $this->escape($tag->keyword) . ' (+' . $synonymCount . ')' : $this->escape($tag->keyword),
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'a_attr' => [
                 'href' => str_replace(':tagId', $tag->id, $this->treeLinks['show_tag']),
@@ -196,5 +196,10 @@ class TreeController extends Controller
                 ],
             ],
         ];
+    }
+
+    private function escape($string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
 }
