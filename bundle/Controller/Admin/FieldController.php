@@ -114,7 +114,7 @@ final class FieldController extends Controller
         return $data;
     }
 
-    private function escape($string): string
+    private function escape(string $string): string
     {
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
     }
