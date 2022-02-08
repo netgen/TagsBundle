@@ -201,7 +201,8 @@ final class Tags extends RestController
         );
 
         $restContent = [];
-        /** @var \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo */
+
+/** @var \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo */
         foreach ($relatedContent as $contentInfo) {
             $restContent[] = new BaseValues\RestContent($contentInfo);
         }
