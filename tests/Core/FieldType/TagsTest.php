@@ -458,15 +458,15 @@ final class TagsTest extends FieldTypeTest
         return [
             [
                 new TagsValue(),
+                '',
                 [],
                 'eng-GB',
-                '',
             ],
             [
                 new TagsValue([]),
-                [],
-                'eng-GB',
                 '',
+                [],
+                'eng-GB',
             ],
             [
                 new TagsValue(
@@ -474,9 +474,9 @@ final class TagsTest extends FieldTypeTest
                         $this->getTag(),
                     ]
                 ),
-                [],
-                'eng-GB',
                 'eztags',
+                [],
+                'eng-GB',
             ],
             [
                 new TagsValue(
@@ -485,9 +485,9 @@ final class TagsTest extends FieldTypeTest
                         $this->getTag(),
                     ]
                 ),
+                'eztags, eztags',
                 [],
                 'eng-GB',
-                'eztags, eztags',
             ],
         ];
     }

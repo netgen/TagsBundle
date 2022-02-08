@@ -65,31 +65,31 @@ final class DoctrineDatabaseTest extends TestCase
     public static function getLoadTagValues(): array
     {
         return [
-            ['id', '40'],
-            ['parent_id', '7'],
-            ['main_tag_id', '0'],
+            ['id', 40],
+            ['parent_id', 7],
+            ['main_tag_id', 0],
             ['keyword', 'eztags'],
-            ['depth', '3'],
+            ['depth', 3],
             ['path_string', '/8/7/40/'],
-            ['modified', '1308153110'],
+            ['modified', 1308153110],
             ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['main_language_id', '8'],
-            ['language_mask', '8'],
+            ['main_language_id', 8],
+            ['language_mask', 8],
         ];
     }
 
     public static function getLoadFullTagValues(): array
     {
         return [
-            ['id', '40'],
-            ['parent_id', '7'],
-            ['main_tag_id', '0'],
-            ['depth', '3'],
+            ['id', 40],
+            ['parent_id', 7],
+            ['main_tag_id', 0],
+            ['depth', 3],
             ['path_string', '/8/7/40/'],
-            ['modified', '1308153110'],
+            ['modified', 1308153110],
             ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['main_language_id', '8'],
-            ['language_mask', '8'],
+            ['main_language_id', 8],
+            ['language_mask', 8],
             ['keyword', 'eztags'],
             ['locale', 'eng-GB'],
         ];
@@ -335,12 +335,12 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getChildren(16);
 
         self::assertCount(6, $data);
-        self::assertSame('20', $data[0]['id']);
-        self::assertSame('15', $data[1]['id']);
-        self::assertSame('72', $data[2]['id']);
-        self::assertSame('71', $data[3]['id']);
-        self::assertSame('18', $data[4]['id']);
-        self::assertSame('19', $data[5]['id']);
+        self::assertSame(20, $data[0]['id']);
+        self::assertSame(15, $data[1]['id']);
+        self::assertSame(72, $data[2]['id']);
+        self::assertSame(71, $data[3]['id']);
+        self::assertSame(18, $data[4]['id']);
+        self::assertSame(19, $data[5]['id']);
     }
 
     /**
@@ -363,12 +363,12 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getChildren(16, 0, -1, ['eng-GB'], false);
 
         self::assertCount(6, $data);
-        self::assertSame('20', $data[0]['id']);
-        self::assertSame('15', $data[1]['id']);
-        self::assertSame('72', $data[2]['id']);
-        self::assertSame('71', $data[3]['id']);
-        self::assertSame('18', $data[4]['id']);
-        self::assertSame('19', $data[5]['id']);
+        self::assertSame(20, $data[0]['id']);
+        self::assertSame(15, $data[1]['id']);
+        self::assertSame(72, $data[2]['id']);
+        self::assertSame(71, $data[3]['id']);
+        self::assertSame(18, $data[4]['id']);
+        self::assertSame(19, $data[5]['id']);
     }
 
     /**
@@ -461,8 +461,8 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getSynonyms(16);
 
         self::assertCount(2, $data);
-        self::assertSame('95', $data[0]['id']);
-        self::assertSame('96', $data[1]['id']);
+        self::assertSame(95, $data[0]['id']);
+        self::assertSame(96, $data[1]['id']);
     }
 
     /**
@@ -485,8 +485,8 @@ final class DoctrineDatabaseTest extends TestCase
         $data = $this->tagsGateway->getSynonyms(16, 0, -1, ['eng-GB'], false);
 
         self::assertCount(2, $data);
-        self::assertSame('95', $data[0]['id']);
-        self::assertSame('96', $data[1]['id']);
+        self::assertSame(95, $data[0]['id']);
+        self::assertSame(96, $data[1]['id']);
     }
 
     /**
