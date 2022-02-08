@@ -35,7 +35,7 @@ final class TagCreateType extends AbstractType
                 'label' => 'tag.parent_tag',
                 // Disable constraints specified in TagTreeType, since
                 // they are validated in TagCreateStructConstraint
-                'constraints' => null,
+                'constraints' => [],
             ]
         );
     }
