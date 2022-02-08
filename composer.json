@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "ezsystems/ezplatform-kernel": "^1.0",
         "ezsystems/ezplatform-admin-ui": "^2.0",
         "ezsystems/ezplatform-rest": "^1.0",
