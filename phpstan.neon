@@ -12,7 +12,7 @@ parameters:
             path: bundle/Core/FieldType/Tags/Type.php
 
         # Doctrine DBAL
-        - '#Cannot call method fetch(All)?\(\) on Doctrine\\DBAL\\ForwardCompatibility\\DriverStatement\|int#'
+        - '#Cannot call method fetch(All)?\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int#'
         - '#expects string\|null, Doctrine\\DBAL\\Query\\Expression\\CompositeExpression given#'
         - '#\$value2 of method Doctrine\\DBAL\\Platforms\\AbstractPlatform::getBitAndComparisonExpression\(\) expects string, int given.#'
 
