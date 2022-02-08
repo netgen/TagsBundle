@@ -14,7 +14,9 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
 use function array_filter;
+use function array_walk;
 use function file_get_contents;
+use function is_numeric;
 use function preg_split;
 
 final class DoctrineDatabaseTest extends TestCase
@@ -106,6 +108,7 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetBasicTagData(string $field, $value): void
     {
         $data = $this->tagsGateway->getBasicTagData(40);
+        $data = $this->convertNumericsToIntegers($data);
 
         self::assertSame(
             $value,
@@ -134,6 +137,7 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetBasicTagDataByRemoteId(string $field, $value): void
     {
         $data = $this->tagsGateway->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
+        $data = $this->convertNumericsToIntegers($data);
 
         self::assertSame(
             $value,
@@ -163,6 +167,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetFullTagData(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertSame(
             $value,
@@ -192,6 +199,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetFullTagDataWithoutAlwaysAvailable(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40, ['eng-GB'], false);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertSame(
             $value,
@@ -221,6 +231,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetFullTagDataByRemoteId(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertSame(
             $value,
@@ -250,6 +263,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['eng-GB'], false);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertSame(
             $value,
@@ -279,6 +295,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetFullTagDataByKeywordIdAndParentId(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertSame(
             $value,
@@ -308,6 +327,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable(string $field, $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['eng-GB'], false);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertSame(
             $value,
@@ -333,6 +355,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetChildren(): void
     {
         $data = $this->tagsGateway->getChildren(16);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertCount(6, $data);
         self::assertSame(20, $data[0]['id']);
@@ -361,6 +386,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetChildrenWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getChildren(16, 0, -1, ['eng-GB'], false);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertCount(6, $data);
         self::assertSame(20, $data[0]['id']);
@@ -459,6 +487,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetSynonyms(): void
     {
         $data = $this->tagsGateway->getSynonyms(16);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertCount(2, $data);
         self::assertSame(95, $data[0]['id']);
@@ -483,6 +514,9 @@ final class DoctrineDatabaseTest extends TestCase
     public function testGetSynonymsWithoutAlwaysAvailable(): void
     {
         $data = $this->tagsGateway->getSynonyms(16, 0, -1, ['eng-GB'], false);
+        foreach ($data as &$dataItem) {
+            $dataItem = $this->convertNumericsToIntegers($dataItem);
+        }
 
         self::assertCount(2, $data);
         self::assertSame(95, $data[0]['id']);
@@ -820,5 +854,16 @@ final class DoctrineDatabaseTest extends TestCase
             $languageHandlerMock,
             new MaskGenerator($languageHandlerMock)
         );
+    }
+
+    private function convertNumericsToIntegers(array $data): array
+    {
+        foreach ($data as $key => $value) {
+            if (is_numeric($value)) {
+                $data[$key] = (int) $value;
+            }
+        }
+
+        return $data;
     }
 }
