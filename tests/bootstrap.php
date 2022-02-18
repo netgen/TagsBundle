@@ -2,15 +2,7 @@
 
 declare(strict_types=1);
 
-/**
- * File containing the bootstrapping of eZ Publish API for unit test use.
- *
- * Setups class loading.
- *
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- */
-$kernelDir = __DIR__ . '/../vendor/ezsystems/ezplatform-kernel';
+$kernelDir = __DIR__ . '/../vendor/ibexa/core';
 
 // Get global config.php settings
 if (!\file_exists($kernelDir . '/config.php')) {

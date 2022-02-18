@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Persistence\Cache;
 
-use eZ\Publish\Core\Persistence\Cache\AbstractInMemoryHandler;
-use eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCache;
-use eZ\Publish\Core\Persistence\Cache\PersistenceLogger;
+use Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler;
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
+use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as TagsHandlerInterface;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SearchResult;

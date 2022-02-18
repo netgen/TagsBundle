@@ -6,8 +6,8 @@ namespace Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionH
 
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Types\Types;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use function array_map;
 use function count;
 
@@ -18,7 +18,7 @@ abstract class Tags extends CriterionHandler
      *
      * @param string|null $fieldIdentifier
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier
      *
      * @return int[]|null
      */

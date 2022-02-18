@@ -1,58 +1,58 @@
 # It is not recommended to change these settings directly
-# Use eZ Platform semantic config instead
+# Use Ibexa Platform semantic config instead
 
 parameters:
 
     # Number of related content displayed per page in the tag view
-    eztags.default.tag_view.related_content_list.limit: 10
+    netgen_tags.default.tag_view.related_content_list.limit: 10
 
     # Setting to control if ContentInfo objects will be returned instead of Content
-    eztags.default.tag_view.related_content_list.return_content_info: true
+    netgen_tags.default.tag_view.related_content_list.return_content_info: true
 
     # Whether to use tag view page cache or not (Last-Modified based)
-    eztags.default.tag_view.cache: true
+    netgen_tags.default.tag_view.cache: true
 
     # Whether to use TTL cache for tag view page (i.e. Max-Age response header)
-    eztags.default.tag_view.ttl_cache: true
+    netgen_tags.default.tag_view.ttl_cache: true
 
     # Default TTL cache value for tag view page
-    eztags.default.tag_view.default_ttl: 60
+    netgen_tags.default.tag_view.default_ttl: 60
 
     # Default template used to generate tag view page
-    eztags.default.tag_view.template: '@@NetgenTags/tag/view.html.twig'
+    netgen_tags.default.tag_view.template: '@@NetgenTags/tag/view.html.twig'
 
     # Default path prefix to use when generating tag view links
     # Since it's NOT recommended to use empty path prefix here,
     # it will fallback to /tags/view if not specified
-    eztags.default.tag_view.path_prefix: '/tags/view'
+    netgen_tags.default.tag_view.path_prefix: '/tags/view'
 
     # Setting that will hold all tag view matcher rules
-    eztags.default.tag_view_match: {}
+    netgen_tags.default.tag_view_match: {}
 
     # Setting that will hold all available edit views
-    eztags.default.edit_views: {}
+    netgen_tags.default.edit_views: {}
 
     # Default pagelayout template for admin interface
-    eztags.default.admin.pagelayout: '@@NetgenTags/admin/pagelayout.html.twig'
+    netgen_tags.default.admin.pagelayout: '@@NetgenTags/admin/pagelayout.html.twig'
 
     # Limit to tag children list in admin interface
-    eztags.default.admin.children_limit: 25
+    netgen_tags.default.admin.children_limit: 25
 
     # Limit to tag search result list in admin interface
-    eztags.default.admin.search_limit: 25
+    netgen_tags.default.admin.search_limit: 25
 
     # Limit to tag tree children in admin interface
-    eztags.default.admin.tree_limit: 0
+    netgen_tags.default.admin.tree_limit: 0
 
     # Limit to tag related content list in admin interface
-    eztags.default.admin.related_content_limit: 25
+    netgen_tags.default.admin.related_content_limit: 25
 
     # Limit to autocomplete list in field edit interface
-    eztags.default.field.autocomplete_limit: 25
+    netgen_tags.default.field.autocomplete_limit: 25
 
-    eztags.admin.default_pager_template: '@@NetgenTags/admin/pagerfanta.html.twig'
+    netgen_tags.admin.default_pager_template: '@@NetgenTags/admin/pagerfanta.html.twig'
 
     # Enables or disables persistence cache.
-    # It will reuse eZ Platform persistence cache configuration.
+    # It will reuse Ibexa Platform persistence cache configuration.
     # Not exposed through semantic config due to it being NON-siteaccess aware.
-    eztags.enable_persistence_cache: true
+    netgen_tags.enable_persistence_cache: true

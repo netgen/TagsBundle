@@ -1,10 +1,10 @@
-{% extends eztags_admin.pageLayoutTemplate %}
+{% extends netgen_tags_admin.pageLayoutTemplate %}
 
 {% set show_path = false %}
 {% set can_edit = is_granted('ez:tags:edit') %}
 {% set search_text = app.request.query.get('searchText', '') %}
 
-{% trans_default_domain 'eztags_admin' %}
+{% trans_default_domain 'netgen_tags_admin' %}
 
 {% block content %}
     <form action="{{ path('netgen_tags_admin_tag_search') }}" method="get">
@@ -76,7 +76,7 @@
                 </table>
 
                 {% if pager.haveToPaginate() %}
-                    {{ pagerfanta(pager, 'eztags_admin') }}
+                    {{ pagerfanta(pager, 'netgen_tags_admin') }}
                 {% endif %}
             {% else %}
                 <ul class="full-no-results-list">

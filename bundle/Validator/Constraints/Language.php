@@ -11,10 +11,10 @@ final class Language extends Constraint
     /**
      * @var string
      */
-    public $message = 'eztags.language.no_language';
+    public $message = 'netgen_tags.language.no_language';
 
     public function validatedBy(): string
     {
-        return 'eztags_language';
+        return 'netgen_tags_language';
     }
 }

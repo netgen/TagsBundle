@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Matcher\Tag\Id;
 
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Core\MVC\Symfony\View\View;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Matcher\Tag\MultipleValued;

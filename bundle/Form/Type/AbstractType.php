@@ -11,6 +11,6 @@ abstract class AbstractType extends BaseAbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('translation_domain', 'eztags_admin');
+        $resolver->setDefault('translation_domain', 'netgen_tags_admin');
     }
 }

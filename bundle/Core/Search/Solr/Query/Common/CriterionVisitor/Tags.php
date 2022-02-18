@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Search\Common\FieldNameResolver;
-use eZ\Publish\Core\Search\Common\FieldValueMapper;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler;
-use EzSystems\EzPlatformSolrSearchEngine\Query\Common\CriterionVisitor\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Search\Common\FieldNameResolver;
+use Ibexa\Core\Search\Common\FieldValueMapper;
+use Ibexa\Solr\Query\Common\CriterionVisitor\Field;
 use function array_merge;
 
 abstract class Tags extends Field
@@ -16,7 +16,7 @@ abstract class Tags extends Field
     /**
      * For tag-queries which aren't field-specific.
      *
-     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
     private $contentTypeHandler;
 

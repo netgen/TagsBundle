@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Form\Type;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\ContentTypeFacetBuilder;
-use eZ\Publish\API\Repository\Values\Content\Search\Facet\ContentTypeFacet;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder\ContentTypeFacetBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet\ContentTypeFacet;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader;
 use Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper;
@@ -24,7 +24,7 @@ final class RelatedContentFilterType extends AbstractType
     private $relatedContentFacetsLoader;
 
     /**
-     * @var \eZ\Publish\API\Repository\ContentTypeService
+     * @var \Ibexa\Contracts\Core\Repository\ContentTypeService
      */
     private $contentTypeService;
 

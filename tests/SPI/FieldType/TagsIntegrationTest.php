@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\SPI\FieldType;
 
-use eZ\Publish\Core\FieldType\FieldSettings;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\Handler;
-use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Handler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\FieldType\FieldSettings;
+use Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage as TagsDoctrineStorage;

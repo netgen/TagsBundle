@@ -59,7 +59,7 @@ class TagsAdminView implements ViewInterface
 
     public function getName(): string
     {
-        return 'eztags_admin';
+        return 'netgen_tags_admin';
     }
 
     /**

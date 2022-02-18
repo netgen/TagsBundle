@@ -7,9 +7,9 @@ namespace Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Types\Types;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
 use function array_values;
 use function in_array;
@@ -26,7 +26,7 @@ final class DoctrineStorage extends Gateway
     /**
      * Caching language handler.
      *
-     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
     private $languageHandler;
 

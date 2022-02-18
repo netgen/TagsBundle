@@ -11,17 +11,17 @@ final class Tag extends Constraint
     /**
      * @var string
      */
-    public $message = 'eztags.tag.no_tag';
+    public $message = 'netgen_tags.tag.no_tag';
 
     /**
      * @var string
      */
-    public $synonymMessage = 'eztags.tag.synonym';
+    public $synonymMessage = 'netgen_tags.tag.synonym';
 
     /**
      * @var string
      */
-    public $invalidMessage = 'eztags.tag.invalid_tag';
+    public $invalidMessage = 'netgen_tags.tag.invalid_tag';
 
     /**
      * @var bool
@@ -30,6 +30,6 @@ final class Tag extends Constraint
 
     public function validatedBy(): string
     {
-        return 'eztags_tag';
+        return 'netgen_tags_tag';
     }
 }

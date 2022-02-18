@@ -1,6 +1,6 @@
 services:
-    eztags.api.persistence_handler.tags.storage:
+    netgen_tags.api.persistence_handler.tags.storage:
         synthetic: true
 
-    eztags.api.persistence_handler.tags:
-        alias: eztags.api.persistence_handler.tags.cache
+    netgen_tags.api.persistence_handler.tags:
+        alias: netgen_tags.api.persistence_handler.tags.cache

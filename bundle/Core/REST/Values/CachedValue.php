@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Values;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use EzSystems\EzPlatformRest\Value;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Rest\Value;
 use function array_diff;
 use function array_keys;
 use function count;
@@ -41,7 +41,7 @@ final class CachedValue extends Value
     /**
      * Checks for unsupported cache tags.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If invalid cache tags are provided
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If invalid cache tags are provided
      */
     private function checkCacheTags(array $tags): array
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\ParametersInjector;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewParametersEvent;
-use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\View\Event\FilterViewParametersEvent;
+use Ibexa\Core\MVC\Symfony\View\ViewEvents;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Netgen\TagsBundle\View\TagView;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -21,7 +21,7 @@ final class RelatedContentPager implements EventSubscriberInterface
     private $adapter;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -55,7 +55,7 @@ final class RelatedContentPager implements EventSubscriberInterface
 
         $builderParameters = $event->getBuilderParameters();
 
-        $pagerLimit = $this->configResolver->getParameter('tag_view.related_content_list.limit', 'eztags');
+        $pagerLimit = $this->configResolver->getParameter('tag_view.related_content_list.limit', 'netgen_tags');
 
         $pager->setMaxPerPage($pagerLimit > 0 ? $pagerLimit : 10);
         $pager->setCurrentPage($builderParameters['page'] > 0 ? $builderParameters['page'] : 1);

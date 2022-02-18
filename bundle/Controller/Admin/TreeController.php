@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +34,7 @@ final class TreeController extends Controller
     private $router;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -60,13 +60,13 @@ final class TreeController extends Controller
         $this->configResolver = $configResolver;
 
         $this->treeLabels = [
-            'top_level_tags' => $this->translator->trans('tag.tree.top_level_tags', [], 'eztags_admin'),
-            'add_child' => $this->translator->trans('tag.tree.add_child', [], 'eztags_admin'),
-            'update_tag' => $this->translator->trans('tag.tree.update_tag', [], 'eztags_admin'),
-            'delete_tag' => $this->translator->trans('tag.tree.delete_tag', [], 'eztags_admin'),
-            'merge_tag' => $this->translator->trans('tag.tree.merge_tag', [], 'eztags_admin'),
-            'convert_tag' => $this->translator->trans('tag.tree.convert_tag', [], 'eztags_admin'),
-            'add_synonym' => $this->translator->trans('tag.tree.add_synonym', [], 'eztags_admin'),
+            'top_level_tags' => $this->translator->trans('tag.tree.top_level_tags', [], 'netgen_tags_admin'),
+            'add_child' => $this->translator->trans('tag.tree.add_child', [], 'netgen_tags_admin'),
+            'update_tag' => $this->translator->trans('tag.tree.update_tag', [], 'netgen_tags_admin'),
+            'delete_tag' => $this->translator->trans('tag.tree.delete_tag', [], 'netgen_tags_admin'),
+            'merge_tag' => $this->translator->trans('tag.tree.merge_tag', [], 'netgen_tags_admin'),
+            'convert_tag' => $this->translator->trans('tag.tree.convert_tag', [], 'netgen_tags_admin'),
+            'add_synonym' => $this->translator->trans('tag.tree.add_synonym', [], 'netgen_tags_admin'),
         ];
 
         $this->treeLinks = [
@@ -103,7 +103,7 @@ final class TreeController extends Controller
                 $this->getTagTreeData($tag, $isRoot) :
                 $this->getRootTreeData();
         } else {
-            $treeLimit = $this->configResolver->getParameter('admin.tree_limit', 'eztags');
+            $treeLimit = $this->configResolver->getParameter('admin.tree_limit', 'netgen_tags');
             $childrenTags = $this->tagsService->loadTagChildren($tag, 0, $treeLimit > 0 ? $treeLimit : -1);
             foreach ($childrenTags as $childTag) {
                 $result[] = $this->getTagTreeData($childTag, $isRoot);

@@ -1,30 +1,30 @@
 services:
-    eztags.field_type.eztags:
+    netgen_tags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
         parent: ezpublish.fieldType
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.config.resolver"
         tags:
-            - { name: ezplatform.field_type, alias: eztags }
+            - { name: ibexa.field_type, alias: eztags }
 
-    eztags.field_type.eztags.external_storage:
+    netgen_tags.field_type.eztags.external_storage:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage
         arguments:
-            - "@eztags.field_type.eztags.storage_gateway"
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.field_type.eztags.storage_gateway"
+            - "@netgen_tags.api.service.tags"
         tags:
-            - { name: ezplatform.field_type.external_storage_handler, alias: eztags }
+            - { name: ibexa.field_type.storage.external.handler, alias: eztags }
 
-    eztags.field_type.eztags.indexable:
+    netgen_tags.field_type.eztags.indexable:
         class: Netgen\TagsBundle\Core\FieldType\Tags\SearchField
         tags:
-            - { name: ezplatform.field_type.indexable, alias: eztags }
+            - { name: ibexa.field_type.indexable, alias: eztags }
 
-    eztags.field_type.eztags.form_mapper:
+    netgen_tags.field_type.eztags.form_mapper:
         class: Netgen\TagsBundle\Core\FieldType\Tags\FormMapper
         arguments:
-            - "@ezpublish.config.resolver"
+            - "@ibexa.config.resolver"
         tags:
-            - { name: ezplatform.field_type.form_mapper.definition, fieldType: eztags }
-            - { name: ezplatform.field_type.form_mapper.value, fieldType: eztags }
+            - { name: ibexa.admin_ui.field_type.form.mapper.definition, fieldType: eztags }
+            - { name: ibexa.admin_ui.field_type.form.mapper.value, fieldType: eztags }

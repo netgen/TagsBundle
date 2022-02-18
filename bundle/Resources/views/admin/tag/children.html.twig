@@ -1,4 +1,4 @@
-{% trans_default_domain 'eztags_admin' %}
+{% trans_default_domain 'netgen_tags_admin' %}
 
 {% set can_manipulate_children = is_granted('ez:tags:edit') or is_granted('ez:tags:delete') %}
 {% set can_read = is_granted('ez:tags:read') %}
@@ -54,7 +54,7 @@
         </table>
 
         {% if childrenTags.haveToPaginate() %}
-            {{ pagerfanta(childrenTags, 'eztags_admin') }}
+            {{ pagerfanta(childrenTags, 'netgen_tags_admin') }}
         {% endif %}
 
         <div class="tags-btn-group">

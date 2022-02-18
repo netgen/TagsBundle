@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\Repository;
 
 use Exception;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\User\UserReference;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
-use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
+use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
@@ -46,7 +46,7 @@ use function uniqid;
 class TagsService implements TagsServiceInterface
 {
     /**
-     * @var \eZ\Publish\API\Repository\Repository
+     * @var \Ibexa\Contracts\Core\Repository\Repository
      */
     private $repository;
 
@@ -816,7 +816,7 @@ class TagsService implements TagsServiceInterface
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \eZ\Publish\API\Repository\Values\User\UserReference|null $userReference User for
+     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference|null $userReference User for
      *        which the information is returned, current user will be used if null
      *
      * @return bool|array if limitations are on this function an array of limitations is returned
@@ -837,8 +837,8 @@ class TagsService implements TagsServiceInterface
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
-     * @param \eZ\Publish\API\Repository\Values\ValueObject[] $targets An array of location, parent or "assignment" value objects
+     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object The object to check if the user has access to
+     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[] $targets An array of location, parent or "assignment" value objects
      *
      * @return bool
      */

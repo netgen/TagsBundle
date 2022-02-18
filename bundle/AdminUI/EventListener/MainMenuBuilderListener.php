@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Netgen\TagsBundle\PlatformAdminUI\EventListener;
+namespace Netgen\TagsBundle\AdminUI\EventListener;
 
-use EzSystems\EzPlatformAdminUi\Menu\Event\ConfigureMenuEvent;
-use EzSystems\EzPlatformAdminUi\Menu\MainMenuBuilder;
+use Ibexa\AdminUi\Menu\Event\ConfigureMenuEvent;
+use Ibexa\AdminUi\Menu\MainMenuBuilder;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -32,7 +32,7 @@ final class MainMenuBuilderListener implements EventSubscriberInterface
     }
 
     /**
-     * This method adds Netgen Tags menu items to eZ Platform admin interface.
+     * This method adds Netgen Tags menu items to Ibexa Platform admin interface.
      */
     public function onMainMenuBuild(ConfigureMenuEvent $event): void
     {
@@ -44,16 +44,16 @@ final class MainMenuBuilderListener implements EventSubscriberInterface
     }
 
     /**
-     * Adds the Netgen Tags submenu to eZ Platform admin interface.
+     * Adds the Netgen Tags submenu to Ibexa Platform admin interface.
      */
     private function addTagsSubMenu(ItemInterface $menu): void
     {
         $menuOrder = $this->getNewMenuOrder($menu);
 
         $menu
-            ->addChild('eztags', ['route' => 'netgen_tags_admin_root'])
+            ->addChild('netgen_tags', ['route' => 'netgen_tags_admin_root'])
             ->setLabel('menu.main_menu.header')
-            ->setExtra('translation_domain', 'eztags_admin');
+            ->setExtra('translation_domain', 'netgen_tags_admin');
 
         $menu->reorderChildren($menuOrder);
     }
@@ -66,12 +66,12 @@ final class MainMenuBuilderListener implements EventSubscriberInterface
         $menuOrder = array_keys($menu->getChildren());
         $configMenuIndex = array_search(MainMenuBuilder::ITEM_ADMIN, $menuOrder, true);
         if (is_int($configMenuIndex)) {
-            array_splice($menuOrder, $configMenuIndex, 0, ['eztags']);
+            array_splice($menuOrder, $configMenuIndex, 0, ['netgen_tags']);
 
             return $menuOrder;
         }
 
-        $menuOrder[] = 'eztags';
+        $menuOrder[] = 'netgen_tags';
 
         return $menuOrder;
     }

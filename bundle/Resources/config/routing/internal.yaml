@@ -1,6 +1,6 @@
-_eztagsTag:
+netgen_tags.tag.internal:
     path: /tags/id/{tagId}/{viewType}/{layout}
-    controller: eztags.controller.tag_view:viewAction
+    controller: netgen_tags.controller.tag_view:viewAction
     defaults:
         viewType: full
         layout: true

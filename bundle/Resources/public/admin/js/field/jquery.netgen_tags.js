@@ -42,7 +42,7 @@
 
   //Declare namspace
 
-  var EzTags = {
+  var NetgenTags = {
     debouncer: function(fn, delay, context){
       var to;
       return function(){
@@ -373,7 +373,7 @@
    * @param  {object} e Event object.
    */
   Base.prototype.fetch_autocomplete = function(e) {
-    if(EzTags.is_key(e, ['UP', 'DOWN', 'LEFT', 'RIGHT', 'ESC', 'RETURN'])){return;}
+    if(NetgenTags.is_key(e, ['UP', 'DOWN', 'LEFT', 'RIGHT', 'ESC', 'RETURN'])){return;}
     var search_string = this.get_tag_name_from_input();
 
     if(search_string.length < this.opts.minCharacters){return;}
@@ -567,7 +567,7 @@
     this.$el.on('click', '.js-suggested-item', $.proxy(this.handler_suggested_tag, this));
     this.$el.on('click', '.js-autocomplete-item', $.proxy(this.handler_autocomplete_tag, this));
     this.$input.on('keyup', $.proxy(this.enable_or_disable_add_button, this));
-    this.$input.on('keyup', EzTags.debouncer(this.fetch_autocomplete, this.opts.suggestTimeout, this));
+    this.$input.on('keyup', NetgenTags.debouncer(this.fetch_autocomplete, this.opts.suggestTimeout, this));
     this.$input.on('keydown', $.proxy(this.navigate_autocomplete_dropdown, this));
     this.$input.on('focus', $.proxy(this.input_focus, this));
     this.$autocomplete_tags.on('keydown', $.proxy(this.navigate_autocomplete_dropdown, this));
@@ -644,9 +644,9 @@
    * @param  {object} e jQuery event object on keydown event.
    */
   Base.prototype.navigate_autocomplete_dropdown = function(e) {
-    if(EzTags.is_key(e, 'ESC')){ this.close_autocomplete();}
+    if(NetgenTags.is_key(e, 'ESC')){ this.close_autocomplete();}
 
-    if(!EzTags.is_key(e, ['UP', 'DOWN'])){return;}
+    if(!NetgenTags.is_key(e, ['UP', 'DOWN'])){return;}
     var $items = this.$autocomplete_tags.find('a');
 
     if (!$items.length){ return;}
@@ -657,8 +657,8 @@
 
     var index = $items.index(e.target);
 
-    EzTags.is_key(e, 'UP') && index >= 0                   && index--;
-    EzTags.is_key(e, 'DOWN') && index < $items.length - 1  && index++;
+    NetgenTags.is_key(e, 'UP') && index >= 0                   && index--;
+    NetgenTags.is_key(e, 'DOWN') && index < $items.length - 1  && index++;
 
 
     if(index > -1){
@@ -1080,16 +1080,16 @@
 
 
   //Exports
-  EzTags.Tag = Tag;
-  EzTags.Collection = Collection;
-  EzTags.Base = Base;
+  NetgenTags.Tag = Tag;
+  NetgenTags.Collection = Collection;
+  NetgenTags.Base = Base;
 
 
 
-  EzTags.Default = EzTags.Base.extend({
+  NetgenTags.Default = NetgenTags.Base.extend({
 
     initialize: function(){
-      // this.fetch_suggestions_debounced = EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
+      // this.fetch_suggestions_debounced = NetgenTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
       // this.fetch_suggestions_debounced();
     },
 
@@ -1120,7 +1120,7 @@
    */
 
   //Setup jquery plugin
-  var plugin = 'EzTags';
+  var plugin = 'NetgenTags';
 
   //Expose as jquery plugin
   $.fn[plugin] = function(options) {
@@ -1134,13 +1134,13 @@
         method && instance[method]();
         return;
       }
-      instance = new EzTags[builder](this, options);
+      instance = new NetgenTags[builder](this, options);
       $this.data(plugin, instance);
     });
     return this;
   };
 
   //Expose class
-  $[plugin] = EzTags;
+  $[plugin] = NetgenTags;
 
 })();

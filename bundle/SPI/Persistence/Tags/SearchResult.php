@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
-use eZ\Publish\SPI\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 final class SearchResult extends ValueObject
 {

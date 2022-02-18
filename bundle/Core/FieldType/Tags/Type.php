@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use DateTimeInterface;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\FieldType\FieldType;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\FieldType\Value as IbexaValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\FieldType\Value as BaseValue;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use function count;
@@ -60,7 +60,7 @@ final class Type extends FieldType
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -77,10 +77,10 @@ final class Type extends FieldType
 
     /**
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      * @param string $languageCode
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
+    public function getName(IbexaValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {
         return (string) $value;
     }
@@ -136,7 +136,7 @@ final class Type extends FieldType
     /**
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      */
-    public function toHash(SPIValue $value): array
+    public function toHash(IbexaValue $value): array
     {
         $hash = [];
 
@@ -174,7 +174,7 @@ final class Type extends FieldType
     /**
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      */
-    public function toPersistenceValue(SPIValue $value): FieldValue
+    public function toPersistenceValue(IbexaValue $value): FieldValue
     {
         return new FieldValue(
             [
@@ -193,7 +193,7 @@ final class Type extends FieldType
     /**
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
      */
-    public function isEmptyValue(SPIValue $value): bool
+    public function isEmptyValue(IbexaValue $value): bool
     {
         return $value->tags === $this->getEmptyValue()->tags;
     }
@@ -308,10 +308,10 @@ final class Type extends FieldType
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $fieldValue
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    public function validate(FieldDefinition $fieldDefinition, IbexaValue $fieldValue): array
     {
         $validationErrors = [];
 
@@ -412,7 +412,7 @@ final class Type extends FieldType
                     }
 
                     $editViewExists = false;
-                    foreach ($this->configResolver->getParameter('edit_views', 'eztags') as $editView) {
+                    foreach ($this->configResolver->getParameter('edit_views', 'netgen_tags') as $editView) {
                         if ($editView['identifier'] === $value) {
                             $editViewExists = true;
 

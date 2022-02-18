@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use eZ\Publish\SPI\FieldType\Indexable;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\Search;
+use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Search;
 use function count;
 use function implode;
 

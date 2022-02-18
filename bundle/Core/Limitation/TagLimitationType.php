@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Limitation;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation as APILimitationValue;
-use eZ\Publish\API\Repository\Values\User\UserReference;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Limitation\AbstractPersistenceLimitationType;
-use eZ\Publish\SPI\Limitation\Type as SPILimitationTypeInterface;
-use eZ\Publish\SPI\Persistence\Handler as SPIPersistenceHandler;
+use Ibexa\Contracts\Core\Limitation\Type as LimitationTypeInterface;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Limitation\AbstractPersistenceLimitationType;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation as APITagLimitation;
@@ -29,21 +28,21 @@ use function in_array;
 use function is_array;
 use function is_int;
 
-final class TagLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
+final class TagLimitationType extends AbstractPersistenceLimitationType implements LimitationTypeInterface
 {
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
      */
     private $tagsPersistence;
 
-    public function __construct(SPIPersistenceHandler $persistence, SPITagsPersistenceHandler $tagsPersistence)
+    public function __construct(PersistenceHandler $persistence, SPITagsPersistenceHandler $tagsPersistence)
     {
         parent::__construct($persistence);
 
         $this->tagsPersistence = $tagsPersistence;
     }
 
-    public function acceptValue(APILimitationValue $limitationValue): void
+    public function acceptValue(Limitation $limitationValue): void
     {
         if (!$limitationValue instanceof APITagLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'TagLimitation', $limitationValue);
@@ -61,7 +60,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         }
     }
 
-    public function validate(APILimitationValue $limitationValue): array
+    public function validate(Limitation $limitationValue): array
     {
         $validationErrors = [];
 
@@ -88,7 +87,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         return new APITagLimitation(['limitationValues' => array_map('intval', $limitationValues)]);
     }
 
-    public function evaluate(APILimitationValue $value, UserReference $currentUser, ValueObject $object, ?array $targets = null): bool
+    public function evaluate(Limitation $value, UserReference $currentUser, ValueObject $object, ?array $targets = null): bool
     {
         if (!$value instanceof APITagLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: TagLimitation');
@@ -112,7 +111,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         return in_array($object->id, $limitationValues, true);
     }
 
-    public function getCriterion(APILimitationValue $value, UserReference $currentUser): CriterionInterface
+    public function getCriterion(Limitation $value, UserReference $currentUser): CriterionInterface
     {
         if (count($value->limitationValues ?? []) === 0) {
             // no limitation values

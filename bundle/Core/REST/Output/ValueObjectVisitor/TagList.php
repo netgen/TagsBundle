@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
-use EzSystems\EzPlatformRest\Output\Generator;
-use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
-use EzSystems\EzPlatformRest\Output\Visitor;
+use Ibexa\Contracts\Rest\Output\Generator;
+use Ibexa\Contracts\Rest\Output\ValueObjectVisitor;
+use Ibexa\Contracts\Rest\Output\Visitor;
 use function trim;
 
 final class TagList extends ValueObjectVisitor
@@ -26,7 +26,7 @@ final class TagList extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'ezpublish_rest_eztags_loadTag',
+                    'ibexa.rest.netgen_tags_loadTag',
                     ['tagPath' => trim($restTag->tag->pathString, '/')]
                 )
             );

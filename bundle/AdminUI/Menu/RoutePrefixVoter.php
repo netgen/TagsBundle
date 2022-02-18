@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\TagsBundle\PlatformAdminUI\Menu;
+namespace Netgen\TagsBundle\AdminUI\Menu;
 
 use InvalidArgumentException;
 use Knp\Menu\ItemInterface;

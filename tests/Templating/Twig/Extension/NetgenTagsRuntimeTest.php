@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Templating\Twig\Extension;
 
-use eZ\Publish\API\Repository\Values\Content\Language;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Repository\ContentTypeService;
-use eZ\Publish\Core\Repository\LanguageService;
-use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Language;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Repository\ContentTypeService;
+use Ibexa\Core\Repository\LanguageService;
+use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime;
@@ -42,7 +42,7 @@ final class NetgenTagsRuntimeTest extends TestCase
     private $tag;
 
     /**
-     * @var \eZ\Publish\Core\Repository\Values\ContentType\ContentType
+     * @var \Ibexa\Core\Repository\Values\ContentType\ContentType
      */
     private $contentType;
 

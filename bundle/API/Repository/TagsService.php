@@ -20,8 +20,8 @@ interface TagsService
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
@@ -48,8 +48,8 @@ interface TagsService
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
      */
@@ -58,8 +58,8 @@ interface TagsService
     /**
      * Loads a tag object from its URL.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadTagByUrl(string $url, array $languages): Tag;
 
@@ -72,7 +72,7 @@ interface TagsService
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
@@ -85,7 +85,7 @@ interface TagsService
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return int
      */
@@ -100,7 +100,7 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
@@ -113,7 +113,7 @@ interface TagsService
      * @param string $language The language to check for
      * @param bool $useAlwaysAvailable Check for main language if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return int
      */
@@ -128,7 +128,7 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all found tags starting at $offset are returned
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult
      */
@@ -143,8 +143,8 @@ interface TagsService
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
@@ -157,8 +157,8 @@ interface TagsService
      * @param array|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the tag is already a synonym
      *
      * @return int
      */
@@ -171,13 +171,13 @@ interface TagsService
      * @param int $offset The start offset for paging
      * @param int $limit The number of content objects returned. If $limit = -1 all content objects starting at $offset are returned
      * @param bool $returnContentInfo
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]|\eZ\Publish\API\Repository\Values\Content\ContentInfo[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo[]
      */
     public function getRelatedContent(Tag $tag, int $offset = 0, int $limit = -1, bool $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = []): array;
 
@@ -185,10 +185,10 @@ interface TagsService
      * Returns the number of content objects related to $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $additionalCriteria Additional criteria for filtering related content
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      *
      * @return int
      */
@@ -197,34 +197,34 @@ interface TagsService
     /**
      * Creates the new tag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
      */
     public function createTag(TagCreateStruct $tagCreateStruct): Tag;
 
     /**
      * Updates $tag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the remote ID already exists
      */
     public function updateTag(Tag $tag, TagUpdateStruct $tagUpdateStruct): Tag;
 
     /**
      * Creates a synonym for $tag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to create a synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the target tag is a synonym
      */
     public function addSynonym(SynonymCreateStruct $synonymCreateStruct): Tag;
 
     /**
      * Converts $tag to a synonym of $mainTag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If either of specified tags is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *                                                                        If the main tag is a sub tag of the given tag
      */
     public function convertToSynonym(Tag $tag, Tag $mainTag): Tag;
@@ -232,9 +232,9 @@ interface TagsService
     /**
      * Merges the $tag into the $targetTag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to merge tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If either of specified tags is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to merge tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym
      *                                                                        If the target tag is a sub tag of the given tag
      */
     public function mergeTags(Tag $tag, Tag $targetTag): void;
@@ -242,9 +242,9 @@ interface TagsService
     /**
      * Copies the subtree starting from $tag as a new subtree of $targetParentTag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If either of specified tags is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
      */
@@ -253,9 +253,9 @@ interface TagsService
     /**
      * Moves the subtree to $targetParentTag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If either of specified tags is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If either of specified tags is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to move this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the target tag is a sub tag of the given tag
      *                                                                        If the target tag is already a parent of the given tag
      *                                                                        If either one of the tags is a synonym
      */
@@ -266,8 +266,8 @@ interface TagsService
      *
      * If $tag is a synonym, only the synonym is deleted
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function deleteTag(Tag $tag): void;
 

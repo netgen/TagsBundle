@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
-use EzSystems\EzPlatformRest\Output\Generator;
-use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
-use EzSystems\EzPlatformRest\Output\Visitor;
+use Ibexa\Contracts\Rest\Output\Generator;
+use Ibexa\Contracts\Rest\Output\ValueObjectVisitor;
+use Ibexa\Contracts\Rest\Output\Visitor;
 use function array_slice;
 use function count;
 use function explode;
@@ -27,7 +27,7 @@ class RestTag extends ValueObjectVisitor
         $generator->startAttribute(
             'href',
             $this->router->generate(
-                'ezpublish_rest_eztags_loadTag',
+                'ibexa.rest.netgen_tags_loadTag',
                 ['tagPath' => trim($tag->pathString, '/')]
             )
         );
@@ -44,7 +44,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'ezpublish_rest_eztags_loadTag',
+                    'ibexa.rest.netgen_tags_loadTag',
                     [
                         'tagPath' => $parentPathString,
                     ]
@@ -59,7 +59,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'ezpublish_rest_eztags_loadTag',
+                    'ibexa.rest.netgen_tags_loadTag',
                     [
                         // Main tags always have a same parent tag ID
                         'tagPath' => $parentPathString . '/' . $tag->mainTagId,
@@ -110,7 +110,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'ezpublish_rest_eztags_loadTagChildren',
+                    'ibexa.rest.netgen_tags_loadTagChildren',
                     [
                         'tagPath' => trim($tag->pathString, '/'),
                     ]
@@ -126,7 +126,7 @@ class RestTag extends ValueObjectVisitor
             $generator->startAttribute(
                 'href',
                 $this->router->generate(
-                    'ezpublish_rest_eztags_loadTagSynonyms',
+                    'ibexa.rest.netgen_tags_loadTagSynonyms',
                     ['tagPath' => trim($tag->pathString, '/')]
                 )
             );
@@ -138,7 +138,7 @@ class RestTag extends ValueObjectVisitor
         $generator->startAttribute(
             'href',
             $this->router->generate(
-                'ezpublish_rest_eztags_getRelatedContent',
+                'ibexa.rest.netgen_tags_getRelatedContent',
                 [
                     'tagPath' => trim($tag->pathString, '/'),
                 ]

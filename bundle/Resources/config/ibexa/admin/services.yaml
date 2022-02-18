@@ -1,0 +1,47 @@
+services:
+    netgen_tags.ibexa.admin.menu.route_prefix_voter:
+        class: Netgen\TagsBundle\AdminUI\Menu\RoutePrefixVoter
+        arguments:
+            - "@request_stack"
+            - "netgen_tags_admin_"
+        tags:
+            - { name: knp_menu.voter }
+
+    netgen_tags.ibexa.admin.event_listener.main_menu_builder:
+        class: Netgen\TagsBundle\AdminUI\EventListener\MainMenuBuilderListener
+        arguments:
+            - "@security.authorization_checker"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    netgen_tags.ibexa.admin.event_listener.set_page_layout:
+        class: Netgen\TagsBundle\AdminUI\EventListener\SetPageLayoutListener
+        arguments:
+            - "@netgen_tags.templating.admin_global_variable"
+            - "%ibexa.site_access.groups_by_site_access%"
+            - "%netgen_tags.ibexa.admin.pagelayout%"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    netgen_tags.ibexa.admin.component.stylesheets:
+         parent: Ibexa\AdminUi\Component\TwigComponent
+         arguments:
+             - "@twig"
+             - "@@NetgenTags/ibexa/admin/stylesheets.html.twig"
+         tags:
+             - { name: ibexa.admin_ui.component, group: 'stylesheet-head' }
+
+    netgen_tags.ibexa.admin.component.javascripts:
+         parent: Ibexa\AdminUi\Component\TwigComponent
+         arguments:
+             - "@twig"
+             - "@@NetgenTags/ibexa/admin/javascripts.html.twig"
+         tags:
+             - { name: ibexa.admin_ui.component, group: 'script-body' }
+
+    netgen_tags.ibexa.admin.form.tags_field_type:
+        class: Netgen\TagsBundle\Form\Type\FieldType\TagsFieldType
+        arguments:
+            - "@ibexa.api.service.field_type"
+        tags:
+            - { name: form.type }

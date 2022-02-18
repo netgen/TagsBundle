@@ -1,31 +1,31 @@
 services:
-    eztags.controller.tag_view:
+    netgen_tags.controller.tag_view:
         class: Netgen\TagsBundle\Controller\TagViewController
-        parent: ezpublish.controller.base
+        parent: ibexa.controller.base
         public: true
 
-    eztags.routing.tag_url_generator:
+    netgen_tags.routing.tag_url_generator:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
-        parent: ezpublish.url_generator.base
+        parent: ibexa.url_generator.base
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
             - "@router.default"
-            - "@ezpublish.config.resolver"
+            - "@ibexa.config.resolver"
 
-    eztags.routing.tag_router:
+    netgen_tags.routing.tag_router:
         class: Netgen\TagsBundle\Routing\TagRouter
         arguments:
-            - "@eztags.api.service.tags"
-            - "@eztags.routing.tag_url_generator"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@netgen_tags.routing.tag_url_generator"
+            - "@ibexa.config.resolver"
             - "@?router.request_context"
             - "@?logger"
         tags:
             - { name: router, priority: 200 }
 
-    eztags.repository.related_content_facets_loader:
+    netgen_tags.repository.related_content_facets_loader:
         class: Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader
         arguments:
-            - "@eztags.api.service.tags.inner"
-            - "@ezpublish.api.service.search"
+            - "@netgen_tags.api.service.tags.inner"
+            - "@ibexa.api.service.search"
 

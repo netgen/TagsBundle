@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\SiteAccessAware;
 
-use eZ\Publish\API\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Netgen\TagsBundle\API\Repository\TagsService as TagsServiceInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
@@ -21,7 +21,7 @@ final class TagsService implements TagsServiceInterface
     private $innerService;
 
     /**
-     * @var \eZ\Publish\API\Repository\LanguageResolver
+     * @var \Ibexa\Contracts\Core\Repository\LanguageResolver
      */
     private $languageResolver;
 

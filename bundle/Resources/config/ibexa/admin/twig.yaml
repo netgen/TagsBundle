@@ -1,0 +1,2 @@
+form_themes:
+    - '@NetgenTags/ibexa/admin/field/edit/eztags.html.twig'

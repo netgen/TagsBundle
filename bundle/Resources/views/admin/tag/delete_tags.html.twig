@@ -1,6 +1,6 @@
-{% extends eztags_admin.pageLayoutTemplate %}
+{% extends netgen_tags_admin.pageLayoutTemplate %}
 
-{% trans_default_domain 'eztags_admin' %}
+{% trans_default_domain 'netgen_tags_admin' %}
 
 {% block content %}
     <h2 class="tag-title">{{ 'tag.delete_tags.title'|trans }}</h2>
@@ -28,7 +28,7 @@
         </table>
 
         <div class="tags-actions">
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
             <button type="submit" class="tags-btn tags-btn-primary" name="DeleteTagsButton">{{ 'tag.button.yes'|trans }}</button>
 
             <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': parentTag ? parentTag.id : 0}) }}" class="tags-btn">

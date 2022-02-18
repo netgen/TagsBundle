@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
 use Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper;
@@ -76,7 +76,7 @@ final class RelatedContentController extends Controller
         $pager = $this->createPager(
             $this->adapter,
             $currentPage,
-            $configResolver->getParameter('admin.related_content_limit', 'eztags'),
+            $configResolver->getParameter('admin.related_content_limit', 'netgen_tags'),
             $tag
         );
 

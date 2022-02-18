@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 /**
  * Sets sort direction on Content Type ID for a content query.

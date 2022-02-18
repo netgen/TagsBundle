@@ -4,7 +4,7 @@ Netgen Tags Bundle installation instructions
 Requirements
 ------------
 
-* eZ Platform 3.0+
+* Ibexa Platform 4.0+
 
 Installation steps
 ------------------
@@ -15,19 +15,6 @@ Run the following from your website root folder to install Netgen Tags Bundle:
 
 ```
 $ composer require netgen/tagsbundle
-```
-
-### Activate the bundle
-
-Activate the bundle in `config/bundles.php` file by adding it to the array, together with other required bundles:
-
-```php
-return [
-    ...
-
-    Lolautruche\EzCoreExtraBundle\EzCoreExtraBundle::class => ['all' => true],
-    Netgen\TagsBundle\NetgenTagsBundle::class => ['all' => true],
-];
 ```
 
 ### Add routing configuration
@@ -41,7 +28,7 @@ netgen_tags:
 
 ### Import database tables
 
-Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your eZ Platform database:
+Netgen Tags Bundle uses custom database tables to store the tags. Use the following command to add the tables to your Ibexa Platform database:
 
 ```
 $ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/bundle/Resources/sql/mysql/schema.sql
@@ -49,8 +36,8 @@ $ mysql -u<user> -p<password> -h<host> <db_name> < vendor/netgen/tagsbundle/bund
 
 PostgreSQL variant of the above schema file is also available at `vendor/netgen/tagsbundle/bundle/Resources/sql/postgresql/schema.sql`
 
-Note: Netgen Tags supports eZ Platform schema builder, making it possible to automatically install its database tables when installing
-clean/demo data of eZ Platform. In that case, there's no need to install the tables manually.
+Note: Netgen Tags supports Ibexa Platform schema builder, making it possible to automatically install its database tables when installing
+clean/demo data of Ibexa Platform. In that case, there's no need to install the tables manually.
 
 ### Update Anonymous Role permissions
 
@@ -58,7 +45,7 @@ Give 'Read' permissions to the 'Tags' module for the `Anonymous` role otherwise 
 
 ### Clear the caches
 
-Clear the eZ Platform caches with the following command:
+Clear the Ibexa Platform caches with the following command:
 
 ```bash
 $ php bin/console cache:clear
@@ -66,7 +53,7 @@ $ php bin/console cache:clear
 
 ### Install assets
 
-Run the following to correctly install assets for eZ Platform Admin UI:
+Run the following to correctly install assets for Ibexa Platform Admin UI:
 
 ```bash
 $ php bin/console assets:install --symlink --relative
@@ -76,4 +63,4 @@ $ php bin/console assets:install --symlink --relative
 
 1) You can now load and create content with `eztags` field type
 
-2) Use `TagsService` in your controllers to work with tags. The service is accessible through Symfony DIC, with ID `eztags.api.service.tags`
+2) Use `TagsService` in your controllers to work with tags. The service is accessible through Symfony DIC, with ID `netgen_tags.api.service.tags`

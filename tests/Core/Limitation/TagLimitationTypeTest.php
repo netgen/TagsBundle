@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Limitation;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Limitation\Tests\Base;
-use eZ\Publish\SPI\Persistence\Handler as SPIHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Tests\Core\Limitation\Base;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
@@ -32,12 +32,12 @@ final class TagLimitationTypeTest extends Base
     private $tagsHandlerMock;
 
     /**
-     * @var \eZ\Publish\SPI\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
     private $persistenceHandlerMock;
 
     /**
-     * @var \eZ\Publish\API\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject
      */
     private $userMock;
 
@@ -50,7 +50,7 @@ final class TagLimitationTypeTest extends Base
     {
         parent::setUp();
 
-        $this->persistenceHandlerMock = $this->createMock(SPIHandler::class);
+        $this->persistenceHandlerMock = $this->createMock(PersistenceHandler::class);
         $this->userMock = $this->createMock(User::class);
         $this->tagsHandlerMock = $this->createMock(Handler::class);
 
@@ -276,7 +276,7 @@ final class TagLimitationTypeTest extends Base
      * @dataProvider providerForTestEvaluate
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation $limitation
-     * @param \eZ\Publish\API\Repository\Values\ValueObject $object
+     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param mixed $expected
      */
     public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected): void

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Routing;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use InvalidArgumentException;
 use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
@@ -32,9 +32,9 @@ use function trim;
 
 final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
-    public const TAG_URL_ROUTE_NAME = 'eztags_tag_url';
+    public const TAG_URL_ROUTE_NAME = 'netgen_tags.tag.url';
 
-    public const TAG_VIEW_ACTION_CONTROLLER = 'eztags.controller.tag_view:viewAction';
+    public const TAG_VIEW_ACTION_CONTROLLER = 'netgen_tags.controller.tag_view:viewAction';
 
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService
@@ -47,7 +47,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
     private $generator;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -119,7 +119,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-        // Support using Tag object with ez_url / ez_path Twig functions
+        // Support using Tag object with ibexa_url / ibexa_path Twig functions
         if (
             ($name === '' || $name === 'cmf_routing_object')
             && $this->supportsObject($parameters[RouteObjectInterface::ROUTE_OBJECT] ?? null)

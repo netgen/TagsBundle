@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use Doctrine\DBAL\Connection;
-use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as BaseLegacy;
-use eZ\Publish\Core\Base\Container\Compiler\Search\FieldRegistryPass;
-use eZ\Publish\Core\Base\ServiceContainer;
-use eZ\Publish\SPI\Tests\Persistence\Fixture;
-use eZ\Publish\SPI\Tests\Persistence\FixtureImporter;
-use eZ\Publish\SPI\Tests\Persistence\PhpArrayFileFixture;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\PhpArrayFileFixture;
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as BaseLegacy;
+use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
+use Ibexa\Core\Base\ServiceContainer;
 use Netgen\TagsBundle\API\Repository\TagsService as APITagsService;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
@@ -32,7 +32,7 @@ final class Legacy extends BaseLegacy
     /**
      * Initial data for eztags field type.
      *
-     * @var \eZ\Publish\SPI\Tests\Persistence\Fixture|null
+     * @var \Ibexa\Contracts\Core\Test\Persistence\Fixture|null
      */
     private static $tagsInitialData;
 
@@ -96,10 +96,10 @@ final class Legacy extends BaseLegacy
     {
         $repository = $this->getRepository($initializeFromScratch);
 
-        /** @var \eZ\Publish\SPI\Persistence\Content\Language\Handler $languageHandler */
+        /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler */
         $languageHandler = $this->getServiceContainer()->get('eztags.ezpublish.spi.persistence.legacy.language.handler');
 
-        /** @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator */
+        /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator */
         $languageMaskGenerator = $this->getServiceContainer()->get('eztags.ezpublish.persistence.legacy.language.mask_generator');
 
         $tagsHandler = new Handler(

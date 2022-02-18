@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\Provider;
 
-use eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use eZ\Publish\Core\MVC\Symfony\View\View;
-use eZ\Publish\Core\MVC\Symfony\View\ViewProvider;
+use Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\View\View;
+use Ibexa\Core\MVC\Symfony\View\ViewProvider;
 use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
 final class TagViewProvider implements ViewProvider, SiteAccessAware
 {
     /**
-     * @var \eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface
+     * @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface
      */
     private $matcherFactory;
 

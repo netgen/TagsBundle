@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
-use EzSystems\EzPlatformRest\Output\Generator;
-use EzSystems\EzPlatformRest\Output\Visitor;
+use Ibexa\Contracts\Rest\Output\Generator;
+use Ibexa\Contracts\Rest\Output\Visitor;
 use function trim;
 
 final class CreatedTag extends RestTag
@@ -17,7 +17,7 @@ final class CreatedTag extends RestTag
         $visitor->setHeader(
             'Location',
             $this->router->generate(
-                'ezpublish_rest_eztags_loadTag',
+                'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($data->restTag->tag->pathString, '/'),
                 ]

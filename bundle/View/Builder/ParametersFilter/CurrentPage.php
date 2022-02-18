@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\Builder\ParametersFilter;
 
-use eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
-use eZ\Publish\Core\MVC\Symfony\View\ViewEvents;
+use Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
+use Ibexa\Core\MVC\Symfony\View\ViewEvents;
 use Netgen\TagsBundle\Routing\Generator\TagUrlGenerator;
 use Netgen\TagsBundle\Routing\TagRouter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

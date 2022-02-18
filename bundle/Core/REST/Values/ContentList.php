@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Values;
 
-use EzSystems\EzPlatformRest\Value;
+use Ibexa\Rest\Value;
 
 final class ContentList extends Value
 {
     /**
-     * @var \EzSystems\EzPlatformRest\Server\Values\RestContent[]
+     * @var \Ibexa\Rest\Server\Values\RestContent[]
      */
     public $contents;
 
@@ -19,7 +19,7 @@ final class ContentList extends Value
     public $path;
 
     /**
-     * @param \EzSystems\EzPlatformRest\Server\Values\RestContent[] $contents
+     * @param \Ibexa\Rest\Server\Values\RestContent[] $contents
      * @param string $path
      */
     public function __construct(array $contents, string $path)

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * @property-read \Netgen\TagsBundle\API\Repository\Values\Tags\TagList $tags Found tags

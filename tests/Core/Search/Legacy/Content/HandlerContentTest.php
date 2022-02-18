@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
-use eZ\Publish\Core\Persistence\Legacy\Content\Mapper;
-use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
-use eZ\Publish\Core\Search\Legacy\Content;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use eZ\Publish\Core\Search\Legacy\Content\Handler;
-use eZ\Publish\Core\Search\Legacy\Content\Location\Gateway;
-use eZ\Publish\SPI\Persistence\Content as ContentObject;
-use eZ\Publish\SPI\Persistence\Content\ContentInfo;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content as ContentObject;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
+use Ibexa\Core\Search\Legacy\Content;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\Handler;
+use Ibexa\Core\Search\Legacy\Content\Location\Gateway;
+use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
@@ -42,7 +42,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
     private static $dbConnection;
 
     /**
-     * @var \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
     private $fieldRegistry;
 
@@ -294,7 +294,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Mapper&\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper&\PHPUnit\Framework\MockObject\MockObject
      */
     private function getContentMapperMock(): MockObject
     {

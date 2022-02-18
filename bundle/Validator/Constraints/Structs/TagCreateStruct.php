@@ -10,6 +10,6 @@ final class TagCreateStruct extends Constraint
 {
     public function validatedBy(): string
     {
-        return 'eztags_tag_create_struct';
+        return 'netgen_tags_tag_create_struct';
     }
 }

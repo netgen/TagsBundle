@@ -11,10 +11,10 @@ final class RemoteId extends Constraint
     /**
      * @var string
      */
-    public $message = 'eztags.remote_id.remote_id_exists';
+    public $message = 'netgen_tags.remote_id.remote_id_exists';
 
     public function validatedBy(): string
     {
-        return 'eztags_remote_id';
+        return 'netgen_tags_remote_id';
     }
 }

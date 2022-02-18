@@ -1,24 +1,24 @@
 services:
-    eztags.forms.tree:
+    netgen_tags.forms.tree:
         class: Netgen\TagsBundle\Form\Type\TagTreeType
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
         tags:
             - { name: form.type }
 
-    eztags.forms.translation_list:
+    netgen_tags.forms.translation_list:
         class: Netgen\TagsBundle\Form\Type\TranslationListType
         arguments:
-            - "@ezpublish.api.service.language"
-            - "@ezpublish.config.resolver"
+            - "@ibexa.api.service.language"
+            - "@ibexa.config.resolver"
         tags:
             - { name: form.type }
 
-    eztags.forms.content_type_filter:
+    netgen_tags.forms.content_type_filter:
         class: Netgen\TagsBundle\Form\Type\RelatedContentFilterType
         arguments:
-            - "@eztags.repository.related_content_facets_loader"
-            - "@ezpublish.api.service.content_type"
-            - "@eztags.search.related_content.sort_service"
+            - "@netgen_tags.repository.related_content_facets_loader"
+            - "@ibexa.api.service.content_type"
+            - "@netgen_tags.search.related_content.sort_service"
         tags:
             - { name: form.type }

@@ -1,27 +1,27 @@
 services:
-    eztags.pagerfanta.related_content_adapter:
+    netgen_tags.pagerfanta.related_content_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.config.resolver"
 
-    eztags.pagerfanta.children_tags_adapter:
+    netgen_tags.pagerfanta.children_tags_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
             -
-    eztags.pagerfanta.search_tags_adapter:
+    netgen_tags.pagerfanta.search_tags_adapter:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
 
-    eztags.pagerfanta.view.eztags_admin:
+    netgen_tags.pagerfanta.view.netgen_tags_admin:
         class: Netgen\TagsBundle\Core\Pagination\Pagerfanta\View\TagsAdminView
-        # Not being lazy results in out of memory exceptions on eZ Platform 2.0,
+        # Not being lazy results in out of memory exceptions on Ibexa Platform 2.0,
         # probably due to @twig dependency
         lazy: true
         arguments:
             - "@twig"
-            - "%eztags.admin.default_pager_template%"
+            - "%netgen_tags.admin.default_pager_template%"
         tags:
-            - { name: pagerfanta.view, alias: eztags_admin }
+            - { name: pagerfanta.view, alias: netgen_tags_admin }

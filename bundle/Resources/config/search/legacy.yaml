@@ -1,14 +1,14 @@
 services:
-    eztags.search.legacy.gateway.criterion_handler.common.tag_id:
+    netgen_tags.search.legacy.gateway.criterion_handler.common.tag_id:
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId
-        parent: ezpublish.search.legacy.gateway.criterion_handler.base
+        parent: ibexa.search.legacy.gateway.criterion_handler.base
         tags:
-            - { name: ezpublish.search.legacy.gateway.criterion_handler.content }
-            - { name: ezpublish.search.legacy.gateway.criterion_handler.location }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
 
-    eztags.search.legacy.gateway.criterion_handler.common.tag_keyword:
+    netgen_tags.search.legacy.gateway.criterion_handler.common.tag_keyword:
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword
-        parent: ezpublish.search.legacy.gateway.criterion_handler.base
+        parent: ibexa.search.legacy.gateway.criterion_handler.base
         tags:
-            - { name: ezpublish.search.legacy.gateway.criterion_handler.content }
-            - { name: ezpublish.search.legacy.gateway.criterion_handler.location }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.location }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Form\Type;
 
-use eZ\Publish\API\Repository\LanguageService;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Generator;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
@@ -18,12 +18,12 @@ use function iterator_to_array;
 final class TranslationListType extends AbstractType
 {
     /**
-     * @var \eZ\Publish\API\Repository\LanguageService
+     * @var \Ibexa\Contracts\Core\Repository\LanguageService
      */
     private $languageService;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 

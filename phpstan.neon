@@ -21,8 +21,8 @@ parameters:
         - '#Method .*::getRelatedContent\(\) should return .* but returns .*#'
 
         # Errors caused by public properties in eZ Platform
-        - '#Property eZ\\Publish\\API\\Repository\\Values\\User\\Limitation::\$limitationValues \(array\) on left side of \?\? is not nullable.#'
-        - '#eZ\\Publish\\API\\Repository\\Values\\Content\\Query\\Criterion::\$value#'
+        - '#Property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Limitation::\$limitationValues \(array\) on left side of \?\? is not nullable.#'
+        - '#Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion::\$value#'
         - '#Call to function is_string\(\) with string will always evaluate to true.#'
         - '#Call to function is_array\(\) with array(<.*>)? will always evaluate to true.#'
         - '#Call to function is_bool\(\) with bool will always evaluate to true.#'

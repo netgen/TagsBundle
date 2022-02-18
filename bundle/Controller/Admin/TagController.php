@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
@@ -31,7 +31,7 @@ final class TagController extends Controller
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\API\Repository\ContentTypeService
+     * @var \Ibexa\Contracts\Core\Repository\ContentTypeService
      */
     private $contentTypeService;
 
@@ -73,7 +73,7 @@ final class TagController extends Controller
             $pager = $this->createPager(
                 $this->tagChildrenAdapter,
                 $currentPage,
-                $configResolver->getParameter('admin.children_limit', 'eztags'),
+                $configResolver->getParameter('admin.children_limit', 'netgen_tags'),
                 $tag
             );
 
@@ -298,7 +298,7 @@ final class TagController extends Controller
         $this->denyAccessUnlessGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''));
 
         if ($request->request->has('DeleteTagButton')) {
-            if (!$this->isCsrfTokenValid('eztags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+            if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
                 $this->addFlashMessage('errors', 'invalid_csrf_token');
 
                 return $this->redirectToTag($tag);
@@ -420,7 +420,7 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
-        if (!$this->isCsrfTokenValid('eztags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+        if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
             $this->addFlashMessage('errors', 'invalid_csrf_token');
 
             return $this->redirectToTag($tag);
@@ -666,7 +666,7 @@ final class TagController extends Controller
         }
 
         if ($request->request->has('DeleteTagsButton')) {
-            if (!$this->isCsrfTokenValid('eztags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+            if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
                 $this->addFlashMessage('errors', 'invalid_csrf_token');
 
                 return $this->redirectToTag($parentTag);
@@ -700,7 +700,7 @@ final class TagController extends Controller
         if ($searchText !== '') {
             $page = $request->query->getInt('page', 1);
             $configResolver = $this->getConfigResolver();
-            $limit = $configResolver->getParameter('admin.search_limit', 'eztags');
+            $limit = $configResolver->getParameter('admin.search_limit', 'netgen_tags');
             $language = $configResolver->getParameter('languages')[0];
 
             $this->searchTagsAdapter->setSearchText($searchText);

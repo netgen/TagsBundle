@@ -6,18 +6,18 @@ namespace Netgen\TagsBundle\Tests\API\Repository;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
-use eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException;
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\User\User as APIUser;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\User as IbexaUser;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\User\User;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use function array_pop;
 use function count;
@@ -30,7 +30,7 @@ use const PHP_INT_MAX;
 abstract class BaseTagsServiceTest extends BaseTest
 {
     /**
-     * @var \eZ\Publish\API\Repository\Repository
+     * @var \Ibexa\Contracts\Core\Repository\Repository
      */
     protected $repository;
 
@@ -1694,7 +1694,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     /**
      * Returns User stub with $id as User/Content id.
      */
-    protected function getStubbedUser(int $id): APIUser
+    protected function getStubbedUser(int $id): IbexaUser
     {
         return new User(
             [

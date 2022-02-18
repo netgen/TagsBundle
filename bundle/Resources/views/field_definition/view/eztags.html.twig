@@ -1,7 +1,7 @@
 {% trans_default_domain "content_type" %}
 
 {% block eztags_settings %}
-    {% set available_edit_views = ezplatform.configResolver.parameter('edit_views', 'eztags') %}
+    {% set available_edit_views = ibexa.configResolver.parameter('edit_views', 'netgen_tags') %}
     {% set validator_config = fielddefinition.validatorConfiguration.TagsValueValidator %}
 
     <ul class="ez-fielddefinition-settings ez-fielddefinition-{{ fielddefinition.fieldTypeIdentifier }}-settings">

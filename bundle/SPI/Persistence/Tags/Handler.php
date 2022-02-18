@@ -13,7 +13,7 @@ interface Handler
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function load(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag;
 
@@ -27,7 +27,7 @@ interface Handler
     /**
      * Loads a tag info object from its $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadTagInfo(int $tagId): TagInfo;
 
@@ -38,21 +38,21 @@ interface Handler
      * translations with the listed language codes will be retrieved. If not,
      * all translations will be retrieved.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadByRemoteId(string $remoteId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag;
 
     /**
      * Loads a tag info object from its remote ID.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadTagInfoByRemoteId(string $remoteId): TagInfo;
 
     /**
      * Loads tag by specified keyword and parent ID.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadTagByKeywordAndParentId(string $keyword, int $parentTagId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag;
 
@@ -61,14 +61,14 @@ interface Handler
      *
      * If $limit = -1 all children starting at $offset are returned.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
 
     /**
      * Returns the number of children of a tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int;
 
@@ -96,14 +96,14 @@ interface Handler
      *
      * If $limit = -1 all synonyms starting at $offset are returned.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
 
     /**
      * Returns the number of synonyms of a tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int;
 
@@ -115,7 +115,7 @@ interface Handler
     /**
      * Updates tag identified by $tagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function update(UpdateStruct $updateStruct, int $tagId): Tag;
 
@@ -127,14 +127,14 @@ interface Handler
     /**
      * Converts tag identified by $tagId to a synonym of tag identified by $mainTagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $mainTagId are invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $tagId or $mainTagId are invalid
      */
     public function convertToSynonym(int $tagId, int $mainTagId): Tag;
 
     /**
      * Merges the tag identified by $tagId into the tag identified by $targetTagId.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $tagId or $targetTagId are invalid
      */
     public function merge(int $tagId, int $targetTagId): void;
 
@@ -145,7 +145,7 @@ interface Handler
      *
      * Returns the newly created tag of the copied subtree.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      */
     public function copySubtree(int $sourceId, int $destinationParentId): Tag;
 
@@ -154,7 +154,7 @@ interface Handler
      *
      * Returns the updated root tag of the moved subtree.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      */
     public function moveSubtree(int $sourceId, int $destinationParentId): Tag;
 
@@ -163,7 +163,7 @@ interface Handler
      *
      * If $tagId is a synonym, only the synonym is deleted.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified tag is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function deleteTag(int $tagId): void;
 }

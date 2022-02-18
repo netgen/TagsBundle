@@ -6,7 +6,7 @@
   var $ = jQuery;
 
   var initTagsTranslations = function () {
-    $.EzTags.Base.defaults.translations = {
+    $.NetgenTags.Base.defaults.translations = {
       selectedTags: 'Selected tags',
       loading: 'Loading...',
       noSelectedTags: 'There are no selected tags',
@@ -26,7 +26,7 @@
   };
 
   initTagsTranslations();
-  $('.tagssuggest').EzTags();
+  $('.tagssuggest').NetgenTags();
   $('.parent-selector-tree').find('.tags-modal-tree').tagsTree({'modal': true});
 
 })();

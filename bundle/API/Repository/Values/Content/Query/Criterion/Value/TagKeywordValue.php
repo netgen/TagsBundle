@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\Value;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value;
 
 /**
  * Struct that stores extra value information for a TagKeyword criterion object.

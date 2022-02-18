@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use function array_values;
@@ -16,12 +16,12 @@ use function array_values;
 class Mapper
 {
     /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
     private $languageHandler;
 
     /**
-     * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
     private $languageMaskGenerator;
 

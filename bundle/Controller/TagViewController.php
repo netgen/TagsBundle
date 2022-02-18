@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
+use Ibexa\Bundle\Core\Controller;
 use Netgen\TagsBundle\View\TagView;
 
 final class TagViewController extends Controller

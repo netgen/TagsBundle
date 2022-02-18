@@ -1,6 +1,18 @@
 Netgen Tags Bundle upgrade instructions
 =======================================
 
+Upgrade from 4.0 to 5.0
+-----------------------
+
+* Minimum supported version of PHP is now PHP 7.4
+* Minimum supported version of Ibexa Platform is now 4.0
+* Service name for Tags service has been renamed to `netgen_tags.api.service.tags` (old name is kept for BC)
+* Service names for all other services have been renamed to have the prefix `netgen_tags.` instead of `eztags.`
+* Namespace of all container parameters has benn renamed from `eztags` to `netgen_tags`
+* `eztags_tag_url` route has been renamed to `netgen_tags.tag.url`
+* `eztags_admin` Twig global variable has been renamed to `netgen_tags_admin` 
+* Usage of the tag object with `netgen_tags_tag_keyword` Twig function has been removed
+
 Upgrade from 3.4 to 4.0
 -----------------------
 

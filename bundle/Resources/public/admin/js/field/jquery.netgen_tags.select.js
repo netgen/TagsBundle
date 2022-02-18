@@ -5,7 +5,7 @@
 
   var $ = jQuery;
 
-  $.EzTags.Select = $.EzTags.Base.extend({
+  $.NetgenTags.Select = $.NetgenTags.Base.extend({
     templates: {
       option: ['<option value="<%= tag.id %>" <%= selected %> ><%= tag.name %></option>'],
       select: ['<select class="js-tag-select form-control"></select>'],
@@ -15,7 +15,7 @@
     },
 
     /**
-     * Initializes Select EzTag. Calls fetch tags function with callback which appends
+     * Initializes Netgen Tags Select plugin. Calls fetch tags function with callback which appends
      * fetched tags to select dropdowns. Also, registers 'onChange' listener on
      * all select dropdowns.
      */

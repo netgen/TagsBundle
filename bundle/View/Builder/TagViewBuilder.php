@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\Builder;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilder;
-use eZ\Publish\Core\MVC\Symfony\View\Configurator;
-use eZ\Publish\Core\MVC\Symfony\View\ParametersInjector;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder;
+use Ibexa\Core\MVC\Symfony\View\Configurator;
+use Ibexa\Core\MVC\Symfony\View\ParametersInjector;
+use Ibexa\Core\MVC\Symfony\View\View;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\View\TagView;
@@ -27,17 +27,17 @@ final class TagViewBuilder implements ViewBuilder
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\Core\MVC\Symfony\View\Configurator
+     * @var \Ibexa\Core\MVC\Symfony\View\Configurator
      */
     private $viewConfigurator;
 
     /**
-     * @var \eZ\Publish\Core\MVC\Symfony\View\ParametersInjector
+     * @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector
      */
     private $viewParametersInjector;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -62,7 +62,7 @@ final class TagViewBuilder implements ViewBuilder
 
     public function matches($argument): bool
     {
-        return is_string($argument) && mb_strpos($argument, 'eztags.controller.tag_view:') !== false;
+        return is_string($argument) && mb_strpos($argument, 'netgen_tags.controller.tag_view:') !== false;
     }
 
     public function buildView(array $parameters): View
@@ -90,7 +90,7 @@ final class TagViewBuilder implements ViewBuilder
         if (!$view->getControllerReference() instanceof ControllerReference) {
             if ($view->getViewType() === 'full' && !is_string($view->getTemplateIdentifier())) {
                 $view->setTemplateIdentifier(
-                    $this->configResolver->getParameter('tag_view.template', 'eztags')
+                    $this->configResolver->getParameter('tag_view.template', 'netgen_tags')
                 );
             }
         }

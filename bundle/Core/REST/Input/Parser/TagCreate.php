@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Input\Parser;
 
-use EzSystems\EzPlatformRest\Exceptions;
-use EzSystems\EzPlatformRest\Input\BaseParser;
-use EzSystems\EzPlatformRest\Input\ParserTools;
-use EzSystems\EzPlatformRest\Input\ParsingDispatcher;
+use Ibexa\Contracts\Rest\Exceptions;
+use Ibexa\Contracts\Rest\Input\ParsingDispatcher;
+use Ibexa\Rest\Input\BaseParser;
+use Ibexa\Rest\Input\ParserTools;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 use function array_key_exists;
@@ -23,7 +23,7 @@ final class TagCreate extends BaseParser
     private $tagsService;
 
     /**
-     * @var \EzSystems\EzPlatformRest\Input\ParserTools
+     * @var \Ibexa\Rest\Input\ParserTools
      */
     private $parserTools;
 

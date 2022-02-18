@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View;
 
-use eZ\Publish\Core\MVC\Symfony\View\BaseView;
+use Ibexa\Core\MVC\Symfony\View\BaseView;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class TagView extends BaseView implements TagValueView, CacheableView

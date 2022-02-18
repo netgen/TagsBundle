@@ -1,4 +1,4 @@
-{% trans_default_domain 'eztags_admin' %}
+{% trans_default_domain 'netgen_tags_admin' %}
 
 {% if latestContent is not empty %}
     <table>
@@ -14,7 +14,7 @@
             {% for content in latestContent %}
                 <tr>
                     <td>{{ content.id }}</td>
-                    <td><a href="{{ path('ez_urlalias', {'contentId': content.id}) }}" target="_blank">{{ content.name }}</a></td>
+                    <td><a href="{{ path('ibexa.url.alias', {'contentId': content.id}) }}" target="_blank">{{ content.name }}</a></td>
                     <td>{{ content.modificationDate|date }}</td>
                     <td>{{ netgen_tags_content_type_name(content.contentTypeId) }}</td>
                 </tr>

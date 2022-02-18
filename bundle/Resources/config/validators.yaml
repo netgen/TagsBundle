@@ -1,38 +1,38 @@
 services:
-    eztags.validator.tag_create_struct:
+    netgen_tags.validator.tag_create_struct:
         class: Netgen\TagsBundle\Validator\Structs\TagCreateStructValidator
         tags:
-            - { name: validator.constraint_validator, alias: eztags_tag_create_struct }
+            - { name: validator.constraint_validator, alias: netgen_tags_tag_create_struct }
 
-    eztags.validator.tag_update_struct:
+    netgen_tags.validator.tag_update_struct:
         class: Netgen\TagsBundle\Validator\Structs\TagUpdateStructValidator
         tags:
-            - { name: validator.constraint_validator, alias: eztags_tag_update_struct }
+            - { name: validator.constraint_validator, alias: netgen_tags_tag_update_struct }
 
-    eztags.validator.synonym_create_struct:
+    netgen_tags.validator.synonym_create_struct:
         class: Netgen\TagsBundle\Validator\Structs\SynonymCreateStructValidator
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
         tags:
-            - { name: validator.constraint_validator, alias: eztags_synonym_create_struct }
+            - { name: validator.constraint_validator, alias: netgen_tags_synonym_create_struct }
 
-    eztags.validator.tag:
+    netgen_tags.validator.tag:
         class: Netgen\TagsBundle\Validator\TagValidator
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
         tags:
-            - { name: validator.constraint_validator, alias: eztags_tag }
+            - { name: validator.constraint_validator, alias: netgen_tags_tag }
 
-    eztags.validator.language:
+    netgen_tags.validator.language:
         class: Netgen\TagsBundle\Validator\LanguageValidator
         arguments:
-            - "@ezpublish.api.service.language"
+            - "@ibexa.api.service.language"
         tags:
-            - { name: validator.constraint_validator, alias: eztags_language }
+            - { name: validator.constraint_validator, alias: netgen_tags_language }
 
-    eztags.validator.remote_id:
+    netgen_tags.validator.remote_id:
         class: Netgen\TagsBundle\Validator\RemoteIdValidator
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
         tags:
-            - { name: validator.constraint_validator, alias: eztags_remote_id }
+            - { name: validator.constraint_validator, alias: netgen_tags_remote_id }

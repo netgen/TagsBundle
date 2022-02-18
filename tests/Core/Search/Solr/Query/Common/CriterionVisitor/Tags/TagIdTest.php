@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler;
-use eZ\Publish\Core\Search\Common\FieldNameResolver;
-use eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleIntegerMapper;
-use eZ\Publish\SPI\Search\FieldType;
-use EzSystems\EzPlatformSolrSearchEngine\Tests\Search\TestCase;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
+use Ibexa\Contracts\Core\Search\FieldType;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Handler;
+use Ibexa\Core\Search\Common\FieldNameResolver;
+use Ibexa\Core\Search\Common\FieldValueMapper\MultipleIntegerMapper;
+use Ibexa\Tests\Solr\Search\TestCase;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Solr\Query;
 
 final class TagIdTest extends TestCase
 {
     /**
-     * @var \eZ\Publish\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     private $fieldNameResolver;
 
     /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
     private $contentTypeHandler;
 

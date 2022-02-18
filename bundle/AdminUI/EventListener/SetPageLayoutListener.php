@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Netgen\TagsBundle\PlatformAdminUI\EventListener;
+namespace Netgen\TagsBundle\AdminUI\EventListener;
 
-use EzSystems\EzPlatformAdminUiBundle\EzPlatformAdminUiBundle;
+use Ibexa\Bundle\AdminUi\IbexaAdminUiBundle;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -62,7 +62,7 @@ final class SetPageLayoutListener implements EventSubscriberInterface
             return;
         }
 
-        if (!in_array(EzPlatformAdminUiBundle::ADMIN_GROUP_NAME, $this->groupsBySiteAccess[$siteAccess], true)) {
+        if (!in_array(IbexaAdminUiBundle::ADMIN_GROUP_NAME, $this->groupsBySiteAccess[$siteAccess], true)) {
             return;
         }
 

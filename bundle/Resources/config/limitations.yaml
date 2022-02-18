@@ -1,8 +1,8 @@
 services:
-    eztags.role.limitation_type.tag:
+    netgen_tags.role.limitation_type.tag:
         class: Netgen\TagsBundle\Core\Limitation\TagLimitationType
         arguments:
-            - "@ezpublish.api.persistence_handler"
-            - "@eztags.api.persistence_handler.tags"
+            - "@ibexa.api.persistence_handler"
+            - "@netgen_tags.api.persistence_handler.tags"
         tags:
-            - { name: ezpublish.limitationType, alias: Tag }
+            - { name: ibexa.permissions.limitation_type, alias: Tag }

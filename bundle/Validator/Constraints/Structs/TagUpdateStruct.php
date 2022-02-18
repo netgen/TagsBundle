@@ -15,6 +15,6 @@ final class TagUpdateStruct extends Constraint
 
     public function validatedBy(): string
     {
-        return 'eztags_tag_update_struct';
+        return 'netgen_tags_tag_update_struct';
     }
 }

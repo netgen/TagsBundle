@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Form\Type\FieldType;
 
-use eZ\Publish\API\Repository\FieldType;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\FieldType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Symfony\Component\Form\DataTransformerInterface;
 use function array_key_exists;
@@ -20,12 +20,12 @@ use const ENT_SUBSTITUTE;
 final class FieldValueTransformer implements DataTransformerInterface
 {
     /**
-     * @var \eZ\Publish\API\Repository\FieldType
+     * @var \Ibexa\Contracts\Core\Repository\FieldType
      */
     private $fieldType;
 
     /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Field
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Field
      */
     private $field;
 

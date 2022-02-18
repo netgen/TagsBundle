@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Templating\Twig;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable;
 use PHPUnit\Framework\TestCase;
 

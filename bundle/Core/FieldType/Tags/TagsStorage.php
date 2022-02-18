@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\SPI\FieldType\GatewayBasedStorage;
-use eZ\Publish\SPI\FieldType\StorageGateway;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use function count;
@@ -16,7 +16,7 @@ use function count;
 /**
  * @property \Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway $gateway
  *
- * @extends \eZ\Publish\SPI\FieldType\GatewayBasedStorage<\Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway>
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway>
  */
 final class TagsStorage extends GatewayBasedStorage
 {

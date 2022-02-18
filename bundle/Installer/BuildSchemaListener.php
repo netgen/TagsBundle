@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Installer;
 
-use EzSystems\DoctrineSchema\API\Event\SchemaBuilderEvent;
-use EzSystems\DoctrineSchema\API\Event\SchemaBuilderEvents;
+use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
+use Ibexa\Contracts\DoctrineSchema\SchemaBuilderEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class BuildSchemaListener implements EventSubscriberInterface

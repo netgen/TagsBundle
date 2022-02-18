@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Tests\API\Repository\FieldType;
 
 use DateTimeImmutable;
-use eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTest;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;

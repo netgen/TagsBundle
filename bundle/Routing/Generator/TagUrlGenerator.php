@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Routing\Generator;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Routing\Generator;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use LogicException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Symfony\Component\Routing\RouterInterface;
@@ -22,7 +22,7 @@ use function urlencode;
  */
 final class TagUrlGenerator extends Generator
 {
-    public const INTERNAL_TAG_ROUTE = '_eztagsTag';
+    public const INTERNAL_TAG_ROUTE = 'netgen_tags.tag.internal';
 
     public const DEFAULT_PATH_PREFIX = '/tags/view';
 
@@ -37,7 +37,7 @@ final class TagUrlGenerator extends Generator
     private $defaultRouter;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -135,7 +135,7 @@ final class TagUrlGenerator extends Generator
      */
     public function getPathPrefix(): string
     {
-        $pathPrefix = $this->configResolver->getParameter('tag_view.path_prefix', 'eztags');
+        $pathPrefix = $this->configResolver->getParameter('tag_view.path_prefix', 'netgen_tags');
         $pathPrefix = trim($pathPrefix, '/');
 
         if ($pathPrefix === '') {

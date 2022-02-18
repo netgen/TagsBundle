@@ -1,14 +1,14 @@
 netgen_tags_admin_field_autocomplete:
     path: /autocomplete
-    controller: eztags.admin.controller.field:autoCompleteAction
+    controller: netgen_tags.admin.controller.field:autoCompleteAction
     methods: [GET]
 
 netgen_tags_admin_access_add_tags:
     path: /access/add
-    controller: eztags.admin.controller.access:canAddTagsAction
+    controller: netgen_tags.admin.controller.access:canAddTagsAction
     methods: [GET]
 
 netgen_tags_admin_field_children:
     path: /children
-    controller: eztags.admin.controller.field:childrenAction
+    controller: netgen_tags.admin.controller.field:childrenAction
     methods: [GET]

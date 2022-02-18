@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use function array_map;
 use function implode;

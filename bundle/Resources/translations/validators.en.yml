@@ -1,7 +1,7 @@
-eztags.tag.no_tag: 'Tag with ID %tagId% does not exist.'
-eztags.tag.synonym: 'Selected tag can not be a synonym.'
-eztags.tag.invalid_tag: 'Tag is invalid.'
+netgen_tags.tag.no_tag: 'Tag with ID %tagId% does not exist.'
+netgen_tags.tag.synonym: 'Selected tag can not be a synonym.'
+netgen_tags.tag.invalid_tag: 'Tag is invalid.'
 
-eztags.language.no_language: 'Language code %languageCode% does not exist.'
+netgen_tags.language.no_language: 'Language code %languageCode% does not exist.'
 
-eztags.remote_id.remote_id_exists: 'Tag with remote ID "%remoteId%" already exists.'
+netgen_tags.remote_id.remote_id_exists: 'Tag with remote ID "%remoteId%" already exists.'

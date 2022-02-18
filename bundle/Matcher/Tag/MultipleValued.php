@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Matcher\Tag;
 
-use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
+use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
 use Netgen\TagsBundle\TagsServiceAwareTrait;
 use function array_fill_keys;

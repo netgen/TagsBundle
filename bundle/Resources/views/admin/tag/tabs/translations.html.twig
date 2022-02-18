@@ -1,4 +1,4 @@
-{% trans_default_domain 'eztags_admin' %}
+{% trans_default_domain 'netgen_tags_admin' %}
 
 {% set can_edit = is_granted('ez:tags:edit' ~ (tag.isSynonym ? 'synonym' : '')) %}
 
@@ -44,7 +44,7 @@
         </tbody>
     </table>
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('eztags_admin') }}" />
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
 
     <div class="tags-btn-group">
         {% if can_edit %}

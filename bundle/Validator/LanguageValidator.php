@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Validator;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\LanguageService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\LanguageService;
 use Netgen\TagsBundle\Validator\Constraints\Language;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class LanguageValidator extends ConstraintValidator
 {
     /**
-     * @var \eZ\Publish\API\Repository\LanguageService
+     * @var \Ibexa\Contracts\Core\Repository\LanguageService
      */
     private $languageService;
 

@@ -1,6 +1,6 @@
 <?php
 
-$kernelDir = __DIR__ . '/../vendor/ezsystems/ezplatform-kernel';
+$kernelDir = __DIR__ . '/../vendor/ibexa/core';
 
 return array(
     // The installation directory

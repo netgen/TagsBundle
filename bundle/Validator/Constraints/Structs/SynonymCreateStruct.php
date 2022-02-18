@@ -10,6 +10,6 @@ final class SynonymCreateStruct extends Constraint
 {
     public function validatedBy(): string
     {
-        return 'eztags_synonym_create_struct';
+        return 'netgen_tags_synonym_create_struct';
     }
 }

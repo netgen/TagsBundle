@@ -1,14 +1,14 @@
 services:
-    eztags.templating.twig.extension:
+    netgen_tags.templating.twig.extension:
         class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
         tags:
             - { name: twig.extension }
 
-    eztags.templating.twig.runtime:
+    netgen_tags.templating.twig.runtime:
         class: Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.api.service.language"
-            - "@ezpublish.api.service.content_type"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.api.service.language"
+            - "@ibexa.api.service.content_type"
         tags:
             - { name: twig.runtime }

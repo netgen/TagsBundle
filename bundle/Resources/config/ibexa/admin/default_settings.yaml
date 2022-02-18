@@ -1,0 +1,2 @@
+parameters:
+    netgen_tags.ibexa.admin.pagelayout: '@@NetgenTags/ibexa/admin/pagelayout.html.twig'

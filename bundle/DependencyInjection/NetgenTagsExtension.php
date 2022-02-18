@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\DependencyInjection;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use RuntimeException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
@@ -52,21 +52,21 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         $loader->load('param_converters.yaml');
         $loader->load('installer.yaml');
         $loader->load('search/related_content.yaml');
-        $loader->load('ezadminui/default_settings.yaml');
-        $loader->load('ezadminui/services.yaml');
+        $loader->load('ibexa/admin/default_settings.yaml');
+        $loader->load('ibexa/admin/services.yaml');
 
         $persistenceCache = 'disabled';
-        if ($container->getParameter('eztags.enable_persistence_cache') === true) {
+        if ($container->getParameter('netgen_tags.enable_persistence_cache') === true) {
             $persistenceCache = 'psr6';
         }
 
         $loader->load('storage/cache_' . $persistenceCache . '.yaml');
 
-        if (array_key_exists('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundles)) {
+        if (array_key_exists('IbexaSolrBundle', $activatedBundles)) {
             $loader->load('search/solr.yaml');
         }
 
-        if (array_key_exists('EzPublishLegacySearchEngineBundle', $activatedBundles)) {
+        if (array_key_exists('IbexaLegacySearchEngineBundle', $activatedBundles)) {
             $loader->load('search/legacy.yaml');
         }
 
@@ -77,9 +77,9 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
     {
         $configs = [
             'netgen_tags.yaml' => 'netgen_tags',
-            'ezplatform.yaml' => 'ezpublish',
+            'ibexa.yaml' => 'ibexa',
             'framework/twig.yaml' => 'twig',
-            'ezadminui/twig.yaml' => 'twig',
+            'ibexa/admin/twig.yaml' => 'twig',
         ];
 
         foreach ($configs as $fileName => $extensionName) {
@@ -95,7 +95,7 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
      */
     private function processSemanticConfig(ContainerBuilder $container, array $config): void
     {
-        $processor = new ConfigurationProcessor($container, 'eztags');
+        $processor = new ConfigurationProcessor($container, 'netgen_tags');
         $processor->mapConfig(
             $config,
             static function ($config, $scope, ContextualizerInterface $c): void {

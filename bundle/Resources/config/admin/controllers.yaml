@@ -1,57 +1,57 @@
 services:
     # Controllers
 
-    eztags.admin.controller.base:
+    netgen_tags.admin.controller.base:
         class: Netgen\TagsBundle\Controller\Admin\Controller
-        parent: ezpublish.controller.base
+        parent: ibexa.controller.base
         abstract: true
         calls:
             - [performAccessChecks, []]
 
-    eztags.admin.controller.tag:
+    netgen_tags.admin.controller.tag:
         class: Netgen\TagsBundle\Controller\Admin\TagController
-        parent: eztags.admin.controller.base
+        parent: netgen_tags.admin.controller.base
         public: true
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.api.service.content_type"
-            - "@eztags.pagerfanta.children_tags_adapter"
-            - "@eztags.pagerfanta.search_tags_adapter"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.api.service.content_type"
+            - "@netgen_tags.pagerfanta.children_tags_adapter"
+            - "@netgen_tags.pagerfanta.search_tags_adapter"
 
-    eztags.admin.controller.related_content:
+    netgen_tags.admin.controller.related_content:
         class: Netgen\TagsBundle\Controller\Admin\RelatedContentController
-        parent: eztags.admin.controller.base
+        parent: netgen_tags.admin.controller.base
         public: true
         arguments:
-            - "@eztags.pagerfanta.related_content_adapter"
-            - "@eztags.search.related_content.sort_service"
+            - "@netgen_tags.pagerfanta.related_content_adapter"
+            - "@netgen_tags.search.related_content.sort_service"
 
-    eztags.admin.controller.synonym:
+    netgen_tags.admin.controller.synonym:
         class: Netgen\TagsBundle\Controller\Admin\SynonymController
-        parent: eztags.admin.controller.base
+        parent: netgen_tags.admin.controller.base
         public: true
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
 
-    eztags.admin.controller.tree:
+    netgen_tags.admin.controller.tree:
         class: Netgen\TagsBundle\Controller\Admin\TreeController
-        parent: eztags.admin.controller.base
+        parent: netgen_tags.admin.controller.base
         public: true
         arguments:
-            - "@eztags.api.service.tags"
+            - "@netgen_tags.api.service.tags"
             - "@translator"
             - "@router"
-            - "@ezpublish.config.resolver"
+            - "@ibexa.config.resolver"
 
-    eztags.admin.controller.field:
+    netgen_tags.admin.controller.field:
         class: Netgen\TagsBundle\Controller\Admin\FieldController
-        parent: eztags.admin.controller.base
+        parent: netgen_tags.admin.controller.base
         public: true
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.config.resolver"
 
-    eztags.admin.controller.access:
+    netgen_tags.admin.controller.access:
         class: Netgen\TagsBundle\Controller\Admin\AccessController
-        parent: ezpublish.controller.base
+        parent: ibexa.controller.base
         public: true

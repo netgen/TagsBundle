@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Templating\Twig;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 final class AdminGlobalVariable
 {
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -37,7 +37,7 @@ final class AdminGlobalVariable
     public function getPageLayoutTemplate(): string
     {
         if ($this->isDefault) {
-            $this->pageLayoutTemplate = $this->configResolver->getParameter('admin.pagelayout', 'eztags');
+            $this->pageLayoutTemplate = $this->configResolver->getParameter('admin.pagelayout', 'netgen_tags');
         }
 
         return $this->pageLayoutTemplate;

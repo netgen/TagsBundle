@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Values;
 
-use EzSystems\EzPlatformRest\Value;
+use Ibexa\Rest\Value;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class RestTag extends Value

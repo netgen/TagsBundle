@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as APITagId;
 use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
 use function count;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Templating\Twig\Extension;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\LanguageService;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
@@ -19,12 +19,12 @@ final class NetgenTagsRuntime
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\API\Repository\LanguageService
+     * @var \Ibexa\Contracts\Core\Repository\LanguageService
      */
     private $languageService;
 
     /**
-     * @var \eZ\Publish\API\Repository\ContentTypeService
+     * @var \Ibexa\Contracts\Core\Repository\ContentTypeService
      */
     private $contentTypeService;
 
@@ -41,17 +41,12 @@ final class NetgenTagsRuntime
     /**
      * Returns tag keyword for provided tag ID.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|int|string $tagId
+     * @param int $tagId
      *
      * @return string
      */
     public function getTagKeyword($tagId): string
     {
-        if ($tagId instanceof Tag) {
-            // BC with Tags Bundle v3
-            return $tagId->getKeyword() ?? '';
-        }
-
         try {
             $tag = $this->tagsService->loadTag((int) $tagId);
         } catch (NotFoundException $e) {
@@ -72,7 +67,7 @@ final class NetgenTagsRuntime
     /**
      * Returns content type name for provided content type ID or content type object.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType|int $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|int $contentType
      *
      * @return string
      */

@@ -1,27 +1,31 @@
 services:
-    eztags.api.service.tags:
-        alias: eztags.site_access_aware.service.tags
+    netgen_tags.api.service.tags:
+        alias: netgen_tags.site_access_aware.service.tags
 
-    eztags.event.service.tags:
+    # For BC with Netgen Tags 4.0
+    eztags.api.service.tags:
+        alias: netgen_tags.api.service.tags
+
+    netgen_tags.event.service.tags:
         class: Netgen\TagsBundle\Core\Event\TagsService
         arguments:
-            - "@eztags.api.service.tags.inner"
+            - "@netgen_tags.api.service.tags.inner"
             - "@event_dispatcher"
 
-    eztags.site_access_aware.service.tags:
+    netgen_tags.site_access_aware.service.tags:
         class: Netgen\TagsBundle\Core\SiteAccessAware\TagsService
         arguments:
-            - "@eztags.event.service.tags"
-            - "@ezpublish.helper.language_resolver"
+            - "@netgen_tags.event.service.tags"
+            - "@ibexa.helper.language_resolver"
 
-    eztags.api.service.tags.mapper:
+    netgen_tags.api.service.tags.mapper:
         class: Netgen\TagsBundle\Core\Repository\TagsMapper
         arguments:
-            - "@ezpublish.spi.persistence.cache.contentLanguageHandler"
+            - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler"
 
-    eztags.api.service.tags.inner:
+    netgen_tags.api.service.tags.inner:
         class: Netgen\TagsBundle\Core\Repository\TagsService
         arguments:
-            - "@ezpublish.siteaccessaware.repository"
-            - "@eztags.api.persistence_handler.tags"
-            - "@eztags.api.service.tags.mapper"
+            - "@ibexa.siteaccessaware.repository"
+            - "@netgen_tags.api.persistence_handler.tags"
+            - "@netgen_tags.api.service.tags.mapper"

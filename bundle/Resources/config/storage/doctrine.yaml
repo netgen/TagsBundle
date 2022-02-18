@@ -1,35 +1,35 @@
 services:
-    eztags.field_type.eztags.converter:
+    netgen_tags.field_type.eztags.converter:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
         tags:
-            - { name: ezplatform.field_type.legacy_storage.converter, alias: eztags }
+            - { name: ibexa.field_type.storage.legacy.converter, alias: eztags }
 
-    eztags.field_type.eztags.storage_gateway:
+    netgen_tags.field_type.eztags.storage_gateway:
         class: Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway\DoctrineStorage
         arguments:
-            - "@ezpublish.api.storage_engine.legacy.connection"
-            - "@ezpublish.spi.persistence.legacy.language.handler"
+            - "@ibexa.persistence.connection"
+            - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler"
 
-    eztags.api.storage_engine.legacy.handler.tags.mapper:
+    netgen_tags.api.storage_engine.legacy.handler.tags.mapper:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
         arguments:
-            - "@ezpublish.spi.persistence.legacy.language.handler"
-            - "@ezpublish.persistence.legacy.language.mask_generator"
+            - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler"
+            - "@Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator"
 
-    eztags.api.storage_engine.legacy.handler.tags.gateway.inner:
+    netgen_tags.api.storage_engine.legacy.handler.tags.gateway.inner:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
         arguments:
-            - "@ezpublish.persistence.connection"
-            - "@ezpublish.spi.persistence.legacy.language.handler"
-            - "@ezpublish.persistence.legacy.language.mask_generator"
+            - "@ibexa.persistence.connection"
+            - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler"
+            - "@Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator"
 
-    eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion:
+    netgen_tags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion
         arguments:
-            - "@eztags.api.storage_engine.legacy.handler.tags.gateway.inner"
+            - "@netgen_tags.api.storage_engine.legacy.handler.tags.gateway.inner"
 
-    eztags.api.storage_engine.legacy.handler.tags:
+    netgen_tags.api.storage_engine.legacy.handler.tags:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler
         arguments:
-            - "@eztags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion"
-            - "@eztags.api.storage_engine.legacy.handler.tags.mapper"
+            - "@netgen_tags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion"
+            - "@netgen_tags.api.storage_engine.legacy.handler.tags.mapper"

@@ -1,4 +1,4 @@
-{% extends ezplatform.configResolver.parameter('page_layout') %}
+{% extends ibexa.configResolver.parameter('page_layout') %}
 
 {% block page_head %}
     {% set title = tag.keyword %}
@@ -18,7 +18,7 @@
                         {% for related_content_item in related_content %}
                             {{ render(
                                 controller(
-                                    "ez_content:viewAction", {
+                                    "ibexa_content:viewAction", {
                                         "contentId": related_content_item.id,
                                         "locationId": related_content_item.mainLocationId,
                                         "viewType": "line",

@@ -12,17 +12,17 @@ final class DefaultStorageEnginePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasParameter('ezpublish.api.storage_engine.default')) {
+        if (!$container->hasParameter('ibexa.api.storage_engine.default')) {
             return;
         }
 
         /** @var string $defaultStorageEngine */
-        $defaultStorageEngine = $container->getParameter('ezpublish.api.storage_engine.default');
+        $defaultStorageEngine = $container->getParameter('ibexa.api.storage_engine.default');
 
         $container->setAlias(
-            'eztags.api.persistence_handler.tags.storage',
+            'netgen_tags.api.persistence_handler.tags.storage',
             sprintf(
-                'eztags.api.storage_engine.%s.handler.tags',
+                'netgen_tags.api.storage_engine.%s.handler.tags',
                 $defaultStorageEngine
             )
         );

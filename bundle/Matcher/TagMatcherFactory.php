@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Matcher;
 
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
-use eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
+use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
+use Ibexa\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\TagsServiceAwareInterface;
@@ -22,7 +22,7 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -46,7 +46,7 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
 
     public function match(View $view): ?array
     {
-        $this->setMatchConfig($this->configResolver->getParameter('tag_view_match', 'eztags'));
+        $this->setMatchConfig($this->configResolver->getParameter('tag_view_match', 'netgen_tags'));
 
         return parent::match($view);
     }

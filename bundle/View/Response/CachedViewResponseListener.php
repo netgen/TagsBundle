@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\View\Response;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use FOS\HttpCache\ResponseTagger;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Netgen\TagsBundle\View\CacheableView;
 use Netgen\TagsBundle\View\TagView;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,7 +20,7 @@ final class CachedViewResponseListener implements EventSubscriberInterface
     private $responseTagger;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -45,7 +45,7 @@ final class CachedViewResponseListener implements EventSubscriberInterface
             return;
         }
 
-        $cacheEnabled = (bool) $this->configResolver->getParameter('tag_view.cache', 'eztags');
+        $cacheEnabled = (bool) $this->configResolver->getParameter('tag_view.cache', 'netgen_tags');
         if (!$cacheEnabled || !$view->isCacheEnabled()) {
             return;
         }
@@ -56,9 +56,9 @@ final class CachedViewResponseListener implements EventSubscriberInterface
         $response->setPublic();
         $this->responseTagger->addTags(['ngtags-tag-' . $tag->id]);
 
-        $ttlCacheEnabled = (bool) $this->configResolver->getParameter('tag_view.ttl_cache', 'eztags');
+        $ttlCacheEnabled = (bool) $this->configResolver->getParameter('tag_view.ttl_cache', 'netgen_tags');
         if ($ttlCacheEnabled && !$response->headers->hasCacheControlDirective('s-maxage')) {
-            $response->setSharedMaxAge($this->configResolver->getParameter('tag_view.default_ttl', 'eztags'));
+            $response->setSharedMaxAge($this->configResolver->getParameter('tag_view.default_ttl', 'netgen_tags'));
         }
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use EzSystems\EzPlatformAdminUi\FieldType\FieldDefinitionFormMapperInterface;
-use EzSystems\EzPlatformAdminUi\Form\Data\FieldDefinitionData;
-use EzSystems\EzPlatformContentForms\Data\Content\FieldData;
-use EzSystems\EzPlatformContentForms\FieldType\FieldValueFormMapperInterface;
+use Ibexa\AdminUi\FieldType\FieldDefinitionFormMapperInterface;
+use Ibexa\AdminUi\Form\Data\FieldDefinitionData;
+use Ibexa\Contracts\ContentForms\Data\Content\FieldData;
+use Ibexa\Contracts\ContentForms\FieldType\FieldValueFormMapperInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Netgen\TagsBundle\Form\Type\FieldType\TagsFieldType;
 use Netgen\TagsBundle\Form\Type\TagTreeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,7 +21,7 @@ use function array_values;
 final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
 {
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -52,7 +52,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
     public function mapFieldDefinitionForm(FormInterface $fieldDefinitionForm, FieldDefinitionData $data): void
     {
         $editViewChoices = [];
-        foreach ($this->configResolver->getParameter('edit_views', 'eztags') as $editView) {
+        foreach ($this->configResolver->getParameter('edit_views', 'netgen_tags') as $editView) {
             $editViewChoices[$editView['name']] = $editView['identifier'];
         }
 

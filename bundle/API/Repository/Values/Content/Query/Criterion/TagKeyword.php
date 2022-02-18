@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value;
 
 /**
  * A criterion that matches content based on tag keyword that is located in one of the fields.
@@ -23,7 +23,7 @@ final class TagKeyword extends Criterion
      * @param string|null $operator
      * @param string|string[] $value One or more tag keywords that must be matched
      * @param string|null $target Field definition identifier to use
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value|null $valueData
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value|null $valueData
      */
     public function __construct(?string $operator, $value, ?string $target = null, ?Value $valueData = null)
     {

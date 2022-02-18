@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use EzSystems\EzPlatformRest\Output\Generator;
-use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
-use EzSystems\EzPlatformRest\Output\Visitor;
 use FOS\HttpCache\ResponseTagger;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Contracts\Rest\Output\Generator;
+use Ibexa\Contracts\Rest\Output\ValueObjectVisitor;
+use Ibexa\Contracts\Rest\Output\Visitor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -20,7 +20,7 @@ final class CachedValue extends ValueObjectVisitor
     private $requestStack;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -43,7 +43,7 @@ final class CachedValue extends ValueObjectVisitor
     {
         $visitor->visitValueObject($data->value);
 
-        if ($this->getParameter('tag_view.cache', 'eztags') !== true) {
+        if ($this->getParameter('tag_view.cache', 'netgen_tags') !== true) {
             return;
         }
 
@@ -51,8 +51,8 @@ final class CachedValue extends ValueObjectVisitor
         $response->setPublic();
         $response->setVary('Accept');
 
-        if ($this->getParameter('tag_view.ttl_cache', 'eztags') === true) {
-            $response->setSharedMaxAge($this->getParameter('tag_view.default_ttl', 'eztags'));
+        if ($this->getParameter('tag_view.ttl_cache', 'netgen_tags') === true) {
+            $response->setSharedMaxAge($this->getParameter('tag_view.default_ttl', 'netgen_tags'));
 
             $request = $this->requestStack->getCurrentRequest();
             if ($request instanceof Request && $request->headers->has('X-User-Hash')) {

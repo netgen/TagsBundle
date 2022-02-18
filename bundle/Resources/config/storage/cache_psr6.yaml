@@ -1,5 +1,5 @@
 services:
-    eztags.api.persistence_handler.tags.cache:
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryHandler
+    netgen_tags.api.persistence_handler.tags.cache:
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler
         class: Netgen\TagsBundle\Core\Persistence\Cache\TagsHandler
-        arguments: ["@eztags.api.persistence_handler.tags.storage"]
+        arguments: ["@netgen_tags.api.persistence_handler.tags.storage"]

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -26,7 +26,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -36,12 +36,12 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
     private $nbResults;
 
     /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Query\SortClause[]
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
      */
     private $sortClauses = [];
 
     /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion[]
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[]
      */
     private $additionalCriteria = [];
 
@@ -57,7 +57,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
      */
     public function setSortClauses(array $sortClauses): void
     {
@@ -65,7 +65,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion[] $additionalCriteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $additionalCriteria
      */
     public function setAdditionalCriteria(array $additionalCriteria = []): void
     {
@@ -93,7 +93,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
             $this->tag,
             $offset,
             $length,
-            $this->configResolver->getParameter('tag_view.related_content_list.return_content_info', 'eztags'),
+            $this->configResolver->getParameter('tag_view.related_content_list.return_content_info', 'netgen_tags'),
             $this->additionalCriteria,
             $this->sortClauses
         );

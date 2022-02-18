@@ -1,6 +1,6 @@
 netgen_tags_admin_tree_get_children:
     path: /get/{tagId}/{isRoot}
-    controller: eztags.admin.controller.tree:getChildrenAction
+    controller: netgen_tags.admin.controller.tree:getChildrenAction
     methods: [GET]
     defaults:
         isRoot: false

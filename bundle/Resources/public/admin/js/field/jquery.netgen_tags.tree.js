@@ -50,10 +50,10 @@
         });
     };
 
-    // eztags tree version setup
-    $.EzTags.Tree = $.EzTags.Default.extend({
+    // Netgen Tags tree version setup
+    $.NetgenTags.Tree = $.NetgenTags.Default.extend({
         setup_events: function(){
-            $.EzTags.Default.prototype.setup_events.apply(this, arguments);
+            $.NetgenTags.Default.prototype.setup_events.apply(this, arguments);
             this.$el.parent().on('click', 'a.jstree-anchor:not(.jstree-disabled)', function(e){
                 this.add($(e.currentTarget).data());
             }.bind(this));
@@ -65,7 +65,7 @@
         },
 
         addTree: function(){
-            var tree = new TreeView(this.$el.parent().find('.ez-tags-tree-selector'));
+            var tree = new TreeView(this.$el.parent().find('.netgen-tags-tree-selector'));
             tree.tags = this;
         },
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Repository;
 
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Exception\FacetingNotSupportedException;
@@ -20,7 +20,7 @@ final class RelatedContentFacetsLoader
     private $tagsService;
 
     /**
-     * @var \eZ\Publish\API\Repository\SearchService
+     * @var \Ibexa\Contracts\Core\Repository\SearchService
      */
     private $searchService;
 
@@ -35,12 +35,12 @@ final class RelatedContentFacetsLoader
      * for content tagged with $tag.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      * @throws \Netgen\TagsBundle\Exception\FacetingNotSupportedException
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[]
      */
     public function getRelatedContentFacets(Tag $tag, array $facetBuilders = []): array
     {

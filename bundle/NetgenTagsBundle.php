@@ -18,8 +18,8 @@ final class NetgenTagsBundle extends Bundle
         $container->addCompilerPass(new Compiler\TagViewBuilderPass());
         $container->addCompilerPass(new Compiler\DefaultStorageEnginePass());
 
-        /** @var \eZ\Bundle\EzPublishCoreBundle\DependencyInjection\EzPublishCoreExtension $eZExtension */
-        $eZExtension = $container->getExtension('ezpublish');
-        $eZExtension->addPolicyProvider(new TagsPolicyProvider());
+        /** @var \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension $ibexaCoreExtension */
+        $ibexaCoreExtension = $container->getExtension('ibexa');
+        $ibexaCoreExtension->addPolicyProvider(new TagsPolicyProvider());
     }
 }

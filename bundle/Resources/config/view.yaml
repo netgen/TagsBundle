@@ -1,45 +1,45 @@
 services:
-    eztags.view.builder_parameter_collector.current_page:
+    netgen_tags.view.builder_parameter_collector.current_page:
         class: Netgen\TagsBundle\View\Builder\ParametersFilter\CurrentPage
         tags:
             - { name: kernel.event_subscriber }
 
-    eztags.view.view_parameters_injector.related_content_pager:
+    netgen_tags.view.view_parameters_injector.related_content_pager:
         class: Netgen\TagsBundle\View\ParametersInjector\RelatedContentPager
         arguments:
-            - "@eztags.pagerfanta.related_content_adapter"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.pagerfanta.related_content_adapter"
+            - "@ibexa.config.resolver"
         tags:
             - { name: kernel.event_subscriber }
 
-    eztags.view.cache_response_listener:
+    netgen_tags.view.cache_response_listener:
         class: Netgen\TagsBundle\View\Response\CachedViewResponseListener
         arguments:
             - "@fos_http_cache.http.symfony_response_tagger"
-            - "@ezpublish.config.resolver"
+            - "@ibexa.config.resolver"
         tags:
             - { name: kernel.event_subscriber }
 
-    eztags.view.tag_view_builder:
+    netgen_tags.view.tag_view_builder:
         class: Netgen\TagsBundle\View\Builder\TagViewBuilder
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.view.configurator"
-            - "@ezpublish.view.view_parameters.injector.dispatcher"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@Ibexa\\Core\\MVC\\Symfony\\View\\Configurator"
+            - "@Ibexa\\Core\\MVC\\Symfony\\View\\ParametersInjector"
+            - "@ibexa.config.resolver"
             - "@security.authorization_checker"
 
-    eztags.view.tag_matcher_factory:
+    netgen_tags.view.tag_matcher_factory:
         class: Netgen\TagsBundle\Matcher\TagMatcherFactory
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.api.repository"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.api.repository"
+            - "@ibexa.config.resolver"
             - "@service_container"
 
-    eztags.view.tag_view_provider:
+    netgen_tags.view.tag_view_provider:
         class: Netgen\TagsBundle\View\Provider\TagViewProvider
         arguments:
-            - "@eztags.view.tag_matcher_factory"
+            - "@netgen_tags.view.tag_matcher_factory"
         tags:
-            - { name: ezpublish.view_provider, type: 'Netgen\TagsBundle\View\TagView', priority: 10 }
+            - { name: ibexa.view.provider, type: 'Netgen\TagsBundle\View\TagView', priority: 10 }

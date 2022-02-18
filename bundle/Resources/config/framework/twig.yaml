@@ -1,2 +1,2 @@
 globals:
-    eztags_admin: "@eztags.templating.admin_global_variable"
+    netgen_tags_admin: "@netgen_tags.templating.admin_global_variable"

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\REST\Controller;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use EzSystems\EzPlatformRest\Exceptions;
-use EzSystems\EzPlatformRest\Exceptions\ForbiddenException;
-use EzSystems\EzPlatformRest\Message;
-use EzSystems\EzPlatformRest\Server\Controller as RestController;
-use EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException;
-use EzSystems\EzPlatformRest\Server\Values as BaseValues;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Rest\Exceptions;
+use Ibexa\Rest\Message;
+use Ibexa\Rest\Server\Controller as RestController;
+use Ibexa\Rest\Server\Exceptions\BadRequestException;
+use Ibexa\Rest\Server\Values as BaseValues;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Values;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +33,7 @@ final class Tags extends RestController
     /**
      * Loads the tag for a given ID (x)or remote ID.
      *
-     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID
+     * @throws \Ibexa\Rest\Server\Exceptions\BadRequestException If the request does not have an ID or remote ID
      */
     public function redirectTag(Request $request): BaseValues\TemporaryRedirect
     {
@@ -50,7 +49,7 @@ final class Tags extends RestController
 
         return new BaseValues\TemporaryRedirect(
             $this->router->generate(
-                'ezpublish_rest_eztags_loadTag',
+                'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($tag->pathString, '/'),
                 ]
@@ -61,7 +60,7 @@ final class Tags extends RestController
     /**
      * Loads a tag object by its path.
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\NotFoundException If no tag is found with specified path
+     * @throws \Ibexa\Contracts\Rest\Exceptions\NotFoundException If no tag is found with specified path
      */
     public function loadTag(string $tagPath): Values\CachedValue
     {
@@ -96,7 +95,7 @@ final class Tags extends RestController
     /**
      * Loads all tags with specified keyword.
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\NotFoundException If no tag is found with specified path
+     * @throws \Ibexa\Contracts\Rest\Exceptions\NotFoundException If no tag is found with specified path
      */
     public function loadTagsByKeyword(string $keyword, string $language, Request $request): Values\CachedValue
     {
@@ -202,7 +201,7 @@ final class Tags extends RestController
 
         $restContent = [];
 
-        /** @var \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo */
         foreach ($relatedContent as $contentInfo) {
             $restContent[] = new BaseValues\RestContent($contentInfo);
         }
@@ -219,7 +218,7 @@ final class Tags extends RestController
     /**
      * Creates a new tag.
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\ForbiddenException If there was an error while creating the tag
+     * @throws \Ibexa\Contracts\Rest\Exceptions\ForbiddenException If there was an error while creating the tag
      */
     public function createTag(Request $request): Values\CreatedTag
     {
@@ -233,7 +232,7 @@ final class Tags extends RestController
         try {
             $createdTag = $this->tagsService->createTag($synonymCreateStruct);
         } catch (InvalidArgumentException $e) {
-            throw new ForbiddenException($e->getMessage());
+            throw new Exceptions\ForbiddenException($e->getMessage());
         }
 
         return new Values\CreatedTag(new Values\RestTag($createdTag, 0, 0));
@@ -242,7 +241,7 @@ final class Tags extends RestController
     /**
      * Creates a new synonym.
      *
-     * @throws \EzSystems\EzPlatformRest\Exceptions\ForbiddenException If there was an error while creating the tag
+     * @throws \Ibexa\Contracts\Rest\Exceptions\ForbiddenException If there was an error while creating the tag
      */
     public function createSynonym(string $tagPath, Request $request): Values\CreatedTag
     {
@@ -258,7 +257,7 @@ final class Tags extends RestController
         try {
             $createdSynonym = $this->tagsService->addSynonym($synonymCreateStruct);
         } catch (InvalidArgumentException $e) {
-            throw new ForbiddenException($e->getMessage());
+            throw new Exceptions\ForbiddenException($e->getMessage());
         }
 
         return new Values\CreatedTag(new Values\RestTag($createdSynonym, 0, 0));
@@ -300,7 +299,7 @@ final class Tags extends RestController
     /**
      * Copies a subtree to a new destination.
      *
-     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \Ibexa\Rest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      */
     public function copySubtree(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
@@ -330,7 +329,7 @@ final class Tags extends RestController
 
         return new BaseValues\ResourceCreated(
             $this->router->generate(
-                'ezpublish_rest_eztags_loadTag',
+                'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($newTag->pathString, '/'),
                 ]
@@ -341,7 +340,7 @@ final class Tags extends RestController
     /**
      * Moves a subtree to a new location.
      *
-     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \Ibexa\Rest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      */
     public function moveSubtree(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
@@ -374,7 +373,7 @@ final class Tags extends RestController
 
         return new BaseValues\ResourceCreated(
             $this->router->generate(
-                'ezpublish_rest_eztags_loadTag',
+                'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($tag->pathString, '/'),
                 ]
@@ -385,7 +384,7 @@ final class Tags extends RestController
     /**
      * Converts a tag to synonym.
      *
-     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \Ibexa\Rest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      */
     public function convertToSynonym(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
@@ -415,7 +414,7 @@ final class Tags extends RestController
 
         return new BaseValues\ResourceCreated(
             $this->router->generate(
-                'ezpublish_rest_eztags_loadTag',
+                'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($convertedTag->pathString, '/'),
                 ]
@@ -426,7 +425,7 @@ final class Tags extends RestController
     /**
      * Merges two tags.
      *
-     * @throws \EzSystems\EzPlatformRest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
+     * @throws \Ibexa\Rest\Server\Exceptions\BadRequestException if the Destination header cannot be parsed as a tag
      */
     public function mergeTags(string $tagPath, Request $request): BaseValues\NoContent
     {

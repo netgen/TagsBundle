@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Tests\Core\FieldType;
 
 use DateTimeImmutable;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Tests\Core\FieldType\FieldTypeTest;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;

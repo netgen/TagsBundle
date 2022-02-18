@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\API\Repository\Values\User\Limitation;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\API\Repository\Tests\Values\User\Limitation\BaseLimitationTest;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation\BaseLimitationTest;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 
 final class TagLimitationTest extends BaseLimitationTest

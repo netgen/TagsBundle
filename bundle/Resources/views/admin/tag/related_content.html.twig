@@ -1,6 +1,6 @@
-{% extends eztags_admin.pageLayoutTemplate %}
+{% extends netgen_tags_admin.pageLayoutTemplate %}
 
-{% trans_default_domain 'eztags_admin' %}
+{% trans_default_domain 'netgen_tags_admin' %}
 
 {% set filter_applied = filter_applied|default(false) %}
 
@@ -33,7 +33,7 @@
                 {% for content in related_content %}
                     <tr>
                         <td>{{ content.id }}</td>
-                        <td><a href="{{ path('ez_urlalias', {'contentId': content.id}) }}" target="_blank">{{ content.name }}</a></td>
+                        <td><a href="{{ path('ibexa.url.alias', {'contentId': content.id}) }}" target="_blank">{{ content.name }}</a></td>
                         <td>{{ content.modificationDate|date }}</td>
                         <td>{{ netgen_tags_content_type_name(content.contentTypeId) }}</td>
                     </tr>
@@ -42,7 +42,7 @@
         </table>
 
         {% if related_content.haveToPaginate() %}
-            {{ pagerfanta(related_content, 'eztags_admin') }}
+            {{ pagerfanta(related_content, 'netgen_tags_admin') }}
         {% endif %}
     {% endif %}
 {% endblock %}

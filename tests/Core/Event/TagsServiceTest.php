@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Event;
 
-use eZ\Publish\API\Repository\Values\Content\Content as APIContent;
-use eZ\Publish\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content as IbexaContent;
+use Ibexa\Core\Repository\Values\Content\Content;
 use Netgen\TagsBundle\API\Repository\Events\Tags as Events;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
@@ -261,7 +261,7 @@ final class TagsServiceTest extends TestCase
         $content = $eventDispatchingService->getRelatedContent($tag);
 
         self::assertCount(2, $content);
-        self::assertContainsOnlyInstancesOf(APIContent::class, $content);
+        self::assertContainsOnlyInstancesOf(IbexaContent::class, $content);
     }
 
     /**

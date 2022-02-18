@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Controller\Admin;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller as BaseController;
+use Ibexa\Bundle\Core\Controller as BaseController;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\TagAdapterInterface;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -19,7 +19,7 @@ abstract class Controller extends BaseController
      * It is not needed to call this method from actions
      * as it's already called from base controller service.
      *
-     * @see eztags.admin.controller.base service definition
+     * @see netgen_tags.admin.controller.base service definition
      */
     public function performAccessChecks(): void
     {
@@ -56,7 +56,7 @@ abstract class Controller extends BaseController
             $translator->trans(
                 $messageType . '.' . $message,
                 $parameters,
-                'eztags_admin_flash'
+                'netgen_tags_admin_flash'
             )
         );
     }

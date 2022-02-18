@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\Repository;
 
 use DateTimeImmutable;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use function array_merge;
@@ -16,7 +16,7 @@ use function in_array;
 final class TagsMapper
 {
     /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
     private $languageHandler;
 
@@ -37,7 +37,7 @@ final class TagsMapper
             $languageIds[] = $spiTag->languageIds;
         }
 
-        /** @var \eZ\Publish\SPI\Persistence\Content\Language[] $languages */
+        /** @var \Ibexa\Contracts\Core\Persistence\Content\Language[] $languages */
         $languages = $this->languageHandler->loadList(array_unique(array_merge(...$languageIds)));
 
         $tags = [];
