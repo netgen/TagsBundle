@@ -53,7 +53,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
     {
         if (self::$dbConnection === null) {
             parent::setUp();
-            $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ezsystems/ezplatform-kernel/eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php');
+            $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ibexa/core/tests/lib/Search/Legacy/_fixtures/full_dump.php');
             self::$dbConnection = $this->getDatabaseConnection();
 
             $dbConnection = $this->getDatabaseConnection();

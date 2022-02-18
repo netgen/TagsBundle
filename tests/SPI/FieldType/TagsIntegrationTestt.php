@@ -21,7 +21,7 @@ use function array_filter;
 use function file_get_contents;
 use function preg_split;
 
-final class TagsIntegrationTest extends BaseIntegrationTest
+final class TagsIntegrationTestt extends BaseIntegrationTest
 {
     /**
      * @var \Doctrine\DBAL\Connection

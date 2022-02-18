@@ -511,7 +511,7 @@ final class TagsTest extends FieldTypeTest
             ->method('getParameter')
             ->with(
                 self::identicalTo('edit_views'),
-                self::identicalTo('eztags')
+                self::identicalTo('netgen_tags')
             )
             ->willReturn(
                 [

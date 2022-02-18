@@ -123,7 +123,7 @@ final class RelatedContentAdapterTest extends TestCase
             ->method('getParameter')
             ->with(
                 self::identicalTo('tag_view.related_content_list.return_content_info'),
-                self::identicalTo('eztags')
+                self::identicalTo('netgen_tags')
             )
             ->willReturn(true);
 

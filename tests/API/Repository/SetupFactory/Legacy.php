@@ -47,7 +47,7 @@ final class Legacy extends BaseLegacy
         $loader = null;
 
         if (!isset(self::$serviceContainer)) {
-            $config = include __DIR__ . '/../../../../vendor/ezsystems/ezplatform-kernel/config.php';
+            $config = include __DIR__ . '/../../../../vendor/ibexa/core/config.php';
             $installDir = $config['install_dir'];
 
             /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */

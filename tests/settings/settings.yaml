@@ -1,5 +1,5 @@
 parameters:
-    storage_dir: vendor/ezsystems/ezplatform-kernel/var/ezdemo_site/storage
+    storage_dir: vendor/ibexa/core/var/ezdemo_site/storage
     ezpublish.api.storage_engine.default: legacy
 
     ezpublish.api.role.policy_map:
