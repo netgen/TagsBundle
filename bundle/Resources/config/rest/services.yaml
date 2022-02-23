@@ -3,7 +3,7 @@ services:
 
     netgen_tags.rest.controller.tags:
         class: Netgen\TagsBundle\Core\REST\Controller\Tags
-        parent: ibexa.rest.controller.base
+        parent: Ibexa\Rest\Server\Controller
         public: true
         arguments:
             - "@netgen_tags.api.service.tags"
@@ -12,7 +12,7 @@ services:
 
     netgen_tags.rest.output.value_object_visitor.cached_value:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CachedValue
-        parent: ibexa.rest.output.value_object_visitor.base
+        parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         arguments:
             - "@request_stack"
             - "@ibexa.config.resolver"
@@ -22,26 +22,26 @@ services:
 
     netgen_tags.rest.output.value_object_visitor.rest_tag:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\RestTag
-        parent: ibexa.rest.output.value_object_visitor.base
+        parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
             - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\RestTag }
 
     netgen_tags.rest.output.value_object_visitor.tag_list:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\TagList
-        parent: ibexa.rest.output.value_object_visitor.base
+        parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
             - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\TagList }
 
     # Reimplemented to allow for specifying custom href to content list in the output
     netgen_tags.rest.output.value_object_visitor.content_list:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\ContentList
-        parent: ibexa.rest.output.value_object_visitor.base
+        parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
             - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\ContentList }
 
     netgen_tags.rest.output.value_object_visitor.created_tag:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CreatedTag
-        parent: ibexa.rest.output.value_object_visitor.base
+        parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
             - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CreatedTag }
 
@@ -49,7 +49,6 @@ services:
 
     netgen_tags.rest.input.parser.tag_create:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagCreate
-        parent: ibexa.rest.input.parser
         arguments:
             - "@netgen_tags.api.service.tags"
             - "@ibexa.rest.parser_tools"
@@ -58,7 +57,6 @@ services:
 
     netgen_tags.rest.input.parser.tag_synonym_create:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagSynonymCreate
-        parent: ibexa.rest.input.parser
         arguments:
             - "@netgen_tags.api.service.tags"
             - "@ibexa.rest.parser_tools"
@@ -67,7 +65,6 @@ services:
 
     netgen_tags.rest.input.parser.tag_update:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagUpdate
-        parent: ibexa.rest.input.parser
         arguments:
             - "@netgen_tags.api.service.tags"
             - "@ibexa.rest.parser_tools"

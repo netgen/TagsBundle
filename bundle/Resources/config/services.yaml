@@ -1,12 +1,12 @@
 services:
     netgen_tags.controller.tag_view:
         class: Netgen\TagsBundle\Controller\TagViewController
-        parent: ibexa.controller.base
+        parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         public: true
 
     netgen_tags.routing.tag_url_generator:
         class: Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
-        parent: ibexa.url_generator.base
+        parent: Ibexa\Core\MVC\Symfony\Routing\Generator
         arguments:
             - "@netgen_tags.api.service.tags"
             - "@router.default"

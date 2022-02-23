@@ -3,7 +3,7 @@ services:
 
     netgen_tags.admin.controller.base:
         class: Netgen\TagsBundle\Controller\Admin\Controller
-        parent: ibexa.controller.base
+        parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         abstract: true
         calls:
             - [performAccessChecks, []]
@@ -53,5 +53,5 @@ services:
 
     netgen_tags.admin.controller.access:
         class: Netgen\TagsBundle\Controller\Admin\AccessController
-        parent: ibexa.controller.base
+        parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         public: true

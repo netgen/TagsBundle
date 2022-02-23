@@ -1,7 +1,7 @@
 services:
     netgen_tags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
-        parent: ezpublish.fieldType
+        parent: Ibexa\Core\FieldType\FieldType
         arguments:
             - "@netgen_tags.api.service.tags"
             - "@ibexa.config.resolver"
