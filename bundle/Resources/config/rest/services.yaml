@@ -51,7 +51,7 @@ services:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagCreate
         arguments:
             - "@netgen_tags.api.service.tags"
-            - "@ibexa.rest.parser_tools"
+            - "@Ibexa\\Rest\\Input\\ParserTools"
         tags:
             - { name: ibexa.rest.input.parser, mediaType: application/vnd.ibexa.api.TagCreate }
 
@@ -59,7 +59,7 @@ services:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagSynonymCreate
         arguments:
             - "@netgen_tags.api.service.tags"
-            - "@ibexa.rest.parser_tools"
+            - "@Ibexa\\Rest\\Input\\ParserTools"
         tags:
             - { name: ibexa.rest.input.parser, mediaType: application/vnd.ibexa.api.TagSynonymCreate }
 
@@ -67,6 +67,6 @@ services:
         class: Netgen\TagsBundle\Core\REST\Input\Parser\TagUpdate
         arguments:
             - "@netgen_tags.api.service.tags"
-            - "@ibexa.rest.parser_tools"
+            - "@Ibexa\\Rest\\Input\\ParserTools"
         tags:
             - { name: ibexa.rest.input.parser, mediaType: application/vnd.ibexa.api.TagUpdate }

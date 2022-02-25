@@ -3,7 +3,7 @@ services:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId
         arguments:
             - "@Ibexa\\Core\\Search\\Common\\FieldNameResolver"
-            - "@Ibexa\\Core\\Search\\Common\\FieldValueMapper"
+            - "@Ibexa\\Core\\Search\\Common\\FieldValueMapper\\Aggregate"
             - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\Handler"
             - "eztags"
             - "tag_ids"
@@ -15,7 +15,7 @@ services:
         class: Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword
         arguments:
             - "@Ibexa\\Core\\Search\\Common\\FieldNameResolver"
-            - "@Ibexa\\Core\\Search\\Common\\FieldValueMapper"
+            - "@Ibexa\\Core\\Search\\Common\\FieldValueMapper\\Aggregate"
             - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\Handler"
             - "eztags"
             - "tag_keywords"
