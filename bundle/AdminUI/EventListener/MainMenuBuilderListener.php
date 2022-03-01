@@ -53,7 +53,12 @@ final class MainMenuBuilderListener implements EventSubscriberInterface
         $menu
             ->addChild('netgen_tags', ['route' => 'netgen_tags_admin_root'])
             ->setLabel('menu.main_menu.header')
-            ->setExtra('translation_domain', 'netgen_tags_admin');
+            ->setExtra('translation_domain', 'netgen_tags_admin')
+            ->setExtra('bottom_item', true)
+            ->setExtra('icon', 'tags')
+            ->setExtra('orderNumber', 150)
+            ->setAttribute('data-tooltip-placement', 'right')
+            ->setAttribute('data-tooltip-extra-class', 'ibexa-tooltip--info-neon');
 
         $menu->reorderChildren($menuOrder);
     }
