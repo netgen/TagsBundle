@@ -1,7 +1,10 @@
-$.noConflict();
+jQuery.noConflict();
 
-(function($){
+(function(jQuery){
     'use strict';
+
+    var $ = jQuery;
+
     /* options for tagsTree plugin
         'modal' - boolean - is the tagsTree opened in modal window (default false)
         'treeClassName' - string - class name for div on which jstree is initialized (default 'tags-tree')
@@ -236,7 +239,7 @@ $.noConflict();
 
 })(jQuery);
 
-function ngTagsInit(){
+function ngTagsInit(jQuery){
     'use strict';
 
     var $ = jQuery;
@@ -344,9 +347,8 @@ function ngTagsInit(){
         var name = e.currentTarget.dataset.enable;
         $('input[data-enable="' + name + '"]:checked').length ? $('[data-enabler="' + name + '"]').removeAttr('disabled') : $('[data-enabler="' + name + '"]').attr('disabled', 'disabled');
     });
-
 }
 
-jQuery(document).ready(function($) {
-    ngTagsInit();
+jQuery(document).ready(function(jQuery) {
+    ngTagsInit(jQuery);
 });
