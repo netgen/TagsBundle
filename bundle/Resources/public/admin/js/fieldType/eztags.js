@@ -1,29 +1,21 @@
-(function (global) {
-    const SELECTOR_FIELD = '.ez-field-edit--eztags .ez-field-edit--required';
+(function (global, doc, ibexa) {
+    const SELECTOR_FIELD = '.ibexa-field-edit--eztags .ibexa-field-edit--required';
 
-    class EzTagsValidator extends global.eZ.BaseFieldValidator {
-        /**
-         * Validates the input
-         *
-         * @method validateInteger
-         * @param {Event} event
-         * @returns {Object}
-         * @memberof EzIntegerValidator
-         */
-        validateEzTags(event) {
+    class TagsValidator extends ibexa.BaseFieldValidator {
+            validateTags(event) {
             const isEmpty = !event.target.value;
             const isError = isEmpty;
-            const label = event.target.closest(SELECTOR_FIELD).querySelector('.ez-field-edit__label').innerHTML;
+            const label = event.target.closest(SELECTOR_FIELD).querySelector('.ibexa-field-edit__label').innerHTML;
             const result = {isError};
             if (isEmpty) {
-                result.errorMessage = global.eZ.errors.emptyField.replace('{fieldName}', label);
+                result.errorMessage = ibexa.errors.emptyField.replace('{fieldName}', label);
             }
 
             return result;
         }
 
         init() {
-            global.eZ.BaseFieldValidator.prototype.init.call(this);
+            ibexa.BaseFieldValidator.prototype.init.call(this);
             this.eventsMap.forEach((eventConfig) => {
                 // Workaround for missing change event on hidden input.
                 // Watch hidden field for changes and re-validate it
@@ -41,23 +33,23 @@
                         attributes: true
                     });
                 }
-                jQuery('.ez-field-edit--eztags input.tagids').each(function(index,element) {
+
+                doc.querySelectorAll('.ibexa-field-edit--eztags input.tagids').forEach((element) => {
                     trackChange(element);
                 });
             });
-
         }
     }
 
-    const validator = new EzTagsValidator({
+    const validator = new TagsValidator({
         classInvalid: 'is-invalid',
         fieldSelector: SELECTOR_FIELD,
         eventsMap: [
             {
-                selector: '.ez-field-edit--eztags input.tagids',
+                selector: '.ibexa-field-edit--eztags input.tagids',
                 eventName: 'change',
-                callback: 'validateEzTags',
-                errorNodeSelectors: ['.ez-field-edit__label-wrapper'],
+                callback: 'validateTags',
+                errorNodeSelectors: ['.ibexa-field-edit__label-wrapper'],
             },
         ],
     });
@@ -66,9 +58,7 @@
         validator.init();
     }
 
-    global.eZ.fieldTypeValidators = global.eZ.fieldTypeValidators ?
-        [...global.eZ.fieldTypeValidators, validator] :
+    global.ibexa.fieldTypeValidators = global.ibexa.fieldTypeValidators ?
+        [...global.ibexa.fieldTypeValidators, validator] :
         [validator];
-
-
-})(window);
+})(window, window.document, window.ibexa);
