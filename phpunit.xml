@@ -14,9 +14,6 @@
         <testsuite name="Netgen\TagsBundle\Tests\Core">
             <directory>tests/Core</directory>
         </testsuite>
-        <testsuite name="Netgen\TagsBundle\Tests\SPI">
-            <directory>tests/SPI</directory>
-        </testsuite>
         <testsuite name="Netgen\TagsBundle\Tests\Templating">
             <directory>tests/Templating</directory>
         </testsuite>
