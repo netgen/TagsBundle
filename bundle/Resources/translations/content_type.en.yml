@@ -1,15 +1,15 @@
-field_definition.eztags.validator.subtree_limit: 'Limit by tags subtree'
-field_definition.eztags.validator.subtree_limit.no_limit: 'No subtree limit'
+field_definition.tags.validator.subtree_limit: 'Limit by tags subtree'
+field_definition.tags.validator.subtree_limit.no_limit: 'No subtree limit'
 
-field_definition.eztags.validator.max_tags: 'Maximum number of allowed tags'
-field_definition.eztags.validator.max_tags.no_limit: 'No limit'
+field_definition.tags.validator.max_tags: 'Maximum number of allowed tags'
+field_definition.tags.validator.max_tags.no_limit: 'No limit'
 
-field_definition.eztags.settings.edit_view: 'Edit view'
-field_definition.eztags.settings.edit_view.default: 'Default view'
-field_definition.eztags.settings.edit_view.select: 'Select view'
-field_definition.eztags.settings.edit_view.tree: 'Tree view'
+field_definition.tags.settings.edit_view: 'Edit view'
+field_definition.tags.settings.edit_view.default: 'Default view'
+field_definition.tags.settings.edit_view.select: 'Select view'
+field_definition.tags.settings.edit_view.tree: 'Tree view'
 
-field_definition.eztags.settings.hide_root_tag: 'Hide root subtree limit tag when editing object'
+field_definition.tags.settings.hide_root_tag: 'Hide root subtree limit tag when editing object'
 
-field_definition.eztags.settings.yes: 'Yes'
-field_definition.eztags.settings.no: 'No'
+field_definition.tags.settings.yes: 'Yes'
+field_definition.tags.settings.no: 'No'

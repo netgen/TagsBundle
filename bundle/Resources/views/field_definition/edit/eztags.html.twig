@@ -4,19 +4,19 @@
     {% form_theme form.subTreeLimit '@NetgenTags/form/tag_tree.html.twig' %}
 
     <div class="eztags-validator subtree-limit{% if group_class is not empty %} {{ group_class }}{% endif %}">
-        {{- form_label(form.subTreeLimit, null, {'translation_domain': 'content_type', 'label_attr': {'class': 'ez-label'}}) -}}
+        {{- form_label(form.subTreeLimit, null, {'translation_domain': 'content_type', 'label_attr': {'class': 'ibexa-label'}}) -}}
         {{- form_widget(form.subTreeLimit, {label: false}) -}}
     </div>
 
     <div class="eztags-validator max-tags{% if group_class is not empty %} {{ group_class }}{% endif %}">
-        {{- form_row(form.maxTags, {'label_attr': {'class': 'ez-label'}}) -}}
+        {{- form_row(form.maxTags, {'label_attr': {'class': 'ibexa-label'}}) -}}
     </div>
 
     <div class="eztags-settings hide-root-tag{% if group_class is not empty %} {{ group_class }}{% endif %}">
-        {{- form_row(form.hideRootTag, {'label_attr': {'class': 'ez-label'}}) -}}
+        {{- form_row(form.hideRootTag, {'label_attr': {'class': 'ibexa-label'}}) -}}
     </div>
 
     <div class="eztags-settings edit-view{% if group_class is not empty %} {{ group_class }}{% endif %}">
-        {{- form_row(form.editView, {'label_attr': {'class': 'ez-label'}}) -}}
+        {{- form_row(form.editView, {'label_attr': {'class': 'ibexa-label'}}) -}}
     </div>
 {% endblock %}

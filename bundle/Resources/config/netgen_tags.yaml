@@ -3,9 +3,9 @@ system:
         edit_views:
             default:
                 identifier: Default
-                name: field_definition.eztags.settings.edit_view.default
+                name: field_definition.tags.settings.edit_view.default
                 template: '@NetgenTags/ibexa/admin/field/edit/view/default.html.twig'
             select:
                 identifier: Select
-                name: field_definition.eztags.settings.edit_view.select
+                name: field_definition.tags.settings.edit_view.select
                 template: '@NetgenTags/ibexa/admin/field/edit/view/select.html.twig'

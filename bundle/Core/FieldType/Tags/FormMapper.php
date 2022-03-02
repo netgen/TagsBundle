@@ -62,7 +62,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                 TagTreeType::class,
                 [
                     'property_path' => 'validatorConfiguration[TagsValueValidator][subTreeLimit]',
-                    'label' => 'field_definition.eztags.validator.subtree_limit',
+                    'label' => 'field_definition.tags.validator.subtree_limit',
                 ]
             )
             ->add(
@@ -71,7 +71,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                 [
                     'required' => false,
                     'property_path' => 'validatorConfiguration[TagsValueValidator][maxTags]',
-                    'label' => 'field_definition.eztags.validator.max_tags',
+                    'label' => 'field_definition.tags.validator.max_tags',
                     'constraints' => [
                         new Constraints\Type(['type' => 'int']),
                         new Constraints\NotBlank(),
@@ -93,7 +93,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                 [
                     'required' => false,
                     'property_path' => 'fieldSettings[hideRootTag]',
-                    'label' => 'field_definition.eztags.settings.hide_root_tag',
+                    'label' => 'field_definition.tags.settings.hide_root_tag',
                     'constraints' => [
                         new Constraints\Type(['type' => 'bool']),
                         new Constraints\NotNull(),
@@ -107,7 +107,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                     'choices' => $editViewChoices,
                     'required' => true,
                     'property_path' => 'fieldSettings[editView]',
-                    'label' => 'field_definition.eztags.settings.edit_view',
+                    'label' => 'field_definition.tags.settings.edit_view',
                     'constraints' => [
                         new Constraints\Type(['type' => 'string']),
                         new Constraints\NotBlank(),

@@ -4,43 +4,43 @@
     {% set available_edit_views = ibexa.configResolver.parameter('edit_views', 'netgen_tags') %}
     {% set validator_config = fielddefinition.validatorConfiguration.TagsValueValidator %}
 
-    <ul class="ez-fielddefinition-settings ez-fielddefinition-{{ fielddefinition.fieldTypeIdentifier }}-settings">
-        <li class="ez-fielddefinition-setting subtree-limit">
-            <div class="ez-fielddefinition-setting-name">{{ 'field_definition.eztags.validator.subtree_limit'|trans }}:</div>
-            <div class="ez-fielddefinition-setting-value">
+    <ul class="ibexa-fielddefinition-settings ibexa-fielddefinition-{{ fielddefinition.fieldTypeIdentifier }}-settings">
+        <li class="ibexa-fielddefinition-setting subtree-limit">
+            <div class="ibexa-fielddefinition-setting-name">{{ 'field_definition.tags.validator.subtree_limit'|trans }}:</div>
+            <div class="ibexa-fielddefinition-setting-value">
                 {% if validator_config.subTreeLimit > 0 %}
                     <a href="{{ path('netgen_tags_admin_tag_show', { 'tagId': validator_config.subTreeLimit }) }}">
                         {{ netgen_tags_tag_keyword(validator_config.subTreeLimit) }}
                     </a>
                 {% else %}
-                    {{ 'field_definition.eztags.validator.subtree_limit.no_limit'|trans }}
+                    {{ 'field_definition.tags.validator.subtree_limit.no_limit'|trans }}
                 {% endif %}
             </div>
         </li>
 
-        <li class="ez-fielddefinition-setting max-tags">
-            <div class="ez-fielddefinition-setting-name">{{ 'field_definition.eztags.validator.max_tags'|trans }}:</div>
-            <div class="ez-fielddefinition-setting-value">
+        <li class="ibexa-fielddefinition-setting max-tags">
+            <div class="ibexa-fielddefinition-setting-name">{{ 'field_definition.tags.validator.max_tags'|trans }}:</div>
+            <div class="ibexa-fielddefinition-setting-value">
                 {{ validator_config.maxTags > 0 ?
                     validator_config.maxTags :
-                    'field_definition.eztags.validator.max_tags.no_limit'|trans
+                    'field_definition.tags.validator.max_tags.no_limit'|trans
                 }}
             </div>
         </li>
 
-        <li class="ez-fielddefinition-setting hide-root-tag">
-            <div class="ez-fielddefinition-setting-name">{{ 'field_definition.eztags.settings.hide_root_tag'|trans }}:</div>
-            <div class="ez-fielddefinition-setting-value">
+        <li class="ibexa-fielddefinition-setting hide-root-tag">
+            <div class="ibexa-fielddefinition-setting-name">{{ 'field_definition.tags.settings.hide_root_tag'|trans }}:</div>
+            <div class="ibexa-fielddefinition-setting-value">
                 {{ settings.hideRootTag ?
-                    'field_definition.eztags.settings.yes'|trans :
-                    'field_definition.eztags.settings.no'|trans
+                    'field_definition.tags.settings.yes'|trans :
+                    'field_definition.tags.settings.no'|trans
                 }}
             </div>
         </li>
 
-        <li class="ez-fielddefinition-setting edit-view">
-            <div class="ez-fielddefinition-setting-name">{{ 'field_definition.eztags.settings.edit_view'|trans }}:</div>
-            <div class="ez-fielddefinition-setting-value">
+        <li class="ibexa-fielddefinition-setting edit-view">
+            <div class="ibexa-fielddefinition-setting-name">{{ 'field_definition.tags.settings.edit_view'|trans }}:</div>
+            <div class="ibexa-fielddefinition-setting-value">
                 {% for edit_view in available_edit_views %}
                     {% if edit_view.identifier == settings.editView %}
                         {{ edit_view.name|trans }}
