@@ -2,24 +2,27 @@ services:
     event_dispatcher:
         class: Netgen\TagsBundle\Tests\Stubs\EventDispatcherStub
 
-    ezpublish.config.resolver:
+    ibexa.config.resolver:
         class: Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub
         arguments:
-            - { eztags: { edit_views: { default: { identifier: Default } } } }
+            - { netgen_tags: { edit_views: { default: { identifier: Default } } } }
 
-    eztags.field_type.eztags:
+    netgen_tags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
-        parent: ezpublish.fieldType
+        parent: Ibexa\Core\FieldType\FieldType
         arguments:
-            - "@eztags.api.service.tags"
-            - "@ezpublish.config.resolver"
+            - "@netgen_tags.api.service.tags"
+            - "@ibexa.config.resolver"
         tags:
-            - { name: ezplatform.field_type, alias: eztags }
+            - { name: ibexa.field_type, alias: eztags }
 
-    eztags.ezpublish.spi.persistence.legacy.language.handler:
-        alias: ezpublish.spi.persistence.legacy.language.handler
+    netgen_tags.api.persistence_handler.tags.storage:
+        alias: netgen_tags.api.storage_engine.legacy.handler.tags
+
+    netgen_tags.ibexa.spi.persistence.legacy.language.handler:
+        alias: ibexa.spi.persistence.legacy.language.handler
         public: true
 
-    eztags.ezpublish.persistence.legacy.language.mask_generator:
-        alias: ezpublish.persistence.legacy.language.mask_generator
+    netgen_tags.ibexa.persistence.legacy.language.mask_generator:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
         public: true

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Tests\API\Repository\SetupFactory;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PoliciesConfigBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\PhpArrayFileFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as BaseLegacy;
 use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
-use Ibexa\Core\Base\ServiceContainer;
 use Netgen\TagsBundle\API\Repository\TagsService as APITagsService;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion;
@@ -19,6 +19,10 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\Core\Repository\TagsMapper;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\DependencyInjection\Compiler\DefaultStorageEnginePass;
+use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProvider;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use function array_filter;
 use function file_get_contents;
 use function preg_split;
@@ -41,54 +45,6 @@ final class Legacy extends BaseLegacy
      */
     private $connection;
 
-    public function getServiceContainer(): ServiceContainer
-    {
-        /** @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
-        $loader = null;
-
-        if (!isset(self::$serviceContainer)) {
-            $config = include __DIR__ . '/../../../../vendor/ibexa/core/config.php';
-            $installDir = $config['install_dir'];
-
-            /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
-            $containerBuilder = include $config['container_builder_path'];
-
-            // eZ Publish kernel config
-            $loader->load('search_engines/legacy.yml');
-            $loader->load('tests/integration_legacy.yml');
-
-            // Netgen Tags config
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/papi.yaml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/limitations.yaml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/fieldtypes.yaml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/persistence.yaml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/storage/doctrine.yaml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/storage/cache_disabled.yaml');
-            $loader->load(__DIR__ . '/../../../../bundle/Resources/config/search/legacy.yaml');
-
-            $loader->load(__DIR__ . '/../../../../tests/settings/settings.yaml');
-            $loader->load(__DIR__ . '/../../../../tests/settings/integration/legacy.yaml');
-
-            $containerBuilder->setParameter(
-                'legacy_dsn',
-                self::$dsn
-            );
-
-            $containerBuilder->addCompilerPass(new FieldRegistryPass());
-            $containerBuilder->addCompilerPass(new DefaultStorageEnginePass());
-
-            self::$serviceContainer = new ServiceContainer(
-                $containerBuilder,
-                $installDir,
-                $config['cache_dir'],
-                true,
-                true
-            );
-        }
-
-        return self::$serviceContainer;
-    }
-
     /**
      * Returns a configured tags service for testing.
      */
@@ -97,10 +53,10 @@ final class Legacy extends BaseLegacy
         $repository = $this->getRepository($initializeFromScratch);
 
         /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler */
-        $languageHandler = $this->getServiceContainer()->get('eztags.ezpublish.spi.persistence.legacy.language.handler');
+        $languageHandler = $this->getServiceContainer()->get('netgen_tags.ibexa.spi.persistence.legacy.language.handler');
 
         /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator */
-        $languageMaskGenerator = $this->getServiceContainer()->get('eztags.ezpublish.persistence.legacy.language.mask_generator');
+        $languageMaskGenerator = $this->getServiceContainer()->get('netgen_tags.ibexa.persistence.legacy.language.mask_generator');
 
         $tagsHandler = new Handler(
             new ExceptionConversion(
@@ -133,6 +89,33 @@ final class Legacy extends BaseLegacy
         $fixtureImporter->import($this->getInitialTagsDataFixture());
 
         $this->execPostInsertStatements();
+    }
+
+    protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
+    {
+        $loader = new YamlFileLoader(
+            $containerBuilder,
+            new FileLocator(__DIR__ . '/../../../../'),
+        );
+
+        // Netgen Tags config
+        $loader->load('bundle/Resources/config/papi.yaml');
+        $loader->load('bundle/Resources/config/limitations.yaml');
+        $loader->load('bundle/Resources/config/fieldtypes.yaml');
+        $loader->load('bundle/Resources/config/persistence.yaml');
+        $loader->load('bundle/Resources/config/storage/doctrine.yaml');
+        $loader->load('bundle/Resources/config/storage/cache_disabled.yaml');
+        $loader->load('bundle/Resources/config/search/legacy.yaml');
+
+        $loader->load('tests/settings/settings.yaml');
+        $loader->load('tests/settings/integration/legacy.yaml');
+
+        $containerBuilder->addCompilerPass(new FieldRegistryPass());
+        $containerBuilder->addCompilerPass(new DefaultStorageEnginePass());
+
+        $policiesBuilder = new PoliciesConfigBuilder($containerBuilder);
+        $tagsPolicyProvider = new TagsPolicyProvider();
+        $tagsPolicyProvider->addPolicies($policiesBuilder);
     }
 
     protected function execPostInsertStatements(): void
@@ -190,7 +173,7 @@ final class Legacy extends BaseLegacy
     {
         if (null === $this->connection) {
             /** @var \Doctrine\DBAL\Connection $connection */
-            $connection = $this->getServiceContainer()->get('ezpublish.persistence.connection');
+            $connection = $this->getServiceContainer()->get('ibexa.persistence.connection');
             $this->connection = $connection;
         }
 
