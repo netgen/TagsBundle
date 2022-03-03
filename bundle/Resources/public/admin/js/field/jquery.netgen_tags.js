@@ -286,8 +286,8 @@
                       '<input class="tagssuggestfield tags-input-field" type="text" size="70" value="" autocomplete="off" />',
                       '<div class="tagssuggestresults jsonSuggestResults"><div class="results-wrap" /></div>',
                   '</div>',
-                  '<input type="button" value="<%=tr.browse%>" class="button-browse-tag" />',
-                  '<input type="button" value="<%=tr.addNew%>" class="button-add-tag button-disabled" disabled="disabled" />',
+                  '<input type="button" value="<%=tr.browse%>" class="btn ibexa-btn ibexa-btn--secondary button-browse-tag" />',
+                  '<input type="button" value="<%=tr.addNew%>" class="btn ibexa-btn ibexa-btn--secondary button-add-tag button-disabled" disabled="disabled" />',
               '</div>',
           '</div>'
       ],
