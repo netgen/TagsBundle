@@ -10,15 +10,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 final class UpdateTagEvent extends AfterEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
-     */
-    private $tagUpdateStruct;
+    private TagUpdateStruct $tagUpdateStruct;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
     public function __construct(TagUpdateStruct $tagUpdateStruct, Tag $tag)
     {

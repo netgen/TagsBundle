@@ -35,6 +35,7 @@ use function count;
 use function explode;
 use function is_bool;
 use function is_string;
+use function max;
 use function mb_strpos;
 use function md5;
 use function trim;
@@ -45,27 +46,16 @@ use function uniqid;
  */
 class TagsService implements TagsServiceInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Repository
-     */
-    private $repository;
+    private Repository $repository;
 
-    /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
-     */
-    private $tagsHandler;
+    private TagsHandler $tagsHandler;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Repository\TagsMapper
-     */
-    private $mapper;
+    private TagsMapper $mapper;
 
     /**
      * Counter for the current sudo nesting level.
-     *
-     * @var int
      */
-    private $sudoNestingLevel = 0;
+    private int $sudoNestingLevel = 0;
 
     public function __construct(Repository $repository, TagsHandler $tagsHandler, TagsMapper $mapper)
     {
@@ -373,7 +363,7 @@ class TagsService implements TagsServiceInterface
             throw new UnauthorizedException('tags', 'add');
         }
 
-        if (!is_string($tagCreateStruct->mainLanguageCode) || $tagCreateStruct->mainLanguageCode === '') {
+        if (!isset($tagCreateStruct->mainLanguageCode) || $tagCreateStruct->mainLanguageCode === '') {
             throw new InvalidArgumentValue('mainLanguageCode', $tagCreateStruct->mainLanguageCode, 'TagCreateStruct');
         }
 
@@ -385,7 +375,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
-        if ($tagCreateStruct->remoteId !== null && (!is_string($tagCreateStruct->remoteId) || $tagCreateStruct->remoteId === '')) {
+        if ($tagCreateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $tagCreateStruct->remoteId, 'TagCreateStruct');
         }
 
@@ -402,12 +392,8 @@ class TagsService implements TagsServiceInterface
             $tagCreateStruct->remoteId = md5(uniqid(static::class, true));
         }
 
-        if (!is_bool($tagCreateStruct->alwaysAvailable)) {
-            throw new InvalidArgumentValue('alwaysAvailable', $tagCreateStruct->alwaysAvailable, 'TagCreateStruct');
-        }
-
         $createStruct = new CreateStruct();
-        $createStruct->parentTagId = $tagCreateStruct->parentTagId > 0 ? $tagCreateStruct->parentTagId : 0;
+        $createStruct->parentTagId = max($tagCreateStruct->parentTagId, 0);
         $createStruct->mainLanguageCode = $tagCreateStruct->mainLanguageCode;
         $createStruct->keywords = $keywords;
         $createStruct->remoteId = $tagCreateStruct->remoteId;
@@ -445,7 +431,7 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ($tagUpdateStruct->remoteId !== null && (!is_string($tagUpdateStruct->remoteId) || $tagUpdateStruct->remoteId === '')) {
+        if ($tagUpdateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $tagUpdateStruct->remoteId, 'TagUpdateStruct');
         }
 
@@ -462,14 +448,11 @@ class TagsService implements TagsServiceInterface
             }
         }
 
-        if ($tagUpdateStruct->mainLanguageCode !== null && (!is_string($tagUpdateStruct->mainLanguageCode) || $tagUpdateStruct->mainLanguageCode === '')) {
+        if (isset($tagUpdateStruct->mainLanguageCode) && $tagUpdateStruct->mainLanguageCode === '') {
             throw new InvalidArgumentValue('mainLanguageCode', $tagUpdateStruct->mainLanguageCode, 'TagUpdateStruct');
         }
 
-        $mainLanguageCode = $spiTag->mainLanguageCode;
-        if ($tagUpdateStruct->mainLanguageCode !== null) {
-            $mainLanguageCode = $tagUpdateStruct->mainLanguageCode;
-        }
+        $mainLanguageCode = $tagUpdateStruct->mainLanguageCode ?? $spiTag->mainLanguageCode;
 
         $newKeywords = $spiTag->keywords;
         if (count($keywords) > 0) {
@@ -517,7 +500,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('mainTagId', $synonymCreateStruct->mainTagId, 'SynonymCreateStruct');
         }
 
-        if (!is_string($synonymCreateStruct->mainLanguageCode) || $synonymCreateStruct->mainLanguageCode === '') {
+        if (!isset($synonymCreateStruct->mainLanguageCode) || $synonymCreateStruct->mainLanguageCode === '') {
             throw new InvalidArgumentValue('mainLanguageCode', $synonymCreateStruct->mainLanguageCode, 'SynonymCreateStruct');
         }
 
@@ -529,7 +512,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
-        if ($synonymCreateStruct->remoteId !== null && (!is_string($synonymCreateStruct->remoteId) || $synonymCreateStruct->remoteId === '')) {
+        if ($synonymCreateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $synonymCreateStruct->remoteId, 'SynonymCreateStruct');
         }
 
@@ -544,10 +527,6 @@ class TagsService implements TagsServiceInterface
             }
         } else {
             $synonymCreateStruct->remoteId = md5(uniqid(static::class, true));
-        }
-
-        if (!is_bool($synonymCreateStruct->alwaysAvailable)) {
-            throw new InvalidArgumentValue('alwaysAvailable', $synonymCreateStruct->alwaysAvailable, 'SynonymCreateStruct');
         }
 
         $createStruct = new SPISynonymCreateStruct();

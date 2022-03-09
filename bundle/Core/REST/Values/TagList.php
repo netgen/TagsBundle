@@ -11,12 +11,9 @@ final class TagList extends Value
     /**
      * @var \Netgen\TagsBundle\Core\REST\Values\RestTag[]
      */
-    public $tags;
+    public array $tags;
 
-    /**
-     * @var string
-     */
-    public $path;
+    public string $path;
 
     /**
      * @param \Netgen\TagsBundle\Core\REST\Values\RestTag[] $tags

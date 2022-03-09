@@ -342,6 +342,7 @@ final class TagsServiceTest extends TestCase
     public function testUpdateTag(): void
     {
         $tagUpdateStruct = new TagUpdateStruct();
+        $tagUpdateStruct->mainLanguageCode = 'eng-GB';
         $tagUpdateStruct->alwaysAvailable = true;
         $tagUpdateStruct->setKeyword('netgen');
 

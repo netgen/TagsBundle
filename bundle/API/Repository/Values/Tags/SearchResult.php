@@ -12,13 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 final class SearchResult extends ValueObject
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
-     */
-    protected $tags;
+    protected TagList $tags;
 
-    /**
-     * @var int
-     */
-    protected $totalCount;
+    protected int $totalCount;
 }

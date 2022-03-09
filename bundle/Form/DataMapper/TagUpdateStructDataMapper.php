@@ -10,10 +10,7 @@ use function iterator_to_array;
 
 final class TagUpdateStructDataMapper implements DataMapperInterface
 {
-    /**
-     * @var string
-     */
-    private $languageCode;
+    private string $languageCode;
 
     public function __construct(string $languageCode)
     {

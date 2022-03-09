@@ -15,35 +15,23 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var int|null
-     */
-    private $nbResults;
+    private int $nbResults;
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
      */
-    private $sortClauses = [];
+    private array $sortClauses = [];
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[]
      */
-    private $additionalCriteria = [];
+    private array $additionalCriteria = [];
 
     public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
     {
@@ -74,7 +62,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
 
     public function getNbResults(): int
     {
-        if (!$this->tag instanceof Tag) {
+        if (!isset($this->tag)) {
             return 0;
         }
 
@@ -85,7 +73,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
 
     public function getSlice($offset, $length): iterable
     {
-        if (!$this->tag instanceof Tag) {
+        if (!isset($this->tag)) {
             return [];
         }
 

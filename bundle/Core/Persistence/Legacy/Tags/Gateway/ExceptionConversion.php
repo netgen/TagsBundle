@@ -14,10 +14,7 @@ use RuntimeException;
 
 final class ExceptionConversion extends Gateway
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
-     */
-    private $innerGateway;
+    private Gateway $innerGateway;
 
     public function __construct(Gateway $innerGateway)
     {

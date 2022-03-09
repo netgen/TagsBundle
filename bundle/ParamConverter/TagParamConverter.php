@@ -16,10 +16,7 @@ use function sprintf;
 
 final class TagParamConverter implements ParamConverterInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

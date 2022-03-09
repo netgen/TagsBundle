@@ -11,12 +11,9 @@ final class ContentList extends Value
     /**
      * @var \Ibexa\Rest\Server\Values\RestContent[]
      */
-    public $contents;
+    public array $contents;
 
-    /**
-     * @var string
-     */
-    public $path;
+    public string $path;
 
     /**
      * @param \Ibexa\Rest\Server\Values\RestContent[] $contents

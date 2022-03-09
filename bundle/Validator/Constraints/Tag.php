@@ -8,25 +8,13 @@ use Symfony\Component\Validator\Constraint;
 
 final class Tag extends Constraint
 {
-    /**
-     * @var string
-     */
-    public $message = 'netgen_tags.tag.no_tag';
+    public string $message = 'netgen_tags.tag.no_tag';
 
-    /**
-     * @var string
-     */
-    public $synonymMessage = 'netgen_tags.tag.synonym';
+    public string  $synonymMessage = 'netgen_tags.tag.synonym';
 
-    /**
-     * @var string
-     */
-    public $invalidMessage = 'netgen_tags.tag.invalid_tag';
+    public string $invalidMessage = 'netgen_tags.tag.invalid_tag';
 
-    /**
-     * @var bool
-     */
-    public $allowRootTag = true;
+    public bool $allowRootTag = true;
 
     public function validatedBy(): string
     {

@@ -16,15 +16,9 @@ use function count;
 
 final class RelatedContentController extends Controller
 {
-    /**
-     * @var \Pagerfanta\Adapter\AdapterInterface
-     */
-    private $adapter;
+    private AdapterInterface $adapter;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
-     */
-    private $sortClauseMapper;
+    private SortClauseMapper $sortClauseMapper;
 
     public function __construct(AdapterInterface $adapter, SortClauseMapper $sortClauseMapper)
     {

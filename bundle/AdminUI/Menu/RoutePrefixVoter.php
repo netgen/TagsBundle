@@ -15,15 +15,9 @@ use function mb_strpos;
 
 final class RoutePrefixVoter implements VoterInterface
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
-    /**
-     * @var string
-     */
-    private $routePrefix;
+    private string $routePrefix;
 
     public function __construct(RequestStack $requestStack, string $routePrefix)
     {

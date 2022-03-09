@@ -24,9 +24,9 @@ final class CachedValue extends Value
      * Associative array of cache tags.
      * Example: array( 'tagId' => 42, 'tagKeyword' => 'Some tag|#eng-GB' ).
      *
-     * @var mixed[]
+     * @var array<string, string>
      */
-    public $cacheTags;
+    public array $cacheTags;
 
     /**
      * @param mixed $value The value that gets cached

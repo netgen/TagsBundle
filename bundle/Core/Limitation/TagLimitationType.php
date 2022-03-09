@@ -30,10 +30,7 @@ use function is_int;
 
 final class TagLimitationType extends AbstractPersistenceLimitationType implements LimitationTypeInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
-     */
-    private $tagsPersistence;
+    private SPITagsPersistenceHandler $tagsPersistence;
 
     public function __construct(PersistenceHandler $persistence, SPITagsPersistenceHandler $tagsPersistence)
     {

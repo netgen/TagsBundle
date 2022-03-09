@@ -15,15 +15,9 @@ use function array_values;
  */
 class Mapper
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
-     */
-    private $languageHandler;
+    private LanguageHandler $languageHandler;
 
-    /**
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    private $languageMaskGenerator;
+    private LanguageMaskGenerator $languageMaskGenerator;
 
     public function __construct(LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator)
     {

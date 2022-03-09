@@ -13,10 +13,7 @@ use function count;
 
 final class SynonymController extends Controller
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

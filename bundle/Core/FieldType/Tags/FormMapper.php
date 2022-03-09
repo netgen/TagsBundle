@@ -20,10 +20,7 @@ use function array_values;
 
 final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)
     {

@@ -32,20 +32,11 @@ use const PHP_INT_MAX;
 
 final class DoctrineDatabase extends Gateway
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $connection;
+    private Connection $connection;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
-     */
-    private $languageHandler;
+    private LanguageHandler $languageHandler;
 
-    /**
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    private $languageMaskGenerator;
+    private LanguageMaskGenerator $languageMaskGenerator;
 
     public function __construct(
         Connection $connection,

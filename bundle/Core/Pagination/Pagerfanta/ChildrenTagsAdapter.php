@@ -10,20 +10,11 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private ?Tag $tag = null;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var int|null
-     */
-    private $nbResults;
+    private int $nbResults;
 
     public function __construct(TagsService $tagsService)
     {

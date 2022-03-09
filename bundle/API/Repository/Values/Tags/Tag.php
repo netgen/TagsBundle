@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use function array_map;
 use function count;
 use function explode;
-use function is_string;
 use function trim;
 
 /**
@@ -32,26 +32,20 @@ final class Tag extends ValueObject
 {
     /**
      * Tag ID.
-     *
-     * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * Parent tag ID.
-     *
-     * @var int
      */
-    protected $parentTagId;
+    protected int $parentTagId;
 
     /**
      * Main tag ID.
      *
      * Zero if tag is not a synonym
-     *
-     * @var int
      */
-    protected $mainTagId;
+    protected int $mainTagId;
 
     /**
      * Returns the keywords in the available languages
@@ -59,69 +53,55 @@ final class Tag extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords = [];
+    protected array $keywords = [];
 
     /**
      * The depth tag has in tag tree.
-     *
-     * @var int
      */
-    protected $depth;
+    protected int $depth;
 
     /**
      * The path to this tag e.g. /1/6/21/42 where 42 is the current ID.
-     *
-     * @var string
      */
-    protected $pathString;
+    protected string $pathString;
 
     /**
-     * @var array
+     * @var int[]
      */
-    protected $path;
+    protected array $path;
 
     /**
      * Tag modification date.
-     *
-     * @var \DateTimeInterface
      */
-    protected $modificationDate;
+    protected DateTimeInterface $modificationDate;
 
     /**
      * A global unique ID of the tag.
-     *
-     * @var string
      */
-    protected $remoteId;
+    protected string $remoteId;
 
     /**
      * Indicates if the Tag object is shown in the main language if it is not present in an other requested language.
-     *
-     * @var bool
      */
-    protected $alwaysAvailable;
+    protected bool $alwaysAvailable;
 
     /**
      * The main language code of the Tag object.
-     *
-     * @var string
      */
-    protected $mainLanguageCode;
+    protected string $mainLanguageCode;
 
     /**
      * List of languages in this Tag object.
      *
      * @var string[]
      */
-    protected $languageCodes = [];
+    protected array $languageCodes = [];
 
     /**
      * The first matched keyword language among user provided prioritized languages on tag retrieval, or null
      * if none provided (all languages) or on main fallback.
-     *
-     * @var string|null
      */
-    protected $prioritizedLanguageCode;
+    protected ?string $prioritizedLanguageCode;
 
     /**
      * Construct object optionally with a set of properties.
@@ -133,13 +113,8 @@ final class Tag extends ValueObject
     {
         parent::__construct($properties);
 
-        if (is_string($this->pathString) && $this->pathString !== '') {
-            $this->path = array_map(
-                static function ($id): int {
-                    return (int) $id;
-                },
-                explode('/', trim($this->pathString, '/'))
-            );
+        if (isset($this->pathString) && $this->pathString !== '') {
+            $this->path = array_map('intval', explode('/', trim($this->pathString, '/')));
         }
     }
 

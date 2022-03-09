@@ -26,20 +26,11 @@ final class TagUrlGenerator extends Generator
 
     public const DEFAULT_PATH_PREFIX = '/tags/view';
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $defaultRouter;
+    private RouterInterface $defaultRouter;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(
         TagsService $tagsService,

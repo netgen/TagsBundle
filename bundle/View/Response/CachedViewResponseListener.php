@@ -14,15 +14,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class CachedViewResponseListener implements EventSubscriberInterface
 {
-    /**
-     * @var \FOS\HttpCache\ResponseTagger
-     */
-    private $responseTagger;
+    private ResponseTagger $responseTagger;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(ResponseTagger $responseTagger, ConfigResolverInterface $configResolver)
     {

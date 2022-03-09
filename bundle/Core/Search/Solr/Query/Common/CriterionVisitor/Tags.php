@@ -15,24 +15,18 @@ abstract class Tags extends Field
 {
     /**
      * For tag-queries which aren't field-specific.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    private $contentTypeHandler;
+    private Handler $contentTypeHandler;
 
     /**
      * Identifier of the field type that criterion can handle.
-     *
-     * @var string
      */
-    private $fieldTypeIdentifier;
+    private string $fieldTypeIdentifier;
 
     /**
      * Name of the field type's indexed field that criterion can handle.
-     *
-     * @var string
      */
-    private $fieldName;
+    private string $fieldName;
 
     public function __construct(
         FieldNameResolver $fieldNameResolver,

@@ -13,10 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TagsFieldType extends AbstractType
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\FieldTypeService
-     */
-    private $fieldTypeService;
+    private FieldTypeService $fieldTypeService;
 
     public function __construct(FieldTypeService $fieldTypeService)
     {

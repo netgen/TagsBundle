@@ -20,10 +20,7 @@ use function count;
  */
 final class TagsStorage extends GatewayBasedStorage
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
     public function __construct(StorageGateway $gateway, TagsService $tagsService)
     {

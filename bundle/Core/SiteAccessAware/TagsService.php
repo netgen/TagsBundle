@@ -15,15 +15,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 final class TagsService implements TagsServiceInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $innerService;
+    private TagsServiceInterface $innerService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\LanguageResolver
-     */
-    private $languageResolver;
+    private LanguageResolver $languageResolver;
 
     public function __construct(TagsServiceInterface $innerService, LanguageResolver $languageResolver)
     {

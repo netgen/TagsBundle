@@ -13,10 +13,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 final class LanguageValidator extends ConstraintValidator
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\LanguageService
-     */
-    private $languageService;
+    private LanguageService $languageService;
 
     public function __construct(LanguageService $languageService)
     {

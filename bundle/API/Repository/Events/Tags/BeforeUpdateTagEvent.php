@@ -12,20 +12,11 @@ use function sprintf;
 
 final class BeforeUpdateTagEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct
-     */
-    private $tagUpdateStruct;
+    private TagUpdateStruct $tagUpdateStruct;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $updatedTag;
+    private Tag $updatedTag;
 
     public function __construct(TagUpdateStruct $tagUpdateStruct, Tag $tag)
     {
@@ -45,20 +36,20 @@ final class BeforeUpdateTagEvent extends BeforeEvent
 
     public function getUpdatedTag(): Tag
     {
-        if ($this->updatedTag === null) {
+        if (!isset($this->updatedTag)) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasUpdatedTag() or set it with setUpdatedTag() before you call the getter.', Tag::class));
         }
 
         return $this->updatedTag;
     }
 
-    public function setUpdatedTag(?Tag $updatedTag): void
+    public function setUpdatedTag(Tag $updatedTag): void
     {
         $this->updatedTag = $updatedTag;
     }
 
     public function hasUpdatedTag(): bool
     {
-        return $this->updatedTag instanceof Tag;
+        return isset($this->updatedTag);
     }
 }

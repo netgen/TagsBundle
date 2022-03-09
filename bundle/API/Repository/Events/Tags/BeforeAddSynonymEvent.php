@@ -12,15 +12,9 @@ use function sprintf;
 
 final class BeforeAddSynonymEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct
-     */
-    private $synonymCreateStruct;
+    private SynonymCreateStruct $synonymCreateStruct;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $synonym;
+    private Tag $synonym;
 
     public function __construct(SynonymCreateStruct $synonymCreateStruct)
     {
@@ -34,20 +28,20 @@ final class BeforeAddSynonymEvent extends BeforeEvent
 
     public function getSynonym(): Tag
     {
-        if ($this->synonym === null) {
+        if (!isset($this->synonym)) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasSynonym() or set it with setSynonym() before you call the getter.', Tag::class));
         }
 
         return $this->synonym;
     }
 
-    public function setSynonym(?Tag $synonym): void
+    public function setSynonym(Tag $synonym): void
     {
         $this->synonym = $synonym;
     }
 
     public function hasSynonym(): bool
     {
-        return $this->synonym instanceof Tag;
+        return isset($this->synonym);
     }
 }

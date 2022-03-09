@@ -41,6 +41,18 @@ final class TagsTest extends FieldTypeTest
             $tags[$tagId] = new Tag(
                 [
                     'id' => $tagId,
+                    'parentTagId' => 0,
+                    'mainTagId' => 0,
+                    'keywords' => [],
+                    'depth' => 1,
+                    'pathString' => '/' . $tagId . '/',
+                    'path' => [$tagId],
+                    'modificationDate' => new DateTimeImmutable('@' . 1308153110),
+                    'remoteId' => '',
+                    'alwaysAvailable' => true,
+                    'mainLanguageCode' => 'eng-GB',
+                    'languageCodes' => ['eng-GB'],
+                    'prioritizedLanguageCode' => 'eng-GB',
                 ]
             );
         }
@@ -446,6 +458,18 @@ final class TagsTest extends FieldTypeTest
                         new Tag(
                             [
                                 'id' => 40,
+                                'parentTagId' => 0,
+                                'mainTagId' => 0,
+                                'keywords' => [],
+                                'depth' => 1,
+                                'pathString' => '/40/',
+                                'path' => [40],
+                                'modificationDate' => new DateTimeImmutable('@' . 1308153110),
+                                'remoteId' => '',
+                                'alwaysAvailable' => true,
+                                'mainLanguageCode' => 'eng-GB',
+                                'languageCodes' => ['eng-GB'],
+                                'prioritizedLanguageCode' => 'eng-GB',
                             ]
                         ),
                     ]

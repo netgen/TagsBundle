@@ -15,9 +15,9 @@ abstract class MultipleValued implements ViewMatcherInterface, TagsServiceAwareI
     use TagsServiceAwareTrait;
 
     /**
-     * @var array
+     * @var mixed[]
      */
-    protected $values;
+    protected array $values = [];
 
     public function setMatchingConfig($matchingConfig): void
     {

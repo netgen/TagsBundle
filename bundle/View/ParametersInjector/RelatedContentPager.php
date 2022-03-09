@@ -15,15 +15,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class RelatedContentPager implements EventSubscriberInterface
 {
-    /**
-     * @var \Pagerfanta\Adapter\AdapterInterface
-     */
-    private $adapter;
+    private AdapterInterface $adapter;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(AdapterInterface $adapter, ConfigResolverInterface $configResolver)
     {

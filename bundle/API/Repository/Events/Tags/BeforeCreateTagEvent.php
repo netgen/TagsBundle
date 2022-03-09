@@ -12,15 +12,9 @@ use function sprintf;
 
 final class BeforeCreateTagEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
-     */
-    private $tagCreateStruct;
+    private TagCreateStruct $tagCreateStruct;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $tag;
+    private Tag $tag;
 
     public function __construct(TagCreateStruct $tagCreateStruct)
     {
@@ -34,20 +28,20 @@ final class BeforeCreateTagEvent extends BeforeEvent
 
     public function getTag(): Tag
     {
-        if ($this->tag === null) {
+        if (!isset($this->tag)) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasTag() or set it with setTag() before you call the getter.', Tag::class));
         }
 
         return $this->tag;
     }
 
-    public function setTag(?Tag $tag): void
+    public function setTag(Tag $tag): void
     {
         $this->tag = $tag;
     }
 
     public function hasTag(): bool
     {
-        return $this->tag instanceof Tag;
+        return isset($this->tag);
     }
 }

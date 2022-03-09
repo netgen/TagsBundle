@@ -12,9 +12,9 @@ use function in_array;
 final class SortClauseMapper
 {
     /**
-     * @var array
+     * @var string[]
      */
-    private static $allowedSortOptions = [
+    private static array $allowedSortOptions = [
         'content_id_ascending',
         'content_id_descending',
         'name_ascending',

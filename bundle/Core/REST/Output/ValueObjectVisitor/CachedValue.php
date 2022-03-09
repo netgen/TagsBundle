@@ -14,20 +14,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class CachedValue extends ValueObjectVisitor
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var \FOS\HttpCache\ResponseTagger
-     */
-    private $responseTagger;
+    private ResponseTagger $responseTagger;
 
     public function __construct(
         RequestStack $requestStack,

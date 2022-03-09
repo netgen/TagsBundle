@@ -20,10 +20,7 @@ use function trim;
 
 final class Tags extends RestController
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

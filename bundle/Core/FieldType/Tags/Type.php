@@ -54,15 +54,9 @@ final class Type extends FieldType
         ],
     ];
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
     {

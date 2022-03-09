@@ -9,25 +9,13 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 final class SearchTagsAdapter implements AdapterInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var string
-     */
-    private $searchText;
+    private string $searchText;
 
-    /**
-     * @var string
-     */
-    private $language;
+    private string $language;
 
-    /**
-     * @var int
-     */
-    private $nbResults;
+    private int $nbResults;
 
     public function __construct(TagsService $tagsService)
     {
@@ -46,7 +34,7 @@ final class SearchTagsAdapter implements AdapterInterface
 
     public function getNbResults(): int
     {
-        if ($this->nbResults === null) {
+        if (!isset($this->nbResults)) {
             $this->getSlice(0, 1);
         }
 

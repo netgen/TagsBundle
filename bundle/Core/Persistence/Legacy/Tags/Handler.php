@@ -22,15 +22,9 @@ use function uniqid;
  */
 class Handler implements BaseTagsHandler
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
-     */
-    private $gateway;
+    private Gateway $gateway;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
-     */
-    private $mapper;
+    private Mapper $mapper;
 
     public function __construct(Gateway $gateway, Mapper $mapper)
     {

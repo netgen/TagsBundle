@@ -11,10 +11,7 @@ final class SearchResult extends ValueObject
     /**
      * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Tag[]
      */
-    public $tags;
+    public array $tags;
 
-    /**
-     * @var int
-     */
-    public $totalCount;
+    public int $totalCount;
 }

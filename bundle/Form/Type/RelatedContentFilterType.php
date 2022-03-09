@@ -18,20 +18,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RelatedContentFilterType extends AbstractType
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\Repository\RelatedContentFacetsLoader
-     */
-    private $relatedContentFacetsLoader;
+    private RelatedContentFacetsLoader $relatedContentFacetsLoader;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\ContentTypeService
-     */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Search\RelatedContent\SortClauseMapper
-     */
-    private $sortClauseMapper;
+    private SortClauseMapper $sortClauseMapper;
 
     public function __construct(
         RelatedContentFacetsLoader $relatedContentFacetsLoader,

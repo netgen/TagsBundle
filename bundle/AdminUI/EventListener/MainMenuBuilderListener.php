@@ -16,10 +16,7 @@ use function is_int;
 
 final class MainMenuBuilderListener implements EventSubscriberInterface
 {
-    /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {

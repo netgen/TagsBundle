@@ -8,20 +8,11 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 final class AdminGlobalVariable
 {
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var string
-     */
-    private $pageLayoutTemplate;
+    private string $pageLayoutTemplate;
 
-    /**
-     * @var bool
-     */
-    private $isDefault = true;
+    private bool $isDefault = true;
 
     public function __construct(ConfigResolverInterface $configResolver)
     {

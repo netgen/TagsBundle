@@ -17,15 +17,9 @@ use function iterator_to_array;
 
 final class TranslationListType extends AbstractType
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\LanguageService
-     */
-    private $languageService;
+    private LanguageService $languageService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(LanguageService $languageService, ConfigResolverInterface $configResolver)
     {

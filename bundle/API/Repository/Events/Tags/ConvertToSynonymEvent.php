@@ -9,15 +9,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class ConvertToSynonymEvent extends AfterEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $synonym;
+    private Tag $synonym;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $mainTag;
+    private Tag $mainTag;
 
     public function __construct(Tag $synonym, Tag $mainTag)
     {

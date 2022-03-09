@@ -12,16 +12,12 @@ final class SynonymCreateStruct extends TagStruct
     /**
      * The ID of the main tag for which the new synonym should be created.
      *
-     * Required
-     *
-     * @var int
+     * Required.
      */
-    public $mainTagId;
+    public int $mainTagId;
 
     /**
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
-     *
-     * @var bool
      */
-    public $alwaysAvailable = true;
+    public bool $alwaysAvailable = true;
 }

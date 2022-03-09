@@ -13,20 +13,11 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class NetgenTagsRuntime
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\LanguageService
-     */
-    private $languageService;
+    private LanguageService $languageService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\ContentTypeService
-     */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
     public function __construct(
         TagsService $tagsService,
@@ -42,8 +33,6 @@ final class NetgenTagsRuntime
      * Returns tag keyword for provided tag ID.
      *
      * @param int $tagId
-     *
-     * @return string
      */
     public function getTagKeyword($tagId): string
     {
@@ -68,8 +57,6 @@ final class NetgenTagsRuntime
      * Returns content type name for provided content type ID or content type object.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|int $contentType
-     *
-     * @return string
      */
     public function getContentTypeName($contentType): string
     {

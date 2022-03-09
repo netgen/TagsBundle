@@ -20,15 +20,9 @@ use const ENT_SUBSTITUTE;
 
 final class FieldController extends Controller
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
     {

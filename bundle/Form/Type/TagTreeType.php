@@ -18,10 +18,7 @@ use Symfony\Component\Validator\Constraints;
 
 final class TagTreeType extends AbstractType
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

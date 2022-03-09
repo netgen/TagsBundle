@@ -16,15 +16,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsService implements TagsServiceInterface
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $service;
+    private TagsServiceInterface $service;
 
-    /**
-     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(TagsServiceInterface $service, EventDispatcherInterface $eventDispatcher)
     {

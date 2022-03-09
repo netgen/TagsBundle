@@ -15,19 +15,15 @@ final class SynonymCreateStruct extends ValueObject
      * The ID of the main tag for which the new synonym should be created.
      *
      * @required
-     *
-     * @var int
      */
-    public $mainTagId;
+    public int $mainTagId;
 
     /**
      * The main language code for the tag.
      *
      * @required
-     *
-     * @var string
      */
-    public $mainLanguageCode;
+    public string $mainLanguageCode;
 
     /**
      * Tag keywords in the target languages
@@ -37,19 +33,15 @@ final class SynonymCreateStruct extends ValueObject
      *
      * @var string[]
      */
-    public $keywords;
+    public array $keywords;
 
     /**
      * A global unique ID of the tag.
-     *
-     * @var string|null
      */
-    public $remoteId;
+    public ?string $remoteId;
 
     /**
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
-     *
-     * @var bool|null
      */
-    public $alwaysAvailable;
+    public ?bool $alwaysAvailable;
 }

@@ -10,15 +10,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 
 final class CreateTagEvent extends AfterEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct
-     */
-    private $tagCreateStruct;
+    private TagCreateStruct $tagCreateStruct;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
     public function __construct(TagCreateStruct $tagCreateStruct, Tag $tag)
     {

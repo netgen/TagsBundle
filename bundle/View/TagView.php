@@ -9,15 +9,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class TagView extends BaseView implements TagValueView, CacheableView
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var bool
-     */
-    private $isCacheEnabled = true;
+    private bool $isCacheEnabled = true;
 
     public function setTag(Tag $tag): void
     {

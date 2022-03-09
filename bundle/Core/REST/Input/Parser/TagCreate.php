@@ -17,15 +17,9 @@ use function is_array;
 
 final class TagCreate extends BaseParser
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Rest\Input\ParserTools
-     */
-    private $parserTools;
+    private ParserTools $parserTools;
 
     public function __construct(TagsService $tagsService, ParserTools $parserTools)
     {

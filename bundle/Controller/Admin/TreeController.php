@@ -18,35 +18,23 @@ use const ENT_SUBSTITUTE;
 
 final class TreeController extends Controller
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
+
+    private TranslatorInterface $translator;
+
+    private RouterInterface $router;
+
+    private ConfigResolverInterface $configResolver;
 
     /**
-     * @var \Symfony\Contracts\Translation\TranslatorInterface
+     * @var array<string, string>
      */
-    private $translator;
+    private array $treeLabels;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var array<string, string>
      */
-    private $router;
-
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
-
-    /**
-     * @var array
-     */
-    private $treeLabels;
-
-    /**
-     * @var array
-     */
-    private $treeLinks;
+    private array $treeLinks;
 
     public function __construct(
         TagsService $tagsService,

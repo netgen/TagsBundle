@@ -36,30 +36,15 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public const TAG_VIEW_ACTION_CONTROLLER = 'netgen_tags.controller.tag_view:viewAction';
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Netgen\TagsBundle\Routing\Generator\TagUrlGenerator
-     */
-    private $generator;
+    private TagUrlGenerator $generator;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var \Symfony\Component\Routing\RequestContext
-     */
-    private $requestContext;
+    private RequestContext $requestContext;
 
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         TagsService $tagsService,

@@ -8,10 +8,7 @@ use Ibexa\Rest\Value;
 
 final class CreatedTag extends Value
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\REST\Values\RestTag
-     */
-    public $restTag;
+    public RestTag $restTag;
 
     public function __construct(RestTag $restTag)
     {

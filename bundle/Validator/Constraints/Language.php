@@ -8,10 +8,7 @@ use Symfony\Component\Validator\Constraint;
 
 final class Language extends Constraint
 {
-    /**
-     * @var string
-     */
-    public $message = 'netgen_tags.language.no_language';
+    public string $message = 'netgen_tags.language.no_language';
 
     public function validatedBy(): string
     {

@@ -14,16 +14,14 @@ final class TagKeywordValue extends Value
     /**
      * One or more languages to match in. If empty, Criterion will match in all available languages.
      *
-     * @var array|null
+     * @var string[]|null
      */
-    public $languages;
+    public ?array $languages = null;
 
     /**
      * Whether to use always available flag in addition to provided languages.
-     *
-     * @var bool
      */
-    public $useAlwaysAvailable = true;
+    public bool $useAlwaysAvailable = true;
 
     public function __construct(?array $languages = null, bool $useAlwaysAvailable = true)
     {

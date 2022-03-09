@@ -17,26 +17,20 @@ final class UpdateStruct extends ValueObject
      *
      * @var string[]|null
      */
-    public $keywords;
+    public ?array $keywords;
 
     /**
      * A global unique ID of the tag.
-     *
-     * @var string|null
      */
-    public $remoteId;
+    public ?string $remoteId;
 
     /**
      * The main language code for the tag.
-     *
-     * @var string|null
      */
-    public $mainLanguageCode;
+    public ?string $mainLanguageCode;
 
     /**
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
-     *
-     * @var bool|null
      */
-    public $alwaysAvailable;
+    public ?bool $alwaysAvailable;
 }

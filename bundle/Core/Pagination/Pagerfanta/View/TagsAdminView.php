@@ -16,40 +16,22 @@ use function trim;
  */
 class TagsAdminView implements ViewInterface
 {
-    /**
-     * @var \Twig\Environment
-     */
-    private $twig;
+    private Environment $twig;
 
-    /**
-     * @var string
-     */
-    private $template;
+    private string $template;
 
-    /**
-     * @var \Pagerfanta\PagerfantaInterface
-     */
-    private $pagerfanta;
+    private PagerfantaInterface $pagerfanta;
 
     /**
      * @var callable
      */
     private $routeGenerator;
 
-    /**
-     * @var int
-     */
-    private $proximity;
+    private int $proximity;
 
-    /**
-     * @var int
-     */
-    private $startPage;
+    private int $startPage;
 
-    /**
-     * @var int
-     */
-    private $endPage;
+    private int $endPage;
 
     public function __construct(Environment $twig, string $template)
     {
@@ -64,7 +46,7 @@ class TagsAdminView implements ViewInterface
 
     /**
      * @param callable $routeGenerator
-     * @param array $options
+     * @param array<string, mixed> $options
      */
     public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = []): string
     {

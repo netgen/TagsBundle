@@ -9,20 +9,11 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class RestTag extends Value
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    public $tag;
+    public Tag $tag;
 
-    /**
-     * @var int
-     */
-    public $childrenCount;
+    public int $childrenCount;
 
-    /**
-     * @var int
-     */
-    public $synonymsCount;
+    public int $synonymsCount;
 
     public function __construct(Tag $tag, int $childrenCount, int $synonymsCount)
     {

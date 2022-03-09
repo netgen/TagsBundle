@@ -9,10 +9,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class BeforeDeleteTagEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
     public function __construct(Tag $tag)
     {

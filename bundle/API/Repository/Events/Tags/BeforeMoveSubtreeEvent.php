@@ -11,20 +11,11 @@ use function sprintf;
 
 final class BeforeMoveSubtreeEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $parentTag;
+    private ?Tag $parentTag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $movedTag;
+    private Tag $movedTag;
 
     public function __construct(Tag $tag, ?Tag $parentTag = null)
     {
@@ -44,20 +35,20 @@ final class BeforeMoveSubtreeEvent extends BeforeEvent
 
     public function getMovedTag(): Tag
     {
-        if ($this->movedTag === null) {
+        if (!isset($this->movedTag)) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasMovedTag() or set it with setMovedTag() before you call the getter.', Tag::class));
         }
 
         return $this->movedTag;
     }
 
-    public function setMovedTag(?Tag $movedTag): void
+    public function setMovedTag(Tag $movedTag): void
     {
         $this->movedTag = $movedTag;
     }
 
     public function hasMovedTag(): bool
     {
-        return $this->movedTag instanceof Tag;
+        return isset($this->movedTag);
     }
 }

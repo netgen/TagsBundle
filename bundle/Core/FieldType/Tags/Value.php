@@ -17,11 +17,9 @@ final class Value extends BaseValue
     /**
      * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
      */
-    public $tags = [];
+    public array $tags = [];
 
     /**
-     * Constructor.
-     *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
     public function __construct(array $tags = [])

@@ -14,15 +14,9 @@ use function count;
 
 final class RelatedContentFacetsLoader
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\SearchService
-     */
-    private $searchService;
+    private SearchService $searchService;
 
     public function __construct(TagsService $tagsService, SearchService $searchService)
     {

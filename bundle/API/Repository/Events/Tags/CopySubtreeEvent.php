@@ -9,20 +9,11 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class CopySubtreeEvent extends AfterEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $copiedTag;
+    private Tag $copiedTag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $parentTag;
+    private ?Tag $parentTag;
 
     public function __construct(Tag $tag, Tag $copiedTag, ?Tag $parentTag = null)
     {

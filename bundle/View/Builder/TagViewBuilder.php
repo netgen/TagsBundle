@@ -21,30 +21,15 @@ use function mb_strpos;
 
 final class TagViewBuilder implements ViewBuilder
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Core\MVC\Symfony\View\Configurator
-     */
-    private $viewConfigurator;
+    private Configurator $viewConfigurator;
 
-    /**
-     * @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector
-     */
-    private $viewParametersInjector;
+    private ParametersInjector $viewParametersInjector;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(
         TagsService $tagsService,

@@ -13,17 +13,13 @@ abstract class TagStruct extends ValueObject
      * The main language code for the tag.
      *
      * Required when creating a tag.
-     *
-     * @var string
      */
-    public $mainLanguageCode;
+    public ?string $mainLanguageCode;
 
     /**
      * A global unique ID of the tag.
-     *
-     * @var string
      */
-    public $remoteId;
+    public ?string $remoteId = null;
 
     /**
      * Tag keywords in the target languages
@@ -33,7 +29,7 @@ abstract class TagStruct extends ValueObject
      *
      * @var string[]
      */
-    protected $keywords = [];
+    protected array $keywords = [];
 
     /**
      * Returns keywords available in the struct.

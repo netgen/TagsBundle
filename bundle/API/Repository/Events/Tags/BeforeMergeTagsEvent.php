@@ -9,15 +9,9 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class BeforeMergeTagsEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $targetTag;
+    private Tag $targetTag;
 
     public function __construct(Tag $tag, Tag $targetTag)
     {

@@ -36,32 +36,6 @@ abstract class BaseTagsServiceTest extends BaseTest
     protected ?TagsService $tagsService;
 
     /**
-     * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct
-     */
-    public function testNewClass(): void
-    {
-        $tag = new Tag();
-
-        $this->assertPropertiesCorrect(
-            [
-                'id' => null,
-                'parentTagId' => null,
-                'mainTagId' => null,
-                'keywords' => [],
-                'depth' => null,
-                'pathString' => null,
-                'modificationDate' => null,
-                'remoteId' => null,
-                'mainLanguageCode' => null,
-                'alwaysAvailable' => null,
-                'languageCodes' => [],
-                'prioritizedLanguageCode' => null,
-            ],
-            $tag
-        );
-    }
-
-    /**
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
      */
     public function testMissingProperty(): void
@@ -156,7 +130,6 @@ abstract class BaseTagsServiceTest extends BaseTest
             [
                 'keywords' => [],
                 'remoteId' => null,
-                'mainLanguageCode' => null,
                 'alwaysAvailable' => null,
             ],
             $tagUpdateStruct
@@ -806,6 +779,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(NotFoundException::class);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->mainLanguageCode = 'eng-GB';
         $updateStruct->setKeyword('New keyword');
         $updateStruct->remoteId = 'New remote ID';
 
@@ -813,6 +787,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => PHP_INT_MAX,
+                    'mainTagId' => 0,
                 ]
             ),
             $updateStruct
@@ -831,29 +806,9 @@ abstract class BaseTagsServiceTest extends BaseTest
         $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->mainLanguageCode = 'eng-GB';
         $updateStruct->setKeyword('');
         $updateStruct->remoteId = 'e2c420d928d4bf8ce0ff2ec19b371514';
-
-        $this->tagsService->updateTag(
-            $tag,
-            $updateStruct
-        );
-    }
-
-    /**
-     * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
-     * @depends testLoadTag
-     * @depends testNewTagUpdateStruct
-     */
-    public function testUpdateTagThrowsInvalidArgumentValueInvalidRemoteId(): void
-    {
-        $this->expectException(InvalidArgumentValue::class);
-
-        $tag = $this->tagsService->loadTag(40);
-
-        $updateStruct = $this->tagsService->newTagUpdateStruct();
-        $updateStruct->setKeyword('New keyword');
-        $updateStruct->remoteId = 'remoteId';
 
         $this->tagsService->updateTag(
             $tag,
@@ -873,6 +828,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $tag = $this->tagsService->loadTag(40);
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->mainLanguageCode = 'eng-GB';
         $updateStruct->setKeyword('New keyword');
         $updateStruct->remoteId = 'e2c420d928d4bf8ce0ff2ec19b371514';
 
@@ -893,6 +849,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->mainLanguageCode = 'eng-GB';
         $updateStruct->setKeyword('New keyword');
         $updateStruct->remoteId = 'New remote ID';
 
@@ -900,6 +857,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 40,
+                    'mainTagId' => 0,
                 ]
             ),
             $updateStruct
@@ -917,6 +875,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
 
         $updateStruct = $this->tagsService->newTagUpdateStruct();
+        $updateStruct->mainLanguageCode = 'eng-GB';
         $updateStruct->setKeyword('New keyword');
         $updateStruct->remoteId = 'New remote ID';
 
@@ -924,6 +883,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 95,
+                    'mainTagId' => 0,
                 ]
             ),
             $updateStruct
@@ -1320,11 +1280,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
+                        'parentTagId' => 42,
                     ]
                 ),
                 new Tag(
                     [
                         'id' => 40,
+                        'parentTagId' => 24,
                     ]
                 )
             );
@@ -1338,11 +1300,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => 16,
+                        'parentTagId' => 42,
                     ]
                 ),
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
+                        'parentTagId' => 24,
                     ]
                 )
             );
@@ -1479,11 +1443,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
+                        'parentTagId' => 42,
                     ]
                 ),
                 new Tag(
                     [
                         'id' => 40,
+                        'parentTagId' => 24,
                     ]
                 )
             );
@@ -1497,11 +1463,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => 16,
+                        'parentTagId' => 42,
                     ]
                 ),
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
+                        'parentTagId' => 24,
                     ]
                 )
             );
@@ -1648,6 +1616,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => PHP_INT_MAX,
+                    'mainTagId' => 0,
                 ]
             )
         );
@@ -1665,6 +1634,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 40,
+                    'mainTagId' => 0,
                 ]
             )
         );
@@ -1682,6 +1652,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 95,
+                    'mainTagId' => 0,
                 ]
             )
         );

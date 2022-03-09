@@ -8,10 +8,7 @@ use Symfony\Component\Validator\Constraint;
 
 final class TagUpdateStruct extends Constraint
 {
-    /**
-     * @var string
-     */
-    public $languageCode;
+    public string $languageCode;
 
     public function validatedBy(): string
     {

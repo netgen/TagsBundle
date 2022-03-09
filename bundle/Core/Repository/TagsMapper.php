@@ -15,10 +15,7 @@ use function in_array;
 
 final class TagsMapper
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
-     */
-    private $languageHandler;
+    private LanguageHandler $languageHandler;
 
     public function __construct(LanguageHandler $languageHandler)
     {

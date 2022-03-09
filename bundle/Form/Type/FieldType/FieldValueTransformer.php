@@ -19,15 +19,9 @@ use const ENT_SUBSTITUTE;
 
 final class FieldValueTransformer implements DataTransformerInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\FieldType
-     */
-    private $fieldType;
+    private FieldType $fieldType;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Field
-     */
-    private $field;
+    private Field $field;
 
     public function __construct(FieldType $fieldType, Field $field)
     {

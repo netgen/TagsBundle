@@ -25,25 +25,13 @@ use function trim;
 
 final class TagController extends Controller
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\ContentTypeService
-     */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /**
-     * @var \Pagerfanta\Adapter\AdapterInterface
-     */
-    private $tagChildrenAdapter;
+    private AdapterInterface $tagChildrenAdapter;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter
-     */
-    private $searchTagsAdapter;
+    private SearchTagsAdapter $searchTagsAdapter;
 
     public function __construct(
         TagsService $tagsService,

@@ -8,10 +8,7 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 
 trait TagsServiceAwareTrait
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    protected $tagsService;
+    protected TagsService $tagsService;
 
     public function setTagsService(TagsService $tagsService): void
     {

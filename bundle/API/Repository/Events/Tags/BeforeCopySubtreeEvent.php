@@ -11,20 +11,11 @@ use function sprintf;
 
 final class BeforeCopySubtreeEvent extends BeforeEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $parentTag;
+    private ?Tag $parentTag;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag|null
-     */
-    private $copiedTag;
+    private Tag $copiedTag;
 
     public function __construct(Tag $tag, ?Tag $parentTag = null)
     {
@@ -44,20 +35,20 @@ final class BeforeCopySubtreeEvent extends BeforeEvent
 
     public function getCopiedTag(): Tag
     {
-        if ($this->copiedTag === null) {
+        if (!isset($this->copiedTag)) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasCopiedTag() or set it with setCopiedTag() before you call the getter.', Tag::class));
         }
 
         return $this->copiedTag;
     }
 
-    public function setCopiedTag(?Tag $copiedTag): void
+    public function setCopiedTag(Tag $copiedTag): void
     {
         $this->copiedTag = $copiedTag;
     }
 
     public function hasCopiedTag(): bool
     {
-        return $this->copiedTag instanceof Tag;
+        return isset($this->copiedTag);
     }
 }

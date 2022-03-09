@@ -27,10 +27,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 {
     private const ALL_TRANSLATIONS_KEY = '0';
 
-    /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
-     */
-    private $tagsHandler;
+    private TagsHandlerInterface $tagsHandler;
 
     public function __construct(
         TagAwareAdapterInterface $cache,

@@ -16,19 +16,12 @@ use function in_array;
 
 final class DoctrineStorage extends Gateway
 {
-    /**
-     * Connection.
-     *
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     /**
      * Caching language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    private $languageHandler;
+    private LanguageHandler $languageHandler;
 
     public function __construct(Connection $connection, LanguageHandler $languageHandler)
     {

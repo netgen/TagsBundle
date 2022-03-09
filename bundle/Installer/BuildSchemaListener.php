@@ -10,10 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class BuildSchemaListener implements EventSubscriberInterface
 {
-    /**
-     * @var string
-     */
-    private $schemaPath;
+    private string $schemaPath;
 
     public function __construct(string $schemaPath)
     {

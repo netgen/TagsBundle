@@ -16,20 +16,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class TagMatcherFactory extends ClassNameMatcherFactory
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(
         TagsService $tagsService,

@@ -14,10 +14,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 final class RemoteIdValidator extends ConstraintValidator
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService
-     */
-    private $tagsService;
+    private TagsService $tagsService;
 
     public function __construct(TagsService $tagsService)
     {

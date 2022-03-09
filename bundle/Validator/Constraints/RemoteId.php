@@ -8,10 +8,7 @@ use Symfony\Component\Validator\Constraint;
 
 final class RemoteId extends Constraint
 {
-    /**
-     * @var string
-     */
-    public $message = 'netgen_tags.remote_id.remote_id_exists';
+    public string $message = 'netgen_tags.remote_id.remote_id_exists';
 
     public function validatedBy(): string
     {

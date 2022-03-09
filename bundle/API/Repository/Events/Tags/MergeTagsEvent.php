@@ -9,10 +9,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class MergeTagsEvent extends AfterEvent
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $targetTag;
+    private Tag $targetTag;
 
     public function __construct(Tag $targetTag)
     {
