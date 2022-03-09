@@ -12,6 +12,7 @@ use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as HandlerInterface;
+use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as SPIHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
@@ -26,19 +27,16 @@ final class TagsHandlerTest extends TestCase
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $gateway;
+    private MockObject $gateway;
 
     /**
      * Mocked tags mapper instance.
      *
      * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $mapper;
+    private MockObject $mapper;
 
-    /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler
-     */
-    private $tagsHandler;
+    private SPIHandler $tagsHandler;
 
     protected function setUp(): void
     {
@@ -987,7 +985,7 @@ final class TagsHandlerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Netgen\TagsBundle\SPI\Persistence\Tags\Handler
+     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Handler&\PHPUnit\Framework\MockObject\MockObject
      */
     private function getMockedTagsHandler(array $mockedMethods): MockObject
     {

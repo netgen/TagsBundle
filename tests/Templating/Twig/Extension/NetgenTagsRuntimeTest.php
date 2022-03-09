@@ -12,39 +12,22 @@ use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Repository\TagsService;
 use Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class NetgenTagsRuntimeTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsRuntime
-     */
-    private $runtime;
+    private NetgenTagsRuntime $runtime;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $tagsService;
+    private MockObject $tagsService;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $languageService;
+    private MockObject $languageService;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $contentTypeService;
+    private MockObject $contentTypeService;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag
-     */
-    private $tag;
+    private Tag $tag;
 
-    /**
-     * @var \Ibexa\Core\Repository\Values\ContentType\ContentType
-     */
-    private $contentType;
+    private ContentType $contentType;
 
     protected function setUp(): void
     {

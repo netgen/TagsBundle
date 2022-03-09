@@ -8,15 +8,9 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 final class ConfigResolverStub implements ConfigResolverInterface
 {
-    /**
-     * @var array
-     */
-    private $parameters;
+    private array $parameters;
 
-    /**
-     * @var string
-     */
-    private $defaultNamespace = 'ezsettings';
+    private string $defaultNamespace = 'ezsettings';
 
     public function __construct(array $parameters)
     {

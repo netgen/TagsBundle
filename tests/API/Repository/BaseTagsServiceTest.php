@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User as IbexaUser;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
@@ -18,6 +19,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use function array_pop;
 use function count;
@@ -29,15 +31,9 @@ use const PHP_INT_MAX;
 
 abstract class BaseTagsServiceTest extends BaseTest
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Repository
-     */
-    protected $repository;
+    protected Repository $repository;
 
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|null
-     */
-    protected $tagsService;
+    protected ?TagsService $tagsService;
 
     /**
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__construct

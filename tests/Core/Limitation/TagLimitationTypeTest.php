@@ -20,6 +20,7 @@ use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation;
 use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 use function count;
 use function is_int;
@@ -27,24 +28,21 @@ use function is_int;
 final class TagLimitationTypeTest extends Base
 {
     /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $tagsHandlerMock;
+    private MockObject $tagsHandlerMock;
 
     /**
-     * @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $persistenceHandlerMock;
+    private MockObject $persistenceHandlerMock;
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Repository\Values\User\User&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $userMock;
+    private MockObject $userMock;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Limitation\TagLimitationType
-     */
-    private $limitationType;
+    private TagLimitationType $limitationType;
 
     protected function setUp(): void
     {
@@ -275,8 +273,6 @@ final class TagLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestEvaluate
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param mixed $expected
      */
     public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected): void

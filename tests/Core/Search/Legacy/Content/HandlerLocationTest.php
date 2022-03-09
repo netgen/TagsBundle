@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
+use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Content\Location as IbexaLocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -37,10 +38,7 @@ use function sort;
  */
 final class HandlerLocationTest extends LanguageAwareTestCase
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private static $dbConnection;
+    private static Connection $dbConnection;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -51,7 +49,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
      */
     protected function setUp(): void
     {
-        if (self::$dbConnection === null) {
+        if (!isset(self::$dbConnection)) {
             parent::setUp();
             $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ibexa/core/tests/lib/Search/Legacy/_fixtures/full_dump.php');
             self::$dbConnection = $this->getDatabaseConnection();
@@ -60,7 +58,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
 
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
-            /** @var array $queries */
+            /** @var string[] $queries */
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
@@ -230,9 +228,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
     private function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $ids = array_map(
-            static function (SearchHit $hit): int {
-                return $hit->valueObject->id;
-            },
+            static fn (SearchHit $hit): int => $hit->valueObject->id,
             $searchResult->searchHits
         );
 

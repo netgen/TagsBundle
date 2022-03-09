@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
@@ -20,10 +21,7 @@ use function preg_split;
 
 final class DoctrineDatabaseTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway
-     */
-    private $tagsGateway;
+    private Gateway $tagsGateway;
 
     protected function setUp(): void
     {
@@ -33,7 +31,7 @@ final class DoctrineDatabaseTest extends TestCase
 
         $schema = __DIR__ . '/../../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
-        /** @var array $queries */
+        /** @var string[] $queries */
         $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
         $queries = array_filter($queries);
         foreach ($queries as $query) {
@@ -55,7 +53,7 @@ final class DoctrineDatabaseTest extends TestCase
         // Update PostgreSQL sequences
         $dbConnection = $this->getDatabaseConnection();
 
-        /** @var array $queries */
+        /** @var string[] $queries */
         $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.postgresql.sql'));
         $queries = array_filter($queries);
         foreach ($queries as $query) {
@@ -101,7 +99,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetBasicTagData(string $field, $value): void
@@ -130,7 +127,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @dataProvider getLoadTagValues
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByRemoteId
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetBasicTagDataByRemoteId(string $field, $value): void
@@ -160,7 +156,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetFullTagData(string $field, $value): void
@@ -192,7 +187,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetFullTagDataWithoutAlwaysAvailable(string $field, $value): void
@@ -224,7 +218,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetFullTagDataByRemoteId(string $field, $value): void
@@ -256,7 +249,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable(string $field, $value): void
@@ -288,7 +280,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetFullTagDataByKeywordIdAndParentId(string $field, $value): void
@@ -320,7 +311,6 @@ final class DoctrineDatabaseTest extends TestCase
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      *
-     * @param string $field
      * @param mixed $value
      */
     public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable(string $field, $value): void

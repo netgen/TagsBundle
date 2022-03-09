@@ -16,10 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class TagsTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Content\FieldValue\Converter\Tags
-     */
-    private $converter;
+    private TagsConverter $converter;
 
     protected function setUp(): void
     {

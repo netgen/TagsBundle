@@ -12,24 +12,22 @@ use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldValueMapper\MultipleIntegerMapper;
 use Ibexa\Tests\Solr\Search\TestCase;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
-use Netgen\TagsBundle\Core\Search\Solr\Query;
+use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagIdTest extends TestCase
 {
     /**
-     * @var \Ibexa\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Core\Search\Common\FieldNameResolver&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $fieldNameResolver;
+    private MockObject $fieldNameResolver;
 
     /**
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $contentTypeHandler;
+    private MockObject $contentTypeHandler;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagId
-     */
-    private $visitor;
+    private TagId $visitor;
 
     protected function setUp(): void
     {
@@ -37,7 +35,7 @@ final class TagIdTest extends TestCase
 
         $this->contentTypeHandler = $this->createMock(Handler::class);
 
-        $this->visitor = new Query\Common\CriterionVisitor\Tags\TagId(
+        $this->visitor = new TagId(
             $this->fieldNameResolver,
             new MultipleIntegerMapper(),
             $this->contentTypeHandler,

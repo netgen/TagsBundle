@@ -15,9 +15,9 @@ final class MapperTest extends TestCase
     /**
      * Tags data from the database.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    private static $tagRow = [
+    private static array $tagRow = [
         'id' => 42,
         'parent_id' => 21,
         'main_tag_id' => 0,
@@ -33,9 +33,9 @@ final class MapperTest extends TestCase
     /**
      * Tags list data from the database.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    private static $tagListRow = [
+    private static array $tagListRow = [
         'id' => 42,
         'parent_id' => 21,
         'main_tag_id' => 0,
@@ -52,9 +52,9 @@ final class MapperTest extends TestCase
     /**
      * Expected Tag object properties values.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    private static $tagValues = [
+    private static array $tagValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -70,9 +70,9 @@ final class MapperTest extends TestCase
     /**
      * Expected Tag object properties values.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    private static $tagListValues = [
+    private static array $tagListValues = [
         'id' => 42,
         'parentTagId' => 21,
         'mainTagId' => 0,
@@ -86,10 +86,7 @@ final class MapperTest extends TestCase
         'languageIds' => [8],
     ];
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper
-     */
-    private $tagsMapper;
+    private Mapper $tagsMapper;
 
     protected function setUp(): void
     {

@@ -19,9 +19,7 @@ final class TagTest extends TestCase
         $object = new Tag();
 
         $properties = array_keys(
-            (function (): array {
-                return get_object_vars($this);
-            })->call($object)
+            (fn (): array => get_object_vars($this))->call($object)
         );
 
         self::assertContains('id', $properties, 'Property not found');

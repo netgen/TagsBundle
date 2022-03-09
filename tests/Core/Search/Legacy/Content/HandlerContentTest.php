@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 
+use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Content as ContentObject;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -36,15 +37,9 @@ use function sort;
  */
 final class HandlerContentTest extends LanguageAwareTestCase
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private static $dbConnection;
+    private static Connection $dbConnection;
 
-    /**
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
-     */
-    private $fieldRegistry;
+    private ConverterRegistry $fieldRegistry;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -55,7 +50,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
      */
     protected function setUp(): void
     {
-        if (self::$dbConnection === null) {
+        if (!isset(self::$dbConnection)) {
             parent::setUp();
             $this->insertDatabaseFixture(__DIR__ . '/../../../../../vendor/ibexa/core/tests/lib/Search/Legacy/_fixtures/full_dump.php');
             self::$dbConnection = $this->getDatabaseConnection();
@@ -64,7 +59,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
 
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
-            /** @var array $queries */
+            /** @var string[] $queries */
             $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
@@ -236,9 +231,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
     private function assertSearchResults(array $expectedIds, SearchResult $searchResult): void
     {
         $result = array_map(
-            static function (SearchHit $hit): int {
-                return $hit->valueObject->id;
-            },
+            static fn (SearchHit $hit): int => $hit->valueObject->id,
             $searchResult->searchHits
         );
 

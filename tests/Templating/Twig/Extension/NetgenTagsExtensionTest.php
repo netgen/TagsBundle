@@ -10,10 +10,7 @@ use Twig\TwigFunction;
 
 final class NetgenTagsExtensionTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\Templating\Twig\Extension\NetgenTagsExtension
-     */
-    private $extension;
+    private NetgenTagsExtension $extension;
 
     protected function setUp(): void
     {

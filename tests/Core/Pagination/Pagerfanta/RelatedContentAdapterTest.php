@@ -9,6 +9,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\RelatedContentAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class RelatedContentAdapterTest extends TestCase
@@ -16,12 +17,12 @@ final class RelatedContentAdapterTest extends TestCase
     /**
      * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $tagsService;
+    private MockObject $tagsService;
 
     /**
      * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $configResolver;
+    private MockObject $configResolver;
 
     protected function setUp(): void
     {

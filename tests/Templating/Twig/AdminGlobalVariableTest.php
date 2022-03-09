@@ -10,10 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class AdminGlobalVariableTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\Templating\Twig\AdminGlobalVariable
-     */
-    private $adminGlobalVariable;
+    private AdminGlobalVariable $adminGlobalVariable;
 
     protected function setUp(): void
     {

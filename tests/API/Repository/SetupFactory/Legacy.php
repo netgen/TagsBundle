@@ -35,15 +35,10 @@ final class Legacy extends BaseLegacy
 {
     /**
      * Initial data for eztags field type.
-     *
-     * @var \Ibexa\Contracts\Core\Test\Persistence\Fixture|null
      */
-    private static $tagsInitialData;
+    private static ?Fixture $tagsInitialData;
 
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     /**
      * Returns a configured tags service for testing.
@@ -126,7 +121,7 @@ final class Legacy extends BaseLegacy
 
         $setValPath = __DIR__ . '/../../../_fixtures/schema/setval.postgresql.sql';
 
-        /** @var array $queries */
+        /** @var string[] $queries */
         $queries = preg_split('(;\\s*$)m', (string) file_get_contents($setValPath));
 
         foreach ($queries as $query) {
@@ -163,7 +158,7 @@ final class Legacy extends BaseLegacy
     {
         $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
 
-        /** @var array $queries */
+        /** @var string[] $queries */
         $queries = preg_split('(;\\s*$)m', (string) file_get_contents($tagsSchemaPath));
 
         return array_filter($queries);
@@ -171,7 +166,7 @@ final class Legacy extends BaseLegacy
 
     private function getDatabaseConnection(): Connection
     {
-        if (null === $this->connection) {
+        if (!isset($this->connection)) {
             /** @var \Doctrine\DBAL\Connection $connection */
             $connection = $this->getServiceContainer()->get('ibexa.persistence.connection');
             $this->connection = $connection;

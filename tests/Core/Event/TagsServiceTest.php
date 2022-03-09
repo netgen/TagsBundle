@@ -14,20 +14,21 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Core\Event\TagsService;
 use Netgen\TagsBundle\Core\Repository\TagsService as CoreTagsService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsServiceTest extends TestCase
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $tagsService;
+    private MockObject $tagsService;
 
     /**
-     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $eventDispatcher;
+    private MockObject $eventDispatcher;
 
     protected function setUp(): void
     {

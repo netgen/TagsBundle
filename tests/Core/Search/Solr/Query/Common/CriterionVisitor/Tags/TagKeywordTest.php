@@ -13,24 +13,22 @@ use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldValueMapper\MultipleStringMapper;
 use Ibexa\Tests\Solr\Search\TestCase;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
-use Netgen\TagsBundle\Core\Search\Solr\Query;
+use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagKeywordTest extends TestCase
 {
     /**
-     * @var \Ibexa\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Core\Search\Common\FieldNameResolver&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $fieldNameResolver;
+    private MockObject $fieldNameResolver;
 
     /**
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $contentTypeHandler;
+    private MockObject $contentTypeHandler;
 
-    /**
-     * @var \Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags\TagKeyword
-     */
-    private $visitor;
+    private TagKeyword $visitor;
 
     protected function setUp(): void
     {
@@ -38,7 +36,7 @@ final class TagKeywordTest extends TestCase
 
         $this->contentTypeHandler = $this->createMock(Handler::class);
 
-        $this->visitor = new Query\Common\CriterionVisitor\Tags\TagKeyword(
+        $this->visitor = new TagKeyword(
             $this->fieldNameResolver,
             new MultipleStringMapper(),
             $this->contentTypeHandler,

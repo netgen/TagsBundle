@@ -20,7 +20,7 @@ final class LanguageHandlerMock
     /**
      * @var \Ibexa\Contracts\Core\Persistence\Content\Language[]
      */
-    private $languages = [];
+    private array $languages = [];
 
     public function __construct()
     {
@@ -82,15 +82,13 @@ final class LanguageHandlerMock
         $mock->expects($testCase::any())
             ->method('loadListByLanguageCodes')
             ->willReturnCallback(
-                function (array $languageCodes): array {
-                    return iterator_to_array(
-                        (function () use ($languageCodes): Generator {
-                            foreach ($languageCodes as $languageCode) {
-                                yield $languageCode => $this->languages[$languageCode];
-                            }
-                        })()
-                    );
-                }
+                fn (array $languageCodes): array => iterator_to_array(
+                    (function () use ($languageCodes): Generator {
+                        foreach ($languageCodes as $languageCode) {
+                            yield $languageCode => $this->languages[$languageCode];
+                        }
+                    })()
+                )
             );
 
         $mock->expects($testCase::any())

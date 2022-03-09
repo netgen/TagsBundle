@@ -16,15 +16,16 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type as TagsType;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use const PHP_INT_MAX;
 
 final class TagsTest extends FieldTypeTest
 {
     /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
      */
-    private $tagsService;
+    private MockObject $tagsService;
 
     /**
      * Returns values for TagsService::loadTag based on input value.
