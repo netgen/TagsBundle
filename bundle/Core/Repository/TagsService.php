@@ -452,15 +452,14 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('mainLanguageCode', $tagUpdateStruct->mainLanguageCode, 'TagUpdateStruct');
         }
 
-        $mainLanguageCode = $tagUpdateStruct->mainLanguageCode ?? $spiTag->mainLanguageCode;
-
         $newKeywords = $spiTag->keywords;
         if (count($keywords) > 0) {
             $newKeywords = $keywords;
         }
 
+        $mainLanguageCode = $tagUpdateStruct->mainLanguageCode ?? $spiTag->mainLanguageCode;
         if (!isset($newKeywords[$mainLanguageCode])) {
-            throw new InvalidArgumentValue('mainLanguageCode', $tagUpdateStruct->mainLanguageCode, 'TagUpdateStruct');
+            throw new InvalidArgumentValue('mainLanguageCode', $mainLanguageCode, 'TagUpdateStruct');
         }
 
         if ($tagUpdateStruct->alwaysAvailable !== null && !is_bool($tagUpdateStruct->alwaysAvailable)) {
@@ -470,7 +469,7 @@ class TagsService implements TagsServiceInterface
         $updateStruct = new UpdateStruct();
         $updateStruct->keywords = $newKeywords;
         $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim($tagUpdateStruct->remoteId) : $spiTag->remoteId;
-        $updateStruct->mainLanguageCode = $tagUpdateStruct->mainLanguageCode !== null ? trim($tagUpdateStruct->mainLanguageCode) : $spiTag->mainLanguageCode;
+        $updateStruct->mainLanguageCode = $mainLanguageCode;
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable ?? $spiTag->alwaysAvailable;
 
         $this->repository->beginTransaction();

@@ -63,7 +63,7 @@ final class TagUpdateStructValidator extends ConstraintValidator
             ]
         );
 
-        if ($value->mainLanguageCode !== null) {
+        if (isset($value->mainLanguageCode)) {
             $validator->atPath('mainLanguageCode')->validate(
                 $value->mainLanguageCode,
                 [
