@@ -13,6 +13,6 @@ final class AccessController extends Controller
      */
     public function canAddTagsAction(): JsonResponse
     {
-        return new JsonResponse($this->isGranted('ez:tags:add'));
+        return new JsonResponse($this->isGranted('ibexa:tags:add'));
     }
 }

@@ -1,10 +1,10 @@
 {% trans_default_domain 'netgen_tags_admin' %}
 
-{% set can_manipulate_children = is_granted('ez:tags:edit') or is_granted('ez:tags:delete') %}
-{% set can_read = is_granted('ez:tags:read') %}
-{% set can_add = is_granted('ez:tags:add', tag is defined ? tag : null) %}
-{% set can_edit = is_granted('ez:tags:edit') %}
-{% set can_delete = is_granted('ez:tags:delete') %}
+{% set can_manipulate_children = is_granted('ibexa:tags:edit') or is_granted('ibexa:tags:delete') %}
+{% set can_read = is_granted('ibexa:tags:read') %}
+{% set can_add = is_granted('ibexa:tags:add', tag is defined ? tag : null) %}
+{% set can_edit = is_granted('ibexa:tags:edit') %}
+{% set can_delete = is_granted('ibexa:tags:delete') %}
 
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 

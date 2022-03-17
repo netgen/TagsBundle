@@ -31,7 +31,7 @@ final class SynonymController extends Controller
      */
     public function addSynonymSelectAction(Request $request, $mainTagId): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:addsynonym');
+        $this->denyAccessUnlessGranted('ibexa:tags:addsynonym');
 
         $availableLanguages = $this->getConfigResolver()->getParameter('languages');
         if (count($availableLanguages) === 1) {
@@ -84,7 +84,7 @@ final class SynonymController extends Controller
      */
     public function addSynonymAction(Request $request, $mainTagId, string $languageCode): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:addsynonym');
+        $this->denyAccessUnlessGranted('ibexa:tags:addsynonym');
 
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct((int) $mainTagId, $languageCode);
 

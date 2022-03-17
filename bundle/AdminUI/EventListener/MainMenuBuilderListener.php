@@ -33,7 +33,7 @@ final class MainMenuBuilderListener implements EventSubscriberInterface
      */
     public function onMainMenuBuild(ConfigureMenuEvent $event): void
     {
-        if (!$this->authorizationChecker->isGranted('ez:tags:read')) {
+        if (!$this->authorizationChecker->isGranted('ibexa:tags:read')) {
             return;
         }
 

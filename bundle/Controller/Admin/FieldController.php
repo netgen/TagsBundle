@@ -35,7 +35,7 @@ final class FieldController extends Controller
      */
     public function autoCompleteAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $subTreeLimit = $request->query->getInt('subTreeLimit');
         $hideRootTag = $request->query->getBoolean('hideRootTag');
@@ -55,7 +55,7 @@ final class FieldController extends Controller
      */
     public function childrenAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $subTreeLimit = $request->query->getInt('subTreeLimit');
         $hideRootTag = $request->query->getBoolean('hideRootTag');

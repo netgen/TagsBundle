@@ -31,7 +31,7 @@ final class RelatedContentController extends Controller
      */
     public function relatedContentAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $currentPage = (int) $request->query->get('page');
         $configResolver = $this->getConfigResolver();

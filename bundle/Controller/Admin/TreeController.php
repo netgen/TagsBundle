@@ -81,7 +81,7 @@ final class TreeController extends Controller
      */
     public function getChildrenAction(?Tag $tag = null, $isRoot = false): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $isRoot = (bool) $isRoot;
         $result = [];

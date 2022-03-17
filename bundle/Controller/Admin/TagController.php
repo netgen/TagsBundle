@@ -50,7 +50,7 @@ final class TagController extends Controller
      */
     public function showTagAction(Request $request, ?Tag $tag = null): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $data = [];
 
@@ -101,7 +101,7 @@ final class TagController extends Controller
      */
     public function addTagSelectAction(Request $request, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
+        $this->denyAccessUnlessGranted('ibexa:tags:add', $parentTag);
 
         $availableLanguages = $this->getConfigResolver()->getParameter('languages');
         if (count($availableLanguages) === 1) {
@@ -148,7 +148,7 @@ final class TagController extends Controller
      */
     public function addTagAction(Request $request, string $languageCode, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:add', $parentTag);
+        $this->denyAccessUnlessGranted('ibexa:tags:add', $parentTag);
 
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             $parentTag instanceof Tag ? $parentTag->id : 0,
@@ -188,7 +188,7 @@ final class TagController extends Controller
      */
     public function updateTagSelectAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
         $availableLanguages = $this->getConfigResolver()->getParameter('languages');
         if (count($availableLanguages) === 1) {
@@ -237,7 +237,7 @@ final class TagController extends Controller
      */
     public function updateTagAction(Request $request, Tag $tag, string $languageCode): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
         $tagUpdateStruct->remoteId = $tag->remoteId;
@@ -283,7 +283,7 @@ final class TagController extends Controller
      */
     public function deleteTagAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:delete' . ($tag->isSynonym() ? 'synonym' : ''));
 
         if ($request->request->has('DeleteTagButton')) {
             if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
@@ -314,7 +314,7 @@ final class TagController extends Controller
      */
     public function mergeTagAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:merge');
+        $this->denyAccessUnlessGranted('ibexa:tags:merge');
 
         $form = $this->createForm(
             TagMergeType::class,
@@ -360,7 +360,7 @@ final class TagController extends Controller
      */
     public function convertToSynonymAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:makesynonym');
+        $this->denyAccessUnlessGranted('ibexa:tags:makesynonym');
 
         $form = $this->createForm(
             TagConvertType::class,
@@ -406,7 +406,7 @@ final class TagController extends Controller
      */
     public function translationAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:edit' . ($tag->isSynonym() ? 'synonym' : ''));
 
         if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
             $this->addFlashMessage('errors', 'invalid_csrf_token');
@@ -522,7 +522,7 @@ final class TagController extends Controller
      */
     public function moveTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:edit');
+        $this->denyAccessUnlessGranted('ibexa:tags:edit');
 
         $tagIds = (array) $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
@@ -581,7 +581,7 @@ final class TagController extends Controller
      */
     public function copyTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $tagIds = (array) $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
@@ -640,7 +640,7 @@ final class TagController extends Controller
      */
     public function deleteTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:delete');
+        $this->denyAccessUnlessGranted('ibexa:tags:delete');
 
         $tagIds = (array) $request->request->get('Tags', $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : []);
 
@@ -680,7 +680,7 @@ final class TagController extends Controller
 
     public function searchTagsAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ez:tags:read');
+        $this->denyAccessUnlessGranted('ibexa:tags:read');
 
         $tags = [];
         $searchText = trim($request->query->get('searchText') ?? '');

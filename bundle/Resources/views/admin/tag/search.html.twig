@@ -1,7 +1,7 @@
 {% extends netgen_tags_admin.pageLayoutTemplate %}
 
 {% set show_path = false %}
-{% set can_edit = is_granted('ez:tags:edit') %}
+{% set can_edit = is_granted('ibexa:tags:edit') %}
 {% set search_text = app.request.query.get('searchText', '') %}
 
 {% trans_default_domain 'netgen_tags_admin' %}

@@ -52,7 +52,7 @@ final class TagViewBuilder implements ViewBuilder
 
     public function buildView(array $parameters): View
     {
-        if (!$this->authorizationChecker->isGranted('ez:tags:view')) {
+        if (!$this->authorizationChecker->isGranted('ibexa:tags:view')) {
             throw new AccessDeniedException();
         }
 

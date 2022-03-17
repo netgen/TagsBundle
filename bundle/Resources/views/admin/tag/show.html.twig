@@ -18,24 +18,24 @@
     {% include '@NetgenTags/admin/flash_messages.html.twig' %}
 
     <div class="tags-btn-group">
-        {% if is_granted('ez:tags:edit' ~ (tag.isSynonym ? 'synonym' : '')) %}
+        {% if is_granted('ibexa:tags:edit' ~ (tag.isSynonym ? 'synonym' : '')) %}
             <a href="{{ path('netgen_tags_admin_tag_update_select', {'tagId': tag.id}) }}" class="tags-btn tags-btn-primary">{{ 'tag.edit.title'|trans }}</a>
         {% endif %}
 
-        {% if is_granted('ez:tags:delete' ~ (tag.isSynonym ? 'synonym' : '')) %}
+        {% if is_granted('ibexa:tags:delete' ~ (tag.isSynonym ? 'synonym' : '')) %}
             <a href="{{ path('netgen_tags_admin_tag_delete', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.delete.title'|trans }}</a>
         {% endif %}
 
         {% if not tag.isSynonym %}
-            {% if is_granted('ez:tags:merge') %}
+            {% if is_granted('ibexa:tags:merge') %}
                 <a href="{{ path('netgen_tags_admin_tag_merge', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.merge.title'|trans }}</a>
             {% endif %}
 
-            {% if is_granted('ez:tags:addsynonym') %}
+            {% if is_granted('ibexa:tags:addsynonym') %}
                 <a href="{{ path('netgen_tags_admin_synonym_add_select', {'mainTagId': tag.id}) }}" class="tags-btn">{{ 'tag.add_synonym.title'|trans }}</a>
             {% endif %}
 
-            {% if is_granted('ez:tags:makesynonym') %}
+            {% if is_granted('ibexa:tags:makesynonym') %}
                 <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
             {% endif %}
         {% endif %}
