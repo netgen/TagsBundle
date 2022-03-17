@@ -24,7 +24,7 @@
         "ibexa/rest": "^4.0",
         "ibexa/content-forms": "^4.0",
         "ibexa/solr": "^4.0",
-        "lolautruche/ez-core-extra-bundle": "^3.0",
+        "lolautruche/ez-core-extra-bundle": "^4.0",
         "symfony/translation-contracts": "^2.5 || ^3.0",
         "pagerfanta/pagerfanta": "^2.7 || ^3.5",
         "doctrine/collections": "^1.6",
