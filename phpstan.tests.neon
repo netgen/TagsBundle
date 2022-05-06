@@ -12,4 +12,3 @@ parameters:
         - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id is not writable.#'
         - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id \(int\) does not accept null.#'
         - '#Missing call to parent::setUp\(\) method.#'
-        - '#Static property .+ is never read, only written#'
