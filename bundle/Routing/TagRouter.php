@@ -27,8 +27,8 @@ use function is_object;
 use function mb_stripos;
 use function mb_strlen;
 use function mb_substr;
-use function rawurldecode;
 use function trim;
+use function urldecode;
 
 final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
@@ -77,7 +77,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public function matchRequest(Request $request): array
     {
-        $requestedPath = rawurldecode($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
+        $requestedPath = urldecode($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
         $pathPrefix = $this->generator->getPathPrefix();
 
         if (mb_stripos($requestedPath, $pathPrefix) !== 0) {
