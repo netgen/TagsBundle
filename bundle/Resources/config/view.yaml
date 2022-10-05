@@ -24,10 +24,12 @@ services:
         class: Netgen\TagsBundle\View\Builder\TagViewBuilder
         arguments:
             - "@netgen_tags.api.service.tags"
-            - "@Ibexa\\Core\\MVC\\Symfony\\View\\Configurator"
-            - "@Ibexa\\Core\\MVC\\Symfony\\View\\ParametersInjector"
+            - "@Ibexa\\Core\\MVC\\Symfony\\View\\Configurator\\ViewProvider"
+            - "@Ibexa\\Core\\MVC\\Symfony\\View\\ParametersInjector\\EventDispatcherInjector"
             - "@ibexa.config.resolver"
             - "@security.authorization_checker"
+        tags:
+            - { name: ibexa.view.builder }
 
     netgen_tags.view.tag_matcher_factory:
         class: Netgen\TagsBundle\Matcher\TagMatcherFactory
