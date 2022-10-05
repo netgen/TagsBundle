@@ -8,6 +8,7 @@ use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use UnexpectedValueException;
+
 use function sprintf;
 
 final class BeforeAddSynonymEvent extends BeforeEvent

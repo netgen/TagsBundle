@@ -21,6 +21,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\User\Limitation\TagLimitation as APITagLimitation;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler as SPITagsPersistenceHandler;
 use RuntimeException;
+
 use function array_map;
 use function count;
 use function ctype_digit;

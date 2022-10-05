@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+
 use function count;
 
 /**

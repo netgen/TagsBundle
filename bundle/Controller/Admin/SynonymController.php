@@ -9,6 +9,7 @@ use Netgen\TagsBundle\Form\Type\LanguageSelectType;
 use Netgen\TagsBundle\Form\Type\SynonymCreateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use function count;
 
 final class SynonymController extends Controller

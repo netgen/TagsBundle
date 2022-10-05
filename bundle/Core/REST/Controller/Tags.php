@@ -13,6 +13,7 @@ use Ibexa\Rest\Server\Values as BaseValues;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\Core\REST\Values;
 use Symfony\Component\HttpFoundation\Request;
+
 use function array_pop;
 use function explode;
 use function in_array;

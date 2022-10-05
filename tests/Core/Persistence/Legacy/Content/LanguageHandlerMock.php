@@ -9,6 +9,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
 use function array_values;
 use function iterator_to_array;
 

@@ -10,6 +10,7 @@ use Ibexa\Rest\Input\BaseParser;
 use Ibexa\Rest\Input\ParserTools;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
+
 use function array_key_exists;
 use function array_pop;
 use function explode;

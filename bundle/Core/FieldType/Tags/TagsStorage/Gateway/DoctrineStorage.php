@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
+
 use function array_values;
 use function in_array;
 

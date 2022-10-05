@@ -22,6 +22,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
+
 use function count;
 use function is_int;
 

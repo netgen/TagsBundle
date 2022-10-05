@@ -18,6 +18,7 @@ use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
+
 use const PHP_INT_MAX;
 
 final class TagsTest extends FieldTypeTest

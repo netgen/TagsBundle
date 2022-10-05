@@ -7,6 +7,7 @@ namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 use Ibexa\Contracts\Rest\Output\Generator;
 use Ibexa\Contracts\Rest\Output\ValueObjectVisitor;
 use Ibexa\Contracts\Rest\Output\Visitor;
+
 use function array_slice;
 use function count;
 use function explode;

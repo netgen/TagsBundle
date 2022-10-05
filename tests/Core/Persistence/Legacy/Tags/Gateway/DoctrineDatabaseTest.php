@@ -14,6 +14,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+
 use function array_filter;
 use function file_get_contents;
 use function is_numeric;
@@ -96,6 +97,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
      *
@@ -125,6 +127,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByRemoteId
      *
      * @param mixed $value
@@ -153,6 +156,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
      *
@@ -184,6 +188,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
      *
@@ -215,6 +220,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
      *
@@ -246,6 +252,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
      *
@@ -277,6 +284,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      *
@@ -308,6 +316,7 @@ final class DoctrineDatabaseTest extends TestCase
 
     /**
      * @dataProvider getLoadFullTagValues
+     *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
      *

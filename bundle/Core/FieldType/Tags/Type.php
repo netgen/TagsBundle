@@ -15,6 +15,7 @@ use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+
 use function count;
 use function in_array;
 use function is_array;

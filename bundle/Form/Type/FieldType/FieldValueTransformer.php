@@ -8,11 +8,13 @@ use Ibexa\Contracts\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value;
 use Symfony\Component\Form\DataTransformerInterface;
+
 use function array_key_exists;
 use function count;
 use function explode;
 use function htmlspecialchars;
 use function implode;
+
 use const ENT_HTML401;
 use const ENT_QUOTES;
 use const ENT_SUBSTITUTE;

@@ -9,11 +9,13 @@ use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagList;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+
 use function array_keys;
 use function array_values;
 use function count;
 use function htmlspecialchars;
 use function in_array;
+
 use const ENT_HTML401;
 use const ENT_QUOTES;
 use const ENT_SUBSTITUTE;

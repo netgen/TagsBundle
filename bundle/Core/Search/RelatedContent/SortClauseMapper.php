@@ -7,6 +7,7 @@ namespace Netgen\TagsBundle\Core\Search\RelatedContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\SortClause\ContentTypeId;
+
 use function in_array;
 
 final class SortClauseMapper

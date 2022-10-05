@@ -9,6 +9,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldValueMapper;
 use Ibexa\Solr\Query\Common\CriterionVisitor\Field;
+
 use function array_merge;
 
 abstract class Tags extends Field

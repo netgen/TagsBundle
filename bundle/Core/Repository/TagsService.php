@@ -29,6 +29,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct as SPISynonymCrea
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
+
 use function array_merge;
 use function array_values;
 use function count;

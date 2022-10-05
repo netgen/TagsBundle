@@ -8,6 +8,7 @@ use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use UnexpectedValueException;
+
 use function sprintf;
 
 final class BeforeUpdateTagEvent extends BeforeEvent

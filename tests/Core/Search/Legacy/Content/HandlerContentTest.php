@@ -24,6 +24,7 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
+
 use function array_filter;
 use function array_map;
 use function array_values;

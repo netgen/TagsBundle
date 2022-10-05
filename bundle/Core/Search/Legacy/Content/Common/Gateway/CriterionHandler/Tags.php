@@ -8,6 +8,7 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+
 use function array_map;
 use function count;
 

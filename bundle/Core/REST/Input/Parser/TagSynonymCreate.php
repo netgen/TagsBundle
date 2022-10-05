@@ -10,6 +10,7 @@ use Ibexa\Rest\Input\BaseParser;
 use Ibexa\Rest\Input\ParserTools;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\SynonymCreateStruct;
+
 use function array_key_exists;
 use function is_array;
 

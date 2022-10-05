@@ -19,6 +19,7 @@ return (new PhpCsFixer\Config())
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_align' => false,
+        'phpdoc_order' => ['order' => ['param', 'throws', 'return']],
         'phpdoc_no_alias_tag' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'self_accessor' => false,

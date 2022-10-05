@@ -10,6 +10,7 @@ use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagKeyword as APITagKeyword;
 use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
+
 use function count;
 use function implode;
 

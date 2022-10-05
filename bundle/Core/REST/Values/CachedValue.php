@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\Core\REST\Values;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Rest\Value;
+
 use function array_diff;
 use function array_keys;
 use function count;

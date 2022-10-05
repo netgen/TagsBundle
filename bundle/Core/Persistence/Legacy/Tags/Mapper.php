@@ -8,6 +8,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
+
 use function array_values;
 
 /**

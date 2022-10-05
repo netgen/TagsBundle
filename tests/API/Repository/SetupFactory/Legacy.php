@@ -23,6 +23,7 @@ use Netgen\TagsBundle\DependencyInjection\Security\PolicyProvider\TagsPolicyProv
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 use function array_filter;
 use function file_get_contents;
 use function preg_split;

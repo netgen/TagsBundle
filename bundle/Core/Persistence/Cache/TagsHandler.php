@@ -15,6 +15,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
+
 use function array_merge;
 use function array_slice;
 use function array_unique;
@@ -44,12 +45,12 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
     {
         $translationsKey = count($translations ?? []) === 0 ?
             self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations ?? []);
+            implode('|', $translations);
 
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
         /** @var \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $cacheValue */
-        $cacheValue = $this->getCacheValue(
+        return $this->getCacheValue(
             $tagId,
             'netgen-tag-',
             function (int $tagId) use ($translations, $useAlwaysAvailable): Tag {
@@ -68,15 +69,13 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
             },
             $keySuffix
         );
-
-        return $cacheValue;
     }
 
     public function loadList(array $tagIds, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $translationsKey = count($translations ?? []) === 0 ?
             self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations ?? []);
+            implode('|', $translations);
 
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
@@ -122,7 +121,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
     {
         $translationsKey = count($translations ?? []) === 0 ?
             self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations ?? []);
+            implode('|', $translations);
 
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
 
@@ -205,7 +204,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         // Method caches all synonyms in cache and only uses offset / limit to slice the cached result
         $translationsKey = count($translations ?? []) === 0 ?
             self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations ?? []);
+            implode('|', $translations);
 
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
 

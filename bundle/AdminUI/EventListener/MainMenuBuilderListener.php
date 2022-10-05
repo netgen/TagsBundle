@@ -9,6 +9,7 @@ use Ibexa\AdminUi\Menu\MainMenuBuilder;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use function array_keys;
 use function array_search;
 use function array_splice;

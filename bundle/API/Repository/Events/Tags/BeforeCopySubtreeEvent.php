@@ -7,6 +7,7 @@ namespace Netgen\TagsBundle\API\Repository\Events\Tags;
 use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use UnexpectedValueException;
+
 use function sprintf;
 
 final class BeforeCopySubtreeEvent extends BeforeEvent
