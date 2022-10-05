@@ -22,6 +22,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_order' => ['order' => ['param', 'throws', 'return']],
         'phpdoc_no_alias_tag' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
+        'return_assignment' => false,
         'self_accessor' => false,
         'single_line_comment_style' => false,
         'yoda_style' => false,

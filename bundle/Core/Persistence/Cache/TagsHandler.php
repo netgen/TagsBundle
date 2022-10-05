@@ -50,7 +50,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
         /** @var \Netgen\TagsBundle\SPI\Persistence\Tags\Tag $cacheValue */
-        return $this->getCacheValue(
+        $cacheValue = $this->getCacheValue(
             $tagId,
             'netgen-tag-',
             function (int $tagId) use ($translations, $useAlwaysAvailable): Tag {
@@ -69,6 +69,8 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
             },
             $keySuffix
         );
+
+        return $cacheValue;
     }
 
     public function loadList(array $tagIds, ?array $translations = null, bool $useAlwaysAvailable = true): array
