@@ -1,5 +1,5 @@
 (function (global) {
-    const SELECTOR_FIELD = '.ez-field-edit--eztags .ez-field-edit--required';
+    const SELECTOR_FIELD = '.ez-field-edit--eztags.ez-field-edit--required';
 
     class EzTagsValidator extends global.eZ.BaseFieldValidator {
         /**
