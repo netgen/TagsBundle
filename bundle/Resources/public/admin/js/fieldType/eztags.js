@@ -1,5 +1,5 @@
 (function (global, doc, ibexa) {
-    const SELECTOR_FIELD = '.ibexa-field-edit--eztags .ibexa-field-edit--required';
+    const SELECTOR_FIELD = '.ibexa-field-edit--eztags.ibexa-field-edit--required';
 
     class TagsValidator extends ibexa.BaseFieldValidator {
             validateTags(event) {
