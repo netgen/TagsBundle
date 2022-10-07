@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use Doctrine\Common\Collections\ArrayCollection;
+
 use function array_filter;
 use function array_map;
 

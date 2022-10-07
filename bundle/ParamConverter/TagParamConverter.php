@@ -10,6 +10,7 @@ use Netgen\TagsBundle\Exception\InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter as ParamConverterConfiguration;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+
 use function in_array;
 use function is_a;
 use function sprintf;

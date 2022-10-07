@@ -8,6 +8,7 @@ use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as Languag
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
+
 use function array_values;
 
 /**

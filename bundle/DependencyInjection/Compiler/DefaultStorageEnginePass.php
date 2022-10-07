@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use function sprintf;
 
 final class DefaultStorageEnginePass implements CompilerPassInterface

@@ -9,6 +9,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId as APITagId;
 use Netgen\TagsBundle\Core\Search\Solr\Query\Common\CriterionVisitor\Tags;
+
 use function count;
 use function implode;
 

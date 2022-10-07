@@ -19,12 +19,14 @@ use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
 use eZ\Publish\Core\Repository\Values\User\User;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+
 use function array_pop;
 use function count;
 use function explode;
 use function implode;
 use function time;
 use function trim;
+
 use const PHP_INT_MAX;
 
 abstract class BaseTagsServiceTest extends BaseTest
@@ -312,6 +314,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     *
      * @depends testLoadTag
      */
     public function testLoadTagChildren(): void
@@ -329,6 +332,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagChildren
+     *
      * @depends testLoadTag
      */
     public function testLoadTagChildrenFromRoot(): void
@@ -360,6 +364,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     *
      * @depends testLoadTag
      */
     public function testGetTagChildrenCount(): void
@@ -373,6 +378,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagChildrenCount
+     *
      * @depends testLoadTag
      */
     public function testGetTagChildrenCountFromRoot(): void
@@ -399,6 +405,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagsByKeyword
+     *
      * @depends testLoadTag
      */
     public function testLoadTagsByKeyword(): void
@@ -426,6 +433,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagsByKeywordCount
+     *
      * @depends testLoadTag
      */
     public function testGetTagsByKeywordCount(): void
@@ -448,6 +456,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     *
      * @depends testLoadTag
      */
     public function testLoadTagSynonyms(): void
@@ -465,6 +474,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::loadTagSynonyms
+     *
      * @depends testLoadTag
      */
     public function testLoadTagSynonymsThrowsInvalidArgumentException(): void
@@ -493,6 +503,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     *
      * @depends testLoadTag
      */
     public function testGetTagSynonymCount(): void
@@ -506,6 +517,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getTagSynonymCount
+     *
      * @depends testLoadTag
      */
     public function testGetTagSynonymCountThrowsInvalidArgumentException(): void
@@ -534,6 +546,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     *
      * @depends testLoadTag
      */
     public function testGetRelatedContent(): void
@@ -547,6 +560,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     *
      * @depends testLoadTag
      */
     public function testGetRelatedContentNoContent(): void
@@ -559,6 +573,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContent
+     *
      * @depends testLoadTag
      */
     public function testGetRelatedContentThrowsNotFoundException(): void
@@ -587,6 +602,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     *
      * @depends testLoadTag
      */
     public function testGetRelatedContentCount(): void
@@ -600,6 +616,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     *
      * @depends testLoadTag
      */
     public function testGetRelatedContentCountNoContent(): void
@@ -613,6 +630,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::getRelatedContentCount
+     *
      * @depends testLoadTag
      */
     public function testGetRelatedContentCountThrowsNotFoundException(): void
@@ -641,6 +659,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     *
      * @depends testNewTagCreateStruct
      */
     public function testCreateTag(): void
@@ -674,6 +693,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     *
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagWithNoParent(): void
@@ -707,6 +727,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     *
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagThrowsInvalidArgumentValueInvalidLanguageCode(): void
@@ -719,6 +740,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     *
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagThrowsInvalidArgumentValueInvalidRemoteId(): void
@@ -732,6 +754,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     *
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagThrowsInvalidArgumentException(): void
@@ -746,6 +769,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::createTag
+     *
      * @depends testNewTagCreateStruct
      */
     public function testCreateTagThrowsUnauthorizedException(): void
@@ -762,6 +786,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
@@ -803,6 +828,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testNewTagUpdateStruct
      */
     public function testUpdateTagThrowsNotFoundException(): void
@@ -825,6 +851,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
@@ -846,6 +873,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
@@ -867,6 +895,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testLoadTag
      * @depends testNewTagUpdateStruct
      */
@@ -888,6 +917,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testNewTagUpdateStruct
      */
     public function testUpdateTagThrowsUnauthorizedException(): void
@@ -912,6 +942,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::updateTag
+     *
      * @depends testNewTagUpdateStruct
      */
     public function testUpdateTagThrowsUnauthorizedExceptionForSynonym(): void
@@ -936,6 +967,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
+     *
      * @depends testLoadTag
      */
     public function testAddSynonym(): void
@@ -982,6 +1014,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
+     *
      * @depends testLoadTag
      */
     public function testAddSynonymThrowsInvalidArgumentValueInvalidKeyword(): void
@@ -996,6 +1029,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::addSynonym
+     *
      * @depends testLoadTag
      */
     public function testAddSynonymThrowsInvalidArgumentException(): void
@@ -1024,6 +1058,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     *
      * @depends testLoadTag
      * @depends testGetTagSynonymCount
      * @depends testGetTagChildrenCount
@@ -1104,6 +1139,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     *
      * @depends testLoadTag
      */
     public function testConvertToSynonymThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
@@ -1134,6 +1170,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::convertToSynonym
+     *
      * @depends testLoadTag
      */
     public function testConvertToSynonymThrowsInvalidArgumentExceptionMainTagBelowTag(): void
@@ -1170,6 +1207,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
+     *
      * @depends testLoadTag
      * @depends testGetRelatedContentCount
      * @depends testGetTagChildrenCount
@@ -1242,6 +1280,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
+     *
      * @depends testLoadTag
      */
     public function testMergeTagsThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
@@ -1272,6 +1311,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::mergeTags
+     *
      * @depends testLoadTag
      */
     public function testMergeTagsThrowsInvalidArgumentExceptionTargetTagBelowTag(): void
@@ -1361,6 +1401,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
+     *
      * @depends testLoadTag
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
@@ -1391,6 +1432,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
+     *
      * @depends testLoadTag
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag(): void
@@ -1405,6 +1447,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::copySubtree
+     *
      * @depends testLoadTag
      */
     public function testCopySubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent(): void
@@ -1441,6 +1484,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
+     *
      * @depends testLoadTag
      * @depends testLoadTagSynonyms
      */
@@ -1520,6 +1564,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
+     *
      * @depends testLoadTag
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTagsAreSynonyms(): void
@@ -1550,6 +1595,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
+     *
      * @depends testLoadTag
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagBelowTag(): void
@@ -1564,6 +1610,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::moveSubtree
+     *
      * @depends testLoadTag
      */
     public function testMoveSubtreeThrowsInvalidArgumentExceptionTargetTagAlreadyParent(): void
@@ -1600,6 +1647,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
     /**
      * @covers \Netgen\TagsBundle\Core\Repository\TagsService::deleteTag
+     *
      * @depends testLoadTag
      * @depends testLoadTagSynonyms
      * @depends testLoadTagChildren

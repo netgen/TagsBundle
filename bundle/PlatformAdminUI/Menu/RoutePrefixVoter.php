@@ -9,6 +9,7 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+
 use function is_array;
 use function is_string;
 use function mb_strpos;

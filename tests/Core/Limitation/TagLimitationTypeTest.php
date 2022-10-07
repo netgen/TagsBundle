@@ -21,6 +21,7 @@ use Netgen\TagsBundle\Core\Limitation\TagLimitationType;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Handler;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use RuntimeException;
+
 use function count;
 use function is_int;
 

@@ -7,6 +7,7 @@ namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\ValueObjectVisitor;
 use EzSystems\EzPlatformRest\Output\Visitor;
+
 use function array_slice;
 use function count;
 use function explode;

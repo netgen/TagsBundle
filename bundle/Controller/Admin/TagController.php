@@ -19,6 +19,7 @@ use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use function count;
 use function in_array;
 use function trim;

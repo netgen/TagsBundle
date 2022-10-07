@@ -11,6 +11,7 @@ use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\TagsBundle\Core\FieldType\Tags\TagsStorage\Gateway;
+
 use function array_values;
 use function in_array;
 

@@ -15,6 +15,7 @@ use eZ\Publish\SPI\FieldType\Value as SPIValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+
 use function count;
 use function in_array;
 use function is_array;

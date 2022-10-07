@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
+
 use function array_merge;
 use function array_unique;
 use function count;

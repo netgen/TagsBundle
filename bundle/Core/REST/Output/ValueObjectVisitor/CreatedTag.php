@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor;
 
 use EzSystems\EzPlatformRest\Output\Generator;
 use EzSystems\EzPlatformRest\Output\Visitor;
+
 use function trim;
 
 final class CreatedTag extends RestTag

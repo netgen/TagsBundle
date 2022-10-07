@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
+
 use function array_map;
 use function count;
 use function explode;

@@ -9,6 +9,7 @@ use eZ\Publish\Core\Search\Common\FieldNameResolver;
 use eZ\Publish\Core\Search\Common\FieldValueMapper;
 use eZ\Publish\SPI\Persistence\Content\Type\Handler;
 use EzSystems\EzPlatformSolrSearchEngine\Query\Common\CriterionVisitor\Field;
+
 use function array_merge;
 
 abstract class Tags extends Field

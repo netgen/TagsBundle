@@ -10,8 +10,10 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function htmlspecialchars;
 use function str_replace;
+
 use const ENT_HTML401;
 use const ENT_QUOTES;
 use const ENT_SUBSTITUTE;
