@@ -33,7 +33,7 @@ final class Tag extends ValueObject
     /**
      * Tag ID.
      */
-    protected int $id;
+    protected ?int $id = null;
 
     /**
      * Parent tag ID.
