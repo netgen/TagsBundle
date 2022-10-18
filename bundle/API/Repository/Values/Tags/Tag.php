@@ -78,7 +78,7 @@ final class Tag extends ValueObject
     /**
      * A global unique ID of the tag.
      */
-    protected string $remoteId;
+    protected ?string $remoteId;
 
     /**
      * Indicates if the Tag object is shown in the main language if it is not present in an other requested language.
