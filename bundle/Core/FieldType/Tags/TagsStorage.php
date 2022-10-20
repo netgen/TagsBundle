@@ -91,7 +91,7 @@ final class TagsStorage extends GatewayBasedStorage
         }
 
         if (isset($tagData['remote_id'])) {
-            $tagCreateStruct->remoteId = $tagData['remote_id'];
+            $tagCreateStruct->remoteId = $tagData['remote_id'] !== '' ? $tagData['remote_id'] : null;
         }
 
         if (isset($tagData['always_available'])) {

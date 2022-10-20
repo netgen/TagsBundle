@@ -115,7 +115,7 @@ final class Type extends FieldType
                         'parentTagId' => $hashItem['parent_id'],
                         'keywords' => $hashItem['keywords'],
                         'mainLanguageCode' => $hashItem['main_language_code'],
-                        'remoteId' => $hashItem['remote_id'] ?? null,
+                        'remoteId' => $hashItem['remote_id'] ?? '',
                         'alwaysAvailable' => $hashItem['always_available'] ?? true,
                     ]
                 );
