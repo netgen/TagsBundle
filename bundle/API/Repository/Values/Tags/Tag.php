@@ -125,7 +125,7 @@ final class Tag extends ValueObject
             return $this->getKeyword();
         }
 
-        if (!isset($this->$property)) {
+        if (!isset($this->{$property})) {
             return null;
         }
 
@@ -138,7 +138,7 @@ final class Tag extends ValueObject
             return true;
         }
 
-        if (!isset($this->$property)) {
+        if (!isset($this->{$property})) {
             return false;
         }
 

@@ -19,6 +19,7 @@ parameters:
         # Tags Bundle specifics
         - '#Netgen\\TagsBundle\\Core\\FieldType\\Tags\\Value::__construct\(\) does not call parent constructor#'
         - '#Method .*::getRelatedContent\(\) should return .* but returns .*#'
+        - '#Variable property access on \$this\(Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag\)#'
 
         # Errors caused by public properties in eZ Platform
         - '#Property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Limitation::\$limitationValues \(array\) on left side of \?\? is not nullable.#'
