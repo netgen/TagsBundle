@@ -64,7 +64,7 @@ abstract class BaseTagsServiceTest extends BaseTest
      */
     public function testIsPropertySet(): void
     {
-        $tag = new Tag();
+        $tag = new Tag(['id' => 42]);
         $value = isset($tag->notDefined);
         self::assertFalse($value);
 
