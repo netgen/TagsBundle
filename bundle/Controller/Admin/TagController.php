@@ -5,6 +5,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
@@ -114,9 +115,18 @@ class TagController extends Controller
             );
         }
 
+        $latestContent = array_values(
+            array_filter(
+                $this->tagsService->getRelatedContent($tag, 0, 10),
+                static function (ContentInfo $contentInfo): bool {
+                    return $contentInfo->mainLocationId !== null;
+                }
+            )
+        );
+
         $data += [
             'tag' => $tag,
-            'latestContent' => $this->tagsService->getRelatedContent($tag, 0, 10),
+            'latestContent' => $latestContent,
         ];
 
         if (!$tag->isSynonym()) {
