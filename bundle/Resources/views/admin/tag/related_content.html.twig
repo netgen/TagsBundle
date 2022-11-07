@@ -34,7 +34,11 @@
                 {% for content in related_content %}
                     <tr>
                         <td>{{ content.id }}</td>
-                        <td><a href="{{ path( "ez_urlalias", {"contentId": content.id} ) }}" target="_blank">{{ ez_content_name(content) }}</a></td>
+                        {% if content.mainLocationId is not null %}
+                            <td><a href="{{ path( "ez_urlalias", {"locationId": content.mainLocationId} ) }}" target="_blank">{{ ez_content_name(content) }}</a></td>
+                        {% else %}
+                            <td>{{ ez_content_name(content) }}</td>
+                        {% endif %}
                         <td>{{ content.modificationDate|date }}</td>
                         <td>{{ netgen_tags_content_type_name(content.contentTypeId) }}</td>
                     </tr>
