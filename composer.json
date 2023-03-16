@@ -60,6 +60,9 @@
             "vendor/symfony/var-dumper/Resources/functions/dump.php"
         ]
     },
+    "config": {
+        "allow-plugins": false
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "5.1.x-dev"
