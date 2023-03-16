@@ -55,10 +55,7 @@
         "psr-4": {
             "Netgen\\TagsBundle\\Tests\\": "tests/",
             "Ibexa\\Tests\\Solr\\": "vendor/ibexa/solr/tests/lib"
-        },
-        "files": [
-            "vendor/symfony/var-dumper/Resources/functions/dump.php"
-        ]
+        }
     },
     "config": {
         "allow-plugins": false
