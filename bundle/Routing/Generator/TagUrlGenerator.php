@@ -98,7 +98,7 @@ final class TagUrlGenerator extends Generator
                 self::INTERNAL_TAG_ROUTE,
                 [
                     'tagId' => $originalTagId,
-                ]
+                ],
             );
         } catch (LogicException $e) {
             if ($this->logger !== null) {
@@ -110,7 +110,7 @@ final class TagUrlGenerator extends Generator
                 self::INTERNAL_TAG_ROUTE,
                 [
                     'tagId' => $originalTagId,
-                ]
+                ],
             );
         }
 

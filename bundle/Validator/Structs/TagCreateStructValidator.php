@@ -18,14 +18,14 @@ final class TagCreateStructValidator extends CreateStructValidator
         if (!$constraint instanceof TagCreateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                TagCreateStruct::class
+                TagCreateStruct::class,
             );
         }
 
         if (!$value instanceof TagCreateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                TagCreateStruct::class
+                TagCreateStruct::class,
             );
         }
 
@@ -39,7 +39,7 @@ final class TagCreateStructValidator extends CreateStructValidator
                 new Constraints\Type(['type' => 'int']),
                 new Constraints\NotBlank(),
                 new Tag(),
-            ]
+            ],
         );
     }
 }

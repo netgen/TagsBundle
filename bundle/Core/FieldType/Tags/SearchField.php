@@ -41,27 +41,27 @@ final class SearchField implements Indexable
             new Search\Field(
                 'tag_keywords',
                 $tagKeywords,
-                new Search\FieldType\MultipleStringField()
+                new Search\FieldType\MultipleStringField(),
             ),
             new Search\Field(
                 'parent_tag_ids',
                 $parentTagIds,
-                new Search\FieldType\MultipleIntegerField()
+                new Search\FieldType\MultipleIntegerField(),
             ),
             new Search\Field(
                 'tag_ids',
                 $tagIds,
-                new Search\FieldType\MultipleIntegerField()
+                new Search\FieldType\MultipleIntegerField(),
             ),
             new Search\Field(
                 'tag_text',
                 implode(' ', $tagKeywords),
-                new Search\FieldType\StringField()
+                new Search\FieldType\StringField(),
             ),
             new Search\Field(
                 'fulltext',
                 implode(' ', $tagKeywords),
-                new Search\FieldType\FullTextField()
+                new Search\FieldType\FullTextField(),
             ),
         ];
     }

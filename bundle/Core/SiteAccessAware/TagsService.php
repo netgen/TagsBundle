@@ -30,7 +30,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->loadTag(
             $tagId,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -39,7 +39,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->loadTagList(
             $tagIds,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -48,7 +48,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->loadTagByRemoteId(
             $remoteId,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -56,7 +56,7 @@ final class TagsService implements TagsServiceInterface
     {
         return $this->innerService->loadTagByUrl(
             $url,
-            $this->languageResolver->getPrioritizedLanguages($languages)
+            $this->languageResolver->getPrioritizedLanguages($languages),
         );
     }
 
@@ -67,7 +67,7 @@ final class TagsService implements TagsServiceInterface
             $offset,
             $limit,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -76,7 +76,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->getTagChildrenCount(
             $tag,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -87,7 +87,7 @@ final class TagsService implements TagsServiceInterface
             $language,
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
             $offset,
-            $limit
+            $limit,
         );
     }
 
@@ -96,7 +96,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->getTagsByKeywordCount(
             $keyword,
             $language,
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -107,7 +107,7 @@ final class TagsService implements TagsServiceInterface
             $language,
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
             $offset,
-            $limit
+            $limit,
         );
     }
 
@@ -118,7 +118,7 @@ final class TagsService implements TagsServiceInterface
             $offset,
             $limit,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 
@@ -127,7 +127,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->getTagSynonymCount(
             $tag,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable)
+            $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
         );
     }
 

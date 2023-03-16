@@ -19,10 +19,8 @@ final class TagList extends ArrayCollection
         parent::__construct(
             array_filter(
                 $tags,
-                static function (Tag $tag): bool {
-                    return true;
-                }
-            )
+                static fn (Tag $tag): bool => true,
+            ),
         );
     }
 
@@ -40,10 +38,8 @@ final class TagList extends ArrayCollection
     public function getTagIds(): array
     {
         return array_map(
-            static function (Tag $tag): int {
-                return (int) $tag->id;
-            },
-            $this->getTags()
+            static fn (Tag $tag): int => (int) $tag->id,
+            $this->getTags(),
         );
     }
 }

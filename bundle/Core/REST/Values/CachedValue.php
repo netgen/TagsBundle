@@ -50,7 +50,7 @@ final class CachedValue extends Value
         if (count($invalidTags) > 0) {
             throw new InvalidArgumentException(
                 'cacheTags',
-                'Unknown cache tag(s): ' . implode(', ', $invalidTags)
+                'Unknown cache tag(s): ' . implode(', ', $invalidTags),
             );
         }
 

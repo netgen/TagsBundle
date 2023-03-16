@@ -37,17 +37,17 @@ abstract class Tags extends CriterionHandler
                 $query->expr()->andX(
                     $query->expr()->eq(
                         'ezcontentclass_attribute.is_searchable',
-                        ':is_searchable'
+                        ':is_searchable',
                     ),
                     $query->expr()->eq(
                         'ezcontentclass_attribute.data_type_string',
-                        ':data_type_string'
+                        ':data_type_string',
                     ),
                     $query->expr()->eq(
                         'ezcontentclass_attribute.identifier',
-                        ':identifier'
-                    )
-                )
+                        ':identifier',
+                    ),
+                ),
             )->setParameter('is_searchable', 1, Types::INTEGER)
             ->setParameter('data_type_string', 'eztags', Types::STRING)
             ->setParameter('identifier', $fieldIdentifier, Types::STRING);
@@ -57,7 +57,7 @@ abstract class Tags extends CriterionHandler
         if (count($fieldDefinitionIds) === 0) {
             throw new InvalidArgumentException(
                 '$criterion->target',
-                "No searchable fields found for the given criterion target '{$fieldIdentifier}'."
+                "No searchable fields found for the given criterion target '{$fieldIdentifier}'.",
             );
         }
 

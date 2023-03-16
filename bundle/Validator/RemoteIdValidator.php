@@ -30,7 +30,7 @@ final class RemoteIdValidator extends ConstraintValidator
         if (!$constraint instanceof RemoteId) {
             throw new UnexpectedTypeException(
                 $constraint,
-                RemoteId::class
+                RemoteId::class,
             );
         }
 

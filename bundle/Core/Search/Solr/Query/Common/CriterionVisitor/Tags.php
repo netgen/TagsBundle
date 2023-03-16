@@ -50,7 +50,7 @@ abstract class Tags extends Field
                 $criterion,
                 $criterion->target,
                 $this->fieldTypeIdentifier,
-                $this->fieldName
+                $this->fieldName,
             );
         }
 
@@ -69,7 +69,7 @@ abstract class Tags extends Field
                     $criterion,
                     $fieldIdentifier,
                     $this->fieldTypeIdentifier,
-                    $this->fieldName
+                    $this->fieldName,
                 );
 
                 $targetFieldTypes[] = $fieldTypes;

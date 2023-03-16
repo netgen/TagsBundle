@@ -30,13 +30,13 @@ final class TagId extends Tags
                 't2',
                 $queryBuilder->expr()->andX(
                     $queryBuilder->expr()->eq('t2.objectattribute_version', 't1.current_version'),
-                    $queryBuilder->expr()->eq('t2.object_id', 't1.id')
-                )
+                    $queryBuilder->expr()->eq('t2.object_id', 't1.id'),
+                ),
             )->where(
                 $queryBuilder->expr()->in(
                     't2.keyword_id',
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY)
-                )
+                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY),
+                ),
             );
 
         $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
@@ -47,13 +47,13 @@ final class TagId extends Tags
                 't3',
                 $queryBuilder->expr()->andX(
                     $queryBuilder->expr()->eq('t3.id', 't2.objectattribute_id'),
-                    $queryBuilder->expr()->eq('t3.version', 't2.objectattribute_version')
-                )
+                    $queryBuilder->expr()->eq('t3.version', 't2.objectattribute_version'),
+                ),
             )->andWhere(
                 $queryBuilder->expr()->in(
                     't3.contentclassattribute_id',
-                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
-                )
+                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY),
+                ),
             );
         }
 

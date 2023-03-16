@@ -30,7 +30,7 @@ final class TagKeyword extends Tags
         if (count($searchFields) === 0) {
             throw new InvalidArgumentException(
                 '$criterion->target',
-                "No searchable fields found for the given criterion target '{$criterion->target}'."
+                "No searchable fields found for the given criterion target '{$criterion->target}'.",
             );
         }
 
@@ -39,9 +39,9 @@ final class TagKeyword extends Tags
             foreach ($criterion->value as $value) {
                 $preparedValue = $this->escapeQuote(
                     $this->toString(
-                        $this->mapSearchFieldValue($value, $fieldType)
+                        $this->mapSearchFieldValue($value, $fieldType),
                     ),
-                    true
+                    true,
                 );
 
                 if ($isLikeOperator) {

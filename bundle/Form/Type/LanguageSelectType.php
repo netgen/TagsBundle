@@ -27,7 +27,7 @@ final class LanguageSelectType extends AbstractType
             TranslationListType::class,
             [
                 'tag' => $options['tag'],
-            ]
+            ],
         );
     }
 }

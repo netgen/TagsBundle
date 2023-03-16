@@ -39,7 +39,7 @@ abstract class Controller extends BaseController
             'netgen_tags_admin_tag_show',
             [
                 'tagId' => $tag->id,
-            ]
+            ],
         );
     }
 
@@ -56,8 +56,8 @@ abstract class Controller extends BaseController
             $translator->trans(
                 $messageType . '.' . $message,
                 $parameters,
-                'netgen_tags_admin_flash'
-            )
+                'netgen_tags_admin_flash',
+            ),
         );
     }
 

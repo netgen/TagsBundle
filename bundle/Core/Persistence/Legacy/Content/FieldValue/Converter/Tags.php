@@ -39,7 +39,7 @@ final class Tags implements Converter
                 'hideRootTag' => (bool) $storageDef->dataInt3,
                 'editView' => $storageDef->dataText1,
             ],
-            FieldSettings::ARRAY_AS_PROPS
+            FieldSettings::ARRAY_AS_PROPS,
         );
 
         $fieldDef->fieldTypeConstraints->validators = [

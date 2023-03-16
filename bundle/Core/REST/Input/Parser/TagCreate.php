@@ -46,7 +46,7 @@ final class TagCreate extends BaseParser
 
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             (int) array_pop($tagHrefParts),
-            $data['mainLanguageCode']
+            $data['mainLanguageCode'],
         );
 
         if (array_key_exists('remoteId', $data)) {

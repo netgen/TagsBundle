@@ -43,7 +43,7 @@ final class DoctrineStorage extends Gateway
                         'objectattribute_version' => ':objectattribute_version',
                         'object_id' => ':object_id',
                         'priority' => ':priority',
-                    ]
+                    ],
                 )
                 ->setParameter(':keyword_id', $tag['id'], Types::INTEGER)
                 ->setParameter(':objectattribute_id', $field->id, Types::INTEGER)
@@ -68,8 +68,8 @@ final class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->andX(
                     $query->expr()->in('objectattribute_id', [':objectattribute_id']),
-                    $query->expr()->eq('objectattribute_version', ':objectattribute_version')
-                )
+                    $query->expr()->eq('objectattribute_version', ':objectattribute_version'),
+                ),
             )
             ->setParameter(':objectattribute_id', $fieldIds, Connection::PARAM_INT_ARRAY)
             ->setParameter(':objectattribute_version', $versionInfo->versionNo, Types::INTEGER);
@@ -100,7 +100,7 @@ final class DoctrineStorage extends Gateway
                 'k.keyword AS eztags_keyword_keyword',
                 'k.locale AS eztags_keyword_locale',
                 // Tag attribute links
-                'tal.priority AS eztags_attribute_link_priority'
+                'tal.priority AS eztags_attribute_link_priority',
             )
             ->from('eztags', 't')
             ->innerJoin(
@@ -109,8 +109,8 @@ final class DoctrineStorage extends Gateway
                 'tal',
                 $query->expr()->eq(
                     't.id',
-                    'tal.keyword_id'
-                )
+                    'tal.keyword_id',
+                ),
             )
             ->innerJoin(
                 't',
@@ -118,13 +118,13 @@ final class DoctrineStorage extends Gateway
                 'k',
                 $query->expr()->eq(
                     't.id',
-                    'k.keyword_id'
-                )
+                    'k.keyword_id',
+                ),
             )->where(
                 $query->expr()->andX(
                     $query->expr()->eq('tal.objectattribute_id', ':objectattribute_id'),
-                    $query->expr()->eq('tal.objectattribute_version', ':objectattribute_version')
-                )
+                    $query->expr()->eq('tal.objectattribute_version', ':objectattribute_version'),
+                ),
             )
             ->setParameter(':objectattribute_id', $fieldId, Types::INTEGER)
             ->setParameter(':objectattribute_version', $versionNo, Types::INTEGER)

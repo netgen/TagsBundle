@@ -36,17 +36,17 @@ final class TagKeyword extends Criterion
             new Specifications(
                 Operator::IN,
                 Specifications::FORMAT_ARRAY,
-                Specifications::TYPE_STRING
+                Specifications::TYPE_STRING,
             ),
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_STRING
+                Specifications::TYPE_STRING,
             ),
             new Specifications(
                 Operator::LIKE,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_STRING
+                Specifications::TYPE_STRING,
             ),
         ];
     }

@@ -63,7 +63,7 @@ final class TagController extends Controller
                 $this->tagChildrenAdapter,
                 $currentPage,
                 $configResolver->getParameter('admin.children_limit', 'netgen_tags'),
-                $tag
+                $tag,
             );
 
             $data += [
@@ -74,7 +74,7 @@ final class TagController extends Controller
         if (!$tag instanceof Tag) {
             return $this->render(
                 '@NetgenTags/admin/tag/dashboard.html.twig',
-                $data
+                $data,
             );
         }
 
@@ -92,7 +92,7 @@ final class TagController extends Controller
 
         return $this->render(
             '@NetgenTags/admin/tag/show.html.twig',
-            $data
+            $data,
         );
     }
 
@@ -111,7 +111,7 @@ final class TagController extends Controller
                 [
                     'parentId' => $parentTag !== null ? $parentTag->id : 0,
                     'languageCode' => $availableLanguages[0],
-                ]
+                ],
             );
         }
 
@@ -120,7 +120,7 @@ final class TagController extends Controller
             null,
             [
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -131,7 +131,7 @@ final class TagController extends Controller
                 [
                     'parentId' => $parentTag !== null ? $parentTag->id : 0,
                     'languageCode' => $form->getData()['languageCode'],
-                ]
+                ],
             );
         }
 
@@ -139,7 +139,7 @@ final class TagController extends Controller
             '@NetgenTags/admin/tag/select_translation.html.twig',
             [
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
@@ -153,7 +153,7 @@ final class TagController extends Controller
 
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             $parentTag instanceof Tag ? $parentTag->id : 0,
-            $languageCode
+            $languageCode,
         );
 
         $form = $this->createForm(
@@ -161,7 +161,7 @@ final class TagController extends Controller
             $tagCreateStruct,
             [
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -179,7 +179,7 @@ final class TagController extends Controller
             [
                 'form' => $form->createView(),
                 'parentTag' => $parentTag,
-            ]
+            ],
         );
     }
 
@@ -198,7 +198,7 @@ final class TagController extends Controller
                 [
                     'tagId' => $tag->id,
                     'languageCode' => $availableLanguages[0],
-                ]
+                ],
             );
         }
 
@@ -208,7 +208,7 @@ final class TagController extends Controller
             [
                 'action' => $request->getPathInfo(),
                 'tag' => $tag,
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -219,7 +219,7 @@ final class TagController extends Controller
                 [
                     'tagId' => $tag->id,
                     'languageCode' => $form->getData()['languageCode'],
-                ]
+                ],
             );
         }
 
@@ -228,7 +228,7 @@ final class TagController extends Controller
             [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            ]
+            ],
         );
     }
 
@@ -255,7 +255,7 @@ final class TagController extends Controller
                 'action' => $request->getPathInfo(),
                 'languageCode' => $languageCode,
                 'tag' => $tag,
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -273,7 +273,7 @@ final class TagController extends Controller
             [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            ]
+            ],
         );
     }
 
@@ -304,7 +304,7 @@ final class TagController extends Controller
             '@NetgenTags/admin/tag/delete.html.twig',
             [
                 'tag' => $tag,
-            ]
+            ],
         );
     }
 
@@ -323,7 +323,7 @@ final class TagController extends Controller
             [
                 'tag' => $tag,
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -339,7 +339,7 @@ final class TagController extends Controller
                 [
                     '%tagKeyword%' => $tag->keyword,
                     '%sourceTagKeyword%' => $sourceTag->keyword,
-                ]
+                ],
             );
 
             return $this->redirectToTag($sourceTag);
@@ -350,7 +350,7 @@ final class TagController extends Controller
             [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            ]
+            ],
         );
     }
 
@@ -369,7 +369,7 @@ final class TagController extends Controller
             [
                 'tag' => $tag,
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -385,7 +385,7 @@ final class TagController extends Controller
                 [
                     '%tagKeyword%' => $tag->keyword,
                     '%mainTagKeyword%' => $mainTag->keyword,
-                ]
+                ],
             );
 
             return $this->redirectToTag($mainTag);
@@ -396,7 +396,7 @@ final class TagController extends Controller
             [
                 'form' => $form->createView(),
                 'tag' => $tag,
-            ]
+            ],
         );
     }
 
@@ -482,7 +482,7 @@ final class TagController extends Controller
         if ($request->hasSession()) {
             $request->getSession()->set(
                 'ngtags_tag_ids',
-                $request->request->get('Tags')
+                $request->request->get('Tags'),
             );
         }
 
@@ -491,7 +491,7 @@ final class TagController extends Controller
                 'netgen_tags_admin_tag_move_tags',
                 [
                     'parentId' => $tag !== null ? $tag->id : 0,
-                ]
+                ],
             );
         }
 
@@ -500,7 +500,7 @@ final class TagController extends Controller
                 'netgen_tags_admin_tag_copy_tags',
                 [
                     'parentId' => $tag !== null ? $tag->id : 0,
-                ]
+                ],
             );
         }
 
@@ -509,7 +509,7 @@ final class TagController extends Controller
                 'netgen_tags_admin_tag_delete_tags',
                 [
                     'parentId' => $tag !== null ? $tag->id : 0,
-                ]
+                ],
             );
         }
 
@@ -544,7 +544,7 @@ final class TagController extends Controller
             [
                 'tags' => $tags,
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -571,7 +571,7 @@ final class TagController extends Controller
                 'parentTag' => $parentTag,
                 'tags' => $tags,
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
@@ -603,7 +603,7 @@ final class TagController extends Controller
             [
                 'tags' => $tags,
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -630,7 +630,7 @@ final class TagController extends Controller
                 'parentTag' => $parentTag,
                 'tags' => $tags,
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
@@ -675,7 +675,7 @@ final class TagController extends Controller
             [
                 'parentTag' => $parentTag,
                 'tags' => $tags,
-            ]
+            ],
         );
     }
 
@@ -698,7 +698,7 @@ final class TagController extends Controller
             $tags = $this->createPager(
                 $this->searchTagsAdapter,
                 $page,
-                $limit
+                $limit,
             );
         }
 
@@ -706,7 +706,7 @@ final class TagController extends Controller
             '@NetgenTags/admin/tag/search.html.twig',
             [
                 'pager' => $tags,
-            ]
+            ],
         );
     }
 

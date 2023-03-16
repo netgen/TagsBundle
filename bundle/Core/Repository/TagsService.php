@@ -74,7 +74,7 @@ class TagsService implements TagsServiceInterface
         $spiTag = $this->tagsHandler->load(
             $tagId,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
 
         return $this->mapper->buildTagDomainObject($spiTag, $languages ?? []);
@@ -89,11 +89,11 @@ class TagsService implements TagsServiceInterface
         $spiTags = $this->tagsHandler->loadList(
             $tagIds,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
 
         return new TagList(
-            $this->mapper->buildTagDomainList($spiTags, $languages ?? [])
+            $this->mapper->buildTagDomainList($spiTags, $languages ?? []),
         );
     }
 
@@ -106,7 +106,7 @@ class TagsService implements TagsServiceInterface
         $spiTag = $this->tagsHandler->loadByRemoteId(
             $remoteId,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
 
         return $this->mapper->buildTagDomainObject($spiTag, $languages ?? []);
@@ -176,7 +176,7 @@ class TagsService implements TagsServiceInterface
             $offset,
             $limit,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
 
         $tags = [];
@@ -196,7 +196,7 @@ class TagsService implements TagsServiceInterface
         return $this->tagsHandler->getChildrenCount(
             $tag !== null ? $tag->id : 0,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
     }
 
@@ -236,7 +236,7 @@ class TagsService implements TagsServiceInterface
             $language,
             $useAlwaysAvailable,
             $offset,
-            $limit
+            $limit,
         );
 
         $tags = [];
@@ -248,7 +248,7 @@ class TagsService implements TagsServiceInterface
             [
                 'tags' => new TagList($tags),
                 'totalCount' => $spiSearchResult->totalCount,
-            ]
+            ],
         );
     }
 
@@ -267,7 +267,7 @@ class TagsService implements TagsServiceInterface
             $offset,
             $limit,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
 
         $tags = [];
@@ -291,7 +291,7 @@ class TagsService implements TagsServiceInterface
         return $this->tagsHandler->getSynonymCount(
             $tag->id,
             $languages,
-            $useAlwaysAvailable
+            $useAlwaysAvailable,
         );
     }
 
@@ -316,7 +316,7 @@ class TagsService implements TagsServiceInterface
                 'limit' => $limit > 0 ? $limit : 1000000,
                 'filter' => $filter,
                 'sortClauses' => $sortClauses,
-            ]
+            ],
         );
 
         $searchResult = $returnContentInfo ?
@@ -345,8 +345,8 @@ class TagsService implements TagsServiceInterface
                 [
                     'limit' => 0,
                     'filter' => $filter,
-                ]
-            )
+                ],
+            ),
         );
 
         return $searchResult->totalCount ?? 0;
@@ -664,7 +664,7 @@ class TagsService implements TagsServiceInterface
         try {
             $copiedTag = $this->tagsHandler->copySubtree(
                 $spiTagInfo->id,
-                $spiParentTagInfo instanceof TagInfo ? $spiParentTagInfo->id : 0
+                $spiParentTagInfo instanceof TagInfo ? $spiParentTagInfo->id : 0,
             );
             $this->repository->commit();
         } catch (Exception $e) {
@@ -714,7 +714,7 @@ class TagsService implements TagsServiceInterface
         try {
             $movedTag = $this->tagsHandler->moveSubtree(
                 $spiTagInfo->id,
-                $spiParentTagInfo instanceof TagInfo ? $spiParentTagInfo->id : 0
+                $spiParentTagInfo instanceof TagInfo ? $spiParentTagInfo->id : 0,
             );
             $this->repository->commit();
         } catch (Exception $e) {

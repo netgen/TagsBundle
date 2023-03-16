@@ -21,8 +21,8 @@ final class CreatedTag extends RestTag
                 'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($data->restTag->tag->pathString, '/'),
-                ]
-            )
+                ],
+            ),
         );
 
         $visitor->setStatus(201);

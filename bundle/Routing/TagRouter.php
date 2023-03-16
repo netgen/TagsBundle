@@ -81,9 +81,9 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             function (TagsService $tagsService) use ($requestedPath): Tag {
                 return $tagsService->loadTagByUrl(
                     $requestedPath,
-                    $this->configResolver->getParameter('languages')
+                    $this->configResolver->getParameter('languages'),
                 );
-            }
+            },
         );
 
         // We specifically pass tag ID so tag view builder will reload the tag and check for permissions
@@ -97,7 +97,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         $request->attributes->set('tagId', $tag->id);
 
         $this->logger->info(
-            "TagRouter matched tag #{$tag->id}. Forwarding to tag view controller"
+            "TagRouter matched tag #{$tag->id}. Forwarding to tag view controller",
         );
 
         return $params;
@@ -123,7 +123,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
                 // Check if tag is a valid Tag object
                 if ($tag !== null && !$tag instanceof Tag) {
                     throw new LogicException(
-                        "When generating a Tag route, 'tag' parameter must be a valid Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag."
+                        "When generating a Tag route, 'tag' parameter must be a valid Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag.",
                     );
                 }
 
@@ -134,7 +134,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
             }
 
             throw new InvalidArgumentException(
-                "When generating a Tag route, either 'tag' or 'tagId' must be provided."
+                "When generating a Tag route, either 'tag' or 'tagId' must be provided.",
             );
         }
 

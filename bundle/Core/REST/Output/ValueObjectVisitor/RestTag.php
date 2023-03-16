@@ -29,8 +29,8 @@ class RestTag extends ValueObjectVisitor
             'href',
             $this->router->generate(
                 'ibexa.rest.netgen_tags_loadTag',
-                ['tagPath' => trim($tag->pathString, '/')]
-            )
+                ['tagPath' => trim($tag->pathString, '/')],
+            ),
         );
         $generator->endAttribute('href');
 
@@ -48,8 +48,8 @@ class RestTag extends ValueObjectVisitor
                     'ibexa.rest.netgen_tags_loadTag',
                     [
                         'tagPath' => $parentPathString,
-                    ]
-                )
+                    ],
+                ),
             );
             $generator->endAttribute('href');
             $generator->endObjectElement('ParentTag');
@@ -64,8 +64,8 @@ class RestTag extends ValueObjectVisitor
                     [
                         // Main tags always have a same parent tag ID
                         'tagPath' => $parentPathString . '/' . $tag->mainTagId,
-                    ]
-                )
+                    ],
+                ),
             );
             $generator->endAttribute('href');
             $generator->endObjectElement('MainTag');
@@ -81,7 +81,7 @@ class RestTag extends ValueObjectVisitor
 
         $generator->startValueElement(
             'modificationDate',
-            $tag->modificationDate->format('c')
+            $tag->modificationDate->format('c'),
         );
         $generator->endValueElement('modificationDate');
 
@@ -90,7 +90,7 @@ class RestTag extends ValueObjectVisitor
 
         $generator->startValueElement(
             'alwaysAvailable',
-            $this->serializeBool($generator, $tag->alwaysAvailable)
+            $this->serializeBool($generator, $tag->alwaysAvailable),
         );
         $generator->endValueElement('alwaysAvailable');
 
@@ -99,7 +99,7 @@ class RestTag extends ValueObjectVisitor
 
         $generator->startValueElement(
             'languageCodes',
-            implode(',', $tag->languageCodes)
+            implode(',', $tag->languageCodes),
         );
         $generator->endValueElement('languageCodes');
 
@@ -114,8 +114,8 @@ class RestTag extends ValueObjectVisitor
                     'ibexa.rest.netgen_tags_loadTagChildren',
                     [
                         'tagPath' => trim($tag->pathString, '/'),
-                    ]
-                )
+                    ],
+                ),
             );
             $generator->endAttribute('href');
             $generator->endObjectElement('Children');
@@ -128,8 +128,8 @@ class RestTag extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ibexa.rest.netgen_tags_loadTagSynonyms',
-                    ['tagPath' => trim($tag->pathString, '/')]
-                )
+                    ['tagPath' => trim($tag->pathString, '/')],
+                ),
             );
             $generator->endAttribute('href');
             $generator->endObjectElement('Synonyms');
@@ -142,8 +142,8 @@ class RestTag extends ValueObjectVisitor
                 'ibexa.rest.netgen_tags_getRelatedContent',
                 [
                     'tagPath' => trim($tag->pathString, '/'),
-                ]
-            )
+                ],
+            ),
         );
         $generator->endAttribute('href');
         $generator->endObjectElement('RelatedContent');

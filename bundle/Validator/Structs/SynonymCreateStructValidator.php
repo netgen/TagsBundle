@@ -18,14 +18,14 @@ final class SynonymCreateStructValidator extends CreateStructValidator
         if (!$constraint instanceof SynonymCreateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                SynonymCreateStruct::class
+                SynonymCreateStruct::class,
             );
         }
 
         if (!$value instanceof SynonymCreateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                SynonymCreateStruct::class
+                SynonymCreateStruct::class,
             );
         }
 
@@ -39,7 +39,7 @@ final class SynonymCreateStructValidator extends CreateStructValidator
                 new Constraints\Type(['type' => 'int']),
                 new Constraints\NotBlank(),
                 new Tag(['allowRootTag' => false]),
-            ]
+            ],
         );
     }
 }

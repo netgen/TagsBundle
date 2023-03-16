@@ -43,7 +43,7 @@ final class RelatedContentController extends Controller
             null,
             [
                 'tag' => $tag,
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -72,7 +72,7 @@ final class RelatedContentController extends Controller
             $this->adapter,
             $currentPage,
             $configResolver->getParameter('admin.related_content_limit', 'netgen_tags'),
-            $tag
+            $tag,
         );
 
         return $this->render(
@@ -82,7 +82,7 @@ final class RelatedContentController extends Controller
                 'related_content' => $pager,
                 'filter_form' => $form->createView(),
                 'filter_applied' => $filterApplied,
-            ]
+            ],
         );
     }
 }

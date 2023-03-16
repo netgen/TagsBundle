@@ -40,10 +40,10 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                             'required' => $data->fieldDefinition->isRequired,
                             'label' => $data->fieldDefinition->getName(),
                             'field' => $data->field,
-                        ]
+                        ],
                     )
                     ->setAutoInitialize(false)
-                    ->getForm()
+                    ->getForm(),
             );
     }
 
@@ -61,7 +61,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                 [
                     'property_path' => 'validatorConfiguration[TagsValueValidator][subTreeLimit]',
                     'label' => 'field_definition.tags.validator.subtree_limit',
-                ]
+                ],
             )
             ->add(
                 'maxTags',
@@ -76,14 +76,14 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                         new Constraints\GreaterThanOrEqual(
                             [
                                 'value' => 0,
-                            ]
+                            ],
                         ),
                     ],
                     'empty_data' => 0,
                     'attr' => [
                         'min' => 0,
                     ],
-                ]
+                ],
             )
             ->add(
                 'hideRootTag',
@@ -96,7 +96,7 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                         new Constraints\Type(['type' => 'bool']),
                         new Constraints\NotNull(),
                     ],
-                ]
+                ],
             )
             ->add(
                 'editView',
@@ -113,10 +113,10 @@ final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValue
                             [
                                 'choices' => array_values($editViewChoices),
                                 'strict' => true,
-                            ]
+                            ],
                         ),
                     ],
-                ]
+                ],
             );
     }
 }

@@ -22,7 +22,7 @@ final class TagCreateType extends AbstractType
                     'constraints' => [
                         new TagCreateStructConstraint(),
                     ],
-                ]
+                ],
             );
     }
 
@@ -36,7 +36,7 @@ final class TagCreateType extends AbstractType
                 // Disable constraints specified in TagTreeType, since
                 // they are validated in TagCreateStructConstraint
                 'constraints' => [],
-            ]
+            ],
         );
     }
 

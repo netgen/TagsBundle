@@ -57,8 +57,8 @@ final class RelatedContentFacetsLoader
                     'limit' => 0,
                     'filter' => new TagId($tag->id),
                     'facetBuilders' => $facetBuilders,
-                ]
-            )
+                ],
+            ),
         );
 
         return $searchResult->facets;

@@ -29,7 +29,7 @@ final class LanguageValidator extends ConstraintValidator
         if (!$constraint instanceof Language) {
             throw new UnexpectedTypeException(
                 $constraint,
-                Language::class
+                Language::class,
             );
         }
 

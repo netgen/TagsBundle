@@ -44,7 +44,7 @@ final class FieldController extends Controller
 
         $searchResult = $this->tagsService->searchTags(
             $request->query->get('searchString') ?? '',
-            $request->query->get('locale') ?? ''
+            $request->query->get('locale') ?? '',
         );
 
         $data = $data = $this->filterTags($searchResult->tags, $subTreeLimit, $hideRootTag);
@@ -67,7 +67,7 @@ final class FieldController extends Controller
             $subTreeLimit !== 0 ? $this->tagsService->loadTag($subTreeLimit) : null,
             0,
             -1,
-            [$locale]
+            [$locale],
         );
 
         $data = $this->filterTags($tags, $subTreeLimit, $hideRootTag);

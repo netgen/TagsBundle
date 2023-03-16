@@ -24,8 +24,8 @@ final class DefaultStorageEnginePass implements CompilerPassInterface
             'netgen_tags.api.persistence_handler.tags.storage',
             sprintf(
                 'netgen_tags.api.storage_engine.%s.handler.tags',
-                $defaultStorageEngine
-            )
+                $defaultStorageEngine,
+            ),
         );
     }
 }

@@ -50,8 +50,8 @@ final class Tags extends RestController
                 'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($tag->pathString, '/'),
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -63,12 +63,12 @@ final class Tags extends RestController
     public function loadTag(string $tagPath): Values\CachedValue
     {
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         if (trim($tag->pathString, '/') !== $tagPath) {
             throw new Exceptions\NotFoundException(
-                "Could not find tag with path string {$tagPath}"
+                "Could not find tag with path string {$tagPath}",
             );
         }
 
@@ -84,9 +84,9 @@ final class Tags extends RestController
             new Values\RestTag(
                 $tag,
                 $childrenCount,
-                $synonymsCount
+                $synonymsCount,
             ),
-            ['tagId' => $tag->id]
+            ['tagId' => $tag->id],
         );
     }
 
@@ -105,7 +105,7 @@ final class Tags extends RestController
             $language,
             true,
             $offset >= 0 ? $offset : 0,
-            $limit >= 0 ? $limit : 25
+            $limit >= 0 ? $limit : 25,
         );
 
         $restTags = [];
@@ -116,9 +116,9 @@ final class Tags extends RestController
         return new Values\CachedValue(
             new Values\TagList(
                 $restTags,
-                $request->getPathInfo()
+                $request->getPathInfo(),
             ),
-            ['tagKeyword' => $keyword . '|#' . $language]
+            ['tagKeyword' => $keyword . '|#' . $language],
         );
     }
 
@@ -136,7 +136,7 @@ final class Tags extends RestController
                 $this->tagsService->loadTag($tagId) :
                 null,
             $offset >= 0 ? $offset : 0,
-            $limit >= 0 ? $limit : 25
+            $limit >= 0 ? $limit : 25,
         );
 
         $restTags = [];
@@ -147,9 +147,9 @@ final class Tags extends RestController
         return new Values\CachedValue(
             new Values\TagList(
                 $restTags,
-                $request->getPathInfo()
+                $request->getPathInfo(),
             ),
-            ['tagId' => $tagId]
+            ['tagId' => $tagId],
         );
     }
 
@@ -165,7 +165,7 @@ final class Tags extends RestController
         $synonyms = $this->tagsService->loadTagSynonyms(
             $this->tagsService->loadTag($tagId),
             $offset >= 0 ? $offset : 0,
-            $limit >= 0 ? $limit : 25
+            $limit >= 0 ? $limit : 25,
         );
 
         $restSynonyms = [];
@@ -176,9 +176,9 @@ final class Tags extends RestController
         return new Values\CachedValue(
             new Values\TagList(
                 $restSynonyms,
-                $request->getPathInfo()
+                $request->getPathInfo(),
             ),
-            ['tagId' => $tagId]
+            ['tagId' => $tagId],
         );
     }
 
@@ -194,7 +194,7 @@ final class Tags extends RestController
         $relatedContent = $this->tagsService->getRelatedContent(
             $this->tagsService->loadTag($tagId),
             $offset >= 0 ? $offset : 0,
-            $limit >= 0 ? $limit : 25
+            $limit >= 0 ? $limit : 25,
         );
 
         $restContent = [];
@@ -207,9 +207,9 @@ final class Tags extends RestController
         return new Values\CachedValue(
             new Values\ContentList(
                 $restContent,
-                $request->getPathInfo()
+                $request->getPathInfo(),
             ),
-            ['tagId' => $tagId]
+            ['tagId' => $tagId],
         );
     }
 
@@ -223,8 +223,8 @@ final class Tags extends RestController
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
                 ['Content-Type' => $request->headers->get('Content-Type')],
-                $request->getContent()
-            )
+                $request->getContent(),
+            ),
         );
 
         try {
@@ -246,8 +246,8 @@ final class Tags extends RestController
         $synonymCreateStruct = $this->inputDispatcher->parse(
             new Message(
                 ['Content-Type' => $request->headers->get('Content-Type')],
-                $request->getContent()
-            )
+                $request->getContent(),
+            ),
         );
 
         $synonymCreateStruct->mainTagId = $this->extractTagIdFromPath($tagPath);
@@ -269,12 +269,12 @@ final class Tags extends RestController
         $tagUpdateStruct = $this->inputDispatcher->parse(
             new Message(
                 ['Content-Type' => $request->headers->get('Content-Type')],
-                $request->getContent()
-            )
+                $request->getContent(),
+            ),
         );
 
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         $updatedTag = $this->tagsService->updateTag($tag, $tagUpdateStruct);
@@ -290,7 +290,7 @@ final class Tags extends RestController
         return new Values\RestTag(
             $updatedTag,
             $childrenCount,
-            $synonymsCount
+            $synonymsCount,
         );
     }
 
@@ -302,7 +302,7 @@ final class Tags extends RestController
     public function copySubtree(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         $destinationHref = $request->headers->get('Destination', '');
@@ -311,7 +311,7 @@ final class Tags extends RestController
             /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
-                'tagPath'
+                'tagPath',
             );
         } catch (Exceptions\InvalidArgumentException $e) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
@@ -319,8 +319,8 @@ final class Tags extends RestController
 
         $destinationTag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath(
-                $parsedDestinationHref
-            )
+                $parsedDestinationHref,
+            ),
         );
 
         $newTag = $this->tagsService->copySubtree($tag, $destinationTag);
@@ -330,8 +330,8 @@ final class Tags extends RestController
                 'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($newTag->pathString, '/'),
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -343,7 +343,7 @@ final class Tags extends RestController
     public function moveSubtree(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         $destinationHref = $request->headers->get('Destination', '');
@@ -352,7 +352,7 @@ final class Tags extends RestController
             /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
-                'tagPath'
+                'tagPath',
             );
         } catch (Exceptions\InvalidArgumentException $e) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
@@ -360,8 +360,8 @@ final class Tags extends RestController
 
         $destinationTag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath(
-                $parsedDestinationHref
-            )
+                $parsedDestinationHref,
+            ),
         );
 
         $this->tagsService->moveSubtree($tag, $destinationTag);
@@ -374,8 +374,8 @@ final class Tags extends RestController
                 'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($tag->pathString, '/'),
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -387,7 +387,7 @@ final class Tags extends RestController
     public function convertToSynonym(string $tagPath, Request $request): BaseValues\ResourceCreated
     {
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         $destinationHref = $request->headers->get('Destination', '');
@@ -396,7 +396,7 @@ final class Tags extends RestController
             /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
-                'tagPath'
+                'tagPath',
             );
         } catch (Exceptions\InvalidArgumentException $e) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
@@ -404,8 +404,8 @@ final class Tags extends RestController
 
         $mainTag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath(
-                $parsedDestinationHref
-            )
+                $parsedDestinationHref,
+            ),
         );
 
         $convertedTag = $this->tagsService->convertToSynonym($tag, $mainTag);
@@ -415,8 +415,8 @@ final class Tags extends RestController
                 'ibexa.rest.netgen_tags_loadTag',
                 [
                     'tagPath' => trim($convertedTag->pathString, '/'),
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -428,7 +428,7 @@ final class Tags extends RestController
     public function mergeTags(string $tagPath, Request $request): BaseValues\NoContent
     {
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         $destinationHref = $request->headers->get('Destination', '');
@@ -437,7 +437,7 @@ final class Tags extends RestController
             /** @var string $parsedDestinationHref */
             $parsedDestinationHref = $this->requestParser->parseHref(
                 $destinationHref,
-                'tagPath'
+                'tagPath',
             );
         } catch (Exceptions\InvalidArgumentException $e) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
@@ -445,8 +445,8 @@ final class Tags extends RestController
 
         $targetTag = $this->tagsService->loadTag(
             $this->extractTagIdFromPath(
-                $parsedDestinationHref
-            )
+                $parsedDestinationHref,
+            ),
         );
 
         $this->tagsService->mergeTags($tag, $targetTag);
@@ -460,7 +460,7 @@ final class Tags extends RestController
     public function deleteTag(string $tagPath): BaseValues\NoContent
     {
         $tag = $this->tagsService->loadTag(
-            $this->extractTagIdFromPath($tagPath)
+            $this->extractTagIdFromPath($tagPath),
         );
 
         $this->tagsService->deleteTag($tag);

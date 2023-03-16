@@ -130,7 +130,7 @@ class Handler implements BaseTagsHandler
             [
                 'tags' => $this->mapper->extractTagListFromRows($tags),
                 'totalCount' => $totalCount,
-            ]
+            ],
         );
     }
 
@@ -265,7 +265,7 @@ class Handler implements BaseTagsHandler
         foreach ($children as $child) {
             $this->recursiveCopySubtree(
                 $child,
-                $createdTag->id
+                $createdTag->id,
             );
         }
 

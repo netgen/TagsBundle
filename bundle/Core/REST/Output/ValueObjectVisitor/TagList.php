@@ -28,8 +28,8 @@ final class TagList extends ValueObjectVisitor
                 'href',
                 $this->router->generate(
                     'ibexa.rest.netgen_tags_loadTag',
-                    ['tagPath' => trim($restTag->tag->pathString, '/')]
-                )
+                    ['tagPath' => trim($restTag->tag->pathString, '/')],
+                ),
             );
             $generator->endAttribute('href');
             $generator->endObjectElement('Tag');

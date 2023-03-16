@@ -36,8 +36,8 @@ final class TagsFieldType extends AbstractType
             ->addModelTransformer(
                 new FieldValueTransformer(
                     $this->fieldTypeService->getFieldType('eztags'),
-                    $options['field']
-                )
+                    $options['field'],
+                ),
             );
     }
 

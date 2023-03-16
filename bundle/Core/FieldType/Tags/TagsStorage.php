@@ -83,7 +83,7 @@ final class TagsStorage extends GatewayBasedStorage
     {
         $tagCreateStruct = $this->tagsService->newTagCreateStruct(
             $tagData['parent_id'],
-            $tagData['main_language_code']
+            $tagData['main_language_code'],
         );
 
         foreach ($tagData['keywords'] as $languageCode => $keyword) {

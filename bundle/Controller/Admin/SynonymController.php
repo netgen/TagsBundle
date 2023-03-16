@@ -41,7 +41,7 @@ final class SynonymController extends Controller
                 [
                     'mainTagId' => (int) $mainTagId,
                     'languageCode' => $availableLanguages[0],
-                ]
+                ],
             );
         }
 
@@ -50,7 +50,7 @@ final class SynonymController extends Controller
             null,
             [
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -61,7 +61,7 @@ final class SynonymController extends Controller
                 [
                     'mainTagId' => (int) $mainTagId,
                     'languageCode' => $form->getData()['languageCode'],
-                ]
+                ],
             );
         }
 
@@ -69,7 +69,7 @@ final class SynonymController extends Controller
             '@NetgenTags/admin/tag/select_translation.html.twig',
             [
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
@@ -94,7 +94,7 @@ final class SynonymController extends Controller
             $synonymCreateStruct,
             [
                 'action' => $request->getPathInfo(),
-            ]
+            ],
         );
 
         $form->handleRequest($request);
@@ -111,7 +111,7 @@ final class SynonymController extends Controller
             '@NetgenTags/admin/tag/add.html.twig',
             [
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 }

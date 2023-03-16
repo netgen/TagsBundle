@@ -57,7 +57,7 @@ final class DoctrineDatabase extends Gateway
             ->select('*')
             ->from('eztags')
             ->where(
-                $query->expr()->eq('id', ':id')
+                $query->expr()->eq('id', ':id'),
             )->setParameter('id', $tagId, Types::INTEGER);
 
         $row = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
@@ -78,8 +78,8 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     'remote_id',
-                    ':remote_id'
-                )
+                    ':remote_id',
+                ),
             )->setParameter('remote_id', $remoteId, Types::STRING);
 
         $row = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
@@ -97,8 +97,8 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->eq(
                 'eztags.id',
-                ':id'
-            )
+                ':id',
+            ),
         )->setParameter('id', $tagId, Types::INTEGER);
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
@@ -110,8 +110,8 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->eq(
                 'eztags.remote_id',
-                ':remote_id'
-            )
+                ':remote_id',
+            ),
         )
         ->setParameter('remote_id', $remoteId, Types::STRING);
 
@@ -124,12 +124,12 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->eq(
                 'eztags_keyword.keyword',
-                ':keyword'
+                ':keyword',
             ),
             $query->expr()->eq(
                 'eztags.parent_id',
-                ':parent_id'
-            )
+                ':parent_id',
+            ),
         )->setParameter('keyword', $keyword, Types::STRING)
         ->setParameter('parent_id', $parentId, Types::INTEGER);
 
@@ -143,10 +143,10 @@ final class DoctrineDatabase extends Gateway
             $tagIdsQuery->expr()->andX(
                 $tagIdsQuery->expr()->eq(
                     'eztags.parent_id',
-                    ':parent_id'
+                    ':parent_id',
                 ),
-                $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0)
-            )
+                $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0),
+            ),
         )->setParameter('parent_id', $tagId, Types::INTEGER)
         ->orderBy('eztags.keyword', 'ASC')
         ->setFirstResult($offset)
@@ -155,10 +155,8 @@ final class DoctrineDatabase extends Gateway
         $statement = $tagIdsQuery->execute();
 
         $tagIds = array_map(
-            static function (array $row): int {
-                return (int) $row['id'];
-            },
-            $statement->fetchAll(FetchMode::ASSOCIATIVE)
+            static fn (array $row): int => (int) $row['id'],
+            $statement->fetchAll(FetchMode::ASSOCIATIVE),
         );
 
         if (count($tagIds) === 0) {
@@ -169,8 +167,8 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->in(
                 'eztags.id',
-                [':id']
-            )
+                [':id'],
+            ),
         )
         ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY)
         ->orderBy('eztags_keyword.keyword', 'ASC');
@@ -185,10 +183,10 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->andX(
                 $query->expr()->eq(
                     'eztags.parent_id',
-                    ':parent_id'
+                    ':parent_id',
                 ),
-                $query->expr()->eq('eztags.main_tag_id', 0)
-            )
+                $query->expr()->eq('eztags.main_tag_id', 0),
+            ),
         )->setParameter('parent_id', $tagId, Types::INTEGER);
 
         $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
@@ -205,12 +203,12 @@ final class DoctrineDatabase extends Gateway
             $exactMatch ?
                 $tagIdsQuery->expr()->eq(
                     'eztags_keyword.keyword',
-                    ':keyword'
+                    ':keyword',
                 ) :
                 $tagIdsQuery->expr()->like(
                     $databasePlatform->getLowerExpression('eztags_keyword.keyword'),
-                    ':keyword'
-                )
+                    ':keyword',
+                ),
         );
 
         $exactMatch ?
@@ -224,10 +222,8 @@ final class DoctrineDatabase extends Gateway
         $statement = $tagIdsQuery->execute();
 
         $tagIds = array_map(
-            static function (array $row): int {
-                return (int) $row['id'];
-            },
-            $statement->fetchAll(FetchMode::ASSOCIATIVE)
+            static fn (array $row): int => (int) $row['id'],
+            $statement->fetchAll(FetchMode::ASSOCIATIVE),
         );
 
         if (count($tagIds) === 0) {
@@ -239,8 +235,8 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->in(
                 'eztags.id',
-                [':id']
-            )
+                [':id'],
+            ),
         )->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         $query->orderBy('eztags_keyword.keyword', 'ASC');
@@ -257,12 +253,12 @@ final class DoctrineDatabase extends Gateway
             $exactMatch ?
                 $query->expr()->eq(
                     'eztags_keyword.keyword',
-                    ':keyword'
+                    ':keyword',
                 ) :
                 $query->expr()->like(
                     $databasePlatform->getLowerExpression('eztags_keyword.keyword'),
-                    ':keyword'
-                )
+                    ':keyword',
+                ),
         );
 
         $exactMatch ?
@@ -280,8 +276,8 @@ final class DoctrineDatabase extends Gateway
         $tagIdsQuery->andWhere(
             $tagIdsQuery->expr()->eq(
                 'eztags.main_tag_id',
-                ':main_tag_id'
-            )
+                ':main_tag_id',
+            ),
         )->setParameter('main_tag_id', $tagId, Types::INTEGER)
         ->setFirstResult($offset)
         ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
@@ -289,10 +285,8 @@ final class DoctrineDatabase extends Gateway
         $statement = $tagIdsQuery->execute();
 
         $tagIds = array_map(
-            static function (array $row): int {
-                return (int) $row['id'];
-            },
-            $statement->fetchAll(FetchMode::ASSOCIATIVE)
+            static fn (array $row): int => (int) $row['id'],
+            $statement->fetchAll(FetchMode::ASSOCIATIVE),
         );
 
         if (count($tagIds) === 0) {
@@ -303,8 +297,8 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->in(
                 'eztags.id',
-                [':id']
-            )
+                [':id'],
+            ),
         )->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
@@ -316,8 +310,8 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->eq(
                 'eztags.main_tag_id',
-                ':main_tag_id'
-            )
+                ':main_tag_id',
+            ),
         )->setParameter('main_tag_id', $tagId, Types::INTEGER);
 
         $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
@@ -332,21 +326,21 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set(
                 'parent_id',
-                ':parent_id'
+                ':parent_id',
             )->set(
                 'main_tag_id',
-                ':main_tag_id'
+                ':main_tag_id',
             )->set(
                 'depth',
-                ':depth'
+                ':depth',
             )->set(
                 'path_string',
-                ':path_string'
+                ':path_string',
             )->where(
                 $query->expr()->eq(
                     'id',
-                    ':id'
-                )
+                    ':id',
+                ),
             )->setParameter('parent_id', $mainTagData['parent_id'], Types::INTEGER)
             ->setParameter('main_tag_id', $mainTagData['id'], Types::INTEGER)
             ->setParameter('depth', $mainTagData['depth'], Types::INTEGER)
@@ -363,31 +357,31 @@ final class DoctrineDatabase extends Gateway
             ->insert('eztags')
             ->setValue(
                 'parent_id',
-                ':parent_id'
+                ':parent_id',
             )->setValue(
                 'main_tag_id',
-                ':main_tag_id'
+                ':main_tag_id',
             )->setValue(
                 'modified',
-                ':modified'
+                ':modified',
             )->setValue(
                 'keyword',
-                ':keyword'
+                ':keyword',
             )->setValue(
                 'depth',
-                ':depth'
+                ':depth',
             )->setValue(
                 'path_string',
-                ':path_string'
+                ':path_string',
             )->setValue(
                 'remote_id',
-                ':remote_id'
+                ':remote_id',
             )->setValue(
                 'main_language_id',
-                ':main_language_id'
+                ':main_language_id',
             )->setValue(
                 'language_mask',
-                ':language_mask'
+                ':language_mask',
             )->setParameter('parent_id', $parentTag !== null ? (int) $parentTag['id'] : 0, Types::INTEGER)
             ->setParameter('main_tag_id', 0, Types::INTEGER)
             ->setParameter('modified', time(), Types::INTEGER)
@@ -398,16 +392,16 @@ final class DoctrineDatabase extends Gateway
             ->setParameter(
                 ':main_language_id',
                 $this->languageHandler->loadByLanguageCode(
-                    $createStruct->mainLanguageCode
+                    $createStruct->mainLanguageCode,
                 )->id,
-                Types::INTEGER
+                Types::INTEGER,
             )->setParameter(
                 ':language_mask',
                 $this->generateLanguageMask(
                     $createStruct->keywords,
-                    is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true
+                    is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true,
                 ),
-                Types::INTEGER
+                Types::INTEGER,
             );
 
         $query->execute();
@@ -421,12 +415,12 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set(
                 'path_string',
-                ':path_string'
+                ':path_string',
             )->where(
                 $query->expr()->eq(
                     'id',
-                    ':id'
-                )
+                    ':id',
+                ),
             )->setParameter('path_string', $pathString, Types::STRING)
             ->setParameter('id', $tagId, Types::INTEGER);
 
@@ -436,7 +430,7 @@ final class DoctrineDatabase extends Gateway
             $tagId,
             $createStruct->keywords,
             $createStruct->mainLanguageCode,
-            $createStruct->alwaysAvailable ?? true
+            $createStruct->alwaysAvailable ?? true,
         );
 
         return $tagId;
@@ -449,24 +443,24 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set(
                 'modified',
-                ':modified'
+                ':modified',
             )->set(
                 'keyword',
-                ':keyword'
+                ':keyword',
             )->set(
                 'remote_id',
-                ':remote_id'
+                ':remote_id',
             )->set(
                 'main_language_id',
-                ':main_language_id'
+                ':main_language_id',
             )->set(
                 'language_mask',
-                ':language_mask'
+                ':language_mask',
             )->where(
                 $query->expr()->eq(
                     'id',
-                    ':id'
-                )
+                    ':id',
+                ),
             )->setParameter('id', $tagId, Types::INTEGER)
             ->setParameter('modified', time(), Types::INTEGER)
             ->setParameter('keyword', $updateStruct->keywords[$updateStruct->mainLanguageCode], Types::STRING)
@@ -474,17 +468,17 @@ final class DoctrineDatabase extends Gateway
             ->setParameter(
                 'main_language_id',
                 $this->languageHandler->loadByLanguageCode(
-                    $updateStruct->mainLanguageCode ?? ''
+                    $updateStruct->mainLanguageCode ?? '',
                 )->id,
-                Types::INTEGER
+                Types::INTEGER,
             )
             ->setParameter(
                 'language_mask',
                 $this->generateLanguageMask(
                     $updateStruct->keywords ?? [],
-                    is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true
+                    is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true,
                 ),
-                Types::INTEGER
+                Types::INTEGER,
             );
 
         $query->execute();
@@ -495,8 +489,8 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     'keyword_id',
-                    ':keyword_id'
-                )
+                    ':keyword_id',
+                ),
             )->setParameter('keyword_id', $tagId, Types::INTEGER);
 
         $query->execute();
@@ -505,7 +499,7 @@ final class DoctrineDatabase extends Gateway
             $tagId,
             $updateStruct->keywords ?? [],
             $updateStruct->mainLanguageCode ?? '',
-            $updateStruct->alwaysAvailable ?? true
+            $updateStruct->alwaysAvailable ?? true,
         );
     }
 
@@ -516,31 +510,31 @@ final class DoctrineDatabase extends Gateway
             ->insert('eztags')
             ->setValue(
                 'parent_id',
-                ':parent_id'
+                ':parent_id',
             )->setValue(
                 'main_tag_id',
-                ':main_tag_id'
+                ':main_tag_id',
             )->setValue(
                 'modified',
-                ':modified'
+                ':modified',
             )->setValue(
                 'keyword',
-                ':keyword'
+                ':keyword',
             )->setValue(
                 'depth',
-                ':depth'
+                ':depth',
             )->setValue(
                 'path_string',
-                ':path_string'
+                ':path_string',
             )->setValue(
                 'remote_id',
-                ':remote_id'
+                ':remote_id',
             )->setValue(
                 'main_language_id',
-                ':main_language_id'
+                ':main_language_id',
             )->setValue(
                 'language_mask',
-                ':language_mask'
+                ':language_mask',
             )->setParameter('parent_id', $tag['parent_id'], Types::INTEGER)
             ->setParameter('main_tag_id', $createStruct->mainTagId, Types::INTEGER)
             ->setParameter('modified', time(), Types::INTEGER)
@@ -551,17 +545,17 @@ final class DoctrineDatabase extends Gateway
             ->setParameter(
                 'main_language_id',
                 $this->languageHandler->loadByLanguageCode(
-                    $createStruct->mainLanguageCode
+                    $createStruct->mainLanguageCode,
                 )->id,
-                Types::INTEGER
+                Types::INTEGER,
             )
             ->setParameter(
                 'language_mask',
                 $this->generateLanguageMask(
                     $createStruct->keywords,
-                    is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true
+                    is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true,
                 ),
-                Types::INTEGER
+                Types::INTEGER,
             );
 
         $query->execute();
@@ -575,12 +569,12 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set(
                 'path_string',
-                ':path_string'
+                ':path_string',
             )->where(
                 $query->expr()->eq(
                     'id',
-                    ':id'
-                )
+                    ':id',
+                ),
             )->setParameter('path_string', $synonymPathString, Types::STRING)
             ->setParameter('id', $synonymId, Types::INTEGER);
 
@@ -590,7 +584,7 @@ final class DoctrineDatabase extends Gateway
             $synonymId,
             $createStruct->keywords,
             $createStruct->mainLanguageCode,
-            $createStruct->alwaysAvailable ?? true
+            $createStruct->alwaysAvailable ?? true,
         );
 
         return $synonymId;
@@ -603,24 +597,24 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set(
                 'parent_id',
-                ':parent_id'
+                ':parent_id',
             )->set(
                 'main_tag_id',
-                ':main_tag_id'
+                ':main_tag_id',
             )->set(
                 'modified',
-                ':modified'
+                ':modified',
             )->set(
                 'depth',
-                ':depth'
+                ':depth',
             )->set(
                 'path_string',
-                ':path_string'
+                ':path_string',
             )->where(
                 $query->expr()->eq(
                     'id',
-                    ':id'
-                )
+                    ':id',
+                ),
             )->setParameter('id', $tagId, Types::INTEGER)
             ->setParameter('parent_id', $mainTagData['parent_id'], Types::INTEGER)
             ->setParameter('main_tag_id', $mainTagData['id'], Types::INTEGER)
@@ -640,8 +634,8 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     'keyword_id',
-                    ':keyword_id'
-                )
+                    ':keyword_id',
+                ),
             )->setParameter('keyword_id', $tagId, Types::INTEGER);
 
         $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
@@ -653,24 +647,24 @@ final class DoctrineDatabase extends Gateway
             $query = $this->connection->createQueryBuilder();
             $query
                 ->select(
-                    'id'
+                    'id',
                 )
                 ->from('eztags_attribute_link')
                 ->where(
                     $query->expr()->andX(
                         $query->expr()->eq(
                             'objectattribute_id',
-                            ':objectattribute_id'
+                            ':objectattribute_id',
                         ),
                         $query->expr()->eq(
                             'objectattribute_version',
-                            ':objectattribute_version'
+                            ':objectattribute_version',
                         ),
                         $query->expr()->eq(
                             'keyword_id',
-                            ':keyword_id'
-                        )
-                    )
+                            ':keyword_id',
+                        ),
+                    ),
                 )->setParameter('objectattribute_id', $row['objectattribute_id'], Types::INTEGER)
                 ->setParameter('objectattribute_version', $row['objectattribute_version'], Types::INTEGER)
                 ->setParameter('keyword_id', $targetTagId, Types::INTEGER);
@@ -691,8 +685,8 @@ final class DoctrineDatabase extends Gateway
                 ->where(
                     $query->expr()->in(
                         'id',
-                        [':id']
-                    )
+                        [':id'],
+                    ),
                 )->setParameter('id', $deleteLinkIds, Connection::PARAM_INT_ARRAY);
 
             $query->execute();
@@ -704,12 +698,12 @@ final class DoctrineDatabase extends Gateway
                 ->update('eztags_attribute_link')
                 ->set(
                     'keyword_id',
-                    ':keyword_id'
+                    ':keyword_id',
                 )->where(
                     $query->expr()->in(
                         'id',
-                        [':id']
-                    )
+                        [':id'],
+                    ),
                 )->setParameter('keyword_id', $targetTagId, Types::INTEGER)
                 ->setParameter('id', $updateLinkIds, Connection::PARAM_INT_ARRAY);
 
@@ -725,20 +719,20 @@ final class DoctrineDatabase extends Gateway
                 'id',
                 'parent_id',
                 'main_tag_id',
-                'path_string'
+                'path_string',
             )
             ->from('eztags')
             ->where(
                 $query->expr()->orX(
                     $query->expr()->like(
                         'path_string',
-                        ':path_string'
+                        ':path_string',
                     ),
                     $query->expr()->eq(
                         'main_tag_id',
-                        ':main_tag_id'
-                    )
-                )
+                        ':main_tag_id',
+                    ),
+                ),
             )->setParameter('path_string', $sourceTagData['path_string'] . '%', Types::STRING)
             ->setParameter('main_tag_id', $sourceTagData['id'], Types::INTEGER);
 
@@ -752,7 +746,7 @@ final class DoctrineDatabase extends Gateway
                 is_array($destinationParentTagData) ?
                     $destinationParentTagData['path_string'] :
                     '/',
-                'prefix' . $row['path_string']
+                'prefix' . $row['path_string'],
             );
 
             $newParentId = $row['parent_id'];
@@ -767,21 +761,21 @@ final class DoctrineDatabase extends Gateway
                 ->update('eztags')
                 ->set(
                     'path_string',
-                    ':path_string'
+                    ':path_string',
                 )->set(
                     'depth',
-                    ':depth'
+                    ':depth',
                 )->set(
                     'modified',
-                    ':modified'
+                    ':modified',
                 )->set(
                     'parent_id',
-                    ':parent_id'
+                    ':parent_id',
                 )->where(
                     $query->expr()->eq(
                         'id',
-                        ':id'
-                    )
+                        ':id',
+                    ),
                 )->setParameter('path_string', $newPathString, Types::STRING)
                 ->setParameter('depth', $newDepth, Types::INTEGER)
                 ->setParameter('modified', time(), Types::INTEGER)
@@ -802,13 +796,13 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->orX(
                     $query->expr()->like(
                         'path_string',
-                        ':path_string'
+                        ':path_string',
                     ),
                     $query->expr()->eq(
                         'main_tag_id',
-                        ':tag_id'
-                    )
-                )
+                        ':tag_id',
+                    ),
+                ),
             )->setParameter('tag_id', $tagId, Types::INTEGER)
             ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
 
@@ -829,8 +823,8 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->in(
                     'keyword_id',
-                    [':keyword_id']
-                )
+                    [':keyword_id'],
+                ),
             )->setParameter('keyword_id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         $query->execute();
@@ -841,8 +835,8 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->in(
                     'keyword_id',
-                    [':keyword_id']
-                )
+                    [':keyword_id'],
+                ),
             )->setParameter('keyword_id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         $query->execute();
@@ -853,8 +847,8 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->in(
                     'id',
-                    [':id']
-                )
+                    [':id'],
+                ),
             )->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         $query->execute();
@@ -876,13 +870,13 @@ final class DoctrineDatabase extends Gateway
                 // easily joined with something at this level
                 $query->expr()->eq(
                     'eztags_keyword.keyword_id',
-                    'eztags.id'
+                    'eztags.id',
                 ),
                 $query->expr()->eq(
                     'eztags_keyword.status',
-                    ':status'
-                )
-            )
+                    ':status',
+                ),
+            ),
         )->setParameter('status', 1, Types::INTEGER);
 
         if (count($translations ?? []) > 0) {
@@ -891,32 +885,32 @@ final class DoctrineDatabase extends Gateway
                     $query->expr()->orX(
                         $query->expr()->in(
                             'eztags_keyword.locale',
-                            [':locale']
+                            [':locale'],
                         ),
                         $query->expr()->andX(
                             $query->expr()->gt(
                                 $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                     'eztags.language_mask',
-                                    1
+                                    1,
                                 ),
-                                0
+                                0,
                             ),
                             $query->expr()->eq(
                                 'eztags.main_language_id',
                                 $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                     'eztags_keyword.language_id',
-                                    -2 // -2 == PHP_INT_MAX << 1
-                                )
-                            )
-                        )
-                    )
+                                    -2, // -2 == PHP_INT_MAX << 1
+                                ),
+                            ),
+                        ),
+                    ),
                 );
             } else {
                 $query->andWhere(
                     $query->expr()->in(
                         'eztags_keyword.locale',
-                        [':locale']
-                    )
+                        [':locale'],
+                    ),
                 );
             }
 
@@ -948,7 +942,7 @@ final class DoctrineDatabase extends Gateway
             'eztags.language_mask',
             // Tag keywords
             'eztags_keyword.keyword',
-            'eztags_keyword.locale'
+            'eztags_keyword.locale',
         )->from('eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.
@@ -961,13 +955,13 @@ final class DoctrineDatabase extends Gateway
                 // easily joined with something at this level
                 $query->expr()->eq(
                     'eztags_keyword.keyword_id',
-                    'eztags.id'
+                    'eztags.id',
                 ),
                 $query->expr()->eq(
                     'eztags_keyword.status',
-                    ':status'
-                )
-            )
+                    ':status',
+                ),
+            ),
         )->setParameter('status', 1, Types::INTEGER);
 
         if (count($translations ?? []) > 0) {
@@ -976,32 +970,32 @@ final class DoctrineDatabase extends Gateway
                     $query->expr()->orX(
                         $query->expr()->in(
                             'eztags_keyword.locale',
-                            [':locale']
+                            [':locale'],
                         ),
                         $query->expr()->andX(
                             $query->expr()->gt(
                                 $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                     'eztags.language_mask',
-                                    1
+                                    1,
                                 ),
-                                0
+                                0,
                             ),
                             $query->expr()->eq(
                                 'eztags.main_language_id',
                                 $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                     'eztags_keyword.language_id',
-                                    -2 // -2 == PHP_INT_MAX << 1
-                                )
-                            )
-                        )
-                    )
+                                    -2, // -2 == PHP_INT_MAX << 1
+                                ),
+                            ),
+                        ),
+                    ),
                 );
             } else {
                 $query->andWhere(
                     $query->expr()->in(
                         'eztags_keyword.locale',
-                        [':locale']
-                    )
+                        [':locale'],
+                    ),
                 );
             }
 
@@ -1021,7 +1015,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query->select(
-            $this->connection->getDatabasePlatform()->getCountExpression('DISTINCT eztags.id') . ' AS count'
+            $this->connection->getDatabasePlatform()->getCountExpression('DISTINCT eztags.id') . ' AS count',
         )->from('eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.
@@ -1034,13 +1028,13 @@ final class DoctrineDatabase extends Gateway
                 // easily joined with something at this level
                 $query->expr()->eq(
                     'eztags_keyword.keyword_id',
-                    'eztags.id'
+                    'eztags.id',
                 ),
                 $query->expr()->eq(
                     'eztags_keyword.status',
-                    ':status'
-                )
-            )
+                    ':status',
+                ),
+            ),
         )->setParameter('status', 1, Types::INTEGER);
 
         if (count($translations ?? []) > 0) {
@@ -1049,32 +1043,32 @@ final class DoctrineDatabase extends Gateway
                     $query->expr()->orX(
                         $query->expr()->in(
                             'eztags_keyword.locale',
-                            [':locale']
+                            [':locale'],
                         ),
                         $query->expr()->andX(
                             $query->expr()->gt(
                                 $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                     'eztags.language_mask',
-                                    1
+                                    1,
                                 ),
-                                0
+                                0,
                             ),
                             $query->expr()->eq(
                                 'eztags.main_language_id',
                                 $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                     'eztags_keyword.language_id',
-                                    -2 // -2 == PHP_INT_MAX << 1
-                                )
-                            )
-                        )
-                    )
+                                    -2, // -2 == PHP_INT_MAX << 1
+                                ),
+                            ),
+                        ),
+                    ),
                 );
             } else {
                 $query->andWhere(
                     $query->expr()->in(
                         'eztags_keyword.locale',
-                        [':locale']
-                    )
+                        [':locale'],
+                    ),
                 );
             }
 
@@ -1095,26 +1089,26 @@ final class DoctrineDatabase extends Gateway
                 ->insert('eztags_keyword')
                 ->setValue(
                     'keyword_id',
-                    ':keyword_id'
+                    ':keyword_id',
                 )->setValue(
                     'language_id',
-                    ':language_id'
+                    ':language_id',
                 )->setValue(
                     'keyword',
-                    ':keyword'
+                    ':keyword',
                 )->setValue(
                     'locale',
-                    ':locale'
+                    ':locale',
                 )->setValue(
                     'status',
-                    ':status'
+                    ':status',
                 )->setParameter('keyword_id', $tagId, Types::INTEGER)
                 ->setParameter(
                     'language_id',
                     $this->languageHandler->loadByLanguageCode(
-                        $languageCode
+                        $languageCode,
                     )->id + (int) ($languageCode === $mainLanguageCode && $alwaysAvailable),
-                    Types::INTEGER
+                    Types::INTEGER,
                 )
                 ->setParameter('keyword', $keyword, Types::STRING)
                 ->setParameter('locale', $languageCode, Types::STRING)

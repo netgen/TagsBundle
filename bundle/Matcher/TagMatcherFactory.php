@@ -51,14 +51,14 @@ final class TagMatcherFactory extends ClassNameMatcherFactory
             }
 
             throw new InvalidArgumentException(
-                'Matcher for tags must implement ' . ViewMatcherInterface::class . '.'
+                'Matcher for tags must implement ' . ViewMatcherInterface::class . '.',
             );
         }
 
         $matcher = parent::getMatcher($matcherIdentifier);
         if (!$matcher instanceof ViewMatcherInterface) {
             throw new InvalidArgumentException(
-                'Matcher for tags must implement ' . ViewMatcherInterface::class . '.'
+                'Matcher for tags must implement ' . ViewMatcherInterface::class . '.',
             );
         }
 

@@ -21,7 +21,7 @@ final class SynonymCreateType extends AbstractType
                     'constraints' => [
                         new SynonymCreateStructConstraint(),
                     ],
-                ]
+                ],
             );
     }
 

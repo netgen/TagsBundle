@@ -20,14 +20,14 @@ final class TagUpdateStructValidator extends ConstraintValidator
         if (!$constraint instanceof TagUpdateStructConstraint) {
             throw new UnexpectedTypeException(
                 $constraint,
-                TagUpdateStruct::class
+                TagUpdateStruct::class,
             );
         }
 
         if (!$value instanceof TagUpdateStruct) {
             throw new UnexpectedTypeException(
                 $value,
-                TagUpdateStruct::class
+                TagUpdateStruct::class,
             );
         }
 
@@ -39,7 +39,7 @@ final class TagUpdateStructValidator extends ConstraintValidator
             [
                 new Constraints\Type(['type' => 'bool']),
                 new Constraints\NotNull(),
-            ]
+            ],
         );
 
         $validator->atPath('keyword')->validate(
@@ -47,7 +47,7 @@ final class TagUpdateStructValidator extends ConstraintValidator
             [
                 new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
-            ]
+            ],
         );
 
         $validator->atPath('remoteId')->validate(
@@ -58,9 +58,9 @@ final class TagUpdateStructValidator extends ConstraintValidator
                 new RemoteId(
                     [
                         'payload' => $constraint->payload,
-                    ]
+                    ],
                 ),
-            ]
+            ],
         );
 
         if (isset($value->mainLanguageCode)) {
@@ -70,7 +70,7 @@ final class TagUpdateStructValidator extends ConstraintValidator
                     new Constraints\Type(['type' => 'string']),
                     new Constraints\NotBlank(),
                     new Language(),
-                ]
+                ],
             );
         }
     }

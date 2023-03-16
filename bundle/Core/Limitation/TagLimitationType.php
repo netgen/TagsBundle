@@ -72,7 +72,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
                     [
                         'value' => $id,
                         'key' => $key,
-                    ]
+                    ],
                 );
             }
         }
@@ -100,10 +100,8 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         }
 
         $limitationValues = array_map(
-            static function ($value): int {
-                return (int) $value;
-            },
-            $value->limitationValues
+            static fn ($value): int => (int) $value,
+            $value->limitationValues,
         );
 
         return in_array($object->id, $limitationValues, true);

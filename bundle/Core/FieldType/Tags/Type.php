@@ -117,7 +117,7 @@ final class Type extends FieldType
                         'mainLanguageCode' => $hashItem['main_language_code'],
                         'remoteId' => $hashItem['remote_id'] ?? '',
                         'alwaysAvailable' => $hashItem['always_available'] ?? true,
-                    ]
+                    ],
                 );
             } elseif (isset($loadedTags[$hashItem['id']])) {
                 $tags[] = $loadedTags[$hashItem['id']];
@@ -176,7 +176,7 @@ final class Type extends FieldType
                 'data' => null,
                 'externalData' => $this->toHash($value),
                 'sortKey' => $this->getSortInfo($value),
-            ]
+            ],
         );
     }
 
@@ -211,7 +211,7 @@ final class Type extends FieldType
                     [
                         '%validator%' => $validatorIdentifier,
                     ],
-                    "[{$validatorIdentifier}]"
+                    "[{$validatorIdentifier}]",
                 );
 
                 continue;
@@ -233,7 +233,7 @@ final class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[{$validatorIdentifier}][{$name}]"
+                                "[{$validatorIdentifier}][{$name}]",
                             );
                         }
 
@@ -244,7 +244,7 @@ final class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[{$validatorIdentifier}][{$name}]"
+                                "[{$validatorIdentifier}][{$name}]",
                             );
                         }
 
@@ -255,7 +255,7 @@ final class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[{$validatorIdentifier}][{$name}]"
+                                "[{$validatorIdentifier}][{$name}]",
                             );
                         }
 
@@ -269,7 +269,7 @@ final class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[{$validatorIdentifier}][{$name}]"
+                                "[{$validatorIdentifier}][{$name}]",
                             );
                         }
 
@@ -280,7 +280,7 @@ final class Type extends FieldType
                                 [
                                     '%parameter%' => $name,
                                 ],
-                                "[{$validatorIdentifier}][{$name}]"
+                                "[{$validatorIdentifier}][{$name}]",
                             );
                         }
 
@@ -293,7 +293,7 @@ final class Type extends FieldType
                             [
                                 '%parameter%' => $name,
                             ],
-                            "[{$validatorIdentifier}][{$name}]"
+                            "[{$validatorIdentifier}][{$name}]",
                         );
                 }
             }
@@ -333,7 +333,7 @@ final class Type extends FieldType
                             '%keyword%' => $tag->getKeyword($tag->mainLanguageCode),
                             '%subTreeLimit%' => $constraints['subTreeLimit'],
                         ],
-                        'value'
+                        'value',
                     );
 
                     break;
@@ -348,7 +348,7 @@ final class Type extends FieldType
                 [
                     '%maxTags%' => $constraints['maxTags'],
                 ],
-                'value'
+                'value',
             );
         }
 
@@ -373,7 +373,7 @@ final class Type extends FieldType
                     [
                         '%setting%' => $name,
                     ],
-                    "[{$name}]"
+                    "[{$name}]",
                 );
 
                 continue;
@@ -388,7 +388,7 @@ final class Type extends FieldType
                             [
                                 '%setting%' => $name,
                             ],
-                            "[{$name}]"
+                            "[{$name}]",
                         );
                     }
 
@@ -402,7 +402,7 @@ final class Type extends FieldType
                             [
                                 '%setting%' => $name,
                             ],
-                            "[{$name}]"
+                            "[{$name}]",
                         );
                     }
 
@@ -422,7 +422,7 @@ final class Type extends FieldType
                             [
                                 '%editView%' => $value,
                             ],
-                            "[{$name}]"
+                            "[{$name}]",
                         );
                     }
 
@@ -462,7 +462,7 @@ final class Type extends FieldType
             throw new InvalidArgumentType(
                 '$value->tags',
                 'array',
-                $value->tags
+                $value->tags,
             );
         }
 
@@ -471,7 +471,7 @@ final class Type extends FieldType
                 throw new InvalidArgumentType(
                     var_export($tag, true),
                     Value::class,
-                    $tag
+                    $tag,
                 );
             }
         }

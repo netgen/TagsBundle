@@ -29,7 +29,7 @@ final class TagConvertType extends AbstractType
                     'label' => 'tag.main_tag',
                     'disableSubtree' => [$options['tag']->id],
                     'allowRootTag' => false,
-                ]
+                ],
             );
     }
 }

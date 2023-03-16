@@ -46,7 +46,7 @@ final class TagTreeType extends AbstractType
                             new TagConstraint(['allowRootTag' => $options['allowRootTag']]),
                         ];
                     },
-                ]
+                ],
             );
     }
 
@@ -71,7 +71,7 @@ final class TagTreeType extends AbstractType
                 {
                     return (int) $value;
                 }
-            }
+            },
         );
     }
 

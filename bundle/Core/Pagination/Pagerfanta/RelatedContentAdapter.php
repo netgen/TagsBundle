@@ -83,7 +83,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
             $length,
             $this->configResolver->getParameter('tag_view.related_content_list.return_content_info', 'netgen_tags'),
             $this->additionalCriteria,
-            $this->sortClauses
+            $this->sortClauses,
         );
 
         $this->nbResults = $this->nbResults ?? $this->tagsService->getRelatedContentCount($this->tag, $this->additionalCriteria);

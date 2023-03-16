@@ -47,15 +47,15 @@ final class TagParamConverter implements ParamConverterInterface
                 }
 
                 throw new InvalidArgumentException(
-                    sprintf('Required request attribute "%s" is empty.', $source)
+                    sprintf('Required request attribute "%s" is empty.', $source),
                 );
             }
 
             $request->attributes->set(
                 $destination,
                 $this->tagsService->loadTag(
-                    (int) $request->attributes->get($source)
-                )
+                    (int) $request->attributes->get($source),
+                ),
             );
         }
 

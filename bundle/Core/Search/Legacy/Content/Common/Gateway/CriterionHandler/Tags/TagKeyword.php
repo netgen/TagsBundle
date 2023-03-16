@@ -36,21 +36,21 @@ final class TagKeyword extends Tags
                 't2',
                 $queryBuilder->expr()->andX(
                     $queryBuilder->expr()->eq('t2.objectattribute_version', 't1.current_version'),
-                    $queryBuilder->expr()->eq('t2.object_id', 't1.id')
-                )
+                    $queryBuilder->expr()->eq('t2.object_id', 't1.id'),
+                ),
             )->innerJoin(
                 't2',
                 'eztags',
                 't3',
-                $queryBuilder->expr()->eq('t2.keyword_id', 't3.id')
+                $queryBuilder->expr()->eq('t2.keyword_id', 't3.id'),
             )->leftJoin(
                 't3',
                 'eztags_keyword',
                 't4',
                 $queryBuilder->expr()->andX(
                     $queryBuilder->expr()->eq('t3.id', 't4.keyword_id'),
-                    $queryBuilder->expr()->eq('t4.status', 1)
-                )
+                    $queryBuilder->expr()->eq('t4.status', 1),
+                ),
             );
 
         if ($valueData !== null && count($valueData->languages ?? []) > 0) {
@@ -59,23 +59,23 @@ final class TagKeyword extends Tags
                     $queryBuilder->expr()->orX(
                         $queryBuilder->expr()->in(
                             't4.locale',
-                            $queryBuilder->createNamedParameter($valueData->languages, Connection::PARAM_STR_ARRAY)
+                            $queryBuilder->createNamedParameter($valueData->languages, Connection::PARAM_STR_ARRAY),
                         ),
                         $queryBuilder->expr()->eq(
                             't3.main_language_id',
                             $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
                                 't4.language_id',
-                                -2 // -2 == PHP_INT_MAX << 1
-                            )
-                        )
-                    )
+                                -2, // -2 == PHP_INT_MAX << 1
+                            ),
+                        ),
+                    ),
                 );
             } else {
                 $subSelect->where(
                     $queryBuilder->expr()->in(
                         't4.locale',
-                        $queryBuilder->createNamedParameter($valueData->languages, Connection::PARAM_STR_ARRAY)
-                    )
+                        $queryBuilder->createNamedParameter($valueData->languages, Connection::PARAM_STR_ARRAY),
+                    ),
                 );
             }
         }
@@ -87,15 +87,15 @@ final class TagKeyword extends Tags
             $subSelect->where(
                 $queryBuilder->expr()->like(
                     't4.keyword',
-                    $queryBuilder->createNamedParameter($criterionValue[0], Types::STRING)
-                )
+                    $queryBuilder->createNamedParameter($criterionValue[0], Types::STRING),
+                ),
             );
         } else {
             $subSelect->where(
                 $queryBuilder->expr()->in(
                     't4.keyword',
-                    $queryBuilder->createNamedParameter($criterionValue, Connection::PARAM_STR_ARRAY)
-                )
+                    $queryBuilder->createNamedParameter($criterionValue, Connection::PARAM_STR_ARRAY),
+                ),
             );
         }
 
@@ -108,14 +108,14 @@ final class TagKeyword extends Tags
                 $queryBuilder->expr()->andX(
                     $queryBuilder->expr()->eq('t5.id', 't2.objectattribute_id'),
                     $queryBuilder->expr()->eq('t5.version', 't2.objectattribute_version'),
-                )
+                ),
             );
 
             $subSelect->where(
                 $queryBuilder->expr()->in(
                     't5.contentclassattribute_id',
-                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
-                )
+                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY),
+                ),
             );
         }
 

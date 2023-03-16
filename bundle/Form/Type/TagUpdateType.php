@@ -31,11 +31,11 @@ final class TagUpdateType extends AbstractType
                                 [
                                     'payload' => $options['tag'],
                                     'languageCode' => $options['languageCode'],
-                                ]
+                                ],
                             ),
                         ];
                     },
-                ]
+                ],
             );
     }
 

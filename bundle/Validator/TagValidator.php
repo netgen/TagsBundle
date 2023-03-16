@@ -30,7 +30,7 @@ final class TagValidator extends ConstraintValidator
         if (!$constraint instanceof Tag) {
             throw new UnexpectedTypeException(
                 $constraint,
-                Tag::class
+                Tag::class,
             );
         }
 
@@ -45,9 +45,7 @@ final class TagValidator extends ConstraintValidator
 
         try {
             $tag = $this->tagsService->sudo(
-                static function (TagsService $tagsService) use ($value): APITag {
-                    return $tagsService->loadTag((int) $value);
-                }
+                static fn (TagsService $tagsService): APITag => $tagsService->loadTag((int) $value),
             );
 
             if ($tag->isSynonym()) {

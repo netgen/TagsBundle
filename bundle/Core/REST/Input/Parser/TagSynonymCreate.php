@@ -34,7 +34,7 @@ final class TagSynonymCreate extends BaseParser
 
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(
             0,
-            $data['mainLanguageCode']
+            $data['mainLanguageCode'],
         );
 
         if (array_key_exists('remoteId', $data)) {

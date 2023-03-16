@@ -304,5 +304,5 @@ interface TagsService
      *
      * @return mixed
      */
-    public function sudo(callable $callback, ?TagsService $outerTagsService = null);
+    public function sudo(callable $callback, ?self $outerTagsService = null);
 }

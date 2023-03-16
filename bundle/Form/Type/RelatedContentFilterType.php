@@ -55,7 +55,7 @@ final class RelatedContentFilterType extends AbstractType
                     'expanded' => false,
                     'multiple' => true,
                     'required' => false,
-                ]
+                ],
             )->add(
                 'sort',
                 ChoiceType::class,
@@ -65,7 +65,7 @@ final class RelatedContentFilterType extends AbstractType
                     'expanded' => false,
                     'multiple' => false,
                     'required' => true,
-                ]
+                ],
             );
     }
 
@@ -95,7 +95,7 @@ final class RelatedContentFilterType extends AbstractType
                 [
                     'name' => 'content_type',
                     'minCount' => 1,
-                ]
+                ],
             ),
         ];
 

@@ -18,7 +18,7 @@ final class TagType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'tag.tag_name',
-                ]
+                ],
             )
             ->add(
                 'alwaysAvailable',
@@ -26,7 +26,7 @@ final class TagType extends AbstractType
                 [
                     'label' => 'tag.translations.always_available',
                     'required' => false,
-                ]
+                ],
             )
             ->add(
                 'remoteId',
@@ -34,7 +34,7 @@ final class TagType extends AbstractType
                 [
                     'label' => 'tag.remote_id',
                     'required' => false,
-                ]
+                ],
             );
     }
 }

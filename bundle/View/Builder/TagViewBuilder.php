@@ -76,7 +76,7 @@ final class TagViewBuilder implements ViewBuilder
         if (!$view->getControllerReference() instanceof ControllerReference) {
             if ($view->getViewType() === 'full' && !is_string($view->getTemplateIdentifier())) {
                 $view->setTemplateIdentifier(
-                    $this->configResolver->getParameter('tag_view.template', 'netgen_tags')
+                    $this->configResolver->getParameter('tag_view.template', 'netgen_tags'),
                 );
             }
         }

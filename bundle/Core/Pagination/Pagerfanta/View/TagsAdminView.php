@@ -62,7 +62,7 @@ class TagsAdminView implements ViewInterface
             [
                 'pager' => $pagerfanta,
                 'pages' => $this->getPages(),
-            ]
+            ],
         );
     }
 

@@ -86,7 +86,7 @@ final class Configuration extends SiteAccessConfiguration
                                     [
                                         'foo' => '%some.parameter.reference%',
                                         'osTypes' => ['osx', 'linux', 'windows'],
-                                    ]
+                                    ],
                                 )
                                 ->useAttributeAsKey('key')
                                 ->variablePrototype()->end()

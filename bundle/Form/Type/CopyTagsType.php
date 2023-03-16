@@ -39,12 +39,10 @@ final class CopyTagsType extends AbstractType
                 [
                     'label' => 'tag.parent_tag',
                     'disableSubtree' => array_map(
-                        static function (Tag $tag): int {
-                            return $tag->id;
-                        },
-                        $options['tags']
+                        static fn (Tag $tag): int => $tag->id,
+                        $options['tags'],
                     ),
-                ]
+                ],
             );
     }
 }

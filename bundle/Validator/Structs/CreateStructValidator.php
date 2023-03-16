@@ -21,7 +21,7 @@ abstract class CreateStructValidator extends ConstraintValidator
             [
                 new Constraints\Type(['type' => 'bool']),
                 new Constraints\NotNull(),
-            ]
+            ],
         );
 
         $validator->atPath('keyword')->validate(
@@ -29,7 +29,7 @@ abstract class CreateStructValidator extends ConstraintValidator
             [
                 new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
-            ]
+            ],
         );
 
         $validator->atPath('remoteId')->validate(
@@ -37,7 +37,7 @@ abstract class CreateStructValidator extends ConstraintValidator
             [
                 new Constraints\Type(['type' => 'string']),
                 new RemoteId(),
-            ]
+            ],
         );
 
         $validator->atPath('mainLanguageCode')->validate(
@@ -46,7 +46,7 @@ abstract class CreateStructValidator extends ConstraintValidator
                 new Constraints\Type(['type' => 'string']),
                 new Constraints\NotBlank(),
                 new Language(),
-            ]
+            ],
         );
     }
 }

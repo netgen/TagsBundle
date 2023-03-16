@@ -39,7 +39,7 @@ final class TranslationListType extends AbstractType
                 foreach ($this->languageService->loadLanguageListByCode($languages) as $language) {
                     yield $language->name => $language->languageCode;
                 }
-            })()
+            })(),
         );
 
         $resolver
@@ -66,7 +66,7 @@ final class TranslationListType extends AbstractType
 
                         return [];
                     },
-                ]
+                ],
             );
     }
 
