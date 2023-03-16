@@ -15,14 +15,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class RelatedContentPager implements EventSubscriberInterface
 {
-    private AdapterInterface $adapter;
-
-    private ConfigResolverInterface $configResolver;
-
-    public function __construct(AdapterInterface $adapter, ConfigResolverInterface $configResolver)
+    public function __construct(private AdapterInterface $adapter, private ConfigResolverInterface $configResolver)
     {
-        $this->adapter = $adapter;
-        $this->configResolver = $configResolver;
     }
 
     public static function getSubscribedEvents(): array

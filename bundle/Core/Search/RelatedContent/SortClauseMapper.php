@@ -37,7 +37,7 @@ final class SortClauseMapper
     /**
      * Maps given sort options to corresponding SortClause objects, if supported.
      *
-     * @param array $sortOptions
+     * @param string[] $sortOptions
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
      */

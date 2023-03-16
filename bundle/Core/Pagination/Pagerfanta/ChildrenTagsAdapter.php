@@ -12,13 +12,10 @@ final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 {
     private ?Tag $tag = null;
 
-    private TagsService $tagsService;
-
     private int $nbResults;
 
-    public function __construct(TagsService $tagsService)
+    public function __construct(private TagsService $tagsService)
     {
-        $this->tagsService = $tagsService;
     }
 
     public function setTag(Tag $tag): void

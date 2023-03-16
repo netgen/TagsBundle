@@ -25,16 +25,14 @@ final class TagUpdateType extends AbstractType
             ->setDefaults(
                 [
                     'data_class' => TagUpdateStruct::class,
-                    'constraints' => static function (Options $options): array {
-                        return [
-                            new TagUpdateStructConstraint(
-                                [
-                                    'payload' => $options['tag'],
-                                    'languageCode' => $options['languageCode'],
-                                ],
-                            ),
-                        ];
-                    },
+                    'constraints' => static fn (Options $options): array => [
+                        new TagUpdateStructConstraint(
+                            [
+                                'payload' => $options['tag'],
+                                'languageCode' => $options['languageCode'],
+                            ],
+                        ),
+                    ],
                 ],
             );
     }

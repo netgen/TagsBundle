@@ -8,10 +8,7 @@ use Ibexa\Rest\Value;
 
 final class CreatedTag extends Value
 {
-    public RestTag $restTag;
-
-    public function __construct(RestTag $restTag)
+    public function __construct(public RestTag $restTag)
     {
-        $this->restTag = $restTag;
     }
 }

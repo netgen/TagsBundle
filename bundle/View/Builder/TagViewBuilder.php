@@ -18,37 +18,22 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use function is_string;
-use function mb_strpos;
+use function str_contains;
 
 final class TagViewBuilder implements ViewBuilder
 {
-    private TagsService $tagsService;
-
-    private Configurator $viewConfigurator;
-
-    private ParametersInjector $viewParametersInjector;
-
-    private ConfigResolverInterface $configResolver;
-
-    private AuthorizationCheckerInterface $authorizationChecker;
-
     public function __construct(
-        TagsService $tagsService,
-        Configurator $viewConfigurator,
-        ParametersInjector $viewParametersInjector,
-        ConfigResolverInterface $configResolver,
-        AuthorizationCheckerInterface $authorizationChecker
+        private TagsService $tagsService,
+        private Configurator $viewConfigurator,
+        private ParametersInjector $viewParametersInjector,
+        private ConfigResolverInterface $configResolver,
+        private AuthorizationCheckerInterface $authorizationChecker,
     ) {
-        $this->tagsService = $tagsService;
-        $this->viewConfigurator = $viewConfigurator;
-        $this->viewParametersInjector = $viewParametersInjector;
-        $this->configResolver = $configResolver;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
-    public function matches($argument): bool
+    public function matches(mixed $argument): bool
     {
-        return is_string($argument) && mb_strpos($argument, 'netgen_tags.controller.tag_view:') !== false;
+        return is_string($argument) && str_contains($argument, 'netgen_tags.controller.tag_view:');
     }
 
     public function buildView(array $parameters): View

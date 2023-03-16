@@ -48,10 +48,7 @@ final class LanguageHandlerMock
         );
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler&\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function __invoke(TestCase $testCase): MockObject
+    public function __invoke(TestCase $testCase): MockObject&LanguageHandler
     {
         $mock = $testCase->getMockBuilder(LanguageHandler::class)
             ->disableOriginalConstructor()

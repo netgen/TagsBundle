@@ -14,23 +14,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class CachedValue extends ValueObjectVisitor
 {
-    private RequestStack $requestStack;
-
-    private ConfigResolverInterface $configResolver;
-
-    private ResponseTagger $responseTagger;
-
     public function __construct(
-        RequestStack $requestStack,
-        ConfigResolverInterface $configResolver,
-        ResponseTagger $responseTagger
+        private RequestStack $requestStack,
+        private ConfigResolverInterface $configResolver,
+        private ResponseTagger $responseTagger,
     ) {
-        $this->requestStack = $requestStack;
-        $this->configResolver = $configResolver;
-        $this->responseTagger = $responseTagger;
     }
 
-    public function visit(Visitor $visitor, Generator $generator, $data): void
+    public function visit(Visitor $visitor, Generator $generator, mixed $data): void
     {
         $visitor->visitValueObject($data->value);
 
@@ -62,14 +53,8 @@ final class CachedValue extends ValueObjectVisitor
 
     /**
      * Returns the parameter value from config resolver.
-     *
-     * @param string $parameterName
-     * @param string $namespace
-     * @param mixed $defaultValue
-     *
-     * @return mixed
      */
-    private function getParameter(string $parameterName, string $namespace, $defaultValue = null)
+    private function getParameter(string $parameterName, string $namespace, mixed $defaultValue = null): mixed
     {
         if ($this->configResolver->hasParameter($parameterName, $namespace)) {
             return $this->configResolver->getParameter($parameterName, $namespace);

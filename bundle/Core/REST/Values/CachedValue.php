@@ -15,27 +15,11 @@ use function implode;
 final class CachedValue extends Value
 {
     /**
-     * Actual value object.
-     *
-     * @var mixed
-     */
-    public $value;
-
-    /**
-     * Associative array of cache tags.
-     * Example: array( 'tagId' => 42, 'tagKeyword' => 'Some tag|#eng-GB' ).
-     *
-     * @var array<string, string>
-     */
-    public array $cacheTags;
-
-    /**
      * @param mixed $value The value that gets cached
-     * @param array $cacheTags Tags to add to the cache (supported: tagId, tagKeyword)
+     * @param array<string, int|string> $cacheTags Associative array of cache tags. Example: array( 'tagId' => 42, 'tagKeyword' => 'Some tag|#eng-GB' ).
      */
-    public function __construct($value, array $cacheTags = [])
+    public function __construct(public mixed $value, public array $cacheTags = [])
     {
-        $this->value = $value;
         $this->cacheTags = $this->checkCacheTags($cacheTags);
     }
 

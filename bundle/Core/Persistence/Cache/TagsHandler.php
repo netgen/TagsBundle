@@ -28,17 +28,14 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 {
     private const ALL_TRANSLATIONS_KEY = '0';
 
-    private TagsHandlerInterface $tagsHandler;
-
     public function __construct(
         TagAwareAdapterInterface $cache,
         PersistenceLogger $logger,
         InMemoryCache $inMemory,
-        TagsHandlerInterface $tagsHandler
+        private TagsHandlerInterface $tagsHandler,
     ) {
         // No type hint on internal classes, parent::__construct will take care of checking that it gets what it expects.
         parent::__construct($cache, $logger, $inMemory);
-        $this->tagsHandler = $tagsHandler;
     }
 
     public function load(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag

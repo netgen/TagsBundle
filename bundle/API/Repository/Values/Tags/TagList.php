@@ -38,7 +38,7 @@ final class TagList extends ArrayCollection
     public function getTagIds(): array
     {
         return array_map(
-            static fn (Tag $tag): int => (int) $tag->id,
+            static fn (Tag $tag): int => $tag->id,
             $this->getTags(),
         );
     }

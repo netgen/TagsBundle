@@ -19,11 +19,11 @@ final class NetgenTagsRuntimeTest extends TestCase
 {
     private NetgenTagsRuntime $runtime;
 
-    private MockObject $tagsService;
+    private MockObject&TagsService $tagsService;
 
-    private MockObject $languageService;
+    private MockObject&LanguageService $languageService;
 
-    private MockObject $contentTypeService;
+    private MockObject&ContentTypeService $contentTypeService;
 
     private Tag $tag;
 

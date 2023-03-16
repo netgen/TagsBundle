@@ -34,8 +34,8 @@ services:
     netgen_tags.view.tag_matcher_factory:
         class: Netgen\TagsBundle\Matcher\TagMatcherFactory
         arguments:
-            - "@netgen_tags.api.service.tags"
             - "@ibexa.api.repository"
+            - "@netgen_tags.api.service.tags"
             - "@ibexa.config.resolver"
             - "@service_container"
 

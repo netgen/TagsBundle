@@ -55,14 +55,8 @@ final class Type extends FieldType
         ],
     ];
 
-    private TagsService $tagsService;
-
-    private ConfigResolverInterface $configResolver;
-
-    public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
+    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver)
     {
-        $this->tagsService = $tagsService;
-        $this->configResolver = $configResolver;
     }
 
     public function getFieldTypeIdentifier(): string
@@ -70,11 +64,6 @@ final class Type extends FieldType
         return 'eztags';
     }
 
-    /**
-     * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
-     * @param string $languageCode
-     */
     public function getName(IbexaValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {
         return (string) $value;
@@ -85,7 +74,7 @@ final class Type extends FieldType
         return new Value();
     }
 
-    public function fromHash($hash): Value
+    public function fromHash(mixed $hash): Value
     {
         if (!is_array($hash)) {
             return new Value();
@@ -193,7 +182,7 @@ final class Type extends FieldType
         return $value->tags === $this->getEmptyValue()->tags;
     }
 
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -303,7 +292,6 @@ final class Type extends FieldType
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value $fieldValue
      */
     public function validate(FieldDefinition $fieldDefinition, IbexaValue $fieldValue): array
@@ -355,7 +343,7 @@ final class Type extends FieldType
         return $validationErrors;
     }
 
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(mixed $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -438,7 +426,7 @@ final class Type extends FieldType
         return true;
     }
 
-    protected function createValueFromInput($inputValue)
+    protected function createValueFromInput(mixed $inputValue): mixed
     {
         if (is_array($inputValue)) {
             foreach ($inputValue as $inputValueItem) {

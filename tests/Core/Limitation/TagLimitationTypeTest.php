@@ -28,20 +28,11 @@ use function is_int;
 
 final class TagLimitationTypeTest extends Base
 {
-    /**
-     * @var \Netgen\TagsBundle\SPI\Persistence\Tags\Handler&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $tagsHandlerMock;
+    private MockObject&Handler $tagsHandlerMock;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $persistenceHandlerMock;
+    private MockObject&PersistenceHandler $persistenceHandlerMock;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\User&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $userMock;
+    private MockObject&User $userMock;
 
     private TagLimitationType $limitationType;
 
@@ -273,10 +264,8 @@ final class TagLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestEvaluate
-     *
-     * @param mixed $expected
      */
-    public function testEvaluate(TagLimitation $limitation, ValueObject $object, $expected): void
+    public function testEvaluate(TagLimitation $limitation, ValueObject $object, mixed $expected): void
     {
         $this->userMock->expects(self::never())->method(self::anything());
 

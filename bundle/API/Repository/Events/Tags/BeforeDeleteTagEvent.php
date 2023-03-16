@@ -9,11 +9,8 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class BeforeDeleteTagEvent extends BeforeEvent
 {
-    private Tag $tag;
-
-    public function __construct(Tag $tag)
+    public function __construct(private Tag $tag)
     {
-        $this->tag = $tag;
     }
 
     public function getTag(): Tag

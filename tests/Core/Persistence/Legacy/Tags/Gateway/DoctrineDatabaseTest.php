@@ -100,10 +100,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::__construct
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagData
-     *
-     * @param mixed $value
      */
-    public function testGetBasicTagData(string $field, $value): void
+    public function testGetBasicTagData(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getBasicTagData(40);
         $data = $this->convertNumericsToIntegers($data);
@@ -129,10 +127,8 @@ final class DoctrineDatabaseTest extends TestCase
      * @dataProvider getLoadTagValues
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getBasicTagDataByRemoteId
-     *
-     * @param mixed $value
      */
-    public function testGetBasicTagDataByRemoteId(string $field, $value): void
+    public function testGetBasicTagDataByRemoteId(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getBasicTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
         $data = $this->convertNumericsToIntegers($data);
@@ -159,10 +155,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
-     *
-     * @param mixed $value
      */
-    public function testGetFullTagData(string $field, $value): void
+    public function testGetFullTagData(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40);
         foreach ($data as &$dataItem) {
@@ -191,10 +185,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagData
-     *
-     * @param mixed $value
      */
-    public function testGetFullTagDataWithoutAlwaysAvailable(string $field, $value): void
+    public function testGetFullTagDataWithoutAlwaysAvailable(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getFullTagData(40, ['eng-GB'], false);
         foreach ($data as &$dataItem) {
@@ -223,10 +215,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
-     *
-     * @param mixed $value
      */
-    public function testGetFullTagDataByRemoteId(string $field, $value): void
+    public function testGetFullTagDataByRemoteId(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e');
         foreach ($data as &$dataItem) {
@@ -255,10 +245,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByRemoteId
-     *
-     * @param mixed $value
      */
-    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable(string $field, $value): void
+    public function testGetFullTagDataByRemoteIdWithoutAlwaysAvailable(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByRemoteId('182be0c5cdcd5072bb1864cdee4d3d6e', ['eng-GB'], false);
         foreach ($data as &$dataItem) {
@@ -287,10 +275,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
-     *
-     * @param mixed $value
      */
-    public function testGetFullTagDataByKeywordIdAndParentId(string $field, $value): void
+    public function testGetFullTagDataByKeywordIdAndParentId(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7);
         foreach ($data as &$dataItem) {
@@ -319,10 +305,8 @@ final class DoctrineDatabaseTest extends TestCase
      *
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::createTagFindQuery
      * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::getFullTagDataByKeywordAndParentId
-     *
-     * @param mixed $value
      */
-    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable(string $field, $value): void
+    public function testGetFullTagDataByKeywordIdAndParentIdWithoutAlwaysAvailable(string $field, mixed $value): void
     {
         $data = $this->tagsGateway->getFullTagDataByKeywordAndParentId('eztags', 7, ['eng-GB'], false);
         foreach ($data as &$dataItem) {

@@ -21,11 +21,8 @@ use function trim;
 
 final class Tags extends RestController
 {
-    private TagsService $tagsService;
-
-    public function __construct(TagsService $tagsService)
+    public function __construct(private TagsService $tagsService)
     {
-        $this->tagsService = $tagsService;
     }
 
     /**
@@ -313,7 +310,7 @@ final class Tags extends RestController
                 $destinationHref,
                 'tagPath',
             );
-        } catch (Exceptions\InvalidArgumentException $e) {
+        } catch (Exceptions\InvalidArgumentException) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
         }
 
@@ -354,7 +351,7 @@ final class Tags extends RestController
                 $destinationHref,
                 'tagPath',
             );
-        } catch (Exceptions\InvalidArgumentException $e) {
+        } catch (Exceptions\InvalidArgumentException) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
         }
 
@@ -398,7 +395,7 @@ final class Tags extends RestController
                 $destinationHref,
                 'tagPath',
             );
-        } catch (Exceptions\InvalidArgumentException $e) {
+        } catch (Exceptions\InvalidArgumentException) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
         }
 
@@ -439,7 +436,7 @@ final class Tags extends RestController
                 $destinationHref,
                 'tagPath',
             );
-        } catch (Exceptions\InvalidArgumentException $e) {
+        } catch (Exceptions\InvalidArgumentException) {
             throw new BadRequestException("{$destinationHref} is not an acceptable destination");
         }
 

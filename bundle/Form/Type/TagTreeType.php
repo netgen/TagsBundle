@@ -18,11 +18,8 @@ use Symfony\Component\Validator\Constraints;
 
 final class TagTreeType extends AbstractType
 {
-    private TagsService $tagsService;
-
-    public function __construct(TagsService $tagsService)
+    public function __construct(private TagsService $tagsService)
     {
-        $this->tagsService = $tagsService;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -39,13 +36,11 @@ final class TagTreeType extends AbstractType
                     'error_bubbling' => false,
                     'allowRootTag' => true,
                     'disableSubtree' => [],
-                    'constraints' => static function (Options $options): array {
-                        return [
-                            new Constraints\Type(['type' => 'int']),
-                            new Constraints\NotBlank(),
-                            new TagConstraint(['allowRootTag' => $options['allowRootTag']]),
-                        ];
-                    },
+                    'constraints' => static fn (Options $options): array => [
+                        new Constraints\Type(['type' => 'int']),
+                        new Constraints\NotBlank(),
+                        new TagConstraint(['allowRootTag' => $options['allowRootTag']]),
+                    ],
                 ],
             );
     }
@@ -54,20 +49,12 @@ final class TagTreeType extends AbstractType
     {
         $builder->addModelTransformer(
             new class() implements DataTransformerInterface {
-                /**
-                 * @param mixed $value
-                 *
-                 * @return mixed
-                 */
-                public function transform($value)
+                public function transform(mixed $value): mixed
                 {
                     return $value;
                 }
 
-                /**
-                 * @param mixed $value
-                 */
-                public function reverseTransform($value): int
+                public function reverseTransform(mixed $value): int
                 {
                     return (int) $value;
                 }
@@ -81,7 +68,7 @@ final class TagTreeType extends AbstractType
         if ($form->getData() !== null) {
             try {
                 $tag = $this->tagsService->loadTag((int) $form->getData());
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // Do nothing
             }
         }

@@ -17,15 +17,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagIdTest extends TestCase
 {
-    /**
-     * @var \Ibexa\Core\Search\Common\FieldNameResolver&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $fieldNameResolver;
+    private MockObject&FieldNameResolver $fieldNameResolver;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $contentTypeHandler;
+    private MockObject&Handler $contentTypeHandler;
 
     private TagId $visitor;
 

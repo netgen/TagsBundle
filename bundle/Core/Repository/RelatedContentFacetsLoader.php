@@ -15,21 +15,14 @@ use function count;
 
 final class RelatedContentFacetsLoader
 {
-    private TagsService $tagsService;
-
-    private SearchService $searchService;
-
-    public function __construct(TagsService $tagsService, SearchService $searchService)
+    public function __construct(private TagsService $tagsService, private SearchService $searchService)
     {
-        $this->tagsService = $tagsService;
-        $this->searchService = $searchService;
     }
 
     /**
      * Returns facets for given $facetBuilders,
      * for content tagged with $tag.
      *
-     * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException

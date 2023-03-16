@@ -17,14 +17,8 @@ use function count;
 
 final class RelatedContentController extends Controller
 {
-    private AdapterInterface $adapter;
-
-    private SortClauseMapper $sortClauseMapper;
-
-    public function __construct(AdapterInterface $adapter, SortClauseMapper $sortClauseMapper)
+    public function __construct(private AdapterInterface $adapter, private SortClauseMapper $sortClauseMapper)
     {
-        $this->adapter = $adapter;
-        $this->sortClauseMapper = $sortClauseMapper;
     }
 
     /**

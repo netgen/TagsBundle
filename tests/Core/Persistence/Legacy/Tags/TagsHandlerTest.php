@@ -22,19 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagsHandlerTest extends TestCase
 {
-    /**
-     * Mocked tags gateway instance.
-     *
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $gateway;
+    private MockObject&Gateway $gateway;
 
-    /**
-     * Mocked tags mapper instance.
-     *
-     * @var \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $mapper;
+    private MockObject&Mapper $mapper;
 
     private SPIHandler $tagsHandler;
 
@@ -984,10 +974,7 @@ final class TagsHandlerTest extends TestCase
         return new Handler($this->gateway, $this->mapper);
     }
 
-    /**
-     * @return \Netgen\TagsBundle\SPI\Persistence\Tags\Handler&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getMockedTagsHandler(array $mockedMethods): MockObject
+    private function getMockedTagsHandler(array $mockedMethods): MockObject&Handler
     {
         $this->gateway = $this->createMock(Gateway::class);
 

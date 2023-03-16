@@ -17,7 +17,7 @@ interface TagsService
      * Loads a tag object from its $tagId.
      *
      * @param int $tagId
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -33,8 +33,8 @@ interface TagsService
      * Tags missing (NotFound), or not accessible (Unauthorized) to the current user will be filtered out from the
      * returned array. As returned array has tag id's as keys, you can use array_keys + array_diff to get missing items
      *
-     * @param array $tagIds
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param int[] $tagIds
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList Key of array is the corresponding tag id
@@ -45,7 +45,7 @@ interface TagsService
      * Loads a tag object from its $remoteId.
      *
      * @param string $remoteId
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -69,7 +69,7 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tags from the first level will be returned
      * @param int $offset The start offset for paging
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -82,7 +82,7 @@ interface TagsService
      * Returns the number of children of a tag object.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag If null, tag count from the first level will be returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -140,7 +140,7 @@ interface TagsService
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      * @param int $offset The start offset for paging
      * @param int $limit The number of synonyms returned. If $limit = -1 all synonyms starting at $offset are returned
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -154,7 +154,7 @@ interface TagsService
      * Returns the number of synonyms of a tag object.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param array|null $languages A language filter for keywords. If not given all languages are returned
+     * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
@@ -294,9 +294,7 @@ interface TagsService
      *
      * Example use:
      *     $tag = $tagsService->sudo(
-     *         static function (TagsService $tagsService) use ($tagId): Tag {
-     *             return $tagsService->loadTag($tagId);
-     *         }
+     *         static fn (TagsService $tagsService): Tag => $tagsService->loadTag($tagId),
      *     );
      *
      * @throws \RuntimeException Thrown on recursive sudo() use

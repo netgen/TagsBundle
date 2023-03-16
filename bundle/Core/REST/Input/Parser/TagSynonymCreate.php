@@ -16,21 +16,14 @@ use function is_array;
 
 final class TagSynonymCreate extends BaseParser
 {
-    private TagsService $tagsService;
-
-    private ParserTools $parserTools;
-
-    public function __construct(TagsService $tagsService, ParserTools $parserTools)
+    public function __construct(private TagsService $tagsService, private ParserTools $parserTools)
     {
-        $this->tagsService = $tagsService;
-        $this->parserTools = $parserTools;
     }
 
     public function parse(array $data, ParsingDispatcher $parsingDispatcher): SynonymCreateStruct
     {
-        if (!array_key_exists('mainLanguageCode', $data)) {
+        $data['mainLanguageCode'] ??
             throw new Exceptions\Parser("Missing 'mainLanguageCode' element for SynonymCreate.");
-        }
 
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(
             0,

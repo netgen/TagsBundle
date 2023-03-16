@@ -43,8 +43,8 @@
     "scripts": {
         "test": "@php vendor/bin/phpunit --colors=always",
         "test-integration": "@php vendor/bin/phpunit -c phpunit-integration-legacy.xml --colors=always",
-        "phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon --level=7 --ansi bundle",
-        "phpstan-tests": "@php vendor/bin/phpstan analyse -c phpstan.tests.neon --level=7 --ansi tests"
+        "phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon --level=8 --ansi bundle",
+        "phpstan-tests": "@php vendor/bin/phpstan analyse -c phpstan.tests.neon --level=8 --ansi tests"
     },
     "autoload": {
         "psr-4": {

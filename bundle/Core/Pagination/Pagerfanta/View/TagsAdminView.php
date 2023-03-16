@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\Pagination\Pagerfanta\View;
 
+use Closure;
 use Pagerfanta\PagerfantaInterface;
 use Pagerfanta\View\ViewInterface;
 use Twig\Environment;
@@ -17,16 +18,9 @@ use function trim;
  */
 class TagsAdminView implements ViewInterface
 {
-    private Environment $twig;
-
-    private string $template;
-
     private PagerfantaInterface $pagerfanta;
 
-    /**
-     * @var callable
-     */
-    private $routeGenerator;
+    private Closure $routeGenerator;
 
     private int $proximity;
 
@@ -34,10 +28,8 @@ class TagsAdminView implements ViewInterface
 
     private int $endPage;
 
-    public function __construct(Environment $twig, string $template)
+    public function __construct(private Environment $twig, private string $template)
     {
-        $this->twig = $twig;
-        $this->template = $template;
     }
 
     public function getName(): string
@@ -52,7 +44,7 @@ class TagsAdminView implements ViewInterface
     public function render(PagerfantaInterface $pagerfanta, $routeGenerator, array $options = []): string
     {
         $this->pagerfanta = $pagerfanta;
-        $this->routeGenerator = $routeGenerator;
+        $this->routeGenerator = $routeGenerator(...);
 
         $this->initializeProximity($options);
         $this->calculateStartAndEndPage();
@@ -163,10 +155,8 @@ class TagsAdminView implements ViewInterface
      */
     private function generateUrl(int $page): string
     {
-        $routeGenerator = $this->routeGenerator;
-
         // We use trim here because Pagerfanta (or Symfony?) adds an extra '?'
         // at the end of page when there are no other query params
-        return trim($routeGenerator($page), '?');
+        return trim(($this->routeGenerator)($page), '?');
     }
 }

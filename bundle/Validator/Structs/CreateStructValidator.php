@@ -12,7 +12,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 abstract class CreateStructValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         $validator = $this->context->getValidator()->inContext($this->context);
 

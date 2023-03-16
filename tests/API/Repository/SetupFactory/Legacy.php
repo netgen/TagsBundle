@@ -132,11 +132,9 @@ final class Legacy extends BaseLegacy
 
     protected function getInitialTagsDataFixture(): Fixture
     {
-        if (!isset(self::$tagsInitialData)) {
-            self::$tagsInitialData = new PhpArrayFileFixture(
-                __DIR__ . '/../../../_fixtures/tags_tree.php'
-            );
-        }
+        self::$tagsInitialData ??= new PhpArrayFileFixture(
+            __DIR__ . '/../../../_fixtures/tags_tree.php'
+        );
 
         return self::$tagsInitialData;
     }

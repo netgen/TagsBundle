@@ -22,14 +22,8 @@ use const ENT_SUBSTITUTE;
 
 final class FieldController extends Controller
 {
-    private TagsService $tagsService;
-
-    private ConfigResolverInterface $configResolver;
-
-    public function __construct(TagsService $tagsService, ConfigResolverInterface $configResolver)
+    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver)
     {
-        $this->tagsService = $tagsService;
-        $this->configResolver = $configResolver;
     }
 
     /**
@@ -61,7 +55,7 @@ final class FieldController extends Controller
 
         $subTreeLimit = $request->query->getInt('subTreeLimit');
         $hideRootTag = $request->query->getBoolean('hideRootTag');
-        $locale = $request->query->get('locale');
+        $locale = $request->query->get('locale', '');
 
         $tags = $this->tagsService->loadTagChildren(
             $subTreeLimit !== 0 ? $this->tagsService->loadTag($subTreeLimit) : null,
@@ -99,8 +93,8 @@ final class FieldController extends Controller
 
             $data[] = [
                 'parent_id' => $tag->parentTagId,
-                'parent_name' => count($parentTagKeywords) > 0 ? $this->escape(array_values($parentTagKeywords)[0]) : '',
-                'name' => $this->escape(array_values($tagKeywords)[0]),
+                'parent_name' => count($parentTagKeywords) > 0 ? $this->escape(array_values($parentTagKeywords)[0] ?? '') : '',
+                'name' => $this->escape(array_values($tagKeywords)[0] ?? ''),
                 'id' => $tag->id,
                 'main_tag_id' => $tag->mainTagId,
                 'locale' => array_keys($tagKeywords)[0],

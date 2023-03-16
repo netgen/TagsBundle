@@ -12,18 +12,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 use function is_array;
 use function is_string;
-use function mb_strpos;
+use function str_starts_with;
 
 final class RoutePrefixVoter implements VoterInterface
 {
-    private RequestStack $requestStack;
-
-    private string $routePrefix;
-
-    public function __construct(RequestStack $requestStack, string $routePrefix)
+    public function __construct(private RequestStack $requestStack, private string $routePrefix)
     {
-        $this->requestStack = $requestStack;
-        $this->routePrefix = $routePrefix;
     }
 
     public function matchItem(ItemInterface $item): ?bool
@@ -34,7 +28,7 @@ final class RoutePrefixVoter implements VoterInterface
         }
 
         $currentRoute = $request->attributes->get('_route') ?? '';
-        if (mb_strpos($currentRoute, $this->routePrefix) !== 0) {
+        if (!str_starts_with($currentRoute, $this->routePrefix)) {
             return null;
         }
 
@@ -63,7 +57,7 @@ final class RoutePrefixVoter implements VoterInterface
             return false;
         }
 
-        if (mb_strpos($testedRoute['route'], $this->routePrefix) !== 0) {
+        if (!str_starts_with($testedRoute['route'], $this->routePrefix)) {
             return false;
         }
 

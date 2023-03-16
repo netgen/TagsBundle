@@ -25,9 +25,10 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         /** @var array<string, string> $activatedBundles */
         $activatedBundles = $container->getParameter('kernel.bundles');
 
-        if (!array_key_exists('EzCoreExtraBundle', $activatedBundles)) {
-            throw new RuntimeException('Netgen Tags Bundle requires EzCoreExtraBundle (lolautruche/ez-core-extra-bundle) to be activated to work properly.');
-        }
+        $activatedBundles['EzCoreExtraBundle'] ??
+            throw new RuntimeException(
+                'Netgen Tags Bundle requires EzCoreExtraBundle (lolautruche/ez-core-extra-bundle) to be activated to work properly.',
+            );
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -99,7 +100,7 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         $processor = new ConfigurationProcessor($container, 'netgen_tags');
         $processor->mapConfig(
             $config,
-            static function ($config, $scope, ContextualizerInterface $c): void {
+            static function (array $config, string $scope, ContextualizerInterface $c): void {
                 $c->setContextualParameter('tag_view.cache', $scope, $config['tag_view']['cache']);
                 $c->setContextualParameter('tag_view.ttl_cache', $scope, $config['tag_view']['ttl_cache']);
                 $c->setContextualParameter('tag_view.default_ttl', $scope, $config['tag_view']['default_ttl']);

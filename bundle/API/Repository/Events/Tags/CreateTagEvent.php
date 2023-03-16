@@ -10,14 +10,8 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagCreateStruct;
 
 final class CreateTagEvent extends AfterEvent
 {
-    private TagCreateStruct $tagCreateStruct;
-
-    private Tag $tag;
-
-    public function __construct(TagCreateStruct $tagCreateStruct, Tag $tag)
+    public function __construct(private TagCreateStruct $tagCreateStruct, private Tag $tag)
     {
-        $this->tagCreateStruct = $tagCreateStruct;
-        $this->tag = $tag;
     }
 
     public function getTagCreateStruct(): TagCreateStruct

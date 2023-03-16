@@ -17,11 +17,8 @@ use function sprintf;
 
 final class TagParamConverter implements ParamConverterInterface
 {
-    private TagsService $tagsService;
-
-    public function __construct(TagsService $tagsService)
+    public function __construct(private TagsService $tagsService)
     {
-        $this->tagsService = $tagsService;
     }
 
     /**

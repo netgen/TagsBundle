@@ -18,20 +18,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RelatedContentFilterType extends AbstractType
 {
-    private RelatedContentFacetsLoader $relatedContentFacetsLoader;
-
-    private ContentTypeService $contentTypeService;
-
-    private SortClauseMapper $sortClauseMapper;
-
     public function __construct(
-        RelatedContentFacetsLoader $relatedContentFacetsLoader,
-        ContentTypeService $contentTypeService,
-        SortClauseMapper $sortClauseMapper
+        private RelatedContentFacetsLoader $relatedContentFacetsLoader,
+        private ContentTypeService $contentTypeService,
+        private SortClauseMapper $sortClauseMapper,
     ) {
-        $this->relatedContentFacetsLoader = $relatedContentFacetsLoader;
-        $this->contentTypeService = $contentTypeService;
-        $this->sortClauseMapper = $sortClauseMapper;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -76,7 +67,7 @@ final class RelatedContentFilterType extends AbstractType
     {
         try {
             return $this->getContentTypeOptionsFromFacets($tag);
-        } catch (FacetingNotSupportedException $e) {
+        } catch (FacetingNotSupportedException) {
             // Do nothing
         }
 
@@ -113,7 +104,8 @@ final class RelatedContentFilterType extends AbstractType
                     $value = $contentType->getName() . ' (' . $count . ')';
 
                     $options[$value] = $contentType->identifier;
-                } catch (NotFoundException $e) {
+                } catch (NotFoundException) {
+                    // Do nothing
                 }
             }
         }

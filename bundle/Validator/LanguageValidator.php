@@ -13,14 +13,11 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 final class LanguageValidator extends ConstraintValidator
 {
-    private LanguageService $languageService;
-
-    public function __construct(LanguageService $languageService)
+    public function __construct(private LanguageService $languageService)
     {
-        $this->languageService = $languageService;
     }
 
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if ($value === null) {
             return;
@@ -35,7 +32,7 @@ final class LanguageValidator extends ConstraintValidator
 
         try {
             $this->languageService->loadLanguage($value);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%languageCode%', $value)
                 ->addViolation();

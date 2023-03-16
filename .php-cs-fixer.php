@@ -26,7 +26,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_no_alias_tag' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'single_line_comment_style' => false,
-        'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments']],
+        'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'match', 'parameters']],
         'yoda_style' => false,
 
         // Additional rules

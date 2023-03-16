@@ -12,7 +12,7 @@ use function trim;
 
 final class TagList extends ValueObjectVisitor
 {
-    public function visit(Visitor $visitor, Generator $generator, $data): void
+    public function visit(Visitor $visitor, Generator $generator, mixed $data): void
     {
         $generator->startObjectElement('TagList');
         $visitor->setHeader('Content-Type', $generator->getMediaType('TagList'));

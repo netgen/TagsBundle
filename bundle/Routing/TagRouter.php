@@ -25,9 +25,9 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection;
 
 use function is_object;
-use function mb_stripos;
 use function mb_strlen;
 use function mb_substr;
+use function str_starts_with;
 use function trim;
 use function urldecode;
 
@@ -37,28 +37,13 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public const TAG_VIEW_ACTION_CONTROLLER = 'netgen_tags.controller.tag_view:viewAction';
 
-    private TagsService $tagsService;
-
-    private TagUrlGenerator $generator;
-
-    private ConfigResolverInterface $configResolver;
-
-    private RequestContext $requestContext;
-
-    private LoggerInterface $logger;
-
     public function __construct(
-        TagsService $tagsService,
-        TagUrlGenerator $generator,
-        ConfigResolverInterface $configResolver,
-        ?RequestContext $requestContext = null,
-        ?LoggerInterface $logger = null
+        private TagsService $tagsService,
+        private TagUrlGenerator $generator,
+        private ConfigResolverInterface $configResolver,
+        private RequestContext $requestContext = new RequestContext(),
+        private LoggerInterface $logger = new NullLogger(),
     ) {
-        $this->tagsService = $tagsService;
-        $this->generator = $generator;
-        $this->configResolver = $configResolver;
-        $this->requestContext = $requestContext ?? new RequestContext();
-        $this->logger = $logger ?? new NullLogger();
     }
 
     public function matchRequest(Request $request): array
@@ -66,7 +51,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         $requestedPath = urldecode($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
         $pathPrefix = $this->generator->getPathPrefix();
 
-        if (mb_stripos($requestedPath, $pathPrefix) !== 0) {
+        if (!str_starts_with($requestedPath, $pathPrefix)) {
             throw new ResourceNotFoundException('Route not found');
         }
 
@@ -78,12 +63,10 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         }
 
         $tag = $this->tagsService->sudo(
-            function (TagsService $tagsService) use ($requestedPath): Tag {
-                return $tagsService->loadTagByUrl(
-                    $requestedPath,
-                    $this->configResolver->getParameter('languages'),
-                );
-            },
+            fn (TagsService $tagsService): Tag => $tagsService->loadTagByUrl(
+                $requestedPath,
+                $this->configResolver->getParameter('languages'),
+            ),
         );
 
         // We specifically pass tag ID so tag view builder will reload the tag and check for permissions
@@ -162,7 +145,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         throw new RuntimeException("The TagRouter doesn't support the match() method. Please use matchRequest() instead.");
     }
 
-    public function supports($name): bool
+    public function supports(mixed $name): bool
     {
         if (is_object($name)) {
             return $this->supportsObject($name);
@@ -176,17 +159,13 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         return $object instanceof Tag;
     }
 
-    public function getRouteDebugMessage($name, array $parameters = []): string
+    public function getRouteDebugMessage(mixed $name, array $parameters = []): string
     {
-        if ($name instanceof RouteObjectInterface) {
-            return 'Route with key ' . $name->getRouteKey();
-        }
-
-        if ($name instanceof SymfonyRoute) {
-            return 'Route with pattern ' . $name->getPath();
-        }
-
-        return $name;
+        return match (true) {
+            $name instanceof RouteObjectInterface => 'Route with key ' . $name->getRouteKey(),
+            $name instanceof SymfonyRoute => 'Route with pattern ' . $name->getPath(),
+            default => $name,
+        };
     }
 
     /**
@@ -196,7 +175,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     private function removePathPrefix(string $path, string $prefix): string
     {
-        if ($prefix !== '/' && mb_stripos($path, $prefix) === 0) {
+        if ($prefix !== '/' && str_starts_with($path, $prefix)) {
             $path = mb_substr($path, mb_strlen($prefix));
         }
 

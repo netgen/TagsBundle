@@ -21,7 +21,7 @@ final class TagId extends Criterion
      * @param int|int[] $value One or more tag IDs that must be matched
      * @param string|null $target Field definition identifier to use
      */
-    public function __construct($value, ?string $target = null)
+    public function __construct(int|array $value, ?string $target = null)
     {
         parent::__construct($target, null, $value);
     }

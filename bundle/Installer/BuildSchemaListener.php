@@ -10,11 +10,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class BuildSchemaListener implements EventSubscriberInterface
 {
-    private string $schemaPath;
-
-    public function __construct(string $schemaPath)
+    public function __construct(private string $schemaPath)
     {
-        $this->schemaPath = $schemaPath;
     }
 
     public static function getSubscribedEvents(): array

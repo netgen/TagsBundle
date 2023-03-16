@@ -287,10 +287,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getContentMapperMock(): MockObject
+    private function getContentMapperMock(): MockObject&Mapper
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)
             ->onlyMethods(['extractContentFromRows'])

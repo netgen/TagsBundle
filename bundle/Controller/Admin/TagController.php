@@ -26,24 +26,12 @@ use function trim;
 
 final class TagController extends Controller
 {
-    private TagsService $tagsService;
-
-    private ContentTypeService $contentTypeService;
-
-    private AdapterInterface $tagChildrenAdapter;
-
-    private SearchTagsAdapter $searchTagsAdapter;
-
     public function __construct(
-        TagsService $tagsService,
-        ContentTypeService $contentTypeService,
-        AdapterInterface $tagChildrenAdapter,
-        SearchTagsAdapter $searchTagsAdapter
+        private TagsService $tagsService,
+        private ContentTypeService $contentTypeService,
+        private AdapterInterface $tagChildrenAdapter,
+        private SearchTagsAdapter $searchTagsAdapter,
     ) {
-        $this->tagsService = $tagsService;
-        $this->contentTypeService = $contentTypeService;
-        $this->tagChildrenAdapter = $tagChildrenAdapter;
-        $this->searchTagsAdapter = $searchTagsAdapter;
     }
 
     /**
@@ -109,7 +97,7 @@ final class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
                 [
-                    'parentId' => $parentTag !== null ? $parentTag->id : 0,
+                    'parentId' => $parentTag?->id ?? 0,
                     'languageCode' => $availableLanguages[0],
                 ],
             );
@@ -129,7 +117,7 @@ final class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_add',
                 [
-                    'parentId' => $parentTag !== null ? $parentTag->id : 0,
+                    'parentId' => $parentTag?->id ?? 0,
                     'languageCode' => $form->getData()['languageCode'],
                 ],
             );
@@ -245,7 +233,7 @@ final class TagController extends Controller
         $tagUpdateStruct->alwaysAvailable = $tag->alwaysAvailable;
 
         foreach ($tag->keywords as $keywordLanguageCode => $keyword) {
-            $tagUpdateStruct->setKeyword($keyword, $keywordLanguageCode);
+            $tagUpdateStruct->setKeyword($keyword ?? '', $keywordLanguageCode);
         }
 
         $form = $this->createForm(
@@ -439,7 +427,7 @@ final class TagController extends Controller
                     $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
 
                     foreach ($newKeywords as $languageCode => $keyword) {
-                        $tagUpdateStruct->setKeyword($keyword, (string) $languageCode);
+                        $tagUpdateStruct->setKeyword($keyword ?? '', $languageCode);
                     }
 
                     $this->tagsService->updateTag($tag, $tagUpdateStruct);
@@ -490,7 +478,7 @@ final class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_move_tags',
                 [
-                    'parentId' => $tag !== null ? $tag->id : 0,
+                    'parentId' => $tag?->id ?? 0,
                 ],
             );
         }
@@ -499,7 +487,7 @@ final class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_copy_tags',
                 [
-                    'parentId' => $tag !== null ? $tag->id : 0,
+                    'parentId' => $tag?->id ?? 0,
                 ],
             );
         }
@@ -508,7 +496,7 @@ final class TagController extends Controller
             return $this->redirectToRoute(
                 'netgen_tags_admin_tag_delete_tags',
                 [
-                    'parentId' => $tag !== null ? $tag->id : 0,
+                    'parentId' => $tag?->id ?? 0,
                 ],
             );
         }
@@ -552,7 +540,7 @@ final class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $newParentTag = $this->tagsService->loadTag($form->getData()['parentTag']);
-            } catch (NotFoundException $exception) {
+            } catch (NotFoundException) {
                 $newParentTag = null;
             }
 
@@ -611,7 +599,7 @@ final class TagController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $newParentTag = $this->tagsService->loadTag($form->getData()['parentTag']);
-            } catch (NotFoundException $exception) {
+            } catch (NotFoundException) {
                 $newParentTag = null;
             }
 

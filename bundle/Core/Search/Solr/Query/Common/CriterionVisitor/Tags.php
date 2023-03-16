@@ -15,32 +15,18 @@ use function array_merge;
 abstract class Tags extends Field
 {
     /**
-     * For tag-queries which aren't field-specific.
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Handler $contentTypeHandler for tag-queries which aren't field-specific
+     * @param string $fieldTypeIdentifier identifier of the field type that criterion can handle
+     * @param string $fieldName name of the field type's indexed field that criterion can handle
      */
-    private Handler $contentTypeHandler;
-
-    /**
-     * Identifier of the field type that criterion can handle.
-     */
-    private string $fieldTypeIdentifier;
-
-    /**
-     * Name of the field type's indexed field that criterion can handle.
-     */
-    private string $fieldName;
-
     public function __construct(
         FieldNameResolver $fieldNameResolver,
         FieldValueMapper $fieldValueMapper,
-        Handler $contentTypeHandler,
-        string $fieldTypeIdentifier,
-        string $fieldName
+        private Handler $contentTypeHandler,
+        private string $fieldTypeIdentifier,
+        private string $fieldName,
     ) {
         parent::__construct($fieldNameResolver, $fieldValueMapper);
-
-        $this->contentTypeHandler = $contentTypeHandler;
-        $this->fieldTypeIdentifier = $fieldTypeIdentifier;
-        $this->fieldName = $fieldName;
     }
 
     protected function getSearchFields(Criterion $criterion): array

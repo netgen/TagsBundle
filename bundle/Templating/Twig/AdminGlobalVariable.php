@@ -8,15 +8,12 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 final class AdminGlobalVariable
 {
-    private ConfigResolverInterface $configResolver;
-
     private string $pageLayoutTemplate;
 
     private bool $isDefault = true;
 
-    public function __construct(ConfigResolverInterface $configResolver)
+    public function __construct(private ConfigResolverInterface $configResolver)
     {
-        $this->configResolver = $configResolver;
     }
 
     public function setPageLayoutTemplate(string $pageLayoutTemplate): void

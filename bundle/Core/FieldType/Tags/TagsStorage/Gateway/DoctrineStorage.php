@@ -17,17 +17,8 @@ use function in_array;
 
 final class DoctrineStorage extends Gateway
 {
-    private Connection $connection;
-
-    /**
-     * Caching language handler.
-     */
-    private LanguageHandler $languageHandler;
-
-    public function __construct(Connection $connection, LanguageHandler $languageHandler)
+    public function __construct(private Connection $connection, private LanguageHandler $languageHandler)
     {
-        $this->connection = $connection;
-        $this->languageHandler = $languageHandler;
     }
 
     public function storeFieldData(VersionInfo $versionInfo, Field $field): void
@@ -137,24 +128,21 @@ final class DoctrineStorage extends Gateway
         $tagList = [];
         foreach ($rows as $row) {
             $tagId = (int) $row['eztags_id'];
-            if (!isset($tagList[$tagId])) {
-                $tagList[$tagId] = [];
-                $tagList[$tagId]['id'] = (int) $row['eztags_id'];
-                $tagList[$tagId]['parent_id'] = (int) $row['eztags_parent_id'];
-                $tagList[$tagId]['main_tag_id'] = (int) $row['eztags_main_tag_id'];
-                $tagList[$tagId]['keywords'] = [];
-                $tagList[$tagId]['depth'] = (int) $row['eztags_depth'];
-                $tagList[$tagId]['path_string'] = $row['eztags_path_string'];
-                $tagList[$tagId]['modified'] = (int) $row['eztags_modified'];
-                $tagList[$tagId]['remote_id'] = $row['eztags_remote_id'];
-                $tagList[$tagId]['always_available'] = (bool) ((int) $row['eztags_language_mask'] & 1);
-                $tagList[$tagId]['main_language_code'] = $this->languageHandler->load($row['eztags_main_language_id'])->languageCode;
-                $tagList[$tagId]['language_codes'] = [];
-            }
+            $tagList[$tagId] ??= [
+                'id' => (int) $row['eztags_id'],
+                'parent_id' => (int) $row['eztags_parent_id'],
+                'main_tag_id' => (int) $row['eztags_main_tag_id'],
+                'keywords' => [],
+                'depth' => (int) $row['eztags_depth'],
+                'path_string' => $row['eztags_path_string'],
+                'modified' => (int) $row['eztags_modified'],
+                'remote_id' => $row['eztags_remote_id'],
+                'always_available' => (bool) ((int) $row['eztags_language_mask'] & 1),
+                'main_language_code' => $this->languageHandler->load($row['eztags_main_language_id'])->languageCode,
+                'language_codes' => [],
+            ];
 
-            if (!isset($tagList[$tagId]['keywords'][$row['eztags_keyword_locale']])) {
-                $tagList[$tagId]['keywords'][$row['eztags_keyword_locale']] = $row['eztags_keyword_keyword'];
-            }
+            $tagList[$tagId]['keywords'][$row['eztags_keyword_locale']] ??= $row['eztags_keyword_keyword'];
 
             if (!in_array($row['eztags_keyword_locale'], $tagList[$tagId]['language_codes'], true)) {
                 $tagList[$tagId]['language_codes'][] = $row['eztags_keyword_locale'];

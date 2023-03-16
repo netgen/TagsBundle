@@ -20,7 +20,7 @@ abstract class MultipleValued implements ViewMatcherInterface, TagsServiceAwareI
      */
     protected array $values = [];
 
-    public function setMatchingConfig($matchingConfig): void
+    public function setMatchingConfig(mixed $matchingConfig): void
     {
         $matchingConfig = !is_array($matchingConfig) ? [$matchingConfig] : $matchingConfig;
         $this->values = array_fill_keys($matchingConfig, true);

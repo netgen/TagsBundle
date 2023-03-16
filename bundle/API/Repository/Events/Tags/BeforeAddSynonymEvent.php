@@ -13,13 +13,10 @@ use function sprintf;
 
 final class BeforeAddSynonymEvent extends BeforeEvent
 {
-    private SynonymCreateStruct $synonymCreateStruct;
-
     private Tag $synonym;
 
-    public function __construct(SynonymCreateStruct $synonymCreateStruct)
+    public function __construct(private SynonymCreateStruct $synonymCreateStruct)
     {
-        $this->synonymCreateStruct = $synonymCreateStruct;
     }
 
     public function getSynonymCreateStruct(): SynonymCreateStruct
@@ -29,9 +26,13 @@ final class BeforeAddSynonymEvent extends BeforeEvent
 
     public function getSynonym(): Tag
     {
-        if (!isset($this->synonym)) {
-            throw new UnexpectedValueException(sprintf('Return value is not set or not a type of %s. Check with hasSynonym() or set it with setSynonym() before you call the getter.', Tag::class));
-        }
+        $this->synonym ??
+            throw new UnexpectedValueException(
+                sprintf(
+                    'Return value is not set or not a type of %s. Check with hasSynonym() or set it with setSynonym() before you call the getter.',
+                    Tag::class,
+                ),
+            );
 
         return $this->synonym;
     }

@@ -16,14 +16,8 @@ use function array_values;
  */
 class Mapper
 {
-    private LanguageHandler $languageHandler;
-
-    private LanguageMaskGenerator $languageMaskGenerator;
-
-    public function __construct(LanguageHandler $languageHandler, LanguageMaskGenerator $languageMaskGenerator)
+    public function __construct(private LanguageHandler $languageHandler, private LanguageMaskGenerator $languageMaskGenerator)
     {
-        $this->languageHandler = $languageHandler;
-        $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     /**
@@ -71,9 +65,7 @@ class Mapper
                 $tagList[$tagId] = $tag;
             }
 
-            if (!isset($tagList[$tagId]->keywords[$row['locale']])) {
-                $tagList[$tagId]->keywords[$row['locale']] = $row['keyword'];
-            }
+            $tagList[$tagId]->keywords[$row['locale']] ??= $row['keyword'];
         }
 
         return array_values($tagList);

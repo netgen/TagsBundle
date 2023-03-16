@@ -19,7 +19,7 @@ use function trim;
  * @property-read int $parentTagId Parent tag ID
  * @property-read int $mainTagId Main tag ID
  * @property-read string $keyword Convenience getter for $this->getKeyword() and BC layer
- * @property-read string[] $keywords Tag keywords
+ * @property-read array<string, string|null> $keywords Tag keywords
  * @property-read int $depth The depth tag has in tag tree
  * @property-read string $pathString The path to this tag e.g. /1/6/21/42 where 42 is the current ID
  * @property-read array $path The IDs of all parents and tag itself
@@ -52,7 +52,7 @@ final class Tag extends ValueObject
      * Returns the keywords in the available languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *
-     * @var string[]
+     * @var array<string, string|null>
      */
     protected array $keywords = [];
 
@@ -119,7 +119,7 @@ final class Tag extends ValueObject
         }
     }
 
-    public function __get($property)
+    public function __get($property): mixed
     {
         if ($property === 'keyword') {
             return $this->getKeyword();
@@ -132,7 +132,7 @@ final class Tag extends ValueObject
         return parent::__get($property);
     }
 
-    public function __isset($property)
+    public function __isset($property): bool
     {
         if ($property === 'keyword') {
             return true;
@@ -160,7 +160,7 @@ final class Tag extends ValueObject
      *
      * @param string[] $languageCodes
      *
-     * @return array
+     * @return array<string, string|null>
      */
     public function getKeywords(array $languageCodes): array
     {

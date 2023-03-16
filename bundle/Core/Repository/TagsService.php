@@ -30,15 +30,13 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag as SPITag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 
-use function array_merge;
 use function array_values;
 use function count;
 use function explode;
-use function is_bool;
 use function is_string;
 use function max;
-use function mb_strpos;
 use function md5;
+use function str_starts_with;
 use function trim;
 use function uniqid;
 
@@ -47,22 +45,13 @@ use function uniqid;
  */
 class TagsService implements TagsServiceInterface
 {
-    private Repository $repository;
-
-    private TagsHandler $tagsHandler;
-
-    private TagsMapper $mapper;
-
     /**
      * Counter for the current sudo nesting level.
      */
     private int $sudoNestingLevel = 0;
 
-    public function __construct(Repository $repository, TagsHandler $tagsHandler, TagsMapper $mapper)
+    public function __construct(private Repository $repository, private TagsHandler $tagsHandler, private TagsMapper $mapper)
     {
-        $this->repository = $repository;
-        $this->tagsHandler = $tagsHandler;
-        $this->mapper = $mapper;
     }
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
@@ -172,7 +161,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $spiTags = $this->tagsHandler->loadChildren(
-            $tag !== null ? $tag->id : 0,
+            $tag?->id ?? 0,
             $offset,
             $limit,
             $languages,
@@ -194,7 +183,7 @@ class TagsService implements TagsServiceInterface
         }
 
         return $this->tagsHandler->getChildrenCount(
-            $tag !== null ? $tag->id : 0,
+            $tag?->id ?? 0,
             $languages,
             $useAlwaysAvailable,
         );
@@ -302,7 +291,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $criteria = [new TagId($tag->id)];
-        $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
+        $filter = new Criterion\LogicalAnd([...$criteria, ...$additionalCriteria]);
 
         if (count($sortClauses) === 0) {
             $sortClauses = [
@@ -338,7 +327,7 @@ class TagsService implements TagsServiceInterface
         }
 
         $criteria = [new TagId($tag->id)];
-        $filter = new Criterion\LogicalAnd(array_merge($criteria, $additionalCriteria));
+        $filter = new Criterion\LogicalAnd([...$criteria, ...$additionalCriteria]);
 
         $searchResult = $this->repository->getSearchService()->findContentInfo(
             new Query(
@@ -372,9 +361,8 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
-        if (!isset($keywords[$tagCreateStruct->mainLanguageCode])) {
+        $keywords[$tagCreateStruct->mainLanguageCode] ??
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
-        }
 
         if ($tagCreateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $tagCreateStruct->remoteId, 'TagCreateStruct');
@@ -386,7 +374,7 @@ class TagsService implements TagsServiceInterface
                 $this->tagsHandler->loadTagInfoByRemoteId($tagCreateStruct->remoteId);
 
                 throw new InvalidArgumentException('tagCreateStruct', 'Tag with provided remote ID already exists');
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // Do nothing
             }
         } else {
@@ -444,7 +432,7 @@ class TagsService implements TagsServiceInterface
                 if ($existingTag->id !== $spiTag->id) {
                     throw new InvalidArgumentException('tagUpdateStruct', 'Tag with provided remote ID already exists');
                 }
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // Do nothing
             }
         }
@@ -459,17 +447,12 @@ class TagsService implements TagsServiceInterface
         }
 
         $mainLanguageCode = $tagUpdateStruct->mainLanguageCode ?? $spiTag->mainLanguageCode;
-        if (!isset($newKeywords[$mainLanguageCode])) {
+        $newKeywords[$mainLanguageCode] ??
             throw new InvalidArgumentValue('mainLanguageCode', $mainLanguageCode, 'TagUpdateStruct');
-        }
-
-        if ($tagUpdateStruct->alwaysAvailable !== null && !is_bool($tagUpdateStruct->alwaysAvailable)) {
-            throw new InvalidArgumentValue('alwaysAvailable', $tagUpdateStruct->alwaysAvailable, 'TagUpdateStruct');
-        }
 
         $updateStruct = new UpdateStruct();
         $updateStruct->keywords = $newKeywords;
-        $updateStruct->remoteId = $tagUpdateStruct->remoteId !== null ? trim($tagUpdateStruct->remoteId) : $spiTag->remoteId;
+        $updateStruct->remoteId = trim($tagUpdateStruct->remoteId ?? $spiTag->remoteId);
         $updateStruct->mainLanguageCode = $mainLanguageCode;
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable ?? $spiTag->alwaysAvailable;
 
@@ -508,9 +491,8 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
-        if (!isset($keywords[$synonymCreateStruct->mainLanguageCode])) {
+        $keywords[$synonymCreateStruct->mainLanguageCode] ??
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
-        }
 
         if ($synonymCreateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $synonymCreateStruct->remoteId, 'SynonymCreateStruct');
@@ -522,7 +504,7 @@ class TagsService implements TagsServiceInterface
                 $this->tagsHandler->loadTagInfoByRemoteId($synonymCreateStruct->remoteId);
 
                 throw new InvalidArgumentException('synonymCreateStruct', 'Tag with provided remote ID already exists');
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // Do nothing
             }
         } else {
@@ -567,7 +549,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException('mainTag', 'Destination tag is a synonym');
         }
 
-        if (mb_strpos($spiMainTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+        if (str_starts_with($spiMainTagInfo->pathString, $spiTagInfo->pathString)) {
             throw new InvalidArgumentException('mainTag', 'Destination tag is a sub tag of the given tag');
         }
 
@@ -606,7 +588,7 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentException('targetTag', 'Target tag is a synonym');
         }
 
-        if (mb_strpos($spiTargetTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+        if (str_starts_with($spiTargetTagInfo->pathString, $spiTagInfo->pathString)) {
             throw new InvalidArgumentException('targetParentTag', 'Target tag is a sub tag of the given tag');
         }
 
@@ -654,7 +636,7 @@ class TagsService implements TagsServiceInterface
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
             }
 
-            if (mb_strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            if (str_starts_with($spiParentTagInfo->pathString, $spiTagInfo->pathString)) {
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
             }
         }
@@ -704,7 +686,7 @@ class TagsService implements TagsServiceInterface
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a synonym');
             }
 
-            if (mb_strpos($spiParentTagInfo->pathString, $spiTagInfo->pathString) === 0) {
+            if (str_starts_with($spiParentTagInfo->pathString, $spiTagInfo->pathString)) {
                 throw new InvalidArgumentException('targetParentTag', 'Target parent tag is a sub tag of the given tag');
             }
         }
@@ -771,7 +753,7 @@ class TagsService implements TagsServiceInterface
         return new TagUpdateStruct();
     }
 
-    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null): mixed
     {
         ++$this->sudoNestingLevel;
 
@@ -798,9 +780,9 @@ class TagsService implements TagsServiceInterface
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference|null $userReference User for
      *        which the information is returned, current user will be used if null
      *
-     * @return bool|array if limitations are on this function an array of limitations is returned
+     * @return bool|mixed[] if limitations are on this function an array of limitations is returned
      */
-    public function hasAccess(string $module, string $function, ?UserReference $userReference = null)
+    public function hasAccess(string $module, string $function, ?UserReference $userReference = null): bool|array
     {
         // Full access if sudo nesting level is set by sudo method
         if ($this->sudoNestingLevel > 0) {
@@ -818,8 +800,6 @@ class TagsService implements TagsServiceInterface
      * @param string $function The function, aka the controller action to check permissions on
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object The object to check if the user has access to
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[] $targets An array of location, parent or "assignment" value objects
-     *
-     * @return bool
      */
     public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
     {

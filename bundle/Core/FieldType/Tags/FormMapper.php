@@ -21,11 +21,8 @@ use function array_values;
 
 final class FormMapper implements FieldDefinitionFormMapperInterface, FieldValueFormMapperInterface
 {
-    private ConfigResolverInterface $configResolver;
-
-    public function __construct(ConfigResolverInterface $configResolver)
+    public function __construct(private ConfigResolverInterface $configResolver)
     {
-        $this->configResolver = $configResolver;
     }
 
     public function mapFieldValueForm(FormInterface $fieldForm, FieldData $data): void

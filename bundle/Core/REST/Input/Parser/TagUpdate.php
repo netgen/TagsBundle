@@ -16,14 +16,8 @@ use function is_array;
 
 final class TagUpdate extends BaseParser
 {
-    private TagsService $tagsService;
-
-    private ParserTools $parserTools;
-
-    public function __construct(TagsService $tagsService, ParserTools $parserTools)
+    public function __construct(private TagsService $tagsService, private ParserTools $parserTools)
     {
-        $this->tagsService = $tagsService;
-        $this->parserTools = $parserTools;
     }
 
     public function parse(array $data, ParsingDispatcher $parsingDispatcher): TagUpdateStruct

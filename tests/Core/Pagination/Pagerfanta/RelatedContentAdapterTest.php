@@ -14,15 +14,9 @@ use PHPUnit\Framework\TestCase;
 
 final class RelatedContentAdapterTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $tagsService;
+    private MockObject&TagsService $tagsService;
 
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $configResolver;
+    private MockObject&ConfigResolverInterface $configResolver;
 
     protected function setUp(): void
     {

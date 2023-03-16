@@ -21,20 +21,16 @@ use const ENT_SUBSTITUTE;
 
 final class FieldValueTransformer implements DataTransformerInterface
 {
-    private FieldType $fieldType;
-
-    private Field $field;
-
-    public function __construct(FieldType $fieldType, Field $field)
+    public function __construct(private FieldType $fieldType, private Field $field)
     {
-        $this->fieldType = $fieldType;
-        $this->field = $field;
     }
 
     /**
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value|null $value
+     *
+     * @return array<string, mixed>|null
      */
-    public function transform($value): ?array
+    public function transform(mixed $value): ?array
     {
         if (!$value instanceof Value) {
             return null;
@@ -51,7 +47,7 @@ final class FieldValueTransformer implements DataTransformerInterface
 
             $ids[] = $tag->id;
             $parentIds[] = $tag->parentTagId;
-            $keywords[] = $this->escape($tagKeyword ?? $mainKeyword);
+            $keywords[] = $this->escape($tagKeyword ?? $mainKeyword ?? '');
             $locales[] = $tagKeyword !== null ? $this->field->languageCode : $tag->mainLanguageCode;
         }
 
@@ -66,7 +62,7 @@ final class FieldValueTransformer implements DataTransformerInterface
     /**
      * @param mixed[]|null $value
      */
-    public function reverseTransform($value): Value
+    public function reverseTransform(mixed $value): Value
     {
         if ($value === null) {
             return $this->fieldType->getEmptyValue();

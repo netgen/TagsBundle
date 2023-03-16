@@ -27,20 +27,11 @@ final class TagUrlGenerator extends Generator
 
     public const DEFAULT_PATH_PREFIX = '/tags/view';
 
-    private TagsService $tagsService;
-
-    private RouterInterface $defaultRouter;
-
-    private ConfigResolverInterface $configResolver;
-
     public function __construct(
-        TagsService $tagsService,
-        RouterInterface $defaultRouter,
-        ConfigResolverInterface $configResolver
+        private TagsService $tagsService,
+        private RouterInterface $defaultRouter,
+        private ConfigResolverInterface $configResolver,
     ) {
-        $this->tagsService = $tagsService;
-        $this->defaultRouter = $defaultRouter;
-        $this->configResolver = $configResolver;
     }
 
     /**
@@ -48,11 +39,8 @@ final class TagUrlGenerator extends Generator
      * Entries in $parameters will be added in the query string.
      *
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
-     * @param array $parameters
-     *
-     * @return string
      */
-    public function doGenerate($tag, array $parameters): string
+    public function doGenerate(mixed $tag, array $parameters): string
     {
         if (isset($parameters['siteaccess'])) {
             // We generate for a different siteaccess, so potentially in a different language.
@@ -92,7 +80,7 @@ final class TagUrlGenerator extends Generator
 
                 $tagId = $tag->parentTagId;
             } while ($tagId > 0);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             $isInternal = true;
             $tagUrl = $this->defaultRouter->generate(
                 self::INTERNAL_TAG_ROUTE,

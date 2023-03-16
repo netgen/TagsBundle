@@ -8,16 +8,13 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 final class ConfigResolverStub implements ConfigResolverInterface
 {
-    private array $parameters;
-
     private string $defaultNamespace = 'ezsettings';
 
-    public function __construct(array $parameters)
+    public function __construct(private array $parameters)
     {
-        $this->parameters = $parameters;
     }
 
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
+    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null): mixed
     {
         return $this->parameters[$namespace ?? $this->defaultNamespace][$paramName] ?? null;
     }

@@ -6,23 +6,17 @@ namespace Netgen\TagsBundle\Form\DataMapper;
 
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Symfony\Component\Form\DataMapperInterface;
+use Traversable;
 
 use function iterator_to_array;
 
 final class TagUpdateStructDataMapper implements DataMapperInterface
 {
-    private string $languageCode;
-
-    public function __construct(string $languageCode)
+    public function __construct(private string $languageCode)
     {
-        $this->languageCode = $languageCode;
     }
 
-    /**
-     * @param mixed $viewData
-     * @param \Traversable $forms
-     */
-    public function mapDataToForms($viewData, $forms): void
+    public function mapDataToForms(mixed $viewData, Traversable $forms): void
     {
         if (!$viewData instanceof TagUpdateStruct) {
             return;
@@ -35,11 +29,7 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
         $forms['remoteId']->setData($viewData->remoteId);
     }
 
-    /**
-     * @param \Traversable $forms
-     * @param mixed $viewData
-     */
-    public function mapFormsToData($forms, &$viewData): void
+    public function mapFormsToData(Traversable $forms, mixed &$viewData): void
     {
         if (!$viewData instanceof TagUpdateStruct) {
             return;

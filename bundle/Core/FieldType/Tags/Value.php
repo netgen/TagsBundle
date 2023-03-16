@@ -6,6 +6,7 @@ namespace Netgen\TagsBundle\Core\FieldType\Tags;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Stringable;
 
 use function array_map;
 use function implode;
@@ -13,19 +14,13 @@ use function implode;
 /**
  * Value for Tags field type.
  */
-final class Value extends BaseValue
+final class Value extends BaseValue implements Stringable
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[]
-     */
-    public array $tags = [];
-
     /**
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag[] $tags
      */
-    public function __construct(array $tags = [])
+    public function __construct(public array $tags = [])
     {
-        $this->tags = $tags;
     }
 
     /**

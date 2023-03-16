@@ -31,13 +31,9 @@ use function is_int;
 
 final class TagLimitationType extends AbstractPersistenceLimitationType implements LimitationTypeInterface
 {
-    private SPITagsPersistenceHandler $tagsPersistence;
-
-    public function __construct(PersistenceHandler $persistence, SPITagsPersistenceHandler $tagsPersistence)
+    public function __construct(PersistenceHandler $persistence, private SPITagsPersistenceHandler $tagsPersistence)
     {
         parent::__construct($persistence);
-
-        $this->tagsPersistence = $tagsPersistence;
     }
 
     public function acceptValue(Limitation $limitationValue): void
@@ -65,7 +61,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         foreach ($limitationValue->limitationValues as $key => $id) {
             try {
                 $this->tagsPersistence->loadTagInfo((int) $id);
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 $validationErrors[] = new ValidationError(
                     "limitationValues[%key%] => '%value%' does not exist in the backend",
                     null,
@@ -123,7 +119,7 @@ final class TagLimitationType extends AbstractPersistenceLimitationType implemen
         return new TagId(array_map('intval', $value->limitationValues));
     }
 
-    public function valueSchema()
+    public function valueSchema(): array|int
     {
         throw new NotImplementedException(__METHOD__);
     }

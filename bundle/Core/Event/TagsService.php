@@ -16,14 +16,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsService implements TagsServiceInterface
 {
-    private TagsServiceInterface $service;
-
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(TagsServiceInterface $service, EventDispatcherInterface $eventDispatcher)
+    public function __construct(private TagsServiceInterface $service, private EventDispatcherInterface $eventDispatcher)
     {
-        $this->service = $service;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
@@ -234,7 +228,7 @@ final class TagsService implements TagsServiceInterface
         return $this->service->newTagUpdateStruct();
     }
 
-    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null): mixed
     {
         return $this->service->sudo($callback, $outerTagsService ?? $this);
     }

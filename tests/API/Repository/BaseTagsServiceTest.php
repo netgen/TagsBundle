@@ -35,7 +35,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 {
     protected Repository $repository;
 
-    protected ?TagsService $tagsService;
+    protected TagsService $tagsService;
 
     /**
      * @covers \Netgen\TagsBundle\API\Repository\Values\Tags\Tag::__get
@@ -1066,7 +1066,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('First tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1084,7 +1084,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('Second tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1105,7 +1105,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(40)
             );
             self::fail('First tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1115,7 +1115,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(95)
             );
             self::fail('Second tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1177,7 +1177,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->loadTag($tag->id);
             self::fail('Tag not deleted after merging');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1207,7 +1207,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('First tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1225,7 +1225,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('Second tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1246,7 +1246,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(40)
             );
             self::fail('First tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1256,7 +1256,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(95)
             );
             self::fail('Second tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1330,7 +1330,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('First tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1350,7 +1350,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('Second tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1371,7 +1371,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(40)
             );
             self::fail('First tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1381,7 +1381,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(95)
             );
             self::fail('Second tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1497,7 +1497,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('First tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1517,7 +1517,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 )
             );
             self::fail('Second tag was found');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1538,7 +1538,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(40)
             );
             self::fail('First tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1548,7 +1548,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 $this->tagsService->loadTag(95)
             );
             self::fail('Second tag is a synonym');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // Do nothing
         }
 
@@ -1626,7 +1626,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->loadTag($tag->id);
             self::fail('Tag not deleted');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
 
@@ -1634,7 +1634,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             try {
                 $this->tagsService->loadTag($synonym->id);
                 self::fail('Synonym not deleted');
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // Do nothing
             }
         }
@@ -1643,7 +1643,7 @@ abstract class BaseTagsServiceTest extends BaseTest
             try {
                 $this->tagsService->loadTag($child->id);
                 self::fail('Child not deleted');
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // Do nothing
             }
         }

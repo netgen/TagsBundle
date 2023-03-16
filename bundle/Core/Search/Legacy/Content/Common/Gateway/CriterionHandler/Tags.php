@@ -17,8 +17,6 @@ abstract class Tags extends CriterionHandler
     /**
      * Returns searchable fields for the Criterion.
      *
-     * @param string|null $fieldIdentifier
-     *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier
      *
      * @return int[]|null

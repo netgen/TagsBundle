@@ -13,8 +13,6 @@ final class NetgenTagsBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
-        parent::build($container);
-
         $container->addCompilerPass(new Compiler\TagViewBuilderPass());
         $container->addCompilerPass(new Compiler\DefaultStorageEnginePass());
 

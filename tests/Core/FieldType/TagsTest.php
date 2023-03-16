@@ -23,10 +23,7 @@ use const PHP_INT_MAX;
 
 final class TagsTest extends FieldTypeTest
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $tagsService;
+    private MockObject&TagsService $tagsService;
 
     /**
      * Returns values for TagsService::loadTag based on input value.

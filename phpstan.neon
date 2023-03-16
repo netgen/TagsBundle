@@ -27,7 +27,6 @@ parameters:
         - '#Call to function is_string\(\) with string will always evaluate to true.#'
         - '#Call to function is_array\(\) with array(<.*>)? will always evaluate to true.#'
         - '#Instanceof between (.*) and (.*) will always evaluate to true.#'
-        - "#Casting to bool something that's already bool.#"
         - "#Casting to int something that's already int.#"
         - '#should be contravariant with parameter#'
         - '#should be covariant with return type#'

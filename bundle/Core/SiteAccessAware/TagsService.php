@@ -15,14 +15,8 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 
 final class TagsService implements TagsServiceInterface
 {
-    private TagsServiceInterface $innerService;
-
-    private LanguageResolver $languageResolver;
-
-    public function __construct(TagsServiceInterface $innerService, LanguageResolver $languageResolver)
+    public function __construct(private TagsServiceInterface $innerService, private LanguageResolver $languageResolver)
     {
-        $this->innerService = $innerService;
-        $this->languageResolver = $languageResolver;
     }
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
@@ -196,7 +190,7 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->newTagUpdateStruct();
     }
 
-    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null)
+    public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null): mixed
     {
         return $this->innerService->sudo($callback, $outerTagsService ?? $this);
     }

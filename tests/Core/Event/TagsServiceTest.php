@@ -20,15 +20,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsServiceTest extends TestCase
 {
-    /**
-     * @var \Netgen\TagsBundle\API\Repository\TagsService&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $tagsService;
+    private MockObject&CoreTagsService $tagsService;
 
-    /**
-     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    private MockObject $eventDispatcher;
+    private MockObject&EventDispatcherInterface $eventDispatcher;
 
     protected function setUp(): void
     {
