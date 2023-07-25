@@ -30,12 +30,6 @@ abstract class Tags implements CriterionVisitor
      */
     private string $fieldName;
 
-    /**
-     * @param FieldNameResolver $fieldNameResolver
-     * @param Handler $contentTypeHandler
-     * @param string $fieldTypeIdentifier
-     * @param string $fieldName
-     */
     public function __construct(FieldNameResolver $fieldNameResolver, Handler $contentTypeHandler, string $fieldTypeIdentifier, string $fieldName)
     {
         $this->fieldNameResolver = $fieldNameResolver;
