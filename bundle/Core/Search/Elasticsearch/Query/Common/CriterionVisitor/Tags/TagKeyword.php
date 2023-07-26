@@ -39,6 +39,9 @@ final class TagKeyword extends Tags
 
         $query = new BoolQuery();
         foreach ($searchFields as $name => $fieldType) {
+            /**
+             * @var string $value
+             */
             foreach ($criterion->value as $value) {
                 if ($isLikeOperator) {
                     $query->addShould(new PrefixQuery($name, $value));
