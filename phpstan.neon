@@ -6,6 +6,12 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
+    excludePaths:
+        # The following two paths are excluded since PHPStan crashes with "unknown interface" error
+        # which cannot be excluded with ignoreErrors config
+        - bundle/Core/Search/Elasticsearch/Query/Common/CriterionVisitor/Tags.php
+        - bundle/Core/Search/Elasticsearch/QueryDSL/PrefixQuery.php
+
     ignoreErrors:
         -
             message: '#Else branch is unreachable because ternary operator condition is always true.#'
