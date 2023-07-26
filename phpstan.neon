@@ -32,5 +32,5 @@ parameters:
         - '#should be covariant with return type#'
 
         # Errors caused by Ibexa Elasticsearch
-        - '#.*Ibexa\\\\Contracts\\\\Elasticsearch.*#'
-        - '#.*Ibexa\\\\Elasticsearch.*#'
+        - '#Ibexa\\Contracts\\Elasticsearch#'
+        - '#Ibexa\\Elasticsearch#'
