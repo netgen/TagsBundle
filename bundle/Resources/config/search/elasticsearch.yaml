@@ -1,0 +1,22 @@
+services:
+    netgen_tags.search.elasticsearch.query.common.criterion_visitor.tag_id:
+        class: Netgen\TagsBundle\Core\Search\Elasticsearch\Query\Common\CriterionVisitor\Tags\TagId
+        arguments:
+            - "@Ibexa\\Core\\Search\\Common\\FieldNameResolver"
+            - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\Handler"
+            - "eztags"
+            - "tag_ids"
+        tags:
+            - { name: ibexa.search.elasticsearch.query.content.criterion.visitor }
+            - { name: ibexa.search.elasticsearch.query.location.criterion.visitor }
+
+    netgen_tags.search.elasticsearch.query.common.criterion_visitor.tag_keyword:
+        class: Netgen\TagsBundle\Core\Search\Elasticsearch\Query\Common\CriterionVisitor\Tags\TagKeyword
+        arguments:
+            - "@Ibexa\\Core\\Search\\Common\\FieldNameResolver"
+            - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\Handler"
+            - "eztags"
+            - "tag_keywords"
+        tags:
+            - { name: ibexa.search.elasticsearch.query.content.criterion.visitor }
+            - { name: ibexa.search.elasticsearch.query.location.criterion.visitor }
