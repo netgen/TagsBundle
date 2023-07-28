@@ -10,7 +10,7 @@ final class Tag extends Constraint
 {
     public string $message = 'netgen_tags.tag.no_tag';
 
-    public string  $synonymMessage = 'netgen_tags.tag.synonym';
+    public string $synonymMessage = 'netgen_tags.tag.synonym';
 
     public string $invalidMessage = 'netgen_tags.tag.invalid_tag';
 

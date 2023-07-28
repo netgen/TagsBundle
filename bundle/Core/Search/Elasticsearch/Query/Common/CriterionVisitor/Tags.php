@@ -14,10 +14,10 @@ use function array_merge;
 abstract class Tags implements CriterionVisitor
 {
     public function __construct(
-        private readonly FieldNameResolver $fieldNameResolver,
-        private readonly Handler $contentTypeHandler,
-        private readonly string $fieldTypeIdentifier,
-        private readonly string $fieldName,
+        private FieldNameResolver $fieldNameResolver,
+        private Handler $contentTypeHandler,
+        private string $fieldTypeIdentifier,
+        private string $fieldName,
     ) {
     }
 

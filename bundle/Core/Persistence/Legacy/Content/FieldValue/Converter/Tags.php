@@ -28,7 +28,7 @@ final class Tags implements Converter
     {
         $storageDef->dataInt1 = (int) ($fieldDef->fieldTypeConstraints->validators[self::TAGS_VALIDATOR_IDENTIFIER]['subTreeLimit'] ?? 0);
         $storageDef->dataInt3 = (int) ($fieldDef->fieldTypeConstraints->fieldSettings['hideRootTag'] ?? 0);
-        $storageDef->dataInt4 = (int) ($fieldDef->fieldTypeConstraints->validators[static::TAGS_VALIDATOR_IDENTIFIER]['maxTags'] ?? 0);
+        $storageDef->dataInt4 = (int) ($fieldDef->fieldTypeConstraints->validators[self::TAGS_VALIDATOR_IDENTIFIER]['maxTags'] ?? 0);
         $storageDef->dataText1 = $fieldDef->fieldTypeConstraints->fieldSettings['editView'] ?? Type::EDIT_VIEW_DEFAULT_VALUE;
     }
 
@@ -43,7 +43,7 @@ final class Tags implements Converter
         );
 
         $fieldDef->fieldTypeConstraints->validators = [
-            static::TAGS_VALIDATOR_IDENTIFIER => [
+            self::TAGS_VALIDATOR_IDENTIFIER => [
                 'subTreeLimit' => (int) $storageDef->dataInt1,
                 'maxTags' => (int) $storageDef->dataInt4,
             ],

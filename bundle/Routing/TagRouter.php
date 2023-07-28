@@ -73,7 +73,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         // Unfortunately, since at this point user is still anonymous (why!?), this is the best we can do
         $params = [
             '_route' => self::TAG_URL_ROUTE_NAME,
-            '_controller' => static::TAG_VIEW_ACTION_CONTROLLER,
+            '_controller' => self::TAG_VIEW_ACTION_CONTROLLER,
             'tagId' => $tag->id,
         ];
 
