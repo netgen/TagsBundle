@@ -9,6 +9,4 @@ parameters:
     ignoreErrors:
         - '#Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject::\$id.#'
         - '#Access to an undefined property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$notDefined.#'
-        - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id is not writable.#'
-        - '#Property Netgen\\TagsBundle\\API\\Repository\\Values\\Tags\\Tag::\$id \(int\) does not accept null.#'
         - '#Missing call to parent::setUp\(\) method.#'
