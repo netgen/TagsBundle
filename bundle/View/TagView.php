@@ -23,9 +23,9 @@ final class TagView extends BaseView implements TagValueView, CacheableView
         return $this->tag;
     }
 
-    public function setCacheEnabled(bool $cacheEnabled): void
+    public function setCacheEnabled($cacheEnabled): void
     {
-        $this->isCacheEnabled = $cacheEnabled;
+        $this->isCacheEnabled = (bool) $cacheEnabled;
     }
 
     public function isCacheEnabled(): bool
