@@ -11,7 +11,5 @@ final class TagList extends Value
     /**
      * @param \Netgen\TagsBundle\Core\REST\Values\RestTag[] $tags
      */
-    public function __construct(public array $tags, public string $path)
-    {
-    }
+    public function __construct(public array $tags, public string $path) {}
 }

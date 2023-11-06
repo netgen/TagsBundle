@@ -15,9 +15,7 @@ final class SearchTagsAdapter implements AdapterInterface
 
     private int $nbResults;
 
-    public function __construct(private TagsService $tagsService)
-    {
-    }
+    public function __construct(private TagsService $tagsService) {}
 
     public function setSearchText(string $searchText): void
     {

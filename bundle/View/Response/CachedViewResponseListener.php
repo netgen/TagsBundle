@@ -14,9 +14,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class CachedViewResponseListener implements EventSubscriberInterface
 {
-    public function __construct(private ResponseTagger $responseTagger, private ConfigResolverInterface $configResolver)
-    {
-    }
+    public function __construct(private ResponseTagger $responseTagger, private ConfigResolverInterface $configResolver) {}
 
     public static function getSubscribedEvents(): array
     {

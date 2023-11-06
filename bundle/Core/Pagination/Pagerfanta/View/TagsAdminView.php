@@ -28,9 +28,7 @@ class TagsAdminView implements ViewInterface
 
     private int $endPage;
 
-    public function __construct(private Environment $twig, private string $template)
-    {
-    }
+    public function __construct(private Environment $twig, private string $template) {}
 
     public function getName(): string
     {

@@ -18,8 +18,7 @@ final class CachedValue extends ValueObjectVisitor
         private RequestStack $requestStack,
         private ConfigResolverInterface $configResolver,
         private ResponseTagger $responseTagger,
-    ) {
-    }
+    ) {}
 
     public function visit(Visitor $visitor, Generator $generator, mixed $data): void
     {

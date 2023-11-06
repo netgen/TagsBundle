@@ -18,8 +18,7 @@ final class SetPageLayoutListener implements EventSubscriberInterface
         private AdminGlobalVariable $globalVariable,
         private array $groupsBySiteAccess,
         private string $pageLayoutTemplate,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

@@ -16,8 +16,7 @@ final class NetgenTagsRuntime
         private TagsService $tagsService,
         private LanguageService $languageService,
         private ContentTypeService $contentTypeService,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns tag keyword for provided tag ID.

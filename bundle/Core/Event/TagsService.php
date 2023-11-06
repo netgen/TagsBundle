@@ -16,9 +16,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsService implements TagsServiceInterface
 {
-    public function __construct(private TagsServiceInterface $service, private EventDispatcherInterface $eventDispatcher)
-    {
-    }
+    public function __construct(private TagsServiceInterface $service, private EventDispatcherInterface $eventDispatcher) {}
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
     {

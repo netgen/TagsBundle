@@ -14,9 +14,7 @@ final class BeforeCopySubtreeEvent extends BeforeEvent
 {
     private Tag $copiedTag;
 
-    public function __construct(private Tag $tag, private ?Tag $parentTag = null)
-    {
-    }
+    public function __construct(private Tag $tag, private ?Tag $parentTag = null) {}
 
     public function getTag(): Tag
     {

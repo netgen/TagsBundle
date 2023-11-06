@@ -29,9 +29,7 @@ final class RelatedContentAdapter implements AdapterInterface, TagAdapterInterfa
      */
     private array $additionalCriteria = [];
 
-    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver)
-    {
-    }
+    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver) {}
 
     public function setTag(Tag $tag): void
     {

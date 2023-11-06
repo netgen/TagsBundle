@@ -22,9 +22,7 @@ use const ENT_SUBSTITUTE;
 
 final class FieldController extends Controller
 {
-    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver)
-    {
-    }
+    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver) {}
 
     /**
      * Provides auto-complete data for tag field edit interface.

@@ -50,9 +50,7 @@ class TagsService implements TagsServiceInterface
      */
     private int $sudoNestingLevel = 0;
 
-    public function __construct(private Repository $repository, private TagsHandler $tagsHandler, private TagsMapper $mapper)
-    {
-    }
+    public function __construct(private Repository $repository, private TagsHandler $tagsHandler, private TagsMapper $mapper) {}
 
     public function loadTag(int $tagId, ?array $languages = null, bool $useAlwaysAvailable = true): Tag
     {

@@ -31,8 +31,7 @@ final class TagController extends Controller
         private ContentTypeService $contentTypeService,
         private AdapterInterface $tagChildrenAdapter,
         private SearchTagsAdapter $searchTagsAdapter,
-    ) {
-    }
+    ) {}
 
     /**
      * Rendering a view which shows tag or synonym details.

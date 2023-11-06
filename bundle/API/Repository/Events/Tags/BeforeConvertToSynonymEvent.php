@@ -14,9 +14,7 @@ final class BeforeConvertToSynonymEvent extends BeforeEvent
 {
     private Tag $synonym;
 
-    public function __construct(private Tag $tag, private Tag $mainTag)
-    {
-    }
+    public function __construct(private Tag $tag, private Tag $mainTag) {}
 
     public function getTag(): Tag
     {

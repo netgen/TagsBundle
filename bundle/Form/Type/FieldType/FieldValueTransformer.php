@@ -21,9 +21,7 @@ use const ENT_SUBSTITUTE;
 
 final class FieldValueTransformer implements DataTransformerInterface
 {
-    public function __construct(private FieldType $fieldType, private Field $field)
-    {
-    }
+    public function __construct(private FieldType $fieldType, private Field $field) {}
 
     /**
      * @param \Netgen\TagsBundle\Core\FieldType\Tags\Value|null $value

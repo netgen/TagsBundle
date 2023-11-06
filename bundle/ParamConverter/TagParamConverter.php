@@ -17,9 +17,7 @@ use function sprintf;
 
 final class TagParamConverter implements ParamConverterInterface
 {
-    public function __construct(private TagsService $tagsService)
-    {
-    }
+    public function __construct(private TagsService $tagsService) {}
 
     /**
      * For given tag ID in the request, it loads a tag and passes it as a parameter to called action method.

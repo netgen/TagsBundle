@@ -21,9 +21,7 @@ use function trim;
 
 final class Tags extends RestController
 {
-    public function __construct(private TagsService $tagsService)
-    {
-    }
+    public function __construct(private TagsService $tagsService) {}
 
     /**
      * Loads the tag for a given ID (x)or remote ID.

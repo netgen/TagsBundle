@@ -6,6 +6,4 @@ namespace Netgen\TagsBundle\Exception;
 
 use Exception as BaseException;
 
-final class FacetingNotSupportedException extends BaseException implements Exception
-{
-}
+final class FacetingNotSupportedException extends BaseException implements Exception {}

@@ -31,8 +31,7 @@ final class TagUrlGenerator extends Generator
         private TagsService $tagsService,
         private RouterInterface $defaultRouter,
         private ConfigResolverInterface $configResolver,
-    ) {
-    }
+    ) {}
 
     /**
      * Generates the URL from $tag and $parameters.

@@ -10,9 +10,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class AddSynonymEvent extends AfterEvent
 {
-    public function __construct(private SynonymCreateStruct $synonymCreateStruct, private Tag $synonym)
-    {
-    }
+    public function __construct(private SynonymCreateStruct $synonymCreateStruct, private Tag $synonym) {}
 
     public function getSynonymCreateStruct(): SynonymCreateStruct
     {

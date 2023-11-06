@@ -15,9 +15,7 @@ use function count;
 
 final class SynonymController extends Controller
 {
-    public function __construct(private TagsService $tagsService)
-    {
-    }
+    public function __construct(private TagsService $tagsService) {}
 
     /**
      * This method is called for add new synonym action without selected language.

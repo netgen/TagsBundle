@@ -14,9 +14,7 @@ final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 
     private int $nbResults;
 
-    public function __construct(private TagsService $tagsService)
-    {
-    }
+    public function __construct(private TagsService $tagsService) {}
 
     public function setTag(Tag $tag): void
     {

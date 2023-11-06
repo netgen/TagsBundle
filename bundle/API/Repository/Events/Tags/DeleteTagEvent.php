@@ -9,9 +9,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 
 final class DeleteTagEvent extends AfterEvent
 {
-    public function __construct(private Tag $tag)
-    {
-    }
+    public function __construct(private Tag $tag) {}
 
     public function getTag(): Tag
     {

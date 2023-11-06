@@ -55,9 +55,7 @@ final class Type extends FieldType
         ],
     ];
 
-    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver)
-    {
-    }
+    public function __construct(private TagsService $tagsService, private ConfigResolverInterface $configResolver) {}
 
     public function getFieldTypeIdentifier(): string
     {

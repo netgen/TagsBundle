@@ -16,9 +16,7 @@ use function is_array;
 
 final class TagUpdate extends BaseParser
 {
-    public function __construct(private TagsService $tagsService, private ParserTools $parserTools)
-    {
-    }
+    public function __construct(private TagsService $tagsService, private ParserTools $parserTools) {}
 
     public function parse(array $data, ParsingDispatcher $parsingDispatcher): TagUpdateStruct
     {

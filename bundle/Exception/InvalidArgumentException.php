@@ -6,6 +6,4 @@ namespace Netgen\TagsBundle\Exception;
 
 use InvalidArgumentException as BaseInvalidArgumentException;
 
-final class InvalidArgumentException extends BaseInvalidArgumentException implements Exception
-{
-}
+final class InvalidArgumentException extends BaseInvalidArgumentException implements Exception {}

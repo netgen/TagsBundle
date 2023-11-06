@@ -15,9 +15,7 @@ final class BeforeUpdateTagEvent extends BeforeEvent
 {
     private Tag $updatedTag;
 
-    public function __construct(private TagUpdateStruct $tagUpdateStruct, private Tag $tag)
-    {
-    }
+    public function __construct(private TagUpdateStruct $tagUpdateStruct, private Tag $tag) {}
 
     public function getTagUpdateStruct(): TagUpdateStruct
     {

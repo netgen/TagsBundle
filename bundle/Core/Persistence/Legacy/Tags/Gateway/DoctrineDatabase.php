@@ -38,8 +38,7 @@ final class DoctrineDatabase extends Gateway
         private Connection $connection,
         private LanguageHandler $languageHandler,
         private LanguageMaskGenerator $languageMaskGenerator,
-    ) {
-    }
+    ) {}
 
     public function getBasicTagData(int $tagId): array
     {

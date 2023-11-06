@@ -28,8 +28,7 @@ final class TagViewBuilder implements ViewBuilder
         private ParametersInjector $viewParametersInjector,
         private ConfigResolverInterface $configResolver,
         private AuthorizationCheckerInterface $authorizationChecker,
-    ) {
-    }
+    ) {}
 
     public function matches(mixed $argument): bool
     {

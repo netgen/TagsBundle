@@ -12,9 +12,7 @@ use function iterator_to_array;
 
 final class TagUpdateStructDataMapper implements DataMapperInterface
 {
-    public function __construct(private string $languageCode)
-    {
-    }
+    public function __construct(private string $languageCode) {}
 
     public function mapDataToForms(mixed $viewData, Traversable $forms): void
     {

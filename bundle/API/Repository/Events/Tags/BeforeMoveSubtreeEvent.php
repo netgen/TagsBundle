@@ -14,9 +14,7 @@ final class BeforeMoveSubtreeEvent extends BeforeEvent
 {
     private Tag $movedTag;
 
-    public function __construct(private Tag $tag, private ?Tag $parentTag = null)
-    {
-    }
+    public function __construct(private Tag $tag, private ?Tag $parentTag = null) {}
 
     public function getTag(): Tag
     {

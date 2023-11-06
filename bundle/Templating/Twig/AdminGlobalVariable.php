@@ -12,9 +12,7 @@ final class AdminGlobalVariable
 
     private bool $isDefault = true;
 
-    public function __construct(private ConfigResolverInterface $configResolver)
-    {
-    }
+    public function __construct(private ConfigResolverInterface $configResolver) {}
 
     public function setPageLayoutTemplate(string $pageLayoutTemplate): void
     {

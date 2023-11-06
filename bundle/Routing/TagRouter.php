@@ -43,8 +43,7 @@ final class TagRouter implements ChainedRouterInterface, RequestMatcherInterface
         private ConfigResolverInterface $configResolver,
         private RequestContext $requestContext = new RequestContext(),
         private LoggerInterface $logger = new NullLogger(),
-    ) {
-    }
+    ) {}
 
     public function matchRequest(Request $request): array
     {

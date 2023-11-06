@@ -18,9 +18,7 @@ use Symfony\Component\Validator\Constraints;
 
 final class TagTreeType extends AbstractType
 {
-    public function __construct(private TagsService $tagsService)
-    {
-    }
+    public function __construct(private TagsService $tagsService) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {

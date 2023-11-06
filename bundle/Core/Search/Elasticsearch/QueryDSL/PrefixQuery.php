@@ -11,8 +11,7 @@ final class PrefixQuery implements Query
     public function __construct(
         private ?string $field = null,
         private ?string $value = null,
-    ) {
-    }
+    ) {}
 
     public function withField(string $field): self
     {

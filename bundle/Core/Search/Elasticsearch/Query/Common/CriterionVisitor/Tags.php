@@ -18,8 +18,7 @@ abstract class Tags implements CriterionVisitor
         private Handler $contentTypeHandler,
         private string $fieldTypeIdentifier,
         private string $fieldName,
-    ) {
-    }
+    ) {}
 
     protected function getSearchFields(Criterion $criterion): array
     {

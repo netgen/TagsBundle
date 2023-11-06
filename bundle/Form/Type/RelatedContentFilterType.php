@@ -22,8 +22,7 @@ final class RelatedContentFilterType extends AbstractType
         private RelatedContentFacetsLoader $relatedContentFacetsLoader,
         private ContentTypeService $contentTypeService,
         private SortClauseMapper $sortClauseMapper,
-    ) {
-    }
+    ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {
