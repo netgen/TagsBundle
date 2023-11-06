@@ -780,7 +780,7 @@ class TagsService implements TagsServiceInterface
      *
      * @return bool|mixed[] if limitations are on this function an array of limitations is returned
      */
-    public function hasAccess(string $module, string $function, ?UserReference $userReference = null): bool|array
+    public function hasAccess(string $module, string $function, ?UserReference $userReference = null): array|bool
     {
         // Full access if sudo nesting level is set by sudo method
         if ($this->sudoNestingLevel > 0) {

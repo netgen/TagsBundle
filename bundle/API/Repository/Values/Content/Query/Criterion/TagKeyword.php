@@ -25,7 +25,7 @@ final class TagKeyword extends Criterion
      * @param string|null $target Field definition identifier to use
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value|null $valueData
      */
-    public function __construct(?string $operator, string|array $value, ?string $target = null, ?Value $valueData = null)
+    public function __construct(?string $operator, array|string $value, ?string $target = null, ?Value $valueData = null)
     {
         parent::__construct($target, $operator, $value, $valueData);
     }
