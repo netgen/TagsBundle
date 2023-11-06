@@ -36,6 +36,7 @@ parameters:
         - "#Casting to int something that's already int.#"
         - '#should be contravariant with parameter#'
         - '#should be covariant with return type#'
+        - "#Casting to bool something that's already bool.#"
 
         # Errors caused by Ibexa Elasticsearch
         - '#Ibexa\\Contracts\\Elasticsearch#'
