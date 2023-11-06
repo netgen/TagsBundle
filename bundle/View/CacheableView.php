@@ -9,7 +9,7 @@ interface CacheableView
     /**
      * Sets the cache as enabled/disabled.
      */
-    public function setCacheEnabled(bool $cacheEnabled): void;
+    public function setCacheEnabled($cacheEnabled): void;
 
     /**
      * Indicates if cache is enabled or not.
