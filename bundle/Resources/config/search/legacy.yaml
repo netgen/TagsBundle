@@ -1,4 +1,11 @@
 services:
+    netgen_tags.search.legacy.gateway.criterion_handler.common.tag_subtree:
+        class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagSubtree
+        parent: ibexa.search.legacy.gateway.criterion_handler.base
+        tags:
+            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
+
     netgen_tags.search.legacy.gateway.criterion_handler.common.tag_id:
         class: Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId
         parent: ibexa.search.legacy.gateway.criterion_handler.base
