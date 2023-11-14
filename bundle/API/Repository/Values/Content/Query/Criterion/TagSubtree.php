@@ -29,6 +29,11 @@ final class TagSubtree extends Criterion
     {
         return [
             new Specifications(
+                Operator::IN,
+                Specifications::FORMAT_ARRAY,
+                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+            ),
+            new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
                 Specifications::TYPE_INTEGER | Specifications::TYPE_STRING

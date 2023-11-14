@@ -38,12 +38,17 @@ final class TagSubtree extends Tags
 				'eztags',
 				't3',
 				$queryBuilder->expr()->eq( 't2.keyword_id', 't3.id' )
-            )->where(
+            );
+
+        foreach( $criterion->value as $value )
+        {
+            $subSelect->orWhere(
                 $queryBuilder->expr()->like(
                     't3.path_string',
-					$queryBuilder->createNamedParameter( '%/'. $criterion->value[0] .'/%' )
+                    $queryBuilder->createNamedParameter( '%/'. $value .'/%' )
                 )
             );
+        }
 
         $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
         if ($fieldDefinitionIds !== null) {
