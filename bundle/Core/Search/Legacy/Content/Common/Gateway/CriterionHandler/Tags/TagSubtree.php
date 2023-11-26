@@ -32,22 +32,24 @@ final class TagSubtree extends Tags
                     $queryBuilder->expr()->eq('t2.objectattribute_version', 't1.current_version'),
                     $queryBuilder->expr()->eq('t2.object_id', 't1.id')
                 )
-			)
-			->innerJoin(
-				't2',
-				'eztags',
-				't3',
-				$queryBuilder->expr()->eq( 't2.keyword_id', 't3.id' )
+            )
+            ->innerJoin(
+                't2',
+                'eztags',
+                't3',
+                $queryBuilder->expr()->eq('t2.keyword_id', 't3.id')
             );
 
-        foreach( $criterion->value as $value )
-        {
-            $subSelect->orWhere(
-                $queryBuilder->expr()->like(
-                    't3.path_string',
-                    $queryBuilder->createNamedParameter( '%/'. $value .'/%' )
-                )
-            );
+
+        if (is_array($criterion->value)) {
+            foreach ($criterion->value as $value) {
+                $subSelect->orWhere(
+                    $queryBuilder->expr()->like(
+                        't3.path_string',
+                        $queryBuilder->createNamedParameter('%/' . $value . '/%')
+                    )
+                );
+            }
         }
 
         $fieldDefinitionIds = $this->getSearchableFields($criterion->target);
