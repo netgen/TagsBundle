@@ -1,6 +1,7 @@
 parameters:
     storage_dir: vendor/ibexa/core/var/ezdemo_site/storage
     ezpublish.api.storage_engine.default: legacy
+    ibexa.site_access.config.default.user_content_type_identifier: ['user']
 
     ezpublish.api.role.policy_map:
         tags:

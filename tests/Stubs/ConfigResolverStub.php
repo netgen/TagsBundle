@@ -8,7 +8,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 final class ConfigResolverStub implements ConfigResolverInterface
 {
-    private string $defaultNamespace = 'ezsettings';
+    private string $defaultNamespace = 'ibexa.site_access.config';
 
     public function __construct(private array $parameters)
     {

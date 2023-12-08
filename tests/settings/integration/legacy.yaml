@@ -5,7 +5,9 @@ services:
     ibexa.config.resolver:
         class: Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub
         arguments:
-            - { netgen_tags: { edit_views: { default: { identifier: Default } } } }
+            -
+                netgen_tags: { edit_views: { default: { identifier: Default } } }
+                ibexa.site_access.config: { user_content_type_identifier: ['user'] }
 
     netgen_tags.field_type.eztags:
         class: Netgen\TagsBundle\Core\FieldType\Tags\Type
