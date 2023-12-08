@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\Persistence\Cache;
 
 use Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler;
+use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
@@ -14,7 +15,6 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
-use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 use function array_merge;
 use function array_slice;
@@ -29,7 +29,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
     private const ALL_TRANSLATIONS_KEY = '0';
 
     public function __construct(
-        TagAwareAdapterInterface $cache,
+        TransactionAwareAdapterInterface $cache,
         PersistenceLogger $logger,
         InMemoryCache $inMemory,
         private TagsHandlerInterface $tagsHandler,
