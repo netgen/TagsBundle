@@ -64,7 +64,7 @@
 
     is_key: function(e, keys){
       var self = this;
-      !$.isArray(keys) && (keys = [keys]);
+      !Array.isArray(keys) && (keys = [keys]);
       keys = $.map(keys, function(name){ return self.key[name]; });
       return $.inArray(e.which, keys) > -1;
     }
@@ -280,11 +280,11 @@
                   '<div class="tags-list tags-suggested no-results">',
                       '<p class="loading"><%=tr.loading%></p>',
                       '<p class="no-results"><%=tr.noSuggestedTags%>.</p>',
-                      '<ul class="float-break clearfix js-tags-suggested">',
+                      '<ul class="float-break clearfix js-tags-suggested"></ul>',
                   '</div>-->',
                   '<div class="tagssuggestfieldwrap">',
                       '<input class="tagssuggestfield tags-input-field" type="text" size="70" value="" autocomplete="off" />',
-                      '<div class="tagssuggestresults jsonSuggestResults"><div class="results-wrap" /></div>',
+                      '<div class="tagssuggestresults jsonSuggestResults"> <div class="results-wrap"></div> </div>',
                   '</div>',
                   '<input type="button" value="<%=tr.browse%>" class="btn ibexa-btn ibexa-btn--secondary button-browse-tag" />',
                   '<input type="button" value="<%=tr.addNew%>" class="btn ibexa-btn ibexa-btn--secondary button-add-tag button-disabled" disabled="disabled" />',
@@ -1004,7 +1004,7 @@
    * @return {array}      Values from hidden input or empty array if there was none.
    */
   Base.prototype.parse_hidden_input = function(name) {
-    var val = $.trim(this.$hidden_inputs[name].val());
+    var val = this.$hidden_inputs[name].val().trim();
     return val ? val.split('|#') : [];
   };
 
@@ -1023,7 +1023,7 @@
 
 
   Base.prototype.get_tag_name_from_input = function() {
-    return $.trim(this.$input.val());
+    return this.$input.val().trim();
   };
 
   Base.prototype.clear_input = function() {
