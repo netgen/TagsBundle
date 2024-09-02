@@ -46,7 +46,7 @@ final class TagTreeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(
-            new class() implements DataTransformerInterface {
+            new class implements DataTransformerInterface {
                 public function transform(mixed $value): mixed
                 {
                     return $value;
