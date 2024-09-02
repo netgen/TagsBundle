@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Content as ContentObject;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
@@ -25,6 +26,7 @@ use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use function array_filter;
 use function array_map;
 use function array_values;
@@ -295,6 +297,8 @@ final class HandlerContentTest extends LanguageAwareTestCase
                 [
                     $this->fieldRegistry,
                     $this->getLanguageHandler(),
+                    $this->createMock(ContentTypeHandler::class),
+                    $this->createMock(EventDispatcherInterface::class),
                 ]
             )
             ->getMock();
