@@ -18,32 +18,32 @@ services:
             - "@ibexa.config.resolver"
             - "@fos_http_cache.http.symfony_response_tagger"
         tags:
-            - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CachedValue }
+            - { name: ibexa.rest.output.value_object.visitor, type: Netgen\TagsBundle\Core\REST\Values\CachedValue }
 
     netgen_tags.rest.output.value_object_visitor.rest_tag:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\RestTag
         parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
-            - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\RestTag }
+            - { name: ibexa.rest.output.value_object.visitor, type: Netgen\TagsBundle\Core\REST\Values\RestTag }
 
     netgen_tags.rest.output.value_object_visitor.tag_list:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\TagList
         parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
-            - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\TagList }
+            - { name: ibexa.rest.output.value_object.visitor, type: Netgen\TagsBundle\Core\REST\Values\TagList }
 
     # Reimplemented to allow for specifying custom href to content list in the output
     netgen_tags.rest.output.value_object_visitor.content_list:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\ContentList
         parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
-            - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\ContentList }
+            - { name: ibexa.rest.output.value_object.visitor, type: Netgen\TagsBundle\Core\REST\Values\ContentList }
 
     netgen_tags.rest.output.value_object_visitor.created_tag:
         class: Netgen\TagsBundle\Core\REST\Output\ValueObjectVisitor\CreatedTag
         parent: Ibexa\Contracts\Rest\Output\ValueObjectVisitor
         tags:
-            - { name: ibexa.rest.output.value_object_visitor, type: Netgen\TagsBundle\Core\REST\Values\CreatedTag }
+            - { name: ibexa.rest.output.value_object.visitor, type: Netgen\TagsBundle\Core\REST\Values\CreatedTag }
 
     # Input parsers
 
