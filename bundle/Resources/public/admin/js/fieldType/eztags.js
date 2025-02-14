@@ -1,10 +1,12 @@
 (function (global, doc, ibexa) {
-    const SELECTOR_FIELD = '.ibexa-field-edit--eztags.ibexa-field-edit--required';
+    const SELECTOR_FIELD = '.ibexa-field-edit--eztags';
 
     class TagsValidator extends ibexa.BaseFieldValidator {
-            validateTags(event) {
+        validateTags(event) {
+            const fieldContainer = event.currentTarget.closest(SELECTOR_FIELD);
+            const isRequired = fieldContainer && fieldContainer.classList.contains('ibexa-field-edit--required');
             const isEmpty = !event.target.value;
-            const isError = isEmpty;
+            const isError = isRequired && isEmpty;
             const label = event.target.closest(SELECTOR_FIELD).querySelector('.ibexa-field-edit__label').innerHTML;
             const result = {isError};
             if (isEmpty) {
