@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ibexa/core": "^4.4",
         "ibexa/admin-ui": "^4.4",
         "ibexa/rest": "^4.4",
