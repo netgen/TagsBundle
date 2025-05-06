@@ -76,6 +76,10 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
             $loader->load('search/elasticsearch.yaml');
         }
 
+        if (array_key_exists('IbexaHttpCacheBundle', $activatedBundles)) {
+            $loader->load('http_cache.yaml');
+        }
+
         $this->processSemanticConfig($container, $config);
     }
 

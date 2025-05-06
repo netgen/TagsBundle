@@ -538,7 +538,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\MergeTagsEvent($targetTag))
+                self::equalTo(new Events\MergeTagsEvent($tag, $targetTag))
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();

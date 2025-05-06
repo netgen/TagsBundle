@@ -161,7 +161,7 @@ final class TagsService implements TagsServiceInterface
 
         $this->service->mergeTags($tag, $targetTag);
 
-        $this->eventDispatcher->dispatch(new Events\MergeTagsEvent($targetTag));
+        $this->eventDispatcher->dispatch(new Events\MergeTagsEvent($tag, $targetTag));
     }
 
     public function copySubtree(Tag $tag, ?Tag $targetParentTag = null): Tag
