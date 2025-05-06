@@ -24,8 +24,8 @@ final class BeforeAddSynonymEvent extends BeforeEvent
 
     public function getSynonym(): Tag
     {
-        $this->synonym ??
-            throw new UnexpectedValueException(
+        $this->synonym
+            ?? throw new UnexpectedValueException(
                 sprintf(
                     'Return value is not set or not a type of %s. Check with hasSynonym() or set it with setSynonym() before you call the getter.',
                     Tag::class,

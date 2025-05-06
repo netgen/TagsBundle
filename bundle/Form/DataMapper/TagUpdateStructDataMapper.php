@@ -37,9 +37,9 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
 
         $keyword = $forms['keyword']->getData();
 
-        $keyword !== null ?
-            $viewData->setKeyword($keyword, $this->languageCode) :
-            $viewData->removeKeyword($this->languageCode);
+        $keyword !== null
+            ? $viewData->setKeyword($keyword, $this->languageCode)
+            : $viewData->removeKeyword($this->languageCode);
 
         $viewData->alwaysAvailable = $forms['alwaysAvailable']->getData();
         $viewData->remoteId = $forms['remoteId']->getData();

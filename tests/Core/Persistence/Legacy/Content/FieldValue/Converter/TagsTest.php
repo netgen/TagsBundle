@@ -68,7 +68,7 @@ final class TagsTest extends TestCase
             [
                 'hideRootTag' => true,
                 'editView' => 'Select',
-            ]
+            ],
         );
 
         $fieldTypeConstraints->validators = [
@@ -83,9 +83,9 @@ final class TagsTest extends TestCase
             new PersistenceFieldDefinition(
                 [
                     'fieldTypeConstraints' => $fieldTypeConstraints,
-                ]
+                ],
             ),
-            $storageFieldDefinition
+            $storageFieldDefinition,
         );
 
         self::assertSame(0, $storageFieldDefinition->dataInt1);
@@ -102,7 +102,7 @@ final class TagsTest extends TestCase
         $storageFieldDefinition = new StorageFieldDefinition();
         $this->converter->toStorageFieldDefinition(
             new PersistenceFieldDefinition(),
-            $storageFieldDefinition
+            $storageFieldDefinition,
         );
 
         self::assertSame(0, $storageFieldDefinition->dataInt1);
@@ -125,9 +125,9 @@ final class TagsTest extends TestCase
                     'dataInt3' => true,
                     'dataInt4' => 10,
                     'dataText1' => 'Select',
-                ]
+                ],
             ),
-            $fieldDefinition
+            $fieldDefinition,
         );
 
         self::assertInstanceOf(FieldSettings::class, $fieldDefinition->fieldTypeConstraints->fieldSettings);

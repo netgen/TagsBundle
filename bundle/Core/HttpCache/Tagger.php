@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\TagsBundle\Core\HttpCache;
 
-use Ibexa\HttpCache\Handler\TagHandler;;
+use Ibexa\HttpCache\Handler\TagHandler;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+
+use function array_map;
 
 final readonly class Tagger
 {
@@ -41,7 +43,7 @@ final readonly class Tagger
 
     public function tagByTag(Tag $tag): void
     {
-        $this->handler->addTags($this->resolveTags($tag));;
+        $this->handler->addTags($this->resolveTags($tag));
     }
 
     public function tagByTagId(int $tagId): void

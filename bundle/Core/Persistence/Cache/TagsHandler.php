@@ -40,9 +40,9 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function load(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag
     {
-        $translationsKey = count($translations ?? []) === 0 ?
-            self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0
+            ? self::ALL_TRANSLATIONS_KEY
+            : implode('|', $translations);
 
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
@@ -68,9 +68,9 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function loadList(array $tagIds, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
-        $translationsKey = count($translations ?? []) === 0 ?
-            self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0
+            ? self::ALL_TRANSLATIONS_KEY
+            : implode('|', $translations);
 
         $keySuffix = '-' . $translationsKey . '-' . ($useAlwaysAvailable ? '1' : '0');
 
@@ -110,9 +110,9 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
 
     public function loadByRemoteId(string $remoteId, ?array $translations = null, bool $useAlwaysAvailable = true): Tag
     {
-        $translationsKey = count($translations ?? []) === 0 ?
-            self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0
+            ? self::ALL_TRANSLATIONS_KEY
+            : implode('|', $translations);
 
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
 
@@ -193,9 +193,9 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
     public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         // Method caches all synonyms in cache and only uses offset / limit to slice the cached result
-        $translationsKey = count($translations ?? []) === 0 ?
-            self::ALL_TRANSLATIONS_KEY :
-            implode('|', $translations);
+        $translationsKey = count($translations ?? []) === 0
+            ? self::ALL_TRANSLATIONS_KEY
+            : implode('|', $translations);
 
         $alwaysAvailableKey = $useAlwaysAvailable ? '1' : '0';
 

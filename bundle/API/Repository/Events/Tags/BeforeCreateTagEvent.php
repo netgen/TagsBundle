@@ -24,8 +24,8 @@ final class BeforeCreateTagEvent extends BeforeEvent
 
     public function getTag(): Tag
     {
-        $this->tag ??
-            throw new UnexpectedValueException(
+        $this->tag
+            ?? throw new UnexpectedValueException(
                 sprintf(
                     'Return value is not set or not a type of %s. Check with hasTag() or set it with setTag() before you call the getter.',
                     Tag::class,

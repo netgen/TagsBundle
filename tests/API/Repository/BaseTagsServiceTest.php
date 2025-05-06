@@ -98,7 +98,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'alwaysAvailable' => true,
                 'keywords' => [],
             ],
-            $tagCreateStruct
+            $tagCreateStruct,
         );
     }
 
@@ -117,7 +117,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'alwaysAvailable' => true,
                 'keywords' => [],
             ],
-            $synonymCreateStruct
+            $synonymCreateStruct,
         );
     }
 
@@ -134,7 +134,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'remoteId' => null,
                 'alwaysAvailable' => null,
             ],
-            $tagUpdateStruct
+            $tagUpdateStruct,
         );
     }
 
@@ -160,7 +160,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => null,
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -209,7 +209,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => null,
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -256,7 +256,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -326,8 +326,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagChildren(
             new Tag(
-                ['id' => 16]
-            )
+                ['id' => 16],
+            ),
         );
     }
 
@@ -339,7 +339,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testGetTagChildrenCount(): void
     {
         $childrenCount = $this->tagsService->getTagChildrenCount(
-            $tag = $this->tagsService->loadTag(16)
+            $tag = $this->tagsService->loadTag(16),
         );
 
         self::assertSame(6, $childrenCount);
@@ -367,8 +367,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getTagChildrenCount(
             new Tag(
-                ['id' => 16]
-            )
+                ['id' => 16],
+            ),
         );
     }
 
@@ -451,7 +451,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(InvalidArgumentException::class);
 
         $this->tagsService->loadTagSynonyms(
-            $this->tagsService->loadTag(95)
+            $this->tagsService->loadTag(95),
         );
     }
 
@@ -465,8 +465,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->loadTagSynonyms(
             new Tag(
-                ['id' => 94]
-            )
+                ['id' => 94],
+            ),
         );
     }
 
@@ -478,7 +478,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testGetTagSynonymCount(): void
     {
         $synonymsCount = $this->tagsService->getTagSynonymCount(
-            $this->tagsService->loadTag(16)
+            $this->tagsService->loadTag(16),
         );
 
         self::assertSame(2, $synonymsCount);
@@ -494,7 +494,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(InvalidArgumentException::class);
 
         $this->tagsService->getTagSynonymCount(
-            $this->tagsService->loadTag(95)
+            $this->tagsService->loadTag(95),
         );
     }
 
@@ -508,8 +508,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getTagSynonymCount(
             new Tag(
-                ['id' => 94]
-            )
+                ['id' => 94],
+            ),
         );
     }
 
@@ -550,7 +550,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(NotFoundException::class);
 
         $this->tagsService->getRelatedContent(
-            $this->tagsService->loadTag(PHP_INT_MAX)
+            $this->tagsService->loadTag(PHP_INT_MAX),
         );
     }
 
@@ -564,8 +564,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getRelatedContent(
             new Tag(
-                ['id' => 40]
-            )
+                ['id' => 40],
+            ),
         );
     }
 
@@ -577,7 +577,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testGetRelatedContentCount(): void
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag(16)
+            $this->tagsService->loadTag(16),
         );
 
         self::assertSame(3, $contentCount);
@@ -591,7 +591,7 @@ abstract class BaseTagsServiceTest extends BaseTest
     public function testGetRelatedContentCountNoContent(): void
     {
         $contentCount = $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag(42)
+            $this->tagsService->loadTag(42),
         );
 
         self::assertSame(0, $contentCount);
@@ -607,7 +607,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->expectException(NotFoundException::class);
 
         $this->tagsService->getRelatedContentCount(
-            $this->tagsService->loadTag(PHP_INT_MAX)
+            $this->tagsService->loadTag(PHP_INT_MAX),
         );
     }
 
@@ -621,8 +621,8 @@ abstract class BaseTagsServiceTest extends BaseTest
         $this->repository->getPermissionResolver()->setCurrentUserReference($this->getStubbedUser(10));
         $this->tagsService->getRelatedContentCount(
             new Tag(
-                ['id' => 40]
-            )
+                ['id' => 40],
+            ),
         );
     }
 
@@ -654,7 +654,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => null,
             ],
-            $createdTag
+            $createdTag,
         );
 
         self::assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
@@ -688,7 +688,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => null,
             ],
-            $createdTag
+            $createdTag,
         );
 
         self::assertGreaterThan(0, $createdTag->modificationDate->getTimestamp());
@@ -772,7 +772,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $updatedTag = $this->tagsService->updateTag(
             $tag,
-            $updateStruct
+            $updateStruct,
         );
 
         $this->assertPropertiesCorrect(
@@ -789,7 +789,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-US', 'eng-GB'],
                 'prioritizedLanguageCode' => null,
             ],
-            $updatedTag
+            $updatedTag,
         );
 
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $updatedTag->modificationDate->getTimestamp());
@@ -814,9 +814,9 @@ abstract class BaseTagsServiceTest extends BaseTest
                 [
                     'id' => PHP_INT_MAX,
                     'mainTagId' => 0,
-                ]
+                ],
             ),
-            $updateStruct
+            $updateStruct,
         );
     }
 
@@ -839,7 +839,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->updateTag(
             $tag,
-            $updateStruct
+            $updateStruct,
         );
     }
 
@@ -862,7 +862,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->updateTag(
             $tag,
-            $updateStruct
+            $updateStruct,
         );
     }
 
@@ -887,9 +887,9 @@ abstract class BaseTagsServiceTest extends BaseTest
                 [
                     'id' => 40,
                     'mainTagId' => 0,
-                ]
+                ],
             ),
-            $updateStruct
+            $updateStruct,
         );
     }
 
@@ -914,9 +914,9 @@ abstract class BaseTagsServiceTest extends BaseTest
                 [
                     'id' => 95,
                     'mainTagId' => 0,
-                ]
+                ],
             ),
-            $updateStruct
+            $updateStruct,
         );
     }
 
@@ -948,7 +948,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => null,
             ],
-            $createdSynonym
+            $createdSynonym,
         );
 
         self::assertGreaterThan(0, $createdSynonym->modificationDate->getTimestamp());
@@ -1035,7 +1035,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'pathString' => $this->getSynonymPathString($convertedSynonym->id, $mainTag->pathString),
                 'remoteId' => $tag->remoteId,
             ],
-            $convertedSynonym
+            $convertedSynonym,
         );
 
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $convertedSynonym->modificationDate->getTimestamp());
@@ -1057,13 +1057,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => 40,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('First tag was found');
         } catch (NotFoundException) {
@@ -1075,13 +1075,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => 16,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('Second tag was found');
         } catch (NotFoundException) {
@@ -1102,7 +1102,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->convertToSynonym(
                 $this->tagsService->loadTag(95),
-                $this->tagsService->loadTag(40)
+                $this->tagsService->loadTag(40),
             );
             self::fail('First tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1112,7 +1112,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->convertToSynonym(
                 $this->tagsService->loadTag(16),
-                $this->tagsService->loadTag(95)
+                $this->tagsService->loadTag(95),
             );
             self::fail('Second tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1134,7 +1134,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->convertToSynonym(
             $this->tagsService->loadTag(7),
-            $this->tagsService->loadTag(40)
+            $this->tagsService->loadTag(40),
         );
     }
 
@@ -1150,13 +1150,13 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 16,
-                ]
+                ],
             ),
             new Tag(
                 [
                     'id' => 40,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1198,13 +1198,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => 40,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('First tag was found');
         } catch (NotFoundException) {
@@ -1216,13 +1216,13 @@ abstract class BaseTagsServiceTest extends BaseTest
                 new Tag(
                     [
                         'id' => 16,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('Second tag was found');
         } catch (NotFoundException) {
@@ -1243,7 +1243,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->mergeTags(
                 $this->tagsService->loadTag(95),
-                $this->tagsService->loadTag(40)
+                $this->tagsService->loadTag(40),
             );
             self::fail('First tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1253,7 +1253,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->mergeTags(
                 $this->tagsService->loadTag(16),
-                $this->tagsService->loadTag(95)
+                $this->tagsService->loadTag(95),
             );
             self::fail('Second tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1275,7 +1275,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->mergeTags(
             $this->tagsService->loadTag(7),
-            $this->tagsService->loadTag(40)
+            $this->tagsService->loadTag(40),
         );
     }
 
@@ -1291,13 +1291,13 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 16,
-                ]
+                ],
             ),
             new Tag(
                 [
                     'id' => 40,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1320,14 +1320,14 @@ abstract class BaseTagsServiceTest extends BaseTest
                     [
                         'id' => PHP_INT_MAX,
                         'parentTagId' => 42,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => 40,
                         'parentTagId' => 24,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('First tag was found');
         } catch (NotFoundException) {
@@ -1340,14 +1340,14 @@ abstract class BaseTagsServiceTest extends BaseTest
                     [
                         'id' => 16,
                         'parentTagId' => 42,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
                         'parentTagId' => 24,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('Second tag was found');
         } catch (NotFoundException) {
@@ -1368,7 +1368,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->copySubtree(
                 $this->tagsService->loadTag(95),
-                $this->tagsService->loadTag(40)
+                $this->tagsService->loadTag(40),
             );
             self::fail('First tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1378,7 +1378,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->copySubtree(
                 $this->tagsService->loadTag(16),
-                $this->tagsService->loadTag(95)
+                $this->tagsService->loadTag(95),
             );
             self::fail('Second tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1400,7 +1400,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->copySubtree(
             $this->tagsService->loadTag(7),
-            $this->tagsService->loadTag(40)
+            $this->tagsService->loadTag(40),
         );
     }
 
@@ -1415,7 +1415,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->copySubtree(
             $this->tagsService->loadTag(7),
-            $this->tagsService->loadTag(8)
+            $this->tagsService->loadTag(8),
         );
     }
 
@@ -1431,13 +1431,13 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 16,
-                ]
+                ],
             ),
             new Tag(
                 [
                     'id' => 40,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1464,7 +1464,7 @@ abstract class BaseTagsServiceTest extends BaseTest
                 'pathString' => $targetParentTag->pathString . $tag->id . '/',
                 'remoteId' => $tag->remoteId,
             ],
-            $movedTag
+            $movedTag,
         );
 
         self::assertGreaterThan($tag->modificationDate->getTimestamp(), $movedTag->modificationDate->getTimestamp());
@@ -1487,14 +1487,14 @@ abstract class BaseTagsServiceTest extends BaseTest
                     [
                         'id' => PHP_INT_MAX,
                         'parentTagId' => 42,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => 40,
                         'parentTagId' => 24,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('First tag was found');
         } catch (NotFoundException) {
@@ -1507,14 +1507,14 @@ abstract class BaseTagsServiceTest extends BaseTest
                     [
                         'id' => 16,
                         'parentTagId' => 42,
-                    ]
+                    ],
                 ),
                 new Tag(
                     [
                         'id' => PHP_INT_MAX,
                         'parentTagId' => 24,
-                    ]
-                )
+                    ],
+                ),
             );
             self::fail('Second tag was found');
         } catch (NotFoundException) {
@@ -1535,7 +1535,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->moveSubtree(
                 $this->tagsService->loadTag(95),
-                $this->tagsService->loadTag(40)
+                $this->tagsService->loadTag(40),
             );
             self::fail('First tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1545,7 +1545,7 @@ abstract class BaseTagsServiceTest extends BaseTest
         try {
             $this->tagsService->moveSubtree(
                 $this->tagsService->loadTag(16),
-                $this->tagsService->loadTag(95)
+                $this->tagsService->loadTag(95),
             );
             self::fail('Second tag is a synonym');
         } catch (InvalidArgumentException) {
@@ -1567,7 +1567,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->moveSubtree(
             $this->tagsService->loadTag(7),
-            $this->tagsService->loadTag(40)
+            $this->tagsService->loadTag(40),
         );
     }
 
@@ -1582,7 +1582,7 @@ abstract class BaseTagsServiceTest extends BaseTest
 
         $this->tagsService->moveSubtree(
             $this->tagsService->loadTag(7),
-            $this->tagsService->loadTag(8)
+            $this->tagsService->loadTag(8),
         );
     }
 
@@ -1598,13 +1598,13 @@ abstract class BaseTagsServiceTest extends BaseTest
             new Tag(
                 [
                     'id' => 16,
-                ]
+                ],
             ),
             new Tag(
                 [
                     'id' => 40,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1664,8 +1664,8 @@ abstract class BaseTagsServiceTest extends BaseTest
                 [
                     'id' => PHP_INT_MAX,
                     'mainTagId' => 0,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1682,8 +1682,8 @@ abstract class BaseTagsServiceTest extends BaseTest
                 [
                     'id' => 40,
                     'mainTagId' => 0,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1700,8 +1700,8 @@ abstract class BaseTagsServiceTest extends BaseTest
                 [
                     'id' => 95,
                     'mainTagId' => 0,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -1717,12 +1717,12 @@ abstract class BaseTagsServiceTest extends BaseTest
                         'versionInfo' => new VersionInfo(
                             [
                                 'contentInfo' => new ContentInfo(['id' => $id]),
-                            ]
+                            ],
                         ),
                         'internalFields' => [],
-                    ]
+                    ],
                 ),
-            ]
+            ],
         );
     }
 

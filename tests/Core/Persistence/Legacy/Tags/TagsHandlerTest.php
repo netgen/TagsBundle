@@ -22,9 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagsHandlerTest extends TestCase
 {
-    private MockObject&Gateway $gateway;
+    private Gateway&MockObject $gateway;
 
-    private MockObject&Mapper $mapper;
+    private Mapper&MockObject $mapper;
 
     private SPIHandler $tagsHandler;
 
@@ -48,7 +48,7 @@ final class TagsHandlerTest extends TestCase
                     [
                         'id' => 42,
                     ],
-                ]
+                ],
             );
 
         $tag = new Tag(['id' => 42]);
@@ -95,7 +95,7 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     'id' => 42,
-                ]
+                ],
             );
 
         $tag = new TagInfo(['id' => 42]);
@@ -123,7 +123,7 @@ final class TagsHandlerTest extends TestCase
                     [
                         'remote_id' => 'abcdef',
                     ],
-                ]
+                ],
             );
 
         $tag = new Tag(['remoteId' => 'abcdef']);
@@ -169,7 +169,7 @@ final class TagsHandlerTest extends TestCase
             ->willReturn(
                 [
                     'remote_id' => '12345',
-                ]
+                ],
             );
 
         $tag = new TagInfo(['remoteId' => '12345']);
@@ -198,7 +198,7 @@ final class TagsHandlerTest extends TestCase
                         'id' => 42,
                         'keyword' => 'eztags',
                     ],
-                ]
+                ],
             );
 
         $tag = new Tag(['id' => 42, 'keywords' => ['eng-GB' => 'eztags']]);
@@ -248,7 +248,7 @@ final class TagsHandlerTest extends TestCase
                     [
                         'id' => 45,
                     ],
-                ]
+                ],
             );
 
         $this->mapper
@@ -259,14 +259,14 @@ final class TagsHandlerTest extends TestCase
                     ['id' => 43],
                     ['id' => 44],
                     ['id' => 45],
-                ]
+                ],
             )
             ->willReturn(
                 [
                     new Tag(['id' => 43]),
                     new Tag(['id' => 44]),
                     new Tag(['id' => 45]),
-                ]
+                ],
             );
 
         $tags = $this->tagsHandler->loadChildren(42);
@@ -310,7 +310,7 @@ final class TagsHandlerTest extends TestCase
                         'keyword' => 'eztags',
                         'main_language_id' => 4,
                     ],
-                ]
+                ],
             );
 
         $this->mapper
@@ -320,13 +320,13 @@ final class TagsHandlerTest extends TestCase
                 [
                     ['keyword' => 'eztags', 'main_language_id' => 4],
                     ['keyword' => 'eztags', 'main_language_id' => 4],
-                ]
+                ],
             )
             ->willReturn(
                 [
                     new Tag(['keywords' => ['eng-GB' => 'eztags']]),
                     new Tag(['keywords' => ['eng-GB' => 'eztags']]),
-                ]
+                ],
             );
 
         $tags = $this->tagsHandler->loadTagsByKeyword('eztags', 'eng-GB');
@@ -371,7 +371,7 @@ final class TagsHandlerTest extends TestCase
                     [
                         'id' => 45,
                     ],
-                ]
+                ],
             );
 
         $this->mapper
@@ -382,14 +382,14 @@ final class TagsHandlerTest extends TestCase
                     ['id' => 43],
                     ['id' => 44],
                     ['id' => 45],
-                ]
+                ],
             )
             ->willReturn(
                 [
                     new Tag(['id' => 43]),
                     new Tag(['id' => 44]),
                     new Tag(['id' => 45]),
-                ]
+                ],
             );
 
         $tags = $this->tagsHandler->loadSynonyms(42);
@@ -430,7 +430,7 @@ final class TagsHandlerTest extends TestCase
                     'id' => 21,
                     'depth' => 2,
                     'path_string' => '/1/2/',
-                ]
+                ],
             );
 
         $this->gateway
@@ -444,16 +444,16 @@ final class TagsHandlerTest extends TestCase
                         'keywords' => ['eng-GB' => 'New tag'],
                         'remoteId' => '123456abcdef',
                         'alwaysAvailable' => true,
-                    ]
+                    ],
                 ),
                 [
                     'id' => 21,
                     'depth' => 2,
                     'path_string' => '/1/2/',
-                ]
+                ],
             )
             ->willReturn(
-                95
+                95,
             );
 
         $handler->expects(self::once())
@@ -472,8 +472,8 @@ final class TagsHandlerTest extends TestCase
                         'alwaysAvailable' => true,
                         'mainLanguageCode' => 'eng-GB',
                         'languageIds' => [4],
-                    ]
-                )
+                    ],
+                ),
             );
 
         $tag = $handler->create(
@@ -484,8 +484,8 @@ final class TagsHandlerTest extends TestCase
                     'keywords' => ['eng-GB' => 'New tag'],
                     'remoteId' => '123456abcdef',
                     'alwaysAvailable' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertPropertiesCorrect(
@@ -498,7 +498,7 @@ final class TagsHandlerTest extends TestCase
                 'alwaysAvailable' => true,
                 'languageIds' => [4],
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -520,11 +520,11 @@ final class TagsHandlerTest extends TestCase
                         'keywords' => ['eng-GB' => 'New tag'],
                         'remoteId' => '123456abcdef',
                         'alwaysAvailable' => true,
-                    ]
-                )
+                    ],
+                ),
             )
             ->willReturn(
-                95
+                95,
             );
 
         $handler->expects(self::once())
@@ -543,8 +543,8 @@ final class TagsHandlerTest extends TestCase
                         'alwaysAvailable' => true,
                         'mainLanguageCode' => 'eng-GB',
                         'languageIds' => [4],
-                    ]
-                )
+                    ],
+                ),
             );
 
         $tag = $handler->create(
@@ -555,8 +555,8 @@ final class TagsHandlerTest extends TestCase
                     'keywords' => ['eng-GB' => 'New tag'],
                     'remoteId' => '123456abcdef',
                     'alwaysAvailable' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertPropertiesCorrect(
@@ -569,7 +569,7 @@ final class TagsHandlerTest extends TestCase
                 'alwaysAvailable' => true,
                 'languageIds' => [4],
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -590,9 +590,9 @@ final class TagsHandlerTest extends TestCase
                         'remoteId' => '123456abcdef',
                         'mainLanguageCode' => 'eng-US',
                         'alwaysAvailable' => true,
-                    ]
+                    ],
                 ),
-                40
+                40,
             );
 
         $handler
@@ -608,8 +608,8 @@ final class TagsHandlerTest extends TestCase
                         'mainLanguageCode' => 'eng-US',
                         'alwaysAvailable' => true,
                         'languageIds' => [2, 4],
-                    ]
-                )
+                    ],
+                ),
             );
 
         $tag = $handler->update(
@@ -619,9 +619,9 @@ final class TagsHandlerTest extends TestCase
                     'remoteId' => '123456abcdef',
                     'mainLanguageCode' => 'eng-US',
                     'alwaysAvailable' => true,
-                ]
+                ],
             ),
-            40
+            40,
         );
 
         $this->assertPropertiesCorrect(
@@ -633,7 +633,7 @@ final class TagsHandlerTest extends TestCase
                 'alwaysAvailable' => true,
                 'languageIds' => [2, 4],
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -654,7 +654,7 @@ final class TagsHandlerTest extends TestCase
                     'parent_id' => 1,
                     'depth' => 2,
                     'path_string' => '/1/21/',
-                ]
+                ],
             );
 
         $this->gateway
@@ -668,17 +668,17 @@ final class TagsHandlerTest extends TestCase
                         'keywords' => ['eng-GB' => 'New synonym'],
                         'remoteId' => '12345',
                         'alwaysAvailable' => true,
-                    ]
+                    ],
                 ),
                 [
                     'id' => 21,
                     'parent_id' => 1,
                     'depth' => 2,
                     'path_string' => '/1/21/',
-                ]
+                ],
             )
             ->willReturn(
-                95
+                95,
             );
 
         $handler
@@ -698,8 +698,8 @@ final class TagsHandlerTest extends TestCase
                         'mainLanguageCode' => 'eng-GB',
                         'alwaysAvailable' => true,
                         'languageIds' => [4],
-                    ]
-                )
+                    ],
+                ),
             );
 
         $tag = $handler->addSynonym(
@@ -710,8 +710,8 @@ final class TagsHandlerTest extends TestCase
                     'keywords' => ['eng-GB' => 'New synonym'],
                     'remoteId' => '12345',
                     'alwaysAvailable' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertPropertiesCorrect(
@@ -727,7 +727,7 @@ final class TagsHandlerTest extends TestCase
                 'alwaysAvailable' => true,
                 'languageIds' => [4],
             ],
-            $tag
+            $tag,
         );
     }
 
@@ -742,7 +742,7 @@ final class TagsHandlerTest extends TestCase
             [
                 'id' => 16,
                 'parentTagId' => 0,
-            ]
+            ],
         );
 
         $mainTagData = [
@@ -759,7 +759,7 @@ final class TagsHandlerTest extends TestCase
             ->method('loadTagInfo')
             ->with(16)
             ->willReturn(
-                $tag
+                $tag,
             );
 
         $this->gateway
@@ -794,8 +794,8 @@ final class TagsHandlerTest extends TestCase
                 new Tag(
                     [
                         'id' => 16,
-                    ]
-                )
+                    ],
+                ),
             );
 
         $synonym = $handler->convertToSynonym(16, 66);
@@ -804,7 +804,7 @@ final class TagsHandlerTest extends TestCase
             [
                 'id' => 16,
             ],
-            $synonym
+            $synonym,
         );
     }
 
@@ -825,7 +825,7 @@ final class TagsHandlerTest extends TestCase
             ->method('loadSynonyms')
             ->with(40)
             ->willReturn(
-                $tags
+                $tags,
             );
 
         $tags[] = new Tag(['id' => 40]);
@@ -911,8 +911,8 @@ final class TagsHandlerTest extends TestCase
                         'depth' => $movedData['depth'],
                         'pathString' => $movedData['path_string'],
                         'modificationDate' => $movedData['modified'],
-                    ]
-                )
+                    ],
+                ),
             );
 
         $movedTag = $handler->moveSubtree(42, 66);
@@ -925,7 +925,7 @@ final class TagsHandlerTest extends TestCase
                 'pathString' => $movedData['path_string'],
                 'modificationDate' => $movedData['modified'],
             ],
-            $movedTag
+            $movedTag,
         );
     }
 
@@ -945,8 +945,8 @@ final class TagsHandlerTest extends TestCase
                     [
                         'id' => 40,
                         'parentTagId' => 21,
-                    ]
-                )
+                    ],
+                ),
             );
 
         $this->gateway
@@ -968,13 +968,13 @@ final class TagsHandlerTest extends TestCase
                 [
                     $languageHandlerMock,
                     new MaskGenerator($languageHandlerMock),
-                ]
+                ],
             )->getMock();
 
         return new Handler($this->gateway, $this->mapper);
     }
 
-    private function getMockedTagsHandler(array $mockedMethods): MockObject&Handler
+    private function getMockedTagsHandler(array $mockedMethods): Handler&MockObject
     {
         $this->gateway = $this->createMock(Gateway::class);
 
@@ -985,7 +985,7 @@ final class TagsHandlerTest extends TestCase
                 [
                     $languageHandlerMock,
                     new MaskGenerator($languageHandlerMock),
-                ]
+                ],
             )->getMock();
 
         return $this->getMockBuilder(Handler::class)

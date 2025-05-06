@@ -60,7 +60,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
             /** @var string[] $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
+            $queries = preg_split('(;\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
                 $dbConnection->exec($query);
@@ -82,9 +82,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagId(40),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\Location\Id()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -98,9 +98,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagId(61),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\Location\Id()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -114,9 +114,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagId([40, 41]),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\Location\Id()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -131,13 +131,13 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                             [
                                 new Criterion\TagId(16),
                                 new Criterion\TagId(40),
-                            ]
+                            ],
                         ),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\Location\Id()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -151,9 +151,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -167,9 +167,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'template', 'tags'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -183,9 +183,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::IN, ['eztags', 'cms']),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -200,13 +200,13 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                             [
                                 new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'mobile'),
                                 new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
-                            ]
+                            ],
                         ),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -220,9 +220,9 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::LIKE, '%e%'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -230,7 +230,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
     {
         $ids = array_map(
             static fn (SearchHit $hit): int => $hit->valueObject->id,
-            $searchResult->searchHits
+            $searchResult->searchHits,
         );
 
         sort($ids);
@@ -246,7 +246,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
      */
     private function getContentSearchHandler(): Handler
     {
-        return new Content\Handler(
+        return new Handler(
             $this->createMock(Content\Gateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $this->getDatabaseConnection(),
@@ -257,25 +257,25 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                         new CommonCriterionHandler\ContentId($this->getDatabaseConnection()),
                         new CommonCriterionHandler\LogicalAnd($this->getDatabaseConnection()),
                         new CommonCriterionHandler\MatchAll($this->getDatabaseConnection()),
-                    ]
+                    ],
                 ),
                 new SortClauseConverter(
                     [
                         new LocationSortClauseHandler\Location\Id($this->getDatabaseConnection()),
                         new CommonSortClauseHandler\ContentId($this->getDatabaseConnection()),
-                    ]
+                    ],
                 ),
-                $this->getLanguageHandler()
+                $this->getLanguageHandler(),
             ),
             $this->createMock(Content\WordIndexer\Gateway::class),
             $this->createMock(ContentMapper::class),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler(),
-            $this->createMock(Content\Mapper\FullTextMapper::class)
+            $this->createMock(Content\Mapper\FullTextMapper::class),
         );
     }
 
-    private function getLocationMapperMock(): MockObject&LocationMapper
+    private function getLocationMapperMock(): LocationMapper&MockObject
     {
         $mapperMock = $this->createMock(LocationMapper::class);
 
@@ -295,7 +295,7 @@ final class HandlerLocationTest extends LanguageAwareTestCase
                     }
 
                     return array_values($locations);
-                }
+                },
             );
 
         return $mapperMock;

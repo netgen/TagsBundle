@@ -127,9 +127,9 @@ final class Tags extends RestController
 
         $tagId = $this->extractTagIdFromPath($tagPath);
         $children = $this->tagsService->loadTagChildren(
-            $tagId !== 0 ?
-                $this->tagsService->loadTag($tagId) :
-                null,
+            $tagId !== 0
+                ? $this->tagsService->loadTag($tagId)
+                : null,
             $offset >= 0 ? $offset : 0,
             $limit >= 0 ? $limit : 25,
         );

@@ -91,9 +91,9 @@ final class TagsService implements TagsServiceInterface
             return $beforeEvent->getTag();
         }
 
-        $tag = $beforeEvent->hasTag() ?
-            $beforeEvent->getTag() :
-            $this->service->createTag($tagCreateStruct);
+        $tag = $beforeEvent->hasTag()
+            ? $beforeEvent->getTag()
+            : $this->service->createTag($tagCreateStruct);
 
         $this->eventDispatcher->dispatch(new Events\CreateTagEvent($tagCreateStruct, $tag));
 
@@ -108,9 +108,9 @@ final class TagsService implements TagsServiceInterface
             return $beforeEvent->getUpdatedTag();
         }
 
-        $updatedTag = $beforeEvent->hasUpdatedTag() ?
-            $beforeEvent->getUpdatedTag() :
-            $this->service->updateTag($tag, $tagUpdateStruct);
+        $updatedTag = $beforeEvent->hasUpdatedTag()
+            ? $beforeEvent->getUpdatedTag()
+            : $this->service->updateTag($tag, $tagUpdateStruct);
 
         $this->eventDispatcher->dispatch(new Events\UpdateTagEvent($tagUpdateStruct, $updatedTag));
 
@@ -125,9 +125,9 @@ final class TagsService implements TagsServiceInterface
             return $beforeEvent->getSynonym();
         }
 
-        $synonym = $beforeEvent->hasSynonym() ?
-            $beforeEvent->getSynonym() :
-            $this->service->addSynonym($synonymCreateStruct);
+        $synonym = $beforeEvent->hasSynonym()
+            ? $beforeEvent->getSynonym()
+            : $this->service->addSynonym($synonymCreateStruct);
 
         $this->eventDispatcher->dispatch(new Events\AddSynonymEvent($synonymCreateStruct, $synonym));
 
@@ -142,9 +142,9 @@ final class TagsService implements TagsServiceInterface
             return $beforeEvent->getSynonym();
         }
 
-        $synonym = $beforeEvent->hasSynonym() ?
-            $beforeEvent->getSynonym() :
-            $this->service->convertToSynonym($tag, $mainTag);
+        $synonym = $beforeEvent->hasSynonym()
+            ? $beforeEvent->getSynonym()
+            : $this->service->convertToSynonym($tag, $mainTag);
 
         $this->eventDispatcher->dispatch(new Events\ConvertToSynonymEvent($synonym, $mainTag));
 
@@ -172,9 +172,9 @@ final class TagsService implements TagsServiceInterface
             return $beforeEvent->getCopiedTag();
         }
 
-        $copiedTag = $beforeEvent->hasCopiedTag() ?
-            $beforeEvent->getCopiedTag() :
-            $this->service->copySubtree($tag, $targetParentTag);
+        $copiedTag = $beforeEvent->hasCopiedTag()
+            ? $beforeEvent->getCopiedTag()
+            : $this->service->copySubtree($tag, $targetParentTag);
 
         $this->eventDispatcher->dispatch(new Events\CopySubtreeEvent($tag, $copiedTag, $targetParentTag));
 
@@ -189,9 +189,9 @@ final class TagsService implements TagsServiceInterface
             return $beforeEvent->getMovedTag();
         }
 
-        $movedTag = $beforeEvent->hasMovedTag() ?
-            $beforeEvent->getMovedTag() :
-            $this->service->moveSubtree($tag, $targetParentTag);
+        $movedTag = $beforeEvent->hasMovedTag()
+            ? $beforeEvent->getMovedTag()
+            : $this->service->moveSubtree($tag, $targetParentTag);
 
         $this->eventDispatcher->dispatch(new Events\MoveSubtreeEvent($movedTag, $targetParentTag));
 

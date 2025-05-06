@@ -7,8 +7,8 @@ namespace Netgen\TagsBundle\Tests\Core\Search\Legacy\Content;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Content as ContentObject;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
@@ -25,8 +25,8 @@ use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagId as TagIdCriterionHandler;
 use Netgen\TagsBundle\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Tags\TagKeyword as TagKeywordCriterionHandler;
 use PHPUnit\Framework\MockObject\MockObject;
-
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+
 use function array_filter;
 use function array_map;
 use function array_values;
@@ -63,7 +63,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
             $schema = __DIR__ . '/../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
             /** @var string[] $queries */
-            $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
+            $queries = preg_split('(;\s*$)m', (string) file_get_contents($schema));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
                 $dbConnection->exec($query);
@@ -87,9 +87,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagId(40),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -103,9 +103,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagId(61, 'tags'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -119,9 +119,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagId([40, 41]),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -136,13 +136,13 @@ final class HandlerContentTest extends LanguageAwareTestCase
                             [
                                 new Criterion\TagId(16),
                                 new Criterion\TagId(40),
-                            ]
+                            ],
                         ),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -156,9 +156,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -172,9 +172,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'template', 'tags'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -188,9 +188,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::IN, ['eztags', 'cms']),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -205,13 +205,13 @@ final class HandlerContentTest extends LanguageAwareTestCase
                             [
                                 new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'mobile'),
                                 new Criterion\TagKeyword(Query\Criterion\Operator::EQ, 'eztags'),
-                            ]
+                            ],
                         ),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -225,9 +225,9 @@ final class HandlerContentTest extends LanguageAwareTestCase
                         'filter' => new Criterion\TagKeyword(Query\Criterion\Operator::LIKE, '%e%'),
                         'limit' => 10,
                         'sortClauses' => [new SortClause\ContentId()],
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -235,7 +235,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
     {
         $result = array_map(
             static fn (SearchHit $hit): int => $hit->valueObject->id,
-            $searchResult->searchHits
+            $searchResult->searchHits,
         );
 
         sort($result);
@@ -251,45 +251,45 @@ final class HandlerContentTest extends LanguageAwareTestCase
      */
     private function getContentSearchHandler(): Handler
     {
-        return new Content\Handler(
+        return new Handler(
             new Content\Gateway\DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 new Content\Common\Gateway\CriteriaConverter(
                     [
                         new TagIdCriterionHandler(
-                            $this->getDatabaseConnection()
+                            $this->getDatabaseConnection(),
                         ),
                         new TagKeywordCriterionHandler(
-                            $this->getDatabaseConnection()
+                            $this->getDatabaseConnection(),
                         ),
                         new CriterionHandler\ContentId(
-                            $this->getDatabaseConnection()
+                            $this->getDatabaseConnection(),
                         ),
                         new CriterionHandler\LogicalAnd(
-                            $this->getDatabaseConnection()
+                            $this->getDatabaseConnection(),
                         ),
                         new CriterionHandler\MatchAll(
-                            $this->getDatabaseConnection()
+                            $this->getDatabaseConnection(),
                         ),
-                    ]
+                    ],
                 ),
                 new Content\Common\Gateway\SortClauseConverter(
                     [
                         new Content\Common\Gateway\SortClauseHandler\ContentId($this->getDatabaseConnection()),
-                    ]
+                    ],
                 ),
-                $this->getLanguageHandler()
+                $this->getLanguageHandler(),
             ),
             $this->createMock(Gateway::class),
             $this->createMock(Content\WordIndexer\Gateway::class),
             $this->getContentMapperMock(),
             $this->createMock(LocationMapper::class),
             $this->getLanguageHandler(),
-            $this->createMock(Content\Mapper\FullTextMapper::class)
+            $this->createMock(Content\Mapper\FullTextMapper::class),
         );
     }
 
-    private function getContentMapperMock(): MockObject&Mapper
+    private function getContentMapperMock(): Mapper&MockObject
     {
         $mapperMock = $this->getMockBuilder(Mapper::class)
             ->onlyMethods(['extractContentFromRows'])
@@ -299,7 +299,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
                     $this->getLanguageHandler(),
                     $this->createMock(ContentTypeHandler::class),
                     $this->createMock(EventDispatcherInterface::class),
-                ]
+                ],
             )
             ->getMock();
 
@@ -320,7 +320,7 @@ final class HandlerContentTest extends LanguageAwareTestCase
                     }
 
                     return array_values($contentObjects);
-                }
+                },
             );
 
         return $mapperMock;

@@ -51,7 +51,7 @@ final class TagsTest extends FieldTypeTest
                     'mainLanguageCode' => 'eng-GB',
                     'languageCodes' => ['eng-GB'],
                     'prioritizedLanguageCode' => 'eng-GB',
-                ]
+                ],
             );
         }
 
@@ -373,9 +373,9 @@ final class TagsTest extends FieldTypeTest
                                 'pathString' => '/2/43/102/',
                                 'keywords' => ['eng-GB' => 'test'],
                                 'mainLanguageCode' => 'eng-GB',
-                            ]
+                            ],
                         ),
-                    ]
+                    ],
                 ),
                 [
                     new ValidationError(
@@ -385,7 +385,7 @@ final class TagsTest extends FieldTypeTest
                             '%keyword%' => 'test',
                             '%subTreeLimit%' => 42,
                         ],
-                        'value'
+                        'value',
                     ),
                 ],
             ],
@@ -405,7 +405,7 @@ final class TagsTest extends FieldTypeTest
                         [
                             '%maxTags%' => 2,
                         ],
-                        'value'
+                        'value',
                     ),
                 ],
             ],
@@ -427,7 +427,7 @@ final class TagsTest extends FieldTypeTest
                 new TagsValue(
                     [
                         $this->getTag(),
-                    ]
+                    ],
                 ),
                 [
                     $this->getTagHash(),
@@ -468,9 +468,9 @@ final class TagsTest extends FieldTypeTest
                                 'mainLanguageCode' => 'eng-GB',
                                 'languageCodes' => ['eng-GB'],
                                 'prioritizedLanguageCode' => 'eng-GB',
-                            ]
+                            ],
                         ),
-                    ]
+                    ],
                 ),
             ],
         ];
@@ -495,7 +495,7 @@ final class TagsTest extends FieldTypeTest
                 new TagsValue(
                     [
                         $this->getTag(),
-                    ]
+                    ],
                 ),
                 'eztags',
                 [],
@@ -506,7 +506,7 @@ final class TagsTest extends FieldTypeTest
                     [
                         $this->getTag(),
                         $this->getTag(),
-                    ]
+                    ],
                 ),
                 'eztags, eztags',
                 [],
@@ -534,13 +534,13 @@ final class TagsTest extends FieldTypeTest
             ->method('getParameter')
             ->with(
                 self::identicalTo('edit_views'),
-                self::identicalTo('netgen_tags')
+                self::identicalTo('netgen_tags'),
             )
             ->willReturn(
                 [
                     'default' => ['identifier' => 'Default'],
                     'select' => ['identifier' => 'Select'],
-                ]
+                ],
             );
 
         return new TagsType($this->tagsService, $configResolverMock);
@@ -600,7 +600,7 @@ final class TagsTest extends FieldTypeTest
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
-            ]
+            ],
         );
     }
 

@@ -29,8 +29,8 @@ final class BeforeUpdateTagEvent extends BeforeEvent
 
     public function getUpdatedTag(): Tag
     {
-        $this->updatedTag ??
-            throw new UnexpectedValueException(
+        $this->updatedTag
+            ?? throw new UnexpectedValueException(
                 sprintf(
                     'Return value is not set or not a type of %s. Check with hasUpdatedTag() or set it with setUpdatedTag() before you call the getter.',
                     Tag::class,

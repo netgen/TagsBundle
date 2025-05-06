@@ -17,13 +17,15 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\HttpCache\Tagger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+use function array_merge;
+use function array_unique;
+
 final readonly class CachePurgeSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private Tagger $tagger,
         private PurgeClientInterface $purgeClient,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, string>
