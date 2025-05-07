@@ -18,3 +18,6 @@ services:
             - '@ibexa.http_cache.purge_client'
         tags:
             - { name: kernel.event_subscriber }
+
+    Netgen\TagsBundle\Core\HttpCache\Tagger:
+        alias: netgen_tags.http_cache.tagger
