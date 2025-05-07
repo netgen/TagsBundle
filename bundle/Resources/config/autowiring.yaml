@@ -1,3 +1,6 @@
 services:
     Netgen\TagsBundle\API\Repository\TagsService:
         alias: netgen_tags.api.service.tags
+
+    Netgen\TagsBundle\Core\HttpCache\Tagger:
+        alias: netgen_tags.http_cache.tagger
