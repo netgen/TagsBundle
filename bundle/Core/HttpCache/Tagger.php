@@ -30,7 +30,9 @@ final readonly class Tagger
         }
 
         foreach ($tag->path as $tagId) {
-            $tags[] = self::PATH_TAG_PREFIX . $tagId;
+            if ($tagId !== $tag->id) {
+                $tags[] = self::PATH_TAG_PREFIX . $tagId;
+            }
         }
 
         return $tags;
