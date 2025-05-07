@@ -13,8 +13,7 @@ final readonly class Tagger
 {
     public const TAG_PREFIX = 'ngt';
     public const MAIN_TAG_PREFIX = 'ngtm';
-    public const PARENT_TAG_PREFIX = 'ngtp';
-    public const PATH_TAG_PREFIX = 'ngth';
+    public const PATH_TAG_PREFIX = 'ngtp';
 
     public function __construct(
         private TagHandler $handler,
@@ -28,10 +27,6 @@ final readonly class Tagger
 
         if ($tag->isSynonym()) {
             $tags[] = self::MAIN_TAG_PREFIX . $tag->mainTagId;
-        }
-
-        if ($tag->hasParent()) {
-            $tags[] = self::PARENT_TAG_PREFIX . $tag->parentTagId;
         }
 
         foreach ($tag->path as $tagId) {
