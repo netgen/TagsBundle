@@ -28,8 +28,8 @@ final class BeforeCopySubtreeEvent extends BeforeEvent
 
     public function getCopiedTag(): Tag
     {
-        $this->copiedTag ??
-            throw new UnexpectedValueException(
+        $this->copiedTag
+            ?? throw new UnexpectedValueException(
                 sprintf(
                     'Return value is not set or not a type of %s. Check with hasCopiedTag() or set it with setCopiedTag() before you call the getter.',
                     Tag::class,

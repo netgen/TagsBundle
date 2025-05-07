@@ -59,19 +59,19 @@ final class Legacy extends BaseLegacy
                 new DoctrineDatabase(
                     $this->getDatabaseConnection(),
                     $languageHandler,
-                    $languageMaskGenerator
-                )
+                    $languageMaskGenerator,
+                ),
             ),
             new Mapper(
                 $languageHandler,
-                $languageMaskGenerator
-            )
+                $languageMaskGenerator,
+            ),
         );
 
         return new TagsService(
             $repository,
             $tagsHandler,
-            new TagsMapper($languageHandler)
+            new TagsMapper($languageHandler),
         );
     }
 
@@ -123,7 +123,7 @@ final class Legacy extends BaseLegacy
         $setValPath = __DIR__ . '/../../../_fixtures/schema/setval.postgresql.sql';
 
         /** @var string[] $queries */
-        $queries = preg_split('(;\\s*$)m', (string) file_get_contents($setValPath));
+        $queries = preg_split('(;\s*$)m', (string) file_get_contents($setValPath));
 
         foreach ($queries as $query) {
             $this->getDatabaseConnection()->exec($query);
@@ -133,7 +133,7 @@ final class Legacy extends BaseLegacy
     protected function getInitialTagsDataFixture(): Fixture
     {
         self::$tagsInitialData ??= new PhpArrayFileFixture(
-            __DIR__ . '/../../../_fixtures/tags_tree.php'
+            __DIR__ . '/../../../_fixtures/tags_tree.php',
         );
 
         return self::$tagsInitialData;
@@ -158,7 +158,7 @@ final class Legacy extends BaseLegacy
         $tagsSchemaPath = __DIR__ . '/../../../_fixtures/schema/schema.' . self::$db . '.sql';
 
         /** @var string[] $queries */
-        $queries = preg_split('(;\\s*$)m', (string) file_get_contents($tagsSchemaPath));
+        $queries = preg_split('(;\s*$)m', (string) file_get_contents($tagsSchemaPath));
 
         return array_filter($queries);
     }

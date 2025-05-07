@@ -21,9 +21,9 @@ final class NetgenTagsRuntimeTest extends TestCase
 
     private MockObject&TagsService $tagsService;
 
-    private MockObject&LanguageService $languageService;
+    private LanguageService&MockObject $languageService;
 
-    private MockObject&ContentTypeService $contentTypeService;
+    private ContentTypeService&MockObject $contentTypeService;
 
     private Tag $tag;
 
@@ -49,7 +49,7 @@ final class NetgenTagsRuntimeTest extends TestCase
         $this->runtime = new NetgenTagsRuntime(
             $this->tagsService,
             $this->languageService,
-            $this->contentTypeService
+            $this->contentTypeService,
         );
 
         $this->tag = new Tag(
@@ -60,7 +60,7 @@ final class NetgenTagsRuntimeTest extends TestCase
                 ],
                 'mainLanguageCode' => 'eng-GB',
                 'prioritizedLanguageCode' => 'cro-HR',
-            ]
+            ],
         );
 
         $this->contentType = new ContentType(['names' => ['eng-GB' => 'Translated name']]);
@@ -93,7 +93,7 @@ final class NetgenTagsRuntimeTest extends TestCase
                 'id' => 123,
                 'languageCode' => 'eng-GB',
                 'name' => 'English',
-            ]
+            ],
         );
 
         $this->languageService->expects(self::once())

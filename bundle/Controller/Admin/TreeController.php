@@ -71,9 +71,9 @@ final class TreeController extends Controller
         $result = [];
 
         if ($isRoot) {
-            $result[] = $tag instanceof Tag ?
-                $this->getTagTreeData($tag, $isRoot) :
-                $this->getRootTreeData();
+            $result[] = $tag instanceof Tag
+                ? $this->getTagTreeData($tag, $isRoot)
+                : $this->getRootTreeData();
         } else {
             $treeLimit = $this->configResolver->getParameter('admin.tree_limit', 'netgen_tags');
             $childrenTags = $this->tagsService->loadTagChildren($tag, 0, $treeLimit > 0 ? $treeLimit : -1);

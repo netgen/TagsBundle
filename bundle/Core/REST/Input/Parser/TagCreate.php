@@ -26,11 +26,11 @@ final class TagCreate extends BaseParser
             throw new Exceptions\Parser("Missing or invalid 'ParentTag' element for TagCreate.");
         }
 
-        $data['ParentTag']['_href'] ??
-            throw new Exceptions\Parser("Missing '_href' attribute for ParentTag element in TagCreate.");
+        $data['ParentTag']['_href']
+            ?? throw new Exceptions\Parser("Missing '_href' attribute for ParentTag element in TagCreate.");
 
-        $data['mainLanguageCode'] ??
-            throw new Exceptions\Parser("Missing 'mainLanguageCode' element for TagCreate.");
+        $data['mainLanguageCode']
+            ?? throw new Exceptions\Parser("Missing 'mainLanguageCode' element for TagCreate.");
 
         $tagHrefParts = explode('/', $this->requestParser->parseHref($data['ParentTag']['_href'], 'tagPath'));
 

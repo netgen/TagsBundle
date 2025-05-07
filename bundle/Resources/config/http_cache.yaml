@@ -1,0 +1,20 @@
+services:
+    netgen_tags.http_cache.tagger:
+        class: Netgen\TagsBundle\Core\HttpCache\Tagger
+        arguments:
+            - '@Ibexa\HttpCache\Handler\TagHandler'
+
+    netgen_tags.http_cache.response_tagger.tag_view:
+        class: Netgen\TagsBundle\Core\HttpCache\ResponseTagger\TagViewTagger
+        arguments:
+            - '@netgen_tags.http_cache.tagger'
+        tags:
+            - { name: ibexa.cache.http.response.tagger }
+
+    netgen_tags.http_cache.event_subscriber.cache_purge_subscriber:
+        class: Netgen\TagsBundle\Core\HttpCache\EventSubscriber\CachePurgeSubscriber
+        arguments:
+            - '@netgen_tags.http_cache.tagger'
+            - '@ibexa.http_cache.purge_client'
+        tags:
+            - { name: kernel.event_subscriber }

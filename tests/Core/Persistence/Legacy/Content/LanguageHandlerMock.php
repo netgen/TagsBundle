@@ -30,25 +30,25 @@ final class LanguageHandlerMock
                 'id' => 2,
                 'languageCode' => 'eng-US',
                 'name' => 'English (American)',
-            ]
+            ],
         );
         $this->languages['ger-DE'] = new Language(
             [
                 'id' => 4,
                 'languageCode' => 'ger-DE',
                 'name' => 'German',
-            ]
+            ],
         );
         $this->languages['eng-GB'] = new Language(
             [
                 'id' => 8,
                 'languageCode' => 'eng-GB',
                 'name' => 'English (United Kingdom)',
-            ]
+            ],
         );
     }
 
-    public function __invoke(TestCase $testCase): MockObject&LanguageHandler
+    public function __invoke(TestCase $testCase): LanguageHandler&MockObject
     {
         $mock = $testCase->getMockBuilder(LanguageHandler::class)
             ->disableOriginalConstructor()
@@ -64,7 +64,7 @@ final class LanguageHandlerMock
                     ['2', $this->languages['eng-US']],
                     ['4', $this->languages['ger-DE']],
                     ['8', $this->languages['eng-GB']],
-                ]
+                ],
             );
 
         $mock->expects($testCase::any())
@@ -74,7 +74,7 @@ final class LanguageHandlerMock
                     ['eng-US', $this->languages['eng-US']],
                     ['ger-DE', $this->languages['ger-DE']],
                     ['eng-GB', $this->languages['eng-GB']],
-                ]
+                ],
             );
 
         $mock->expects($testCase::any())
@@ -85,8 +85,8 @@ final class LanguageHandlerMock
                         foreach ($languageCodes as $languageCode) {
                             yield $languageCode => $this->languages[$languageCode];
                         }
-                    })()
-                )
+                    })(),
+                ),
             );
 
         $mock->expects($testCase::any())

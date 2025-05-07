@@ -100,12 +100,12 @@ final class MapperTest extends TestCase
     public function testCreateTagInfoFromRow(): void
     {
         $tag = $this->tagsMapper->createTagInfoFromRow(
-            self::$tagRow
+            self::$tagRow,
         );
 
         $this->assertPropertiesCorrect(
             self::$tagValues,
-            $tag
+            $tag,
         );
     }
 
@@ -130,12 +130,12 @@ final class MapperTest extends TestCase
         foreach ($tags as $tag) {
             self::assertInstanceOf(
                 Tag::class,
-                $tag
+                $tag,
             );
 
             $this->assertPropertiesCorrect(
                 ['id' => self::$tagListValues['id'] + $i] + self::$tagListValues,
-                $tag
+                $tag,
             );
 
             ++$i;
@@ -151,7 +151,7 @@ final class MapperTest extends TestCase
 
         return new Mapper(
             $languageHandlerMock,
-            new MaskGenerator($languageHandlerMock)
+            new MaskGenerator($languageHandlerMock),
         );
     }
 }

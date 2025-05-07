@@ -139,9 +139,9 @@ final class Type extends FieldType
                     'keywords' => $tag->keywords,
                     'depth' => $tag->depth,
                     'path_string' => $tag->pathString,
-                    'modified' => $tag->modificationDate instanceof DateTimeInterface ?
-                        $tag->modificationDate->getTimestamp() :
-                        0,
+                    'modified' => $tag->modificationDate instanceof DateTimeInterface
+                        ? $tag->modificationDate->getTimestamp()
+                        : 0,
                     'remote_id' => $tag->remoteId,
                     'always_available' => $tag->alwaysAvailable,
                     'main_language_code' => $tag->mainLanguageCode,

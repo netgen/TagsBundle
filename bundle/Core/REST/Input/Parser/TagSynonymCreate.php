@@ -20,8 +20,8 @@ final class TagSynonymCreate extends BaseParser
 
     public function parse(array $data, ParsingDispatcher $parsingDispatcher): SynonymCreateStruct
     {
-        $data['mainLanguageCode'] ??
-            throw new Exceptions\Parser("Missing 'mainLanguageCode' element for SynonymCreate.");
+        $data['mainLanguageCode']
+            ?? throw new Exceptions\Parser("Missing 'mainLanguageCode' element for SynonymCreate.");
 
         $synonymCreateStruct = $this->tagsService->newSynonymCreateStruct(
             0,

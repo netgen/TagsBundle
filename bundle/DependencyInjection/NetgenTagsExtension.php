@@ -25,8 +25,8 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         /** @var array<string, string> $activatedBundles */
         $activatedBundles = $container->getParameter('kernel.bundles');
 
-        $activatedBundles['EzCoreExtraBundle'] ??
-            throw new RuntimeException(
+        $activatedBundles['EzCoreExtraBundle']
+            ?? throw new RuntimeException(
                 'Netgen Tags Bundle requires EzCoreExtraBundle (lolautruche/ez-core-extra-bundle) to be activated to work properly.',
             );
 
@@ -56,6 +56,7 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
         $loader->load('search/related_content.yaml');
         $loader->load('ibexa/admin/default_settings.yaml');
         $loader->load('ibexa/admin/services.yaml');
+        $loader->load('http_cache.yaml');
 
         $persistenceCache = 'disabled';
         if ($container->getParameter('netgen_tags.enable_persistence_cache') === true) {

@@ -109,9 +109,9 @@ class TagsAdminView implements ViewInterface
     {
         $pages = [];
 
-        $pages['previous_page'] = $this->pagerfanta->hasPreviousPage() ?
-            $this->generateUrl($this->pagerfanta->getPreviousPage()) :
-            false;
+        $pages['previous_page'] = $this->pagerfanta->hasPreviousPage()
+            ? $this->generateUrl($this->pagerfanta->getPreviousPage())
+            : false;
 
         $pages['first_page'] = $this->startPage > 1 ? $this->generateUrl(1) : false;
         $pages['mobile_first_page'] = $this->pagerfanta->getCurrentPage() > 2 ? $this->generateUrl(1) : false;
@@ -129,21 +129,21 @@ class TagsAdminView implements ViewInterface
 
         $pages['separator_after'] = $this->endPage < $this->pagerfanta->getNbPages() - 2;
 
-        $pages['second_to_last_page'] = $this->endPage === $this->pagerfanta->getNbPages() - 2 ?
-            $this->generateUrl($this->pagerfanta->getNbPages() - 1) :
-            false;
+        $pages['second_to_last_page'] = $this->endPage === $this->pagerfanta->getNbPages() - 2
+            ? $this->generateUrl($this->pagerfanta->getNbPages() - 1)
+            : false;
 
-        $pages['last_page'] = $this->pagerfanta->getNbPages() > $this->endPage ?
-            $this->generateUrl($this->pagerfanta->getNbPages()) :
-            false;
+        $pages['last_page'] = $this->pagerfanta->getNbPages() > $this->endPage
+            ? $this->generateUrl($this->pagerfanta->getNbPages())
+            : false;
 
-        $pages['mobile_last_page'] = $this->pagerfanta->getCurrentPage() < $this->pagerfanta->getNbPages() - 1 ?
-            $this->generateUrl($this->pagerfanta->getNbPages()) :
-            false;
+        $pages['mobile_last_page'] = $this->pagerfanta->getCurrentPage() < $this->pagerfanta->getNbPages() - 1
+            ? $this->generateUrl($this->pagerfanta->getNbPages())
+            : false;
 
-        $pages['next_page'] = $this->pagerfanta->hasNextPage() ?
-            $this->generateUrl($this->pagerfanta->getNextPage()) :
-            false;
+        $pages['next_page'] = $this->pagerfanta->hasNextPage()
+            ? $this->generateUrl($this->pagerfanta->getNextPage())
+            : false;
 
         return $pages;
     }

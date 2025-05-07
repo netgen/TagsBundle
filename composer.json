@@ -18,12 +18,13 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ibexa/core": "^4.4",
         "ibexa/admin-ui": "^4.4",
         "ibexa/rest": "^4.4",
         "ibexa/content-forms": "^4.4",
         "ibexa/solr": "^4.4",
+        "ibexa/http-cache": "^4.6",
         "lolautruche/ez-core-extra-bundle": "^4.0",
         "symfony/translation-contracts": "^2.5 || ^3.0",
         "pagerfanta/pagerfanta": "^2.7 || ^3.5",

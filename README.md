@@ -21,6 +21,7 @@ Implemented features
 * Tag router and path generator
 * Admin interface (standalone, as well integrated into Ibexa Platform Admin UI)
 * REST interface
+* HTTP cache tagging and purging
 
 Credits
 -------

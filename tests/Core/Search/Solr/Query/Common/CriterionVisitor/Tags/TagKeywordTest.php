@@ -18,9 +18,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagKeywordTest extends TestCase
 {
-    private MockObject&FieldNameResolver $fieldNameResolver;
+    private FieldNameResolver&MockObject $fieldNameResolver;
 
-    private MockObject&Handler $contentTypeHandler;
+    private Handler&MockObject $contentTypeHandler;
 
     private TagKeyword $visitor;
 
@@ -35,7 +35,7 @@ final class TagKeywordTest extends TestCase
             new MultipleStringMapper(),
             $this->contentTypeHandler,
             'eztags',
-            'tag_keywords'
+            'tag_keywords',
         );
     }
 
@@ -72,13 +72,13 @@ final class TagKeywordTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field'),
                 'eztags',
-                'tag_keywords'
+                'tag_keywords',
             )
             ->willReturn(
                 [
                     'tags_field_s' => new FieldType\MultipleStringField(),
                     'tags_field2_s' => new FieldType\MultipleStringField(),
-                ]
+                ],
             );
 
         $this->contentTypeHandler
@@ -87,7 +87,7 @@ final class TagKeywordTest extends TestCase
 
         self::assertSame(
             '(tags_field_s:"tag1" OR tags_field_s:"tag2" OR tags_field2_s:"tag1" OR tags_field2_s:"tag2")',
-            $this->visitor->visit($criterion)
+            $this->visitor->visit($criterion),
         );
     }
 
@@ -114,7 +114,7 @@ final class TagKeywordTest extends TestCase
                             'field_type_identifier' => 'eztags',
                         ],
                     ],
-                ]
+                ],
             );
 
         $this->fieldNameResolver
@@ -124,12 +124,12 @@ final class TagKeywordTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field'),
                 'eztags',
-                'tag_keywords'
+                'tag_keywords',
             )
             ->willReturn(
                 [
                     'news_tags_field_s' => new FieldType\MultipleStringField(),
-                ]
+                ],
             );
 
         $this->fieldNameResolver
@@ -139,17 +139,17 @@ final class TagKeywordTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field2'),
                 'eztags',
-                'tag_keywords'
+                'tag_keywords',
             )
             ->willReturn(
                 [
                     'article_tags_field2_s' => new FieldType\MultipleStringField(),
-                ]
+                ],
             );
 
         self::assertSame(
             '(news_tags_field_s:"tag1" OR news_tags_field_s:"tag2" OR article_tags_field2_s:"tag1" OR article_tags_field2_s:"tag2")',
-            $this->visitor->visit($criterion)
+            $this->visitor->visit($criterion),
         );
     }
 
@@ -170,7 +170,7 @@ final class TagKeywordTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field'),
                 'eztags',
-                'tag_keywords'
+                'tag_keywords',
             )
             ->willReturn([]);
 

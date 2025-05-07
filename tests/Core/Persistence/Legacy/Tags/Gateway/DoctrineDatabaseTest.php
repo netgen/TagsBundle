@@ -33,7 +33,7 @@ final class DoctrineDatabaseTest extends TestCase
         $schema = __DIR__ . '/../../../../../_fixtures/schema/schema.' . $this->db . '.sql';
 
         /** @var string[] $queries */
-        $queries = preg_split('(;\\s*$)m', (string) file_get_contents($schema));
+        $queries = preg_split('(;\s*$)m', (string) file_get_contents($schema));
         $queries = array_filter($queries);
         foreach ($queries as $query) {
             $dbConnection->exec($query);
@@ -55,44 +55,11 @@ final class DoctrineDatabaseTest extends TestCase
         $dbConnection = $this->getDatabaseConnection();
 
         /** @var string[] $queries */
-        $queries = preg_split('(;\\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.postgresql.sql'));
+        $queries = preg_split('(;\s*$)m', (string) file_get_contents(__DIR__ . '/../../../../../schema/_fixtures/setval.postgresql.sql'));
         $queries = array_filter($queries);
         foreach ($queries as $query) {
             $dbConnection->exec($query);
         }
-    }
-
-    public static function getLoadTagValues(): array
-    {
-        return [
-            ['id', 40],
-            ['parent_id', 7],
-            ['main_tag_id', 0],
-            ['keyword', 'eztags'],
-            ['depth', 3],
-            ['path_string', '/8/7/40/'],
-            ['modified', 1308153110],
-            ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['main_language_id', 8],
-            ['language_mask', 8],
-        ];
-    }
-
-    public static function getLoadFullTagValues(): array
-    {
-        return [
-            ['id', 40],
-            ['parent_id', 7],
-            ['main_tag_id', 0],
-            ['depth', 3],
-            ['path_string', '/8/7/40/'],
-            ['modified', 1308153110],
-            ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
-            ['main_language_id', 8],
-            ['language_mask', 8],
-            ['keyword', 'eztags'],
-            ['locale', 'eng-GB'],
-        ];
     }
 
     /**
@@ -109,7 +76,7 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
     }
 
@@ -136,8 +103,24 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
+    }
+
+    public static function getLoadTagValues(): iterable
+    {
+        return [
+            ['id', 40],
+            ['parent_id', 7],
+            ['main_tag_id', 0],
+            ['keyword', 'eztags'],
+            ['depth', 3],
+            ['path_string', '/8/7/40/'],
+            ['modified', 1308153110],
+            ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
+            ['main_language_id', 8],
+            ['language_mask', 8],
+        ];
     }
 
     /**
@@ -166,7 +149,7 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
     }
 
@@ -196,7 +179,7 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
     }
 
@@ -226,7 +209,7 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
     }
 
@@ -256,7 +239,7 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
     }
 
@@ -286,7 +269,7 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
     }
 
@@ -316,8 +299,25 @@ final class DoctrineDatabaseTest extends TestCase
         self::assertSame(
             $value,
             $data[0][$field],
-            "Value in property {$field} not as expected."
+            "Value in property {$field} not as expected.",
         );
+    }
+
+    public static function getLoadFullTagValues(): iterable
+    {
+        return [
+            ['id', 40],
+            ['parent_id', 7],
+            ['main_tag_id', 0],
+            ['depth', 3],
+            ['path_string', '/8/7/40/'],
+            ['modified', 1308153110],
+            ['remote_id', '182be0c5cdcd5072bb1864cdee4d3d6e'],
+            ['main_language_id', 8],
+            ['language_mask', 8],
+            ['keyword', 'eztags'],
+            ['locale', 'eng-GB'],
+        ];
     }
 
     /**
@@ -551,7 +551,7 @@ final class DoctrineDatabaseTest extends TestCase
                 'parent_id' => 7,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
-            ]
+            ],
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -562,7 +562,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id')
                 ->from('eztags')
-                ->where($query->expr()->eq('id', 95))
+                ->where($query->expr()->eq('id', 95)),
         );
     }
 
@@ -581,13 +581,13 @@ final class DoctrineDatabaseTest extends TestCase
                     'keywords' => ['eng-GB' => 'New tag'],
                     'remoteId' => 'newRemoteId',
                     'alwaysAvailable' => false,
-                ]
+                ],
             ),
             [
                 'id' => 40,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
-            ]
+            ],
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -599,7 +599,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id', 'main_language_id', 'language_mask')
                 ->from('eztags')
-                ->where($query->expr()->eq('id', 97))
+                ->where($query->expr()->eq('id', 97)),
         );
     }
 
@@ -618,8 +618,8 @@ final class DoctrineDatabaseTest extends TestCase
                     'keywords' => ['eng-GB' => 'New tag'],
                     'remoteId' => 'newRemoteId',
                     'alwaysAvailable' => false,
-                ]
-            )
+                ],
+            ),
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -631,7 +631,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id', 'main_language_id', 'language_mask')
                 ->from('eztags')
-                ->where($query->expr()->eq('id', 97))
+                ->where($query->expr()->eq('id', 97)),
         );
     }
 
@@ -649,9 +649,9 @@ final class DoctrineDatabaseTest extends TestCase
                     'remoteId' => 'updatedRemoteId',
                     'mainLanguageCode' => 'eng-US',
                     'alwaysAvailable' => true,
-                ]
+                ],
             ),
-            40
+            40,
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -662,7 +662,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id, parent_id, main_tag_id, keyword, depth, path_string, remote_id, main_language_id, language_mask')
                 ->from('eztags')
-                ->where($query->expr()->eq('id', 40))
+                ->where($query->expr()->eq('id', 40)),
         );
     }
 
@@ -682,13 +682,13 @@ final class DoctrineDatabaseTest extends TestCase
                     'keywords' => ['eng-GB' => 'New synonym'],
                     'remoteId' => 'newRemoteId',
                     'alwaysAvailable' => true,
-                ]
+                ],
             ),
             [
                 'parent_id' => 7,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
-            ]
+            ],
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -700,7 +700,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'remote_id', 'main_language_id', 'language_mask')
                 ->from('eztags')
-                ->where($query->expr()->eq('id', 97))
+                ->where($query->expr()->eq('id', 97)),
         );
     }
 
@@ -717,7 +717,7 @@ final class DoctrineDatabaseTest extends TestCase
                 'parent_id' => 7,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
-            ]
+            ],
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -728,7 +728,7 @@ final class DoctrineDatabaseTest extends TestCase
             $query
                 ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string')
                 ->from('eztags')
-                ->where($query->expr()->eq('id', 80))
+                ->where($query->expr()->eq('id', 80)),
         );
     }
 
@@ -750,7 +750,7 @@ final class DoctrineDatabaseTest extends TestCase
                 ->select('id', 'keyword_id', 'objectattribute_id', 'objectattribute_version', 'object_id')
                 ->from('eztags_attribute_link')
                 ->where($query->expr()->in('id', [':id']))
-                ->setParameter('id', [1284, 1285, 1286, 1287], Connection::PARAM_INT_ARRAY)
+                ->setParameter('id', [1284, 1285, 1286, 1287], Connection::PARAM_INT_ARRAY),
         );
     }
 
@@ -767,7 +767,7 @@ final class DoctrineDatabaseTest extends TestCase
             [
                 'id' => 78,
                 'path_string' => '/8/78/',
-            ]
+            ],
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -786,7 +786,7 @@ final class DoctrineDatabaseTest extends TestCase
                 ->select('id', 'parent_id', 'depth', 'path_string')
                 ->from('eztags')
                 ->where($query->expr()->in('id', [':id']))
-                ->setParameter('id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY)
+                ->setParameter('id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY),
         );
     }
 
@@ -806,7 +806,7 @@ final class DoctrineDatabaseTest extends TestCase
                 ->select('id')
                 ->from('eztags')
                 ->where($query->expr()->in('id', [':id']))
-                ->setParameter('id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY)
+                ->setParameter('id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY),
         );
 
         $query = $this->connection->createQueryBuilder();
@@ -818,7 +818,7 @@ final class DoctrineDatabaseTest extends TestCase
                 ->select('keyword_id')
                 ->from('eztags_attribute_link')
                 ->where($query->expr()->in('keyword_id', [':keyword_id']))
-                ->setParameter('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY)
+                ->setParameter('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY),
         );
     }
 
@@ -834,7 +834,7 @@ final class DoctrineDatabaseTest extends TestCase
         return new DoctrineDatabase(
             $dbConnection,
             $languageHandlerMock,
-            new MaskGenerator($languageHandlerMock)
+            new MaskGenerator($languageHandlerMock),
         );
     }
 

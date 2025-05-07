@@ -28,7 +28,7 @@ use function is_int;
 
 final class TagLimitationTypeTest extends Base
 {
-    private MockObject&Handler $tagsHandlerMock;
+    private Handler&MockObject $tagsHandlerMock;
 
     private MockObject&PersistenceHandler $persistenceHandlerMock;
 
@@ -46,11 +46,22 @@ final class TagLimitationTypeTest extends Base
 
         $this->limitationType = new TagLimitationType(
             $this->persistenceHandlerMock,
-            $this->tagsHandlerMock
+            $this->tagsHandlerMock,
         );
     }
 
-    public function providerForTestAcceptValue(): array
+    /**
+     * @dataProvider provideAcceptValueCases
+     */
+    public function testAcceptValue(TagLimitation $limitation): void
+    {
+        $this->limitationType->acceptValue($limitation);
+
+        // Fake assertion count to remove the risky flag
+        $this->addToAssertionCount(1);
+    }
+
+    public static function provideAcceptValueCases(): iterable
     {
         return [
             [new TagLimitation()],
@@ -63,7 +74,7 @@ final class TagLimitationTypeTest extends Base
                             '2',
                             '3',
                         ],
-                    ]
+                    ],
                 ),
             ],
             [
@@ -74,7 +85,7 @@ final class TagLimitationTypeTest extends Base
                             2,
                             3,
                         ],
-                    ]
+                    ],
                 ),
             ],
             [
@@ -85,46 +96,14 @@ final class TagLimitationTypeTest extends Base
                             '2',
                             '3',
                         ],
-                    ]
+                    ],
                 ),
             ],
         ];
     }
 
     /**
-     * @dataProvider providerForTestAcceptValue
-     */
-    public function testAcceptValue(TagLimitation $limitation): void
-    {
-        $this->limitationType->acceptValue($limitation);
-
-        // Fake assertion count to remove the risky flag
-        $this->addToAssertionCount(1);
-    }
-
-    public function providerForTestAcceptValueException(): array
-    {
-        return [
-            [new ObjectStateLimitation()],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => true,
-                    ]
-                ),
-            ],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => [true],
-                    ]
-                ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider providerForTestAcceptValueException
+     * @dataProvider provideAcceptValueExceptionCases
      */
     public function testAcceptValueException(Limitation $limitation): void
     {
@@ -133,72 +112,29 @@ final class TagLimitationTypeTest extends Base
         $this->limitationType->acceptValue($limitation);
     }
 
-    public function providerForTestValidate(): array
+    public static function provideAcceptValueExceptionCases(): iterable
     {
         return [
-            [
-                new TagLimitation(),
-                0,
-            ],
-            [
-                new TagLimitation(
-                    []
-                ),
-                0,
-            ],
+            [new ObjectStateLimitation()],
             [
                 new TagLimitation(
                     [
-                        'limitationValues' => [1, 2, 3],
-                    ]
+                        'limitationValues' => true,
+                    ],
                 ),
-                0,
-            ],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => ['1', '2', '3'],
-                    ]
-                ),
-                3,
-            ],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => ['1', 2, 3],
-                    ]
-                ),
-                1,
             ],
             [
                 new TagLimitation(
                     [
                         'limitationValues' => [true],
-                    ]
+                    ],
                 ),
-                1,
-            ],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => ['1', false],
-                    ]
-                ),
-                2,
-            ],
-            [
-                new TagLimitation(
-                    [
-                        'limitationValues' => ['1', 2, false],
-                    ]
-                ),
-                2,
             ],
         ];
     }
 
     /**
-     * @dataProvider providerForTestValidate
+     * @dataProvider provideValidateCases
      */
     public function testValidate(TagLimitation $limitation, int $errorCount): void
     {
@@ -210,7 +146,7 @@ final class TagLimitationTypeTest extends Base
                         ->method('loadTagInfo')
                         ->with($value)
                         ->willReturn(
-                            new TagInfo(['id' => $value])
+                            new TagInfo(['id' => $value]),
                         );
                 } else {
                     $this->tagsHandlerMock
@@ -230,6 +166,70 @@ final class TagLimitationTypeTest extends Base
         self::assertCount($errorCount, $validationErrors);
     }
 
+    public static function provideValidateCases(): iterable
+    {
+        return [
+            [
+                new TagLimitation(),
+                0,
+            ],
+            [
+                new TagLimitation(
+                    [],
+                ),
+                0,
+            ],
+            [
+                new TagLimitation(
+                    [
+                        'limitationValues' => [1, 2, 3],
+                    ],
+                ),
+                0,
+            ],
+            [
+                new TagLimitation(
+                    [
+                        'limitationValues' => ['1', '2', '3'],
+                    ],
+                ),
+                3,
+            ],
+            [
+                new TagLimitation(
+                    [
+                        'limitationValues' => ['1', 2, 3],
+                    ],
+                ),
+                1,
+            ],
+            [
+                new TagLimitation(
+                    [
+                        'limitationValues' => [true],
+                    ],
+                ),
+                1,
+            ],
+            [
+                new TagLimitation(
+                    [
+                        'limitationValues' => ['1', false],
+                    ],
+                ),
+                2,
+            ],
+            [
+                new TagLimitation(
+                    [
+                        'limitationValues' => ['1', 2, false],
+                    ],
+                ),
+                2,
+            ],
+        ];
+    }
+
     public function testBuildValue(): void
     {
         $value = $this->limitationType->buildValue(['1', 2, '3']);
@@ -238,7 +238,19 @@ final class TagLimitationTypeTest extends Base
         self::assertSame([1, 2, 3], $value->limitationValues);
     }
 
-    public function providerForTestEvaluate(): array
+    /**
+     * @dataProvider provideEvaluateCases
+     */
+    public function testEvaluate(TagLimitation $limitation, ValueObject $object, mixed $expected): void
+    {
+        $this->userMock->expects(self::never())->method(self::anything());
+
+        $value = $this->limitationType->evaluate($limitation, $this->userMock, $object);
+
+        self::assertSame($expected, $value);
+    }
+
+    public static function provideEvaluateCases(): iterable
     {
         return [
             // Tag with no access
@@ -263,18 +275,18 @@ final class TagLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestEvaluate
+     * @dataProvider provideEvaluateInvalidArgumentCases
      */
-    public function testEvaluate(TagLimitation $limitation, ValueObject $object, mixed $expected): void
+    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->userMock->expects(self::never())->method(self::anything());
 
-        $value = $this->limitationType->evaluate($limitation, $this->userMock, $object);
-
-        self::assertSame($expected, $value);
+        $this->limitationType->evaluate($limitation, $this->userMock, $object);
     }
 
-    public function providerForTestEvaluateInvalidArgument(): array
+    public static function provideEvaluateInvalidArgumentCases(): iterable
     {
         return [
             // invalid limitation
@@ -290,25 +302,13 @@ final class TagLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluateInvalidArgument
-     */
-    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $this->userMock->expects(self::never())->method(self::anything());
-
-        $this->limitationType->evaluate($limitation, $this->userMock, $object);
-    }
-
     public function testGetCriterionInvalidValue(): void
     {
         $this->expectException(RuntimeException::class);
 
         $this->limitationType->getCriterion(
             new TagLimitation([]),
-            $this->userMock
+            $this->userMock,
         );
     }
 
@@ -316,7 +316,7 @@ final class TagLimitationTypeTest extends Base
     {
         $criterion = $this->limitationType->getCriterion(
             new TagLimitation(['limitationValues' => [1]]),
-            $this->userMock
+            $this->userMock,
         );
 
         self::assertInstanceOf(TagId::class, $criterion);
@@ -328,7 +328,7 @@ final class TagLimitationTypeTest extends Base
     {
         $criterion = $this->limitationType->getCriterion(
             new TagLimitation(['limitationValues' => [1, 2]]),
-            $this->userMock
+            $this->userMock,
         );
 
         self::assertInstanceOf(TagId::class, $criterion);

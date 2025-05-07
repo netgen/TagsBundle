@@ -87,7 +87,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
         return new TagsValue(
             [
                 $this->getTag1(),
-            ]
+            ],
         );
     }
 
@@ -95,7 +95,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         self::assertInstanceOf(
             TagsValue::class,
-            $field->value
+            $field->value,
         );
 
         self::assertCount(1, $field->value->tags);
@@ -132,7 +132,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
             [
                 $this->getTag2(),
                 $this->getTag3(),
-            ]
+            ],
         );
     }
 
@@ -140,7 +140,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         self::assertInstanceOf(
             TagsValue::class,
-            $field->value
+            $field->value,
         );
 
         self::assertCount(2, $field->value->tags);
@@ -157,7 +157,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
     {
         self::assertInstanceOf(
             TagsValue::class,
-            $field->value
+            $field->value,
         );
 
         self::assertCount(1, $field->value->tags);
@@ -179,7 +179,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 new TagsValue(
                     [
                         $this->getTag1(),
-                    ]
+                    ],
                 ),
                 [
                     $this->getTagHash1(),
@@ -206,7 +206,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 new TagsValue(
                     [
                         $this->getTag1(),
-                    ]
+                    ],
                 ),
             ],
         ];
@@ -253,7 +253,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
-            ]
+            ],
         );
     }
 
@@ -276,7 +276,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
-            ]
+            ],
         );
     }
 
@@ -299,7 +299,7 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
-            ]
+            ],
         );
     }
 

@@ -16,7 +16,7 @@ final class RelatedContentAdapterTest extends TestCase
 {
     private MockObject&TagsService $tagsService;
 
-    private MockObject&ConfigResolverInterface $configResolver;
+    private ConfigResolverInterface&MockObject $configResolver;
 
     protected function setUp(): void
     {
@@ -36,7 +36,7 @@ final class RelatedContentAdapterTest extends TestCase
         $tag = new Tag(
             [
                 'id' => 42,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -81,19 +81,19 @@ final class RelatedContentAdapterTest extends TestCase
         $tag = new Tag(
             [
                 'id' => 42,
-            ]
+            ],
         );
 
         $relatedContent = [
             new Content(
                 [
                     'internalFields' => [],
-                ]
+                ],
             ),
             new Content(
                 [
                     'internalFields' => [],
-                ]
+                ],
             ),
         ];
 
@@ -109,7 +109,7 @@ final class RelatedContentAdapterTest extends TestCase
             ->with(
                 self::identicalTo($tag),
                 self::identicalTo($offset),
-                self::identicalTo($limit)
+                self::identicalTo($limit),
             )
             ->willReturn($relatedContent);
 
@@ -118,7 +118,7 @@ final class RelatedContentAdapterTest extends TestCase
             ->method('getParameter')
             ->with(
                 self::identicalTo('tag_view.related_content_list.return_content_info'),
-                self::identicalTo('netgen_tags')
+                self::identicalTo('netgen_tags'),
             )
             ->willReturn(true);
 

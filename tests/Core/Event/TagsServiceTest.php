@@ -20,9 +20,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TagsServiceTest extends TestCase
 {
-    private MockObject&CoreTagsService $tagsService;
+    private CoreTagsService&MockObject $tagsService;
 
-    private MockObject&EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
 
     protected function setUp(): void
     {
@@ -41,7 +41,7 @@ final class TagsServiceTest extends TestCase
             ->method('loadTag')
             ->with(self::identicalTo(42))
             ->willReturn(
-                new Tag(['id' => 42])
+                new Tag(['id' => 42]),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -60,7 +60,7 @@ final class TagsServiceTest extends TestCase
             ->method('loadTagByRemoteId')
             ->with(self::identicalTo('12345'))
             ->willReturn(
-                new Tag(['remoteId' => '12345'])
+                new Tag(['remoteId' => '12345']),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -79,7 +79,7 @@ final class TagsServiceTest extends TestCase
             ->method('loadTagByUrl')
             ->with('Netgen/TagsBundle', ['eng-GB'])
             ->willReturn(
-                new Tag(['keywords' => ['eng-GB' => 'TagsBundle']])
+                new Tag(['keywords' => ['eng-GB' => 'TagsBundle']]),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -104,8 +104,8 @@ final class TagsServiceTest extends TestCase
                     [
                         new Tag(['parentTagId' => 42]),
                         new Tag(['parentTagId' => 42]),
-                    ]
-                )
+                    ],
+                ),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -152,8 +152,8 @@ final class TagsServiceTest extends TestCase
                     [
                         new Tag(['keywords' => ['eng-GB' => 'netgen']]),
                         new Tag(['keywords' => ['eng-GB' => 'netgen']]),
-                    ]
-                )
+                    ],
+                ),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -200,8 +200,8 @@ final class TagsServiceTest extends TestCase
                     [
                         new Tag(['mainTagId' => 42]),
                         new Tag(['mainTagId' => 42]),
-                    ]
-                )
+                    ],
+                ),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -249,7 +249,7 @@ final class TagsServiceTest extends TestCase
                 [
                     new Content(),
                     new Content(),
-                ]
+                ],
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -296,7 +296,7 @@ final class TagsServiceTest extends TestCase
                 'keywords' => ['eng-GB' => 'netgen'],
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -317,7 +317,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\CreateTagEvent($tagCreateStruct, $tag))
+                self::equalTo(new Events\CreateTagEvent($tagCreateStruct, $tag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -347,7 +347,7 @@ final class TagsServiceTest extends TestCase
                 'remoteId' => '123456',
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => false,
-            ]
+            ],
         );
 
         $updatedTag = new Tag(
@@ -357,7 +357,7 @@ final class TagsServiceTest extends TestCase
                 'remoteId' => '123456',
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -365,7 +365,7 @@ final class TagsServiceTest extends TestCase
             ->method('updateTag')
             ->with(
                 self::identicalTo($tag),
-                self::identicalTo($tagUpdateStruct)
+                self::identicalTo($tagUpdateStruct),
             )
             ->willReturn($updatedTag);
 
@@ -381,7 +381,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\UpdateTagEvent($tagUpdateStruct, $updatedTag))
+                self::equalTo(new Events\UpdateTagEvent($tagUpdateStruct, $updatedTag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -412,7 +412,7 @@ final class TagsServiceTest extends TestCase
                 'mainTagId' => 42,
                 'mainLanguageCode' => 'eng-GB',
                 'alwaysAvailable' => true,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -433,7 +433,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\AddSynonymEvent($synonymCreateStruct, $synonym))
+                self::equalTo(new Events\AddSynonymEvent($synonymCreateStruct, $synonym)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -454,20 +454,20 @@ final class TagsServiceTest extends TestCase
         $tag = new Tag(
             [
                 'id' => 42,
-            ]
+            ],
         );
 
         $mainTag = new Tag(
             [
                 'id' => 24,
-            ]
+            ],
         );
 
         $synonym = new Tag(
             [
                 'id' => 42,
                 'mainTagId' => 24,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -475,7 +475,7 @@ final class TagsServiceTest extends TestCase
             ->method('convertToSynonym')
             ->with(
                 self::identicalTo($tag),
-                self::identicalTo($mainTag)
+                self::identicalTo($mainTag),
             )
             ->willReturn($synonym);
 
@@ -491,7 +491,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\ConvertToSynonymEvent($synonym, $mainTag))
+                self::equalTo(new Events\ConvertToSynonymEvent($synonym, $mainTag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -509,13 +509,13 @@ final class TagsServiceTest extends TestCase
         $tag = new Tag(
             [
                 'id' => 42,
-            ]
+            ],
         );
 
         $targetTag = new Tag(
             [
                 'id' => 24,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -523,7 +523,7 @@ final class TagsServiceTest extends TestCase
             ->method('mergeTags')
             ->with(
                 self::identicalTo($tag),
-                self::identicalTo($targetTag)
+                self::identicalTo($targetTag),
             );
 
         $beforeEvent = new Events\BeforeMergeTagsEvent($tag, $targetTag);
@@ -538,7 +538,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\MergeTagsEvent($targetTag))
+                self::equalTo(new Events\MergeTagsEvent($tag, $targetTag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -554,13 +554,13 @@ final class TagsServiceTest extends TestCase
             [
                 'id' => 24,
                 'keywords' => ['eng-GB' => 'netgen'],
-            ]
+            ],
         );
 
         $targetTag = new Tag(
             [
                 'id' => 25,
-            ]
+            ],
         );
 
         $copiedTag = new Tag(
@@ -568,7 +568,7 @@ final class TagsServiceTest extends TestCase
                 'id' => 42,
                 'parentTagId' => 25,
                 'keywords' => ['eng-GB' => 'netgen'],
-            ]
+            ],
         );
 
         $this->tagsService
@@ -576,7 +576,7 @@ final class TagsServiceTest extends TestCase
             ->method('copySubtree')
             ->with(
                 self::identicalTo($tag),
-                self::identicalTo($targetTag)
+                self::identicalTo($targetTag),
             )
             ->willReturn($copiedTag);
 
@@ -592,7 +592,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\CopySubtreeEvent($tag, $copiedTag, $targetTag))
+                self::equalTo(new Events\CopySubtreeEvent($tag, $copiedTag, $targetTag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -611,20 +611,20 @@ final class TagsServiceTest extends TestCase
         $tag = new Tag(
             [
                 'id' => 24,
-            ]
+            ],
         );
 
         $targetTag = new Tag(
             [
                 'id' => 25,
-            ]
+            ],
         );
 
         $movedTag = new Tag(
             [
                 'id' => 24,
                 'parentTagId' => 25,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -632,7 +632,7 @@ final class TagsServiceTest extends TestCase
             ->method('moveSubtree')
             ->with(
                 self::identicalTo($tag),
-                self::identicalTo($targetTag)
+                self::identicalTo($targetTag),
             )
             ->willReturn($movedTag);
 
@@ -648,7 +648,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\MoveSubtreeEvent($movedTag, $targetTag))
+                self::equalTo(new Events\MoveSubtreeEvent($movedTag, $targetTag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -666,7 +666,7 @@ final class TagsServiceTest extends TestCase
         $tag = new Tag(
             [
                 'id' => 42,
-            ]
+            ],
         );
 
         $this->tagsService
@@ -686,7 +686,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::at(1))
             ->method('dispatch')
             ->with(
-                self::equalTo(new Events\DeleteTagEvent($tag))
+                self::equalTo(new Events\DeleteTagEvent($tag)),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -703,7 +703,7 @@ final class TagsServiceTest extends TestCase
             ->method('newTagCreateStruct')
             ->with(self::identicalTo(42), self::identicalTo('eng-GB'))
             ->willReturn(
-                new TagCreateStruct(['parentTagId' => 42, 'mainLanguageCode' => 'eng-GB'])
+                new TagCreateStruct(['parentTagId' => 42, 'mainLanguageCode' => 'eng-GB']),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -723,7 +723,7 @@ final class TagsServiceTest extends TestCase
             ->method('newSynonymCreateStruct')
             ->with(self::identicalTo(42), self::identicalTo('eng-GB'))
             ->willReturn(
-                new SynonymCreateStruct(['mainTagId' => 42, 'mainLanguageCode' => 'eng-GB'])
+                new SynonymCreateStruct(['mainTagId' => 42, 'mainLanguageCode' => 'eng-GB']),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -742,7 +742,7 @@ final class TagsServiceTest extends TestCase
             ->expects(self::once())
             ->method('newTagUpdateStruct')
             ->willReturn(
-                new TagUpdateStruct()
+                new TagUpdateStruct(),
             );
 
         $eventDispatchingService = $this->getEventDispatchingService();
@@ -756,8 +756,7 @@ final class TagsServiceTest extends TestCase
      */
     public function testSudo(): void
     {
-        $callback = static function (): void {
-        };
+        $callback = static function (): void {};
 
         $this->tagsService
             ->expects(self::once())

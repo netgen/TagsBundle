@@ -17,9 +17,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagIdTest extends TestCase
 {
-    private MockObject&FieldNameResolver $fieldNameResolver;
+    private FieldNameResolver&MockObject $fieldNameResolver;
 
-    private MockObject&Handler $contentTypeHandler;
+    private Handler&MockObject $contentTypeHandler;
 
     private TagId $visitor;
 
@@ -34,7 +34,7 @@ final class TagIdTest extends TestCase
             new MultipleIntegerMapper(),
             $this->contentTypeHandler,
             'eztags',
-            'tag_ids'
+            'tag_ids',
         );
     }
 
@@ -71,13 +71,13 @@ final class TagIdTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field'),
                 'eztags',
-                'tag_ids'
+                'tag_ids',
             )
             ->willReturn(
                 [
                     'tags_field_s' => new FieldType\MultipleIntegerField(),
                     'tags_field2_s' => new FieldType\MultipleIntegerField(),
-                ]
+                ],
             );
 
         $this->contentTypeHandler
@@ -86,7 +86,7 @@ final class TagIdTest extends TestCase
 
         self::assertSame(
             '(tags_field_s:"42" OR tags_field_s:"43" OR tags_field2_s:"42" OR tags_field2_s:"43")',
-            $this->visitor->visit($criterion)
+            $this->visitor->visit($criterion),
         );
     }
 
@@ -113,7 +113,7 @@ final class TagIdTest extends TestCase
                             'field_type_identifier' => 'eztags',
                         ],
                     ],
-                ]
+                ],
             );
 
         $this->fieldNameResolver
@@ -123,12 +123,12 @@ final class TagIdTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field'),
                 'eztags',
-                'tag_ids'
+                'tag_ids',
             )
             ->willReturn(
                 [
                     'news_tags_field_s' => new FieldType\MultipleIntegerField(),
-                ]
+                ],
             );
 
         $this->fieldNameResolver
@@ -138,17 +138,17 @@ final class TagIdTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field2'),
                 'eztags',
-                'tag_ids'
+                'tag_ids',
             )
             ->willReturn(
                 [
                     'article_tags_field2_s' => new FieldType\MultipleIntegerField(),
-                ]
+                ],
             );
 
         self::assertSame(
             '(news_tags_field_s:"42" OR news_tags_field_s:"43" OR article_tags_field2_s:"42" OR article_tags_field2_s:"43")',
-            $this->visitor->visit($criterion)
+            $this->visitor->visit($criterion),
         );
     }
 
@@ -169,7 +169,7 @@ final class TagIdTest extends TestCase
                 self::identicalTo($criterion),
                 self::identicalTo('tags_field'),
                 'eztags',
-                'tag_ids'
+                'tag_ids',
             )
             ->willReturn([]);
 

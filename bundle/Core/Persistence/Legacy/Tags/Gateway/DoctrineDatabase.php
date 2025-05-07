@@ -190,20 +190,20 @@ final class DoctrineDatabase extends Gateway
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
 
         $tagIdsQuery->andWhere(
-            $exactMatch ?
-                $tagIdsQuery->expr()->eq(
+            $exactMatch
+                ? $tagIdsQuery->expr()->eq(
                     'eztags_keyword.keyword',
                     ':keyword',
-                ) :
-                $tagIdsQuery->expr()->like(
+                )
+                : $tagIdsQuery->expr()->like(
                     $databasePlatform->getLowerExpression('eztags_keyword.keyword'),
                     ':keyword',
                 ),
         );
 
-        $exactMatch ?
-            $tagIdsQuery->setParameter('keyword', $keyword, Types::STRING) :
-            $tagIdsQuery->setParameter('keyword', mb_strtolower($keyword) . '%', Types::STRING);
+        $exactMatch
+            ? $tagIdsQuery->setParameter('keyword', $keyword, Types::STRING)
+            : $tagIdsQuery->setParameter('keyword', mb_strtolower($keyword) . '%', Types::STRING);
 
         $tagIdsQuery
             ->setFirstResult($offset)
@@ -240,20 +240,20 @@ final class DoctrineDatabase extends Gateway
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
         $query->andWhere(
-            $exactMatch ?
-                $query->expr()->eq(
+            $exactMatch
+                ? $query->expr()->eq(
                     'eztags_keyword.keyword',
                     ':keyword',
-                ) :
-                $query->expr()->like(
+                )
+                : $query->expr()->like(
                     $databasePlatform->getLowerExpression('eztags_keyword.keyword'),
                     ':keyword',
                 ),
         );
 
-        $exactMatch ?
-            $query->setParameter('keyword', $keyword, Types::STRING) :
-            $query->setParameter('keyword', mb_strtolower($keyword) . '%', Types::STRING);
+        $exactMatch
+            ? $query->setParameter('keyword', $keyword, Types::STRING)
+            : $query->setParameter('keyword', mb_strtolower($keyword) . '%', Types::STRING);
 
         $rows = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
 
@@ -733,9 +733,9 @@ final class DoctrineDatabase extends Gateway
             // Prefixing ensures correct replacement when there is no parent
             $newPathString = str_replace(
                 'prefix' . $oldParentPathString,
-                is_array($destinationParentTagData) ?
-                    $destinationParentTagData['path_string'] :
-                    '/',
+                is_array($destinationParentTagData)
+                    ? $destinationParentTagData['path_string']
+                    : '/',
                 'prefix' . $row['path_string'],
             );
 

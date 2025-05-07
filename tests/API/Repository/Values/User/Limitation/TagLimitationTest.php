@@ -30,8 +30,8 @@ final class TagLimitationTest extends BaseLimitationTest
             new TagLimitation(
                 [
                     'limitationValues' => [47],
-                ]
-            )
+                ],
+            ),
         );
 
         $role = $roleService->addPolicyByRoleDraft($role, $policyCreateStruct);
@@ -47,7 +47,7 @@ final class TagLimitationTest extends BaseLimitationTest
 
         $tagCreateStruct = $tagsService->newTagCreateStruct(
             $tagsService->loadTag(47)->id,
-            'eng-GB'
+            'eng-GB',
         );
         $tagCreateStruct->setKeyword('netgen', 'eng-GB');
 
@@ -57,7 +57,7 @@ final class TagLimitationTest extends BaseLimitationTest
 
         self::assertSame(
             'netgen',
-            $createdTag->getKeyword('eng-GB')
+            $createdTag->getKeyword('eng-GB'),
         );
     }
 
@@ -83,8 +83,8 @@ final class TagLimitationTest extends BaseLimitationTest
             new TagLimitation(
                 [
                     'limitationValues' => [47, 48],
-                ]
-            )
+                ],
+            ),
         );
         $role = $roleService->addPolicyByRoleDraft($role, $policyCreateStruct);
 
@@ -99,7 +99,7 @@ final class TagLimitationTest extends BaseLimitationTest
 
         $tagCreateStruct = $tagsService->newTagCreateStruct(
             $tagsService->loadTag(50)->id,
-            'eng-GB'
+            'eng-GB',
         );
         $tagCreateStruct->setKeyword('netgen', 'eng-GB');
 

@@ -306,9 +306,9 @@ class TagsService implements TagsServiceInterface
             ],
         );
 
-        $searchResult = $returnContentInfo ?
-            $this->repository->getSearchService()->findContentInfo($query) :
-            $this->repository->getSearchService()->findContent($query);
+        $searchResult = $returnContentInfo
+            ? $this->repository->getSearchService()->findContentInfo($query)
+            : $this->repository->getSearchService()->findContent($query);
 
         $content = [];
         foreach ($searchResult->searchHits as $searchHit) {
@@ -359,8 +359,8 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
         }
 
-        $keywords[$tagCreateStruct->mainLanguageCode] ??
-            throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
+        $keywords[$tagCreateStruct->mainLanguageCode]
+            ?? throw new InvalidArgumentValue('keywords', $keywords, 'TagCreateStruct');
 
         if ($tagCreateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $tagCreateStruct->remoteId, 'TagCreateStruct');
@@ -445,8 +445,8 @@ class TagsService implements TagsServiceInterface
         }
 
         $mainLanguageCode = $tagUpdateStruct->mainLanguageCode ?? $spiTag->mainLanguageCode;
-        $newKeywords[$mainLanguageCode] ??
-            throw new InvalidArgumentValue('mainLanguageCode', $mainLanguageCode, 'TagUpdateStruct');
+        $newKeywords[$mainLanguageCode]
+            ?? throw new InvalidArgumentValue('mainLanguageCode', $mainLanguageCode, 'TagUpdateStruct');
 
         $updateStruct = new UpdateStruct();
         $updateStruct->keywords = $newKeywords;
@@ -489,8 +489,8 @@ class TagsService implements TagsServiceInterface
             throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
         }
 
-        $keywords[$synonymCreateStruct->mainLanguageCode] ??
-            throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
+        $keywords[$synonymCreateStruct->mainLanguageCode]
+            ?? throw new InvalidArgumentValue('keywords', $keywords, 'SynonymCreateStruct');
 
         if ($synonymCreateStruct->remoteId === '') {
             throw new InvalidArgumentValue('remoteId', $synonymCreateStruct->remoteId, 'SynonymCreateStruct');
