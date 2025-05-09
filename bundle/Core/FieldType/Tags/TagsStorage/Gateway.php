@@ -25,4 +25,11 @@ abstract class Gateway extends StorageGateway
      * $versionInfo.
      */
     abstract public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void;
+
+    /**
+     * Returns the tag data for provided parent ID, keyword and main language code.
+     *
+     * @return array<string, mixed>
+     */
+    abstract public function loadTagData(int $parentTagId, string $keyword, string $language): array;
 }

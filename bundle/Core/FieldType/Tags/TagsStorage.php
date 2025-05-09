@@ -33,6 +33,18 @@ final class TagsStorage extends GatewayBasedStorage
             $externalData = $field->value->externalData;
             foreach ($externalData as $key => $tag) {
                 if (!isset($tag['id'])) {
+                    $existingTagData = $this->gateway->loadTagData(
+                        $tag['parent_id'],
+                        $tag['keywords'][$tag['main_language_code']],
+                        $tag['main_language_code'],
+                    );
+
+                    if (isset($existingTagData['id'])) {
+                        $field->value->externalData[$key]['id'] = (int) $existingTagData['id'];
+
+                        continue;
+                    }
+
                     try {
                         $createdTag = $this->createTag($tag);
                         $field->value->externalData[$key]['id'] = $createdTag->id;

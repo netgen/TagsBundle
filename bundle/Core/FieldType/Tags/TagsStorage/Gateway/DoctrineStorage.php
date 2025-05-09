@@ -66,6 +66,30 @@ final class DoctrineStorage extends Gateway
         $query->execute();
     }
 
+    public function loadTagData(int $parentTagId, string $keyword, string $language): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('t.*')
+            ->from('eztags', 't')
+            ->where(
+                $query->expr()->andX(
+                    $query->expr()->eq('t.parent_id', ':parent_id'),
+                    $query->expr()->eq('t.keyword', ':keyword'),
+                    $query->expr()->eq('t.main_language_id', ':main_language_id'),
+                ),
+            )
+            ->setParameter(':parent_id', $parentTagId, Types::INTEGER)
+            ->setParameter(':keyword', $keyword, Types::STRING)
+            ->setParameter(':main_language_id', $this->languageHandler->loadByLanguageCode($language)->id, Types::INTEGER);
+
+        $statement = $query->execute();
+
+        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+
+        return $rows[0] ?? [];
+    }
+
     /**
      * Returns the data for the given $fieldId and $versionNo.
      */
