@@ -3,9 +3,6 @@ includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
-
     excludePaths:
         # The following two paths are excluded since PHPStan crashes with "unknown interface" error
         # which cannot be excluded with ignoreErrors config
@@ -13,6 +10,10 @@ parameters:
         - bundle/Core/Search/Elasticsearch/QueryDSL/PrefixQuery.php
 
     ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics
         -
             message: '#Else branch is unreachable because ternary operator condition is always true.#'
             path: bundle/Core/FieldType/Tags/Type.php
