@@ -24,3 +24,10 @@ The following lists only the most important changes from version 4.0 to version 
 ------------------
 
 * Bumped jQuery to 3.7.1 (Thanks @ljacmi)
+
+5.3.0 (09.05.2025)
+------------------
+
+* Implemented HTTP cache clearing mechanism on various tag actions (thanks @pspanja)
+* Fixed infinite creation of same tags on content autosave
+* Bumped PHP to 8.2
