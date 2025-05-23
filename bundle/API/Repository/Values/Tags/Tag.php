@@ -105,6 +105,16 @@ final class Tag extends ValueObject
     protected ?string $prioritizedLanguageCode;
 
     /**
+     * Indicates if the Tag object is visible or not
+     */
+    protected bool $isHidden;
+
+    /**
+     * Indicates if the Tag object is located under another hidden Tag object
+     */
+    protected bool $isInvisible;
+
+    /**
      * Construct object optionally with a set of properties.
      *
      * Readonly properties values must be set using $properties as they are not writable anymore
