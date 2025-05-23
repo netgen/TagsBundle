@@ -13,6 +13,8 @@ tag.translations: 'Traductions'
 tag.modified: 'Modifié'
 tag.main_tag: 'Tag principale'
 tag.parent_tag: 'Tag parent'
+tag.hidden: 'Caché'
+tag.invisible: 'Invisible'
 
 tag.content.content_id: 'ID du contenu'
 tag.content.name: 'Nom'

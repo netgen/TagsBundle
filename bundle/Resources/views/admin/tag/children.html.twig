@@ -26,6 +26,8 @@
                     <th>{{ 'tag.tag_name'|trans }}</th>
                     <th>{{ 'tag.translations'|trans }}</th>
                     <th>{{ 'tag.modified'|trans }}</th>
+                    <th>{{ 'tag.hidden'|trans }}</th>
+                    <th>{{ 'tag.invisible'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +50,8 @@
                             {% endfor %}
                         </td>
                         <td>{{ child.modificationDate|date }}</td>
+                        <td>{{ child.isHidden ? 1 : 0 }}</td>
+                        <td>{{ child.isInvisible ? 1 : 0 }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
