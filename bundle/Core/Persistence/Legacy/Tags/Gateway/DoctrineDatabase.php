@@ -930,6 +930,8 @@ final class DoctrineDatabase extends Gateway
             'eztags.remote_id',
             'eztags.main_language_id',
             'eztags.language_mask',
+            'eztags.is_hidden',
+            'eztags.is_invisible',
             // Tag keywords
             'eztags_keyword.keyword',
             'eztags_keyword.locale',
