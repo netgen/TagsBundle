@@ -751,6 +751,28 @@ class TagsService implements TagsServiceInterface
         return new TagUpdateStruct();
     }
 
+    public function hideTag(Tag $tag): void
+    {
+        if ($tag->mainTagId > 0) {
+            if ($this->hasAccess('tags', 'hidesynonym') === false) {
+                throw new UnauthorizedException('tags', 'hidesynonym');
+            }
+        } elseif ($this->hasAccess('tags', 'hide') === false) {
+            throw new UnauthorizedException('tags', 'hide');
+        }
+
+        $this->repository->beginTransaction();
+
+        try {
+            $this->tagsHandler->hideTag($tag->id);
+            $this->repository->commit();
+        } catch (Exception $e) {
+            $this->repository->rollback();
+
+            throw $e;
+        }
+    }
+
     public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null): mixed
     {
         ++$this->sudoNestingLevel;

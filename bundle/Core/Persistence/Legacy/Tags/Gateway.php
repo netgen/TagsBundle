@@ -112,4 +112,9 @@ abstract class Gateway
      * If $tagId is a synonym, only the synonym is deleted.
      */
     abstract public function deleteTag(int $tagId): void;
+
+    /**
+     * Hides tag identified by $tagId
+     */
+    abstract public function hideTag(int $tagId): void;
 }

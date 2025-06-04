@@ -503,6 +503,17 @@ final class TagController extends Controller
         return $this->redirect($request->getPathInfo());
     }
 
+    public function hideAction(Request $request, Tag $tag): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide' . ($tag->isSynonym() ? 'synonym' : ''));
+
+        $this->tagsService->hideTag($tag);
+
+        $this->addFlashMessage('success', 'tag_hidden', ['%tagKeyword%' => $tag->keyword]);
+
+        return $this->redirectToTag($tag);
+    }
+
     /**
      * This method is called from a form containing all children tags of a tag.
      * It shows a confirmation view.

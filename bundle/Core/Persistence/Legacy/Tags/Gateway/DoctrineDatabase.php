@@ -844,6 +844,33 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
+    public function hideTag(int $tagId): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_hidden', 1)
+            ->where(
+                $query->expr()->eq('id', ':tag_id')
+            )->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+
+        $query
+            ->update('eztags')
+            ->set('is_invisible', 1)
+            ->where(
+                $query->expr()->like('path_string', ':path_string')
+            )
+            ->andWhere(
+                $query->expr()->neq('id', ':tag_id')
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING)
+            ->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+    }
+
     private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
         $query = $this->connection->createQueryBuilder();

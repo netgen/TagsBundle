@@ -72,3 +72,9 @@ netgen_tags_admin_tag_children:
     path: /{tagId}/children
     controller: netgen_tags.admin.controller.tag:childrenAction
     methods: [POST]
+
+netgen_tags_admin_tag_hide:
+    path: /{tagId}/hide
+    controller: netgen_tags.admin.controller.tag:hideAction
+    methods: [GET, POST]
+
