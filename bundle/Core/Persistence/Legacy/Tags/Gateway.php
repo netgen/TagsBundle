@@ -114,7 +114,12 @@ abstract class Gateway
     abstract public function deleteTag(int $tagId): void;
 
     /**
-     * Hides tag identified by $tagId
+     * Hides tag identified by $tagId.
      */
     abstract public function hideTag(int $tagId): void;
+
+    /**
+     * Unhides tag identified by $tagId.
+     */
+    abstract public function unhideTag(int $tagId): void;
 }

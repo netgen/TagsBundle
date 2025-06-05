@@ -851,7 +851,7 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set('is_hidden', 1)
             ->where(
-                $query->expr()->eq('id', ':tag_id')
+                $query->expr()->eq('id', ':tag_id'),
             )->setParameter('tag_id', $tagId, Types::INTEGER);
 
         $query->execute();
@@ -860,10 +860,37 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set('is_invisible', 1)
             ->where(
-                $query->expr()->like('path_string', ':path_string')
+                $query->expr()->like('path_string', ':path_string'),
             )
             ->andWhere(
-                $query->expr()->neq('id', ':tag_id')
+                $query->expr()->neq('id', ':tag_id'),
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING)
+            ->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+    }
+
+    public function unhideTag(int $tagId): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_hidden', 0)
+            ->where(
+                $query->expr()->eq('id', ':tag_id'),
+            )->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+
+        $query
+            ->update('eztags')
+            ->set('is_invisible', 0)
+            ->where(
+                $query->expr()->like('path_string', ':path_string'),
+            )
+            ->andWhere(
+                $query->expr()->neq('id', ':tag_id'),
             )
             ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING)
             ->setParameter('tag_id', $tagId, Types::INTEGER);

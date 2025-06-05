@@ -16,3 +16,4 @@ success.translation_removed: 'Translation for locale "%locale%" has been success
 success.main_translation_set: 'Translation for locale "%locale%" has been set as new main translation'
 success.always_available_set: 'Always available flag has been successfully updated'
 success.tag_hidden: 'Tag "%tagKeyword%" has been hidden'
+success.tag_unhidden: 'Tag "%tagKeyword%" has been unhidden'

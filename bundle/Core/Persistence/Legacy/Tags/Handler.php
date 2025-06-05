@@ -225,6 +225,12 @@ class Handler implements BaseTagsHandler
         $this->gateway->hideTag($tagInfo->id);
     }
 
+    public function unhideTag(int $tagId): void
+    {
+        $tagInfo = $this->loadTagInfo($tagId);
+        $this->gateway->unhideTag($tagInfo->id);
+    }
+
     /**
      * Copies tag object identified by $sourceData into destination identified by $destinationParentData.
      *

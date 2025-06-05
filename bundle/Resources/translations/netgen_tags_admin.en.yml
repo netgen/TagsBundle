@@ -73,6 +73,7 @@ tag.add_synonym.title: 'Add synonym'
 tag.convert.title: 'Convert to synonym'
 
 tag.hide.title: 'Hide tag'
+tag.unhide.title: 'Unhide tag'
 
 tag.move_tags.title: 'Move tags'
 tag.move_tags.message: 'Are you sure you want to move the selected tags?'

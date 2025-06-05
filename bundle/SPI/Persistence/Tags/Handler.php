@@ -168,7 +168,16 @@ interface Handler
     public function deleteTag(int $tagId): void;
 
     /**
-     * Hides tag identified by $tagId
+     * Hides tag identified by $tagId.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function hideTag(int $tagId): void;
+
+    /**
+     * Unhides tag identified by $tagId.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
+     */
+    public function unhideTag(int $tagId): void;
 }

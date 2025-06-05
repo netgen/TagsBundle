@@ -62,6 +62,7 @@ tag.add_synonym.title: 'Ajouter un synonyme'
 tag.convert.title: 'Convertir en synonyme'
 
 tag.hide.title: 'Cacher le tag'
+tag.unhide.title: 'Désactiver le tag'
 
 tag.move_tags.title: 'Déplacer les tags'
 tag.move_tags.message: 'Êtes-vous sûr de vouloir déplacer les tags sélectionnés ?'

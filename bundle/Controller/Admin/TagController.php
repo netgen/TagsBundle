@@ -514,6 +514,17 @@ final class TagController extends Controller
         return $this->redirectToTag($tag);
     }
 
+    public function unhideAction(Request $request, Tag $tag): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:unhide' . ($tag->isSynonym() ? 'synonym' : ''));
+
+        $this->tagsService->unhideTag($tag);
+
+        $this->addFlashMessage('success', 'tag_unhidden', ['%tagKeyword%' => $tag->keyword]);
+
+        return $this->redirectToTag($tag);
+    }
+
     /**
      * This method is called from a form containing all children tags of a tag.
      * It shows a confirmation view.

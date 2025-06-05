@@ -312,6 +312,14 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         $this->cache->invalidateTags(['tag-path-' . $tagId]);
     }
 
+    public function unhideTag(int $tagId): void
+    {
+        $this->logger->logCall(__METHOD__, ['tag' => $tagId]);
+        $this->tagsHandler->unhideTag($tagId);
+
+        $this->cache->invalidateTags(['tag-path-' . $tagId]);
+    }
+
     /**
      * Return relevant cache tags so cache can be purged reliably.
      *

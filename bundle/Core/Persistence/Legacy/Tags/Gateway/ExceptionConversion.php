@@ -235,4 +235,15 @@ final class ExceptionConversion extends Gateway
             throw new RuntimeException('Database error', 0, $e);
         }
     }
+
+    public function unhideTag(int $tagId): void
+    {
+        try {
+            $this->innerGateway->unhideTag($tagId);
+        } catch (DBALException $e) {
+            throw new RuntimeException('Database error', 0, $e);
+        } catch (PDOException $e) {
+            throw new RuntimeException('Database error', 0, $e);
+        }
+    }
 }
