@@ -95,6 +95,8 @@ tag.button.set_main: 'Set main'
 tag.button.move_selected: 'Move selected tags'
 tag.button.copy_selected: 'Copy selected tags'
 tag.button.delete_selected: 'Remove selected tags'
+tag.button.hide_selected: 'Hide selected tags'
+tag.button.unhide_selected: 'Unhide selected tags'
 tag.button.continue: 'Continue'
 
 tag.tree.top_level_tags: 'Top level tags'

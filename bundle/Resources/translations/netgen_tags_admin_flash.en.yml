@@ -12,6 +12,8 @@ success.tag_converted: 'Tag "%tagKeyword%" has been converted to synonym of tag 
 success.tags_moved: 'Tags have been moved successfully'
 success.tags_copied: 'Tags have been copied successfully'
 success.tags_deleted: 'Tags have been deleted successfully'
+success.tags_hidden: 'Tags have been hidden successfully'
+success.tags_unhidden: 'Tags have been unhidden successfully'
 success.translation_removed: 'Translation for locale "%locale%" has been successfully removed'
 success.main_translation_set: 'Translation for locale "%locale%" has been set as new main translation'
 success.always_available_set: 'Always available flag has been successfully updated'

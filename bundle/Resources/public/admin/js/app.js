@@ -345,7 +345,29 @@ function ngTagsInit(jQuery){
     });
     $enabledInputs.on('change', function(e){
         var name = e.currentTarget.dataset.enable;
-        $('input[data-enable="' + name + '"]:checked').length ? $('[data-enabler="' + name + '"]').removeAttr('disabled') : $('[data-enabler="' + name + '"]').attr('disabled', 'disabled');
+
+        var $checkedBoxes = $('input[data-enable="' + name + '"]:checked');
+        var $allButtons = $('[data-enabler="' + name + '"]');
+
+        $allButtons.prop('disabled', !$checkedBoxes.length);
+
+        if (name === 'Tags') {
+            var $hideButton = $('button[name="HideTagsAction"]');
+            var $unhideButton = $('button[name="UnhideTagsAction"]');
+
+            var hasHidden = false;
+            var hasUnhidden = false;
+            $checkedBoxes.each(function() {
+                var isHidden = $(this).closest('tr').find('td:eq(5)').text().trim() === '1';
+
+                isHidden ? hasHidden = true : hasUnhidden = true;
+
+                if (hasHidden && hasUnhidden) return false;
+            });
+
+            $hideButton.prop('disabled', hasHidden || !$checkedBoxes.length);
+            $unhideButton.prop('disabled', hasUnhidden || !$checkedBoxes.length);
+        }
     });
 }
 

@@ -84,6 +84,8 @@ tag.button.set_main: 'Définir principal'
 tag.button.move_selected: 'Déplacer les tags sélectionnées'
 tag.button.copy_selected: 'Copier les tags sélectionnés'
 tag.button.delete_selected: 'Supprimer les tags sélectionnés'
+tag.button.hide_selected: 'Masquer les tags sélectionnés'
+tag.button.unhide_selected: 'Désactiver les balises sélectionnées'
 tag.button.continue: 'Continuer'
 
 tag.tree.top_level_tags: 'Tags de premier niveau'
