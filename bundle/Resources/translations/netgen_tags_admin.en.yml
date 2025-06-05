@@ -15,6 +15,7 @@ tag.main_tag: 'Main tag'
 tag.parent_tag: 'Parent tag'
 tag.hidden: 'Hidden'
 tag.invisible: 'Invisible'
+tag.hidden_by_parent: 'hidden by parent'
 
 tag.content.content_id: 'Content ID'
 tag.content.name: 'Name'

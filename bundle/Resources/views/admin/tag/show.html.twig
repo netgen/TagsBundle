@@ -7,6 +7,8 @@
         {{ 'tag.title'|trans }}: {{ tag.keyword }}
         {% if tag.isHidden %}
             ({{ 'tag.hidden'|trans|lower }})
+        {% elseif tag.isInvisible %}
+            ({{ 'tag.hidden_by_parent'|trans }})
         {% endif %}
 
         {% if tag.isSynonym %}

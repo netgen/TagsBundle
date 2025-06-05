@@ -856,6 +856,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->execute();
 
+        $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
             ->set('is_invisible', 1)
@@ -883,6 +884,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->execute();
 
+        $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
             ->set('is_invisible', 0)
