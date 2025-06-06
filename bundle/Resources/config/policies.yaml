@@ -11,3 +11,5 @@ tags:
     merge: ~
     hide: ~
     unhide: ~
+    hidesynonym: ~
+    unhidesynonym: ~
