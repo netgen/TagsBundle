@@ -863,11 +863,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->like('path_string', ':path_string'),
             )
-            ->andWhere(
-                $query->expr()->neq('id', ':tag_id'),
-            )
-            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING)
-            ->setParameter('tag_id', $tagId, Types::INTEGER);
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
 
         $query->execute();
     }
@@ -891,11 +887,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->like('path_string', ':path_string'),
             )
-            ->andWhere(
-                $query->expr()->neq('id', ':tag_id'),
-            )
-            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING)
-            ->setParameter('tag_id', $tagId, Types::INTEGER);
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
 
         $query->execute();
     }
