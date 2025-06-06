@@ -1,5 +1,15 @@
 {% block eztags_field %}
     {% for tag in field.value.tags %}
-        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a>{% if not loop.last %}, {% endif %}
+        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}"
+           {% if tag.isHidden or tag.isInvisible %}style="color: gray;"{% endif %}
+        >
+            {{ tag.keyword }}
+            {% if tag.isHidden %}
+                (hidden)
+            {% elseif tag.isInvisible %}
+                (hidden by parent)
+            {% endif %}
+        </a>
+        {% if not loop.last %}, {% endif %}
     {% endfor %}
 {% endblock %}
