@@ -74,12 +74,12 @@ final class Tag extends ValueObject
     public array $languageIds = [];
 
     /**
-     * Indicates if the tag is visible or not
+     * Indicates if the tag is visible or not.
      */
     public bool $isHidden;
 
     /**
-     * Indicates if the tag is located under another hidden tag
+     * Indicates if the tag is located under another hidden tag.
      */
     public bool $isInvisible;
 }

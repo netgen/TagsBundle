@@ -849,7 +849,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
-            ->set('is_hidden', 1)
+            ->set('is_hidden', '1')
             ->where(
                 $query->expr()->eq('id', ':tag_id'),
             )->setParameter('tag_id', $tagId, Types::INTEGER);
@@ -859,7 +859,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
-            ->set('is_invisible', 1)
+            ->set('is_invisible', '1')
             ->where(
                 $query->expr()->like('path_string', ':path_string'),
             )
@@ -877,7 +877,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
-            ->set('is_hidden', 0)
+            ->set('is_hidden', '0')
             ->where(
                 $query->expr()->eq('id', ':tag_id'),
             )->setParameter('tag_id', $tagId, Types::INTEGER);
@@ -887,7 +887,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
-            ->set('is_invisible', 0)
+            ->set('is_invisible', '0')
             ->where(
                 $query->expr()->like('path_string', ':path_string'),
             )
