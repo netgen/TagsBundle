@@ -14,12 +14,8 @@ final class TagViewController extends Controller
      */
     public function viewAction(TagView $view): TagView
     {
-        if ($view->getTag()->isHidden) {
-            throw $this->createNotFoundException('Tag is hidden.');
-        }
-
         if ($view->getTag()->isInvisible) {
-            throw $this->createNotFoundException('Tag is hidden by parent.');
+            throw $this->createNotFoundException();
         }
 
         return $view;

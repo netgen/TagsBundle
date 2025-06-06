@@ -289,7 +289,7 @@ interface TagsService
     /**
      * Hides $tag.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to hide this tag
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function hideTag(Tag $tag): void;
@@ -297,7 +297,7 @@ interface TagsService
     /**
      * Unhides $tag.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to unhide this tag
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function unhideTag(Tag $tag): void;
