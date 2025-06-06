@@ -773,20 +773,20 @@ class TagsService implements TagsServiceInterface
         }
     }
 
-    public function unhideTag(Tag $tag): void
+    public function revealTag(Tag $tag): void
     {
         if ($tag->mainTagId > 0) {
-            if ($this->hasAccess('tags', 'unhidesynonym') === false) {
-                throw new UnauthorizedException('tags', 'hidesynonym');
+            if ($this->hasAccess('tags', 'revealsynonym') === false) {
+                throw new UnauthorizedException('tags', 'revealsynonym');
             }
-        } elseif ($this->hasAccess('tags', 'unhide') === false) {
-            throw new UnauthorizedException('tags', 'unhide');
+        } elseif ($this->hasAccess('tags', 'reveal') === false) {
+            throw new UnauthorizedException('tags', 'reveal');
         }
 
         $this->repository->beginTransaction();
 
         try {
-            $this->tagsHandler->unhideTag($tag->id);
+            $this->tagsHandler->revealTag($tag->id);
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();

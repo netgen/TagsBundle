@@ -868,7 +868,7 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function unhideTag(int $tagId): void
+    public function revealTag(int $tagId): void
     {
         $query = $this->connection->createQueryBuilder();
         $query

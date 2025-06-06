@@ -509,9 +509,9 @@ final class TagController extends Controller
             );
         }
 
-        if ($request->request->has('UnhideTagsAction')) {
+        if ($request->request->has('RevealTagsAction')) {
             return $this->redirectToRoute(
-                'netgen_tags_admin_tag_unhide_tags',
+                'netgen_tags_admin_tag_reveal_tags',
                 [
                     'parentId' => $tag?->id ?? 0,
                 ],
@@ -532,13 +532,13 @@ final class TagController extends Controller
         return $this->redirectToTag($tag);
     }
 
-    public function unhideAction(Request $request, Tag $tag): Response
+    public function revealAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ibexa:tags:unhide' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:reveal' . ($tag->isSynonym() ? 'synonym' : ''));
 
-        $this->tagsService->unhideTag($tag);
+        $this->tagsService->revealTag($tag);
 
-        $this->addFlashMessage('success', 'tag_unhidden', ['%tagKeyword%' => $tag->keyword]);
+        $this->addFlashMessage('success', 'tag_reveal', ['%tagKeyword%' => $tag->keyword]);
 
         return $this->redirectToTag($tag);
     }
@@ -733,9 +733,9 @@ final class TagController extends Controller
         return $this->redirectToTag($parentTag);
     }
 
-    public function unhideTagsAction(Request $request, ?Tag $parentTag = null): Response
+    public function revealTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ibexa:tags:unhide');
+        $this->denyAccessUnlessGranted('ibexa:tags:reveal');
 
         $tagIds = (array) $request->request->get(
             'Tags',
@@ -752,10 +752,10 @@ final class TagController extends Controller
         }
 
         foreach ($tags as $tagObject) {
-            $this->tagsService->unhideTag($tagObject);
+            $this->tagsService->revealTag($tagObject);
         }
 
-        $this->addFlashMessage('success', 'tags_unhidden');
+        $this->addFlashMessage('success', 'tags_reveal');
 
         return $this->redirectToTag($parentTag);
     }

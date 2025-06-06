@@ -6,7 +6,7 @@
 {% set can_edit = is_granted('ibexa:tags:edit') %}
 {% set can_delete = is_granted('ibexa:tags:delete') %}
 {% set can_hide = is_granted('ibexa:tags:hide') %}
-{% set can_unhide = is_granted('ibexa:tags:unhide') %}
+{% set can_reveal = is_granted('ibexa:tags:reveal') %}
 
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
@@ -80,8 +80,8 @@
                 <button type="submit" name="HideTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.hide_selected'|trans }}</button>
             {% endif %}
 
-            {% if can_unhide %}
-                <button type="submit" name="UnhideTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.unhide_selected'|trans }}</button>
+            {% if can_reveal %}
+                <button type="submit" name="RevealTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.reveal_selected'|trans }}</button>
             {% endif %}
         </div>
     </form>

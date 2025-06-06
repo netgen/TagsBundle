@@ -295,12 +295,12 @@ interface TagsService
     public function hideTag(Tag $tag): void;
 
     /**
-     * Unhides $tag.
+     * Reveal $tag.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to unhide this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to reveal this tag
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function unhideTag(Tag $tag): void;
+    public function revealTag(Tag $tag): void;
 
     /**
      * Allows tags API execution to be performed with full access sand-boxed.

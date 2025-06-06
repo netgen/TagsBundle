@@ -175,9 +175,9 @@ interface Handler
     public function hideTag(int $tagId): void;
 
     /**
-     * Unhides tag identified by $tagId.
+     * Reveal tag identified by $tagId.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function unhideTag(int $tagId): void;
+    public function revealTag(int $tagId): void;
 }

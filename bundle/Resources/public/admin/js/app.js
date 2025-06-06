@@ -378,20 +378,20 @@ function ngTagsInit(jQuery){
 
         if (name === 'Tags') {
             var $hideButton = $('button[name="HideTagsAction"]');
-            var $unhideButton = $('button[name="UnhideTagsAction"]');
+            var $revealButton = $('button[name="RevealTagsAction"]');
 
             var hasHidden = false;
-            var hasUnhidden = false;
+            var hasRevealed = false;
             $checkedBoxes.each(function() {
                 var isHidden = $(this).closest('tr').find('td:eq(5)').text().trim() === '1';
 
-                isHidden ? hasHidden = true : hasUnhidden = true;
+                isHidden ? hasHidden = true : hasRevealed = true;
 
-                if (hasHidden && hasUnhidden) return false;
+                if (hasHidden && hasRevealed) return false;
             });
 
             $hideButton.prop('disabled', hasHidden || !$checkedBoxes.length);
-            $unhideButton.prop('disabled', hasUnhidden || !$checkedBoxes.length);
+            $revealButton.prop('disabled', hasRevealed || !$checkedBoxes.length);
         }
     });
 }

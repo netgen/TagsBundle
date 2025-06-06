@@ -225,10 +225,10 @@ class Handler implements BaseTagsHandler
         $this->gateway->hideTag($tagInfo->id);
     }
 
-    public function unhideTag(int $tagId): void
+    public function revealTag(int $tagId): void
     {
         $tagInfo = $this->loadTagInfo($tagId);
-        $this->gateway->unhideTag($tagInfo->id);
+        $this->gateway->revealTag($tagInfo->id);
     }
 
     /**

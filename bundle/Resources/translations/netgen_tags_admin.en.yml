@@ -74,7 +74,7 @@ tag.add_synonym.title: 'Add synonym'
 tag.convert.title: 'Convert to synonym'
 
 tag.hide.title: 'Hide tag'
-tag.unhide.title: 'Unhide tag'
+tag.reveal.title: 'Reveal tag'
 
 tag.move_tags.title: 'Move tags'
 tag.move_tags.message: 'Are you sure you want to move the selected tags?'
@@ -96,7 +96,7 @@ tag.button.move_selected: 'Move selected tags'
 tag.button.copy_selected: 'Copy selected tags'
 tag.button.delete_selected: 'Remove selected tags'
 tag.button.hide_selected: 'Hide selected tags'
-tag.button.unhide_selected: 'Unhide selected tags'
+tag.button.reveal_selected: 'Reveal selected tags'
 tag.button.continue: 'Continue'
 
 tag.tree.top_level_tags: 'Top level tags'
