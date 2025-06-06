@@ -35,8 +35,8 @@ class Mapper
         $tagInfo->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
-        $tagInfo->isHidden = (bool) ((int) $row['is_hidden']);
-        $tagInfo->isInvisible = (bool) ((int) $row['is_invisible']);
+        $tagInfo->isHidden = (bool) $row['is_hidden'];
+        $tagInfo->isInvisible = (bool) $row['is_invisible'];
 
         return $tagInfo;
     }
