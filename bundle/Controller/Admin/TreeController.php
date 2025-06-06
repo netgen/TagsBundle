@@ -126,6 +126,8 @@ final class TreeController extends Controller
             'parent' => $isRoot ? '#' : $tag->parentTagId,
             'text' => $synonymCount > 0 ? $this->escape($tag->keyword) . ' (+' . $synonymCount . ')' : $this->escape($tag->keyword),
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
+            'hidden' => $tag->isHidden,
+            'invisible' => $tag->isInvisible,
             'a_attr' => [
                 'href' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['show_tag']),
                 'rel' => $tag->id,

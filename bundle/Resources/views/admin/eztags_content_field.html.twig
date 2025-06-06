@@ -1,5 +1,17 @@
+{% trans_default_domain 'netgen_tags_admin' %}
+
 {% block eztags_field %}
     {% for tag in field.value.tags %}
-        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a>{% if not loop.last %}, {% endif %}
+        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}"
+           {% if tag.isHidden or tag.isInvisible %}style="color: gray;"{% endif %}
+        >
+            {{ tag.keyword }}
+            {% if tag.isHidden %}
+                ({{ 'tag.hidden'|trans|lower }})
+            {% elseif tag.isInvisible %}
+                ({{ 'tag.hidden_by_parent'|trans }})
+            {% endif %}
+        </a>
+        {% if not loop.last %}, {% endif %}
     {% endfor %}
 {% endblock %}

@@ -844,6 +844,54 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
+    public function hideTag(int $tagId): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_hidden', '1')
+            ->where(
+                $query->expr()->eq('id', ':tag_id'),
+            )->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_invisible', '1')
+            ->where(
+                $query->expr()->like('path_string', ':path_string'),
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+        $query->execute();
+    }
+
+    public function revealTag(int $tagId): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_hidden', '0')
+            ->where(
+                $query->expr()->eq('id', ':tag_id'),
+            )->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_invisible', '0')
+            ->where(
+                $query->expr()->like('path_string', ':path_string'),
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+        $query->execute();
+    }
+
     private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
         $query = $this->connection->createQueryBuilder();
@@ -930,6 +978,8 @@ final class DoctrineDatabase extends Gateway
             'eztags.remote_id',
             'eztags.main_language_id',
             'eztags.language_mask',
+            'eztags.is_hidden',
+            'eztags.is_invisible',
             // Tag keywords
             'eztags_keyword.keyword',
             'eztags_keyword.locale',

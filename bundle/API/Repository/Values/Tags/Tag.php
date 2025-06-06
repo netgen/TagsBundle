@@ -28,6 +28,8 @@ use function trim;
  * @property-read bool $alwaysAvailable Indicates if the Tag object is shown in the main language if it is not present in an other requested language
  * @property-read string $mainLanguageCode The main language code of the Tag object
  * @property-read string[] $languageCodes List of languages in this Tag object
+ * @property-read bool $isHidden Indicates if the Tag object is visible or not
+ * @property-read bool $isInvisible Indicates if the Tag object is located under another hidden Tag object
  */
 final class Tag extends ValueObject
 {
@@ -103,6 +105,16 @@ final class Tag extends ValueObject
      * if none provided (all languages) or on main fallback.
      */
     protected ?string $prioritizedLanguageCode;
+
+    /**
+     * Indicates if the Tag object is visible or not.
+     */
+    protected bool $isHidden;
+
+    /**
+     * Indicates if the Tag object is located under another hidden Tag object.
+     */
+    protected bool $isInvisible;
 
     /**
      * Construct object optionally with a set of properties.

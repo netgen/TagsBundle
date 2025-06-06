@@ -188,6 +188,16 @@ final class TagsService implements TagsServiceInterface
         return $this->innerService->newTagUpdateStruct();
     }
 
+    public function hideTag(Tag $tag): void
+    {
+        $this->innerService->hideTag($tag);
+    }
+
+    public function revealTag(Tag $tag): void
+    {
+        $this->innerService->revealTag($tag);
+    }
+
     public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null): mixed
     {
         return $this->innerService->sudo($callback, $outerTagsService ?? $this);

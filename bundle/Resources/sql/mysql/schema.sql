@@ -9,6 +9,8 @@ CREATE TABLE `eztags` (
   `remote_id` varchar(100) NOT NULL default '',
   `main_language_id` int(11) NOT NULL default '0',
   `language_mask` int(11) NOT NULL default '0',
+  `is_hidden` tinyint NOT NULL DEFAULT '0',
+  `is_invisible` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY ( `id` ),
   KEY `idx_eztags_keyword` ( `keyword`(191) ),
   KEY `idx_eztags_keyword_id` ( `keyword`(191), `id` ),

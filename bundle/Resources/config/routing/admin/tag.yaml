@@ -38,6 +38,16 @@ netgen_tags_admin_tag_delete_tags:
     controller: netgen_tags.admin.controller.tag:deleteTagsAction
     methods: [GET, POST]
 
+netgen_tags_admin_tag_hide_tags:
+    path: /hide/{parentId}
+    controller: netgen_tags.admin.controller.tag:hideTagsAction
+    methods: [GET, POST]
+
+netgen_tags_admin_tag_reveal_tags:
+    path: /reveal/{parentId}
+    controller: netgen_tags.admin.controller.tag:revealTagsAction
+    methods: [GET, POST]
+
 netgen_tags_admin_tag_update_select:
     path: /{tagId}/update
     controller: netgen_tags.admin.controller.tag:updateTagSelectAction
@@ -72,3 +82,13 @@ netgen_tags_admin_tag_children:
     path: /{tagId}/children
     controller: netgen_tags.admin.controller.tag:childrenAction
     methods: [POST]
+
+netgen_tags_admin_tag_hide:
+    path: /{tagId}/hide
+    controller: netgen_tags.admin.controller.tag:hideAction
+    methods: [GET, POST]
+
+netgen_tags_admin_tag_reveal:
+    path: /{tagId}/reveal
+    controller: netgen_tags.admin.controller.tag:revealAction
+    methods: [GET, POST]

@@ -5,6 +5,11 @@
 {% block content %}
     <h2 class="tag-title">
         {{ 'tag.title'|trans }}: {{ tag.keyword }}
+        {% if tag.isHidden %}
+            ({{ 'tag.hidden'|trans|lower }})
+        {% elseif tag.isInvisible %}
+            ({{ 'tag.hidden_by_parent'|trans }})
+        {% endif %}
 
         {% if tag.isSynonym %}
             ({{ 'tag.main_tag'|trans }}: <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.mainTagId}) }}">{{ netgen_tags_tag_keyword(tag.mainTagId) }}</a>)
@@ -38,6 +43,12 @@
             {% if is_granted('ibexa:tags:makesynonym') %}
                 <a href="{{ path('netgen_tags_admin_tag_convert', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.convert.title'|trans }}</a>
             {% endif %}
+        {% endif %}
+
+        {% if is_granted('ibexa:tags:hide' ~ (tag.isSynonym ? 'synonym' : '')) and not tag.isHidden %}
+            <a href="{{ path('netgen_tags_admin_tag_hide', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.hide.title'|trans }}</a>
+        {% elseif is_granted('ibexa:tags:reveal' ~ (tag.isSynonym ? 'synonym' : '')) and tag.isHidden %}
+            <a href="{{ path('netgen_tags_admin_tag_reveal', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.reveal.title'|trans }}</a>
         {% endif %}
     </div>
 

@@ -287,6 +287,22 @@ interface TagsService
     public function newTagUpdateStruct(): TagUpdateStruct;
 
     /**
+     * Hides $tag.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to hide this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
+     */
+    public function hideTag(Tag $tag): void;
+
+    /**
+     * Reveal $tag.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to reveal this tag
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
+     */
+    public function revealTag(Tag $tag): void;
+
+    /**
      * Allows tags API execution to be performed with full access sand-boxed.
      *
      * The closure sandbox will do a catch all on exceptions and rethrow after
