@@ -882,10 +882,44 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->connection->createQueryBuilder();
         $query
+            ->select('id')
+            ->from('eztags')
+            ->where($query->expr()->eq('is_hidden', '1'))
+            ->andWhere(
+                $query->expr()->like('path_string', ':path_string'),
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+        $hiddenDescendantTags = array_map(
+            static fn (array $row) => $row['id'],
+            $query->execute()->fetchAll(FetchMode::ASSOCIATIVE),
+        );
+
+        $tagsToRemainInvisible = [];
+        foreach ($hiddenDescendantTags as $hiddenDescendantTag) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('id')
+                ->from('eztags')
+                ->where(
+                    $query->expr()->like('path_string', ':path_string'),
+                )
+                ->setParameter('path_string', '%/' . $hiddenDescendantTag . '/%', Types::STRING);
+
+            foreach ($query->execute()->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+                $tagsToRemainInvisible[] = $row['id'];
+            }
+        }
+
+        $query = $this->connection->createQueryBuilder();
+        $query
             ->update('eztags')
             ->set('is_invisible', '0')
             ->where(
-                $query->expr()->like('path_string', ':path_string'),
+                $query->expr()->and(
+                    $query->expr()->like('path_string', ':path_string'),
+                    $query->expr()->notIn('id', $tagsToRemainInvisible),
+                ),
             )
             ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
 
