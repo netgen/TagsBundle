@@ -587,6 +587,7 @@ final class DoctrineDatabaseTest extends TestCase
                 'id' => 40,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
+                'is_invisible' => 0,
             ],
         );
 
