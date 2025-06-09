@@ -228,12 +228,28 @@ final class TagsService implements TagsServiceInterface
 
     public function hideTag(Tag $tag): void
     {
+        $beforeEvent = new Events\BeforeHideTagEvent($tag);
+
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return;
+        }
+
         $this->service->hideTag($tag);
+
+        $this->eventDispatcher->dispatch(new Events\HideTagEvent($tag));
     }
 
     public function revealTag(Tag $tag): void
     {
+        $beforeEvent = new Events\BeforeRevealTagEvent($tag);
+
+        if ($this->eventDispatcher->dispatch($beforeEvent)->isPropagationStopped()) {
+            return;
+        }
+
         $this->service->revealTag($tag);
+
+        $this->eventDispatcher->dispatch(new Events\RevealTagEvent($tag));
     }
 
     public function sudo(callable $callback, ?TagsServiceInterface $outerTagsService = null): mixed
