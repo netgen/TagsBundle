@@ -878,6 +878,26 @@ final class DoctrineDatabase extends Gateway
 
     public function revealTag(int $tagId): void
     {
+        // check if any ancestor is hidden
+        $basicTagData = $this->getBasicTagData($tagId);
+        $pathArray = explode('/', trim($basicTagData['path_string'], '/'));
+        array_pop($pathArray);
+
+        $shouldRemainInvisible = false;
+        if ($pathArray !== []) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('COUNT(id)')
+                ->from('eztags')
+                ->where($query->expr()->eq('is_hidden', '1'))
+                ->andWhere($query->expr()->in('id', ':parent_ids'))
+                ->setParameter('parent_ids', $pathArray, Connection::PARAM_INT_ARRAY);
+
+            $hiddenAncestorsCount = (int) $query->execute()->fetch(FetchMode::COLUMN);
+            $shouldRemainInvisible = $hiddenAncestorsCount > 0;
+        }
+
+        // update current tag to not be hidden
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('eztags')
@@ -888,6 +908,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->execute();
 
+        // find descendant tags that should remain invisible
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('id')
@@ -921,22 +942,25 @@ final class DoctrineDatabase extends Gateway
             }
         }
 
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->update('eztags')
-            ->set('is_invisible', '0')
-            ->where(
-                $query->expr()->like('path_string', ':path_string'),
-            )
-            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+        // if at least one ancestor is hidden, remain invisible
+        if ($shouldRemainInvisible !== true) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->update('eztags')
+                ->set('is_invisible', '0')
+                ->where(
+                    $query->expr()->like('path_string', ':path_string'),
+                )
+                ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
 
-        if ($tagsToRemainInvisible !== []) {
-            $query->andWhere(
-                $query->expr()->notIn('id', $tagsToRemainInvisible),
-            );
+            if ($tagsToRemainInvisible !== []) {
+                $query->andWhere(
+                    $query->expr()->notIn('id', $tagsToRemainInvisible),
+                );
+            }
+
+            $query->execute();
         }
-
-        $query->execute();
     }
 
     private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
