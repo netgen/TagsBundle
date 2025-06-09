@@ -896,18 +896,20 @@ final class DoctrineDatabase extends Gateway
         );
 
         $tagsToRemainInvisible = [];
-        foreach ($hiddenDescendantTags as $hiddenDescendantTag) {
-            $query = $this->connection->createQueryBuilder();
-            $query
-                ->select('id')
-                ->from('eztags')
-                ->where(
-                    $query->expr()->like('path_string', ':path_string'),
-                )
-                ->setParameter('path_string', '%/' . $hiddenDescendantTag . '/%', Types::STRING);
+        if ($hiddenDescendantTags !== []) {
+            foreach ($hiddenDescendantTags as $hiddenDescendantTag) {
+                $query = $this->connection->createQueryBuilder();
+                $query
+                    ->select('id')
+                    ->from('eztags')
+                    ->where(
+                        $query->expr()->like('path_string', ':path_string'),
+                    )
+                    ->setParameter('path_string', '%/' . $hiddenDescendantTag . '/%', Types::STRING);
 
-            foreach ($query->execute()->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
-                $tagsToRemainInvisible[] = $row['id'];
+                foreach ($query->execute()->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+                    $tagsToRemainInvisible[] = $row['id'];
+                }
             }
         }
 
@@ -916,12 +918,15 @@ final class DoctrineDatabase extends Gateway
             ->update('eztags')
             ->set('is_invisible', '0')
             ->where(
-                $query->expr()->and(
-                    $query->expr()->like('path_string', ':path_string'),
-                    $query->expr()->notIn('id', $tagsToRemainInvisible),
-                ),
+                $query->expr()->like('path_string', ':path_string'),
             )
             ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+        if ($tagsToRemainInvisible !== []) {
+            $query->andWhere(
+                $query->expr()->notIn('id', $tagsToRemainInvisible),
+            );
+        }
 
         $query->execute();
     }
