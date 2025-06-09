@@ -372,7 +372,14 @@ final class DoctrineDatabase extends Gateway
             )->setValue(
                 'language_mask',
                 ':language_mask',
-            )->setParameter('parent_id', $parentTag !== null ? (int) $parentTag['id'] : 0, Types::INTEGER)
+            )->setValue(
+                'is_hidden',
+                ':is_hidden',
+            )->setValue(
+                'is_invisible',
+                ':is_invisible',
+            )
+            ->setParameter('parent_id', $parentTag !== null ? (int) $parentTag['id'] : 0, Types::INTEGER)
             ->setParameter('main_tag_id', 0, Types::INTEGER)
             ->setParameter('modified', time(), Types::INTEGER)
             ->setParameter('keyword', $createStruct->keywords[$createStruct->mainLanguageCode], Types::STRING)
@@ -392,7 +399,8 @@ final class DoctrineDatabase extends Gateway
                     is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true,
                 ),
                 Types::INTEGER,
-            );
+            )->setParameter('is_hidden', 0, Types::INTEGER)
+            ->setParameter('is_invisible', $parentTag !== null ? $parentTag['is_invisible'] : 0, Types::INTEGER);
 
         $query->execute();
 
