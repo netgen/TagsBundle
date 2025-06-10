@@ -38,39 +38,39 @@ final class TagsService implements TagsServiceInterface
         return $this->service->loadTagByUrl($url, $languages);
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList
     {
-        return $this->service->loadTagChildren($tag, $offset, $limit, $languages, $useAlwaysAvailable);
+        return $this->service->loadTagChildren($tag, $offset, $limit, $languages, $useAlwaysAvailable, $showHidden);
     }
 
-    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true): int
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
-        return $this->service->getTagChildrenCount($tag, $languages, $useAlwaysAvailable);
+        return $this->service->getTagChildrenCount($tag, $languages, $useAlwaysAvailable, $showHidden);
     }
 
-    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): TagList
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): TagList
     {
-        return $this->service->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit);
+        return $this->service->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit, $showHidden);
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true): int
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
-        return $this->service->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable);
+        return $this->service->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable, $showHidden);
     }
 
-    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult
     {
-        return $this->service->searchTags($searchString, $language, $useAlwaysAvailable, $offset, $limit);
+        return $this->service->searchTags($searchString, $language, $useAlwaysAvailable, $offset, $limit, $showHidden);
     }
 
-    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList
     {
-        return $this->service->loadTagSynonyms($tag, $offset, $limit, $languages, $useAlwaysAvailable);
+        return $this->service->loadTagSynonyms($tag, $offset, $limit, $languages, $useAlwaysAvailable, $showHidden);
     }
 
-    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true): int
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
-        return $this->service->getTagSynonymCount($tag, $languages, $useAlwaysAvailable);
+        return $this->service->getTagSynonymCount($tag, $languages, $useAlwaysAvailable, $showHidden);
     }
 
     public function getRelatedContent(Tag $tag, int $offset = 0, int $limit = -1, bool $returnContentInfo = true, array $additionalCriteria = [], array $sortClauses = []): array

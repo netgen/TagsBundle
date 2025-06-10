@@ -17,6 +17,7 @@ services:
         arguments:
             - "@netgen_tags.event.service.tags"
             - "@ibexa.helper.language_resolver"
+            - "@ibexa.config.resolver"
 
     netgen_tags.api.service.tags.mapper:
         class: Netgen\TagsBundle\Core\Repository\TagsMapper
