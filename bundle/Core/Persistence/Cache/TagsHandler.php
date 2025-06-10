@@ -155,42 +155,42 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         return $this->tagsHandler->loadTagByKeywordAndParentId($keyword, $parentTagId, $translations, $useAlwaysAvailable);
     }
 
-    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
         $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->loadChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+        return $this->tagsHandler->loadChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $showHidden);
     }
 
-    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->getChildrenCount($tagId, $translations, $useAlwaysAvailable);
+        return $this->tagsHandler->getChildrenCount($tagId, $translations, $useAlwaysAvailable, $showHidden);
     }
 
-    public function loadTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array
+    public function loadTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array
     {
         $this->logger->logCall(__METHOD__, ['keyword' => $keyword, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->loadTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $offset, $limit);
+        return $this->tagsHandler->loadTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $offset, $limit, $showHidden);
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true): int
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         $this->logger->logCall(__METHOD__, ['keyword' => $keyword, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable);
+        return $this->tagsHandler->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, $showHidden);
     }
 
-    public function searchTags(string $searchString, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult
+    public function searchTags(string $searchString, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult
     {
         $this->logger->logCall(__METHOD__, ['searchString' => $searchString, 'translation' => $translation, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->searchTags($searchString, $translation, $useAlwaysAvailable, $offset, $limit);
+        return $this->tagsHandler->searchTags($searchString, $translation, $useAlwaysAvailable, $offset, $limit, $showHidden);
     }
 
-    public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
         // Method caches all synonyms in cache and only uses offset / limit to slice the cached result
         $translationsKey = count($translations ?? []) === 0
@@ -208,7 +208,7 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
         $tagInfo = $this->loadTagInfo($tagId);
-        $synonyms = $this->tagsHandler->loadSynonyms($tagId, 0, -1, $translations, $useAlwaysAvailable);
+        $synonyms = $this->tagsHandler->loadSynonyms($tagId, 0, -1, $translations, $useAlwaysAvailable, $showHidden);
 
         $cacheItem->set($synonyms);
         $cacheTags = [$this->getCacheTags($tagInfo->id, $tagInfo->pathString)];
@@ -221,11 +221,11 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         return array_slice($synonyms, $offset, $limit > -1 ? $limit : null);
     }
 
-    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->getSynonymCount($tagId, $translations, $useAlwaysAvailable);
+        return $this->tagsHandler->getSynonymCount($tagId, $translations, $useAlwaysAvailable, $showHidden);
     }
 
     public function create(CreateStruct $createStruct): Tag

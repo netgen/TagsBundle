@@ -63,33 +63,33 @@ interface Handler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
+    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array;
 
     /**
      * Returns the number of children of a tag identified by $tagId.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int;
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
 
     /**
      * Loads tags with specified $keyword.
      *
      * If $limit = -1 all tags starting at $offset are returned.
      */
-    public function loadTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array;
+    public function loadTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array;
 
     /**
      * Returns the number of tags with specified $keyword.
      */
-    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true): int;
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
 
     /**
      * Searches for tags.
      *
      * If $limit = -1 all tags starting at $offset are returned.
      */
-    public function searchTags(string $searchString, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult;
+    public function searchTags(string $searchString, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult;
 
     /**
      * Loads the synonyms of a tag identified by $tagId.
@@ -98,14 +98,14 @@ interface Handler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
+    public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array;
 
     /**
      * Returns the number of synonyms of a tag identified by $tagId.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int;
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
 
     /**
      * Creates the new tag.
