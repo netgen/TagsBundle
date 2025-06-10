@@ -12,6 +12,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function htmlspecialchars;
+use function mb_strtolower;
 use function str_replace;
 
 use const ENT_HTML401;
@@ -121,10 +122,22 @@ final class TreeController extends Controller
     {
         $synonymCount = $this->tagsService->getTagSynonymCount($tag);
 
+        $text = $this->escape($tag->keyword);
+
+        if ($tag->isHidden) {
+            $text .= ' (' . mb_strtolower($this->translator->trans('tag.hidden', [], 'netgen_tags_admin')) . ')';
+        } elseif ($tag->isInvisible) {
+            $text .= ' (' . $this->translator->trans('tag.hidden_by_parent', [], 'netgen_tags_admin') . ')';
+        }
+
+        if ($synonymCount > 0) {
+            $text .= ' (+' . $synonymCount . ')';
+        }
+
         return [
             'id' => $tag->id,
             'parent' => $isRoot ? '#' : $tag->parentTagId,
-            'text' => $synonymCount > 0 ? $this->escape($tag->keyword) . ' (+' . $synonymCount . ')' : $this->escape($tag->keyword),
+            'text' => $text,
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'hidden' => $tag->isHidden,
             'invisible' => $tag->isInvisible,
