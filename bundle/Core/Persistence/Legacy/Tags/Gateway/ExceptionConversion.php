@@ -71,10 +71,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
         try {
-            return $this->innerGateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+            return $this->innerGateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $showHidden);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -82,10 +82,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         try {
-            return $this->innerGateway->getChildrenCount($tagId, $translations, $useAlwaysAvailable);
+            return $this->innerGateway->getChildrenCount($tagId, $translations, $useAlwaysAvailable, $showHidden);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -93,10 +93,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array
+    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array
     {
         try {
-            return $this->innerGateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $exactMatch, $offset, $limit);
+            return $this->innerGateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, $exactMatch, $offset, $limit, $showHidden);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -104,10 +104,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null, bool $exactMatch = true): int
     {
         try {
-            return $this->innerGateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, $exactMatch);
+            return $this->innerGateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, $showHidden, $exactMatch);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -115,10 +115,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
         try {
-            return $this->innerGateway->getSynonyms($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+            return $this->innerGateway->getSynonyms($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $showHidden);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
@@ -126,10 +126,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         try {
-            return $this->innerGateway->getSynonymCount($tagId, $translations, $useAlwaysAvailable);
+            return $this->innerGateway->getSynonymCount($tagId, $translations, $useAlwaysAvailable, $showHidden);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {

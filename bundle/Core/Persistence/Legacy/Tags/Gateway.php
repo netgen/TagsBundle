@@ -40,36 +40,36 @@ abstract class Gateway
      *
      * If $limit = -1 all children starting at $offset are returned.
      */
-    abstract public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
+    abstract public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array;
 
     /**
      * Returns how many tags exist below tag identified by $tagId.
      */
-    abstract public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int;
+    abstract public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
 
     /**
      * Returns data for tags identified by given $keyword.
      *
      * If $limit = -1 all tags starting at $offset are returned.
      */
-    abstract public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array;
+    abstract public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array;
 
     /**
      * Returns how many tags exist with $keyword.
      */
-    abstract public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int;
+    abstract public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null, bool $exactMatch = true): int;
 
     /**
      * Returns data for synonyms of the tag identified by given $tagId.
      *
      * If $limit = -1 all synonyms starting at $offset are returned.
      */
-    abstract public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
+    abstract public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array;
 
     /**
      * Returns how many synonyms exist for a tag identified by $tagId.
      */
-    abstract public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int;
+    abstract public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
 
     /**
      * Moves the synonym identified by $synonymId to tag identified by $mainTagData.
