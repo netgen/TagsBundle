@@ -289,6 +289,8 @@ interface TagsService
     /**
      * Hides $tag.
      *
+     * If $tag is a synonym, only the synonym is hidden.
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to hide this tag
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
@@ -296,6 +298,8 @@ interface TagsService
 
     /**
      * Reveal $tag.
+     *
+     * If $tag is a synonym, only the synonym is revealed.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to reveal this tag
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found

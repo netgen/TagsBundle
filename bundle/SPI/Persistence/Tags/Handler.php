@@ -170,12 +170,16 @@ interface Handler
     /**
      * Hides tag identified by $tagId.
      *
+     * If $tagId is a synonym, only the synonym is hidden.
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
     public function hideTag(int $tagId): void;
 
     /**
      * Reveal tag identified by $tagId.
+     *
+     * If $tagId is a synonym, only the synonym is revealed.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
