@@ -45,6 +45,8 @@ final class TreeController extends Controller
             'merge_tag' => $this->translator->trans('tag.tree.merge_tag', [], 'netgen_tags_admin'),
             'convert_tag' => $this->translator->trans('tag.tree.convert_tag', [], 'netgen_tags_admin'),
             'add_synonym' => $this->translator->trans('tag.tree.add_synonym', [], 'netgen_tags_admin'),
+            'hide_tag' => $this->translator->trans('tag.tree.hide_tag', [], 'netgen_tags_admin'),
+            'reveal_tag' => $this->translator->trans('tag.tree.reveal_tag', [], 'netgen_tags_admin'),
         ];
 
         $this->treeLinks = [
@@ -56,6 +58,8 @@ final class TreeController extends Controller
             'merge_tag' => $this->router->generate('netgen_tags_admin_tag_merge', ['tagId' => ':tagId']),
             'convert_tag' => $this->router->generate('netgen_tags_admin_tag_convert', ['tagId' => ':tagId']),
             'add_synonym' => $this->router->generate('netgen_tags_admin_synonym_add_select', ['mainTagId' => ':mainTagId']),
+            'hide_tag' => $this->router->generate('netgen_tags_admin_tag_hide', ['tagId' => ':tagId']),
+            'reveal_tag' => $this->router->generate('netgen_tags_admin_tag_reveal', ['tagId' => ':tagId']),
         ];
     }
 
@@ -179,6 +183,16 @@ final class TreeController extends Controller
                         'name' => 'convert_tag',
                         'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['convert_tag']),
                         'text' => $this->treeLabels['convert_tag'],
+                    ],
+                    [
+                        'name' => 'hide_tag',
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['hide_tag']),
+                        'text' => $this->treeLabels['hide_tag'],
+                    ],
+                    [
+                        'name' => 'reveal_tag',
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['reveal_tag']),
+                        'text' => $this->treeLabels['reveal_tag'],
                     ],
                 ],
             ],

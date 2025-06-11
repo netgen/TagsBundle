@@ -106,6 +106,8 @@ tag.tree.delete_tag: 'Delete tag'
 tag.tree.merge_tag: 'Merge tag'
 tag.tree.convert_tag: 'Convert to synonym'
 tag.tree.add_synonym: 'Add synonym'
+tag.tree.hide_tag: 'Hide tag'
+tag.tree.reveal_tag: 'Reveal tag'
 tag.tree.no_tag_selected: 'no tag'
 tag.tree.select_tag: 'Select tag'
 

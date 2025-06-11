@@ -63,7 +63,7 @@ tag.add_synonym.title: 'Ajouter un synonyme'
 tag.convert.title: 'Convertir en synonyme'
 
 tag.hide.title: 'Cacher le tag'
-tag.reveal.title: 'Désactiver le tag'
+tag.reveal.title: 'Révéler le tag'
 
 tag.move_tags.title: 'Déplacer les tags'
 tag.move_tags.message: 'Êtes-vous sûr de vouloir déplacer les tags sélectionnés ?'
@@ -95,6 +95,8 @@ tag.tree.delete_tag: 'Supprimer le tag'
 tag.tree.merge_tag: 'Fusionner le tag'
 tag.tree.convert_tag: 'Convertir en synonyme'
 tag.tree.add_synonym: 'Ajouter un synonyme'
+tag.tree.hide_tag: 'Cacher le tag'
+tag.tree.reveal_tag: 'Révéler le tag'
 tag.tree.no_tag_selected: 'pas de tag'
 tag.tree.select_tag: 'Sélectionner un tag'
 
