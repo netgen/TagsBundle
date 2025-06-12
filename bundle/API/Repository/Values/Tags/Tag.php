@@ -107,12 +107,13 @@ final class Tag extends ValueObject
     protected ?string $prioritizedLanguageCode;
 
     /**
-     * Indicates if the Tag object is visible or not.
+     * Indicates that the Tag is hidden.
      */
     protected bool $isHidden;
 
     /**
-     * Indicates if the Tag object is located under another hidden Tag object.
+     * Indicates that the Tag object is not visible, being either hidden itself,
+     * or implicitly hidden by parent or ancestor Tag object.
      */
     protected bool $isInvisible;
 
