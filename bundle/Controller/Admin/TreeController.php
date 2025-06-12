@@ -124,24 +124,10 @@ final class TreeController extends Controller
      */
     private function getTagTreeData(Tag $tag, bool $isRoot = false): array
     {
-        $synonymCount = $this->tagsService->getTagSynonymCount($tag);
-
-        $text = $this->escape($tag->keyword);
-
-        if ($tag->isHidden) {
-            $text .= ' (' . mb_strtolower($this->translator->trans('tag.hidden', [], 'netgen_tags_admin')) . ')';
-        } elseif ($tag->isInvisible) {
-            $text .= ' (' . $this->translator->trans('tag.hidden_by_parent', [], 'netgen_tags_admin') . ')';
-        }
-
-        if ($synonymCount > 0) {
-            $text .= ' (+' . $synonymCount . ')';
-        }
-
         return [
             'id' => $tag->id,
             'parent' => $isRoot ? '#' : $tag->parentTagId,
-            'text' => $text,
+            'text' => $this->formatTagTreeText($tag),
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
             'hidden' => $tag->isHidden,
             'invisible' => $tag->isInvisible,
@@ -199,8 +185,22 @@ final class TreeController extends Controller
         ];
     }
 
-    private function escape(string $string): string
+    private function formatTagTreeText(Tag $tag): string
     {
-        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+        $synonymCount = $this->tagsService->getTagSynonymCount($tag);
+
+        $text = htmlspecialchars($tag->keyword, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+
+        if ($tag->isHidden) {
+            $text .= ' (' . mb_strtolower($this->translator->trans('tag.hidden', [], 'netgen_tags_admin')) . ')';
+        } elseif ($tag->isInvisible) {
+            $text .= ' (' . $this->translator->trans('tag.hidden_by_parent', [], 'netgen_tags_admin') . ')';
+        }
+
+        if ($synonymCount > 0) {
+            $text .= ' (+' . $synonymCount . ')';
+        }
+
+        return $text;
     }
 }
