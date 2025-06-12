@@ -755,7 +755,7 @@ final class TagController extends Controller
             $this->tagsService->revealTag($tagObject);
         }
 
-        $this->addFlashMessage('success', 'tags_reveal');
+        $this->addFlashMessage('success', 'tags_revealed');
 
         return $this->redirectToTag($parentTag);
     }
