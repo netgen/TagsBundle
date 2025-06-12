@@ -12,6 +12,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function htmlspecialchars;
+use function mb_strtolower;
 use function str_replace;
 
 use const ENT_HTML401;
@@ -44,6 +45,8 @@ final class TreeController extends Controller
             'merge_tag' => $this->translator->trans('tag.tree.merge_tag', [], 'netgen_tags_admin'),
             'convert_tag' => $this->translator->trans('tag.tree.convert_tag', [], 'netgen_tags_admin'),
             'add_synonym' => $this->translator->trans('tag.tree.add_synonym', [], 'netgen_tags_admin'),
+            'hide_tag' => $this->translator->trans('tag.tree.hide_tag', [], 'netgen_tags_admin'),
+            'reveal_tag' => $this->translator->trans('tag.tree.reveal_tag', [], 'netgen_tags_admin'),
         ];
 
         $this->treeLinks = [
@@ -55,6 +58,8 @@ final class TreeController extends Controller
             'merge_tag' => $this->router->generate('netgen_tags_admin_tag_merge', ['tagId' => ':tagId']),
             'convert_tag' => $this->router->generate('netgen_tags_admin_tag_convert', ['tagId' => ':tagId']),
             'add_synonym' => $this->router->generate('netgen_tags_admin_synonym_add_select', ['mainTagId' => ':mainTagId']),
+            'hide_tag' => $this->router->generate('netgen_tags_admin_tag_hide', ['tagId' => ':tagId']),
+            'reveal_tag' => $this->router->generate('netgen_tags_admin_tag_reveal', ['tagId' => ':tagId']),
         ];
     }
 
@@ -119,13 +124,13 @@ final class TreeController extends Controller
      */
     private function getTagTreeData(Tag $tag, bool $isRoot = false): array
     {
-        $synonymCount = $this->tagsService->getTagSynonymCount($tag);
-
         return [
             'id' => $tag->id,
             'parent' => $isRoot ? '#' : $tag->parentTagId,
-            'text' => $synonymCount > 0 ? $this->escape($tag->keyword) . ' (+' . $synonymCount . ')' : $this->escape($tag->keyword),
+            'text' => $this->formatTagTreeText($tag),
             'children' => $this->tagsService->getTagChildrenCount($tag) > 0,
+            'hidden' => $tag->isHidden,
+            'invisible' => $tag->isInvisible,
             'a_attr' => [
                 'href' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['show_tag']),
                 'rel' => $tag->id,
@@ -165,13 +170,37 @@ final class TreeController extends Controller
                         'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['convert_tag']),
                         'text' => $this->treeLabels['convert_tag'],
                     ],
+                    [
+                        'name' => 'hide_tag',
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['hide_tag']),
+                        'text' => $this->treeLabels['hide_tag'],
+                    ],
+                    [
+                        'name' => 'reveal_tag',
+                        'url' => str_replace(':tagId', (string) $tag->id, $this->treeLinks['reveal_tag']),
+                        'text' => $this->treeLabels['reveal_tag'],
+                    ],
                 ],
             ],
         ];
     }
 
-    private function escape(string $string): string
+    private function formatTagTreeText(Tag $tag): string
     {
-        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+        $synonymCount = $this->tagsService->getTagSynonymCount($tag);
+
+        $text = htmlspecialchars($tag->keyword, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+
+        if ($tag->isHidden) {
+            $text .= ' (' . mb_strtolower($this->translator->trans('tag.hidden', [], 'netgen_tags_admin')) . ')';
+        } elseif ($tag->isInvisible) {
+            $text .= ' (' . $this->translator->trans('tag.hidden_by_parent', [], 'netgen_tags_admin') . ')';
+        }
+
+        if ($synonymCount > 0) {
+            $text .= ' (+' . $synonymCount . ')';
+        }
+
+        return $text;
     }
 }

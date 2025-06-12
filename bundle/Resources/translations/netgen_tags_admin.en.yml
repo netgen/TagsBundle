@@ -13,6 +13,9 @@ tag.translations: 'Translations'
 tag.modified: 'Modified'
 tag.main_tag: 'Main tag'
 tag.parent_tag: 'Parent tag'
+tag.hidden: 'Hidden'
+tag.invisible: 'Invisible'
+tag.hidden_by_parent: 'hidden by parent'
 
 tag.content.content_id: 'Content ID'
 tag.content.name: 'Name'
@@ -70,6 +73,9 @@ tag.add_synonym.title: 'Add synonym'
 
 tag.convert.title: 'Convert to synonym'
 
+tag.hide.title: 'Hide tag'
+tag.reveal.title: 'Reveal tag'
+
 tag.move_tags.title: 'Move tags'
 tag.move_tags.message: 'Are you sure you want to move the selected tags?'
 
@@ -89,6 +95,8 @@ tag.button.set_main: 'Set main'
 tag.button.move_selected: 'Move selected tags'
 tag.button.copy_selected: 'Copy selected tags'
 tag.button.delete_selected: 'Remove selected tags'
+tag.button.hide_selected: 'Hide selected tags'
+tag.button.reveal_selected: 'Reveal selected tags'
 tag.button.continue: 'Continue'
 
 tag.tree.top_level_tags: 'Top level tags'
@@ -98,6 +106,8 @@ tag.tree.delete_tag: 'Delete tag'
 tag.tree.merge_tag: 'Merge tag'
 tag.tree.convert_tag: 'Convert to synonym'
 tag.tree.add_synonym: 'Add synonym'
+tag.tree.hide_tag: 'Hide tag'
+tag.tree.reveal_tag: 'Reveal tag'
 tag.tree.no_tag_selected: 'no tag'
 tag.tree.select_tag: 'Select tag'
 

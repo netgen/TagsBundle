@@ -13,6 +13,9 @@ tag.translations: 'Traductions'
 tag.modified: 'Modifié'
 tag.main_tag: 'Tag principale'
 tag.parent_tag: 'Tag parent'
+tag.hidden: 'Caché'
+tag.invisible: 'Invisible'
+tag.hidden_by_parent: 'caché par le parent'
 
 tag.content.content_id: 'ID du contenu'
 tag.content.name: 'Nom'
@@ -59,6 +62,9 @@ tag.add_synonym.title: 'Ajouter un synonyme'
 
 tag.convert.title: 'Convertir en synonyme'
 
+tag.hide.title: 'Cacher le tag'
+tag.reveal.title: 'Révéler le tag'
+
 tag.move_tags.title: 'Déplacer les tags'
 tag.move_tags.message: 'Êtes-vous sûr de vouloir déplacer les tags sélectionnés ?'
 
@@ -78,6 +84,8 @@ tag.button.set_main: 'Définir principal'
 tag.button.move_selected: 'Déplacer les tags sélectionnées'
 tag.button.copy_selected: 'Copier les tags sélectionnés'
 tag.button.delete_selected: 'Supprimer les tags sélectionnés'
+tag.button.hide_selected: 'Masquer les tags sélectionnés'
+tag.button.reveal_selected: 'Désactiver les balises sélectionnées'
 tag.button.continue: 'Continuer'
 
 tag.tree.top_level_tags: 'Tags de premier niveau'
@@ -87,6 +95,8 @@ tag.tree.delete_tag: 'Supprimer le tag'
 tag.tree.merge_tag: 'Fusionner le tag'
 tag.tree.convert_tag: 'Convertir en synonyme'
 tag.tree.add_synonym: 'Ajouter un synonyme'
+tag.tree.hide_tag: 'Cacher le tag'
+tag.tree.reveal_tag: 'Révéler le tag'
 tag.tree.no_tag_selected: 'pas de tag'
 tag.tree.select_tag: 'Sélectionner un tag'
 

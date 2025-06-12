@@ -82,6 +82,25 @@ jQuery.noConflict();
             if (self.disableSubtree !== '') {
                 self.disableNode(self.disableSubtree);
             }
+
+            if (data.node &&
+                data.node.original &&
+                (data.node.original.hidden === true || data.node.original.invisible === true)) {
+
+                self.disableNode(data.node.id);
+            }
+
+            if (data.node && data.node.children) {
+                data.node.children.forEach(function(childId) {
+                    var childNode = self.$tree.jstree(true).get_node(childId);
+                    if (childNode &&
+                        childNode.original &&
+                        (childNode.original.hidden === true || childNode.original.invisible === true)) {
+
+                        self.disableNode(childId);
+                    }
+                });
+            }
         }).on('click', '.jstree-anchor', function (event) {
             var selectedNode = $(this).jstree(true).get_node($(this));
 
@@ -104,6 +123,12 @@ jQuery.noConflict();
             if (!self.settings.modal) {
                 document.location.href = selectedNode.a_attr.href;
             } else {
+                if (selectedNode.original &&
+                    (selectedNode.original.hidden === true || selectedNode.original.invisible === true)) {
+
+                    return false;
+                }
+
                 self.$el.find('input.tag-id').val(selectedNode.id);
 
                 if (selectedNode.text === undefined || selectedNode.id == '0') {
@@ -345,7 +370,29 @@ function ngTagsInit(jQuery){
     });
     $enabledInputs.on('change', function(e){
         var name = e.currentTarget.dataset.enable;
-        $('input[data-enable="' + name + '"]:checked').length ? $('[data-enabler="' + name + '"]').removeAttr('disabled') : $('[data-enabler="' + name + '"]').attr('disabled', 'disabled');
+
+        var $checkedBoxes = $('input[data-enable="' + name + '"]:checked');
+        var $allButtons = $('[data-enabler="' + name + '"]');
+
+        $allButtons.prop('disabled', !$checkedBoxes.length);
+
+        if (name === 'Tags') {
+            var $hideButton = $('button[name="HideTagsAction"]');
+            var $revealButton = $('button[name="RevealTagsAction"]');
+
+            var hasHidden = false;
+            var hasRevealed = false;
+            $checkedBoxes.each(function() {
+                var isHidden = $(this).closest('tr').find('td:eq(5)').text().trim() === '1';
+
+                isHidden ? hasHidden = true : hasRevealed = true;
+
+                if (hasHidden && hasRevealed) return false;
+            });
+
+            $hideButton.prop('disabled', hasHidden || !$checkedBoxes.length);
+            $revealButton.prop('disabled', hasRevealed || !$checkedBoxes.length);
+        }
     });
 }
 

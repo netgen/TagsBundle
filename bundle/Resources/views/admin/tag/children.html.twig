@@ -5,6 +5,8 @@
 {% set can_add = is_granted('ibexa:tags:add', tag is defined ? tag : null) %}
 {% set can_edit = is_granted('ibexa:tags:edit') %}
 {% set can_delete = is_granted('ibexa:tags:delete') %}
+{% set can_hide = is_granted('ibexa:tags:hide') %}
+{% set can_reveal = is_granted('ibexa:tags:reveal') %}
 
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
@@ -26,6 +28,8 @@
                     <th>{{ 'tag.tag_name'|trans }}</th>
                     <th>{{ 'tag.translations'|trans }}</th>
                     <th>{{ 'tag.modified'|trans }}</th>
+                    <th>{{ 'tag.hidden'|trans }}</th>
+                    <th>{{ 'tag.invisible'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +41,16 @@
                             {% endif %}
                         </td>
                         <td>{{ child.id }}</td>
-                        <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': child.id}) }}">{{ child.keyword }}</a></td>
+                        <td>
+                            <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': child.id}) }}">
+                                {{ child.keyword }}
+                                {% if child.isHidden %}
+                                    ({{ 'tag.hidden'|trans|lower }})
+                                {% elseif child.isInvisible %}
+                                    ({{ 'tag.hidden_by_parent'|trans }})
+                                {% endif %}
+                            </a>
+                        </td>
                         <td>
                             {% for languageCode in child.keywords|keys %}
                                 {% if can_edit %}<a href="{{ path('netgen_tags_admin_tag_update', {'tagId': child.id, 'languageCode': languageCode}) }}">{% endif %}
@@ -48,6 +61,8 @@
                             {% endfor %}
                         </td>
                         <td>{{ child.modificationDate|date }}</td>
+                        <td>{{ child.isHidden ? 1 : 0 }}</td>
+                        <td>{{ child.isInvisible ? 1 : 0 }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -68,6 +83,14 @@
 
             {% if can_delete %}
                 <button type="submit" name="DeleteTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.delete_selected'|trans }}</button>
+            {% endif %}
+
+            {% if can_hide %}
+                <button type="submit" name="HideTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.hide_selected'|trans }}</button>
+            {% endif %}
+
+            {% if can_reveal %}
+                <button type="submit" name="RevealTagsAction" class="tags-btn" data-enabler="Tags">{{ 'tag.button.reveal_selected'|trans }}</button>
             {% endif %}
         </div>
     </form>

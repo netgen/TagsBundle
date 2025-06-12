@@ -126,9 +126,16 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $tagIdsQuery->andWhere(
+                $tagIdsQuery->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $tagIdsQuery->andWhere(
             $tagIdsQuery->expr()->andX(
                 $tagIdsQuery->expr()->eq(
@@ -154,6 +161,13 @@ final class DoctrineDatabase extends Gateway
         }
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $query->andWhere(
+                $query->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $query->andWhere(
             $query->expr()->in(
                 'eztags.id',
@@ -166,9 +180,16 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $query->andWhere(
+                $query->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $query->andWhere(
             $query->expr()->andX(
                 $query->expr()->eq(
@@ -184,10 +205,16 @@ final class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1): array
+    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array
     {
         $databasePlatform = $this->connection->getDatabasePlatform();
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $tagIdsQuery->andWhere(
+                $tagIdsQuery->expr()->neq('is_hidden', '1'),
+            );
+        }
 
         $tagIdsQuery->andWhere(
             $exactMatch
@@ -222,6 +249,12 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->createTagFindQuery([$translation], $useAlwaysAvailable);
 
+        if ($showHidden !== null && $showHidden === false) {
+            $query->andWhere(
+                $query->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $query->andWhere(
             $query->expr()->in(
                 'eztags.id',
@@ -234,10 +267,16 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true): int
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null, bool $exactMatch = true): int
     {
         $databasePlatform = $this->connection->getDatabasePlatform();
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $query->andWhere(
+                $query->expr()->neq('is_hidden', '1'),
+            );
+        }
 
         $query->andWhere(
             $exactMatch
@@ -260,9 +299,16 @@ final class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $tagIdsQuery->andWhere(
+                $tagIdsQuery->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $tagIdsQuery->andWhere(
             $tagIdsQuery->expr()->eq(
                 'eztags.main_tag_id',
@@ -284,6 +330,13 @@ final class DoctrineDatabase extends Gateway
         }
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $query->andWhere(
+                $query->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $query->andWhere(
             $query->expr()->in(
                 'eztags.id',
@@ -294,9 +347,16 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
+
+        if ($showHidden !== null && $showHidden === false) {
+            $query->andWhere(
+                $query->expr()->neq('is_hidden', '1'),
+            );
+        }
+
         $query->andWhere(
             $query->expr()->eq(
                 'eztags.main_tag_id',
@@ -372,7 +432,14 @@ final class DoctrineDatabase extends Gateway
             )->setValue(
                 'language_mask',
                 ':language_mask',
-            )->setParameter('parent_id', $parentTag !== null ? (int) $parentTag['id'] : 0, Types::INTEGER)
+            )->setValue(
+                'is_hidden',
+                ':is_hidden',
+            )->setValue(
+                'is_invisible',
+                ':is_invisible',
+            )
+            ->setParameter('parent_id', $parentTag !== null ? (int) $parentTag['id'] : 0, Types::INTEGER)
             ->setParameter('main_tag_id', 0, Types::INTEGER)
             ->setParameter('modified', time(), Types::INTEGER)
             ->setParameter('keyword', $createStruct->keywords[$createStruct->mainLanguageCode], Types::STRING)
@@ -392,7 +459,8 @@ final class DoctrineDatabase extends Gateway
                     is_bool($createStruct->alwaysAvailable) ? $createStruct->alwaysAvailable : true,
                 ),
                 Types::INTEGER,
-            );
+            )->setParameter('is_hidden', 0, Types::INTEGER)
+            ->setParameter('is_invisible', $parentTag !== null ? $parentTag['is_invisible'] : 0, Types::INTEGER);
 
         $query->execute();
 
@@ -844,6 +912,117 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
+    public function hideTag(int $tagId): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_hidden', '1')
+            ->where(
+                $query->expr()->eq('id', ':tag_id'),
+            )->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_invisible', '1')
+            ->where(
+                $query->expr()->like('path_string', ':path_string'),
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+        $query->execute();
+    }
+
+    public function revealTag(int $tagId): void
+    {
+        // check if any ancestor is hidden
+        $basicTagData = $this->getBasicTagData($tagId);
+        $pathArray = explode('/', trim($basicTagData['path_string'], '/'));
+        array_pop($pathArray);
+
+        $shouldRemainInvisible = false;
+        if ($pathArray !== []) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('COUNT(id)')
+                ->from('eztags')
+                ->where($query->expr()->eq('is_hidden', '1'))
+                ->andWhere($query->expr()->in('id', ':parent_ids'))
+                ->setParameter('parent_ids', $pathArray, Connection::PARAM_INT_ARRAY);
+
+            $hiddenAncestorsCount = (int) $query->execute()->fetch(FetchMode::COLUMN);
+            $shouldRemainInvisible = $hiddenAncestorsCount > 0;
+        }
+
+        // update current tag to not be hidden
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update('eztags')
+            ->set('is_hidden', '0')
+            ->where(
+                $query->expr()->eq('id', ':tag_id'),
+            )->setParameter('tag_id', $tagId, Types::INTEGER);
+
+        $query->execute();
+
+        // find descendant tags that should remain invisible
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('id')
+            ->from('eztags')
+            ->where($query->expr()->eq('is_hidden', '1'))
+            ->andWhere(
+                $query->expr()->like('path_string', ':path_string'),
+            )
+            ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+        $hiddenDescendantTags = array_map(
+            static fn (array $row) => $row['id'],
+            $query->execute()->fetchAll(FetchMode::ASSOCIATIVE),
+        );
+
+        $tagsToRemainInvisible = [];
+        if ($hiddenDescendantTags !== []) {
+            foreach ($hiddenDescendantTags as $hiddenDescendantTag) {
+                $query = $this->connection->createQueryBuilder();
+                $query
+                    ->select('id')
+                    ->from('eztags')
+                    ->where(
+                        $query->expr()->like('path_string', ':path_string'),
+                    )
+                    ->setParameter('path_string', '%/' . $hiddenDescendantTag . '/%', Types::STRING);
+
+                foreach ($query->execute()->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+                    $tagsToRemainInvisible[] = $row['id'];
+                }
+            }
+        }
+
+        // if at least one ancestor is hidden, remain invisible
+        if ($shouldRemainInvisible !== true) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->update('eztags')
+                ->set('is_invisible', '0')
+                ->where(
+                    $query->expr()->like('path_string', ':path_string'),
+                )
+                ->setParameter('path_string', '%/' . $tagId . '/%', Types::STRING);
+
+            if ($tagsToRemainInvisible !== []) {
+                $query->andWhere(
+                    $query->expr()->notIn('id', $tagsToRemainInvisible),
+                );
+            }
+
+            $query->execute();
+        }
+    }
+
     private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
         $query = $this->connection->createQueryBuilder();
@@ -930,6 +1109,8 @@ final class DoctrineDatabase extends Gateway
             'eztags.remote_id',
             'eztags.main_language_id',
             'eztags.language_mask',
+            'eztags.is_hidden',
+            'eztags.is_invisible',
             // Tag keywords
             'eztags_keyword.keyword',
             'eztags_keyword.locale',

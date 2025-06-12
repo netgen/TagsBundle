@@ -500,7 +500,47 @@ final class TagController extends Controller
             );
         }
 
+        if ($request->request->has('HideTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_hide_tags',
+                [
+                    'parentId' => $tag?->id ?? 0,
+                ],
+            );
+        }
+
+        if ($request->request->has('RevealTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_reveal_tags',
+                [
+                    'parentId' => $tag?->id ?? 0,
+                ],
+            );
+        }
+
         return $this->redirect($request->getPathInfo());
+    }
+
+    public function hideAction(Request $request, Tag $tag): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide' . ($tag->isSynonym() ? 'synonym' : ''));
+
+        $this->tagsService->hideTag($tag);
+
+        $this->addFlashMessage('success', 'tag_hidden', ['%tagKeyword%' => $tag->keyword]);
+
+        return $this->redirectToTag($tag);
+    }
+
+    public function revealAction(Request $request, Tag $tag): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:reveal' . ($tag->isSynonym() ? 'synonym' : ''));
+
+        $this->tagsService->revealTag($tag);
+
+        $this->addFlashMessage('success', 'tag_reveal', ['%tagKeyword%' => $tag->keyword]);
+
+        return $this->redirectToTag($tag);
     }
 
     /**
@@ -664,6 +704,60 @@ final class TagController extends Controller
                 'tags' => $tags,
             ],
         );
+    }
+
+    public function hideTagsAction(Request $request, ?Tag $parentTag = null): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
+
+        $tagIds = (array) $request->request->get(
+            'Tags',
+            $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : [],
+        );
+
+        if (count($tagIds) === 0) {
+            return $this->redirectToTag($parentTag);
+        }
+
+        $tags = [];
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
+        }
+
+        foreach ($tags as $tagObject) {
+            $this->tagsService->hideTag($tagObject);
+        }
+
+        $this->addFlashMessage('success', 'tags_hidden');
+
+        return $this->redirectToTag($parentTag);
+    }
+
+    public function revealTagsAction(Request $request, ?Tag $parentTag = null): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:reveal');
+
+        $tagIds = (array) $request->request->get(
+            'Tags',
+            $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : [],
+        );
+
+        if (count($tagIds) === 0) {
+            return $this->redirectToTag($parentTag);
+        }
+
+        $tags = [];
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
+        }
+
+        foreach ($tags as $tagObject) {
+            $this->tagsService->revealTag($tagObject);
+        }
+
+        $this->addFlashMessage('success', 'tags_revealed');
+
+        return $this->redirectToTag($parentTag);
     }
 
     public function searchTagsAction(Request $request): Response

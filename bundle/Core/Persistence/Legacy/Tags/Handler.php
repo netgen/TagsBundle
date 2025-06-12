@@ -89,34 +89,34 @@ class Handler implements BaseTagsHandler
         return reset($tag);
     }
 
-    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
-        $tags = $this->gateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+        $tags = $this->gateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $showHidden);
 
         return $this->mapper->extractTagListFromRows($tags);
     }
 
-    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
-        return $this->gateway->getChildrenCount($tagId, $translations, $useAlwaysAvailable);
+        return $this->gateway->getChildrenCount($tagId, $translations, $useAlwaysAvailable, $showHidden);
     }
 
-    public function loadTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): array
+    public function loadTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array
     {
-        $tags = $this->gateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, true, $offset, $limit);
+        $tags = $this->gateway->getTagsByKeyword($keyword, $translation, $useAlwaysAvailable, true, $offset, $limit, $showHidden);
 
         return $this->mapper->extractTagListFromRows($tags);
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true): int
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
-        return $this->gateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable);
+        return $this->gateway->getTagsByKeywordCount($keyword, $translation, $useAlwaysAvailable, $showHidden);
     }
 
-    public function searchTags(string $searchString, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1): SearchResult
+    public function searchTags(string $searchString, string $translation, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult
     {
-        $tags = $this->gateway->getTagsByKeyword($searchString, $translation, $useAlwaysAvailable, false, $offset, $limit);
-        $totalCount = $this->gateway->getTagsByKeywordCount($searchString, $translation, $useAlwaysAvailable, false);
+        $tags = $this->gateway->getTagsByKeyword($searchString, $translation, $useAlwaysAvailable, false, $offset, $limit, $showHidden);
+        $totalCount = $this->gateway->getTagsByKeywordCount($searchString, $translation, $useAlwaysAvailable, $showHidden, false);
 
         return new SearchResult(
             [
@@ -126,16 +126,16 @@ class Handler implements BaseTagsHandler
         );
     }
 
-    public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function loadSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
     {
-        $tags = $this->gateway->getSynonyms($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+        $tags = $this->gateway->getSynonyms($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $showHidden);
 
         return $this->mapper->extractTagListFromRows($tags);
     }
 
-    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
     {
-        return $this->gateway->getSynonymCount($tagId, $translations, $useAlwaysAvailable);
+        return $this->gateway->getSynonymCount($tagId, $translations, $useAlwaysAvailable, $showHidden);
     }
 
     public function create(CreateStruct $createStruct): Tag
@@ -217,6 +217,18 @@ class Handler implements BaseTagsHandler
     {
         $tagInfo = $this->loadTagInfo($tagId);
         $this->gateway->deleteTag($tagInfo->id);
+    }
+
+    public function hideTag(int $tagId): void
+    {
+        $tagInfo = $this->loadTagInfo($tagId);
+        $this->gateway->hideTag($tagInfo->id);
+    }
+
+    public function revealTag(int $tagId): void
+    {
+        $tagInfo = $this->loadTagInfo($tagId);
+        $this->gateway->revealTag($tagInfo->id);
     }
 
     /**

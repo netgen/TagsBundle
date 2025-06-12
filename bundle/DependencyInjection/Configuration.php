@@ -155,6 +155,10 @@ final class Configuration extends SiteAccessConfiguration
                         ->defaultValue(25)
                     ->end()
                 ->end()
+            ->end()
+            ->booleanNode('show_hidden')
+                ->info('Whether to show hidden tags or not')
+                ->defaultTrue()
             ->end();
 
         return $treeBuilder;

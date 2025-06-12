@@ -9,3 +9,7 @@ tags:
     deletesynonym: ~
     makesynonym: ~
     merge: ~
+    hide: ~
+    reveal: ~
+    hidesynonym: ~
+    revealsynonym: ~
