@@ -11,6 +11,7 @@ tag.remote_id: 'Remote ID'
 tag.tag_name: 'Keyword'
 tag.translations: 'Translations'
 tag.modified: 'Modified'
+tag.priority: 'Priority'
 tag.main_tag: 'Main tag'
 tag.parent_tag: 'Parent tag'
 

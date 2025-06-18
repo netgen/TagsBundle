@@ -11,6 +11,7 @@ tag.remote_id: 'Identification à distance'
 tag.tag_name: 'Mot-clé'
 tag.translations: 'Traductions'
 tag.modified: 'Modifié'
+tag.priority: 'Priorité'
 tag.main_tag: 'Tag principale'
 tag.parent_tag: 'Tag parent'
 
