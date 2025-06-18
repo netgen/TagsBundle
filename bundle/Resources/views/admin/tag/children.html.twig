@@ -26,6 +26,7 @@
                     <th>{{ 'tag.tag_name'|trans }}</th>
                     <th>{{ 'tag.translations'|trans }}</th>
                     <th>{{ 'tag.modified'|trans }}</th>
+                    <th>{{ 'tag.priority'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +49,7 @@
                             {% endfor %}
                         </td>
                         <td>{{ child.modificationDate|date }}</td>
+                        <td>{{ child.priority }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
