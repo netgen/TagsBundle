@@ -44,6 +44,12 @@ tag.children.no_children: 'Pas de tags trouvés'
 tag.subtree_limitations.title: 'Limites des sous-arbres'
 tag.subtree_limitations.no_limitations: 'Aucune limite de sous-arbre'
 
+tag.subitems.title: 'Sous-éléments'
+tag.subitems.sort_by: 'Trier par'
+tag.subitems.sort_order: 'Ordre de tri'
+tag.subitems.sort_order.ascending: 'Ascendant'
+tag.subitems.sort_order.descending: 'Descendant'
+
 tag.related_content.title: 'Liste des contenus liés au tag'
 
 tag.add.title: 'Nouveau tag'

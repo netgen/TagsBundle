@@ -44,6 +44,12 @@ tag.children.no_children: 'No tags found'
 tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
 
+tag.subitems.title: 'Subitems'
+tag.subitems.sort_by: 'Sort by'
+tag.subitems.sort_order: 'Sort order'
+tag.subitems.sort_order.ascending: 'Ascending'
+tag.subitems.sort_order.descending: 'Descending'
+
 tag.related_content.title: 'List of content related to tag'
 tag.related_content.filter.content_type: 'Content type filter'
 tag.related_content.filter.sort: 'Sort'
