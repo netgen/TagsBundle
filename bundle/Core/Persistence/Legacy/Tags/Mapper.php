@@ -35,6 +35,7 @@ class Mapper
         $tagInfo->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
+        $tagInfo->priority = (int) $row['priority'];
 
         return $tagInfo;
     }
@@ -60,6 +61,7 @@ class Mapper
                 $tag->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
                 $tag->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
                 $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
+                $tag->priority = (int) $row['priority'];
                 $tagList[$tagId] = $tag;
             }
 
