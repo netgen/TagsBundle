@@ -28,6 +28,7 @@ use function trim;
  * @property-read bool $alwaysAvailable Indicates if the Tag object is shown in the main language if it is not present in an other requested language
  * @property-read string $mainLanguageCode The main language code of the Tag object
  * @property-read string[] $languageCodes List of languages in this Tag object
+ * @property-read int $priority Tag priority
  */
 final class Tag extends ValueObject
 {
@@ -103,6 +104,13 @@ final class Tag extends ValueObject
      * if none provided (all languages) or on main fallback.
      */
     protected ?string $prioritizedLanguageCode;
+
+    /**
+     * Tag priority.
+     *
+     * Position of the Tag among its siblings when sorted by priority.
+     */
+    protected int $priority;
 
     /**
      * Construct object optionally with a set of properties.

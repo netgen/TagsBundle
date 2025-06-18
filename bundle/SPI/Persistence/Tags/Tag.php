@@ -72,4 +72,11 @@ final class Tag extends ValueObject
      * @var int[]
      */
     public array $languageIds = [];
+
+    /**
+     * Tag priority.
+     *
+     * Position of the Tag among its siblings when sorted by priority.
+     */
+    public int $priority;
 }
