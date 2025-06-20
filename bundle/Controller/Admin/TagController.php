@@ -8,6 +8,7 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
@@ -16,7 +17,6 @@ use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
 use Netgen\TagsBundle\Form\Type\TagUpdateType;
-use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +29,7 @@ final class TagController extends Controller
     public function __construct(
         private TagsService $tagsService,
         private ContentTypeService $contentTypeService,
-        private AdapterInterface $tagChildrenAdapter,
+        private ChildrenTagsAdapter $tagChildrenAdapter,
         private SearchTagsAdapter $searchTagsAdapter,
     ) {}
 
@@ -44,6 +44,12 @@ final class TagController extends Controller
 
         if (!$tag instanceof Tag || !$tag->isSynonym()) {
             $configResolver = $this->getConfigResolver();
+
+            $sortBy = $request->query->get('sort_by');
+            $sortOrder = $request->query->get('sort_order');
+            if ($sortBy !== null && $sortOrder !== null) {
+                $this->tagChildrenAdapter->setSorting($sortBy, $sortOrder);
+            }
 
             $currentPage = (int) $request->query->get('page');
             $pager = $this->createPager(
