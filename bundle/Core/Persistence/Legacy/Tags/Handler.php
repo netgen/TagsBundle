@@ -89,9 +89,9 @@ class Handler implements BaseTagsHandler
         return reset($tag);
     }
 
-    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array
     {
-        $tags = $this->gateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+        $tags = $this->gateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $sortBy, $sortOrder);
 
         return $this->mapper->extractTagListFromRows($tags);
     }

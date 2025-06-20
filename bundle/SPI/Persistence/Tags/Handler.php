@@ -63,7 +63,7 @@ interface Handler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the specified tag is not found
      */
-    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
+    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array;
 
     /**
      * Returns the number of children of a tag identified by $tagId.

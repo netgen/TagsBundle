@@ -155,11 +155,11 @@ final class TagsHandler extends AbstractInMemoryHandler implements TagsHandlerIn
         return $this->tagsHandler->loadTagByKeywordAndParentId($keyword, $parentTagId, $translations, $useAlwaysAvailable);
     }
 
-    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function loadChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array
     {
         $this->logger->logCall(__METHOD__, ['tag' => $tagId, 'translations' => $translations, 'useAlwaysAvailable' => $useAlwaysAvailable]);
 
-        return $this->tagsHandler->loadChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+        return $this->tagsHandler->loadChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $sortBy, $sortOrder);
     }
 
     public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true): int
