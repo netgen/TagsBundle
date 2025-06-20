@@ -49,7 +49,6 @@
             {% if not tag.isSynonym %}
                 <li><a class="tags-tab-control" data-target="synonyms" href="#synonyms">{{ 'tag.synonyms.title'|trans }} <span class="tags-badge">{{ synonyms|length }}</span></a></li>
                 <li><a class="tags-tab-control" data-target="limitations" href="#limitations">{{ 'tag.subtree_limitations.title'|trans }} <span class="tags-badge">{{ subTreeLimitations|length }}</span></a></li>
-                <li><a class="tags-tab-control" data-target="subitems" href="#subitems">{{ 'tag.subitems.title'|trans }}</a></li>
             {% endif %}
         </ul>
 
@@ -68,10 +67,6 @@
 
             <div class="tags-tab" data-tab="#limitations">
                 {% include '@NetgenTags/admin/tag/tabs/subtree_limitations.html.twig' %}
-            </div>
-
-            <div class="tags-tab" data-tab="#subitems">
-                {% include '@NetgenTags/admin/tag/tabs/subitems.html.twig' %}
             </div>
         {% endif %}
     </div>

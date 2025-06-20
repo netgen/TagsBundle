@@ -73,6 +73,10 @@
             {% endif %}
         </div>
     </form>
+
+    {% if tag is defined and not tag.isSynonym %}
+        {% include '@NetgenTags/admin/tag/tabs/subitems.html.twig' %}
+    {% endif %}
 {% else %}
     <p>{{ 'tag.children.no_children'|trans }}</p>
 {% endif %}
