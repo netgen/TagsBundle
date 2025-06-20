@@ -152,7 +152,7 @@ class TagsService implements TagsServiceInterface
         return $this->mapper->buildTagDomainObject($spiTag, $languages);
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): TagList
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -164,6 +164,8 @@ class TagsService implements TagsServiceInterface
             $limit,
             $languages,
             $useAlwaysAvailable,
+            $sortBy,
+            $sortOrder,
         );
 
         $tags = [];
