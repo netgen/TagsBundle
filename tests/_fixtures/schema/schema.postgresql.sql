@@ -26,7 +26,8 @@ CREATE TABLE eztags (
     modified integer DEFAULT 0 NOT NULL,
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     main_language_id integer DEFAULT 0 NOT NULL,
-    language_mask integer DEFAULT 0 NOT NULL
+    language_mask integer DEFAULT 0 NOT NULL,
+    priority integer DEFAULT 0 NOT NULL
 );
 
 DROP TABLE IF EXISTS eztags_attribute_link;

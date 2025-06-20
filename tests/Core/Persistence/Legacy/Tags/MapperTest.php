@@ -28,6 +28,7 @@ final class MapperTest extends TestCase
         'remote_id' => '123456abcdef',
         'main_language_id' => 8,
         'language_mask' => 9,
+        'priority' => 0,
     ];
 
     /**
@@ -47,6 +48,7 @@ final class MapperTest extends TestCase
         'language_mask' => 9,
         'keyword' => 'Croatia',
         'locale' => 'eng-GB',
+        'priority' => 0,
     ];
 
     /**
@@ -65,6 +67,7 @@ final class MapperTest extends TestCase
         'alwaysAvailable' => true,
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
+        'priority' => 0,
     ];
 
     /**
@@ -84,6 +87,7 @@ final class MapperTest extends TestCase
         'alwaysAvailable' => true,
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
+        'priority' => 0,
     ];
 
     private Mapper $tagsMapper;

@@ -11,6 +11,7 @@ CREATE TABLE `eztags` (
   `remote_id` varchar(100) NOT NULL DEFAULT '',
   `main_language_id` int(11) NOT NULL DEFAULT '0',
   `language_mask` int(11) NOT NULL DEFAULT '0',
+  `priority` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `eztags_remote_id` (`remote_id`),
   KEY `eztags_keyword` (`keyword`),
