@@ -4,7 +4,7 @@
     <form method="get" action="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">
         <label for="sort_by">{{ 'tag.subitems.sort_by'|trans }}:</label>
         <select id="sort_by" name="sort_by">
-            <option value="tag_id" {% if app.request.query.get('sort_by') == 'tag_id' %}selected="selected"{% endif %}>
+            <option value="id" {% if app.request.query.get('sort_by') == 'id' %}selected="selected"{% endif %}>
                 {{ 'tag.tag_id'|trans }}
             </option>
             <option value="keyword" {% if app.request.query.get('sort_by') == 'keyword' %}selected="selected"{% endif %}>
