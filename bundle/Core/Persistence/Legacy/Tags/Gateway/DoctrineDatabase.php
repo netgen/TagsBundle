@@ -126,7 +126,7 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->andWhere(
@@ -137,10 +137,17 @@ final class DoctrineDatabase extends Gateway
                 ),
                 $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0),
             ),
-        )->setParameter('parent_id', $tagId, Types::INTEGER)
-        ->orderBy('eztags.keyword', 'ASC')
-        ->setFirstResult($offset)
-        ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
+        )->setParameter('parent_id', $tagId, Types::INTEGER);
+
+        if ($sortBy !== null && $sortOrder !== null) {
+            $tagIdsQuery->orderBy('eztags.' . $sortBy, $sortOrder);
+        } else {
+            $tagIdsQuery->orderBy('eztags.keyword', 'ASC');
+        }
+
+        $tagIdsQuery
+            ->setFirstResult($offset)
+            ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
 
         $statement = $tagIdsQuery->execute();
 
@@ -160,8 +167,13 @@ final class DoctrineDatabase extends Gateway
                 [':id'],
             ),
         )
-        ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY)
-        ->orderBy('eztags_keyword.keyword', 'ASC');
+        ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
+
+        if ($sortBy !== null && $sortOrder !== null) {
+            $query->orderBy('eztags.' . $sortBy, $sortOrder);
+        } else {
+            $query->orderBy('eztags_keyword.keyword', 'ASC');
+        }
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -847,7 +859,7 @@ final class DoctrineDatabase extends Gateway
     private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
         $query = $this->connection->createQueryBuilder();
-        $query->select('DISTINCT eztags.id, eztags.keyword')
+        $query->select('DISTINCT eztags.id, eztags.keyword, eztags.modified, eztags.priority')
         ->from('eztags', 'eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.

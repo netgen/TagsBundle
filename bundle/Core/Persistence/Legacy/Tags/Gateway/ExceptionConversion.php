@@ -71,10 +71,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array
     {
         try {
-            return $this->innerGateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable);
+            return $this->innerGateway->getChildren($tagId, $offset, $limit, $translations, $useAlwaysAvailable, $sortBy, $sortOrder);
         } catch (DBALException $e) {
             throw new RuntimeException('Database error', 0, $e);
         } catch (PDOException $e) {
