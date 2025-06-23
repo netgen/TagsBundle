@@ -76,7 +76,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList;
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): TagList;
 
     /**
      * Returns the number of children of a tag object.
@@ -89,7 +89,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int;
 
     /**
      * Loads tags by specified keyword.
@@ -104,7 +104,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
-    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): TagList;
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): TagList;
 
     /**
      * Returns the number of tags by specified keyword.
@@ -117,7 +117,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int;
 
     /**
      * Search for tags.
@@ -132,7 +132,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\SearchResult
      */
-    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult;
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): SearchResult;
 
     /**
      * Loads synonyms of a tag object.
@@ -148,7 +148,7 @@ interface TagsService
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
-    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList;
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): TagList;
 
     /**
      * Returns the number of synonyms of a tag object.
@@ -162,7 +162,7 @@ interface TagsService
      *
      * @return int
      */
-    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int;
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int;
 
     /**
      * Loads content related to $tag.

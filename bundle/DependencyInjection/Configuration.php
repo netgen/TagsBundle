@@ -156,7 +156,7 @@ final class Configuration extends SiteAccessConfiguration
                     ->end()
                 ->end()
             ->end()
-            ->booleanNode('show_hidden')
+            ->booleanNode('show_hidden_tags')
                 ->info('Whether to show hidden tags or not')
                 ->defaultTrue()
             ->end();

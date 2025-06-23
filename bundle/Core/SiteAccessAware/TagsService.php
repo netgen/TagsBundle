@@ -57,7 +57,7 @@ final class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): TagList
     {
         return $this->innerService->loadTagChildren(
             $tag,
@@ -65,21 +65,21 @@ final class TagsService implements TagsServiceInterface
             $limit,
             $this->languageResolver->getPrioritizedLanguages($languages),
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 
-    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         return $this->innerService->getTagChildrenCount(
             $tag,
             $this->languageResolver->getPrioritizedLanguages($languages),
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 
-    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): TagList
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): TagList
     {
         return $this->innerService->loadTagsByKeyword(
             $keyword,
@@ -87,21 +87,21 @@ final class TagsService implements TagsServiceInterface
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
             $offset,
             $limit,
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         return $this->innerService->getTagsByKeywordCount(
             $keyword,
             $language,
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 
-    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): SearchResult
     {
         return $this->innerService->searchTags(
             $searchString,
@@ -109,11 +109,11 @@ final class TagsService implements TagsServiceInterface
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
             $offset,
             $limit,
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 
-    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): TagList
     {
         return $this->innerService->loadTagSynonyms(
             $tag,
@@ -121,17 +121,17 @@ final class TagsService implements TagsServiceInterface
             $limit,
             $this->languageResolver->getPrioritizedLanguages($languages),
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 
-    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         return $this->innerService->getTagSynonymCount(
             $tag,
             $this->languageResolver->getPrioritizedLanguages($languages),
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
-            $showHidden ?? $this->configResolver->getParameter('show_hidden', 'netgen_tags'),
+            $showHiddenTags ?? $this->configResolver->getParameter('show_hidden_tags', 'netgen_tags'),
         );
     }
 

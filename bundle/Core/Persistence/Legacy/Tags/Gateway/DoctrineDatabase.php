@@ -126,11 +126,11 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $tagIdsQuery->andWhere(
                 $tagIdsQuery->expr()->neq('is_hidden', '1'),
             );
@@ -162,7 +162,7 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
                 $query->expr()->neq('is_hidden', '1'),
             );
@@ -180,11 +180,11 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getChildrenCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
                 $query->expr()->neq('is_hidden', '1'),
             );
@@ -205,12 +205,12 @@ final class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): array
+    public function getTagsByKeyword(string $keyword, string $translation, bool $useAlwaysAvailable = true, bool $exactMatch = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): array
     {
         $databasePlatform = $this->connection->getDatabasePlatform();
         $tagIdsQuery = $this->createTagIdsQuery([$translation], $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $tagIdsQuery->andWhere(
                 $tagIdsQuery->expr()->neq('is_hidden', '1'),
             );
@@ -249,7 +249,7 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->createTagFindQuery([$translation], $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
                 $query->expr()->neq('is_hidden', '1'),
             );
@@ -267,12 +267,12 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHidden = null, bool $exactMatch = true): int
+    public function getTagsByKeywordCount(string $keyword, string $translation, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null, bool $exactMatch = true): int
     {
         $databasePlatform = $this->connection->getDatabasePlatform();
         $query = $this->createTagCountQuery([$translation, $useAlwaysAvailable]);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
                 $query->expr()->neq('is_hidden', '1'),
             );
@@ -299,11 +299,11 @@ final class DoctrineDatabase extends Gateway
         return (int) $rows[0]['count'];
     }
 
-    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): array
+    public function getSynonyms(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $tagIdsQuery->andWhere(
                 $tagIdsQuery->expr()->neq('is_hidden', '1'),
             );
@@ -331,7 +331,7 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->createTagFindQuery($translations, $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
                 $query->expr()->neq('is_hidden', '1'),
             );
@@ -347,11 +347,11 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getSynonymCount(int $tagId, ?array $translations = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         $query = $this->createTagCountQuery($translations, $useAlwaysAvailable);
 
-        if ($showHidden !== null && $showHidden === false) {
+        if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
                 $query->expr()->neq('is_hidden', '1'),
             );

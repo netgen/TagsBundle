@@ -152,7 +152,7 @@ class TagsService implements TagsServiceInterface
         return $this->mapper->buildTagDomainObject($spiTag, $languages);
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): TagList
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -164,7 +164,7 @@ class TagsService implements TagsServiceInterface
             $limit,
             $languages,
             $useAlwaysAvailable,
-            $showHidden,
+            $showHiddenTags,
         );
 
         $tags = [];
@@ -175,7 +175,7 @@ class TagsService implements TagsServiceInterface
         return new TagList($tags);
     }
 
-    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -185,17 +185,17 @@ class TagsService implements TagsServiceInterface
             $tag?->id ?? 0,
             $languages,
             $useAlwaysAvailable,
-            $showHidden,
+            $showHiddenTags,
         );
     }
 
-    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): TagList
+    public function loadTagsByKeyword(string $keyword, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): TagList
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
-        $spiTags = $this->tagsHandler->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit, $showHidden);
+        $spiTags = $this->tagsHandler->loadTagsByKeyword($keyword, $language, $useAlwaysAvailable, $offset, $limit, $showHiddenTags);
 
         $tags = [];
         foreach ($spiTags as $spiTag) {
@@ -205,16 +205,16 @@ class TagsService implements TagsServiceInterface
         return new TagList($tags);
     }
 
-    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getTagsByKeywordCount(string $keyword, string $language, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
         }
 
-        return $this->tagsHandler->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable, $showHidden);
+        return $this->tagsHandler->getTagsByKeywordCount($keyword, $language, $useAlwaysAvailable, $showHiddenTags);
     }
 
-    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHidden = null): SearchResult
+    public function searchTags(string $searchString, string $language, bool $useAlwaysAvailable = true, int $offset = 0, int $limit = -1, ?bool $showHiddenTags = null): SearchResult
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -226,7 +226,7 @@ class TagsService implements TagsServiceInterface
             $useAlwaysAvailable,
             $offset,
             $limit,
-            $showHidden,
+            $showHiddenTags,
         );
 
         $tags = [];
@@ -242,7 +242,7 @@ class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): TagList
+    public function loadTagSynonyms(Tag $tag, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): TagList
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -258,7 +258,7 @@ class TagsService implements TagsServiceInterface
             $limit,
             $languages,
             $useAlwaysAvailable,
-            $showHidden,
+            $showHiddenTags,
         );
 
         $tags = [];
@@ -269,7 +269,7 @@ class TagsService implements TagsServiceInterface
         return new TagList($tags);
     }
 
-    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHidden = null): int
+    public function getTagSynonymCount(Tag $tag, ?array $languages = null, bool $useAlwaysAvailable = true, ?bool $showHiddenTags = null): int
     {
         if ($this->hasAccess('tags', 'read') === false) {
             throw new UnauthorizedException('tags', 'read');
@@ -283,7 +283,7 @@ class TagsService implements TagsServiceInterface
             $tag->id,
             $languages,
             $useAlwaysAvailable,
-            $showHidden,
+            $showHiddenTags,
         );
     }
 
