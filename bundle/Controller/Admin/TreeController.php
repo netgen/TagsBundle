@@ -185,22 +185,27 @@ final class TreeController extends Controller
         ];
     }
 
+    private function escape(string $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+    }
+
     private function formatTagTreeText(Tag $tag): string
     {
         $synonymCount = $this->tagsService->getTagSynonymCount($tag);
 
-        $text = htmlspecialchars($tag->keyword, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
+        $result = $tag->keyword;
 
         if ($tag->isHidden) {
-            $text .= ' (' . mb_strtolower($this->translator->trans('tag.hidden', [], 'netgen_tags_admin')) . ')';
+            $result .= ' (' . mb_strtolower($this->translator->trans('tag.hidden', [], 'netgen_tags_admin')) . ')';
         } elseif ($tag->isInvisible) {
-            $text .= ' (' . $this->translator->trans('tag.hidden_by_parent', [], 'netgen_tags_admin') . ')';
+            $result .= ' (' . $this->translator->trans('tag.hidden_by_parent', [], 'netgen_tags_admin') . ')';
         }
 
         if ($synonymCount > 0) {
-            $text .= ' (+' . $synonymCount . ')';
+            $result .= ' (+' . $synonymCount . ')';
         }
 
-        return $text;
+        return $this->escape($result);
     }
 }
