@@ -10,18 +10,9 @@ content.
 
 Please make sure to update Netgen Tags table to include `is_hidden` and `is_invisible` columns.
 
-If you're using MySQL, run the commands below:
+MySQL upgrade script: `bundle/Resources/sql/upgrade/mysql/5.4/dbupdate-5.0-to-5.4.sql`
 
-```sql
-ALTER TABLE `eztags` ADD COLUMN `is_hidden` TINYINT NOT NULL DEFAULT 0;
-ALTER TABLE `eztags` ADD COLUMN `is_invisible` TINYINT NOT NULL DEFAULT 0;
-```
-
-If you're using PostgreSQL, run the commands below:
-```sql
-ALTER TABLE `eztags` ADD COLUMN `is_hidden` INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE `eztags` ADD COLUMN `is_invisible` INTEGER NOT NULL DEFAULT 0;
-```
+PostgreSQL upgrade script: `bundle/Resources/sql/upgrade/postgresql/5.4/dbupdate-5.0-to-5.4.sql`
 
 Upgrade from 4.0 to 5.0
 -----------------------
