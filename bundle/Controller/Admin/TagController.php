@@ -525,22 +525,52 @@ final class TagController extends Controller
     {
         $this->denyAccessUnlessGranted('ibexa:tags:hide' . ($tag->isSynonym() ? 'synonym' : ''));
 
-        $this->tagsService->hideTag($tag);
+        if ($request->request->has('HideTagButton')) {
+            if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+                $this->addFlashMessage('errors', 'invalid_csrf_token');
 
-        $this->addFlashMessage('success', 'tag_hidden', ['%tagKeyword%' => $tag->keyword]);
+                return $this->redirectToTag($tag);
+            }
 
-        return $this->redirectToTag($tag);
+            $this->tagsService->hideTag($tag);
+
+            $this->addFlashMessage('success', 'tag_hidden', ['%tagKeyword%' => $tag->keyword]);
+
+            return $this->redirectToTag($tag);
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/hide.html.twig',
+            [
+                'tag' => $tag,
+            ],
+        );
     }
 
     public function revealAction(Request $request, Tag $tag): Response
     {
         $this->denyAccessUnlessGranted('ibexa:tags:reveal' . ($tag->isSynonym() ? 'synonym' : ''));
 
-        $this->tagsService->revealTag($tag);
+        if ($request->request->has('RevealTagButton')) {
+            if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+                $this->addFlashMessage('errors', 'invalid_csrf_token');
 
-        $this->addFlashMessage('success', 'tag_reveal', ['%tagKeyword%' => $tag->keyword]);
+                return $this->redirectToTag($tag);
+            }
 
-        return $this->redirectToTag($tag);
+            $this->tagsService->revealTag($tag);
+
+            $this->addFlashMessage('success', 'tag_revealed', ['%tagKeyword%' => $tag->keyword]);
+
+            return $this->redirectToTag($tag);
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/reveal.html.twig',
+            [
+                'tag' => $tag,
+            ],
+        );
     }
 
     /**

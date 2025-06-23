@@ -74,7 +74,10 @@ tag.add_synonym.title: 'Add synonym'
 tag.convert.title: 'Convert to synonym'
 
 tag.hide.title: 'Hide tag'
+tag.hide.message: 'Are you sure you want to hide the "%tagKeyword%" tag? All descendant tags that are not explicitly hidden will then become invisible and marked as "hidden by parent".'
+
 tag.reveal.title: 'Reveal tag'
+tag.reveal.message: 'Are you sure you want to reveal the "%tagKeyword%" tag? All of its descendant tags will become visible again, except those that are explicitly hidden themselves or have another hidden ancestor.'
 
 tag.move_tags.title: 'Move tags'
 tag.move_tags.message: 'Are you sure you want to move the selected tags?'
