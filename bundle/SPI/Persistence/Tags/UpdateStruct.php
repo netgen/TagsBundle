@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortField;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 
 /**
  * This class represents a value for updating a tag.
@@ -33,4 +35,14 @@ final class UpdateStruct extends ValueObject
      * Indicates if the tag is shown in the main language if it's not present in an other requested language.
      */
     public ?bool $alwaysAvailable;
+
+    /**
+     * Specifies by which property the child tags should be sorted on.
+     */
+    public TagSortField $sortField;
+
+    /**
+     * Specifies whether the sort order should be ascending or descending.
+     */
+    public TagSortOrder $sortOrder;
 }
