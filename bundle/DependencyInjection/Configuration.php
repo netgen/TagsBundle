@@ -159,6 +159,10 @@ final class Configuration extends SiteAccessConfiguration
             ->booleanNode('show_hidden_tags')
                 ->info('Whether to show hidden tags or not')
                 ->defaultTrue()
+            ->end()
+            ->booleanNode('autocomplete_provide_hidden_tags')
+                ->info('When searching for a tag to add it to some content, should autocomplete show hidden tags or not')
+                ->defaultFalse()
             ->end();
 
         return $treeBuilder;

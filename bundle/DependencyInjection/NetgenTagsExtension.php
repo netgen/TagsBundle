@@ -123,6 +123,7 @@ final class NetgenTagsExtension extends Extension implements PrependExtensionInt
                 $c->setContextualParameter('field.autocomplete_limit', $scope, $config['field']['autocomplete_limit']);
 
                 $c->setContextualParameter('show_hidden_tags', $scope, $config['show_hidden_tags']);
+                $c->setContextualParameter('autocomplete_provide_hidden_tags', $scope, $config['autocomplete_provide_hidden_tags']);
             },
         );
 
