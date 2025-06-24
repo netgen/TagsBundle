@@ -71,14 +71,12 @@ interface TagsService
      * @param int $limit The number of tags returned. If $limit = -1 all children starting at $offset are returned
      * @param string[]|null $languages A language filter for keywords. If not given all languages are returned
      * @param bool $useAlwaysAvailable Add main language to $languages if true (default) and if tag is always available
-     * @param string|null $sortBy The field to sort the children by (e.g. 'id', 'keyword', 'modificationDate', 'priority')
-     * @param string|null $sortOrder The sort direction, either 'asc' or 'desc'
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to read tags
      *
      * @return \Netgen\TagsBundle\API\Repository\Values\Tags\TagList
      */
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): TagList;
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList;
 
     /**
      * Returns the number of children of a tag object.

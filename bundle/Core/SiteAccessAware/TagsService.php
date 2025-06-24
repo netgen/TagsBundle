@@ -52,7 +52,7 @@ final class TagsService implements TagsServiceInterface
         );
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): TagList
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
         return $this->innerService->loadTagChildren(
             $tag,
@@ -60,8 +60,6 @@ final class TagsService implements TagsServiceInterface
             $limit,
             $this->languageResolver->getPrioritizedLanguages($languages),
             $this->languageResolver->getUseAlwaysAvailable($useAlwaysAvailable),
-            $sortBy,
-            $sortOrder,
         );
     }
 

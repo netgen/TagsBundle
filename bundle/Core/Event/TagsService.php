@@ -38,9 +38,9 @@ final class TagsService implements TagsServiceInterface
         return $this->service->loadTagByUrl($url, $languages);
     }
 
-    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): TagList
+    public function loadTagChildren(?Tag $tag = null, int $offset = 0, int $limit = -1, ?array $languages = null, bool $useAlwaysAvailable = true): TagList
     {
-        return $this->service->loadTagChildren($tag, $offset, $limit, $languages, $useAlwaysAvailable, $sortBy, $sortOrder);
+        return $this->service->loadTagChildren($tag, $offset, $limit, $languages, $useAlwaysAvailable);
     }
 
     public function getTagChildrenCount(?Tag $tag = null, ?array $languages = null, bool $useAlwaysAvailable = true): int
