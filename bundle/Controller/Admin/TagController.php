@@ -22,6 +22,7 @@ use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use function count;
 use function in_array;
@@ -278,8 +279,10 @@ final class TagController extends Controller
         $sortOrder = $request->request->get('sort_order');
 
         $tagUpdateStruct = new TagUpdateStruct();
-        $tagUpdateStruct->sortBy = TagSortBy::from((string) $sortBy);
-        $tagUpdateStruct->sortOrder = TagSortOrder::from((string) $sortOrder);
+        $tagUpdateStruct->sortBy = TagSortBy::tryFrom((string) $sortBy)
+            ?? throw new BadRequestHttpException('Invalid enum value for sortBy when trying to update children sorting');
+        $tagUpdateStruct->sortOrder = TagSortOrder::tryFrom((string) $sortOrder)
+            ?? throw new BadRequestHttpException('Invalid enum value for sortOrder when trying to update children sorting');
 
         $this->tagsService->updateTag($tag, $tagUpdateStruct);
 
