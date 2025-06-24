@@ -6,6 +6,8 @@ namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortField;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 
 use function array_map;
 use function count;
@@ -29,6 +31,8 @@ use function trim;
  * @property-read string $mainLanguageCode The main language code of the Tag object
  * @property-read string[] $languageCodes List of languages in this Tag object
  * @property-read int $priority Tag priority
+ * @property-read TagSortField $sortField Specifies by which property the child tags should be sorted on
+ * @property-read TagSortOrder $sortOrder Specifies whether the sort order should be ascending or descending
  */
 final class Tag extends ValueObject
 {
@@ -111,6 +115,16 @@ final class Tag extends ValueObject
      * Position of the Tag among its siblings when sorted by priority.
      */
     protected int $priority;
+
+    /**
+     * Specifies by which property the child tags should be sorted on.
+     */
+    protected TagSortField $sortField;
+
+    /**
+     * Specifies whether the sort order should be ascending or descending.
+     */
+    protected TagSortOrder $sortOrder;
 
     /**
      * Construct object optionally with a set of properties.
