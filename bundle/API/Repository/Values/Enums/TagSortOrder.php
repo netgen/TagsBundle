@@ -6,6 +6,6 @@ namespace Netgen\TagsBundle\API\Repository\Values\Enums;
 
 enum TagSortOrder: string
 {
-    case ASC = 'asc';
-    case DESC = 'desc';
+    case Ascending = 'asc';
+    case Descending = 'desc';
 }

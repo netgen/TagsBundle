@@ -47,8 +47,6 @@ tag.subtree_limitations.no_limitations: 'Aucune limite de sous-arbre'
 tag.subitems.title: 'Sous-éléments'
 tag.subitems.sort_by: 'Trier par'
 tag.subitems.sort_order: 'Ordre de tri'
-tag.subitems.sort_order.ascending: 'Ascendant'
-tag.subitems.sort_order.descending: 'Descendant'
 
 tag.related_content.title: 'Liste des contenus liés au tag'
 
@@ -105,3 +103,11 @@ tag.search.no_results.check_spelling: 'Check spelling of keywords.'
 tag.search.no_results.change_keywords: 'Try changing some keywords (eg, "car" instead of "cars").'
 tag.search.no_results.less_specific_keywords: 'Try searching with less specific keywords.'
 tag.search.no_results.reduce_keywords: 'Reduce number of keywords to get more results.'
+
+tag.enum.sort_by.id: 'Tag ID'
+tag.enum.sort_by.keyword: 'Mot-clé'
+tag.enum.sort_by.modified: 'Modifié'
+tag.enum.sort_by.priority: 'Priorité'
+
+tag.enum.sort_order.asc: 'Ascendant'
+tag.enum.sort_order.desc: 'Descendant'

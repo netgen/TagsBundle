@@ -6,8 +6,8 @@ namespace Netgen\TagsBundle\API\Repository\Values\Enums;
 
 enum TagSortBy: string
 {
-    case ID = 'id';
-    case KEYWORD = 'keyword';
-    case MODIFIED = 'modified';
-    case PRIORITY = 'priority';
+    case Id = 'id';
+    case Keyword = 'keyword';
+    case Modified = 'modified';
+    case Priority = 'priority';
 }

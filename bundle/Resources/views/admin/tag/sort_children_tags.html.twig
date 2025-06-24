@@ -5,18 +5,22 @@
         <div class="sort-dropdown">
             <label for="sort_by">{{ 'tag.subitems.sort_by'|trans }}:</label>
             <select id="sort_by" name="sort_by">
-                <option value="id" {% if tag.sortBy.value == 'id' %}selected="selected"{% endif %}>{{ 'tag.tag_id'|trans }}</option>
-                <option value="keyword" {% if tag.sortBy.value == 'keyword' %}selected="selected"{% endif %}>{{ 'tag.tag_name'|trans }}</option>
-                <option value="modified" {% if tag.sortBy.value == 'modified' %}selected="selected"{% endif %}>{{ 'tag.modified'|trans }}</option>
-                <option value="priority" {% if tag.sortBy.value == 'priority' %}selected="selected"{% endif %}>{{ 'tag.priority'|trans }}</option>
+                {% for case in enum_cases('Netgen\\TagsBundle\\API\\Repository\\Values\\Enums\\TagSortBy') %}
+                    <option value="{{ case.value }}" {% if tag.sortBy.value == case.value %}selected="selected"{% endif %}>
+                        {{ ('tag.enum.sort_by.' ~ case.value)|trans }}
+                    </option>
+                {% endfor %}
             </select>
         </div>
 
         <div class="sort-dropdown">
             <label for="sort_order">{{ 'tag.subitems.sort_order'|trans }}:</label>
             <select id="sort_order" name="sort_order">
-                <option value="asc" {% if tag.sortOrder.value == 'asc' %}selected="selected"{% endif %}>{{ 'tag.subitems.sort_order.ascending'|trans }}</option>
-                <option value="desc" {% if tag.sortOrder.value == 'desc' %}selected="selected"{% endif %}>{{ 'tag.subitems.sort_order.descending'|trans }}</option>
+                {% for case in enum_cases('Netgen\\TagsBundle\\API\\Repository\\Values\\Enums\\TagSortOrder') %}
+                    <option value="{{ case.value }}" {% if tag.sortOrder.value == case.value %}selected="selected"{% endif %}>
+                        {{ ('tag.enum.sort_order.' ~ case.value)|trans }}
+                    </option>
+                {% endfor %}
             </select>
         </div>
     </div>
