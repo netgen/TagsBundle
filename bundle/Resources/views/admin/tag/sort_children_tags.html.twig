@@ -1,0 +1,27 @@
+{% trans_default_domain 'netgen_tags_admin' %}
+
+<form method="post" action="{{ path('netgen_tags_admin_tag_update_sort', {'tagId': tag.id}) }}" class="ng-tags-sort">
+    <div class="sorting">
+        <div class="sort-dropdown">
+            <label for="sort_by">{{ 'tag.subitems.sort_by'|trans }}:</label>
+            <select id="sort_by" name="sort_by">
+                <option value="id" {% if tag.sortField.value == 'id' %}selected="selected"{% endif %}>{{ 'tag.tag_id'|trans }}</option>
+                <option value="keyword" {% if tag.sortField.value == 'keyword' %}selected="selected"{% endif %}>{{ 'tag.tag_name'|trans }}</option>
+                <option value="modified" {% if tag.sortField.value == 'modified' %}selected="selected"{% endif %}>{{ 'tag.modified'|trans }}</option>
+                <option value="priority" {% if tag.sortField.value == 'priority' %}selected="selected"{% endif %}>{{ 'tag.priority'|trans }}</option>
+            </select>
+        </div>
+
+        <div class="sort-dropdown">
+            <label for="sort_order">{{ 'tag.subitems.sort_order'|trans }}:</label>
+            <select id="sort_order" name="sort_order">
+                <option value="asc" {% if tag.sortOrder.value == 'asc' %}selected="selected"{% endif %}>{{ 'tag.subitems.sort_order.ascending'|trans }}</option>
+                <option value="desc" {% if tag.sortOrder.value == 'desc' %}selected="selected"{% endif %}>{{ 'tag.subitems.sort_order.descending'|trans }}</option>
+            </select>
+        </div>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
+
+    <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.related_content.filter.button.submit'|trans }}" />
+</form>
