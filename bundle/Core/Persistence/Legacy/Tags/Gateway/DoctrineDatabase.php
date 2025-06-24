@@ -126,7 +126,7 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array
+    public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->andWhere(
@@ -137,15 +137,7 @@ final class DoctrineDatabase extends Gateway
                 ),
                 $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0),
             ),
-        )->setParameter('parent_id', $tagId, Types::INTEGER);
-
-        if ($sortBy !== null && $sortOrder !== null) {
-            $tagIdsQuery->orderBy('eztags.' . $sortBy, $sortOrder);
-        } else {
-            $tagIdsQuery->orderBy('eztags.keyword', 'ASC');
-        }
-
-        $tagIdsQuery
+        )->setParameter('parent_id', $tagId, Types::INTEGER)
             ->setFirstResult($offset)
             ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
 
@@ -168,12 +160,6 @@ final class DoctrineDatabase extends Gateway
             ),
         )
         ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
-
-        if ($sortBy !== null && $sortOrder !== null) {
-            $query->orderBy('eztags.' . $sortBy, $sortOrder);
-        } else {
-            $query->orderBy('eztags_keyword.keyword', 'ASC');
-        }
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -943,6 +929,8 @@ final class DoctrineDatabase extends Gateway
             'eztags.main_language_id',
             'eztags.language_mask',
             'eztags.priority',
+            'eztags.sortField',
+            'eztags.sortOrder',
             // Tag keywords
             'eztags_keyword.keyword',
             'eztags_keyword.locale',

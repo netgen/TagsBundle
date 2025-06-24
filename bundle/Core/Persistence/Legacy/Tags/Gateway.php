@@ -40,7 +40,7 @@ abstract class Gateway
      *
      * If $limit = -1 all children starting at $offset are returned.
      */
-    abstract public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true, ?string $sortBy = null, ?string $sortOrder = null): array;
+    abstract public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array;
 
     /**
      * Returns how many tags exist below tag identified by $tagId.
