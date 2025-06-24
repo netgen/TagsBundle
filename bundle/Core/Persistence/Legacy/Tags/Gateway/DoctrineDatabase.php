@@ -128,6 +128,10 @@ final class DoctrineDatabase extends Gateway
 
     public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
+        $tagData = $tagId !== 0 ? $this->getBasicTagData($tagId) : [];
+        $sortBy = $tagData['sort_by'] ?? 'id';
+        $sortOrder = $tagData['sort_order'] ?? 'asc';
+
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->andWhere(
             $tagIdsQuery->expr()->andX(
@@ -137,7 +141,9 @@ final class DoctrineDatabase extends Gateway
                 ),
                 $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0),
             ),
-        )->setParameter('parent_id', $tagId, Types::INTEGER)
+        )
+            ->orderBy('eztags.' . $sortBy, $sortOrder)
+            ->setParameter('parent_id', $tagId, Types::INTEGER)
             ->setFirstResult($offset)
             ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
 
@@ -159,7 +165,8 @@ final class DoctrineDatabase extends Gateway
                 [':id'],
             ),
         )
-        ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
+            ->orderBy('eztags.' . $sortBy, $sortOrder)
+            ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -444,6 +451,12 @@ final class DoctrineDatabase extends Gateway
             )->set(
                 'language_mask',
                 ':language_mask',
+            )->set(
+                'sort_by',
+                ':sort_by',
+            )->set(
+                'sort_order',
+                ':sort_order',
             )->where(
                 $query->expr()->eq(
                     'id',
@@ -467,7 +480,9 @@ final class DoctrineDatabase extends Gateway
                     is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true,
                 ),
                 Types::INTEGER,
-            );
+            )
+            ->setParameter('sort_by', $updateStruct->sortBy->value ?? 'id', Types::STRING)
+            ->setParameter('sort_order', $updateStruct->sortOrder->value ?? 'asc', Types::STRING);
 
         $query->execute();
 
@@ -929,8 +944,8 @@ final class DoctrineDatabase extends Gateway
             'eztags.main_language_id',
             'eztags.language_mask',
             'eztags.priority',
-            'eztags.sortField',
-            'eztags.sortOrder',
+            'eztags.sort_by',
+            'eztags.sort_order',
             // Tag keywords
             'eztags_keyword.keyword',
             'eztags_keyword.locale',
