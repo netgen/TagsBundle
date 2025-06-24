@@ -7,8 +7,10 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortField;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
-use Netgen\TagsBundle\Core\Pagination\Pagerfanta\ChildrenTagsAdapter;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
@@ -17,6 +19,7 @@ use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
 use Netgen\TagsBundle\Form\Type\TagUpdateType;
+use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +32,7 @@ final class TagController extends Controller
     public function __construct(
         private TagsService $tagsService,
         private ContentTypeService $contentTypeService,
-        private ChildrenTagsAdapter $tagChildrenAdapter,
+        private AdapterInterface $tagChildrenAdapter,
         private SearchTagsAdapter $searchTagsAdapter,
     ) {}
 
@@ -44,13 +47,6 @@ final class TagController extends Controller
 
         if (!$tag instanceof Tag || !$tag->isSynonym()) {
             $configResolver = $this->getConfigResolver();
-
-            $sortBy = $request->query->get('sort_by');
-            $sortOrder = $request->query->get('sort_order');
-            if ($sortBy !== null && $sortOrder !== null) {
-                $this->tagChildrenAdapter->setSorting($sortBy, $sortOrder);
-            }
-
             $currentPage = (int) $request->query->get('page');
             $pager = $this->createPager(
                 $this->tagChildrenAdapter,
@@ -268,6 +264,26 @@ final class TagController extends Controller
                 'tag' => $tag,
             ],
         );
+    }
+
+    public function updateTagSortAction(Request $request, Tag $tag): Response
+    {
+        if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+            $this->addFlashMessage('errors', 'invalid_csrf_token');
+
+            return $this->redirectToTag($tag);
+        }
+
+        $sortBy = $request->request->get('sort_by');
+        $sortOrder = $request->request->get('sort_order');
+
+        $tagUpdateStruct = new TagUpdateStruct();
+        $tagUpdateStruct->sortField = TagSortField::from((string) $sortBy);
+        $tagUpdateStruct->sortOrder = TagSortOrder::from((string) $sortOrder);
+
+        $this->tagsService->updateTag($tag, $tagUpdateStruct);
+
+        return $this->redirectToTag($tag);
     }
 
     /**

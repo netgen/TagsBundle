@@ -43,6 +43,11 @@ netgen_tags_admin_tag_update_select:
     controller: netgen_tags.admin.controller.tag:updateTagSelectAction
     methods: [GET, POST]
 
+netgen_tags_admin_tag_update_sort:
+    path: /{tagId}/update/sort
+    controller: netgen_tags.admin.controller.tag:updateTagSortAction
+    methods: [POST]
+
 netgen_tags_admin_tag_update:
     path: /{tagId}/update/{languageCode}
     controller: netgen_tags.admin.controller.tag:updateTagAction
