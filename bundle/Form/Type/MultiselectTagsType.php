@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function array_map;
 
-final class MoveTagsType extends AbstractType
+final class MultiselectTagsType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -27,22 +27,26 @@ final class MoveTagsType extends AbstractType
                 }
 
                 return true;
-            });
+            })
+            ->setDefault('show_parent_field', true)
+            ->setAllowedTypes('show_parent_field', 'bool');
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'parentTag',
-                TagTreeType::class,
-                [
-                    'label' => 'tag.parent_tag',
-                    'disableSubtree' => array_map(
-                        static fn (Tag $tag): int => $tag->id,
-                        $options['tags'],
-                    ),
-                ],
-            );
+        if ($options['show_parent_field'] === true) {
+            $builder
+                ->add(
+                    'parentTag',
+                    TagTreeType::class,
+                    [
+                        'label' => 'tag.parent_tag',
+                        'disableSubtree' => array_map(
+                            static fn (Tag $tag): int => $tag->id,
+                            $options['tags'],
+                        ),
+                    ],
+                );
+        }
     }
 }
