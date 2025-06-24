@@ -40,7 +40,7 @@ final class FieldController extends Controller
             true,
             0,
             -1,
-            false,
+            $this->configResolver->getParameter('autocomplete_provide_hidden_tags', 'netgen_tags'),
         );
 
         $data = $data = $this->filterTags($searchResult->tags, $subTreeLimit, $hideRootTag);
