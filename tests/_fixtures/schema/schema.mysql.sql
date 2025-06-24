@@ -12,6 +12,8 @@ CREATE TABLE `eztags` (
   `main_language_id` int(11) NOT NULL DEFAULT '0',
   `language_mask` int(11) NOT NULL DEFAULT '0',
   `priority` int(11) NOT NULL DEFAULT '0',
+  `sort_by` enum('id', 'keyword', 'modified', 'priority') NOT NULL DEFAULT 'id',
+  `sort_order` enum('asc', 'desc') NOT NULL DEFAULT 'asc',
   PRIMARY KEY (`id`),
   UNIQUE KEY `eztags_remote_id` (`remote_id`),
   KEY `eztags_keyword` (`keyword`),

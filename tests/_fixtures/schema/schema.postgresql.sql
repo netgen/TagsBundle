@@ -27,7 +27,9 @@ CREATE TABLE eztags (
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     main_language_id integer DEFAULT 0 NOT NULL,
     language_mask integer DEFAULT 0 NOT NULL,
-    priority integer DEFAULT 0 NOT NULL
+    priority integer DEFAULT 0 NOT NULL,
+    sort_by enum('id', 'keyword', 'modified', 'priority') DEFAULT 'id' NOT NULL,
+    sort_order enum('asc', 'desc') DEFAULT 'asc' NOT NULL,
 );
 
 DROP TABLE IF EXISTS eztags_attribute_link;

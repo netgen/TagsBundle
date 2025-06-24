@@ -6,6 +6,8 @@ namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
@@ -29,6 +31,8 @@ final class MapperTest extends TestCase
         'main_language_id' => 8,
         'language_mask' => 9,
         'priority' => 0,
+        'sort_by' => 'id',
+        'sort_order' => 'asc',
     ];
 
     /**
@@ -49,6 +53,8 @@ final class MapperTest extends TestCase
         'keyword' => 'Croatia',
         'locale' => 'eng-GB',
         'priority' => 0,
+        'sort_by' => 'id',
+        'sort_order' => 'asc',
     ];
 
     /**
@@ -68,6 +74,8 @@ final class MapperTest extends TestCase
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
         'priority' => 0,
+        'sortBy' => TagSortBy::Id,
+        'sortOrder' => TagSortOrder::Ascending,
     ];
 
     /**
@@ -88,6 +96,8 @@ final class MapperTest extends TestCase
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
         'priority' => 0,
+        'sortBy' => TagSortBy::Id,
+        'sortOrder' => TagSortOrder::Ascending,
     ];
 
     private Mapper $tagsMapper;

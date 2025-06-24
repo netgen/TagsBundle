@@ -342,12 +342,12 @@ final class DoctrineDatabaseTest extends TestCase
         }
 
         self::assertCount(6, $data);
-        self::assertSame(20, $data[0]['id']);
-        self::assertSame(15, $data[1]['id']);
-        self::assertSame(72, $data[2]['id']);
-        self::assertSame(71, $data[3]['id']);
-        self::assertSame(18, $data[4]['id']);
-        self::assertSame(19, $data[5]['id']);
+        self::assertSame(15, $data[0]['id']);
+        self::assertSame(18, $data[1]['id']);
+        self::assertSame(19, $data[2]['id']);
+        self::assertSame(20, $data[3]['id']);
+        self::assertSame(71, $data[4]['id']);
+        self::assertSame(72, $data[5]['id']);
     }
 
     /**
@@ -373,12 +373,12 @@ final class DoctrineDatabaseTest extends TestCase
         }
 
         self::assertCount(6, $data);
-        self::assertSame(20, $data[0]['id']);
-        self::assertSame(15, $data[1]['id']);
-        self::assertSame(72, $data[2]['id']);
-        self::assertSame(71, $data[3]['id']);
-        self::assertSame(18, $data[4]['id']);
-        self::assertSame(19, $data[5]['id']);
+        self::assertSame(15, $data[0]['id']);
+        self::assertSame(18, $data[1]['id']);
+        self::assertSame(19, $data[2]['id']);
+        self::assertSame(20, $data[3]['id']);
+        self::assertSame(71, $data[4]['id']);
+        self::assertSame(72, $data[5]['id']);
     }
 
     /**
