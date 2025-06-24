@@ -7,7 +7,7 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
-use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortField;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
 use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
@@ -278,7 +278,7 @@ final class TagController extends Controller
         $sortOrder = $request->request->get('sort_order');
 
         $tagUpdateStruct = new TagUpdateStruct();
-        $tagUpdateStruct->sortField = TagSortField::from((string) $sortBy);
+        $tagUpdateStruct->sortBy = TagSortBy::from((string) $sortBy);
         $tagUpdateStruct->sortOrder = TagSortOrder::from((string) $sortOrder);
 
         $this->tagsService->updateTag($tag, $tagUpdateStruct);

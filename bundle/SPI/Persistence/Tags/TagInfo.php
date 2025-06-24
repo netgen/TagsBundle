@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
-use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortField;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
 use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 
 /**
@@ -77,7 +77,7 @@ final class TagInfo extends ValueObject
     /**
      * Specifies by which property the child tags should be sorted on.
      */
-    public TagSortField $sortField;
+    public TagSortBy $sortBy;
 
     /**
      * Specifies whether the sort order should be ascending or descending.

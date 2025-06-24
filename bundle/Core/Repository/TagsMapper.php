@@ -68,7 +68,7 @@ final class TagsMapper
                     'languageCodes' => $languageCodes,
                     'prioritizedLanguageCode' => $prioritizedLanguageCode,
                     'priority' => $spiTag->priority,
-                    'sortField' => $spiTag->sortField,
+                    'sortBy' => $spiTag->sortBy,
                     'sortOrder' => $spiTag->sortOrder,
                 ],
             );

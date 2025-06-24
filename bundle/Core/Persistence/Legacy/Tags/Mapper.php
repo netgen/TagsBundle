@@ -6,7 +6,7 @@ namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
-use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortField;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
 use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
@@ -38,8 +38,8 @@ class Mapper
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
         $tagInfo->priority = (int) $row['priority'];
-        $tagInfo->sortField = TagSortField::from($row['sortField']);
-        $tagInfo->sortOrder = TagSortOrder::from($row['sortOrder']);
+        $tagInfo->sortBy = TagSortBy::from($row['sort_by']);
+        $tagInfo->sortOrder = TagSortOrder::from($row['sort_order']);
 
         return $tagInfo;
     }
@@ -66,8 +66,8 @@ class Mapper
                 $tag->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
                 $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
                 $tag->priority = (int) $row['priority'];
-                $tag->sortField = TagSortField::from($row['sortField']);
-                $tag->sortOrder = TagSortOrder::from($row['sortOrder']);
+                $tag->sortBy = TagSortBy::from($row['sort_by']);
+                $tag->sortOrder = TagSortOrder::from($row['sort_order']);
                 $tagList[$tagId] = $tag;
             }
 

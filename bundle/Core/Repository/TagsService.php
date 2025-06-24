@@ -453,7 +453,7 @@ class TagsService implements TagsServiceInterface
         $updateStruct->remoteId = trim($tagUpdateStruct->remoteId ?? $spiTag->remoteId);
         $updateStruct->mainLanguageCode = $mainLanguageCode;
         $updateStruct->alwaysAvailable = $tagUpdateStruct->alwaysAvailable ?? $spiTag->alwaysAvailable;
-        $updateStruct->sortField = $tagUpdateStruct->sortField ?? $spiTag->sortField;
+        $updateStruct->sortBy = $tagUpdateStruct->sortBy ?? $spiTag->sortBy;
         $updateStruct->sortOrder = $tagUpdateStruct->sortOrder ?? $spiTag->sortOrder;
 
         $this->repository->beginTransaction();
