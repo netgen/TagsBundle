@@ -62,8 +62,11 @@ tag.add_synonym.title: 'Ajouter un synonyme'
 
 tag.convert.title: 'Convertir en synonyme'
 
-tag.hide.title: 'Cacher le tag'
+tag.hide.title: 'Hide tag'
+tag.hide.message: 'Êtes-vous sûr de vouloir cacher la balise "%tagKeyword%"? Toutes les balises descendantes qui ne sont pas explicitement cachées deviendront alors invisibles et marquées comme "cachées par le parent".'
+
 tag.reveal.title: 'Révéler le tag'
+tag.reveal.message: "Êtes-vous sûr de vouloir révéler la balise '%tagKeyword%' ? Toutes ses balises descendantes redeviendront visibles, à l'exception de celles qui sont explicitement cachées ou qui ont un autre ancêtre caché."
 
 tag.move_tags.title: 'Déplacer les tags'
 tag.move_tags.message: 'Êtes-vous sûr de vouloir déplacer les tags sélectionnés ?'
@@ -72,6 +75,12 @@ tag.copy_tags.title: 'Copier les tags'
 
 tag.delete_tags.title: 'Supprimer les tags'
 tag.delete_tags.message: 'Êtes-vous sûr de vouloir supprimer les tags sélectionnés ? Tous les tag et synonymes enfants seront également supprimés et supprimés des objets existants.'
+
+tag.hide_tags.title: 'Cacher les tags'
+tag.hide_tags.message: 'Êtes-vous sûr de vouloir masquer les balises sélectionnées?'
+
+tag.reveal_tags.title: 'Révéler les tags'
+tag.reveal_tags.message: 'Êtes-vous sûr de vouloir révéler les balises sélectionnées?'
 
 tag.button.save: 'Sauvegarder'
 tag.button.discard: 'Jeter'

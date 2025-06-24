@@ -11,7 +11,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
-use Netgen\TagsBundle\Form\Type\MoveTagsType;
+use Netgen\TagsBundle\Form\Type\MultiselectTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
@@ -594,13 +594,14 @@ final class TagController extends Controller
         }
 
         $form = $this->createForm(
-            MoveTagsType::class,
+            MultiselectTagsType::class,
             [
                 'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
             ],
             [
                 'tags' => $tags,
                 'action' => $request->getPathInfo(),
+                'show_parent_field' => true,
             ],
         );
 
@@ -754,13 +755,38 @@ final class TagController extends Controller
             $tags[] = $this->tagsService->loadTag((int) $tagId);
         }
 
-        foreach ($tags as $tagObject) {
-            $this->tagsService->hideTag($tagObject);
+        $form = $this->createForm(
+            MultiselectTagsType::class,
+            [
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ],
+            [
+                'tags' => $tags,
+                'action' => $request->getPathInfo(),
+                'show_parent_field' => false,
+            ],
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($tags as $tagObject) {
+                $this->tagsService->hideTag($tagObject);
+            }
+
+            $this->addFlashMessage('success', 'tags_hidden');
+
+            return $this->redirectToTag($parentTag);
         }
 
-        $this->addFlashMessage('success', 'tags_hidden');
-
-        return $this->redirectToTag($parentTag);
+        return $this->render(
+            '@NetgenTags/admin/tag/hide_tags.html.twig',
+            [
+                'parentTag' => $parentTag,
+                'tags' => $tags,
+                'form' => $form->createView(),
+            ],
+        );
     }
 
     public function revealTagsAction(Request $request, ?Tag $parentTag = null): Response
@@ -781,13 +807,38 @@ final class TagController extends Controller
             $tags[] = $this->tagsService->loadTag((int) $tagId);
         }
 
-        foreach ($tags as $tagObject) {
-            $this->tagsService->revealTag($tagObject);
+        $form = $this->createForm(
+            MultiselectTagsType::class,
+            [
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ],
+            [
+                'tags' => $tags,
+                'action' => $request->getPathInfo(),
+                'show_parent_field' => false,
+            ],
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($tags as $tagObject) {
+                $this->tagsService->revealTag($tagObject);
+            }
+
+            $this->addFlashMessage('success', 'tags_revealed');
+
+            return $this->redirectToTag($parentTag);
         }
 
-        $this->addFlashMessage('success', 'tags_revealed');
-
-        return $this->redirectToTag($parentTag);
+        return $this->render(
+            '@NetgenTags/admin/tag/reveal_tags.html.twig',
+            [
+                'parentTag' => $parentTag,
+                'tags' => $tags,
+                'form' => $form->createView(),
+            ],
+        );
     }
 
     public function searchTagsAction(Request $request): Response

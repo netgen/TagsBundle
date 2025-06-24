@@ -87,6 +87,12 @@ tag.copy_tags.title: 'Copy tags'
 tag.delete_tags.title: 'Delete tags'
 tag.delete_tags.message: 'Are you sure you want to delete the selected tags? All children tags and synonyms will also be deleted and removed from existing objects.'
 
+tag.hide_tags.title: 'Hide tags'
+tag.hide_tags.message: 'Are you sure you want to hide the selected tags?'
+
+tag.reveal_tags.title: 'Reveal tags'
+tag.reveal_tags.message: 'Are you sure you want to reveal the selected tags?'
+
 tag.button.save: 'Save'
 tag.button.discard: 'Discard'
 tag.button.yes: 'Yes'
