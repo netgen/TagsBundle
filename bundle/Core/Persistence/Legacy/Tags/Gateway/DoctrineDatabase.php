@@ -9,8 +9,11 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
@@ -35,9 +38,10 @@ use const PHP_INT_MAX;
 final class DoctrineDatabase extends Gateway
 {
     public function __construct(
-        private Connection $connection,
-        private LanguageHandler $languageHandler,
-        private LanguageMaskGenerator $languageMaskGenerator,
+        private readonly Connection $connection,
+        private readonly LanguageHandler $languageHandler,
+        private readonly LanguageMaskGenerator $languageMaskGenerator,
+        private readonly ConfigResolverInterface $configResolver,
     ) {}
 
     public function getBasicTagData(int $tagId): array
@@ -128,9 +132,16 @@ final class DoctrineDatabase extends Gateway
 
     public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
-        $tagData = $tagId !== 0 ? $this->getBasicTagData($tagId) : [];
-        $sortBy = $tagData['sort_by'] ?? 'id';
-        $sortOrder = $tagData['sort_order'] ?? 'asc';
+        if ($tagId === 0) {
+            $sortBy = TagSortBy::from($this->configResolver->getParameter('sort.root.by', 'netgen_tags'));
+            $sortOrder = TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
+        } else {
+            $tagData = $this->getBasicTagData($tagId);
+            $sortBy = TagSortBy::tryFrom($tagData['sort_by'])
+                ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
+            $sortOrder = TagSortOrder::tryFrom($tagData['sort_order'])
+                ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
+        }
 
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->andWhere(
@@ -142,7 +153,7 @@ final class DoctrineDatabase extends Gateway
                 $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0),
             ),
         )
-            ->orderBy('eztags.' . $sortBy, $sortOrder)
+            ->orderBy('eztags.' . $sortBy->value, $sortOrder->value)
             ->setParameter('parent_id', $tagId, Types::INTEGER)
             ->setFirstResult($offset)
             ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
@@ -165,7 +176,7 @@ final class DoctrineDatabase extends Gateway
                 [':id'],
             ),
         )
-            ->orderBy('eztags.' . $sortBy, $sortOrder)
+            ->orderBy('eztags.' . $sortBy->value, $sortOrder->value)
             ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);

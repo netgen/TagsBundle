@@ -15,6 +15,7 @@ services:
         arguments:
             - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler"
             - "@Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator"
+            - "@ibexa.config.resolver"
 
     netgen_tags.api.storage_engine.legacy.handler.tags.gateway.inner:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase
@@ -22,6 +23,7 @@ services:
             - "@ibexa.persistence.connection"
             - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler"
             - "@Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator"
+            - "@ibexa.config.resolver"
 
     netgen_tags.api.storage_engine.legacy.handler.tags.gateway.exception_conversion:
         class: Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\ExceptionConversion

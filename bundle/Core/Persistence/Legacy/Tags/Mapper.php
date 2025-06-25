@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
 use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
@@ -18,7 +19,11 @@ use function array_values;
  */
 class Mapper
 {
-    public function __construct(private LanguageHandler $languageHandler, private LanguageMaskGenerator $languageMaskGenerator) {}
+    public function __construct(
+        private readonly LanguageHandler $languageHandler,
+        private readonly LanguageMaskGenerator $languageMaskGenerator,
+        private readonly ConfigResolverInterface $configResolver,
+    ) {}
 
     /**
      * Creates a tag from a $data row.
@@ -38,8 +43,18 @@ class Mapper
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
         $tagInfo->priority = (int) $row['priority'];
-        $tagInfo->sortBy = TagSortBy::from($row['sort_by']);
-        $tagInfo->sortOrder = TagSortOrder::from($row['sort_order']);
+
+        if ((int) $row['id'] === 0) {
+            $tagInfo->sortBy = TagSortBy::tryFrom($row['sort_by'])
+                ?? TagSortBy::from($this->configResolver->getParameter('sort.root.by', 'netgen_tags'));
+            $tagInfo->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
+                ?? TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
+        } else {
+            $tagInfo->sortBy = TagSortBy::tryFrom($row['sort_by'])
+                ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
+            $tagInfo->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
+                ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
+        }
 
         return $tagInfo;
     }
@@ -66,8 +81,19 @@ class Mapper
                 $tag->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
                 $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
                 $tag->priority = (int) $row['priority'];
-                $tag->sortBy = TagSortBy::from($row['sort_by']);
-                $tag->sortOrder = TagSortOrder::from($row['sort_order']);
+
+                if ((int) $row['id'] === 0) {
+                    $tag->sortBy = TagSortBy::tryFrom($row['sort_by'])
+                        ?? TagSortBy::from($this->configResolver->getParameter('sort.root.by', 'netgen_tags'));
+                    $tag->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
+                        ?? TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
+                } else {
+                    $tag->sortBy = TagSortBy::tryFrom($row['sort_by'])
+                        ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
+                    $tag->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
+                        ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
+                }
+
                 $tagList[$tagId] = $tag;
             }
 
