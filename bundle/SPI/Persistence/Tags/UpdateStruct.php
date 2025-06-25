@@ -37,6 +37,13 @@ final class UpdateStruct extends ValueObject
     public ?bool $alwaysAvailable;
 
     /**
+     * Tag priority.
+     *
+     * Position of the Tag among its siblings when sorted by priority.
+     */
+    public ?int $priority;
+
+    /**
      * Specifies by which property the child tags should be sorted on.
      */
     public ?TagSortBy $sortBy;

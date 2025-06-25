@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -33,6 +34,14 @@ final class TagType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'tag.remote_id',
+                    'required' => false,
+                ],
+            )
+            ->add(
+                'priority',
+                IntegerType::class,
+                [
+                    'label' => 'tag.priority',
                     'required' => false,
                 ],
             );

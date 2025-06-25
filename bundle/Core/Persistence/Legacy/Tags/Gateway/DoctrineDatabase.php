@@ -463,6 +463,9 @@ final class DoctrineDatabase extends Gateway
                 'language_mask',
                 ':language_mask',
             )->set(
+                'priority',
+                ':priority',
+            )->set(
                 'sort_by',
                 ':sort_by',
             )->set(
@@ -492,8 +495,9 @@ final class DoctrineDatabase extends Gateway
                 ),
                 Types::INTEGER,
             )
-            ->setParameter('sort_by', $updateStruct->sortBy->value ?? 'id', Types::STRING)
-            ->setParameter('sort_order', $updateStruct->sortOrder->value ?? 'asc', Types::STRING);
+            ->setParameter('priority', $updateStruct->priority, Types::INTEGER)
+            ->setParameter('sort_by', $updateStruct->sortBy->value, Types::STRING)
+            ->setParameter('sort_order', $updateStruct->sortOrder->value, Types::STRING);
 
         $query->execute();
 

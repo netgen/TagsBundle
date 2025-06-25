@@ -25,6 +25,7 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
         $forms['keyword']->setData($viewData->getKeyword($this->languageCode));
         $forms['alwaysAvailable']->setData($viewData->alwaysAvailable);
         $forms['remoteId']->setData($viewData->remoteId);
+        $forms['priority']->setData($viewData->priority);
     }
 
     public function mapFormsToData(Traversable $forms, mixed &$viewData): void
@@ -43,5 +44,6 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
 
         $viewData->alwaysAvailable = $forms['alwaysAvailable']->getData();
         $viewData->remoteId = $forms['remoteId']->getData();
+        $viewData->priority = $forms['priority']->getData();
     }
 }

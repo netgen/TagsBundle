@@ -35,6 +35,13 @@ abstract class TagStruct extends ValueObject
     public ?TagSortOrder $sortOrder;
 
     /**
+     * Tag priority.
+     *
+     * Position of the Tag among its siblings when sorted by priority.
+     */
+    public ?int $priority;
+
+    /**
      * Tag keywords in the target languages
      * Eg. array( "cro-HR" => "Hrvatska", "eng-GB" => "Croatia" ).
      *

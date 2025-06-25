@@ -233,6 +233,7 @@ final class TagController extends Controller
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
         $tagUpdateStruct->remoteId = $tag->remoteId;
         $tagUpdateStruct->alwaysAvailable = $tag->alwaysAvailable;
+        $tagUpdateStruct->priority = $tag->priority;
 
         foreach ($tag->keywords as $keywordLanguageCode => $keyword) {
             $tagUpdateStruct->setKeyword($keyword ?? '', $keywordLanguageCode);
