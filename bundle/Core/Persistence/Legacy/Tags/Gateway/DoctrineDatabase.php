@@ -137,9 +137,13 @@ final class DoctrineDatabase extends Gateway
             $sortOrder = TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
         } else {
             $tagData = $this->getBasicTagData($tagId);
-            $sortBy = TagSortBy::tryFrom($tagData['sort_by'])
+            $sortBy = $tagData['sort_by'] === null
+                ? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'))
+                : TagSortBy::tryFrom($tagData['sort_by'])
                 ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
-            $sortOrder = TagSortOrder::tryFrom($tagData['sort_order'])
+            $sortOrder = $tagData['sort_order'] === null
+                ? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'))
+                : TagSortOrder::tryFrom($tagData['sort_order'])
                 ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
         }
 
@@ -496,16 +500,8 @@ final class DoctrineDatabase extends Gateway
                 Types::INTEGER,
             )
             ->setParameter('priority', $updateStruct->priority, Types::INTEGER)
-            ->setParameter(
-                'sort_by',
-                $updateStruct->sortBy->value ?? $this->configResolver->getParameter('sort.by', 'netgen_tags'),
-                Types::STRING,
-            )
-            ->setParameter(
-                'sort_order',
-                $updateStruct->sortOrder->value ?? $this->configResolver->getParameter('sort.order', 'netgen_tags'),
-                Types::STRING,
-            );
+            ->setParameter('sort_by', $updateStruct->sortBy?->value, Types::STRING)
+            ->setParameter('sort_order', $updateStruct->sortOrder?->value, Types::STRING);
 
         $query->execute();
 
