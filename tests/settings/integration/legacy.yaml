@@ -6,7 +6,17 @@ services:
         class: Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub
         arguments:
             -
-                netgen_tags: { edit_views: { default: { identifier: Default } } }
+                netgen_tags: {
+                    edit_views: {
+                        default: {
+                            identifier: Default
+                        }
+                    },
+                    sort.by: 'id',
+                    sort.order: 'asc',
+                    sort.root.by: 'keyword',
+                    sort.root.order: 'desc',
+                }
                 ibexa.site_access.config: { user_content_type_identifier: ['user'] }
 
     netgen_tags.field_type.eztags:

@@ -14,6 +14,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub;
 
 use function array_filter;
 use function file_get_contents;
@@ -831,10 +832,20 @@ final class DoctrineDatabaseTest extends TestCase
 
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         return new DoctrineDatabase(
             $dbConnection,
             $languageHandlerMock,
             new MaskGenerator($languageHandlerMock),
+            new ConfigResolverStub($parameters),
         );
     }
 

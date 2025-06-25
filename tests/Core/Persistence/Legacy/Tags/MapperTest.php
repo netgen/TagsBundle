@@ -11,6 +11,7 @@ use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub;
 
 final class MapperTest extends TestCase
 {
@@ -163,9 +164,19 @@ final class MapperTest extends TestCase
     {
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         return new Mapper(
             $languageHandlerMock,
             new MaskGenerator($languageHandlerMock),
+            new ConfigResolverStub($parameters),
         );
     }
 }
