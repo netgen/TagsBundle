@@ -496,8 +496,16 @@ final class DoctrineDatabase extends Gateway
                 Types::INTEGER,
             )
             ->setParameter('priority', $updateStruct->priority, Types::INTEGER)
-            ->setParameter('sort_by', $updateStruct->sortBy->value, Types::STRING)
-            ->setParameter('sort_order', $updateStruct->sortOrder->value, Types::STRING);
+            ->setParameter(
+                'sort_by',
+                $updateStruct->sortBy->value ?? $this->configResolver->getParameter('sort.by', 'netgen_tags'),
+                Types::STRING,
+            )
+            ->setParameter(
+                'sort_order',
+                $updateStruct->sortOrder->value ?? $this->configResolver->getParameter('sort.order', 'netgen_tags'),
+                Types::STRING,
+            );
 
         $query->execute();
 
