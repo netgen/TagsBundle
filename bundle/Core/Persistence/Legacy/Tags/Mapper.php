@@ -44,17 +44,7 @@ class Mapper
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
         $tagInfo->priority = (int) $row['priority'];
 
-        if ((int) $row['id'] === 0) {
-            $tagInfo->sortBy = TagSortBy::tryFrom($row['sort_by'])
-                ?? TagSortBy::from($this->configResolver->getParameter('sort.root.by', 'netgen_tags'));
-            $tagInfo->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
-                ?? TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
-        } else {
-            $tagInfo->sortBy = TagSortBy::tryFrom($row['sort_by'])
-                ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
-            $tagInfo->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
-                ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
-        }
+        $this->mapSortingFromRow($row, $tagInfo);
 
         return $tagInfo;
     }
@@ -82,17 +72,7 @@ class Mapper
                 $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
                 $tag->priority = (int) $row['priority'];
 
-                if ((int) $row['id'] === 0) {
-                    $tag->sortBy = TagSortBy::tryFrom($row['sort_by'])
-                        ?? TagSortBy::from($this->configResolver->getParameter('sort.root.by', 'netgen_tags'));
-                    $tag->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
-                        ?? TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
-                } else {
-                    $tag->sortBy = TagSortBy::tryFrom($row['sort_by'])
-                        ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
-                    $tag->sortOrder = TagSortOrder::tryFrom($row['sort_order'])
-                        ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
-                }
+                $this->mapSortingFromRow($row, $tag);
 
                 $tagList[$tagId] = $tag;
             }
@@ -101,5 +81,22 @@ class Mapper
         }
 
         return array_values($tagList);
+    }
+
+    private function mapSortingFromRow(array $row, Tag|TagInfo $tag): void
+    {
+        $isRootTag = (int) $row['id'] === 0;
+        $sortByParam = $isRootTag ? 'sort.root.by' : 'sort.by';
+        $sortOrderParam = $isRootTag ? 'sort.root.order' : 'sort.order';
+
+        $tag->sortBy = $row['sort_by'] === null
+            ? null
+            : TagSortBy::tryFrom($row['sort_by'])
+            ?? TagSortBy::from($this->configResolver->getParameter($sortByParam, 'netgen_tags'));
+
+        $tag->sortOrder = $row['sort_order'] === null
+            ? null
+            : TagSortOrder::tryFrom($row['sort_order'])
+            ?? TagSortOrder::from($this->configResolver->getParameter($sortOrderParam, 'netgen_tags'));
     }
 }
