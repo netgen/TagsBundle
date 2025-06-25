@@ -12,8 +12,8 @@ CREATE TABLE 'eztags' (
   'main_language_id' integer NOT NULL DEFAULT 0,
   'language_mask' integer NOT NULL DEFAULT 0,
   'priority' integer NOT NULL DEFAULT 0,
-  'sort_by' text(100) NOT NULL DEFAULT '',
-  'sort_order' text(100) NOT NULL DEFAULT ''
+  'sort_by' text(100),
+  'sort_order' text(100)
 );
 
 DROP TABLE IF EXISTS 'eztags_attribute_link';

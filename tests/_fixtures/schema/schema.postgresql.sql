@@ -28,8 +28,8 @@ CREATE TABLE eztags (
     main_language_id integer DEFAULT 0 NOT NULL,
     language_mask integer DEFAULT 0 NOT NULL,
     priority integer DEFAULT 0 NOT NULL,
-    sort_by character varying(100) DEFAULT ''::character varying NOT NULL,
-    sort_order character varying(100) DEFAULT ''::character varying NOT NULL,
+    sort_by character varying(100),
+    sort_order character varying(100),
 );
 
 DROP TABLE IF EXISTS eztags_attribute_link;

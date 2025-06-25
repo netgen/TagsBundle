@@ -119,12 +119,12 @@ final class Tag extends ValueObject
     /**
      * Specifies by which property the child tags should be sorted on.
      */
-    protected TagSortBy $sortBy;
+    protected ?TagSortBy $sortBy;
 
     /**
      * Specifies whether the sort order should be ascending or descending.
      */
-    protected TagSortOrder $sortOrder;
+    protected ?TagSortOrder $sortOrder;
 
     /**
      * Construct object optionally with a set of properties.

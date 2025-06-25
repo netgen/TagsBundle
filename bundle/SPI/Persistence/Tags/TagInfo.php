@@ -77,10 +77,10 @@ final class TagInfo extends ValueObject
     /**
      * Specifies by which property the child tags should be sorted on.
      */
-    public TagSortBy $sortBy;
+    public ?TagSortBy $sortBy;
 
     /**
      * Specifies whether the sort order should be ascending or descending.
      */
-    public TagSortOrder $sortOrder;
+    public ?TagSortOrder $sortOrder;
 }
