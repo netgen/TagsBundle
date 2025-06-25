@@ -11,6 +11,8 @@ CREATE TABLE eztags (
    main_language_id integer not null default 0,
    language_mask integer not null default 0,
    priority integer not null default 0,
+   sort_by varchar(100) NOT NULL default '',
+   sort_order varchar(100) NOT NULL default '',
    PRIMARY KEY (id),
    CONSTRAINT idx_eztags_remote_id UNIQUE  (remote_id)
 );

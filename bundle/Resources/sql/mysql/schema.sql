@@ -10,6 +10,8 @@ CREATE TABLE `eztags` (
   `main_language_id` int(11) NOT NULL default '0',
   `language_mask` int(11) NOT NULL default '0',
   `priority` int(11) NOT NULL default '0',
+  `sort_by` varchar(100) NOT NULL default '',
+  `sort_order` varchar(100) NOT NULL default '',
   PRIMARY KEY ( `id` ),
   KEY `idx_eztags_keyword` ( `keyword`(191) ),
   KEY `idx_eztags_keyword_id` ( `keyword`(191), `id` ),
