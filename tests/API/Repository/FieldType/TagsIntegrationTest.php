@@ -8,8 +8,6 @@ use DateTimeImmutable;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTest;
-use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
-use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Type;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsValue;
@@ -256,8 +254,8 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
                 'priority' => 0,
-                'sortBy' => TagSortBy::Id,
-                'sortOrder' => TagSortOrder::Ascending,
+                'sortBy' => null,
+                'sortOrder' => null,
             ],
         );
     }
@@ -282,8 +280,8 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
                 'priority' => 0,
-                'sortBy' => TagSortBy::Id,
-                'sortOrder' => TagSortOrder::Ascending,
+                'sortBy' => null,
+                'sortOrder' => null,
             ],
         );
     }
@@ -308,8 +306,8 @@ final class TagsIntegrationTest extends BaseIntegrationTest
                 'languageCodes' => ['eng-GB'],
                 'prioritizedLanguageCode' => 'eng-GB',
                 'priority' => 0,
-                'sortBy' => TagSortBy::Id,
-                'sortOrder' => TagSortOrder::Ascending,
+                'sortBy' => null,
+                'sortOrder' => null,
             ],
         );
     }
