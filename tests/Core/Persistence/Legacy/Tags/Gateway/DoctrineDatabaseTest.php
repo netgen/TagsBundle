@@ -718,16 +718,18 @@ final class DoctrineDatabaseTest extends TestCase
                 'parent_id' => 7,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
+                'is_hidden' => 0,
+                'is_invisible' => 1,
             ],
         );
 
         $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
-                [80, 7, 40, 'fetch', 3, '/8/7/80/'],
+                [80, 7, 40, 'fetch', 3, '/8/7/80/', 0],
             ],
             $query
-                ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string')
+                ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'is_invisible')
                 ->from('eztags')
                 ->where($query->expr()->eq('id', 80)),
         );
