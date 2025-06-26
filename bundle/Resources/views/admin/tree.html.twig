@@ -13,5 +13,6 @@
         data-showRootTag="{{ showRootTag ? 'true' : 'false' }}"
         data-selectedTagPath="{{ selectedTag ? selectedTag.pathString : '' }}"
         data-disableSubtree="{{ disableSubtree|join(',') }}"
+        data-route="{{ app.request.get('_route') }}"
     ></div>
 {% endblock %}

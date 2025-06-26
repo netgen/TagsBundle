@@ -222,6 +222,8 @@ interface TagsService
     /**
      * Converts $tag to a synonym of $mainTag.
      *
+     * If $tag was hidden, it will remain hidden after converting
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If either of specified tags is not found
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to convert tag to synonym
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If either one of the tags is a synonym

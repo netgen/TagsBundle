@@ -79,6 +79,8 @@ jQuery.noConflict();
                 }
             }
         }).on("open_node.jstree", function (event, data) {
+            var route = self.$tree.data('route');
+
             if (self.disableSubtree !== '') {
                 self.disableNode(self.disableSubtree);
             }
@@ -87,7 +89,9 @@ jQuery.noConflict();
                 data.node.original &&
                 (data.node.original.hidden === true || data.node.original.invisible === true)) {
 
-                self.disableNode(data.node.id);
+                if (['netgen_tags_admin_tag_convert', 'netgen_tags_admin_tag_merge'].indexOf(route) === -1) {
+                    self.disableNode(data.node.id);
+                }
             }
 
             if (data.node && data.node.children) {
@@ -97,12 +101,15 @@ jQuery.noConflict();
                         childNode.original &&
                         (childNode.original.hidden === true || childNode.original.invisible === true)) {
 
-                        self.disableNode(childId);
+                        if (['netgen_tags_admin_tag_convert', 'netgen_tags_admin_tag_merge'].indexOf(route) === -1) {
+                            self.disableNode(childId);
+                        }
                     }
                 });
             }
         }).on('click', '.jstree-anchor', function (event) {
             var selectedNode = $(this).jstree(true).get_node($(this));
+            var route = self.$tree.data('route');
 
             if (self.disableSubtree !== '') {
                 self.disableSubtree = self.disableSubtree.toString().split(',');
@@ -126,7 +133,9 @@ jQuery.noConflict();
                 if (selectedNode.original &&
                     (selectedNode.original.hidden === true || selectedNode.original.invisible === true)) {
 
-                    return false;
+                    if (['netgen_tags_admin_tag_convert', 'netgen_tags_admin_tag_merge'].indexOf(route) === -1) {
+                        return false;
+                    }
                 }
 
                 self.$el.find('input.tag-id').val(selectedNode.id);

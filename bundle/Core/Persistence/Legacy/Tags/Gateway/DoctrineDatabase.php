@@ -680,6 +680,10 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('depth', $mainTagData['depth'], Types::INTEGER)
             ->setParameter('path_string', $this->getSynonymPathString($tagId, $mainTagData['path_string']), Types::STRING);
 
+        if ($mainTagData['is_hidden'] === 0 && $mainTagData['is_invisible'] === 1) {
+            $query->set('is_invisible', '0');
+        }
+
         $query->execute();
     }
 
