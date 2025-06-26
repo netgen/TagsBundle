@@ -132,7 +132,7 @@ final class DoctrineDatabase extends Gateway
 
         if ($showHiddenTags !== null && $showHiddenTags === false) {
             $tagIdsQuery->andWhere(
-                $tagIdsQuery->expr()->neq('is_hidden', '1'),
+                $tagIdsQuery->expr()->neq('is_invisible', '1'),
             );
         }
 
@@ -164,7 +164,7 @@ final class DoctrineDatabase extends Gateway
 
         if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
-                $query->expr()->neq('is_hidden', '1'),
+                $query->expr()->neq('is_invisible', '1'),
             );
         }
 
@@ -186,7 +186,7 @@ final class DoctrineDatabase extends Gateway
 
         if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
-                $query->expr()->neq('is_hidden', '1'),
+                $query->expr()->neq('is_invisible', '1'),
             );
         }
 
@@ -305,7 +305,7 @@ final class DoctrineDatabase extends Gateway
 
         if ($showHiddenTags !== null && $showHiddenTags === false) {
             $tagIdsQuery->andWhere(
-                $tagIdsQuery->expr()->neq('is_hidden', '1'),
+                $tagIdsQuery->expr()->neq('is_invisible', '1'),
             );
         }
 
@@ -333,7 +333,7 @@ final class DoctrineDatabase extends Gateway
 
         if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
-                $query->expr()->neq('is_hidden', '1'),
+                $query->expr()->neq('is_invisible', '1'),
             );
         }
 
@@ -353,7 +353,7 @@ final class DoctrineDatabase extends Gateway
 
         if ($showHiddenTags !== null && $showHiddenTags === false) {
             $query->andWhere(
-                $query->expr()->neq('is_hidden', '1'),
+                $query->expr()->neq('is_invisible', '1'),
             );
         }
 
