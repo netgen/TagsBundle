@@ -758,11 +758,7 @@ class TagsService implements TagsServiceInterface
 
     public function hideTag(Tag $tag): void
     {
-        if ($tag->mainTagId > 0) {
-            if ($this->hasAccess('tags', 'hidesynonym') === false) {
-                throw new UnauthorizedException('tags', 'hidesynonym');
-            }
-        } elseif ($this->hasAccess('tags', 'hide') === false) {
+        if ($this->hasAccess('tags', 'hide') === false) {
             throw new UnauthorizedException('tags', 'hide');
         }
 
@@ -780,12 +776,8 @@ class TagsService implements TagsServiceInterface
 
     public function revealTag(Tag $tag): void
     {
-        if ($tag->mainTagId > 0) {
-            if ($this->hasAccess('tags', 'revealsynonym') === false) {
-                throw new UnauthorizedException('tags', 'revealsynonym');
-            }
-        } elseif ($this->hasAccess('tags', 'reveal') === false) {
-            throw new UnauthorizedException('tags', 'reveal');
+        if ($this->hasAccess('tags', 'hide') === false) {
+            throw new UnauthorizedException('tags', 'hide');
         }
 
         $this->repository->beginTransaction();

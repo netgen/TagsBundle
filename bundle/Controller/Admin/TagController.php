@@ -523,7 +523,7 @@ final class TagController extends Controller
 
     public function hideAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ibexa:tags:hide' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
 
         if ($request->request->has('HideTagButton')) {
             if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
@@ -549,7 +549,7 @@ final class TagController extends Controller
 
     public function revealAction(Request $request, Tag $tag): Response
     {
-        $this->denyAccessUnlessGranted('ibexa:tags:reveal' . ($tag->isSynonym() ? 'synonym' : ''));
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
 
         if ($request->request->has('RevealTagButton')) {
             if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
@@ -791,7 +791,7 @@ final class TagController extends Controller
 
     public function revealTagsAction(Request $request, ?Tag $parentTag = null): Response
     {
-        $this->denyAccessUnlessGranted('ibexa:tags:reveal');
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
 
         $tagIds = (array) $request->request->get(
             'Tags',

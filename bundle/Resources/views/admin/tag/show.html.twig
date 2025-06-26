@@ -45,10 +45,12 @@
             {% endif %}
         {% endif %}
 
-        {% if is_granted('ibexa:tags:hide' ~ (tag.isSynonym ? 'synonym' : '')) and not tag.isHidden %}
-            <a href="{{ path('netgen_tags_admin_tag_hide', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.hide.title'|trans }}</a>
-        {% elseif is_granted('ibexa:tags:reveal' ~ (tag.isSynonym ? 'synonym' : '')) and tag.isHidden %}
-            <a href="{{ path('netgen_tags_admin_tag_reveal', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.reveal.title'|trans }}</a>
+        {% if is_granted('ibexa:tags:hide') %}
+            {% if not tag.isHidden %}
+                <a href="{{ path('netgen_tags_admin_tag_hide', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.hide.title'|trans }}</a>
+            {% else %}
+                <a href="{{ path('netgen_tags_admin_tag_reveal', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.reveal.title'|trans }}</a>
+            {% endif %}
         {% endif %}
     </div>
 
