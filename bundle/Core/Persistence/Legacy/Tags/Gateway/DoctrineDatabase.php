@@ -948,7 +948,7 @@ final class DoctrineDatabase extends Gateway
         array_pop($pathArray);
 
         $shouldRemainInvisible = false;
-        if ($pathArray !== []) {
+        if ($pathArray !== [] && $basicTagData['main_tag_id'] === 0) {
             $query = $this->connection->createQueryBuilder();
             $query
                 ->select('COUNT(id)')
