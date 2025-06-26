@@ -62,7 +62,7 @@ tag.add_synonym.title: 'Ajouter un synonyme'
 
 tag.convert.title: 'Convertir en synonyme'
 
-tag.hide.title: 'Hide tag'
+tag.hide.title: 'Cacher le tag'
 tag.hide.message: 'Êtes-vous sûr de vouloir cacher la balise "%tagKeyword%"? Toutes les balises descendantes qui ne sont pas explicitement cachées deviendront alors invisibles et marquées comme "cachées par le parent".'
 
 tag.reveal.title: 'Révéler le tag'
