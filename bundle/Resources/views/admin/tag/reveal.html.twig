@@ -7,8 +7,6 @@
 
     <p>{{ 'tag.reveal.message'|trans({'%tagKeyword%': tag.keyword}) }}</p>
 
-    {% dump(tag) %}
-
     <form method="post" action="{{ path('netgen_tags_admin_tag_reveal', {'tagId': tag.id}) }}" class="tags-actions">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
         <button type="submit" class="tags-btn tags-btn-primary" name="RevealTagButton">{{ 'tag.button.yes'|trans }}</button>

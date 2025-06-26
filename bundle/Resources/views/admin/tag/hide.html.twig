@@ -7,8 +7,6 @@
 
     <p>{{ 'tag.hide.message'|trans({'%tagKeyword%': tag.keyword}) }}</p>
 
-    {% dump(tag) %}
-
     <form method="post" action="{{ path('netgen_tags_admin_tag_hide', {'tagId': tag.id}) }}" class="tags-actions">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
         <button type="submit" class="tags-btn tags-btn-primary" name="HideTagButton">{{ 'tag.button.yes'|trans }}</button>
