@@ -1,0 +1,4 @@
+ALTER TABLE `eztags` ADD COLUMN `priority` INTEGER NOT NULL DEFAULT 0;
+
+ALTER TABLE `eztags` ADD COLUMN `sort_by` VARCHAR(100);
+ALTER TABLE `eztags` ADD COLUMN `sort_order` VARCHAR(100);
