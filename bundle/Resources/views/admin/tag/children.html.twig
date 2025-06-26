@@ -5,6 +5,7 @@
 {% set can_add = is_granted('ibexa:tags:add', tag is defined ? tag : null) %}
 {% set can_edit = is_granted('ibexa:tags:edit') %}
 {% set can_delete = is_granted('ibexa:tags:delete') %}
+{% set can_sort = is_granted('ibexa:tags:sort') %}
 
 <h3>{{ 'tag.children.title'|trans }} ({{ childrenTags|length }})</h3>
 
@@ -74,7 +75,7 @@
         </div>
     </form>
 
-    {% if tag is defined and not tag.isSynonym %}
+    {% if tag is defined and not tag.isSynonym and can_sort %}
         {% include '@NetgenTags/admin/tag/sort_children_tags.html.twig' %}
     {% endif %}
 {% else %}
