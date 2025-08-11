@@ -37,6 +37,10 @@ final class FieldController extends Controller
         $searchResult = $this->tagsService->searchTags(
             $request->query->get('searchString') ?? '',
             $request->query->get('locale') ?? '',
+            true,
+            0,
+            -1,
+            $this->configResolver->getParameter('autocomplete_provide_hidden_tags', 'netgen_tags'),
         );
 
         $data = $data = $this->filterTags($searchResult->tags, $subTreeLimit, $hideRootTag);

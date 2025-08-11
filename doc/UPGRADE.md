@@ -1,6 +1,19 @@
 Netgen Tags Bundle upgrade instructions
 =======================================
 
+Upgrade from 5.0 to 5.4
+-----------------------
+
+Tags Bundle 5.4 introduces support for tag visibility - now you can hide and reveal tags, just the same as content in 
+Ibexa Platform. Tags that are explicitly hidden or invisible because one of their ancestor is hidden cannot be added to 
+content.
+
+Please make sure to update Netgen Tags table to include `is_hidden` and `is_invisible` columns.
+
+MySQL upgrade script: `bundle/Resources/sql/upgrade/mysql/5.4/dbupdate-5.0-to-5.4.sql`
+
+PostgreSQL upgrade script: `bundle/Resources/sql/upgrade/postgresql/5.4/dbupdate-5.0-to-5.4.sql`
+
 Upgrade from 4.0 to 5.0
 -----------------------
 

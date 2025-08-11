@@ -13,6 +13,9 @@ tag.translations: 'Traductions'
 tag.modified: 'Modifié'
 tag.main_tag: 'Tag principale'
 tag.parent_tag: 'Tag parent'
+tag.hidden: 'Caché'
+tag.invisible: 'Invisible'
+tag.hidden_by_parent: 'caché par le parent'
 
 tag.content.content_id: 'ID du contenu'
 tag.content.name: 'Nom'
@@ -59,6 +62,12 @@ tag.add_synonym.title: 'Ajouter un synonyme'
 
 tag.convert.title: 'Convertir en synonyme'
 
+tag.hide.title: 'Cacher le tag'
+tag.hide.message: 'Êtes-vous sûr de vouloir cacher la balise "%tagKeyword%"? Toutes les balises descendantes qui ne sont pas explicitement cachées deviendront alors invisibles et marquées comme "cachées par le parent".'
+
+tag.reveal.title: 'Révéler le tag'
+tag.reveal.message: "Êtes-vous sûr de vouloir révéler la balise '%tagKeyword%' ? Toutes ses balises descendantes redeviendront visibles, à l'exception de celles qui sont explicitement cachées ou qui ont un autre ancêtre caché."
+
 tag.move_tags.title: 'Déplacer les tags'
 tag.move_tags.message: 'Êtes-vous sûr de vouloir déplacer les tags sélectionnés ?'
 
@@ -66,6 +75,12 @@ tag.copy_tags.title: 'Copier les tags'
 
 tag.delete_tags.title: 'Supprimer les tags'
 tag.delete_tags.message: 'Êtes-vous sûr de vouloir supprimer les tags sélectionnés ? Tous les tag et synonymes enfants seront également supprimés et supprimés des objets existants.'
+
+tag.hide_tags.title: 'Cacher les tags'
+tag.hide_tags.message: 'Êtes-vous sûr de vouloir masquer les balises sélectionnées?'
+
+tag.reveal_tags.title: 'Révéler les tags'
+tag.reveal_tags.message: 'Êtes-vous sûr de vouloir révéler les balises sélectionnées?'
 
 tag.button.save: 'Sauvegarder'
 tag.button.discard: 'Jeter'
@@ -78,6 +93,8 @@ tag.button.set_main: 'Définir principal'
 tag.button.move_selected: 'Déplacer les tags sélectionnées'
 tag.button.copy_selected: 'Copier les tags sélectionnés'
 tag.button.delete_selected: 'Supprimer les tags sélectionnés'
+tag.button.hide_selected: 'Masquer les tags sélectionnés'
+tag.button.reveal_selected: 'Désactiver les balises sélectionnées'
 tag.button.continue: 'Continuer'
 
 tag.tree.top_level_tags: 'Tags de premier niveau'
@@ -87,6 +104,8 @@ tag.tree.delete_tag: 'Supprimer le tag'
 tag.tree.merge_tag: 'Fusionner le tag'
 tag.tree.convert_tag: 'Convertir en synonyme'
 tag.tree.add_synonym: 'Ajouter un synonyme'
+tag.tree.hide_tag: 'Cacher le tag'
+tag.tree.reveal_tag: 'Révéler le tag'
 tag.tree.no_tag_selected: 'pas de tag'
 tag.tree.select_tag: 'Sélectionner un tag'
 

@@ -67,6 +67,8 @@ final class TagsMapper
                     'mainLanguageCode' => $spiTag->mainLanguageCode,
                     'languageCodes' => $languageCodes,
                     'prioritizedLanguageCode' => $prioritizedLanguageCode,
+                    'isHidden' => $spiTag->isHidden,
+                    'isInvisible' => $spiTag->isInvisible,
                 ],
             );
         }

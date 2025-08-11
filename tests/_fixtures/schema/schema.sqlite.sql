@@ -10,7 +10,9 @@ CREATE TABLE 'eztags' (
   'modified' integer NOT NULL DEFAULT 0,
   'remote_id' text(100) NOT NULL DEFAULT '',
   'main_language_id' integer NOT NULL DEFAULT 0,
-  'language_mask' integer NOT NULL DEFAULT 0
+  'language_mask' integer NOT NULL DEFAULT 0,
+  'is_hidden' integer NOT NULL DEFAULT 0,
+  'is_invisible' integer NOT NULL DEFAULT 0
 );
 
 DROP TABLE IF EXISTS 'eztags_attribute_link';

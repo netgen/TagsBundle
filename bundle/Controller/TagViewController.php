@@ -14,6 +14,10 @@ final class TagViewController extends Controller
      */
     public function viewAction(TagView $view): TagView
     {
+        if ($view->getTag()->isInvisible) {
+            throw $this->createNotFoundException();
+        }
+
         return $view;
     }
 }

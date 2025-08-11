@@ -13,7 +13,14 @@
             {% for synonym in synonyms %}
                 <tr>
                     <td>{{ synonym.id }}</td>
-                    <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">{{ synonym.keyword }}</a></td>
+                    <td>
+                        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': synonym.id}) }}">
+                            {{ synonym.keyword }}
+                            {% if synonym.isHidden %}
+                                ({{ 'tag.hidden'|trans|lower }})
+                            {% endif %}
+                        </a>
+                    </td>
                     <td>{{ synonym.modificationDate|date }}</td>
                 </tr>
             {% endfor %}

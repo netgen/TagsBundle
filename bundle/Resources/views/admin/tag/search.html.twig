@@ -51,7 +51,16 @@
                     {% for tag in pager %}
                         <tr>
                             <td>{{ tag.id }}</td>
-                            <td><a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">{{ tag.keyword }}</a></td>
+                            <td>
+                                <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}">
+                                    {{ tag.keyword }}
+                                    {% if tag.isHidden %}
+                                        ({{ 'tag.hidden'|trans|lower }})
+                                    {% elseif tag.isInvisible %}
+                                        ({{ 'tag.hidden_by_parent'|trans }})
+                                    {% endif %}
+                                </a>
+                            </td>
                             <td>
                                 {% if tag.hasParent() %}
                                     {% set parentTagKeyword = netgen_tags_tag_keyword(tag.parentTagId) %}

@@ -752,6 +752,80 @@ final class TagsServiceTest extends TestCase
     }
 
     /**
+     * @covers \Netgen\TagsBundle\Core\Event\TagsService::hideTag
+     */
+    public function testHideTag(): void
+    {
+        $tag = new Tag(
+            [
+                'id' => 42,
+                'isHidden' => 0,
+                'isInvisible' => 0,
+            ],
+        );
+
+        $this->tagsService
+            ->expects(self::once())
+            ->method('hideTag')
+            ->with(self::identicalTo($tag));
+
+        $beforeEvent = new Events\BeforeHideTagEvent($tag);
+
+        $this->eventDispatcher
+            ->expects(self::at(0))
+            ->method('dispatch')
+            ->with(self::equalTo($beforeEvent))
+            ->willReturn($beforeEvent);
+
+        $this->eventDispatcher
+            ->expects(self::at(1))
+            ->method('dispatch')
+            ->with(
+                self::equalTo(new Events\HideTagEvent($tag)),
+            );
+
+        $eventDispatchingService = $this->getEventDispatchingService();
+        $eventDispatchingService->hideTag($tag);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Event\TagsService::revealTag
+     */
+    public function testRevealTag(): void
+    {
+        $tag = new Tag(
+            [
+                'id' => 42,
+                'isHidden' => 1,
+                'isInvisible' => 1,
+            ],
+        );
+
+        $this->tagsService
+            ->expects(self::once())
+            ->method('revealTag')
+            ->with(self::identicalTo($tag));
+
+        $beforeEvent = new Events\BeforeRevealTagEvent($tag);
+
+        $this->eventDispatcher
+            ->expects(self::at(0))
+            ->method('dispatch')
+            ->with(self::equalTo($beforeEvent))
+            ->willReturn($beforeEvent);
+
+        $this->eventDispatcher
+            ->expects(self::at(1))
+            ->method('dispatch')
+            ->with(
+                self::equalTo(new Events\RevealTagEvent($tag)),
+            );
+
+        $eventDispatchingService = $this->getEventDispatchingService();
+        $eventDispatchingService->revealTag($tag);
+    }
+
+    /**
      * @covers \Netgen\TagsBundle\Core\Event\TagsService::sudo
      */
     public function testSudo(): void

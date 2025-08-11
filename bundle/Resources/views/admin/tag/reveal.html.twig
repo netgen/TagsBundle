@@ -1,0 +1,15 @@
+{% extends netgen_tags_admin.pageLayoutTemplate %}
+
+{% trans_default_domain 'netgen_tags_admin' %}
+
+{% block content %}
+    <h2 class="tag-title">{{ 'tag.reveal.title'|trans }}: {{ tag.keyword }} [{{ tag.id }}]</h2>
+
+    <p>{{ 'tag.reveal.message'|trans({'%tagKeyword%': tag.keyword}) }}</p>
+
+    <form method="post" action="{{ path('netgen_tags_admin_tag_reveal', {'tagId': tag.id}) }}" class="tags-actions">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
+        <button type="submit" class="tags-btn tags-btn-primary" name="RevealTagButton">{{ 'tag.button.yes'|trans }}</button>
+        <a href="{{ path('netgen_tags_admin_tag_show', {'tagId': tag.id}) }}" class="tags-btn">{{ 'tag.button.no'|trans }}</a>
+    </form>
+{% endblock %}

@@ -11,7 +11,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
-use Netgen\TagsBundle\Form\Type\MoveTagsType;
+use Netgen\TagsBundle\Form\Type\MultiselectTagsType;
 use Netgen\TagsBundle\Form\Type\TagConvertType;
 use Netgen\TagsBundle\Form\Type\TagCreateType;
 use Netgen\TagsBundle\Form\Type\TagMergeType;
@@ -500,7 +500,77 @@ final class TagController extends Controller
             );
         }
 
+        if ($request->request->has('HideTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_hide_tags',
+                [
+                    'parentId' => $tag?->id ?? 0,
+                ],
+            );
+        }
+
+        if ($request->request->has('RevealTagsAction')) {
+            return $this->redirectToRoute(
+                'netgen_tags_admin_tag_reveal_tags',
+                [
+                    'parentId' => $tag?->id ?? 0,
+                ],
+            );
+        }
+
         return $this->redirect($request->getPathInfo());
+    }
+
+    public function hideAction(Request $request, Tag $tag): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
+
+        if ($request->request->has('HideTagButton')) {
+            if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+                $this->addFlashMessage('errors', 'invalid_csrf_token');
+
+                return $this->redirectToTag($tag);
+            }
+
+            $this->tagsService->hideTag($tag);
+
+            $this->addFlashMessage('success', 'tag_hidden', ['%tagKeyword%' => $tag->keyword]);
+
+            return $this->redirectToTag($tag);
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/hide.html.twig',
+            [
+                'tag' => $tag,
+            ],
+        );
+    }
+
+    public function revealAction(Request $request, Tag $tag): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
+
+        if ($request->request->has('RevealTagButton')) {
+            if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+                $this->addFlashMessage('errors', 'invalid_csrf_token');
+
+                return $this->redirectToTag($tag);
+            }
+
+            $this->tagsService->revealTag($tag);
+
+            $this->addFlashMessage('success', 'tag_revealed', ['%tagKeyword%' => $tag->keyword]);
+
+            return $this->redirectToTag($tag);
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/reveal.html.twig',
+            [
+                'tag' => $tag,
+            ],
+        );
     }
 
     /**
@@ -524,13 +594,14 @@ final class TagController extends Controller
         }
 
         $form = $this->createForm(
-            MoveTagsType::class,
+            MultiselectTagsType::class,
             [
                 'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
             ],
             [
                 'tags' => $tags,
                 'action' => $request->getPathInfo(),
+                'show_parent_field' => true,
             ],
         );
 
@@ -662,6 +733,110 @@ final class TagController extends Controller
             [
                 'parentTag' => $parentTag,
                 'tags' => $tags,
+            ],
+        );
+    }
+
+    public function hideTagsAction(Request $request, ?Tag $parentTag = null): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
+
+        $tagIds = (array) $request->request->get(
+            'Tags',
+            $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : [],
+        );
+
+        if (count($tagIds) === 0) {
+            return $this->redirectToTag($parentTag);
+        }
+
+        $tags = [];
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
+        }
+
+        $form = $this->createForm(
+            MultiselectTagsType::class,
+            [
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ],
+            [
+                'tags' => $tags,
+                'action' => $request->getPathInfo(),
+                'show_parent_field' => false,
+            ],
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($tags as $tagObject) {
+                $this->tagsService->hideTag($tagObject);
+            }
+
+            $this->addFlashMessage('success', 'tags_hidden');
+
+            return $this->redirectToTag($parentTag);
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/hide_tags.html.twig',
+            [
+                'parentTag' => $parentTag,
+                'tags' => $tags,
+                'form' => $form->createView(),
+            ],
+        );
+    }
+
+    public function revealTagsAction(Request $request, ?Tag $parentTag = null): Response
+    {
+        $this->denyAccessUnlessGranted('ibexa:tags:hide');
+
+        $tagIds = (array) $request->request->get(
+            'Tags',
+            $request->hasSession() ? $request->getSession()->get('ngtags_tag_ids') : [],
+        );
+
+        if (count($tagIds) === 0) {
+            return $this->redirectToTag($parentTag);
+        }
+
+        $tags = [];
+        foreach ($tagIds as $tagId) {
+            $tags[] = $this->tagsService->loadTag((int) $tagId);
+        }
+
+        $form = $this->createForm(
+            MultiselectTagsType::class,
+            [
+                'parentTag' => $parentTag instanceof Tag ? $parentTag->id : 0,
+            ],
+            [
+                'tags' => $tags,
+                'action' => $request->getPathInfo(),
+                'show_parent_field' => false,
+            ],
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($tags as $tagObject) {
+                $this->tagsService->revealTag($tagObject);
+            }
+
+            $this->addFlashMessage('success', 'tags_revealed');
+
+            return $this->redirectToTag($parentTag);
+        }
+
+        return $this->render(
+            '@NetgenTags/admin/tag/reveal_tags.html.twig',
+            [
+                'parentTag' => $parentTag,
+                'tags' => $tags,
+                'form' => $form->createView(),
             ],
         );
     }

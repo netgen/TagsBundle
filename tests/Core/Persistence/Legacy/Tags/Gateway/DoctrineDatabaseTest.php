@@ -587,6 +587,7 @@ final class DoctrineDatabaseTest extends TestCase
                 'id' => 40,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
+                'is_invisible' => 0,
             ],
         );
 
@@ -717,16 +718,18 @@ final class DoctrineDatabaseTest extends TestCase
                 'parent_id' => 7,
                 'depth' => 3,
                 'path_string' => '/8/7/40/',
+                'is_hidden' => 0,
+                'is_invisible' => 1,
             ],
         );
 
         $query = $this->connection->createQueryBuilder();
         self::assertQueryResult(
             [
-                [80, 7, 40, 'fetch', 3, '/8/7/80/'],
+                [80, 7, 40, 'fetch', 3, '/8/7/80/', 0],
             ],
             $query
-                ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string')
+                ->select('id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'is_invisible')
                 ->from('eztags')
                 ->where($query->expr()->eq('id', 80)),
         );
@@ -819,6 +822,90 @@ final class DoctrineDatabaseTest extends TestCase
                 ->from('eztags_attribute_link')
                 ->where($query->expr()->in('keyword_id', [':keyword_id']))
                 ->setParameter('keyword_id', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY),
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::hideTag
+     */
+    public function testHideTag(): void
+    {
+        $this->tagsGateway->hideTag(7);
+
+        $query = $this->connection->createQueryBuilder();
+        self::assertQueryResult(
+            [
+                [1],
+            ],
+            $query
+                ->select('is_hidden')
+                ->from('eztags')
+                ->where(
+                    $query->expr()->eq('id', ':id'),
+                )
+                ->setParameter('id', 7),
+        );
+
+        $query = $this->connection->createQueryBuilder();
+        self::assertQueryResult(
+            [
+                [1],
+                [1],
+                [1],
+                [1],
+                [1],
+                [1],
+                [1],
+                [1],
+            ],
+            $query
+                ->select('is_invisible')
+                ->from('eztags')
+                ->where($query->expr()->in('id', [':children_ids']))
+                ->setParameter('children_ids', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY),
+        );
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway\DoctrineDatabase::revealTag
+     */
+    public function testRevealTag(): void
+    {
+        $this->tagsGateway->revealTag(7);
+
+        $query = $this->connection->createQueryBuilder();
+        self::assertQueryResult(
+            [
+                [0],
+            ],
+            $query
+                ->select('is_hidden')
+                ->from('eztags')
+                ->where(
+                    $query->expr()->eq('id', ':id'),
+                )
+                ->setParameter('id', 7),
+        );
+
+        $query = $this->connection->createQueryBuilder();
+        self::assertQueryResult(
+            [
+                [0],
+                [0],
+                [0],
+                [0],
+                [0],
+                [0],
+                [0],
+                [0],
+            ],
+            $query
+                ->select('is_invisible')
+                ->from('eztags')
+                ->where(
+                    $query->expr()->in('id', [':children_ids']),
+                )
+            ->setParameter('children_ids', [7, 13, 14, 27, 40, 53, 54, 55], Connection::PARAM_INT_ARRAY),
         );
     }
 

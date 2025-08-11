@@ -55,6 +55,16 @@ tables:
                 nullable: false
                 options:
                     default: '0'
+            is_hidden:
+                type: tinyint
+                nullable: false
+                options:
+                    default: '0'
+            is_invisible:
+                type: tinyint
+                nullable: false
+                options:
+                    default: '0'
         indexes:
             idx_eztags_keyword:
                 fields: [keyword]

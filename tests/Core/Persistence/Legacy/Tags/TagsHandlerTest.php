@@ -957,6 +957,62 @@ final class TagsHandlerTest extends TestCase
         $handler->deleteTag(40);
     }
 
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::hideTag
+     */
+    public function testHideTag(): void
+    {
+        $handler = $this->getMockedTagsHandler(['loadTagInfo']);
+
+        $handler
+            ->expects(self::once())
+            ->method('loadTagInfo')
+            ->with(40)
+            ->willReturn(
+                new TagInfo(
+                    [
+                        'id' => 40,
+                        'parentTagId' => 21,
+                    ],
+                ),
+            );
+
+        $this->gateway
+            ->expects(self::once())
+            ->method('hideTag')
+            ->with(40);
+
+        $handler->hideTag(40);
+    }
+
+    /**
+     * @covers \Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Handler::revealTag
+     */
+    public function testRevealTag(): void
+    {
+        $handler = $this->getMockedTagsHandler(['loadTagInfo']);
+
+        $handler
+            ->expects(self::once())
+            ->method('loadTagInfo')
+            ->with(40)
+            ->willReturn(
+                new TagInfo(
+                    [
+                        'id' => 40,
+                        'parentTagId' => 21,
+                    ],
+                ),
+            );
+
+        $this->gateway
+            ->expects(self::once())
+            ->method('revealTag')
+            ->with(40);
+
+        $handler->revealTag(40);
+    }
+
     private function getTagsHandler(): HandlerInterface
     {
         $this->gateway = $this->createMock(Gateway::class);
