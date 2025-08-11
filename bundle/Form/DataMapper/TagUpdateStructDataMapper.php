@@ -8,6 +8,7 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Symfony\Component\Form\DataMapperInterface;
 use Traversable;
 
+use function array_key_exists;
 use function iterator_to_array;
 
 final class TagUpdateStructDataMapper implements DataMapperInterface
@@ -25,6 +26,10 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
         $forms['keyword']->setData($viewData->getKeyword($this->languageCode));
         $forms['alwaysAvailable']->setData($viewData->alwaysAvailable);
         $forms['remoteId']->setData($viewData->remoteId);
+
+        if (array_key_exists('priority', $forms)) {
+            $forms['priority']->setData($viewData->priority);
+        }
     }
 
     public function mapFormsToData(Traversable $forms, mixed &$viewData): void
@@ -43,5 +48,8 @@ final class TagUpdateStructDataMapper implements DataMapperInterface
 
         $viewData->alwaysAvailable = $forms['alwaysAvailable']->getData();
         $viewData->remoteId = $forms['remoteId']->getData();
+        if (array_key_exists('priority', $forms)) {
+            $viewData->priority = $forms['priority']->getData();
+        }
     }
 }

@@ -11,6 +11,7 @@ tag.remote_id: 'Remote ID'
 tag.tag_name: 'Keyword'
 tag.translations: 'Translations'
 tag.modified: 'Modified'
+tag.priority: 'Priority'
 tag.main_tag: 'Main tag'
 tag.parent_tag: 'Parent tag'
 
@@ -42,6 +43,10 @@ tag.children.no_children: 'No tags found'
 
 tag.subtree_limitations.title: 'Subtree limitations'
 tag.subtree_limitations.no_limitations: 'No subtree limitations'
+
+tag.subitems.title: 'Subitems'
+tag.subitems.sort_by: 'Sort by'
+tag.subitems.sort_order: 'Sort order'
 
 tag.related_content.title: 'List of content related to tag'
 tag.related_content.filter.content_type: 'Content type filter'
@@ -109,3 +114,11 @@ tag.search.no_results.check_spelling: 'Check spelling of keywords.'
 tag.search.no_results.change_keywords: 'Try changing some keywords (eg, "car" instead of "cars").'
 tag.search.no_results.less_specific_keywords: 'Try searching with less specific keywords.'
 tag.search.no_results.reduce_keywords: 'Reduce number of keywords to get more results.'
+
+tag.enum.sort_by.id: 'Tag ID'
+tag.enum.sort_by.keyword: 'Keyword'
+tag.enum.sort_by.modified: 'Modified'
+tag.enum.sort_by.priority: 'Priority'
+
+tag.enum.sort_order.asc: 'Ascending'
+tag.enum.sort_order.desc: 'Descending'

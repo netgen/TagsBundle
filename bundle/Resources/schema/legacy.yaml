@@ -55,6 +55,19 @@ tables:
                 nullable: false
                 options:
                     default: '0'
+            priority:
+                type: bigint
+                nullable: false
+                options:
+                    default: '0'
+            sort_by:
+                type: string
+                nullable: true
+                length: 100
+            sort_order:
+                type: string
+                nullable: true
+                length: 100
         indexes:
             idx_eztags_keyword:
                 fields: [keyword]

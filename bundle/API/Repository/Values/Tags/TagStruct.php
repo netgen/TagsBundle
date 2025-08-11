@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\API\Repository\Values\Tags;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 
 use function array_key_exists;
 
@@ -21,6 +23,23 @@ abstract class TagStruct extends ValueObject
      * A global unique ID of the tag.
      */
     public ?string $remoteId = null;
+
+    /**
+     * Specifies by which property the child tags should be sorted on.
+     */
+    public ?TagSortBy $sortBy;
+
+    /**
+     * Specifies whether the sort order should be ascending or descending.
+     */
+    public ?TagSortOrder $sortOrder;
+
+    /**
+     * Tag priority.
+     *
+     * Position of the Tag among its siblings when sorted by priority.
+     */
+    public ?int $priority;
 
     /**
      * Tag keywords in the target languages

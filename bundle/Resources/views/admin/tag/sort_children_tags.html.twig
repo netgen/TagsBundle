@@ -1,0 +1,33 @@
+{% trans_default_domain 'netgen_tags_admin' %}
+
+<form method="post" action="{{ path('netgen_tags_admin_tag_update_sort', {'tagId': tag.id}) }}" class="ng-tags-sort">
+    <div class="sorting">
+        <div class="sort-dropdown">
+            <label for="sort_by">{{ 'tag.subitems.sort_by'|trans }}:</label>
+            <select id="sort_by" name="sort_by">
+                {% for case in enum_cases('Netgen\\TagsBundle\\API\\Repository\\Values\\Enums\\TagSortBy') %}
+                    <option value="{{ case.value }}"
+                            {% if tag.sortBy is defined and tag.sortBy.value == case.value %}selected="selected"{% endif %}>
+                        {{ ('tag.enum.sort_by.' ~ case.value)|trans }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="sort-dropdown">
+            <label for="sort_order">{{ 'tag.subitems.sort_order'|trans }}:</label>
+            <select id="sort_order" name="sort_order">
+                {% for case in enum_cases('Netgen\\TagsBundle\\API\\Repository\\Values\\Enums\\TagSortOrder') %}
+                    <option value="{{ case.value }}"
+                            {% if tag.sortOrder is defined and tag.sortOrder.value == case.value %}selected="selected"{% endif %}>
+                        {{ ('tag.enum.sort_order.' ~ case.value)|trans }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('netgen_tags_admin') }}" />
+
+    <input type="submit" class="tags-btn tags-btn-primary" value="{{ 'tag.related_content.filter.button.submit'|trans }}" />
+</form>

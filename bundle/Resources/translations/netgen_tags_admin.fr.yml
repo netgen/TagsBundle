@@ -11,6 +11,7 @@ tag.remote_id: 'Identification à distance'
 tag.tag_name: 'Mot-clé'
 tag.translations: 'Traductions'
 tag.modified: 'Modifié'
+tag.priority: 'Priorité'
 tag.main_tag: 'Tag principale'
 tag.parent_tag: 'Tag parent'
 
@@ -42,6 +43,10 @@ tag.children.no_children: 'Pas de tags trouvés'
 
 tag.subtree_limitations.title: 'Limites des sous-arbres'
 tag.subtree_limitations.no_limitations: 'Aucune limite de sous-arbre'
+
+tag.subitems.title: 'Sous-éléments'
+tag.subitems.sort_by: 'Trier par'
+tag.subitems.sort_order: 'Ordre de tri'
 
 tag.related_content.title: 'Liste des contenus liés au tag'
 
@@ -98,3 +103,11 @@ tag.search.no_results.check_spelling: 'Check spelling of keywords.'
 tag.search.no_results.change_keywords: 'Try changing some keywords (eg, "car" instead of "cars").'
 tag.search.no_results.less_specific_keywords: 'Try searching with less specific keywords.'
 tag.search.no_results.reduce_keywords: 'Reduce number of keywords to get more results.'
+
+tag.enum.sort_by.id: 'Tag ID'
+tag.enum.sort_by.keyword: 'Mot-clé'
+tag.enum.sort_by.modified: 'Modifié'
+tag.enum.sort_by.priority: 'Priorité'
+
+tag.enum.sort_order.asc: 'Ascendant'
+tag.enum.sort_order.desc: 'Descendant'

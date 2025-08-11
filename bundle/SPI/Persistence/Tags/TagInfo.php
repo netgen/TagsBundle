@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\SPI\Persistence\Tags;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 
 /**
  * Class representing a tag info (basically a tag without keywords).
@@ -64,4 +66,21 @@ final class TagInfo extends ValueObject
      * @var int[]
      */
     public array $languageIds = [];
+
+    /**
+     * Tag priority.
+     *
+     * Position of the Tag among its siblings when sorted by priority.
+     */
+    public int $priority;
+
+    /**
+     * Specifies by which property the child tags should be sorted on.
+     */
+    public ?TagSortBy $sortBy;
+
+    /**
+     * Specifies whether the sort order should be ascending or descending.
+     */
+    public ?TagSortOrder $sortOrder;
 }

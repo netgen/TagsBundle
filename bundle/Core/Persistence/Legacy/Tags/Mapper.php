@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Netgen\TagsBundle\Core\Persistence\Legacy\Tags;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 
@@ -16,7 +19,11 @@ use function array_values;
  */
 class Mapper
 {
-    public function __construct(private LanguageHandler $languageHandler, private LanguageMaskGenerator $languageMaskGenerator) {}
+    public function __construct(
+        private readonly LanguageHandler $languageHandler,
+        private readonly LanguageMaskGenerator $languageMaskGenerator,
+        private readonly ConfigResolverInterface $configResolver,
+    ) {}
 
     /**
      * Creates a tag from a $data row.
@@ -35,6 +42,9 @@ class Mapper
         $tagInfo->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
         $tagInfo->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
         $tagInfo->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
+        $tagInfo->priority = (int) $row['priority'];
+
+        $this->mapSortingFromRow($row, $tagInfo);
 
         return $tagInfo;
     }
@@ -60,6 +70,10 @@ class Mapper
                 $tag->alwaysAvailable = (bool) ((int) $row['language_mask'] & 1);
                 $tag->mainLanguageCode = $this->languageHandler->load($row['main_language_id'])->languageCode;
                 $tag->languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask((int) $row['language_mask']);
+                $tag->priority = (int) $row['priority'];
+
+                $this->mapSortingFromRow($row, $tag);
+
                 $tagList[$tagId] = $tag;
             }
 
@@ -67,5 +81,22 @@ class Mapper
         }
 
         return array_values($tagList);
+    }
+
+    private function mapSortingFromRow(array $row, Tag|TagInfo $tag): void
+    {
+        $isRootTag = (int) $row['id'] === 0;
+        $sortByParam = $isRootTag ? 'sort.root.by' : 'sort.by';
+        $sortOrderParam = $isRootTag ? 'sort.root.order' : 'sort.order';
+
+        $tag->sortBy = $row['sort_by'] === null
+            ? null
+            : TagSortBy::tryFrom($row['sort_by'])
+            ?? TagSortBy::from($this->configResolver->getParameter($sortByParam, 'netgen_tags'));
+
+        $tag->sortOrder = $row['sort_order'] === null
+            ? null
+            : TagSortOrder::tryFrom($row['sort_order'])
+            ?? TagSortOrder::from($this->configResolver->getParameter($sortOrderParam, 'netgen_tags'));
     }
 }

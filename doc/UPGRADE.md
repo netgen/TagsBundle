@@ -1,6 +1,22 @@
 Netgen Tags Bundle upgrade instructions
 =======================================
 
+Upgrade from 5.0 to 5.4
+-----------------------
+
+Tags Bundle 5.4 adds the possibility to **sort the tags**. Similarly to Ibexa, below the children list of some tag, you 
+can find the options to determine by which property you want the children tags to be sorted by and in which direction
+(order) you want them to be sorted.
+
+Besides that, a new field called `priority` was added to `eztags`. You can now personally set the priority of each tag 
+and sort the tags by priority. \
+Also, right now, the tags can be sorted by either `id`, `keyword`, `modified` and `priority` properties. 
+The sort direction can be either `ascending` or `descending`.
+
+Please make sure to update the `eztags` table to include the newly added properties. \
+MySQL upgrade script: `bundle/Resources/sql/upgrade/mysql/5.4/dbupdate-5.0-to-5.4.sql` \
+PostgreSQL upgrade script: `bundle/Resources/sql/upgrade/postgresql/5.4/dbupdate-5.0-to-5.4.sql`
+
 Upgrade from 4.0 to 5.0
 -----------------------
 

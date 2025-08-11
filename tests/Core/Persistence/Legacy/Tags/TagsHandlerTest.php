@@ -18,6 +18,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\SPI\Persistence\Tags\TagInfo;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub;
 use PHPUnit\Framework\MockObject\MockObject;
 
 final class TagsHandlerTest extends TestCase
@@ -963,11 +964,21 @@ final class TagsHandlerTest extends TestCase
 
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         $this->mapper = $this->getMockBuilder(Mapper::class)
             ->setConstructorArgs(
                 [
                     $languageHandlerMock,
                     new MaskGenerator($languageHandlerMock),
+                    new ConfigResolverStub($parameters),
                 ],
             )->getMock();
 
@@ -980,11 +991,21 @@ final class TagsHandlerTest extends TestCase
 
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         $this->mapper = $this->getMockBuilder(Mapper::class)
             ->setConstructorArgs(
                 [
                     $languageHandlerMock,
                     new MaskGenerator($languageHandlerMock),
+                    new ConfigResolverStub($parameters),
                 ],
             )->getMock();
 

@@ -9,8 +9,11 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Gateway;
 use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
@@ -35,9 +38,10 @@ use const PHP_INT_MAX;
 final class DoctrineDatabase extends Gateway
 {
     public function __construct(
-        private Connection $connection,
-        private LanguageHandler $languageHandler,
-        private LanguageMaskGenerator $languageMaskGenerator,
+        private readonly Connection $connection,
+        private readonly LanguageHandler $languageHandler,
+        private readonly LanguageMaskGenerator $languageMaskGenerator,
+        private readonly ConfigResolverInterface $configResolver,
     ) {}
 
     public function getBasicTagData(int $tagId): array
@@ -128,6 +132,21 @@ final class DoctrineDatabase extends Gateway
 
     public function getChildren(int $tagId, int $offset = 0, int $limit = -1, ?array $translations = null, bool $useAlwaysAvailable = true): array
     {
+        if ($tagId === 0) {
+            $sortBy = TagSortBy::from($this->configResolver->getParameter('sort.root.by', 'netgen_tags'));
+            $sortOrder = TagSortOrder::from($this->configResolver->getParameter('sort.root.order', 'netgen_tags'));
+        } else {
+            $tagData = $this->getBasicTagData($tagId);
+            $sortBy = $tagData['sort_by'] === null
+                ? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'))
+                : TagSortBy::tryFrom($tagData['sort_by'])
+                ?? TagSortBy::from($this->configResolver->getParameter('sort.by', 'netgen_tags'));
+            $sortOrder = $tagData['sort_order'] === null
+                ? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'))
+                : TagSortOrder::tryFrom($tagData['sort_order'])
+                ?? TagSortOrder::from($this->configResolver->getParameter('sort.order', 'netgen_tags'));
+        }
+
         $tagIdsQuery = $this->createTagIdsQuery($translations, $useAlwaysAvailable);
         $tagIdsQuery->andWhere(
             $tagIdsQuery->expr()->andX(
@@ -137,10 +156,11 @@ final class DoctrineDatabase extends Gateway
                 ),
                 $tagIdsQuery->expr()->eq('eztags.main_tag_id', 0),
             ),
-        )->setParameter('parent_id', $tagId, Types::INTEGER)
-        ->orderBy('eztags.keyword', 'ASC')
-        ->setFirstResult($offset)
-        ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
+        )
+            ->orderBy('eztags.' . $sortBy->value, $sortOrder->value)
+            ->setParameter('parent_id', $tagId, Types::INTEGER)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit > 0 ? $limit : PHP_INT_MAX);
 
         $statement = $tagIdsQuery->execute();
 
@@ -160,8 +180,8 @@ final class DoctrineDatabase extends Gateway
                 [':id'],
             ),
         )
-        ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY)
-        ->orderBy('eztags_keyword.keyword', 'ASC');
+            ->orderBy('eztags.' . $sortBy->value, $sortOrder->value)
+            ->setParameter('id', $tagIds, Connection::PARAM_INT_ARRAY);
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -446,6 +466,15 @@ final class DoctrineDatabase extends Gateway
             )->set(
                 'language_mask',
                 ':language_mask',
+            )->set(
+                'priority',
+                ':priority',
+            )->set(
+                'sort_by',
+                ':sort_by',
+            )->set(
+                'sort_order',
+                ':sort_order',
             )->where(
                 $query->expr()->eq(
                     'id',
@@ -469,7 +498,10 @@ final class DoctrineDatabase extends Gateway
                     is_bool($updateStruct->alwaysAvailable) ? $updateStruct->alwaysAvailable : true,
                 ),
                 Types::INTEGER,
-            );
+            )
+            ->setParameter('priority', $updateStruct->priority, Types::INTEGER)
+            ->setParameter('sort_by', $updateStruct->sortBy?->value, Types::STRING)
+            ->setParameter('sort_order', $updateStruct->sortOrder?->value, Types::STRING);
 
         $query->execute();
 
@@ -847,7 +879,7 @@ final class DoctrineDatabase extends Gateway
     private function createTagIdsQuery(?array $translations = null, bool $useAlwaysAvailable = true): QueryBuilder
     {
         $query = $this->connection->createQueryBuilder();
-        $query->select('DISTINCT eztags.id, eztags.keyword')
+        $query->select('DISTINCT eztags.id, eztags.keyword, eztags.modified, eztags.priority')
         ->from('eztags', 'eztags')
         // @todo: Joining with eztags_keyword is probably a VERY bad way to gather that information
         // since it creates an additional cartesian product with translations.
@@ -930,6 +962,9 @@ final class DoctrineDatabase extends Gateway
             'eztags.remote_id',
             'eztags.main_language_id',
             'eztags.language_mask',
+            'eztags.priority',
+            'eztags.sort_by',
+            'eztags.sort_order',
             // Tag keywords
             'eztags_keyword.keyword',
             'eztags_keyword.locale',

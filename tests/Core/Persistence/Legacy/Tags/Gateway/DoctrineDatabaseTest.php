@@ -14,6 +14,7 @@ use Netgen\TagsBundle\SPI\Persistence\Tags\CreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\SynonymCreateStruct;
 use Netgen\TagsBundle\SPI\Persistence\Tags\UpdateStruct;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub;
 
 use function array_filter;
 use function file_get_contents;
@@ -342,12 +343,12 @@ final class DoctrineDatabaseTest extends TestCase
         }
 
         self::assertCount(6, $data);
-        self::assertSame(20, $data[0]['id']);
-        self::assertSame(15, $data[1]['id']);
-        self::assertSame(72, $data[2]['id']);
-        self::assertSame(71, $data[3]['id']);
-        self::assertSame(18, $data[4]['id']);
-        self::assertSame(19, $data[5]['id']);
+        self::assertSame(15, $data[0]['id']);
+        self::assertSame(18, $data[1]['id']);
+        self::assertSame(19, $data[2]['id']);
+        self::assertSame(20, $data[3]['id']);
+        self::assertSame(71, $data[4]['id']);
+        self::assertSame(72, $data[5]['id']);
     }
 
     /**
@@ -373,12 +374,12 @@ final class DoctrineDatabaseTest extends TestCase
         }
 
         self::assertCount(6, $data);
-        self::assertSame(20, $data[0]['id']);
-        self::assertSame(15, $data[1]['id']);
-        self::assertSame(72, $data[2]['id']);
-        self::assertSame(71, $data[3]['id']);
-        self::assertSame(18, $data[4]['id']);
-        self::assertSame(19, $data[5]['id']);
+        self::assertSame(15, $data[0]['id']);
+        self::assertSame(18, $data[1]['id']);
+        self::assertSame(19, $data[2]['id']);
+        self::assertSame(20, $data[3]['id']);
+        self::assertSame(71, $data[4]['id']);
+        self::assertSame(72, $data[5]['id']);
     }
 
     /**
@@ -649,6 +650,9 @@ final class DoctrineDatabaseTest extends TestCase
                     'remoteId' => 'updatedRemoteId',
                     'mainLanguageCode' => 'eng-US',
                     'alwaysAvailable' => true,
+                    'priority' => 5,
+                    'sortBy' => null,
+                    'sortOrder' => null,
                 ],
             ),
             40,
@@ -831,10 +835,20 @@ final class DoctrineDatabaseTest extends TestCase
 
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         return new DoctrineDatabase(
             $dbConnection,
             $languageHandlerMock,
             new MaskGenerator($languageHandlerMock),
+            new ConfigResolverStub($parameters),
         );
     }
 

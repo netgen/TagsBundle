@@ -7,7 +7,10 @@ namespace Netgen\TagsBundle\Controller\Admin;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\TagsBundle\API\Repository\TagsService;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
+use Netgen\TagsBundle\API\Repository\Values\Tags\TagUpdateStruct;
 use Netgen\TagsBundle\Core\Pagination\Pagerfanta\SearchTagsAdapter;
 use Netgen\TagsBundle\Form\Type\CopyTagsType;
 use Netgen\TagsBundle\Form\Type\LanguageSelectType;
@@ -19,6 +22,7 @@ use Netgen\TagsBundle\Form\Type\TagUpdateType;
 use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use function count;
 use function in_array;
@@ -44,7 +48,6 @@ final class TagController extends Controller
 
         if (!$tag instanceof Tag || !$tag->isSynonym()) {
             $configResolver = $this->getConfigResolver();
-
             $currentPage = (int) $request->query->get('page');
             $pager = $this->createPager(
                 $this->tagChildrenAdapter,
@@ -230,6 +233,7 @@ final class TagController extends Controller
         $tagUpdateStruct = $this->tagsService->newTagUpdateStruct();
         $tagUpdateStruct->remoteId = $tag->remoteId;
         $tagUpdateStruct->alwaysAvailable = $tag->alwaysAvailable;
+        $tagUpdateStruct->priority = $tag->priority;
 
         foreach ($tag->keywords as $keywordLanguageCode => $keyword) {
             $tagUpdateStruct->setKeyword($keyword ?? '', $keywordLanguageCode);
@@ -262,6 +266,28 @@ final class TagController extends Controller
                 'tag' => $tag,
             ],
         );
+    }
+
+    public function updateTagSortAction(Request $request, Tag $tag): Response
+    {
+        if (!$this->isCsrfTokenValid('netgen_tags_admin', (string) ($request->request->get('_csrf_token') ?? ''))) {
+            $this->addFlashMessage('errors', 'invalid_csrf_token');
+
+            return $this->redirectToTag($tag);
+        }
+
+        $sortBy = $request->request->get('sort_by');
+        $sortOrder = $request->request->get('sort_order');
+
+        $tagUpdateStruct = new TagUpdateStruct();
+        $tagUpdateStruct->sortBy = TagSortBy::tryFrom((string) $sortBy)
+            ?? throw new BadRequestHttpException('Invalid enum value for sortBy when trying to update children sorting');
+        $tagUpdateStruct->sortOrder = TagSortOrder::tryFrom((string) $sortOrder)
+            ?? throw new BadRequestHttpException('Invalid enum value for sortOrder when trying to update children sorting');
+
+        $this->tagsService->updateTag($tag, $tagUpdateStruct);
+
+        return $this->redirectToTag($tag);
     }
 
     /**

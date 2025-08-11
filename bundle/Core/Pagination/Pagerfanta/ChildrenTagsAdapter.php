@@ -11,10 +11,9 @@ use Pagerfanta\Adapter\AdapterInterface;
 final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 {
     private ?Tag $tag = null;
-
     private int $nbResults;
 
-    public function __construct(private TagsService $tagsService) {}
+    public function __construct(private readonly TagsService $tagsService) {}
 
     public function setTag(Tag $tag): void
     {
@@ -30,7 +29,11 @@ final class ChildrenTagsAdapter implements AdapterInterface, TagAdapterInterface
 
     public function getSlice($offset, $length): iterable
     {
-        $childrenTags = $this->tagsService->loadTagChildren($this->tag, $offset, $length);
+        $childrenTags = $this->tagsService->loadTagChildren(
+            $this->tag,
+            $offset,
+            $length,
+        );
 
         $this->nbResults = $this->nbResults ?? $this->tagsService->getTagChildrenCount($this->tag);
 

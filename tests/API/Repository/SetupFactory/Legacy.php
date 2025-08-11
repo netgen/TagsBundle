@@ -54,17 +54,31 @@ final class Legacy extends BaseLegacy
         /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator */
         $languageMaskGenerator = $this->getServiceContainer()->get('netgen_tags.ibexa.persistence.legacy.language.mask_generator');
 
+        /** @var \Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub $configResolver */
+        $configResolver = $this->getServiceContainer()->get('ibexa.config.resolver');
+
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         $tagsHandler = new Handler(
             new ExceptionConversion(
                 new DoctrineDatabase(
                     $this->getDatabaseConnection(),
                     $languageHandler,
                     $languageMaskGenerator,
+                    $configResolver,
                 ),
             ),
             new Mapper(
                 $languageHandler,
                 $languageMaskGenerator,
+                $configResolver,
             ),
         );
 

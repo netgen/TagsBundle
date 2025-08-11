@@ -6,9 +6,12 @@ namespace Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Tags;
 
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortBy;
+use Netgen\TagsBundle\API\Repository\Values\Enums\TagSortOrder;
 use Netgen\TagsBundle\Core\Persistence\Legacy\Tags\Mapper;
 use Netgen\TagsBundle\SPI\Persistence\Tags\Tag;
 use Netgen\TagsBundle\Tests\Core\Persistence\Legacy\Content\LanguageHandlerMock;
+use Netgen\TagsBundle\Tests\Stubs\ConfigResolverStub;
 
 final class MapperTest extends TestCase
 {
@@ -28,6 +31,9 @@ final class MapperTest extends TestCase
         'remote_id' => '123456abcdef',
         'main_language_id' => 8,
         'language_mask' => 9,
+        'priority' => 0,
+        'sort_by' => 'id',
+        'sort_order' => 'asc',
     ];
 
     /**
@@ -47,6 +53,9 @@ final class MapperTest extends TestCase
         'language_mask' => 9,
         'keyword' => 'Croatia',
         'locale' => 'eng-GB',
+        'priority' => 0,
+        'sort_by' => 'id',
+        'sort_order' => 'asc',
     ];
 
     /**
@@ -65,6 +74,9 @@ final class MapperTest extends TestCase
         'alwaysAvailable' => true,
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
+        'priority' => 0,
+        'sortBy' => TagSortBy::Id,
+        'sortOrder' => TagSortOrder::Ascending,
     ];
 
     /**
@@ -84,6 +96,9 @@ final class MapperTest extends TestCase
         'alwaysAvailable' => true,
         'mainLanguageCode' => 'eng-GB',
         'languageIds' => [8],
+        'priority' => 0,
+        'sortBy' => TagSortBy::Id,
+        'sortOrder' => TagSortOrder::Ascending,
     ];
 
     private Mapper $tagsMapper;
@@ -149,9 +164,19 @@ final class MapperTest extends TestCase
     {
         $languageHandlerMock = (new LanguageHandlerMock())($this);
 
+        $parameters = [
+            'netgen_tags' => [
+                'sort.by' => 'id',
+                'sort.order' => 'asc',
+                'sort.root.id' => 'keyword',
+                'sort.root.order' => 'desc',
+            ],
+        ];
+
         return new Mapper(
             $languageHandlerMock,
             new MaskGenerator($languageHandlerMock),
+            new ConfigResolverStub($parameters),
         );
     }
 }

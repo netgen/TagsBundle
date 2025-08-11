@@ -13,6 +13,10 @@
         <span class="tag-title-note">{{ 'tag.tag_id'|trans }}: <strong>{{ tag.id }}</strong></span>
         <span class="tag-title-note">{{ 'tag.remote_id'|trans }}: <strong>{{ tag.remoteId }}</strong></span>
         <span class="tag-title-note">{{ 'tag.modified'|trans }}: <strong>{{ tag.modificationDate|date }}</strong></span>
+
+        {% if tag.mainTagId == 0 %}
+            <span class="tag-title-note">{{ 'tag.priority'|trans }}: <strong>{{ tag.priority }}</strong></span>
+        {% endif %}
     </h2>
 
     {% include '@NetgenTags/admin/flash_messages.html.twig' %}
